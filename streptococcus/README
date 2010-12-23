@@ -1,0 +1,24 @@
+
+
+run-mauve-genome26
+------------------
+I intend to align 26 genomes that Tristan and Stanhope used in their 2007 Genome
+Biology paper. Six if the genomes are unavailable as a whole genome, which does
+not allow me to use the 6 genomes in the alignment. I aligned only 20 genomes.
+The 6 genomes include 5 S. agalactiae and 1 S. suis, all of which are available
+as WGS not complete. S. thermophilus LMD-9 strain was available as complete
+genome at the time when I downloaded its genome from NCBI bacteria genome
+FTP directory.
+
+
+run-clonalframe
+---------------
+ClonalFrame is a slow MCMC procedure. It takes about 30 seconds per generation.
+I submitted a job to CAC cluster with 3000 burnin and 3000 generations with 10
+thinning interval. This would take about 2 days. 
+
+I can check the convergence using ClonalFrame's GUI program that is installed in
+Swiftgen. 
+
+
+
