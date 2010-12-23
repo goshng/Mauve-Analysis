@@ -9,6 +9,8 @@ Farm
 
 Farm-fancy
 ----------
+A working example of Farm-out-work fancy version. This can be found at
+http://www.cac.cornell.edu/wiki/index.php?title=Farm-out-work.
 
 Array
 -----
@@ -22,9 +24,14 @@ warg-xjobs
 
 warg1
 -----
+Two stages of warg (clonalorigin) runs are required. warg1 is the directory of
+the first run of warg.
 
 warg2
 -----
+Ilan's code. wait bash command is used.
+I think that xjobs does not work for me, either. I think that this 8
+separate jobs are my best shot.
 
 warg2star
 ---------
@@ -35,3 +42,4 @@ of MPI-enabled batch scripts that were provided by CAC.
 
 warg3
 -----
+CAC example using R script. 
