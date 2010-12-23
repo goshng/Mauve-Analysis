@@ -1,0 +1,9 @@
+# These are the command lines to run. Comments begin with a hash.
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 1 1 
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 2 2
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 3 3
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 4 4
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 5 5
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 6 6
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 7 7
+/home/fs01/sc2265/Documents/Projects/mauve/Farm/task.sh 8 8

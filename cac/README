@@ -1,0 +1,37 @@
+Examples of Batch Scripts for running jobs at CAC Cluster
+=========================================================
+
+BatchLinuxMultipleCopies
+------------------------
+
+Farm
+----
+
+Farm-fancy
+----------
+
+Array
+-----
+It shows how PBS -t option is used.
+
+warg-array
+----------
+
+warg-xjobs
+----------
+
+warg1
+-----
+
+warg2
+-----
+
+warg2star
+---------
+This is the final version of my experiment of running warg jobs in cluster.
+I did experiment to run as many jobs of warg as possible in CAC cluster.
+For some reasons, warg or clonalorigin software did not see eye to eye with any
+of MPI-enabled batch scripts that were provided by CAC.
+
+warg3
+-----
