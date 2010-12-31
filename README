@@ -1,9 +1,5 @@
 
 
-genomes20
-------------------
-We aligned 20 streptococcus genomes using progressiveMauve.
-
 bacillus
 --------
 
@@ -13,5 +9,5 @@ Examples of batch scripts for submitting jobs to CAC cluster.
 
 streptococcus
 -------------
-
+Fourteen genomes are collated for a mauve analysis.
 
