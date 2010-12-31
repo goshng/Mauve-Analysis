@@ -1,4 +1,31 @@
+Genome Biology 2007, Volume 8, Issue 5, Article R71
 
+Genomes
+-------
+There are 14 genomes.
+- S. pyogenes (5):
+NC_002737.gbk
+NC_003028.gbk
+NC_003098.gbk
+NC_003485.gbk
+NC_004070.gbk
+
+- S. pneumoniae (2):
+NC_004116.gbk
+NC_004350.gbk
+
+- S. mutans (1):
+NC_004368.gbk
+
+- S. agalactiae (3):
+NC_006448.gbk
+NC_006449.gbk
+NC_007432.gbk
+
+- S. thermophilus (3):
+NC_008022.gbk
+NC_008023.gbk
+NC_008532.gbk
 
 run-mauve-genome26
 ------------------

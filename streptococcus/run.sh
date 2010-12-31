@@ -1,6 +1,5 @@
 
 
-GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/genomes
 #/Users/goshng/Documents/Projects/mauve
 BASE=$HOME/Documents/Projects/mauve
 #MAUVE=$HOME/usr/bin/progressiveMauve
@@ -9,7 +8,6 @@ BASE=$HOME/Documents/Projects/mauve
 #MAUVE=$HOME/Applications/Mauve.app/Contents/MacOS/progressiveMauve
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
 
-LCB=$HOME/usr/bin/stripSubsetLCBs 
 GCT=$HOME/usr/bin/getClonalTree 
 AUI=$HOME/usr/bin/addUnalignedIntervals 
 MWF=$HOME/usr/bin/makeMauveWargFile.pl
@@ -27,136 +25,211 @@ function hms
   printf "%02d:%02d:%02d\n" $h $m $s
 }
 
-OTHERDIR=/Volumes/sc2265/Documents/Projects/mauve/genomes52/
+# Programs
+LCB=$HOME/usr/bin/stripSubsetLCBs 
+
+# Directories
+BASEDIR=`pwd`
+RUNMAUVEDIR=$BASEDIR/run-mauve
+RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
+RUNLCBDIR=$BASEDIR/run-lcb
+RUNCLONALFRAME=$BASEDIR/run-clonalframe
+GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
+CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/streptococcus
+CACDATADIR=$CACBASEDIR/data
+CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
+CACRUNLCBDIR=$CACBASEDIR/run-lcb
+CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
+BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
+BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
 # OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
 
-function copy-genomes {
-  mkdir $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_2603V_R_uid57943/NC_004116.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_A909_uid57935/NC_007432.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_NEM316/NC_004368.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_equi_4047_uid59259/NC_012471.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_equi_zooepidemicus_MGCS10565_uid59263/NC_011134.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_equi_zooepidemicus_uid59261/NC_012470.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_gallolyticus_UCN34_uid46061/NC_013798.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_gordonii_Challis_substr__CH1_uid57667/NC_009785.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_mitis_B6_uid46097/NC_013853.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_mutans_NN2025_uid46353/NC_013928.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_mutans_UA159_uid57947/NC_004350.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_670_6B_uid52533/NC_014498.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_70585_uid59125/NC_012468.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_AP200_uid52453/NC_014494.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_ATCC_700669_uid59287/NC_011900.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_CGSP14_uid59181/NC_010582.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_D39_uid58581/NC_008533.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_G54_uid59167/NC_011072.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Hungary19A_6_uid59117/NC_010380.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_JJA_uid59121/NC_012466.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_P1031_uid59123/NC_012467.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Taiwan19F_14_uid59119/NC_012469.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TCH8431_19A_uid49735/NC_014251.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_sanguinis_SK36_uid58381/NC_009009.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_05ZYH33_uid58663/NC_009442.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_98HAH33_uid58665/NC_009443.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_BM407_uid59321/NC_012923.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_BM407_uid59321/NC_012926.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_P1_7_uid32235/NC_012925.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_suis_SC84_uid59323/NC_012924.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_CNRZ1066_uid58221/NC_006449.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008500.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008501.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008532.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMG_18311_uid58219/NC_006448.gbk $OTHERDIR
-  cp $GENOMEDATADIR/Streptococcus_uberis_0140J_uid57959/NC_012004.gbk $OTHERDIR
+function mkdir-streptococcus {
+  mkdir $CACBASEDIR
+  mkdir $CACDATADIR
+  mkdir $CACRUNMAUVEDIR
+  mkdir $RUNMAUVEDIR
+  mkdir $CACRUNCLONALFRAME
+  mkdir $RUNCLONALFRAME
+  mkdir $RUNLCBDIR
+  mkdir $CACRUNLCBDIR
 }
 
+function copy-genomes-to-cac {
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_mutans_UA159_uid57947/NC_004350.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_2603V_R_uid57943/NC_004116.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_A909_uid57935/NC_007432.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_NEM316/NC_004368.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_CNRZ1066_uid58221/NC_006449.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMG_18311_uid58219/NC_006448.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008532.gbk $CACDATADIR
+}
 
-#DYLD_LIBRARY_PATH=cp $DYLD_LIBRARY_PATH:cp $HOME/usr/lib cp $MAUVE --output=full_alignment.xmfa \
-function run-mauve {
-  START_TIME=`date +%s`
-  rm -rf $RESULT1
-  mkdir $RESULT1
-DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-$MAUVE --output=full_alignment.xmfa \
-  --output-guide-tree=strep.guide_tree \
-  $GENOMEDATADIR/Streptococcus_agalactiae_2603V_R_uid57943/NC_004116.gbk \
-  $GENOMEDATADIR/Streptococcus_agalactiae_A909_uid57935/NC_007432.gbk \
-  $GENOMEDATADIR/Streptococcus_agalactiae_NEM316/NC_004368.gbk \
-  $GENOMEDATADIR/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk \
-  $GENOMEDATADIR/Streptococcus_equi_4047_uid59259/NC_012471.gbk \
-  $GENOMEDATADIR/Streptococcus_equi_zooepidemicus_MGCS10565_uid59263/NC_011134.gbk \
-  $GENOMEDATADIR/Streptococcus_equi_zooepidemicus_uid59261/NC_012470.gbk \
-  $GENOMEDATADIR/Streptococcus_gallolyticus_UCN34_uid46061/NC_013798.gbk \
-  $GENOMEDATADIR/Streptococcus_gordonii_Challis_substr__CH1_uid57667/NC_009785.gbk \
-  $GENOMEDATADIR/Streptococcus_mitis_B6_uid46097/NC_013853.gbk \
-  $GENOMEDATADIR/Streptococcus_mutans_NN2025_uid46353/NC_013928.gbk \
-  $GENOMEDATADIR/Streptococcus_mutans_UA159_uid57947/NC_004350.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_670_6B_uid52533/NC_014498.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_70585_uid59125/NC_012468.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_AP200_uid52453/NC_014494.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_ATCC_700669_uid59287/NC_011900.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_CGSP14_uid59181/NC_010582.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_D39_uid58581/NC_008533.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_G54_uid59167/NC_011072.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_Hungary19A_6_uid59117/NC_010380.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_JJA_uid59121/NC_012466.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_P1031_uid59123/NC_012467.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_Taiwan19F_14_uid59119/NC_012469.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_TCH8431_19A_uid49735/NC_014251.gbk \
-  $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk \
-  $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk \
-  $GENOMEDATADIR/Streptococcus_sanguinis_SK36_uid58381/NC_009009.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_05ZYH33_uid58663/NC_009442.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_98HAH33_uid58665/NC_009443.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_BM407_uid59321/NC_012923.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_BM407_uid59321/NC_012926.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_P1_7_uid32235/NC_012925.gbk \
-  $GENOMEDATADIR/Streptococcus_suis_SC84_uid59323/NC_012924.gbk \
-  $GENOMEDATADIR/Streptococcus_thermophilus_CNRZ1066_uid58221/NC_006449.gbk \
-  $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008500.gbk \
-  $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008501.gbk \
-  $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008532.gbk \
-  $GENOMEDATADIR/Streptococcus_thermophilus_LMG_18311_uid58219/NC_006448.gbk \
-  $GENOMEDATADIR/Streptococcus_uberis_0140J_uid57959/NC_012004.gbk 
-  END_TIME=`date +%s`
-  ELAPSED=`expr $END_TIME - $START_TIME`
-  echo "FINISHED at " `date` " Elapsed time: " 
-  hms $ELAPSED 
+function copy-batch-sh-run-mauve {
+cat>$BATCH_SH_RUN_MAUVE<<EOF
+#!/bin/bash
+#PBS -l walltime=24:00:00,nodes=1
+#PBS -A acs4_0001
+#PBS -j oe
+#PBS -N Strep
+#PBS -q v4
+#PBS -m e
+#PBS -M schoi@cornell.edu
+WORKDIR=\$PBS_O_WORKDIR
+DATADIR=\$WORKDIR/../data
+MAUVE=\$HOME/usr/bin/progressiveMauve
+
+OUTPUTDIR=\$TMPDIR/output
+INPUTDIR=\$TMPDIR/input
+mkdir \$INPUTDIR
+mkdir \$OUTPUTDIR
+cp \$MAUVE \$TMPDIR/
+cp \$DATADIR/* \$INPUTDIR/
+cd \$TMPDIR
+./progressiveMauve --output=\$OUTPUTDIR/full_alignment.xmfa \\
+  --output-guide-tree=\$OUTPUTDIR/guide.tree \\
+  \$INPUTDIR/NC_008022.gbk \\
+  \$INPUTDIR/NC_008023.gbk \\
+  \$INPUTDIR/NC_002737.gbk \\
+  \$INPUTDIR/NC_003485.gbk \\
+  \$INPUTDIR/NC_004070.gbk \\
+  \$INPUTDIR/NC_003098.gbk \\
+  \$INPUTDIR/NC_003028.gbk \\
+  \$INPUTDIR/NC_004350.gbk \\
+  \$INPUTDIR/NC_004116.gbk \\
+  \$INPUTDIR/NC_007432.gbk \\
+  \$INPUTDIR/NC_004368.gbk \\
+  \$INPUTDIR/NC_006449.gbk \\
+  \$INPUTDIR/NC_006448.gbk \\
+  \$INPUTDIR/NC_008532.gbk
+cp -r \$OUTPUTDIR \$WORKDIR/
+cd
+rm -rf \$TMPDIR
+EOF
+  chmod a+x $BATCH_SH_RUN_MAUVE 
+  cp $BATCH_SH_RUN_MAUVE $CACRUNMAUVEDIR/
+}
+
+function receive-run-mauve {
+  cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
+}
+
+function edit-xmfa {
+  genomes=( \
+  Bacillus_anthracis__Ames_Ancestor__uid58083/NC_007530.gbk \
+  Bacillus_cereus_03BB102_uid59299/NC_012472.gbk  \
+  Bacillus_cereus_AH187_uid58753/NC_011658.gbk  \
+  Bacillus_cereus_AH820_uid58751/NC_011773.gbk  \
+  Bacillus_cereus_ATCC_10987_uid57673/NC_003909.gbk  \
+  Bacillus_cereus_ATCC_14579_uid57975/NC_004722.gbk  \
+  Bacillus_cereus_B4264_uid58757/NC_011725.gbk  \
+  Bacillus_cereus_G9842_uid58759/NC_011772.gbk  \
+  Bacillus_cereus_Q1_uid58529/NC_011969.gbk  \
+  Bacillus_cereus_E33L_uid58103/NC_006274.gbk  \
+  Bacillus_thuringiensis_Al_Hakam_uid58795/NC_008600.gbk  \
+  Bacillus_thuringiensis_serovar_konkukian_97_27_uid58089/NC_005957.gbk  \
+  Bacillus_weihenstephanensis_KBAB4_uid58315/NC_010184.gbk  \
+          )
+
+  echo \#FormatVersion Mauve1
+  for index in {1..13}
+  do
+    genomeindex=$(( index - 1))
+    echo \#Sequence${index}File  $GENOMEDATADIR/${genomes[$genomeindex]}
+    echo \#Sequence${index}Format  GenBank
+    echo \#Annotation${index}File $GENOMEDATADIR/${genomes[$genomeindex]}
+    echo \#Annotation${index}Format  GenBank
+  done
+  echo \#BackboneFile	$RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols
 }
 
 function run-lcb {
-  #$LCB full_alignment.xmfa full_alignment.xmfa.bbcols core_alignment.xmfa 500
+  #$LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  $LCB $ALIGNMENT/full_alignment.xmfa $ALIGNMENT/full_alignment.xmfa.bbcols $ALIGNMENT/core_alignment.xmfa 500
+  $LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
+    $RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols \
+    $RUNLCBDIR/core_alignment.xmfa 500
+}
+
+function run-blocksplit2fasta {
+  perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/core_alignment.xmfa
+}
+
+function compute-watterson-estimate {
+  FILES=$RUNLCBDIR/core_alignment.xmfa.*
+  for f in $FILES
+  do
+    # take action on each file. $f store current file name
+    DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
+    /Users/goshng/Documents/Projects/biopp/bpp-test/compute_watterson_estimate \
+    $f
+  done
+}
+
+
+
+function send-clonalframe-input-to-cac {
+  cp $RUNLCBDIR/core_alignment.xmfa $CACRUNLCBDIR/
+}
+
+function copy-batch-sh-run-clonalframe {
+  cat>$BATCH_SH_RUN_CLONALFRAME<<EOF
+#!/bin/bash
+#PBS -l walltime=168:00:00,nodes=1
+#PBS -A acs4_0001
+#PBS -j oe
+#PBS -N Strep
+#PBS -q v4
+#PBS -m e
+#PBS -M schoi@cornell.edu
+WORKDIR=\$PBS_O_WORKDIR
+DATADIR=\$WORKDIR/../data
+MAUVE=\$HOME/usr/bin/progressiveMauve
+LCBDIR=\$WORKDIR/../run-lcb
+CLONALFRAME=\$HOME/usr/bin/ClonalFrame
+
+OUTPUTDIR=\$TMPDIR/output
+INPUTDIR=\$TMPDIR/input
+mkdir \$INPUTDIR
+mkdir \$OUTPUTDIR
+cp \$CLONALFRAME \$TMPDIR/
+cp \$LCBDIR/* \$INPUTDIR/
+cd \$TMPDIR
+
+x=( 10000 10000 20000 20000 30000 30000 40000 40000 )
+y=( 10000 10000 20000 20000 30000 30000 40000 40000 )
+z=(    10    10    20    20    30    30    40    40 )
+
+for index in 0 1 2 3 4 5 6 7
+do
+LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
+./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
+-m 83.45296 -M \\
+\$INPUTDIR/core_alignment.xmfa \\
+\$OUTPUTDIR/core_clonalframe.out.\$index \\
+> \$OUTPUTDIR/cf_stdout.\$index &
+sleep 5
+done
+
+wait
+
+cp -r \$OUTPUTDIR \$WORKDIR/
+cd
+rm -rf \$TMPDIR
+EOF
+  chmod a+x $BATCH_SH_RUN_CLONALFRAME
+  cp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
+}
+
+function receive-run-clonalframe {
+  cp -r $CACRUNCLONALFRAME/output $RUNCLONALFRAME/
 }
 
 function run-clonalframe {
@@ -169,6 +242,11 @@ function run-clonalframe {
   #ClonalFrame -x 10000 -y 10000 -z 10 core_alignment.xmfa core_clonalframe.out.2 > cf_stdout.2 
   #DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   #ClonalFrame -x 10000 -y 10000 -z 10 core_alignment.xmfa core_clonalframe.out.3 > cf_stdout.3 
+}
+
+function run-clonalorigin-format {
+  $GCT core_clonalframe.out.1 clonaltree.nwk
+  perl $HOME/usr/bin/blocksplit.pl core_alignment.xmfa
 }
 
 function run-clonalorigin-format {
@@ -222,9 +300,43 @@ function run-bbfilter {
   bbFilter $ALIGNMENT/full_alignment.xmfa.backbone 50 my_feats.bin gp
 }
 
-# Align genomes using Mauve.
-#copy-genomes 
-#run-mauve 
+# 1. I make directories in CAC and copy genomes files to the data directory.
+#mkdir-streptococcus
+#copy-genomes-to-cac 
+copy-batch-sh-run-mauve
+# -----------------------------------------------------------
+# At the CAC base directory, submit the batch.sh by executing
+# $ nsub batch.sh
+# Then, copy the result to here.
+#receive-run-mauve
+# And, find core blocks of the alignment.
+# NOTE: full_alignment.xmfa has input genome files full paths.
+#       These are the paths that were used in CAC not local machine.
+#       I have to replace those paths to the genome files paths
+#       of this local machine.
+# Edit the xmfa file.
+# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/streptococcus\/data/g
+# Also, change the backbone file name.
+# Then, run LCB.
+#run-lcb 
+# Find all the blocks in FASTA format.
+#run-blocksplit2fasta 
+# Compute Watterson's estimate.
+#compute-watterson-estimate 
+
+# 2. I use ClonalFrame.
+# NOTE: One thing that I am not sure about is the mutation rate.
+#       Xavier said that I could fix the mutation rate to Watterson's estimate.
+#       I do not know how to do it with finite-sites data.
+#       McVean (2002) in Genetics.
+#       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
+#       Just remove gaps and use the alignment without gaps.
+#       I may have to find this value from the core genome
+#       alignment: core_alignment.xmfa.
+#send-clonalframe-input-to-cac 
+#copy-batch-sh-run-clonalframe
+#receive-run-clonalframe
+
 
 # Note that full_alignment.xmfa has the input genomes.
 # Copy the genomes52 directory to /tmp/sc2265.
@@ -234,4 +346,5 @@ function run-bbfilter {
 
 
 
-run-bbfilter 
+#run-bbfilter 
+
