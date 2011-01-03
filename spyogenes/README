@@ -1,0 +1,27 @@
+S. Pyogenes mauve analysis
+==========================
+Adam sugguested to analyze all of the available S. Pyogenes strains by selecting
+only one strain. This is a preliminary analysis with S. Pyogenes where we have
+their whole genomes in NCBI. This could sidestep nontrivial preprocessing
+procedures.
+
+I am interested in S. Pyogenes analysis.
+
+Genomes
+-------
+There are 13 S. pyogenes genomes.
+- S. pyogenes (13):
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_M1_GAS_uid57845
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_Manfredo_uid57847
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS2096_uid58573
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS5005_uid58337
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS6180_uid58335
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS8232_uid57871
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS9429_uid58569
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10270_uid58571
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10394_uid58105
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_NZ131_uid59035
+/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_SSI_1_uid57895 
+
