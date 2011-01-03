@@ -1,13 +1,36 @@
+Mauve Analysis
+==============
 
+Directories
+-----------
 
 bacillus
---------
+~~~~~~~~
 
 cac
----
+~~~
 Examples of batch scripts for submitting jobs to CAC cluster.
 
 streptococcus
--------------
+~~~~~~~~~~~~~
 Fourteen genomes are collated for a mauve analysis.
+
+Problems
+--------
+ClonalFrame seems slow with increase in number of blocks.
+Bacillus data set is hard to analyze with ClonalFrame. 
+Streptococcus data set is smaller than Bacillus data set in size. 
+
+streptococcus
+~~~~~~~~~~~~~
+N=14, b=471, L=603426
+means that 14 genomes share 471 blocks that combine to be 603,426 in characters.
+It would take about a week to run 20,000 generations of MCMC.
+
+bacillus
+~~~~~~~~
+N=13, b=1200, L=3596990
+means that 13 genomes share 1,200 blocks that combine to be 3,596,990 in
+characters. This would take 8 days (or more than a week) to run 8,000
+generations of MCMC.
 
