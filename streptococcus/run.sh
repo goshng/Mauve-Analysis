@@ -42,6 +42,7 @@ CACRUNLCBDIR=$CACBASEDIR/run-lcb
 CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
 BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
 BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
+TMPINPUTDIR=/tmp/1074016.scheduler.v4linux/input
 # OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
 
 function mkdir-streptococcus {
@@ -75,7 +76,7 @@ function copy-genomes-to-cac {
 function copy-batch-sh-run-mauve {
 cat>$BATCH_SH_RUN_MAUVE<<EOF
 #!/bin/bash
-#PBS -l walltime=24:00:00,nodes=1
+#PBS -l walltime=8:00:00,nodes=1
 #PBS -A acs4_0001
 #PBS -j oe
 #PBS -N Strep
@@ -121,37 +122,29 @@ function receive-run-mauve {
   cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
 }
 
-function edit-xmfa {
-  genomes=( \
-  Bacillus_anthracis__Ames_Ancestor__uid58083/NC_007530.gbk \
-  Bacillus_cereus_03BB102_uid59299/NC_012472.gbk  \
-  Bacillus_cereus_AH187_uid58753/NC_011658.gbk  \
-  Bacillus_cereus_AH820_uid58751/NC_011773.gbk  \
-  Bacillus_cereus_ATCC_10987_uid57673/NC_003909.gbk  \
-  Bacillus_cereus_ATCC_14579_uid57975/NC_004722.gbk  \
-  Bacillus_cereus_B4264_uid58757/NC_011725.gbk  \
-  Bacillus_cereus_G9842_uid58759/NC_011772.gbk  \
-  Bacillus_cereus_Q1_uid58529/NC_011969.gbk  \
-  Bacillus_cereus_E33L_uid58103/NC_006274.gbk  \
-  Bacillus_thuringiensis_Al_Hakam_uid58795/NC_008600.gbk  \
-  Bacillus_thuringiensis_serovar_konkukian_97_27_uid58089/NC_005957.gbk  \
-  Bacillus_weihenstephanensis_KBAB4_uid58315/NC_010184.gbk  \
-          )
+function mkdir-tmp {
+  mkdir -p $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_mutans_UA159_uid57947/NC_004350.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_2603V_R_uid57943/NC_004116.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_A909_uid57935/NC_007432.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_agalactiae_NEM316/NC_004368.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_CNRZ1066_uid58221/NC_006449.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMG_18311_uid58219/NC_006448.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008532.gbk $TMPINPUTDIR
+}
 
-  echo \#FormatVersion Mauve1
-  for index in {1..13}
-  do
-    genomeindex=$(( index - 1))
-    echo \#Sequence${index}File  $GENOMEDATADIR/${genomes[$genomeindex]}
-    echo \#Sequence${index}Format  GenBank
-    echo \#Annotation${index}File $GENOMEDATADIR/${genomes[$genomeindex]}
-    echo \#Annotation${index}Format  GenBank
-  done
-  echo \#BackboneFile	$RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols
+function rmdir-tmp {
+  rm -rf $TMPINPUTDIR
 }
 
 function run-lcb {
-  #$LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   $LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
     $RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols \
@@ -172,8 +165,6 @@ function compute-watterson-estimate {
     $f
   done
 }
-
-
 
 function send-clonalframe-input-to-cac {
   cp $RUNLCBDIR/core_alignment.xmfa $CACRUNLCBDIR/
@@ -211,7 +202,7 @@ for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m 83.45296 -M \\
+-m 98.91112 -M \\
 \$INPUTDIR/core_alignment.xmfa \\
 \$OUTPUTDIR/core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
@@ -303,7 +294,7 @@ function run-bbfilter {
 # 1. I make directories in CAC and copy genomes files to the data directory.
 #mkdir-streptococcus
 #copy-genomes-to-cac 
-copy-batch-sh-run-mauve
+#copy-batch-sh-run-mauve
 # -----------------------------------------------------------
 # At the CAC base directory, submit the batch.sh by executing
 # $ nsub batch.sh
@@ -314,15 +305,19 @@ copy-batch-sh-run-mauve
 #       These are the paths that were used in CAC not local machine.
 #       I have to replace those paths to the genome files paths
 #       of this local machine.
-# Edit the xmfa file.
+# We could edit the xmfa file, but instead
 # %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/streptococcus\/data/g
 # Also, change the backbone file name.
+# I make the same file system structure as the run-mauve.
+#mkdir-tmp 
 # Then, run LCB.
 #run-lcb 
 # Find all the blocks in FASTA format.
 #run-blocksplit2fasta 
 # Compute Watterson's estimate.
-#compute-watterson-estimate 
+#compute-watterson-estimate > w.txt
+# Use R to sum the values in w.txt.
+# I found out that the sum is 98.91112.
 
 # 2. I use ClonalFrame.
 # NOTE: One thing that I am not sure about is the mutation rate.
@@ -335,7 +330,8 @@ copy-batch-sh-run-mauve
 #       alignment: core_alignment.xmfa.
 #send-clonalframe-input-to-cac 
 #copy-batch-sh-run-clonalframe
-#receive-run-clonalframe
+# Go to CAC Cluster to submit clonalframe jobs.
+receive-run-clonalframe
 
 
 # Note that full_alignment.xmfa has the input genomes.
