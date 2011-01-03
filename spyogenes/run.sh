@@ -42,7 +42,7 @@ CACRUNLCBDIR=$CACBASEDIR/run-lcb
 CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
 BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
 BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
-TMPINPUTDIR=/tmp/1074016.scheduler.v4linux/input
+TMPINPUTDIR=/tmp/1074038.scheduler.v4linux/input
 # OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
 
 function mkdir-spyogenes {
@@ -57,6 +57,19 @@ function mkdir-spyogenes {
 }
 
 function copy-genomes-to-cac {
+  # 1. M1 \$INPUTDIR/NC_002737.gbk \\
+  # 2. M2 \$INPUTDIR/NC_008022.gbk \\
+  # 3. M6 \$INPUTDIR/NC_006086.gbk \\
+  # 4. M4 \$INPUTDIR/NC_008024.gbk \\
+  # 5. M12 \$INPUTDIR/NC_008023.gbk \\
+  # 6. M3 \$INPUTDIR/NC_004070.gbk \\
+  # 7. M1 \$INPUTDIR/NC_007297.gbk \\
+  # 8. M28 \$INPUTDIR/NC_007296.gbk \\
+  # 9. M18 \$INPUTDIR/NC_003485.gbk \\
+  # 10.M12 \$INPUTDIR/NC_008021.gbk \\
+  # 11.M5 \$INPUTDIR/NC_009332.gbk \\
+  # 12.M49 \$INPUTDIR/NC_011375.gbk \\
+  # 13.M3 \$INPUTDIR/NC_004606.gbk
   cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $CACDATADIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $CACDATADIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $CACDATADIR
@@ -123,20 +136,19 @@ function receive-run-mauve {
 
 function mkdir-tmp {
   mkdir -p $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $TMPINPUTDIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $TMPINPUTDIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_mutans_UA159_uid57947/NC_004350.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_2603V_R_uid57943/NC_004116.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_A909_uid57935/NC_007432.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_agalactiae_NEM316/NC_004368.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_CNRZ1066_uid58221/NC_006449.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMG_18311_uid58219/NC_006448.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_thermophilus_LMD_9_uid58327/NC_008532.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
 }
 
 function rmdir-tmp {
@@ -201,7 +213,7 @@ for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m 98.91112 -M \\
+-m 3.213054 -M \\
 \$INPUTDIR/core_alignment.xmfa \\
 \$OUTPUTDIR/core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
@@ -291,9 +303,9 @@ function run-bbfilter {
 }
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
-mkdir-spyogenes
-copy-genomes-to-cac 
-copy-batch-sh-run-mauve
+#mkdir-spyogenes
+#copy-genomes-to-cac 
+#copy-batch-sh-run-mauve
 # -----------------------------------------------------------
 # At the CAC base directory, submit the batch.sh by executing
 # $ nsub batch.sh
@@ -316,7 +328,7 @@ copy-batch-sh-run-mauve
 # Compute Watterson's estimate.
 #compute-watterson-estimate > w.txt
 # Use R to sum the values in w.txt.
-# I found out that the sum is 98.91112.
+# I found out that the sum is 3.213054
 
 # 2. I use ClonalFrame.
 # NOTE: One thing that I am not sure about is the mutation rate.
@@ -327,8 +339,10 @@ copy-batch-sh-run-mauve
 #       Just remove gaps and use the alignment without gaps.
 #       I may have to find this value from the core genome
 #       alignment: core_alignment.xmfa.
+# NOTE: I run clonalframe for a very short time to find a NJ tree.
+#       I had to run clonalframe twice.
 #send-clonalframe-input-to-cac 
-#copy-batch-sh-run-clonalframe
+copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
 #receive-run-clonalframe
 
