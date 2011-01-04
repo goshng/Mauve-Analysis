@@ -42,7 +42,7 @@ CACRUNLCBDIR=$CACBASEDIR/run-lcb
 CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
 BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
 BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
-TMPINPUTDIR=/tmp/1074038.scheduler.v4linux/input
+TMPINPUTDIR=/tmp/1074047.scheduler.v4linux/input
 # OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
 
 function mkdir-spneumoniae {
@@ -202,14 +202,15 @@ for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m 3.213054 -M \\
+-m 5.545738 -M \\
 \$INPUTDIR/core_alignment.xmfa \\
 \$OUTPUTDIR/core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
 sleep 5
 done
-
+date
 wait
+date
 
 cp -r \$OUTPUTDIR \$WORKDIR/
 cd
@@ -292,9 +293,9 @@ function run-bbfilter {
 }
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
-mkdir-spneumoniae
-copy-genomes-to-cac 
-copy-batch-sh-run-mauve
+#mkdir-spneumoniae
+#copy-genomes-to-cac 
+#copy-batch-sh-run-mauve
 # -----------------------------------------------------------
 # At the CAC base directory, submit the batch.sh by executing
 # $ nsub batch.sh
@@ -309,15 +310,15 @@ copy-batch-sh-run-mauve
 # %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/spneumoniae\/data/g
 # Also, change the backbone file name.
 # I make the same file system structure as the run-mauve.
-#mkdir-tmp 
 # Then, run LCB.
-#run-lcb 
 # Find all the blocks in FASTA format.
-#run-blocksplit2fasta 
 # Compute Watterson's estimate.
+#mkdir-tmp 
+#run-lcb 
+#run-blocksplit2fasta 
 #compute-watterson-estimate > w.txt
 # Use R to sum the values in w.txt.
-# I found out that the sum is 3.213054
+# I found out that the sum is 5.545738
 
 # 2. I use ClonalFrame.
 # NOTE: One thing that I am not sure about is the mutation rate.
@@ -330,8 +331,8 @@ copy-batch-sh-run-mauve
 #       alignment: core_alignment.xmfa.
 # NOTE: I run clonalframe for a very short time to find a NJ tree.
 #       I had to run clonalframe twice.
-#send-clonalframe-input-to-cac 
-#copy-batch-sh-run-clonalframe
+send-clonalframe-input-to-cac 
+copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
 #receive-run-clonalframe
 
