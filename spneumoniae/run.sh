@@ -35,7 +35,7 @@ RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
 RUNLCBDIR=$BASEDIR/run-lcb
 RUNCLONALFRAME=$BASEDIR/run-clonalframe
 GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
-CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/spyogenes
+CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/spneumoniae
 CACDATADIR=$CACBASEDIR/data
 CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
 CACRUNLCBDIR=$CACBASEDIR/run-lcb
@@ -45,7 +45,7 @@ BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
 TMPINPUTDIR=/tmp/1074038.scheduler.v4linux/input
 # OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
 
-function mkdir-spyogenes {
+function mkdir-spneumoniae {
   mkdir $CACBASEDIR
   mkdir $CACDATADIR
   mkdir $CACRUNMAUVEDIR
@@ -57,32 +57,20 @@ function mkdir-spyogenes {
 }
 
 function copy-genomes-to-cac {
-  # 1. M1 \$INPUTDIR/NC_002737.gbk \\
-  # 2. M2 \$INPUTDIR/NC_008022.gbk \\
-  # 3. M6 \$INPUTDIR/NC_006086.gbk \\
-  # 4. M4 \$INPUTDIR/NC_008024.gbk \\
-  # 5. M12 \$INPUTDIR/NC_008023.gbk \\
-  # 6. M3 \$INPUTDIR/NC_004070.gbk \\
-  # 7. M1 \$INPUTDIR/NC_007297.gbk \\
-  # 8. M28 \$INPUTDIR/NC_007296.gbk \\
-  # 9. M18 \$INPUTDIR/NC_003485.gbk \\
-  # 10.M12 \$INPUTDIR/NC_008021.gbk \\
-  # 11.M5 \$INPUTDIR/NC_009332.gbk \\
-  # 12.M49 \$INPUTDIR/NC_011375.gbk \\
-  # 13.M3 \$INPUTDIR/NC_004606.gbk
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_670_6B_uid52533/NC_014498.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_70585_uid59125/NC_012468.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_AP200_uid52453/NC_014494.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_ATCC_700669_uid59287/NC_011900.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_CGSP14_uid59181/NC_010582.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_D39_uid58581/NC_008533.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_G54_uid59167/NC_011072.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Hungary19A_6_uid59117/NC_010380.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_JJA_uid59121/NC_012466.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_P1031_uid59123/NC_012467.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TCH8431_19A_uid49735/NC_014251.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $CACDATADIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Taiwan19F_14_uid59119/NC_012469.gbk $CACDATADIR
 }
 
 function copy-batch-sh-run-mauve {
@@ -108,20 +96,20 @@ cp \$DATADIR/* \$INPUTDIR/
 cd \$TMPDIR
 ./progressiveMauve --output=\$OUTPUTDIR/full_alignment.xmfa \\
   --output-guide-tree=\$OUTPUTDIR/guide.tree \\
-  \$INPUTDIR/NC_002737.gbk \\
-  \$INPUTDIR/NC_008022.gbk \\
-  \$INPUTDIR/NC_006086.gbk \\
-  \$INPUTDIR/NC_008024.gbk \\
-  \$INPUTDIR/NC_008023.gbk \\
-  \$INPUTDIR/NC_004070.gbk \\
-  \$INPUTDIR/NC_007297.gbk \\
-  \$INPUTDIR/NC_007296.gbk \\
-  \$INPUTDIR/NC_003485.gbk \\
-  \$INPUTDIR/NC_008021.gbk \\
-  \$INPUTDIR/NC_009332.gbk \\
-  \$INPUTDIR/NC_011375.gbk \\
-  \$INPUTDIR/NC_004606.gbk
-
+  \$INPUTDIR/NC_014498.gbk \\
+  \$INPUTDIR/NC_012468.gbk \\
+  \$INPUTDIR/NC_014494.gbk \\
+  \$INPUTDIR/NC_011900.gbk \\
+  \$INPUTDIR/NC_010582.gbk \\
+  \$INPUTDIR/NC_008533.gbk \\
+  \$INPUTDIR/NC_011072.gbk \\
+  \$INPUTDIR/NC_010380.gbk \\
+  \$INPUTDIR/NC_012466.gbk \\
+  \$INPUTDIR/NC_012467.gbk \\
+  \$INPUTDIR/NC_003098.gbk \\
+  \$INPUTDIR/NC_014251.gbk \\
+  \$INPUTDIR/NC_003028.gbk \\
+  \$INPUTDIR/NC_012469.gbk
 cp -r \$OUTPUTDIR \$WORKDIR/
 cd
 rm -rf \$TMPDIR
@@ -136,19 +124,20 @@ function receive-run-mauve {
 
 function mkdir-tmp {
   mkdir -p $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_670_6B_uid52533/NC_014498.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_70585_uid59125/NC_012468.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_AP200_uid52453/NC_014494.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_ATCC_700669_uid59287/NC_011900.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_CGSP14_uid59181/NC_010582.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_D39_uid58581/NC_008533.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_G54_uid59167/NC_011072.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Hungary19A_6_uid59117/NC_010380.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_JJA_uid59121/NC_012466.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_P1031_uid59123/NC_012467.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_R6_uid57859/NC_003098.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TCH8431_19A_uid49735/NC_014251.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_TIGR4_uid57857/NC_003028.gbk $TMPINPUTDIR
+  cp $GENOMEDATADIR/Streptococcus_pneumoniae_Taiwan19F_14_uid59119/NC_012469.gbk $TMPINPUTDIR
 }
 
 function rmdir-tmp {
@@ -303,9 +292,9 @@ function run-bbfilter {
 }
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
-#mkdir-spyogenes
-#copy-genomes-to-cac 
-#copy-batch-sh-run-mauve
+mkdir-spneumoniae
+copy-genomes-to-cac 
+copy-batch-sh-run-mauve
 # -----------------------------------------------------------
 # At the CAC base directory, submit the batch.sh by executing
 # $ nsub batch.sh
@@ -317,7 +306,7 @@ function run-bbfilter {
 #       I have to replace those paths to the genome files paths
 #       of this local machine.
 # We could edit the xmfa file, but instead
-# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/spyogenes\/data/g
+# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/spneumoniae\/data/g
 # Also, change the backbone file name.
 # I make the same file system structure as the run-mauve.
 #mkdir-tmp 
@@ -344,7 +333,7 @@ function run-bbfilter {
 #send-clonalframe-input-to-cac 
 #copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
-receive-run-clonalframe
+#receive-run-clonalframe
 
 
 # Note that full_alignment.xmfa has the input genomes.
