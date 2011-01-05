@@ -36,8 +36,12 @@ generations of MCMC.
 
 External Programs
 -----------------
-
-- blocksplit2fasta.pl
-- blocksplit2smallerfasta.pl 
-- compute_watterson_estimate
+Some perl scripts and c++ source files are prepared for helping mauve analyses.
+- blocksplit2fasta.pl: A perl script that splits a core alignment to multiple
+  fasta files. These fasta files are taken as input to
+  compute_watterson_estimate to compute Watterson's estimate.
+- blocksplit2smallerfasta.pl: A perl script that subsample blocks from a core
+  alignment. 
+- compute_watterson_estimate: A c++ source file that computes Watterson's
+  estimates of DNA sequence alignments.
 
