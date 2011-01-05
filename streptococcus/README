@@ -52,6 +52,13 @@ ClonalFrame is a slow MCMC procedure. It takes about 30 seconds per generation.
 I submitted a job to CAC cluster with 3000 burnin and 3000 generations with 10
 thinning interval. This would take about 2 days. 
 
+It seems to take 1.7 min to iteratre one generation of MCMC of ClonalFrame. So,
+it would take more than 3 weeks to iterate 20,000.
+
+I subsample 10% of the full data set.
+It takes 4.5 seconds to run a single generation of MCMC with 10% of the full
+data set. We can run 100,000 within a week.
+
 I can check the convergence using ClonalFrame's GUI program that is installed in
 Swiftgen. 
 

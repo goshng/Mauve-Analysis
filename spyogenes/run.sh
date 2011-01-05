@@ -34,6 +34,7 @@ RUNMAUVEDIR=$BASEDIR/run-mauve
 RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
 RUNLCBDIR=$BASEDIR/run-lcb
 RUNCLONALFRAME=$BASEDIR/run-clonalframe
+RSCRIPTW=$BASEDIR/w.R
 GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
 CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/spyogenes
 CACDATADIR=$CACBASEDIR/data
@@ -43,7 +44,9 @@ CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
 BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
 BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
 TMPINPUTDIR=/tmp/1074038.scheduler.v4linux/input
-# OTHERDIR=choi@swiftgen:Documents/Projects/mauve/genomes52/
+SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/spyogenes/
+SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
+SMALLER=smaller
 
 function mkdir-spyogenes {
   mkdir $CACBASEDIR
@@ -166,6 +169,12 @@ function run-blocksplit2fasta {
   perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/core_alignment.xmfa
 }
 
+function run-blocksplit2smallerfasta {
+  rm -f $RUNLCBDIR/core_alignment.xmfa.*
+  perl $HOME/usr/bin/blocksplit2smallerfasta.pl \
+    $RUNLCBDIR/core_alignment.xmfa 0.1 12345
+}
+
 function compute-watterson-estimate {
   FILES=$RUNLCBDIR/core_alignment.xmfa.*
   for f in $FILES
@@ -177,8 +186,16 @@ function compute-watterson-estimate {
   done
 }
 
+function sum-w {
+  cat>$RSCRIPTW<<EOF
+x <- read.table ("w.txt")
+sum (x$V1)
+EOF
+  R --no-save < $RSCRIPTW
+}
+
 function send-clonalframe-input-to-cac {
-  cp $RUNLCBDIR/core_alignment.xmfa $CACRUNLCBDIR/
+  cp $RUNLCBDIR/${SMALLER}core_alignment.xmfa $CACRUNLCBDIR/
 }
 
 function copy-batch-sh-run-clonalframe {
@@ -213,15 +230,15 @@ for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m 3.213054 -M \\
-\$INPUTDIR/core_alignment.xmfa \\
-\$OUTPUTDIR/core_clonalframe.out.\$index \\
+-m 0.3026701 -M \\
+\$INPUTDIR/${SMALLER}core_alignment.xmfa \\
+\$OUTPUTDIR/${SMALLER}core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
 sleep 5
 done
-
+date
 wait
-
+date
 cp -r \$OUTPUTDIR \$WORKDIR/
 cd
 rm -rf \$TMPDIR
@@ -232,6 +249,10 @@ EOF
 
 function receive-run-clonalframe {
   cp -r $CACRUNCLONALFRAME/output $RUNCLONALFRAME/
+}
+
+function send-run-clonalframe-to-swiftgen {
+  scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
 }
 
 function run-clonalframe {
@@ -325,9 +346,11 @@ function run-bbfilter {
 #run-lcb 
 # Find all the blocks in FASTA format.
 #run-blocksplit2fasta 
+#run-blocksplit2smallerfasta 
 # Compute Watterson's estimate.
 #compute-watterson-estimate > w.txt
 # Use R to sum the values in w.txt.
+#sum-w
 # I found out that the sum is 3.213054
 
 # 2. I use ClonalFrame.
@@ -341,10 +364,11 @@ function run-bbfilter {
 #       alignment: core_alignment.xmfa.
 # NOTE: I run clonalframe for a very short time to find a NJ tree.
 #       I had to run clonalframe twice.
-#send-clonalframe-input-to-cac 
-#copy-batch-sh-run-clonalframe
+send-clonalframe-input-to-cac 
+copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
-receive-run-clonalframe
+#receive-run-clonalframe
+#send-run-clonalframe-to-swiftgen
 
 
 # Note that full_alignment.xmfa has the input genomes.
