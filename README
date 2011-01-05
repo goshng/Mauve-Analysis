@@ -34,3 +34,10 @@ means that 13 genomes share 1,200 blocks that combine to be 3,596,990 in
 characters. This would take 8 days (or more than a week) to run 8,000
 generations of MCMC.
 
+External Programs
+-----------------
+
+- blocksplit2fasta.pl
+- blocksplit2smallerfasta.pl 
+- compute_watterson_estimate
+
