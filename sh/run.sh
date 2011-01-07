@@ -1,19 +1,17 @@
+#!/bin/bash
+# Author: Sang Chul Choi
 
-
-#/Users/goshng/Documents/Projects/mauve
-BASE=$HOME/Documents/Projects/mauve
-#MAUVE=$HOME/usr/bin/progressiveMauve
-
-#MAUVE=/Applications/Mauve.app/Contents/MacOS/progressiveMauve
-#MAUVE=$HOME/Applications/Mauve.app/Contents/MacOS/progressiveMauve
+# Programs
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
-
 GCT=$HOME/usr/bin/getClonalTree 
 AUI=$HOME/usr/bin/addUnalignedIntervals 
 MWF=$HOME/usr/bin/makeMauveWargFile.pl
 RESULT1=1alignment
 ALIGNMENT=run-mauve-genome26/output
 CLONALFRAMEOUTPUT=run-clonalframe/
+LCB=$HOME/usr/bin/stripSubsetLCBs 
+# Genome Data Directory
+GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
 
 function hms
 {
@@ -25,30 +23,31 @@ function hms
   printf "%02d:%02d:%02d\n" $h $m $s
 }
 
-# Programs
-LCB=$HOME/usr/bin/stripSubsetLCBs 
-
 # Directories
-BASEDIR=`pwd`
-RUNMAUVEDIR=$BASEDIR/run-mauve
-RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
-RUNLCBDIR=$BASEDIR/run-lcb
-RUNCLONALFRAME=$BASEDIR/run-clonalframe
-RSCRIPTW=$BASEDIR/w.R
-GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
-CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/spyogenes
-CACDATADIR=$CACBASEDIR/data
-CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
-CACRUNLCBDIR=$CACBASEDIR/run-lcb
-CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
-BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
-BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
-TMPINPUTDIR=/tmp/1074038.scheduler.v4linux/input
-SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/spyogenes/
-SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
-SMALLER=smaller
+function prepare-filesystem {
+  SPECIESFILE=species/$SPECIES
+  BASEDIR=`pwd`/analysis/$SPECIES
+  RUNMAUVEDIR=$BASEDIR/run-mauve
+  RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
+  RUNLCBDIR=$BASEDIR/run-lcb
+  RUNCLONALFRAME=$BASEDIR/run-clonalframe
+  RSCRIPTW=$BASEDIR/w.R
+  CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/analysis/$SPECIES
+  CACDATADIR=$CACBASEDIR/data
+  CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
+  CACRUNLCBDIR=$CACBASEDIR/run-lcb
+  CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
+  BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
+  BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
+  TMPDIR=/tmp/$JOBID.scheduler.v4linux
+  TMPINPUTDIR=$TMPDIR/input
+  SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/analysis/$SPECIES
+  SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
+  SMALLER=smaller
+}
 
-function mkdir-spyogenes {
+function mkdir-SPECIES {
+  mkdir $BASEDIR
   mkdir $CACBASEDIR
   mkdir $CACDATADIR
   mkdir $CACRUNMAUVEDIR
@@ -59,20 +58,109 @@ function mkdir-spyogenes {
   mkdir $CACRUNLCBDIR
 }
 
+########################################################################
+# 
+########################################################################
+
+function mkdir-tmp-called {
+  line="$@" # get all args
+  cp $GENOMEDATADIR/$line $TMPINPUTDIR
+}
+
+function copy-batch-sh-run-mauve-called {
+  line=$1 # get all args
+  isLast=$2
+  filename_gbk=`basename $line`
+  if [ "$isLast" == "last" ]; then
+    echo "  \$INPUTDIR/$filename_gbk" >> $BATCH_SH_RUN_MAUVE 
+  else
+    echo "  \$INPUTDIR/$filename_gbk \\" >> $BATCH_SH_RUN_MAUVE 
+  fi
+}
+
+function copy-genomes-to-cac-called {
+  line="$@" # get all args
+  cp $GENOMEDATADIR/$line $CACDATADIR
+}
+
+function processLine {
+  line="$@" # get all args
+  #  just echo them, but you may need to customize it according to your need
+  # for example, F1 will store first field of $line, see readline2 script
+  # for more examples
+  # F1=$(echo $line | awk '{ print $1 }')
+  echo $line
+  #cp $GENOMEDATADIR/$line $CACDATADIR
+}
+ 
+########################################################################
+# I found a script at
+# http://bash.cyberciti.biz/file-management/read-a-file-line-by-line/ 
+# to read a file line by line. I use it to read a species file.
+# I could directly read the directory to find genbank files.
+# Genbank directory of my machine is
+# /Users/goshng/Elements/Documents/Projects/mauve/bacteria.
+# A command line to list genbank files is as follows:
+# ls -l `find . -name *.gbk`| grep Clostridium_botulinum >
+# ~/Documents/Projects/mauve/species/Clostridium_botulinum
+# Let me try to use the script of reading line by line for the time being.
+########################################################################
+function read-species-genbank-files {
+  wfunction_called=$2
+  ### Main script stars here ###
+  # Store file name
+  FILE=""
+  numberLine=`wc $1 | awk '{print $1'}`
+   
+  # Make sure we get file name as command line argument
+  # Else read it from standard input device
+  if [ "$1" == "" ]; then
+     FILE="/dev/stdin"
+  else
+     FILE="$1"
+     # make sure file exist and readable
+     if [ ! -f $FILE ]; then
+      echo "$FILE : does not exists"
+      exit 1
+     elif [ ! -r $FILE ]; then
+      echo "$FILE: can not read"
+      exit 2
+     fi
+  fi
+  # read $FILE using the file descriptors
+   
+  # Set loop separator to end of line
+  BAKIFS=$IFS
+  IFS=$(echo -en "\n\b")
+  exec 3<&0
+  exec 0<$FILE
+  countLine=0
+  isLast=""
+  while read line
+  do
+    countLine=$((countLine + 1))
+    if [ $countLine == $numberLine ]; then
+      isLast="last"
+    else
+      isLast=""
+    fi
+    # use $line variable to process line in processLine() function
+    if [ $wfunction_called == "copy-genomes-to-cac" ]; then
+      copy-genomes-to-cac-called $line
+    elif [ $wfunction_called == "copy-batch-sh-run-mauve" ]; then
+      copy-batch-sh-run-mauve-called $line $isLast
+    elif [ $wfunction_called == "mkdir-tmp" ]; then
+      mkdir-tmp-called $line
+    fi
+  done
+  exec 0<&3
+   
+  # restore $IFS which was used to determine what the field separators are
+  BAKIFS=$ORIGIFS
+}
+
+
 function copy-genomes-to-cac {
-  # 1. M1 \$INPUTDIR/NC_002737.gbk \\
-  # 2. M2 \$INPUTDIR/NC_008022.gbk \\
-  # 3. M6 \$INPUTDIR/NC_006086.gbk \\
-  # 4. M4 \$INPUTDIR/NC_008024.gbk \\
-  # 5. M12 \$INPUTDIR/NC_008023.gbk \\
-  # 6. M3 \$INPUTDIR/NC_004070.gbk \\
-  # 7. M1 \$INPUTDIR/NC_007297.gbk \\
-  # 8. M28 \$INPUTDIR/NC_007296.gbk \\
-  # 9. M18 \$INPUTDIR/NC_003485.gbk \\
-  # 10.M12 \$INPUTDIR/NC_008021.gbk \\
-  # 11.M5 \$INPUTDIR/NC_009332.gbk \\
-  # 12.M49 \$INPUTDIR/NC_011375.gbk \\
-  # 13.M3 \$INPUTDIR/NC_004606.gbk
   cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $CACDATADIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $CACDATADIR
   cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $CACDATADIR
@@ -94,7 +182,7 @@ cat>$BATCH_SH_RUN_MAUVE<<EOF
 #PBS -l walltime=8:00:00,nodes=1
 #PBS -A acs4_0001
 #PBS -j oe
-#PBS -N Strep
+#PBS -N Strep-${SPECIES}-Mauve
 #PBS -q v4
 #PBS -m e
 #PBS -M schoi@cornell.edu
@@ -111,20 +199,11 @@ cp \$DATADIR/* \$INPUTDIR/
 cd \$TMPDIR
 ./progressiveMauve --output=\$OUTPUTDIR/full_alignment.xmfa \\
   --output-guide-tree=\$OUTPUTDIR/guide.tree \\
-  \$INPUTDIR/NC_002737.gbk \\
-  \$INPUTDIR/NC_008022.gbk \\
-  \$INPUTDIR/NC_006086.gbk \\
-  \$INPUTDIR/NC_008024.gbk \\
-  \$INPUTDIR/NC_008023.gbk \\
-  \$INPUTDIR/NC_004070.gbk \\
-  \$INPUTDIR/NC_007297.gbk \\
-  \$INPUTDIR/NC_007296.gbk \\
-  \$INPUTDIR/NC_003485.gbk \\
-  \$INPUTDIR/NC_008021.gbk \\
-  \$INPUTDIR/NC_009332.gbk \\
-  \$INPUTDIR/NC_011375.gbk \\
-  \$INPUTDIR/NC_004606.gbk
+EOF
 
+  read-species-genbank-files $SPECIESFILE copy-batch-sh-run-mauve
+
+cat>>$BATCH_SH_RUN_MAUVE<<EOF
 cp -r \$OUTPUTDIR \$WORKDIR/
 cd
 rm -rf \$TMPDIR
@@ -133,29 +212,14 @@ EOF
   cp $BATCH_SH_RUN_MAUVE $CACRUNMAUVEDIR/
 }
 
-function receive-run-mauve {
-  cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
-}
-
 function mkdir-tmp {
   mkdir -p $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $TMPINPUTDIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
+  read-species-genbank-files $SPECIESFILE mkdir-tmp
+  #cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
 }
 
 function rmdir-tmp {
-  rm -rf $TMPINPUTDIR
+  rm -rf $TMPDIR
 }
 
 function run-lcb {
@@ -204,7 +268,7 @@ function copy-batch-sh-run-clonalframe {
 #PBS -l walltime=168:00:00,nodes=1
 #PBS -A acs4_0001
 #PBS -j oe
-#PBS -N Strep
+#PBS -N Strep-${SPECIES}-ClonalFrame
 #PBS -q v4
 #PBS -m e
 #PBS -M schoi@cornell.edu
@@ -327,9 +391,104 @@ function run-bbfilter {
 }
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
-#mkdir-spyogenes
-#copy-genomes-to-cac 
-#copy-batch-sh-run-mauve
+function choose-species {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Wait for muave-analysis file system preparation...\n"
+      prepare-filesystem 
+      mkdir-SPECIES
+      read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
+      copy-batch-sh-run-mauve
+      echo -e "Go to CAC's $SPECIES run-mauve, and execute nsub batch.sh\n"
+      break
+    fi
+  done
+}
+
+# 2. Receive mauve-analysis.
+function receive-run-mauve {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Receiving mauve-output...\n"
+      prepare-filesystem 
+      cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
+      echo -e "Now, find core blocks of the alignment.\n"
+      break
+    fi
+  done
+}
+
+# 3. Prepare clonalframe analysis.
+function prepare-run-clonalframe {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e 'What is the temporary id of mauve-analysis?'
+      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      echo -n "JOB ID: " 
+      read JOBID
+      echo -e "Preparing clonalframe analysis...\n"
+      prepare-filesystem 
+      echo -e "  Making temporary data files....\n"
+      mkdir-tmp 
+      # Then, run LCB.
+      echo -e "  Finding core blocks of the alignment...\n"
+      run-lcb 
+      # Find all the blocks in FASTA format.
+      #run-blocksplit2fasta 
+      echo -e "  Computing Wattersons's estimates...\n"
+      run-blocksplit2smallerfasta 
+      # Compute Watterson's estimate.
+      compute-watterson-estimate > w.txt
+      # Use R to sum the values in w.txt.
+      sum-w
+      echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
+      echo -e "Or, you may ignore.\n"
+      send-clonalframe-input-to-cac 
+      copy-batch-sh-run-clonalframe
+      rmdir-tmp
+      echo -e "Go to CAC's $SPECIES run-clonalframe, and execute nsub batch.sh\n"
+      break
+    fi
+  done
+}
+
+#####################################################################
+# Main part of the script.
+#####################################################################
+PS3="Select what you want to do with mauve-analysis: "
+CHOICES=( preparation receive-run-mauve prepare-run-clonalframe )
+select CHOICE in ${CHOICES[@]}; do 
+  if [ "$CHOICE" == "" ];  then
+    echo -e "You need to enter something\n"
+    continue
+  elif [ "$CHOICE" == "preparation" ];  then
+    choose-species
+    break
+  elif [ "$CHOICE" == "receive-run-mauve" ];  then
+    receive-run-mauve
+    break
+  elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
+    prepare-run-clonalframe 
+    break
+  else
+    echo -e "You need to enter something\n"
+    continue
+  fi
+done
+
+# 1. I make directories in CAC and copy genomes files to the data directory.
 # -----------------------------------------------------------
 # At the CAC base directory, submit the batch.sh by executing
 # $ nsub batch.sh
@@ -341,7 +500,7 @@ function run-bbfilter {
 #       I have to replace those paths to the genome files paths
 #       of this local machine.
 # We could edit the xmfa file, but instead
-# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/spyogenes\/data/g
+# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
 # Also, change the backbone file name.
 # I make the same file system structure as the run-mauve.
 #mkdir-tmp 
@@ -370,8 +529,8 @@ function run-bbfilter {
 #send-clonalframe-input-to-cac 
 #copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
-receive-run-clonalframe
-send-run-clonalframe-to-swiftgen
+#receive-run-clonalframe
+#send-run-clonalframe-to-swiftgen
 
 
 # Note that full_alignment.xmfa has the input genomes.

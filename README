@@ -1,5 +1,20 @@
-Mauve Analysis
-==============
+
+Command Lines
+-------------
+
+To find genomes of a species
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[literal]
+cd /Users/goshng/Elements/Documents/Projects/mauve/bacteria
+[literal]
+ls -l `find . -name *.gbk`| grep Staphylococcus_aureus > ~/Documents/Projects/mauve/species/Staphylococcus_aureus
+
+To create a genome analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[literal]
+bash sh/run.sh leptospira
+
+
 
 Directories
 -----------
@@ -44,4 +59,7 @@ Some perl scripts and c++ source files are prepared for helping mauve analyses.
   alignment. 
 - compute_watterson_estimate: A c++ source file that computes Watterson's
   estimates of DNA sequence alignments.
+[literal]
+/Users/goshng/Documents/Projects/biopp/bpp-test/compute_watterson_estimate.cpp
+
 

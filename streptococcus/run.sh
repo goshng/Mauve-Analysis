@@ -337,9 +337,10 @@ function run-bbfilter {
 # Compute Watterson's estimate.
 #compute-watterson-estimate > w.txt
 # Use R to sum the values in w.txt.
-#sum-w
+sum-w
 # I found out that the sum is 98.91112.
 # Smaller version's Watterson esitmate is 9.592681
+# Smaller version's Watterson esitmate is 13642.85
 
 # 2. I use ClonalFrame.
 # NOTE: One thing that I am not sure about is the mutation rate.
@@ -350,8 +351,8 @@ function run-bbfilter {
 #       Just remove gaps and use the alignment without gaps.
 #       I may have to find this value from the core genome
 #       alignment: core_alignment.xmfa.
-send-clonalframe-input-to-cac 
-copy-batch-sh-run-clonalframe
+#send-clonalframe-input-to-cac 
+#copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
 #receive-run-clonalframe
 

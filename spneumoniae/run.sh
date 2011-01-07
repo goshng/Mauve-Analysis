@@ -44,7 +44,7 @@ CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
 BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
 BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
 TMPINPUTDIR=/tmp/1074047.scheduler.v4linux/input
-SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/spneumoniae/
+SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/spneumoniae
 SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
 SMALLER=smaller
 
@@ -123,6 +123,10 @@ EOF
 
 function receive-run-mauve {
   cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
+}
+
+function send-run-clonalframe-to-swiftgen {
+  scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
 }
 
 function mkdir-tmp {
@@ -350,10 +354,11 @@ function run-bbfilter {
 #       alignment: core_alignment.xmfa.
 # NOTE: I run clonalframe for a very short time to find a NJ tree.
 #       I had to run clonalframe twice.
-send-clonalframe-input-to-cac 
-copy-batch-sh-run-clonalframe
+#send-clonalframe-input-to-cac 
+#copy-batch-sh-run-clonalframe
 # Go to CAC Cluster to submit clonalframe jobs.
-#receive-run-clonalframe
+receive-run-clonalframe
+send-run-clonalframe-to-swiftgen 
 
 
 # Note that full_alignment.xmfa has the input genomes.
