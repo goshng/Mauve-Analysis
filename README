@@ -1,4 +1,25 @@
 
+Bacteria species under study
+----------------------------
+
+Staphylococcus aureus
+~~~~~~~~~~~~~~~~~~~~~
+This should be analyzed similarly to that of B. cereus because recombination
+rates seem comparable to those of B. cereus. The number of species is also
+comparable.
+
+Mauve alignment
+^^^^^^^^^^^^^^^
+PBS Job Id: 1074226.scheduler.v4linux
+Job Name:   Strep-Staphylococcus_aureus-Mauve
+Exec host:  compute-2-30.v4linux/0
+Execution terminated
+Exit_status=0
+resources_used.cput=00:53:09
+resources_used.mem=1059540kb
+resources_used.vmem=1224936kb
+resources_used.walltime=00:53:12
+
 Command Lines
 -------------
 

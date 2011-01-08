@@ -299,6 +299,7 @@ do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
 -m 1506.71 -M \\
+-t 2 \\
 \$INPUTDIR/${SMALLER}core_alignment.xmfa \\
 \$OUTPUTDIR/${SMALLER}core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
@@ -451,7 +452,7 @@ function prepare-run-clonalframe {
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
       rmdir-tmp
-      echo -e "Go to CAC's $SPECIES run-clonalframe, and execute nsub batch.sh\n"
+      echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
       break
     fi
   done
