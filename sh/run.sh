@@ -25,14 +25,15 @@ function hms
 
 # Directories
 function prepare-filesystem {
+  MAUVEANALYSISDIR=`pwd`
   SPECIESFILE=species/$SPECIES
-  BASEDIR=`pwd`/analysis/$SPECIES
+  BASEDIR=`pwd`/output/$SPECIES
   RUNMAUVEDIR=$BASEDIR/run-mauve
   RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
   RUNLCBDIR=$BASEDIR/run-lcb
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
   RSCRIPTW=$BASEDIR/w.R
-  CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/analysis/$SPECIES
+  CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/output/$SPECIES
   CACDATADIR=$CACBASEDIR/data
   CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
   CACRUNLCBDIR=$CACBASEDIR/run-lcb
@@ -41,7 +42,7 @@ function prepare-filesystem {
   BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
-  SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/analysis/$SPECIES
+  SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/output/$SPECIES
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
   SMALLER=smaller
 }
@@ -314,14 +315,6 @@ EOF
   cp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
 }
 
-function receive-run-clonalframe {
-  cp -r $CACRUNCLONALFRAME/output $RUNCLONALFRAME/
-}
-
-function send-run-clonalframe-to-swiftgen {
-  scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
-}
-
 function run-clonalframe {
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   ClonalFrame -x 0 -y 0 -z 1 -t 2 $ALIGNMENT/core_alignment.xmfa \
@@ -464,15 +457,65 @@ function prepare-run-clonalframe {
   done
 }
 
+# 4. Receive clonalframe-analysis.
+function receive-run-clonalframe {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Receiving clonalframe-output...\n"
+      prepare-filesystem 
+      cp -r $CACRUNCLONALFRAME/output $RUNCLONALFRAME/
+      echo -e "Sending clonalframe-output to swiftgen...\n"
+      scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
+      echo -e "Now, prepare clonalorigin.\n"
+      break
+    fi
+  done
+}
+
+# Find bacteria species and their counts in the NCBI genome data.
+function list-species {
+  for i in `ls $GENOMEDATADIR`; do 
+    echo $i | sed 's/\([[:alpha:]]*\)_\([[:alpha:]]*\)_.*/\1\_\2/'
+    #echo $i | sed "s/\([[:alpha:]]+\)/\1/p"
+    #echo ${i/*_*_*/}
+    #mv $i${i%%.txt}.html
+  done
+}
+
+# This is prepared using list-species.
+ALLSPECIES=( Escherichia_coli Salmonella_enterica Staphylococcus_aureus Streptococcus_pneumoniae Streptococcus_pyogenes Prochlorococcus_marinus Helicobacter_pylori Clostridium_botulinum Bacillus_cereus Yersinia_pestis Sulfolobus_islandicus Francisella_tularensis Rhodopseudomonas_palustris Listeria_monocytogenes Chlamydia_trachomatis Buchnera_aphidicola Bacillus_anthracis Acinetobacter_baumannii Streptococcus_suis Neisseria_meningitidis Mycobacterium_tuberculosis Legionella_pneumophila Cyanothece_PCC Coxiella_burnetii Campylobacter_jejuni Burkholderia_pseudomallei Bifidobacterium_longum Yersinia_pseudotuberculosis Xylella_fastidiosa Xanthomonas_campestris Vibrio_cholerae Shewanella_baltica Rhodobacter_sphaeroides Pseudomonas_putida Pseudomonas_aeruginosa Methanococcus_maripaludis Lactococcus_lactis Haemophilus_influenzae Chlamydophila_pneumoniae Candidatus_Sulcia Burkholderia_mallei Burkholderia_cenocepacia )
+
+# Improvements that are needed.
+# 1. Do not use file size options.
+function generate-species {
+  prepare-filesystem
+  for s in ${ALLSPECIES[@]}; do
+    ls -1 `find $GENOMEDATADIR -name *.gbk -and -size +1000k` | sed 's/\/Volumes\/Elements\/Documents\/Projects\/mauve\/bacteria\///' | grep $s > $MAUVEANALYSISDIR/species/$s
+  done
+  #ls -l `find . -name *.gbk`| grep Chlamydia_trachomatis > ~/Documents/Projects/mauve/species/Chlamydia_trachomatis
+}
+
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( preparation receive-run-mauve prepare-run-clonalframe )
+CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe receive-run-clonalframe )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
     continue
+  elif [ "$CHOICE" == "list-species" ];  then
+    list-species | sort | uniq -c | sort -nr > species.txt
+    echo -e "A file named species.txt is generated!\n"
+    echo -e "Remove counts by running cut -c 5- species.txt\n"
+    break
+  elif [ "$CHOICE" == "generate-species" ];  then
+    generate-species 
+    break
   elif [ "$CHOICE" == "preparation" ];  then
     choose-species
     break
@@ -481,6 +524,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
     prepare-run-clonalframe 
+    break
+  elif [ "$CHOICE" == "receive-run-clonalframe" ];  then
+    receive-run-clonalframe
     break
   else
     echo -e "You need to enter something\n"
