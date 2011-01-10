@@ -53,6 +53,7 @@ function prepare-filesystem {
   BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
   BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
   BATCH_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch.sh
+  BATCH_BODY_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_body.sh
   BATCH_TASK_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_task.sh
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
@@ -323,7 +324,15 @@ function send-clonalorigin-input-to-cac {
 }
 
 function copy-batch-sh-run-clonalorigin {
+
   cat>$BATCH_SH_RUN_CLONALORIGIN<<EOF
+#!/bin/bash
+sed s/PBSARRAYSIZE/\$1/g < batch_body.sh > tbatch.sh
+nsub tbatch.sh
+rm tbatch.sh
+EOF
+
+  cat>$BATCH_BODY_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
 #PBS -l walltime=20:00:00,nodes=1
 #PBS -A acs4_0001
@@ -332,7 +341,7 @@ function copy-batch-sh-run-clonalorigin {
 #PBS -q v4
 #PBS -m e
 #PBS -M schoi@cornell.edu
-#PBS -t 1-2
+#PBS -t 1-PBSARRAYSIZE
 
 # nsub -t 1-3 batch.sh 3
 set -x
@@ -366,7 +375,7 @@ function prepare-task {
   # PBS_ARRAYID represents a computing node among those nodes.
   CORESPERNODE=\`grep processor /proc/cpuinfo | wc -l\`
   #NODECNT=\$(wc -l < "\$PBS_NODEFILE")
-  NODECNT=2 # This must match -t option.
+  NODECNT=PBSARRAYSIZE # This must match -t option.
   TASKCNT=\`expr \$CORESPERNODE \\* \$NODECNT\`
   #JOBSPERCORE=\$(( TOTALJOBS / TASKCNT + 1 ))
   JOBSPERNODE=\$(( TOTALJOBS / NODECNT + 1 ))
@@ -462,7 +471,8 @@ do
           clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
           \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
       else
-        ./warg -x 1000000 -y 10000000 -z 100000 \\
+        #./warg -x 1000000 -y 10000000 -z 100000 \\
+        ./warg -x 1000000 -y 1000000 -z 10000 \\
           -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
           clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
           \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
@@ -485,41 +495,8 @@ EOF
 
   chmod a+x $BATCH_SH_RUN_CLONALORIGIN
   cp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  cp $BATCH_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
   cp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-}
-
-function run-warg {
-  #for i in {1..575}
-  #rm -rf xml
-  #mkdir xml
-
-  PMI_RANK=$1
-  PMI_START=$(( 144 * PMI_RANK + 1 ))
-  PMI_END=$(( 144 * (PMI_RANK + 1) ))
-
-  START_TIME=`date +%s`
-  for (( i=${PMI_START}; i<=${PMI_END}; i++ ))
-  #for i in {1..575}
-  do
-    if [ $i -lt 576 ]
-    then
-    #warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 clonaltree.nwk core_alignment.xmfa.$i core_co.phase2.$i.xml
-    #warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -w 10000 -x 10000 -y 10000 -z 10 clonaltree.nwk \
-      #xmfa/core_alignment.xmfa.$i xml/core_co.phase2.$i.xml
-    warg -w 10000 -x 10000 -y 10000 -z 10 \
-      -D 1725.16905094905 -T 0.0386842013408279 -R 0.000773885007973949 \
-      clonaltree.nwk xmfa/core_alignment.xmfa.$i xml3/core_co.phase3.$i.xml
-    fi
-  done
-  END_TIME=`date +%s`
-  ELAPSED=`expr $END_TIME - $START_TIME`
-  echo "FINISHED at " `date` " Elapsed time: " 
-  hms $ELAPSED 
-
-  # lensum is 1127288
-  # Median theta: 0.0386842013408279
-  # Median delta: 1725.16905094905
-  # Median rho: 0.000773885007973949
 }
 
 function mauve-display {
@@ -685,8 +662,8 @@ function receive-run-clonalorigin {
       MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
       MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
       echo -e "Now, prepare 2nd clonalorigin."
-      echo -e "Set NODECNT=2 to the number of PBS's array elements."
-      echo -e "e.g., Set NODECNT=X <---> -t 1-X"
+      echo -e "Submit a job using a different command."
+      echo -e "$ bash batch.sh 3 to use three computing nodes"
       copy-batch-sh-run-clonalorigin Clonal2ndPhase
       break
     fi
