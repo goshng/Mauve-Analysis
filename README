@@ -1,4 +1,5 @@
 
+
 Bacteria species under study
 ----------------------------
 
@@ -19,6 +20,14 @@ resources_used.cput=00:53:09
 resources_used.mem=1059540kb
 resources_used.vmem=1224936kb
 resources_used.walltime=00:53:12
+
+
+Sulfolobus_islandicus
+---------------------
+There are 7 genomes.
+Mauve alignment: PASS!
+ClonalFrame (small): PASS!
+ClonalOrigin: in progress...
 
 Command Lines
 -------------

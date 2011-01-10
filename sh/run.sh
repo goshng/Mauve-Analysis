@@ -1,14 +1,24 @@
 #!/bin/bash
 # Author: Sang Chul Choi
 
+# How to customize this script:
+# SMALLER: To analyze a smaller data set with ClonalFrame.
+# SMALLERCLONAL: To nalayze a smaller data set with ClonalOrigin.
+# Remove either of these to analyze the full data set.
+# 
+# FIXME:
+# When running ClonalOrigin, I use nodes=1 and -t option to
+# control the number of computing nodes. I do not know 
+# how to find the number of nodes.  NODECNT must be the same
+# as the number of elements in the PBS's ARRAY.
+# NODECNT=2 # This must match -t option.
+
 # Programs
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
 GCT=$HOME/usr/bin/getClonalTree 
 AUI=$HOME/usr/bin/addUnalignedIntervals 
 MWF=$HOME/usr/bin/makeMauveWargFile.pl
-RESULT1=1alignment
-ALIGNMENT=run-mauve-genome26/output
-CLONALFRAMEOUTPUT=run-clonalframe/
+COMPUTEMEDIANS=$HOME/usr/bin/computeMedians.pl
 LCB=$HOME/usr/bin/stripSubsetLCBs 
 # Genome Data Directory
 GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
@@ -32,19 +42,24 @@ function prepare-filesystem {
   RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
   RUNLCBDIR=$BASEDIR/run-lcb
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
+  RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
   RSCRIPTW=$BASEDIR/w.R
   CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/output/$SPECIES
   CACDATADIR=$CACBASEDIR/data
   CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
   CACRUNLCBDIR=$CACBASEDIR/run-lcb
   CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
+  CACRUNCLONALORIGIN=$CACBASEDIR/run-clonalorigin
   BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
   BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
+  BATCH_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch.sh
+  BATCH_TASK_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_task.sh
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
   SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/output/$SPECIES
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
   SMALLER=smaller
+  SMALLERCLONAL=smaller
 }
 
 function mkdir-SPECIES {
@@ -54,7 +69,9 @@ function mkdir-SPECIES {
   mkdir $CACRUNMAUVEDIR
   mkdir $RUNMAUVEDIR
   mkdir $CACRUNCLONALFRAME
+  mkdir $CACRUNCLONALORIGIN
   mkdir $RUNCLONALFRAME
+  mkdir $RUNCLONALORIGIN
   mkdir $RUNLCBDIR
   mkdir $CACRUNLCBDIR
 }
@@ -158,23 +175,6 @@ function read-species-genbank-files {
    
   # restore $IFS which was used to determine what the field separators are
   BAKIFS=$ORIGIFS
-}
-
-
-function copy-genomes-to-cac {
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk $CACDATADIR
-  cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $CACDATADIR
 }
 
 function copy-batch-sh-run-mauve {
@@ -316,26 +316,176 @@ EOF
   cp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
 }
 
-function run-clonalframe {
-  DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  ClonalFrame -x 0 -y 0 -z 1 -t 2 $ALIGNMENT/core_alignment.xmfa \
-  $CLONALFRAMEOUTPUT/core_clonalframe.out.1 > $CLONALFRAMEOUTPUT/cf_stdout.1 
-  #DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  #ClonalFrame -x 10 -y 10 -z 1 $ALIGNMENT/core_alignment.xmfa $ALIGNMENT/core_clonalframe.out.1 > $ALIGNMENT/cf_stdout.1 
-  #DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  #ClonalFrame -x 10000 -y 10000 -z 10 core_alignment.xmfa core_clonalframe.out.2 > cf_stdout.2 
-  #DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  #ClonalFrame -x 10000 -y 10000 -z 10 core_alignment.xmfa core_clonalframe.out.3 > cf_stdout.3 
+function send-clonalorigin-input-to-cac {
+  cp $RUNCLONALORIGIN/clonaltree.nwk $CACRUNCLONALORIGIN/
+  #cp $RUNLCBDIR/core_alignment.xmfa.* $CACRUNLCBDIR/
+  cp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
 }
 
-function run-clonalorigin-format {
-  $GCT core_clonalframe.out.1 clonaltree.nwk
-  perl $HOME/usr/bin/blocksplit.pl core_alignment.xmfa
+function copy-batch-sh-run-clonalorigin {
+  cat>$BATCH_SH_RUN_CLONALORIGIN<<EOF
+#!/bin/bash
+#PBS -l walltime=20:00:00,nodes=1
+#PBS -A acs4_0001
+#PBS -j oe
+#PBS -N Strep-${SPECIES}-ClonalOrigin-$1
+#PBS -q v4
+#PBS -m e
+#PBS -M schoi@cornell.edu
+#PBS -t 1-2
+
+# nsub -t 1-3 batch.sh 3
+set -x
+CLONAL2ndPHASE=$1
+WORKDIR=\$PBS_O_WORKDIR
+LCBDIR=\$WORKDIR/../run-lcb
+WARG=\$HOME/usr/bin/warg
+OUTPUTDIR=\$TMPDIR/output
+INPUTDIR=\$TMPDIR/input
+
+
+function to-node {
+  mkdir \$WORKDIR/output
+  mkdir \$WORKDIR/output2
+  mkdir \$INPUTDIR
+  mkdir \$OUTPUTDIR
+  cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
+  cp \$WORKDIR/clonaltree.nwk \$TMPDIR/
+  cp \$WARG \$TMPDIR/
+  cp \$WORKDIR/batch_task.sh \$TMPDIR/  
 }
 
-function run-clonalorigin-format {
-  $GCT core_clonalframe.out.1 clonaltree.nwk
-  perl $HOME/usr/bin/blocksplit.pl core_alignment.xmfa
+function prepare-task {
+  # NODENUMBER=8 # What is this number? Is this number of cores of a node?
+
+  # I need to count total jobs.
+  TOTALJOBS=\$(ls -1 \$INPUTDIR/${SMALLERCLONAL}*.xmfa.* | wc -l)
+
+  # NODECNT: number of computing nodes
+  # TASKCNT: total number of cores
+  # PBS_ARRAYID represents a computing node among those nodes.
+  CORESPERNODE=\`grep processor /proc/cpuinfo | wc -l\`
+  #NODECNT=\$(wc -l < "\$PBS_NODEFILE")
+  NODECNT=2 # This must match -t option.
+  TASKCNT=\`expr \$CORESPERNODE \\* \$NODECNT\`
+  #JOBSPERCORE=\$(( TOTALJOBS / TASKCNT + 1 ))
+  JOBSPERNODE=\$(( TOTALJOBS / NODECNT + 1 ))
+  # The job id is something like 613.scheduler.v4linux.
+  # This deletes everything after the first dot.
+  JOBNUMBER=\${PBS_JOBID%%.*}
+
+  JOBIDFILE=\$TMPDIR/jobidfile
+  STARTJOBID=\$(( JOBSPERNODE * (PBS_ARRAYID - 1) + 1 ))
+  ENDJOBID=\$(( JOBSPERNODE * PBS_ARRAYID + 1 )) 
+  TOTALJOBS=\$(( TOTALJOBS + 1))
+  # If JOBSPERNODE is 3, then
+  # STARTJOBID is 1, and ENDJOBID is 4.
+}
+
+function task {
+  cd \$TMPDIR
+  #for (( i=1; i<=TASKCNT; i++))
+  for (( i=1; i<=CORESPERNODE; i++))
+  do
+    bash batch_task.sh \$i \$TOTALJOBS \$ENDJOBID \$WORKDIR \$TMPDIR \$JOBIDFILE \$CLONAL2ndPHASE&
+  done
+}
+
+echo Start at
+date
+to-node
+prepare-task
+echo \$STARTJOBID > \$JOBIDFILE
+task
+
+wait
+echo End at
+date
+
+EOF
+
+  # Task batch script
+  cat>$BATCH_TASK_SH_RUN_CLONALORIGIN<<EOF
+#!/bin/bash
+
+function hms
+{
+  s=\$1
+  h=\$((s/3600))
+  s=\$((s-(h*3600)));
+  m=\$((s/60));
+  s=\$((s-(m*60)));
+  printf "%02d:%02d:%02d\n" \$h \$m \$s
+}
+
+PMI_RANK=\$1
+TOTALJOBS=\$2
+ENDJOBID=\$3
+WORKDIR=\$4
+SCRATCH=\$5
+JOBIDFILE=\$6
+CLONAL2ndPHASE=\$7
+WHICHLINE=1
+JOBID=0
+
+cd \$SCRATCH
+
+# Read the filelock
+while [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
+do
+
+  lockfile=filelock
+  if ( set -o noclobber; echo "\$\$" > "\$lockfile") 2> /dev/null; 
+  then
+    # BK: this will cause the lock file to be deleted in case of other exit
+    trap 'rm -f "\$lockfile"; exit \$?' INT TERM
+
+    # critical-section BK: (the protected bit)
+    JOBID=\$(sed -n "\${WHICHLINE}p" "\${JOBIDFILE}")
+
+    #LINE=\$(sed -n "\${WHICHLINE}p" "\${COMMANDFILE}")
+    #\$LINE : this execute the line.
+    JOBID=\$(( JOBID + 1))
+    echo \$JOBID > \$JOBIDFILE
+    JOBID=\$(( JOBID - 1))
+
+    rm -f "\$lockfile"
+    trap - INT TERM
+
+    if [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
+    then
+      echo begin-\$JOBID
+      START_TIME=\`date +%s\`
+      #./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -w 2 -x 2 -y 2 -z 1 \\
+      if [[ -z \$CLONAL2ndPHASE ]]; then
+        ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -w 100000 -x 100000 -y 100000 -z 1000 \\
+          clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+          \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+      else
+        ./warg -x 1000000 -y 10000000 -z 100000 \\
+          -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
+          clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+          \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+      fi
+      END_TIME=\`date +%s\`
+      ELAPSED=\`expr \$END_TIME - \$START_TIME\`
+      echo end-\$JOBID
+      hms \$ELAPSED
+    fi
+
+  else
+    echo "Failed to acquire lockfile: \$lockfile." 
+    echo "Held by \$(cat \$lockfile)"
+    sleep 5
+    echo "Retry to access \$lockfile"
+  fi
+
+done
+EOF
+
+  chmod a+x $BATCH_SH_RUN_CLONALORIGIN
+  cp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  cp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
 }
 
 function run-warg {
@@ -458,7 +608,7 @@ function prepare-run-clonalframe {
   done
 }
 
-# 4. Receive clonalframe-analysis.
+# 6. Receive clonalframe-analysis.
 function receive-run-clonalframe {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -472,6 +622,93 @@ function receive-run-clonalframe {
       echo -e "Sending clonalframe-output to swiftgen...\n"
       scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
       echo -e "Now, prepare clonalorigin.\n"
+      break
+    fi
+  done
+}
+
+# 7. Prepare the first stage of clonalorigin.
+function prepare-run-clonalorigin {
+  PS3="Choose the species to analyze with clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      #echo -e 'What is the temporary id of mauve-analysis?'
+      #echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      #echo -n "JOB ID: " 
+      #read JOBID
+      echo -e "Preparing clonalframe analysis..."
+      prepare-filesystem 
+
+      echo -e "Read which clonalframe output file is used to have a phylogeny of a clonal frame."
+      echo -n "RUN ID: " 
+      read RUNID
+      $GCT $RUNCLONALFRAME/output/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/clonaltree.nwk
+      echo -e "  Splitting alignment into one file per block..."
+      #perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/core_alignment.xmfa
+      perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
+      # Some script.
+      send-clonalorigin-input-to-cac
+      copy-batch-sh-run-clonalorigin
+      echo -e "Go to CAC's output/$SPECIES run-clonalorigin, and execute nsub batch.sh"
+      echo -e "You must use multiple computing nodes by chaing PBS -t option in"
+      echo -e "e.g., #PBS -t 1 to use a single computing node"
+      echo -e "e.g., #PBS -t 1-2 to use two computing nodes"
+      echo -e "Do not use 0-index for -t option"
+      echo -e "e.g., This is not work: #PBS -t 0-1"
+      echo -e "the batch.sh script."
+      break
+    fi
+  done
+
+
+
+}
+
+# 8. Receive clonalorigin-analysis.
+function receive-run-clonalorigin {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Receiving clonalframe-output...\n"
+      prepare-filesystem 
+      cp -r $CACRUNCLONALORIGIN/output $RUNCLONALORIGIN/
+      perl $COMPUTEMEDIANS \
+        $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+        | grep ^Median > $RUNCLONALORIGIN/median.txt
+      MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
+      MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
+      MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
+      echo -e "Now, prepare 2nd clonalorigin."
+      echo -e "Set NODECNT=2 to the number of PBS's array elements."
+      echo -e "e.g., Set NODECNT=X <---> -t 1-X"
+      copy-batch-sh-run-clonalorigin Clonal2ndPhase
+      break
+    fi
+  done
+}
+
+# 9. Receive 2nd clonalorigin-analysis.
+function receive-run-2nd-clonalorigin {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Receiving 2nd clonalorigin-output...\n"
+      prepare-filesystem 
+      cp -r $CACRUNCLONALORIGIN/output2 $RUNCLONALORIGIN/
+
+      DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
+        $AUI $RUNLCBDIR/core_alignment.xmfa $RUNLCBDIR/core_alignment_mauveable.xmfa
+      perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2
+      echo -e "Now, do more analysis with mauve.\n"
       break
     fi
   done
@@ -504,7 +741,7 @@ function generate-species {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe receive-run-clonalframe )
+CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
@@ -528,6 +765,15 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "receive-run-clonalframe" ];  then
     receive-run-clonalframe
+    break
+  elif [ "$CHOICE" == "prepare-run-clonalorigin" ];  then
+    prepare-run-clonalorigin
+    break
+  elif [ "$CHOICE" == "receive-run-clonalorigin" ];  then
+    receive-run-clonalorigin
+    break
+  elif [ "$CHOICE" == "receive-run-2nd-clonalorigin" ];  then
+    receive-run-2nd-clonalorigin
     break
   else
     echo -e "You need to enter something\n"
