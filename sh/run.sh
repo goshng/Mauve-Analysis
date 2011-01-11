@@ -12,6 +12,23 @@
 # how to find the number of nodes.  NODECNT must be the same
 # as the number of elements in the PBS's ARRAY.
 # NODECNT=2 # This must match -t option.
+#
+# Menus:
+#   - list-species: 
+#   - generate-species:
+#   - preparation: makes file system for a species, and make it ready to run
+#   mauve.
+#   - receive-run-mauve: gets the result of mauve alignment from the cluster
+#   - prepare-run-clonalframe: finds blocks and makes a script to run
+#   clonalframe.
+#   - compute-watterson-estimate-for-clonalframe: (optional)
+#   - receive-run-clonalframe: receives the result of clonal frame analysis.
+#   - prepare-run-clonalorigin: makes a script for clonal origin analysis.
+#   - receive-run-clonalorigin: receives the result of the first stage of clonal
+#   origin analysis. 
+#   - receive-run-2nd-clonalorigin: receives the result of the second stage of
+#   clonal analysis.
+
 
 # Programs
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
@@ -37,6 +54,7 @@ function hms
 function prepare-filesystem {
   MAUVEANALYSISDIR=`pwd`
   SPECIESFILE=species/$SPECIES
+  NUMBER_SPECIES=$(wc -l < species/$SPECIES)
   BASEDIR=`pwd`/output/$SPECIES
   RUNMAUVEDIR=$BASEDIR/run-mauve
   RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
@@ -61,6 +79,8 @@ function prepare-filesystem {
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
   SMALLER=smaller
   SMALLERCLONAL=smaller
+   
+  RUNLOG=$BASEDIR/run.log
 }
 
 function mkdir-SPECIES {
@@ -231,18 +251,28 @@ function run-lcb {
     $RUNLCBDIR/core_alignment.xmfa 500
 }
 
-function run-blocksplit2fasta {
-  perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/core_alignment.xmfa
+function run-core2smallercore {
+  perl $HOME/usr/bin/core2smallercore.pl \
+    $RUNLCBDIR/core_alignment.xmfa 0.1 12345
 }
 
+function run-blocksplit2fasta {
+  rm -f $RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
+  perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/${SMALLER}core_alignment.xmfa
+}
+
+# This may be obsolete.
+# I use the following two lines instead.
+# run-core2smallercore
+# run-blocksplit2fasta 
 function run-blocksplit2smallerfasta {
-  rm -f $RUNLCBDIR/core_alignment.xmfa.*
+  rm -f $RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
   perl $HOME/usr/bin/blocksplit2smallerfasta.pl \
     $RUNLCBDIR/core_alignment.xmfa 0.1 12345
 }
 
 function compute-watterson-estimate {
-  FILES=$RUNLCBDIR/core_alignment.xmfa.*
+  FILES=$RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
   for f in $FILES
   do
     # take action on each file. $f store current file name
@@ -255,9 +285,39 @@ function compute-watterson-estimate {
 function sum-w {
   cat>$RSCRIPTW<<EOF
 x <- read.table ("w.txt")
-sum (x$V1)
+print (paste("Number of blocks:", length(x\$V1)))
+print (paste("Length of the alignment:", sum(x\$V3)))
+print (paste("Averge length of a block:", sum(x\$V3)/length(x\$V1)))
+print (paste("Proportion of polymorphic sites:", sum(x\$V2)/sum(x\$V3)))
+print ("Number of Species:$NUMBER_SPECIES")
+print (paste("Finite-site version of Watterson's estimate:", sum (x\$V1)))
+nseg <- sum (x\$V2)
+s <- 0
+n <- $NUMBER_SPECIES - 1
+for (i in 1:n)
+{
+  s <- s + 1/i
+}
+print (paste("Infinite-site version of Watterson's estimate:", nseg/s))
 EOF
-  R --no-save < $RSCRIPTW
+  R --no-save < $RSCRIPTW > sum-w.txt
+  WATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Finite-site version of Watterson's estimate:" | cut -d ':' -f 2)
+  LEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Length of the alignment:" | cut -d ':' -f 2)
+  NUMBER_BLOCKS=$(sed s/\"//g sum-w.txt | grep "\[1\] Number of blocks:" | cut -d ':' -f 2)
+  AVERAGELEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Averge length of a block:" | cut -d ':' -f 2)
+  PROPORTION_POLYMORPHICSITES=$(sed s/\"//g sum-w.txt | grep "\[1\] Proportion of polymorphic sites:" | cut -d ':' -f 2)
+  rm sum-w.txt
+  echo -e "Watteron estimate: $WATTERSON_ESIMATE"
+  echo -e "Length of sequences: $LEGNTH_SEQUENCE"
+  echo -e "Number of blocks: $NUMBER_BLOCKS"
+  echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE"
+  echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES"
+  rm -f $RUNLOG
+  echo -e "Watteron estimate: $WATTERSON_ESIMATE" >> $RUNLOG
+  echo -e "Length of sequences: $LEGNTH_SEQUENCE" >> $RUNLOG
+  echo -e "Number of blocks: $NUMBER_BLOCKS" >> $RUNLOG
+  echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE" >> $RUNLOG
+  echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES" >> $RUNLOG
 }
 
 function send-clonalframe-input-to-cac {
@@ -294,13 +354,14 @@ z=(    10    10    20    20    30    30    40    40 )
 
 # 1506.71
 # 0.3026701 
+#-t 2 \\
+#-m 1506.71 -M \\
 
 for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m 1506.71 -M \\
--t 2 \\
+-m $WATTERSON_ESIMATE -M \\
 \$INPUTDIR/${SMALLER}core_alignment.xmfa \\
 \$OUTPUTDIR/${SMALLER}core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
@@ -499,13 +560,6 @@ EOF
   cp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
 }
 
-function mauve-display {
-  #DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  #$AUI core_alignment.xmfa core_alignment_mauveable.xmfa
-
-  perl $MWF xml3-cac/*
-}
-
 function run-bbfilter {
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   bbFilter $ALIGNMENT/full_alignment.xmfa.backbone 50 my_feats.bin gp
@@ -569,17 +623,46 @@ function prepare-run-clonalframe {
       # Find all the blocks in FASTA format.
       #run-blocksplit2fasta 
       echo -e "  Computing Wattersons's estimates...\n"
-      run-blocksplit2smallerfasta 
+      run-core2smallercore
+      run-blocksplit2fasta 
+      #run-blocksplit2smallerfasta 
       # Compute Watterson's estimate.
       compute-watterson-estimate > w.txt
       # Use R to sum the values in w.txt.
       sum-w
+      rm w.txt
       echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
       echo -e "Or, you may ignore.\n"
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
       rmdir-tmp
       echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
+      break
+    fi
+  done
+}
+
+function compute-watterson-estimate-for-clonalframe {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      prepare-filesystem 
+      # Find all the blocks in FASTA format.
+      #run-blocksplit2fasta 
+      echo -e "  Computing Wattersons's estimates...\n"
+      run-core2smallercore
+      run-blocksplit2fasta 
+      #run-blocksplit2smallerfasta 
+      # Compute Watterson's estimate.
+      compute-watterson-estimate > w.txt
+      # Use R to sum the values in w.txt.
+      sum-w
+      rm w.txt
+      echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
+      echo -e "Or, you may ignore.\n"
       break
     fi
   done
@@ -624,7 +707,6 @@ function prepare-run-clonalorigin {
       read RUNID
       $GCT $RUNCLONALFRAME/output/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/clonaltree.nwk
       echo -e "  Splitting alignment into one file per block..."
-      #perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/core_alignment.xmfa
       perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
       # Some script.
       send-clonalorigin-input-to-cac
@@ -683,7 +765,7 @@ function receive-run-2nd-clonalorigin {
       cp -r $CACRUNCLONALORIGIN/output2 $RUNCLONALORIGIN/
 
       DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-        $AUI $RUNLCBDIR/core_alignment.xmfa $RUNLCBDIR/core_alignment_mauveable.xmfa
+        $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
       perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2
       echo -e "Now, do more analysis with mauve.\n"
       break
@@ -718,8 +800,9 @@ function generate-species {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin )
+CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin )
 select CHOICE in ${CHOICES[@]}; do 
+ 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
     continue
@@ -739,6 +822,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
     prepare-run-clonalframe 
+    break
+  elif [ "$CHOICE" == "compute-watterson-estimate-for-clonalframe" ];  then
+    compute-watterson-estimate-for-clonalframe
     break
   elif [ "$CHOICE" == "receive-run-clonalframe" ];  then
     receive-run-clonalframe

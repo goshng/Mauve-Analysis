@@ -1,3 +1,6 @@
+Mauve, Clonal Frame, Clonal Origin Analysis
+===========================================
+
 
 
 Bacteria species under study
@@ -28,6 +31,22 @@ There are 7 genomes.
 Mauve alignment: PASS!
 ClonalFrame (small): PASS!
 ClonalOrigin: in progress...
+
+Sulfolobus
+----------
+Four more members of Sulfolobales are added.
+There are 11 genome members of Sulfolobales.
+Horizontal gene transfer can be studied using Clonal Origin.
+Their timing can be summarized.
+
+cornell6
+--------
+Two genomes sequenced at Cornell and four genomes publicly available are used. 
+
+cornell5
+--------
+SEE is removed from the analysis of cornell6 because a whole genome may be
+enough to root the tree, and the outgroup of SEE may not be necessary.
 
 Command Lines
 -------------
@@ -91,5 +110,8 @@ Some perl scripts and c++ source files are prepared for helping mauve analyses.
   estimates of DNA sequence alignments.
 [literal]
 /Users/goshng/Documents/Projects/biopp/bpp-test/compute_watterson_estimate.cpp
+- Convert core to smaller core.
+[literal]
+usr/bin/core2smallercore.pl
 
 
