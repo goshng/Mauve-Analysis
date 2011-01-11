@@ -29,6 +29,11 @@
 #   - receive-run-2nd-clonalorigin: receives the result of the second stage of
 #   clonal analysis.
 
+# bash sh/run.sh smaller smaller
+# bash sh/run.sh 
+
+SMALLER=$1
+SMALLERCLONAL=$2
 
 # Programs
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
@@ -77,8 +82,6 @@ function prepare-filesystem {
   TMPINPUTDIR=$TMPDIR/input
   SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/output/$SPECIES
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
-  SMALLER=smaller
-  SMALLERCLONAL=smaller
    
   RUNLOG=$BASEDIR/run.log
 }
@@ -301,20 +304,22 @@ for (i in 1:n)
 print (paste("Infinite-site version of Watterson's estimate:", nseg/s))
 EOF
   R --no-save < $RSCRIPTW > sum-w.txt
-  WATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Finite-site version of Watterson's estimate:" | cut -d ':' -f 2)
+  WATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Infinite-site version of Watterson's estimate:" | cut -d ':' -f 2)
+  FINITEWATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Finite-site version of Watterson's estimate:" | cut -d ':' -f 2)
   LEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Length of the alignment:" | cut -d ':' -f 2)
   NUMBER_BLOCKS=$(sed s/\"//g sum-w.txt | grep "\[1\] Number of blocks:" | cut -d ':' -f 2)
   AVERAGELEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Averge length of a block:" | cut -d ':' -f 2)
   PROPORTION_POLYMORPHICSITES=$(sed s/\"//g sum-w.txt | grep "\[1\] Proportion of polymorphic sites:" | cut -d ':' -f 2)
   rm sum-w.txt
   echo -e "Watteron estimate: $WATTERSON_ESIMATE"
+  echo -e "Finite-site version of Watteron estimate: $FINITEWATTERSON_ESIMATE"
   echo -e "Length of sequences: $LEGNTH_SEQUENCE"
   echo -e "Number of blocks: $NUMBER_BLOCKS"
   echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE"
   echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES"
   rm -f $RUNLOG
   echo -e "Watteron estimate: $WATTERSON_ESIMATE" >> $RUNLOG
-  echo -e "Length of sequences: $LEGNTH_SEQUENCE" >> $RUNLOG
+  echo -e "Finite-site version of Watteron estimate: $FINITEWATTERSON_ESIMATE" >> $RUNLOG
   echo -e "Number of blocks: $NUMBER_BLOCKS" >> $RUNLOG
   echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE" >> $RUNLOG
   echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES" >> $RUNLOG
