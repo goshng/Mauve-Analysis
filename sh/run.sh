@@ -152,7 +152,7 @@ function read-species-genbank-files {
   ### Main script stars here ###
   # Store file name
   FILE=""
-  numberLine=`wc $1 | awk '{print $1'}`
+  numberLine=`grep ^\[^#\] $1 | wc | awk '{print $1'}`
    
   # Make sure we get file name as command line argument
   # Else read it from standard input device
@@ -180,6 +180,9 @@ function read-species-genbank-files {
   isLast=""
   while read line
   do
+    if [[ "$line" =~ ^# ]]; then 
+      continue
+    fi
     countLine=$((countLine + 1))
     if [ $countLine == $numberLine ]; then
       isLast="last"

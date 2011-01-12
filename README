@@ -24,7 +24,6 @@ resources_used.mem=1059540kb
 resources_used.vmem=1224936kb
 resources_used.walltime=00:53:12
 
-
 Sulfolobus_islandicus
 ---------------------
 There are 7 genomes.
@@ -47,6 +46,17 @@ cornell5
 --------
 SEE is removed from the analysis of cornell6 because a whole genome may be
 enough to root the tree, and the outgroup of SEE may not be necessary.
+
+spyogenes
+---------
+I used 13 genomes. Two runs did not converge. Clonal frame is hard to obtain.
+One of two runs seems stucked at a tree, and mixing was bad.
+
+spyogenes6
+-----------
+Each of three pairs of genomes are from the same M type. I remove one of each
+pair. I also remove some to make a set of 6 species. The idea is if MCMC chains
+converge and mix with a smaller number of species.
 
 Command Lines
 -------------
