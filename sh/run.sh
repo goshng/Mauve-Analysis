@@ -267,16 +267,6 @@ function run-blocksplit2fasta {
   perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/${SMALLER}core_alignment.xmfa
 }
 
-# This may be obsolete.
-# I use the following two lines instead.
-# run-core2smallercore
-# run-blocksplit2fasta 
-function run-blocksplit2smallerfasta {
-  rm -f $RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
-  perl $HOME/usr/bin/blocksplit2smallerfasta.pl \
-    $RUNLCBDIR/core_alignment.xmfa 0.1 12345
-}
-
 function compute-watterson-estimate {
   FILES=$RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
   for f in $FILES
@@ -388,7 +378,6 @@ EOF
 
 function send-clonalorigin-input-to-cac {
   cp $RUNCLONALORIGIN/clonaltree.nwk $CACRUNCLONALORIGIN/
-  #cp $RUNLCBDIR/core_alignment.xmfa.* $CACRUNLCBDIR/
   cp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
 }
 
@@ -610,6 +599,25 @@ function receive-run-mauve {
 }
 
 # 3. Prepare clonalframe analysis.
+# NOTE: full_alignment.xmfa has input genome files full paths.
+#       These are the paths that were used in CAC not local machine.
+#       I have to replace those paths to the genome files paths
+#       of this local machine.
+# We could edit the xmfa file, but instead
+# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
+# Also, change the backbone file name.
+# I make the same file system structure as the run-mauve.
+#
+# NOTE: One thing that I am not sure about is the mutation rate.
+#       Xavier said that I could fix the mutation rate to Watterson's estimate.
+#       I do not know how to do it with finite-sites data.
+#       McVean (2002) in Genetics.
+#       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
+#       Just remove gaps and use the alignment without gaps.
+#       I may have to find this value from the core genome
+#       alignment: core_alignment.xmfa.
+# NOTE: I run clonalframe for a very short time to find a NJ tree.
+#       I had to run clonalframe twice.
 function prepare-run-clonalframe {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -851,59 +859,4 @@ select CHOICE in ${CHOICES[@]}; do
     continue
   fi
 done
-
-# 1. I make directories in CAC and copy genomes files to the data directory.
-# -----------------------------------------------------------
-# At the CAC base directory, submit the batch.sh by executing
-# $ nsub batch.sh
-# Then, copy the result to here.
-#receive-run-mauve
-# And, find core blocks of the alignment.
-# NOTE: full_alignment.xmfa has input genome files full paths.
-#       These are the paths that were used in CAC not local machine.
-#       I have to replace those paths to the genome files paths
-#       of this local machine.
-# We could edit the xmfa file, but instead
-# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
-# Also, change the backbone file name.
-# I make the same file system structure as the run-mauve.
-#mkdir-tmp 
-# Then, run LCB.
-#run-lcb 
-# Find all the blocks in FASTA format.
-#run-blocksplit2fasta 
-#run-blocksplit2smallerfasta 
-# Compute Watterson's estimate.
-#compute-watterson-estimate > w.txt
-# Use R to sum the values in w.txt.
-#sum-w
-# I found out that the sum is 3.213054
-
-# 2. I use ClonalFrame.
-# NOTE: One thing that I am not sure about is the mutation rate.
-#       Xavier said that I could fix the mutation rate to Watterson's estimate.
-#       I do not know how to do it with finite-sites data.
-#       McVean (2002) in Genetics.
-#       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
-#       Just remove gaps and use the alignment without gaps.
-#       I may have to find this value from the core genome
-#       alignment: core_alignment.xmfa.
-# NOTE: I run clonalframe for a very short time to find a NJ tree.
-#       I had to run clonalframe twice.
-#send-clonalframe-input-to-cac 
-#copy-batch-sh-run-clonalframe
-# Go to CAC Cluster to submit clonalframe jobs.
-#receive-run-clonalframe
-#send-run-clonalframe-to-swiftgen
-
-
-# Note that full_alignment.xmfa has the input genomes.
-# Copy the genomes52 directory to /tmp/sc2265.
-#run-lcb
-
-#run-clonalframe
-
-
-
-#run-bbfilter 
 
