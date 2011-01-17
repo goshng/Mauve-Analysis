@@ -29,11 +29,11 @@
 #   - receive-run-2nd-clonalorigin: receives the result of the second stage of
 #   clonal analysis.
 
-# bash sh/run.sh smaller smaller
+# bash sh/run.sh smaller
 # bash sh/run.sh 
 
 SMALLER=$1
-SMALLERCLONAL=$2
+SMALLERCLONAL=$1
 
 # Programs
 MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
@@ -78,6 +78,8 @@ function prepare-filesystem {
   BATCH_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch.sh
   BATCH_BODY_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_body.sh
   BATCH_TASK_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_task.sh
+  BATCH_REMAIN_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_remain.sh
+  BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_remain_body.sh
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
   SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/output/$SPECIES
@@ -303,7 +305,7 @@ EOF
   NUMBER_BLOCKS=$(sed s/\"//g sum-w.txt | grep "\[1\] Number of blocks:" | cut -d ':' -f 2)
   AVERAGELEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Averge length of a block:" | cut -d ':' -f 2)
   PROPORTION_POLYMORPHICSITES=$(sed s/\"//g sum-w.txt | grep "\[1\] Proportion of polymorphic sites:" | cut -d ':' -f 2)
-  rm sum-w.txt
+  #rm sum-w.txt
   echo -e "Watteron estimate: $WATTERSON_ESIMATE"
   echo -e "Finite-site version of Watteron estimate: $FINITEWATTERSON_ESIMATE"
   echo -e "Length of sequences: $LEGNTH_SEQUENCE"
@@ -383,6 +385,110 @@ function send-clonalorigin-input-to-cac {
 
 function copy-batch-sh-run-clonalorigin {
 
+  cat>$BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN<<EOF
+#!/bin/bash
+#PBS -l walltime=23:59:59,nodes=1
+#PBS -A acs4_0001
+#PBS -j oe
+#PBS -N Strep-${SPECIES}-ClonalOrigin$1
+#PBS -q v4
+#PBS -m e
+#PBS -M schoi@cornell.edu
+#PBS -t 1-PBSARRAYSIZE
+
+# nsub -t 1-3 batch.sh 3
+set -x
+CLONAL2ndPHASE=$1
+WORKDIR=\$PBS_O_WORKDIR
+LCBDIR=\$WORKDIR/../run-lcb
+WARG=\$HOME/usr/bin/warg
+OUTPUTDIR=\$TMPDIR/output
+INPUTDIR=\$TMPDIR/input
+
+
+function to-node {
+  mkdir \$WORKDIR/output
+  mkdir \$WORKDIR/output2
+  mkdir \$INPUTDIR
+  mkdir \$OUTPUTDIR
+  cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
+  cp \$WORKDIR/remain.txt \$TMPDIR/
+  cp \$WORKDIR/clonaltree.nwk \$TMPDIR/
+  cp \$WARG \$TMPDIR/
+  cp \$WORKDIR/batch_task.sh \$TMPDIR/  
+}
+
+
+function run-clonalorigin-jobs {
+  ### Main script stars here ###
+  STARTJOBSECTIONID=\$2
+  STARTJOBID=\$(( (STARTJOBSECTIONID - 1) * 8 ))
+  ENDJOBID=\$(( STARTJOBSECTIONID * 8 + 1 )) 
+  # Store file name
+  FILE=""
+   
+  # Make sure we get file name as command line argument
+  # Else read it from standard input device
+  if [ "\$1" == "" ]; then
+     FILE="/dev/stdin"
+  else
+     FILE="\$1"
+     # make sure file exist and readable
+     if [ ! -f \$FILE ]; then
+      echo "\$FILE : does not exists"
+      exit 1
+     elif [ ! -r \$FILE ]; then
+      echo "\$FILE: can not read"
+      exit 2
+     fi
+  fi
+  # read \$FILE using the file descriptors
+   
+  # Set loop separator to end of line
+  BAKIFS=\$IFS
+  IFS=\$(echo -en "\\n\\b")
+  exec 3<&0
+  exec 0<\$FILE
+  countLine=0
+  isLast=""
+  while read line
+  do
+    if [[ "\$line" =~ ^# ]]; then 
+      continue
+    fi
+    countLine=\$((countLine + 1))
+    if [ \$countLine -gt \$STARTJOBID ] && [ \$countLine -lt \$ENDJOBID ]
+    then
+      ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
+        clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$line \\
+        \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$line.xml &
+    fi
+  done
+  exec 0<&3
+   
+  # restore $IFS which was used to determine what the field separators are
+  BAKIFS=$ORIGIFS
+}
+
+echo Start at
+date
+to-node
+cd \$TMPDIR
+run-clonalorigin-jobs remain.txt \$PBS_ARRAYID
+
+wait
+echo End at
+date
+
+EOF
+
+  cat>$BATCH_REMAIN_SH_RUN_CLONALORIGIN<<EOF
+#!/bin/bash
+sed s/PBSARRAYSIZE/\$1/g < batch_remain_body.sh > tbatch.sh
+nsub tbatch.sh
+rm tbatch.sh
+EOF
+
   cat>$BATCH_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
 sed s/PBSARRAYSIZE/\$1/g < batch_body.sh > tbatch.sh
@@ -392,10 +498,10 @@ EOF
 
   cat>$BATCH_BODY_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
-#PBS -l walltime=20:00:00,nodes=1
+#PBS -l walltime=23:59:59,nodes=1
 #PBS -A acs4_0001
 #PBS -j oe
-#PBS -N Strep-${SPECIES}-ClonalOrigin-$1
+#PBS -N Strep-${SPECIES}-ClonalOrigin$1
 #PBS -q v4
 #PBS -m e
 #PBS -M schoi@cornell.edu
@@ -523,14 +629,12 @@ do
     then
       echo begin-\$JOBID
       START_TIME=\`date +%s\`
-      #./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -w 2 -x 2 -y 2 -z 1 \\
       if [[ -z \$CLONAL2ndPHASE ]]; then
-        ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -w 100000 -x 100000 -y 100000 -z 1000 \\
+        ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
           clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
           \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
       else
-        #./warg -x 1000000 -y 10000000 -z 100000 \\
-        ./warg -x 1000000 -y 1000000 -z 10000 \\
+        ./warg -x 1000000 -y 10000000 -z 100000 \\
           -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
           clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
           \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
@@ -555,6 +659,8 @@ EOF
   cp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
   cp $BATCH_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
   cp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  cp $BATCH_REMAIN_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  cp $BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
 }
 
 function run-bbfilter {
@@ -721,19 +827,21 @@ function prepare-run-clonalorigin {
       echo -e "Read which clonalframe output file is used to have a phylogeny of a clonal frame."
       echo -n "RUN ID: " 
       read RUNID
-      $GCT $RUNCLONALFRAME/output/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/clonaltree.nwk
+      perl $GCT $RUNCLONALFRAME/output/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/clonaltree.nwk
       echo -e "  Splitting alignment into one file per block..."
       perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
       # Some script.
       send-clonalorigin-input-to-cac
       copy-batch-sh-run-clonalorigin
       echo -e "Go to CAC's output/$SPECIES run-clonalorigin, and execute nsub batch.sh"
-      echo -e "You must use multiple computing nodes by chaing PBS -t option in"
-      echo -e "e.g., #PBS -t 1 to use a single computing node"
-      echo -e "e.g., #PBS -t 1-2 to use two computing nodes"
-      echo -e "Do not use 0-index for -t option"
-      echo -e "e.g., This is not work: #PBS -t 0-1"
-      echo -e "the batch.sh script."
+      echo -e "Submit a job using a different command."
+      echo -e "$ bash batch.sh 3 to use three computing nodes"
+      echo -e "Check the output if there are jobs that take longer"
+      echo -e "tail -n 1 output/*> 1"
+      echo -e "Create a file named remain.txt with block IDs, and then run"
+      echo -e "$ bash batch_remain.sh 3"
+      echo -e "The number of computing nodes is larger than the number of"
+      echo -e "remaining jobs divided by 8"
       break
     fi
   done

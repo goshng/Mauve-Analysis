@@ -1,13 +1,18 @@
 Mauve, Clonal Frame, Clonal Origin Analysis
 ===========================================
 
-
-
 Bacteria species under study
 ----------------------------
 
+bacillus
+~~~~~~~~
+A smaller data set seems to work with ClonalFrame.
+I stopped at ClonalFrame's analysis with a smaller dataset.
+I think that the running option that I use ClonalFrame seems okay.
+
 Staphylococcus aureus
 ~~~~~~~~~~~~~~~~~~~~~
+
 This should be analyzed similarly to that of B. cereus because recombination
 rates seem comparable to those of B. cereus. The number of species is also
 comparable.
@@ -30,6 +35,8 @@ There are 7 genomes.
 Mauve alignment: PASS!
 ClonalFrame (small): PASS!
 ClonalOrigin: in progress...
+This may be the first example that I can analyze with ClonalFrame and
+ClonalOrigin.  
 
 Sulfolobus
 ----------
@@ -37,6 +44,7 @@ Four more members of Sulfolobales are added.
 There are 11 genome members of Sulfolobales.
 Horizontal gene transfer can be studied using Clonal Origin.
 Their timing can be summarized.
+
 
 cornell6
 --------
@@ -46,17 +54,40 @@ cornell5
 --------
 SEE is removed from the analysis of cornell6 because a whole genome may be
 enough to root the tree, and the outgroup of SEE may not be necessary.
+Two of three ClonalFrame runs seems concordant.  I proceed with the first stage
+of ClonalOrigin analysis. 
 
 spyogenes
 ---------
 I used 13 genomes. Two runs did not converge. Clonal frame is hard to obtain.
 One of two runs seems stucked at a tree, and mixing was bad.
+One of the runs runs okay. This is encouraging (Note the spyogenes6 did not
+work, or R value increases to reach a plateau. 
 
 spyogenes6
 -----------
 Each of three pairs of genomes are from the same M type. I remove one of each
 pair. I also remove some to make a set of 6 species. The idea is if MCMC chains
 converge and mix with a smaller number of species.
+I see a similar problem: R value increases to reach a plateau.
+I turn to cornell5 data set.
+
+Burkholderia_cenocepacia
+------------------------
+This archea species include 4 genomes. Interestingly each genome consists of
+multiple circular chromosomes or 3 chromosome. I combine the multiple
+chromosomes to a single one. This can serve as a genome for ClonalFrame
+analysis.
+The analysis of archea may be interesting.
+[literal]
+cat ~/Elements/Documents/Projects/mauve/bacteria/Burkholderia_cenocepacia_MC0_3_uid58769/*.gbk > 1.gbk
+union -sequence 1.gbk -sformat genbank -outseq 2.gbk -osformat genbank -feature Y -auto
+mv 2.gbk Burkholderia_cenocepacia_MC0_3.gbk
+rm 1.gbk
+
+Salmonella_enterica
+-------------------
+I do not know what brought me to analyze this.
 
 Command Lines
 -------------
@@ -77,9 +108,6 @@ bash sh/run.sh leptospira
 
 Directories
 -----------
-
-bacillus
-~~~~~~~~
 
 cac
 ~~~
