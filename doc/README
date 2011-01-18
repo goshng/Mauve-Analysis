@@ -1,0 +1,128 @@
+Inferring genomic flow between Streptococcus pyogenes and dysgalactiae ssp. equisimilis using genome sequences
+==============================================================================================================
+
+Authors
+-------
+Sang Chul Choi
+
+Contacts
+--------
+- Email: schoi@cornell.edu
+- Phone: +1-607-542-9362
+- Address: Dept. of Biological Statistics & Computational Biology, 
+           Cornell University, Ithaca, NY 14853, USA
+
+Keywords
+--------
+
+Abstract
+--------
+
+Introduction
+------------
+
+Methods and Materials
+---------------------
+
+Results
+-------
+
+Discussion
+----------
+
+References
+----------
+
+Tables
+------
+
+Figures
+-------
+
+Debra E. Bessen: Population Genetics of Streptococcus
+-----------------------------------------------------
+The following is based on the chapter 17 of Bacterial Population Genetics in
+Infectious Disease.
+
+About Streptococcus Genus
+-------------------------
+- Comprises more than 50 species,
+- Inhabits hosts including humans and domesticated animals,
+- Includes gram-positive bacteria,
+- Undergoes extensive lateral gene transfer,
+
+Streptococcus pyogenes
+~~~~~~~~~~~~~~~~~~~~~~
+- Contains serogroups A carbohydrate,
+- Group A Streptococcus, or GAS,
+- Includes beta-hemolytic streptococci,
+- Responsible for many cases of throat infection, pharyngitis and tonsillitis,
+- Responsible for many cases of skin infection, nonbullous impetigo,
+
+Streptococcus dysgalactiae ssp. equisimilis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Contains serogroups C, G, or L carbohydrate,
+- Are often commensals, and are human pathogens,
+- Are beta-hemolytic streptococci,
+
+Streptococcus equi ssp. equi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Contains serogroup C
+- Are animal pathogens, infecting equine
+- Are beta-hemolytic streptococci,
+
+Streptococcus mutans
+~~~~~~~~~~~~~~~~~~~~
+- alpha-hemolytic streptococci,
+- major pathogen of dental caries in humans,
+- Characterized by vertical transmission, from mother to infant,
+
+Lancefield Method
+-----------------
+- Classfies gram-positive cocci,
+- Serology-based typing approaches,
+
+Virulence Genes of Streptococcus
+--------------------------------
+
+_emm_
+~~~~~
+- M Protein,
+
+_sof_
+~~~~~
+- Lies upstream of the _emm_ gene,
+
+FCT region
+~~~~~~~~~~
+- Lies 300kb away from the _emm_ region,
+
+MLST
+----
+- Based on housekeeping genes,
+- Tools used for population genetics study of a bacterial species,
+
+Analysis Tools
+~~~~~~~~~~~~~~
+- eBURST analysis (Feil et al., 2004) can infer the ancestor-descendant
+  relationships between sequence types (ST),
+- Empirical analysis of genetic change in single-locus variants (SLVs) (Feil et
+  al., 2000),
+- ClonalFrame uses a coalescent-based approach to estimate the relative
+  probabilities that a nucleotide is changed as the result of homologous
+  recombnation versus point muation (Didelot and Falush, 2007),
+- Infinite allele model can estimate population recombination and mutation rates
+  (Fraser et al., 2005; Hanage et al., 2006),
+- Congruency of gene tree topologies can evaluate the relative extent of genetic
+  diversification by recombination versus mutation by assessing congruence via
+  pairwise comparisons of housekeeping gene tree topologies (Feil et al., 2001;
+  see also Bessen, 2009),
+
+Recombinations and Mutations
+----------------------------
+The high rates of recombination characterize most _Streptococcus_ species.
+
+
+
+
+

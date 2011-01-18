@@ -44,7 +44,14 @@ Four more members of Sulfolobales are added.
 There are 11 genome members of Sulfolobales.
 Horizontal gene transfer can be studied using Clonal Origin.
 Their timing can be summarized.
+This data set of 11 genomes may not have a single species tree.
 
+Sulfolobus8
+-----------
+We remove three genomes leaving 8 genomes.
+We might study when genomic segments migrated between the 8-th genomes and each
+of the 7 S. islandicus genomes.
+I am interested in gene flow between the outgroup and the 7 ingroup genomes.
 
 cornell6
 --------
@@ -56,6 +63,7 @@ SEE is removed from the analysis of cornell6 because a whole genome may be
 enough to root the tree, and the outgroup of SEE may not be necessary.
 Two of three ClonalFrame runs seems concordant.  I proceed with the first stage
 of ClonalOrigin analysis. 
+Several blocks need more computing time than many others.
 
 spyogenes
 ---------
@@ -79,15 +87,23 @@ multiple circular chromosomes or 3 chromosome. I combine the multiple
 chromosomes to a single one. This can serve as a genome for ClonalFrame
 analysis.
 The analysis of archea may be interesting.
+
+The genomes 1 and 2 are almost the same.
 [literal]
 cat ~/Elements/Documents/Projects/mauve/bacteria/Burkholderia_cenocepacia_MC0_3_uid58769/*.gbk > 1.gbk
 union -sequence 1.gbk -sformat genbank -outseq 2.gbk -osformat genbank -feature Y -auto
 mv 2.gbk Burkholderia_cenocepacia_MC0_3.gbk
 rm 1.gbk
 
+
 Salmonella_enterica
 -------------------
 I do not know what brought me to analyze this.
+smaller clonal frame was finished.
+The 16 genome data set clonalframe analysis failed to converge. I remove 4 of
+them to have 12 genomes.  I stop this analysis until I know what I should do.
+Obviously, I have to restart from 12 genome alignment using mauve.
+
 
 Command Lines
 -------------
@@ -152,4 +168,9 @@ Some perl scripts and c++ source files are prepared for helping mauve analyses.
 [literal]
 usr/bin/core2smallercore.pl
 
+Useful Bash Script
+------------------
+- To cancel multiple CAC jobs:
+[literal]
+for i in {1..419}; do tail -v -n 1 output/core_co.phase2.$i.xml >> 1; done
 

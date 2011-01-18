@@ -491,6 +491,7 @@ EOF
 
   cat>$BATCH_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
+echo 1 > jobidfile
 sed s/PBSARRAYSIZE/\$1/g < batch_body.sh > tbatch.sh
 nsub tbatch.sh
 rm tbatch.sh
@@ -572,7 +573,6 @@ echo Start at
 date
 to-node
 prepare-task
-echo \$STARTJOBID > \$JOBIDFILE
 task
 
 wait
