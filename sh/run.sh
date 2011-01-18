@@ -547,9 +547,13 @@ function prepare-task {
   # This deletes everything after the first dot.
   JOBNUMBER=\${PBS_JOBID%%.*}
 
-  JOBIDFILE=\$TMPDIR/jobidfile
-  STARTJOBID=\$(( JOBSPERNODE * (PBS_ARRAYID - 1) + 1 ))
-  ENDJOBID=\$(( JOBSPERNODE * PBS_ARRAYID + 1 )) 
+  # JOBIDFILE=\$TMPDIR/jobidfile
+  # STARTJOBID=\$(( JOBSPERNODE * (PBS_ARRAYID - 1) + 1 ))
+  # ENDJOBID=\$(( JOBSPERNODE * PBS_ARRAYID + 1 )) 
+  JOBIDFILE=\$WORKDIR/jobidfile
+  LOCKFILE=\$WORKDIR/lockfile
+  STARTJOBID=1
+  ENDJOBID=\$(( TOTALJOBS + 1))
   TOTALJOBS=\$(( TOTALJOBS + 1))
   # If JOBSPERNODE is 3, then
   # STARTJOBID is 1, and ENDJOBID is 4.
@@ -560,7 +564,7 @@ function task {
   #for (( i=1; i<=TASKCNT; i++))
   for (( i=1; i<=CORESPERNODE; i++))
   do
-    bash batch_task.sh \$i \$TOTALJOBS \$ENDJOBID \$WORKDIR \$TMPDIR \$JOBIDFILE \$CLONAL2ndPHASE&
+    bash batch_task.sh \$i \$TOTALJOBS \$ENDJOBID \$WORKDIR \$TMPDIR \$JOBIDFILE \$LOCKFILE \$CLONAL2ndPHASE&
   done
 }
 
@@ -597,7 +601,8 @@ ENDJOBID=\$3
 WORKDIR=\$4
 SCRATCH=\$5
 JOBIDFILE=\$6
-CLONAL2ndPHASE=\$7
+LOCKFILE=\$7
+CLONAL2ndPHASE=\$8
 WHICHLINE=1
 JOBID=0
 
@@ -607,7 +612,8 @@ cd \$SCRATCH
 while [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
 do
 
-  lockfile=filelock
+  #lockfile=filelock
+  lockfile=\$LOCKFILE
   if ( set -o noclobber; echo "\$\$" > "\$lockfile") 2> /dev/null; 
   then
     # BK: this will cause the lock file to be deleted in case of other exit
@@ -616,8 +622,6 @@ do
     # critical-section BK: (the protected bit)
     JOBID=\$(sed -n "\${WHICHLINE}p" "\${JOBIDFILE}")
 
-    #LINE=\$(sed -n "\${WHICHLINE}p" "\${COMMANDFILE}")
-    #\$LINE : this execute the line.
     JOBID=\$(( JOBID + 1))
     echo \$JOBID > \$JOBIDFILE
     JOBID=\$(( JOBID - 1))
@@ -630,9 +634,14 @@ do
       echo begin-\$JOBID
       START_TIME=\`date +%s\`
       if [[ -z \$CLONAL2ndPHASE ]]; then
-        ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
-          clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-          \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+        FINISHED=\$(tail -n 1 \$WORKDIR/output/core_co.phase2.\$JOBID.xml)
+        if [[ "\$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: \$WORKDIR/output/core_co.phase2.\$JOBID.xml
+        else
+          ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
+            clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+            \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+        fi
       else
         ./warg -x 1000000 -y 10000000 -z 100000 \\
           -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
