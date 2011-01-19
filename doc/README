@@ -39,6 +39,33 @@ Tables
 Figures
 -------
 
+Data Analyses
+-------------
+
+Bacterial genome annotation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core- and pan-genome
+~~~~~~~~~~~~~~~~~~~~
+
+Shared genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Presence and absence of genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Genomic content flow
+~~~~~~~~~~~~~~~~~~~~
+
+Other genomes
+-------------
+Genomes OnLine Database (GOLD; Liolios et al., 2006)
+- _Haemophilus influenzae_ (Fleischmann et al., 1995)
+- _Escherichia coli_ (Blattner et al., 1997)
+
+
+
+
 Debra E. Bessen: Population Genetics of Streptococcus
 -----------------------------------------------------
 The following is based on the chapter 17 of Bacterial Population Genetics in
@@ -93,6 +120,9 @@ _sof_
 ~~~~~
 - Lies upstream of the _emm_ gene,
 
+_mga_
+~~~~~
+
 FCT region
 ~~~~~~~~~~
 - Lies 300kb away from the _emm_ region,
@@ -123,6 +153,80 @@ Recombinations and Mutations
 The high rates of recombination characterize most _Streptococcus_ species.
 
 
+Streptococcus Genomes Available
+-------------------------------
+- pneumococci (Tettelin et al., 2001)
+- GAS (Ferretti et al., 2001)
+- GBS (Tettelin et al., 2002)
+- _S. equi_
+- _S. zooepidemicus_
+- _S. gordonii_
+- _S. mutans_
+- _S. mitis_
+- _S. suis_
+- _S. uberis_
+The _Streptococcus_ genomes range in size from ~1.7 to 2.2 Mb.
 
+Genomic Elements
+~~~~~~~~~~~~~~~~
+- Exogenous genetic elements
+- prophages
+- integrative and conjugative elements (ICEs)
+- conjugative transposons and plasmids
+- Some exogenous genetic elements in GAS harbor virulence and antibiotic
+  resistance genes.
+- The prophage and ICEs have modular structures that are indicative of
+  recombinational events.
+- Experimentally, it can be demonstrated that ICEs transfer from one
+  streptococcal donor species (e.g., _Streptococcus thermophilus_) and integrate
+  into another recipient species (e.g., GAS) (Bellanger et al., 2009)
+- Mobile genetic elements (MGEs)
+
+Close Genetic Relatives of GAS
+------------------------------
+Human isolates of latexmath:[$\beta$]-hemolytic streptococci bearing group C or
+G cell wall carbohydrate (GCS/GGS) are often classified as _S. dysgalactiae_
+ssp. _equisimilis_. These organisms are common commensals of the upper
+repiratory tract and are occasionally found in association with disease,
+including invasive infections (Broyles et al., 2009). 
+
+- _emm_ genes are very similar.
+
+MLST data analysis provides evidence for genetic recombination between GCS/GGS 
+and GAS (Ahmad et. al., 2009). 
+
+Did the GCS/GGS human commensal organisms evolve from an ancestral GAS-like
+pathogen, as observed for the close genetic relatives of the Mitis group? There
+is evidence for the sharing of some virulence-related genes between GCS/GGS and
+GAS (Kalia and Bessen, 2004; Towers et al., 2004; Bessen et al., 2005; Davies et
+al., 2007).  Yet, certain virulence genes appear to have originated from one
+species, whereas other virulence genes seem to have been transferred in the
+opposite direction.  Some key GAS virulence factors (e.g., the secreted cysteine
+proteinase SpeB) are absent from GCS/GGS.  
+
+An important missing piece of the puzzle has been the complete genome sequence
+for one or more strains of _S. dysgalactiae_ ssp. _equisimilis_, which has only
+recently been released.  Perhaps with this added information, the evolution of
+species within the pyogenic division can become better elucidated.
+
+Rates of Gene Gain and Loss
+---------------------------
+Genetic flux in GAS was found to be dominated by gain and loss of prophage genes
+(Didelot et al., 2009). 
+
+
+
+
+Sentences
+---------
+Horizontal gene exchange followed by high rates of homologous recombination
+among genes with relatively low levels of sequence divergence may have
+contributed to the blurring boundaries (Fraser et al. 2007).
+
+Models for the evolution of bacterial pathogens often invoke the acquisition of
+virulence genes, followed by successful and rapid expansion of the pathogen
+population.  The model for the evolution of the Mitis cluster is significant in
+that it more strongly supports the opposite scenario, whereby commensals evolved
+from a pathogen by a loss of virulence genes.
 
 

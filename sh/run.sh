@@ -921,6 +921,9 @@ ALLSPECIES=( Escherichia_coli Salmonella_enterica Staphylococcus_aureus Streptoc
 
 # Improvements that are needed.
 # 1. Do not use file size options.
+# To list genomes:
+# $ GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria 
+# $ ls -1 `find $GENOMEDATADIR -name *.gbk -and -size +1000k` | grep Staphylococcus >> ~/Documents/Projects/mauve/species/Staphylococcus
 function generate-species {
   prepare-filesystem
   for s in ${ALLSPECIES[@]}; do

@@ -12,22 +12,21 @@ I think that the running option that I use ClonalFrame seems okay.
 
 Staphylococcus aureus
 ~~~~~~~~~~~~~~~~~~~~~
-
 This should be analyzed similarly to that of B. cereus because recombination
 rates seem comparable to those of B. cereus. The number of species is also
 comparable.
 
-Mauve alignment
-^^^^^^^^^^^^^^^
-PBS Job Id: 1074226.scheduler.v4linux
-Job Name:   Strep-Staphylococcus_aureus-Mauve
-Exec host:  compute-2-30.v4linux/0
-Execution terminated
-Exit_status=0
-resources_used.cput=00:53:09
-resources_used.mem=1059540kb
-resources_used.vmem=1224936kb
-resources_used.walltime=00:53:12
+Staphylococcus
+~~~~~~~~~~~~~~
+I want to test the hypothesis that is depicted by Figure 16.4 of the bacterial
+population genetics book. See the page at 335 of the book.
+Evolutionary scenario of S. epidermidis and S. aureus.
+S. epidermidis has higher recombation rates than S. aureus. 
+Did their most recent common ancestor have high recombination rates as S.
+epidermidis?  Or, did it have low recombination rates as S. aureus?
+There are 6 more genomes that are in Staphylococcus genus. These genomes should
+inform us of the state of the ancestor of S. epidermidis and S. aureus.
+I want to find one outgroup first.
 
 Sulfolobus_islandicus
 ---------------------
