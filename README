@@ -51,6 +51,9 @@ We remove three genomes leaving 8 genomes.
 We might study when genomic segments migrated between the 8-th genomes and each
 of the 7 S. islandicus genomes.
 I am interested in gene flow between the outgroup and the 7 ingroup genomes.
+I ran 2 sets of jobs, and each with 3 independent runs of 5,000 and 10,000 (?):.
+Two out of three are similar and one of them has longer branch lengths.
+MC3 may be necessary.  We might try more chains not 3.
 
 cornell6
 --------
@@ -93,6 +96,9 @@ cat ~/Elements/Documents/Projects/mauve/bacteria/Burkholderia_cenocepacia_MC0_3_
 union -sequence 1.gbk -sformat genbank -outseq 2.gbk -osformat genbank -feature Y -auto
 mv 2.gbk Burkholderia_cenocepacia_MC0_3.gbk
 rm 1.gbk
+
+The clonalframe analysis did not work with walltime of 268 hours.
+I should work on it with larger walltime.
 
 
 Salmonella_enterica
@@ -171,5 +177,17 @@ Useful Bash Script
 ------------------
 - To cancel multiple CAC jobs:
 [literal]
+for i in {1..15}; do mjobctl -c 1074682-$i; done
+[literal]
 for i in {1..419}; do tail -v -n 1 output/core_co.phase2.$i.xml >> 1; done
+
+- To list iteration numbers for all the jobs:
+[literal]
+for i in {1..120}; do grep --with-filename number core_co.phase3.$i.xml | tail -n 1; done | less
+
+Two jobs were not finished in the 1st stage of ClonalOrigin
+-----------------------------------------------------------
+core_co.phase2.293.xml
+core_co.phase2.67.xml
+
 

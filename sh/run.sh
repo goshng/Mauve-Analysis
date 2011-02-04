@@ -306,15 +306,15 @@ EOF
   AVERAGELEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Averge length of a block:" | cut -d ':' -f 2)
   PROPORTION_POLYMORPHICSITES=$(sed s/\"//g sum-w.txt | grep "\[1\] Proportion of polymorphic sites:" | cut -d ':' -f 2)
   #rm sum-w.txt
-  echo -e "Watteron estimate: $WATTERSON_ESIMATE"
-  echo -e "Finite-site version of Watteron estimate: $FINITEWATTERSON_ESIMATE"
+  echo -e "Watterson estimate: $WATTERSON_ESIMATE"
+  echo -e "Finite-site version of Watterson estimate: $FINITEWATTERSON_ESIMATE"
   echo -e "Length of sequences: $LEGNTH_SEQUENCE"
   echo -e "Number of blocks: $NUMBER_BLOCKS"
   echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE"
   echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES"
   rm -f $RUNLOG
-  echo -e "Watteron estimate: $WATTERSON_ESIMATE" >> $RUNLOG
-  echo -e "Finite-site version of Watteron estimate: $FINITEWATTERSON_ESIMATE" >> $RUNLOG
+  echo -e "Watterson estimate: $WATTERSON_ESIMATE" >> $RUNLOG
+  echo -e "Finite-site version of Watterson estimate: $FINITEWATTERSON_ESIMATE" >> $RUNLOG
   echo -e "Number of blocks: $NUMBER_BLOCKS" >> $RUNLOG
   echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE" >> $RUNLOG
   echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES" >> $RUNLOG
@@ -409,6 +409,8 @@ INPUTDIR=\$TMPDIR/input
 function to-node {
   mkdir \$WORKDIR/output
   mkdir \$WORKDIR/output2
+  mkdir \$WORKDIR/status
+  mkdir \$WORKDIR/status2
   mkdir \$INPUTDIR
   mkdir \$OUTPUTDIR
   cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
@@ -521,9 +523,12 @@ INPUTDIR=\$TMPDIR/input
 function to-node {
   mkdir \$WORKDIR/output
   mkdir \$WORKDIR/output2
+  mkdir \$WORKDIR/status
+  mkdir \$WORKDIR/status2
   mkdir \$INPUTDIR
   mkdir \$OUTPUTDIR
   cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
+  cp \$WORKDIR/remain.txt \$TMPDIR/
   cp \$WORKDIR/clonaltree.nwk \$TMPDIR/
   cp \$WARG \$TMPDIR/
   cp \$WORKDIR/batch_task.sh \$TMPDIR/  
@@ -638,15 +643,30 @@ do
         if [[ "\$FINISHED" =~ "outputFile" ]]; then
           echo Already finished: \$WORKDIR/output/core_co.phase2.\$JOBID.xml
         else
-          ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
-            clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-            \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+          STATUSFILE=\$WORKDIR/status/${SMALLERCLONAL}core_co.phase2.\$JOBID.status
+          if [ ! -f "\$STATUSFILE" ]; then
+            touch \$STATUSFILE
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
+              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+            rm \$STATUSFILE
+          fi
         fi
       else
-        ./warg -x 1000000 -y 10000000 -z 100000 \\
-          -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
-          clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-          \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+        FINISHED=\$(tail -n 1 \$WORKDIR/output2/core_co.phase3.\$JOBID.xml)
+        if [[ "\$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: \$WORKDIR/output2/core_co.phase3.\$JOBID.xml
+        else
+          STATUSFILE=\$WORKDIR/status2/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
+          if [ ! -f "\$STATUSFILE" ]; then
+            touch \$STATUSFILE
+            ./warg -x 1000000 -y 10000000 -z 100000 \\
+              -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
+              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+            rm \$STATUSFILE
+          fi
+        fi
       fi
       END_TIME=\`date +%s\`
       ELAPSED=\`expr \$END_TIME - \$START_TIME\`
@@ -893,13 +913,29 @@ function receive-run-2nd-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Receiving 2nd clonalorigin-output...\n"
+      echo -e 'What is the temporary id of mauve-analysis?'
+      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      echo -n "JOB ID: " 
+      read JOBID
+      echo -e "Preparing clonalframe analysis...\n"
       prepare-filesystem 
-      cp -r $CACRUNCLONALORIGIN/output2 $RUNCLONALORIGIN/
+      echo -e "  Making temporary data files....\n"
+      mkdir-tmp 
 
+      echo -e "Receiving 2nd clonalorigin-output...\n"
+      cp -r $CACRUNCLONALORIGIN/output2 $RUNCLONALORIGIN/     # -done should be trimmed
+      for f in  $RUNCLONALORIGIN/output2/*phase*; do          # -done should be trimmed
+        bzip2 $f
+      done
+      
+# Directory is needed: /tmp/1074429.scheduler.v4linux/input/SdeqATCC12394.gbk
+      echo -e "Doing AUI ...\n"
       DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
         $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
-      perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2
+      echo -e "Dong MWF ...\n"
+      
+      perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2         # -done should be trimmed
+      rmdir-tmp
       echo -e "Now, do more analysis with mauve.\n"
       break
     fi

@@ -1,5 +1,10 @@
 Inferring genomic flow between Streptococcus pyogenes and dysgalactiae ssp. equisimilis using genome sequences
 ==============================================================================================================
+Sang Chul Choi <schoi@cornell.edu>
+v1.0, January 2010:
+Written for version 1 release.
+v2.0, February 2010:
+Rewritten for version 2 release.
 
 Authors
 -------
@@ -14,21 +19,229 @@ Contacts
 
 Keywords
 --------
+human group A streptococci (GAS)
+human group C streptococci (GCS)
+human group G streptococci (GGS)
+
+
 
 Abstract
 --------
+Flow of genomic regions between _Streptococcus pyogenes_ and 
+_S. dysgalactiae_ subspecies _equisimilis_ 
+is investigated using five genomes including _S.
+dysgalactiae_ spp. _dysgalactiae_.  Unidirectional flow of genomic regions
+from _S. pyogenes_ to _S. dysgalactiae_ spp. _equisimilis_ is more prevalent
+than the other direction.  
+Two competing hypotheses on the evolution of the two species are tested.
+I privide more evidence for hypothesis 1 with detailed view of evolutionary
+history of the two Streptococci species.
 
 Introduction
 ------------
 
+GCS/GGS and GAS colonize the same ecological niche
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Where?
+
+GCS/GGS and GAS exhibit overlap in their disease profiles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What disease profiles?
+
+Virulence factors associated with disease
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What virulence factors?
+[Davies2007] studied 216 GAS virulence genes, not other genes
+to profile the virulence gene repertoires of many (or 58) 
+_Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
+infections.
+
+What is disease propensity?
+
+A Question of interest
+~~~~~~~~~~~~~~~~~~~~~~
+_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
+domesticated animals (CITEs).
+Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
+human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
+Although SDE and
+SPY form distinct genotypic contents, pathogenic phenotypes of the two species
+manifest similarly (CITEs).
+How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
+Did it evolve from a commensal bacteria? Did genetic elements transfer from
+SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
+flow? In this study, I want to catalogue genetic elements according to their
+pattern of flow in the evolutionary history that relates SPY and SDE. 
+
+Scenarios of evolution of SPY and SDE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
+was losing virulence factors since the divergence of the ancestor. SDE regains
+virulence factors from SPY because of the same niche.
+2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
+SPY evolves virulence factors since the divergence of the ancestor. SDE gains
+virulence factors from SPY.
+
+
+
 Methods and Materials
 ---------------------
+
+Bacterial genomes from NCBI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I use two genomes of _S. dysgalactiae_ spp. _equisimilis_, two genomes of 
+_Streptococcus pyogenes_, and one genome of _S. dysgalactiae_ spp. _dysgalactiae_.
+Two genomes of _S. pyogenes_ were downloaded from
+ftp://ftp.ncbi.nih.gov/genomes: 
+Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk [Beres2002]
+and 
+Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk [Beres2006].
+A genome Genbank file of _S. dysgalactiae_ spp. _equisimilis_ was found at 
+Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk.
+Two more genomes were provided by (CITEs):
+cornell_sde1/SdeqATCC12394.gbk 
+and
+cornell_sdd/SddyATCC27957.gbk.
+I refer the two genomes of MGAS315 and MGAS1075 as SPY1 and SPY2, respectively. 
+The two genomes of SdeqATCC12394.gbk and GGS_124 are referred to as SDE1 and
+SDE2, respectively. The genome of Genbank file SddyATCC27957.gbk is called SDD.
+
+I followed the tutorial provided at
+http://code.google.com/p/clonalorigin.
+
+Genome alignment
+~~~~~~~~~~~~~~~~
+I downloaded progressiveMauve version 2.3.1, released on November 11th 2009 from 
+http://asap.ahabs.wisc.edu/mauve/download.php.
+Default options were used to align the five _Streptococcus_ genomes. 
+I removed variable regions from the alignment to leave 
+419 alignment blocks that are longer than 500 base pair.
+
+ClonalFrame
+~~~~~~~~~~~
+I downloaded ClonalFrame version 1.1 at
+http://www.xavierdidelot.xtreemhost.com/clonalframe.htm.
+I applied ClonalFrame to the 419 core alignment blocks to obtain a clonal frame,
+or a species tree of the five species.
+Three independent runs of Markov chain Monte Carlo were executed with a total
+generation of chains being 20,000. The first 10,000 generations were discarded
+as burn-in. 
+
+ClonalOrigin
+~~~~~~~~~~~~
+I downloaded a subversion r19 of ClonalOrigin, released on October 1st 2010 from
+http://clonalorigin.googlecode.com/svn/trunk.
+Two independent runs of Markov chain Monte Carlo chain with ClonalOrigin were
+made with a total generation of each chain being 2,100,000. The first 1,100,000
+generations of each chain were discarded as burn-in. The remaining 1,000,000
+generations were subsampled every 10,000 generations, leaving a posterior sample
+of size 100. I obtained an estimate of population parameters such as mutation
+rate, recombination rate, and recombinant tract length. 
+A second stage of Markov chain Monte Carlo procedure was executed with
+ClonalOrigin by fixing the population parameters to the estimated values. This
+allowed to obtain a posterior sample of recombinant edges. Two independent
+chains of Markov chain Montel Carlo with ClonalOrigin were executed with a total
+generation being 11,100,000. The first 1,100,000 generations of each chain were
+discarded as burn-in. The remaining 10,000,000 generations were subsampled every
+100,000 generations, leaving a sample of size 100. 
+
+Recombination map
+~~~~~~~~~~~~~~~~~
+
+
+Bacterial genome annotation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MGAS315 (NC_004070.gbk) or other _S. pyogenes_ genomes might have genome
+annotations. 
+
+How do I know functional categories of genes?
+No citations were made in [Davies2007] about the categorization. 
+A block can contain multiple genes.
+I think that I need to know how I can categorize genetic elements of MGAS315
+genome.
+
+Adhesins
+^^^^^^^^
+GAPDH
+
+Fibronectin-binding proteins
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+prtF15
+
+Proteases
+^^^^^^^^^
+C3-degrading proteinase
+
+Bacteriophage-encoded virulence factors
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exotoxin speA
+
+Other virulence factors
+^^^^^^^^^^^^^^^^^^^^^^^
+Exotoxin speG
+
+Toxins
+^^^^^^
+Streptolysin O
+
+Putative (put.) extracellular proteins
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+put. sugar binding lipoprotein
+
+Hypothetical (hyp.) extracellular genes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+Shared genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Presence and absence of genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Genomic content flow
+~~~~~~~~~~~~~~~~~~~~
+
+
+
 
 Results
 -------
 
+Core- and pan-genome
+~~~~~~~~~~~~~~~~~~~~
+
+Summary of gene flow
+~~~~~~~~~~~~~~~~~~~~
+I want to develop scripts to summarize gene flow of a genomic segment given a
+speices tree. A genomic segment includes protein-coding genes or non-coding
+elements.
+I like Figures 2, 5, and 7 of Didelot's ClonalOrigin paper. For
+each site or a window of a contiguous segment, a figure just like Figure 5 can
+be depicted. As I scan through a genomic segment by site or window, dynamic
+changes to the figure similiar to Figure 5 would show fluctuation of gene flow
+of the genomic segment.
+How can I summarize gene flows properly from a posterior sample of recombinant
+edges?
+Or, I could use figures such as Figures 2 and 7 to describe results
+qualitatively. I may have to do this.
+
+
+
 Discussion
 ----------
+
+Lack of analyses
+~~~~~~~~~~~~~~~~
+Only two genomes of _S. pyogenes_ were used.
+Only two genomes of _S. dysgalactiae_ subspecies _equisimilis_ were used.
+Analyses with more isolates could potentially reveal congruent relationships
+between virulence profiles and GCS/GGS disease propensity.
+
+I did not account for gene gain and loss in the analysis. Only well aligned
+regions were used in the analysis.
 
 References
 ----------
@@ -41,21 +254,6 @@ Figures
 
 Data Analyses
 -------------
-
-Bacterial genome annotation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Core- and pan-genome
-~~~~~~~~~~~~~~~~~~~~
-
-Shared genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Presence and absence of genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Genomic content flow
-~~~~~~~~~~~~~~~~~~~~
 
 Other genomes
 -------------
@@ -229,4 +427,6 @@ population.  The model for the evolution of the Mitis cluster is significant in
 that it more strongly supports the opposite scenario, whereby commensals evolved
 from a pathogen by a loss of virulence genes.
 
+GCS/GGS and GAS colonize the same ecological niche and exhibit considerable
+overlap in their disease profiles.
 
