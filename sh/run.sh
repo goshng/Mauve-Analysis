@@ -40,6 +40,9 @@ MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
 GCT=$HOME/usr/bin/getClonalTree 
 AUI=$HOME/usr/bin/addUnalignedIntervals 
 MWF=$HOME/usr/bin/makeMauveWargFile.pl
+ECOP=$HOME/usr/bin/extractClonalOriginParameter.pl
+ECOP2=$HOME/usr/bin/extractClonalOriginParameter2.pl
+ECOP3=$HOME/usr/bin/extractClonalOriginParameter3.pl
 COMPUTEMEDIANS=$HOME/usr/bin/computeMedians.pl
 LCB=$HOME/usr/bin/stripSubsetLCBs 
 # Genome Data Directory
@@ -932,11 +935,55 @@ function receive-run-2nd-clonalorigin {
       echo -e "Doing AUI ...\n"
       DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
         $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
-      echo -e "Dong MWF ...\n"
+      echo -e "Doing MWF ...\n"
       
       perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2         # -done should be trimmed
       rmdir-tmp
       echo -e "Now, do more analysis with mauve.\n"
+      break
+    fi
+  done
+}
+
+# 11. Some post-processing procedures follow clonal origin runs.
+function analysis-clonalorigin {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      prepare-filesystem 
+
+      #echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
+      #perl $ECOP \
+        #$RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+        #> $RUNCLONALORIGIN/log.p
+
+      #echo -e "Finding the number of recombination events inferred relative to its expectation under our prior model given the stage 2 inferred recombination rate, for each donor/recipient pair of branches.\n"
+      #perl $ECOP2 \
+        #$RUNCLONALORIGIN/output2/${SMALLERCLONAL}core*.xml.bz2 \
+        #> $RUNCLONALORIGIN/log2.p
+
+      echo -e "Trace plots ... \n"
+      perl $ECOP3 \
+        $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+        > $RUNCLONALORIGIN/log3.p
+      echo -e "Splitting the log files ...\n"
+      split -l 100 $RUNCLONALORIGIN/log3.p
+      for s in x*; do
+        echo "${s}.Gen\t${s}.f\t${s}.iter\t${s}.ll\t${s}.prior\t${s}.theta\t${s}.rho\t${s}.delta\n" |cat - $s > /tmp/out && mv /tmp/out $s
+      done
+      rm -f /tmp/in
+      touch /tmp/in
+      for s in x*; do
+        paste /tmp/in $s > /tmp/out 
+        mv /tmp/out /tmp/in
+      done
+      rm x* 
+
+      # echo -e "Gen\tf\titer\tll\tprior\ttheta\trho\tdelta\n"
+      # echo "text"|cat - xaa > /tmp/out && mv /tmp/out xaa
       break
     fi
   done
@@ -972,7 +1019,7 @@ function generate-species {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin )
+CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
 select CHOICE in ${CHOICES[@]}; do 
  
   if [ "$CHOICE" == "" ];  then
@@ -1009,6 +1056,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "receive-run-2nd-clonalorigin" ];  then
     receive-run-2nd-clonalorigin
+    break
+  elif [ "$CHOICE" == "analysis-clonalorigin" ];  then
+    analysis-clonalorigin
     break
   else
     echo -e "You need to enter something\n"
