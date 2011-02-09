@@ -89,6 +89,7 @@ function prepare-filesystem {
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
    
   RUNLOG=$BASEDIR/run.log
+  REPLICATE=1
 }
 
 function mkdir-SPECIES {
@@ -663,8 +664,8 @@ do
           STATUSFILE=\$WORKDIR/status2/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
           if [ ! -f "\$STATUSFILE" ]; then
             touch \$STATUSFILE
-            ./warg -x 1000000 -y 10000000 -z 100000 \\
-              -T ${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R ${MEDIAN_RHO} \\
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 100000 \\
+              -T s${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R s${MEDIAN_RHO} \\
               clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
               \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
             rm \$STATUSFILE
@@ -894,7 +895,7 @@ function receive-run-clonalorigin {
       prepare-filesystem 
       cp -r $CACRUNCLONALORIGIN/output $RUNCLONALORIGIN/
       perl $COMPUTEMEDIANS \
-        $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+        $RUNCLONALORIGIN/output/$REPLICATE/${SMALLERCLONAL}core*.xml \
         | grep ^Median > $RUNCLONALORIGIN/median.txt
       MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
       MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
@@ -972,14 +973,16 @@ function analysis-clonalorigin {
       echo -e "Splitting the log files ...\n"
       split -l 100 $RUNCLONALORIGIN/log3.p
       for s in x*; do
-        echo "${s}.Gen\t${s}.f\t${s}.iter\t${s}.ll\t${s}.prior\t${s}.theta\t${s}.rho\t${s}.delta\n" |cat - $s > /tmp/out && mv /tmp/out $s
+        echo -e "${s}.Gen\t${s}.f\t${s}.iter\t${s}.ll\t${s}.prior\t${s}.theta\t${s}.rho\t${s}.delta\n" |cat - $s > /tmp/out && mv /tmp/out $s
       done
+      echo -e "Combine all trace files ...\n"
       rm -f /tmp/in
       touch /tmp/in
       for s in x*; do
         paste /tmp/in $s > /tmp/out 
         mv /tmp/out /tmp/in
       done
+      mv /tmp/in a.log
       rm x* 
 
       # echo -e "Gen\tf\titer\tll\tprior\ttheta\trho\tdelta\n"

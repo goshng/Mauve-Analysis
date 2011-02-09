@@ -173,6 +173,20 @@ Some perl scripts and c++ source files are prepared for helping mauve analyses.
 [literal]
 usr/bin/core2smallercore.pl
 
+- To find per-site mutation rate, recombination rate, and track length (1st
+  ClonalOrigin):
+[literal]
+usr/bin/extractClonalOriginParameter.pl
+
+- To summarize recedges (2nd ClonalOrigin):
+[literal]
+usr/bin/extractClonalOriginParameter2.pl
+
+- To generate trace plot of mutation rate, recombination rate, and track length
+  (1st ClonalOrigin):
+[literal]
+usr/bin/extractClonalOriginParameter3.pl
+
 Useful Bash Script
 ------------------
 - To cancel multiple CAC jobs:
@@ -189,5 +203,13 @@ Two jobs were not finished in the 1st stage of ClonalOrigin
 -----------------------------------------------------------
 core_co.phase2.293.xml
 core_co.phase2.67.xml
+
+Summarization of ClonalOrigin
+-----------------------------
+Recedge by recedge I count the import source.  Then divide those values by the
+number of sample sizes.
+
+How to plot a EPS figure?
+
 
 
