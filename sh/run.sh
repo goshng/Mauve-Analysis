@@ -29,9 +29,11 @@
 #   - receive-run-2nd-clonalorigin: receives the result of the second stage of
 #   clonal analysis.
 
+# Set this global variable.
+CLONALFRAMEREPLICATE=1
+REPLICATE=1
 # bash sh/run.sh smaller
 # bash sh/run.sh 
-
 SMALLER=$1
 SMALLERCLONAL=$1
 
@@ -43,8 +45,11 @@ MWF=$HOME/usr/bin/makeMauveWargFile.pl
 ECOP=$HOME/usr/bin/extractClonalOriginParameter.pl
 ECOP2=$HOME/usr/bin/extractClonalOriginParameter2.pl
 ECOP3=$HOME/usr/bin/extractClonalOriginParameter3.pl
+RECOMBINATIONMAP=pl/recombinationmap.pl
 COMPUTEMEDIANS=$HOME/usr/bin/computeMedians.pl
 LCB=$HOME/usr/bin/stripSubsetLCBs 
+GUI=clonalorigin/gui/gui.app/Contents/MacOS/gui 
+GUIPERL=pl/findBlocksWithInsufficientConvergence.pl
 # Genome Data Directory
 GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
 
@@ -62,7 +67,7 @@ function hms
 function prepare-filesystem {
   MAUVEANALYSISDIR=`pwd`
   SPECIESFILE=species/$SPECIES
-  NUMBER_SPECIES=$(wc -l < species/$SPECIES)
+  NUMBER_SPECIES=$(grep -v "^#" species/$SPECIES | wc -l)
   BASEDIR=`pwd`/output/$SPECIES
   RUNMAUVEDIR=$BASEDIR/run-mauve
   RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
@@ -89,7 +94,6 @@ function prepare-filesystem {
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
    
   RUNLOG=$BASEDIR/run.log
-  REPLICATE=1
 }
 
 function mkdir-SPECIES {
@@ -260,7 +264,7 @@ function run-lcb {
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   $LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
     $RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols \
-    $RUNLCBDIR/core_alignment.xmfa 500
+    $RUNLCBDIR/core_alignment.xmfa.org 500
 }
 
 function run-core2smallercore {
@@ -383,7 +387,6 @@ EOF
 }
 
 function send-clonalorigin-input-to-cac {
-  cp $RUNCLONALORIGIN/clonaltree.nwk $CACRUNCLONALORIGIN/
   cp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
 }
 
@@ -402,6 +405,7 @@ function copy-batch-sh-run-clonalorigin {
 
 # nsub -t 1-3 batch.sh 3
 set -x
+REPLICATE=${REPLICATE}
 CLONAL2ndPHASE=$1
 WORKDIR=\$PBS_O_WORKDIR
 LCBDIR=\$WORKDIR/../run-lcb
@@ -411,19 +415,18 @@ INPUTDIR=\$TMPDIR/input
 
 
 function to-node {
-  mkdir \$WORKDIR/output
-  mkdir \$WORKDIR/output2
-  mkdir \$WORKDIR/status
-  mkdir \$WORKDIR/status2
+  mkdir -p \$WORKDIR/output/\${REPLICATE}
+  mkdir -p \$WORKDIR/output2/\${REPLICATE}
+  mkdir -p \$WORKDIR/status/\${REPLICATE}
+  mkdir -p \$WORKDIR/status2/\${REPLICATE}
   mkdir \$INPUTDIR
   mkdir \$OUTPUTDIR
   cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
   cp \$WORKDIR/remain.txt \$TMPDIR/
-  cp \$WORKDIR/clonaltree.nwk \$TMPDIR/
+  cp \$WORKDIR/input/\${REPLICATE}/clonaltree.nwk \$TMPDIR/
   cp \$WARG \$TMPDIR/
   cp \$WORKDIR/batch_task.sh \$TMPDIR/  
 }
-
 
 function run-clonalorigin-jobs {
   ### Main script stars here ###
@@ -465,15 +468,18 @@ function run-clonalorigin-jobs {
     countLine=\$((countLine + 1))
     if [ \$countLine -gt \$STARTJOBID ] && [ \$countLine -lt \$ENDJOBID ]
     then
-      ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
+      STATUSFILE=\$WORKDIR/status/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$line.status
+      touch \$STATUSFILE
+      ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 10000 \\
         clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$line \\
-        \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$line.xml &
+        \$WORKDIR/output/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$line.xml &
+      # rm \$STATUSFILE
     fi
   done
   exec 0<&3
    
-  # restore $IFS which was used to determine what the field separators are
-  BAKIFS=$ORIGIFS
+  # restore \$IFS which was used to determine what the field separators are
+  BAKIFS=\$ORIGIFS
 }
 
 echo Start at
@@ -516,6 +522,7 @@ EOF
 
 # nsub -t 1-3 batch.sh 3
 set -x
+REPLICATE=${REPLICATE}
 CLONAL2ndPHASE=$1
 WORKDIR=\$PBS_O_WORKDIR
 LCBDIR=\$WORKDIR/../run-lcb
@@ -525,15 +532,15 @@ INPUTDIR=\$TMPDIR/input
 
 
 function to-node {
-  mkdir \$WORKDIR/output
-  mkdir \$WORKDIR/output2
-  mkdir \$WORKDIR/status
-  mkdir \$WORKDIR/status2
+  mkdir -p \$WORKDIR/output/\${REPLICATE}
+  mkdir -p \$WORKDIR/output2/\${REPLICATE}
+  mkdir -p \$WORKDIR/status/\${REPLICATE}
+  mkdir -p \$WORKDIR/status2/\${REPLICATE}
   mkdir \$INPUTDIR
   mkdir \$OUTPUTDIR
   cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
   cp \$WORKDIR/remain.txt \$TMPDIR/
-  cp \$WORKDIR/clonaltree.nwk \$TMPDIR/
+  cp \$WORKDIR/input/\${REPLICATE}/clonaltree.nwk \$TMPDIR/
   cp \$WARG \$TMPDIR/
   cp \$WORKDIR/batch_task.sh \$TMPDIR/  
 }
@@ -604,6 +611,7 @@ function hms
   printf "%02d:%02d:%02d\n" \$h \$m \$s
 }
 
+REPLICATE=${REPLICATE}
 PMI_RANK=\$1
 TOTALJOBS=\$2
 ENDJOBID=\$3
@@ -643,31 +651,31 @@ do
       echo begin-\$JOBID
       START_TIME=\`date +%s\`
       if [[ -z \$CLONAL2ndPHASE ]]; then
-        FINISHED=\$(tail -n 1 \$WORKDIR/output/core_co.phase2.\$JOBID.xml)
+        FINISHED=\$(tail -n 1 \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml)
         if [[ "\$FINISHED" =~ "outputFile" ]]; then
-          echo Already finished: \$WORKDIR/output/core_co.phase2.\$JOBID.xml
+          echo Already finished: \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml
         else
-          STATUSFILE=\$WORKDIR/status/${SMALLERCLONAL}core_co.phase2.\$JOBID.status
+          STATUSFILE=\$WORKDIR/status/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.status
           if [ ! -f "\$STATUSFILE" ]; then
             touch \$STATUSFILE
-            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 1000000 -z 10000 \\
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 10000 \\
               clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-              \$WORKDIR/output/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+              \$WORKDIR/output/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
             rm \$STATUSFILE
           fi
         fi
       else
-        FINISHED=\$(tail -n 1 \$WORKDIR/output2/core_co.phase3.\$JOBID.xml)
+        FINISHED=\$(tail -n 1 \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml)
         if [[ "\$FINISHED" =~ "outputFile" ]]; then
-          echo Already finished: \$WORKDIR/output2/core_co.phase3.\$JOBID.xml
+          echo Already finished: \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml
         else
-          STATUSFILE=\$WORKDIR/status2/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
+          STATUSFILE=\$WORKDIR/status2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
           if [ ! -f "\$STATUSFILE" ]; then
             touch \$STATUSFILE
             ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 100000 \\
               -T s${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R s${MEDIAN_RHO} \\
               clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-              \$WORKDIR/output2/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+              \$WORKDIR/output2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
             rm \$STATUSFILE
           fi
         fi
@@ -737,6 +745,38 @@ function receive-run-mauve {
   done
 }
 
+function filter-blocks {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e 'What is the temporary id of mauve-analysis?'
+      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      echo -n "JOB ID: " 
+      read JOBID
+      echo -e "Preparing clonalframe analysis...\n"
+      prepare-filesystem 
+      # Then, run LCB.
+      echo -e "  Finding core blocks of the alignment...\n"
+      mkdir-tmp 
+      run-lcb 
+      rmdir-tmp
+      echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
+       
+      echo -e "Choose blocks to remove (e.g., 33,42,57): "
+      read BLOCKSREMOVED
+      perl pl/remove-blocks-from-core-alignment.pl \
+        -blocks $BLOCKSREMOVED -fasta $RUNLCBDIR/core_alignment.xmfa.org \
+        -outfile $RUNLCBDIR/core_alignment.xmfa
+      echo -e "  A new $RUNLCBDIR/core_alignment.xmfa is generated\n"
+      echo -e "Now, prepare clonalframe analysis.\n"
+      break
+    fi
+  done
+}
+
 # 3. Prepare clonalframe analysis.
 # NOTE: full_alignment.xmfa has input genome files full paths.
 #       These are the paths that were used in CAC not local machine.
@@ -757,6 +797,7 @@ function receive-run-mauve {
 #       alignment: core_alignment.xmfa.
 # NOTE: I run clonalframe for a very short time to find a NJ tree.
 #       I had to run clonalframe twice.
+# NOTE: some of the alignments are removed from the analysis.
 function prepare-run-clonalframe {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -764,17 +805,14 @@ function prepare-run-clonalframe {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e 'What is the temporary id of mauve-analysis?'
-      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
-      echo -n "JOB ID: " 
-      read JOBID
+      #echo -e 'What is the temporary id of mauve-analysis?'
+      #echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      #echo -n "JOB ID: " 
+      #read JOBID
       echo -e "Preparing clonalframe analysis...\n"
       prepare-filesystem 
       echo -e "  Making temporary data files....\n"
-      mkdir-tmp 
-      # Then, run LCB.
-      echo -e "  Finding core blocks of the alignment...\n"
-      run-lcb 
+      #mkdir-tmp 
       # Find all the blocks in FASTA format.
       #run-blocksplit2fasta 
       echo -e "  Computing Wattersons's estimates...\n"
@@ -790,7 +828,7 @@ function prepare-run-clonalframe {
       echo -e "Or, you may ignore.\n"
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
-      rmdir-tmp
+      #rmdir-tmp
       echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
       break
     fi
@@ -831,11 +869,15 @@ function receive-run-clonalframe {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -e "Which replicate set of ClonalFrame output files?"
+      echo -n "ClonalFrame REPLICATE ID: " 
+      read CLONALFRAMEREPLICATE
       echo -e "Receiving clonalframe-output...\n"
       prepare-filesystem 
-      cp -r $CACRUNCLONALFRAME/output $RUNCLONALFRAME/
+      mkdir -p $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
+      cp $CACRUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
       echo -e "Sending clonalframe-output to swiftgen...\n"
-      scp -r $CACRUNCLONALFRAME/output $SWIFTGENRUNCLONALFRAME/
+      scp -r $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE $SWIFTGENRUNCLONALFRAME/
       echo -e "Now, prepare clonalorigin.\n"
       break
     fi
@@ -854,17 +896,30 @@ function prepare-run-clonalorigin {
       #echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
       #echo -n "JOB ID: " 
       #read JOBID
+      echo -e "Which replicate set of ClonalFrame output files?"
+      echo -n "ClonalFrame REPLICATE ID: " 
+      read CLONALFRAMEREPLICATE
+      echo -e "Which replicate set of ClonalOrigin output files?"
+      echo -n "ClonalOrigin REPLICATE ID: " 
+      read REPLICATE
       echo -e "Preparing clonalframe analysis..."
       prepare-filesystem 
+      mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
+      mkdir $RUNCLONALORIGIN/output
+      mkdir $RUNCLONALORIGIN/output2
+      mkdir -p $CACRUNCLONALORIGIN/input/${REPLICATE}
 
       echo -e "Read which clonalframe output file is used to have a phylogeny of a clonal frame."
       echo -n "RUN ID: " 
       read RUNID
-      perl $GCT $RUNCLONALFRAME/output/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/clonaltree.nwk
+      perl $GCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
       echo -e "  Splitting alignment into one file per block..."
+      rm $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.*
       perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
-      # Some script.
       send-clonalorigin-input-to-cac
+
+      cp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
+      # Some script.
       copy-batch-sh-run-clonalorigin
       echo -e "Go to CAC's output/$SPECIES run-clonalorigin, and execute nsub batch.sh"
       echo -e "Submit a job using a different command."
@@ -891,19 +946,24 @@ function receive-run-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Receiving clonalframe-output...\n"
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
+      echo -e "Receiving 1st stage of clonalorigin-output...\n"
       prepare-filesystem 
-      cp -r $CACRUNCLONALORIGIN/output $RUNCLONALORIGIN/
+      mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
+      cp -r $CACRUNCLONALORIGIN/output/${REPLICATE} $RUNCLONALORIGIN/output/
+      echo -e "Computing the global medians of theta, rho, and delta ...\n"
       perl $COMPUTEMEDIANS \
-        $RUNCLONALORIGIN/output/$REPLICATE/${SMALLERCLONAL}core*.xml \
-        | grep ^Median > $RUNCLONALORIGIN/median.txt
-      MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
-      MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
-      MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/median.txt | cut -d ":" -f 2)
-      echo -e "Now, prepare 2nd clonalorigin."
+        $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
+        | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+      MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      echo -e "Preparing 2nd clonalorigin ... "
+      copy-batch-sh-run-clonalorigin Clonal2ndPhase
       echo -e "Submit a job using a different command."
       echo -e "$ bash batch.sh 3 to use three computing nodes"
-      copy-batch-sh-run-clonalorigin Clonal2ndPhase
       break
     fi
   done
@@ -917,6 +977,9 @@ function receive-run-2nd-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
       echo -e 'What is the temporary id of mauve-analysis?'
       echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
       echo -n "JOB ID: " 
@@ -927,8 +990,8 @@ function receive-run-2nd-clonalorigin {
       mkdir-tmp 
 
       echo -e "Receiving 2nd clonalorigin-output...\n"
-      cp -r $CACRUNCLONALORIGIN/output2 $RUNCLONALORIGIN/     # -done should be trimmed
-      for f in  $RUNCLONALORIGIN/output2/*phase*; do          # -done should be trimmed
+      cp -r $CACRUNCLONALORIGIN/output2/${REPLICATE} $RUNCLONALORIGIN/output2/     # -done should be trimmed
+      for f in  $RUNCLONALORIGIN/output2/${REPLICATE}/*phase*; do          # -done should be trimmed
         bzip2 $f
       done
       
@@ -938,7 +1001,7 @@ function receive-run-2nd-clonalorigin {
         $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
       echo -e "Doing MWF ...\n"
       
-      perl $MWF $RUNCLONALORIGIN/output2/*phase3*.bz2         # -done should be trimmed
+      perl $MWF $RUNCLONALORIGIN/output2/${REPLICATE}/*phase3*.bz2         # -done should be trimmed
       rmdir-tmp
       echo -e "Now, do more analysis with mauve.\n"
       break
@@ -954,39 +1017,96 @@ function analysis-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
       prepare-filesystem 
+ 
+      select WHATANALYSIS in convergence summary recedge recmap traceplot ; do 
+        if [ "$WHATANALYSIS" == "" ];  then
+          echo -e "You need to enter something\n"
+          continue
 
-      #echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
-      #perl $ECOP \
-        #$RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
-        #> $RUNCLONALORIGIN/log.p
+# gui.app/Contents/MacOS/gui -b -o ../../output/cornell5/run-clonalorigin/output/1/core_co.phase2.1.xml -g ../../output/cornell5/run-clonalorigin/output/2/core_co.phase2.1.xml
 
-      #echo -e "Finding the number of recombination events inferred relative to its expectation under our prior model given the stage 2 inferred recombination rate, for each donor/recipient pair of branches.\n"
-      #perl $ECOP2 \
-        #$RUNCLONALORIGIN/output2/${SMALLERCLONAL}core*.xml.bz2 \
-        #> $RUNCLONALORIGIN/log2.p
+        elif [ "$WHATANALYSIS" == "convergence" ];  then
+          echo -e "Checking convergence of parameters for the blocks ...\n"
+          rm -f $RUNCLONALORIGIN/output/output.txt
+          for i in {1..415}; do
+            $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
+              -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml \
+              >> $RUNCLONALORIGIN/output/output.txt
+            #echo "=" >> $RUNCLONALORIGIN/output/output.txt
+          done 
+          echo -e "Finding blocks with insufficient convergence ...\n"
+          perl $GUIPERL $RUNCLONALORIGIN/output/output.txt
+          break
+        elif [ "$WHATANALYSIS" == "summary" ];  then
+          echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
+          perl $ECOP \
+            $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+            > $RUNCLONALORIGIN/log.p
+          break
+        elif [ "$WHATANALYSIS" == "recedge" ];  then
+          echo -e "Finding the number of recombination events inferred relative to its expectation under our prior model given the stage 2 inferred recombination rate, for each donor/recipient pair of branches.\n"
+          perl $ECOP2 \
+            $RUNCLONALORIGIN/output2/${REPLICATE}/${SMALLERCLONAL}core*.xml.bz2 \
+            > $RUNCLONALORIGIN/log2.p
+          break
+        elif [ "$WHATANALYSIS" == "recmap" ];  then
+          echo -e "Making graphs to display some using IGB ...\n"
+          # Header information should be in the gff file.
+          #grep "RefSeq	gene" $GENOMEDATADIR/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff > $RUNCLONALORIGIN/NC_004070.gff
 
-      echo -e "Trace plots ... \n"
-      perl $ECOP3 \
-        $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
-        > $RUNCLONALORIGIN/log3.p
-      echo -e "Splitting the log files ...\n"
-      split -l 100 $RUNCLONALORIGIN/log3.p
-      for s in x*; do
-        echo -e "${s}.Gen\t${s}.f\t${s}.iter\t${s}.ll\t${s}.prior\t${s}.theta\t${s}.rho\t${s}.delta\n" |cat - $s > /tmp/out && mv /tmp/out $s
+          # Recombination maps along the genome
+          for i in {0..4}; do
+            for j in {0..8}; do
+              perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair $i,$j -map $RUNCLONALORIGIN/log2.p
+            done
+          done
+          for j in {2..8}; do
+            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,$j -map $RUNCLONALORIGIN/log2.p
+          done
+          for j in 2 5 6 7 8; do
+            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 6,$j -map $RUNCLONALORIGIN/log2.p
+          done
+          for j in 6 7 8; do
+            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 7,$j -map $RUNCLONALORIGIN/log2.p
+          done
+          perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 8,8 -map $RUNCLONALORIGIN/log2.p
+
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,6 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,6 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,6 -map $RUNCLONALORIGIN/log2.p
+          break
+        elif [ "$WHATANALYSIS" == "traceplot" ];  then
+          echo -e "Trace plots ... \n"
+          perl $ECOP3 \
+            $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
+            > $RUNCLONALORIGIN/log3.p
+          echo -e "Splitting the log files ...\n"
+          split -l 100 $RUNCLONALORIGIN/log3.p
+          for s in x*; do
+            echo -e "${s}.Gen\t${s}.f\t${s}.iter\t${s}.ll\t${s}.prior\t${s}.theta\t${s}.rho\t${s}.delta\n" |cat - $s > /tmp/out && mv /tmp/out $s
+          done
+          echo -e "Combine all trace files ...\n"
+          rm -f /tmp/in
+          touch /tmp/in
+          for s in x*; do
+            paste /tmp/in $s > /tmp/out 
+            mv /tmp/out /tmp/in
+          done
+          mv /tmp/in a.log
+          rm x* 
+          break
+        fi
       done
-      echo -e "Combine all trace files ...\n"
-      rm -f /tmp/in
-      touch /tmp/in
-      for s in x*; do
-        paste /tmp/in $s > /tmp/out 
-        mv /tmp/out /tmp/in
-      done
-      mv /tmp/in a.log
-      rm x* 
-
-      # echo -e "Gen\tf\titer\tll\tprior\ttheta\trho\tdelta\n"
-      # echo "text"|cat - xaa > /tmp/out && mv /tmp/out xaa
       break
     fi
   done
@@ -1022,7 +1142,7 @@ function generate-species {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
+CHOICES=( list-species generate-species preparation receive-run-mauve filter-blocks prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
 select CHOICE in ${CHOICES[@]}; do 
  
   if [ "$CHOICE" == "" ];  then
@@ -1041,6 +1161,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "receive-run-mauve" ];  then
     receive-run-mauve
+    break
+  elif [ "$CHOICE" == "filter-blocks" ];  then
+    filter-blocks
     break
   elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
     prepare-run-clonalframe 

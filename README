@@ -67,6 +67,28 @@ Two of three ClonalFrame runs seems concordant.  I proceed with the first stage
 of ClonalOrigin analysis. 
 Several blocks need more computing time than many others.
 
+ClonalFrame's analyses 1 and 2 are similar.  Replicate 1 uses the 2nd one, and
+replicate 2 uses the 1st one.  The 0-th ClonalFrame analysis is not similar to
+those, and it is not used.
+
+Among 419 blocks 3 blocks are removed and the data set consists of 416 blocks.
+The removed blocks have weird gaps: 67,82,153,293 are moved. 
+67 and 82 do not have gaps but its takes too much time to run them with 
+clonal origin probably due to very large number of recedges.
+
+In the second runs of clonalframe, I have multiple trees. The tree (A) that I used
+before apprears in 3 out of 7. One tree with higher likelihood appears, and this
+is problematic. Since I have to assess the convergence issue of 1st
+ClonalOrigin and the tree A appears to make sense, I use one of the tree say,
+ClonalFrame RUNID of 1 to proceed to ClonalOrigin analysis.
+
+RUNID=5 Note that this is the run id of ClonalFrame runs.
+
+CLONALFRAMEREPLICATE=2 Note that this replicate is one for run-clonalframe not
+run-clonalorigin.
+
+REPLICATE=1 This is the replicate number for run-clonalorigin.
+
 spyogenes
 ---------
 I used 13 genomes. Two runs did not converge. Clonal frame is hard to obtain.
@@ -211,5 +233,42 @@ number of sample sizes.
 
 How to plot a EPS figure?
 
+Checks
+------
+. Count remaining jobs when the total length of a chain is 2000000:
+[literal]
+grep "<number>2000001" output/2/* | wc
+[literal]
+for i in {1..419}; do grep --with-filename "<number>" output/2/core_co.phase2.$i.xml | tail -n 1; done | grep -v 2000001 | wc
 
+To Do
+-----
+Change the following code to generate some figures for recombinant edges given a
+clonal frame and a genome. We need a reference genome. I think that the first
+SDE1 can be a reference genome.
+The length of a block can be found XML tag <Blocks>. The start and end positions
+of a block along the genome SDE1 can be found the block of alignment: e.g.,
+core_alignment.xmfa.55.  The first sequence has the start and end position.
+Note that the block length should be equal to the sum of abs(start - end) + 1 +
+number of gaps in the alignment. The start and end positions are inclusive.
+[literal]
+usr/bin/extractClonalOriginParameter2.pl
 
+Check REPLICATE bash variable in run.sh.
+
+I should compare 2 replicates of the first stages of clonal origin MCMC.
+
+gff
+---
+The following lines should be in the gff file. Then IGB can display names.
+
+##gff-version 3
+#!gff-spec-version 1.14
+#!source-version NCBI C++ formatter 0.2
+##Type DNA NC_0004070.1
+
+Long Jobs
+---------
+cornell5
+^^^^^^^^
+67 and 293

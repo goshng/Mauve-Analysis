@@ -6,6 +6,13 @@ Written for version 1 release.
 v2.0, February 2010:
 Rewritten for version 2 release.
 
+TODO
+----
+. List genes of interest.
+.. I may have to list all genes and then classify them.
+. Previous studies using _S. pyogenes_ and SDE.
+. Molecular mechanism of bacterial recombination.
+
 Authors
 -------
 Sang Chul Choi
@@ -37,8 +44,44 @@ Two competing hypotheses on the evolution of the two species are tested.
 I privide more evidence for hypothesis 1 with detailed view of evolutionary
 history of the two Streptococci species.
 
+Homologous recombination between bacterial species results in horizontal
+transfer of genetic segments from a donor to a recipient species (CITE). Group A
+streptococci (GAS) have been conjectured to be the donor speices of group C and
+G streptococci (GCS and GGS, respectively) in genetic loci including
+housekeeping genes and virulence factors (CITE). Data analyses for testing the
+hypothesis are limited by both very short regions of bacterial genomes and
+unsatisfactory methods of statistical inference (CITE). 
+Tens of GAS genomes are publically available (e.g., CITE of one GAS genome), and
+two genomes for _S. dysgalactiae_ spp. _equisimilis_ (SDE) that is GCS or GGS
+are also recently available (CITE of each of the two genomes).
+Despite the surge of bacterial genomic data, development of methods for
+analyzing those data lags behind. Recently, Didelot:2010 pioneered to exploit
+bacterial genomes in an effort to better understand homologous recombination
+between bacterial species and strains.
+I take the advantage of the powerful statistical method to investigate
+horizontal transfer of genetic segments between _S. pyogenes_ and 
+_S. dysgalactiae_ spp. _equisimilis_.  I provide evidence supporting that SDE
+imported genetic segments from _S. pyogenes_ via homologous recombination.
+
 Introduction
 ------------
+
+GAS
+~~~
+. Group A streptococcus (GAS) is a human-specific pathogen primarily infecting the
+throat and skin.
+. S. pyogenes can cause severe invasive disease.
+. Streptococcus pyogenes is a human pathogen having high prevalence throughout
+the world.
+
+
+GGS
+~~~
+. Group G streptococcus (GGS) is generally regarded as a less important organism,
+which cohabits with GAS at the same tissue sites.
+. Some GGS, specifically Streptococcus dysgalactiae subsp. equi- similis, are
+capable of causing serious and life-threatening dis- eases traditionally
+associated with GAS.
 
 GCS/GGS and GAS colonize the same ecological niche
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -192,7 +235,62 @@ put. sugar binding lipoprotein
 Hypothetical (hyp.) extracellular genes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Genes
+-----
+. _emm_
+. _sfbI_: encoding streptococcal fibronectin-binding protein I (SfbI; also
+known as protein F1)
+. _gbfA_
+.. located adjacent to _rofA_
+. _rofA_
+. _nra_
+. _mga_
 
+Proteins
+--------
+
+Towers:2004 cites some of the following proteins:
+. Plasminogen (Plg)-binding group A streptococcal M protein (PAM) 
+. M suface proteins
+. C5a peptidase
+. streptolysin O
+. streptococcal pyrogenic exotoxin G (SpeG)
+. streptokinase (_ska_)
+. plasmin: broad-spectrum proteinase involved in blood clot dissolution and cellular migration
+. streptococcal fibronectin-binding protein I (SfbI; also
+known as protein F1) (_sbfI_)
+.. an important and well-characterized virulence factor in GAS that is involved
+in adherence to throat and skin cells (21, 27) and mediates GAS internalization
+in epithelial cells (15, 19). 
+. fibronnectin
+. RofA is encoded in the FCT region.
+.. a global regulator of GAS (8) found in the FCT region, a locus which exhibits
+high rates of recombination (3).
+.. These are mga and rofA/nra, encoding the ``stand- alone'' response regulators
+Mga and RofA/Nra, for which the interacting sensory elements remain unknown (36,
+50)
+. plasminogen activator (Ska)
+
+Diseases
+--------
+
+Towers:2004 cited the following disease:
+. septicemia (10)
+. endocarditis (25)
+. septic arthritis (12)
+. pneumonia
+. meningitis
+. pharyngitis: ``strep'' throat.
+. impetigo
+. otitis media
+. acute poststreptococcal glomerulonephritis (22)
+. cellulitis
+. acute rheumatic fever (13)
+
+. toxic shock syndrome
+. 
+
+Throat and skin are the primary habitat for _S. pyogenes_.
 
 Shared genomic contents
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,8 +341,41 @@ between virulence profiles and GCS/GGS disease propensity.
 I did not account for gene gain and loss in the analysis. Only well aligned
 regions were used in the analysis.
 
+
+Discussion
+----------
+
+Delorme:2007 indicated that _S. salivarius_ and _S. vestibularis_ may have
+evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
+
+
+
 References
 ----------
+. Ahmad et al. 2009. J Clin Microbiol. 2009 July; 47(7): 2046–2054. Published online 2009 April 22. doi: 10.1128/JCM.00246-09.
+. Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al. (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives. PLoS ONE 3(7): e2683. doi:10.1371/journal.pone.0002683
+. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci of the Salivarius Group. J. Bacteriol. 189 (4): 1330
+. Kalia A., and D. E. Bessen. Natural Selection and Evolution of Streptococcal Virulence Genes Involved in Tissue-Specific Adaptations. Journal of Bacteriology, January 2004, p. 110-121, Vol. 186, No. 1 
+. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.  Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.  Spratt. 2001. Recombination within natural populations of pathogenic bac- teria: short-term empirical estimates and long-term phylogenetic conse- quences. Proc.  Natl. Acad. Sci. 98:182–187.
+.. Recombination between bacterial species.
+. Towers et al. Fibronectin-binding protein gene recombination and horizontal transfer between group A and G streptococci.  J Clin Microbiol. 2004 Nov;42(11):5357-61.
+. Bessen et al. Evolution of transcription regulatory genes is linked to niche
+specialization in the bacterial pathogen Streptococcus pyogenes. J Bacteriol. 2005 Jun;187(12):4163-72.
+. Kalia, A., B. G. Spratt, M. C. Enright, and D. E. Bessen. 2002. Influence of
+recombination and niche separation on the population genetic structure of the
+pathogen Streptococcus pyogenes. Infect. Immun. 70:1971–1983 [NOT YET READ]
+. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.
+Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.
+Spratt. 2001. Recombination within natural populations of pathogenic bacteria:
+short-term empirical estimates and long-term phylogenetic consequences. Proc. Natl. Acad. Sci. USA 98:182–187. [NOT YET READ]
+. Schmidt, H., and M. Hensel. 2004. Pathogenicity islands in bacterial
+pathogenesis. Clin. Microbiol. Rev. 17:14–56. [NOT YET READ]
+. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci
+of the Salivarius Group. JOURNAL OF BACTERIOLOGY, Feb. 2007, p. 1330–1341
+. Kalia et al. Directional gene movement from human-pathogenic to commensal-like
+streptococci. Infect Immun. 2001 Aug;69(8):4858-69. [THIS PAPER WAS RETRACTED
+DUE TO SOME PROBLEM THAT I DID NOT KNOW]  
+. Cohan, F. M. 2001. Bacterial species and speciation. Syst. Biol. 50:513–524.
 
 Tables
 ------
@@ -429,4 +560,88 @@ from a pathogen by a loss of virulence genes.
 
 GCS/GGS and GAS colonize the same ecological niche and exhibit considerable
 overlap in their disease profiles.
+
+Kalia:2004
+^^^^^^^^^^
+The molecular mechanisms underlying niche adaptation in bacteria are not fully
+understood.
+
+The emm genes encode M surface proteins, which display extensive heterogeneity
+in terms of structure and function.
+
+More recently, multilocus sequence typing revealed that horizontal acquisition
+may also have contributed to variations in selection-neutral housekeeping genes
+in GGS.  The multilocus sequence typing data also suggests that the overall
+direction of genetic flow is predominantly from GAS to GGS. -- cited by Twoers:2004
+
+Towers:2004
+^^^^^^^^^^^
+We report evidence of interspecies gene transfer between the important virulence
+factor genes sfbI and gfbA.
+Because the identified group G streptococcus gfbA types possess DNA cassettes
+that can be identified in a number of group A streptococcus strains, it appears
+that homologous recombination is occurring between these species.
+
+Bessen:2005
+^^^^^^^^^^^
+_Streptococcus pyogenes_ is a highly prevalent bacterial pathogen, most often
+giving rise to superficial infections at the throat or skin of its human host.
+
+The findings provide strong support for a mechanism underlying niche
+specialization that involves orthologous replacement of regulatory genes follow-
+ing interspecies horizontal transfer, although the directionality of gene
+exchange remains unknown.
+
+In contrast to the strong linkage observed between emm pattern and tissue site
+of isolation, the distribution of neutral housekeeping alleles among strains of
+S. pyogenes is highly random.
+
+S. pyogenes ranks among the most highly recom- binogenic of several bacterial
+species examined (19), whereby genetic recombination is the consequence of a
+horizontal gene transfer (HGT) event. (I think that HGT is the result of genetic
+recombination, isn't it?)
+
+Orthologous gene replacements leading to the successful exploitation of a new
+niche may have a particularly high impact on the accelerated evolution of this
+bacterial species, which is otherwise lacking in pathogenicity islands (55). (I
+think that _S. pyogenes_ lacks in pathogenicity islands (PAI).)
+
+Schmidt:2004
+^^^^^^^^^^^^
+The genome sequence of S. pyogenes revealed that a large number of virulence
+factors have been acquired by bacteriophage-mediated horizontal gene transfer
+but that PAI are absent from the genome (90). In contrast, a chromosomal region
+reminiscent of a PAI has been identified in S. pneumoniae. This locus was termed
+pneumo- coccal pathogenicity island 1 (PPI-1) (34).
+
+Good wordings
+-------------
+. It is postulated that ...
+. The studies described in this report are part of a multidisciplinary effort to better understand ...
+. ... consistent with the observation that ...
+. Two bacteria have a common disease spectrum.
+
+Why is recombination rate between SPY1 and SPY2 lower than that between SPY and SDE?
+------------------------------------------------------------------------------------
+It is because Clonal Origin cannot detect recombination between SPY1 and SPY2.
+It can easily detect recombination between SPY and SDE. Recombinations are
+common events between strains with a species, e.g., SPY. Clonal Origin cannot
+detect those.
+
+Questions
+---------
+. See if _sbfI_ and _gfbA_ are under high recombination. Towers:2004 found
+evidence that suports horizontal transfer from _S. pyogenes_ to SDE.
+. Bessen:2005 found evidence that supports horizontal transfer of _mga_ and
+_rofA/nra_ genes between _S. pyogenes_ and SDE. But, they could not find
+evidence for the direction of the flow.
+. Beesen:2005 suggested that _rofCG_ may have been transferred from SDE to 
+_S. pyogenes_.
+. Bessen:2005 suggested that _rofA_ and _ska-2a_ may have been transferred from
+SDE to _S. pyogenes_. This might facilitate the adaptation of some clones of 
+_S. pyogenes_ to the throat, a new niche.
+. Correlation between genomic location and recombination rates exits. Unless
+there are correlations between functional categories and genomic locations I'd
+not expect correlation between recombination and function classes.
+
 
