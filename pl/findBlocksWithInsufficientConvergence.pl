@@ -39,7 +39,9 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
-            'in=s'
+            'in=s',
+            'n=i',
+            'k=i'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -54,7 +56,10 @@ findBlocksWithInsufficientConvergence.pl 0.1.0
 
 =head1 SYNOPSIS
 
-perl findBlocksWithInsufficientConvergence.pl [-h] [-help] [-version] [-in input_file] 
+perl findBlocksWithInsufficientConvergence.pl [-h] [-help] [-version] 
+  [-in input_file] 
+  [-n number_of_jobs] 
+  [-k number_of_parameter] 
 
 =head1 DESCRIPTION
 
@@ -114,6 +119,8 @@ You should have received a copy of the GNU General Public License along with thi
 =cut
 
 my $infilename;
+my $numBlocks;
+my $numParameters;
 
 if (exists $params{in})
 {
@@ -130,44 +137,34 @@ else
 ################################################################################
 #
 
+my @parameters = ("theta", "rho", "delta", "num edges", "log-likelihood", "tmrca", "sumbralen");
 # Count multiple hits of a short read.
 open FILE, "$infilename" or die "$!";
-my $line = <FILE>;
-while (<FILE>) {
-   chomp();
-
-
-
-   my @elements = split /\s+/;
-   my $pos = $elements[0];
-   # eto 0, efrom 3 index is 9 * eto + efrom + 1
-
-   my $v = 0;
-   my $to;
-   my $from;
-   my $j;
-   for (my $i = 0; $i <= $#eto; $i++)
+my $line;
+while ($line = <FILE>)
+{
+   my $blockid; 
+   if ($line =~ /^Block: (\d+)/)
    {
-     $to = $eto[$i];
-     $from = $efrom[$i];
-     $j = 9 * $to + $from + 1;
-     if ($elements[$j] / $samplesize > 0.9) # Sample size is 101.
-     {
-       $v = 1;
-     }
-     else
-     {
-       $v = 0;
-     }
+     $blockid = $1;
    }
-   if ($#eto == 0)
+   for (my $i = 0; $i < 4; $i++)
    {
-     $v = $elements[$j] / $samplesize;
+     $line = <FILE>;
    }
-   print $fhigb "$chromosomeName\t$pos\t$v\n";
+   for (my $i = 0; $i < 7; $i++)
+   {
+     $line = <FILE>;
+     chomp($line);
+     my @elements = split /,/, $line;
+     if ($elements[4] > 1.1)
+     {
+       print "### Check block $blockid: $parameters[$i] did not converge ($elements[4])\n";
+     }
+     # print $parameters[$i], " : ", $elements[4], "\n";
+   }
 }
 close(FILE);
-close($fhigb);
 
 ##
 #################################################################################

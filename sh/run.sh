@@ -1026,21 +1026,40 @@ function analysis-clonalorigin {
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
-
-# gui.app/Contents/MacOS/gui -b -o ../../output/cornell5/run-clonalorigin/output/1/core_co.phase2.1.xml -g ../../output/cornell5/run-clonalorigin/output/2/core_co.phase2.1.xml
-
         elif [ "$WHATANALYSIS" == "convergence" ];  then
           echo -e "Checking convergence of parameters for the blocks ...\n"
-          rm -f $RUNCLONALORIGIN/output/output.txt
-          for i in {1..415}; do
-            $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
-              -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml \
-              >> $RUNCLONALORIGIN/output/output.txt
-            #echo "=" >> $RUNCLONALORIGIN/output/output.txt
+          #rm -f $RUNCLONALORIGIN/output/convergence.txt
+          for i in {1..100}; do
+          #for i in {101..200}; do
+          #for i in {201..300}; do
+          #for i in {301..415}; do
+            ALLTHREEDONE=YES
+            for j in {1..3}; do
+              FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$j/${SMALLERCLONAL}core_co.phase2.$i.xml)
+              if [[ "$FINISHED" =~ "outputFile" ]]; then
+                ALLTHREEDONE=YES
+              else
+                ALLTHREEDONE=NO
+                break
+              fi
+            done
+
+            if [[ "$ALLTHREEDONE" = "YES" ]]; then
+              echo "Block: $i" > $RUNCLONALORIGIN/output/convergence-$i.txt
+              echo -e "Computing Gelman-Rubin Test ...\n"
+              $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
+                -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/${SMALLERCLONAL}core_co.phase2.$i.xml:1 \
+                >> $RUNCLONALORIGIN/output/convergence-$i.txt
+              echo -e "Finding blocks with insufficient convergence ...\n"
+              perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
+            else
+              echo "Block: $i do not have all replicates" 1>&2
+            fi
           done 
-          echo -e "Finding blocks with insufficient convergence ...\n"
-          perl $GUIPERL $RUNCLONALORIGIN/output/output.txt
-          break
+
+          #echo -e "Finding blocks with insufficient convergence ...\n"
+          #perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence.txt
+          #break
         elif [ "$WHATANALYSIS" == "summary" ];  then
           echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
           perl $ECOP \
