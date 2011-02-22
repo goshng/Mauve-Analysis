@@ -45,7 +45,9 @@ MWF=$HOME/usr/bin/makeMauveWargFile.pl
 ECOP=$HOME/usr/bin/extractClonalOriginParameter.pl
 ECOP2=$HOME/usr/bin/extractClonalOriginParameter2.pl
 ECOP3=$HOME/usr/bin/extractClonalOriginParameter3.pl
+ECOP4=$HOME/usr/bin/extractClonalOriginParameter4.pl
 RECOMBINATIONMAP=pl/recombinationmap.pl
+LISTGENEGFF=pl/listgenegff.pl 
 COMPUTEMEDIANS=$HOME/usr/bin/computeMedians.pl
 LCB=$HOME/usr/bin/stripSubsetLCBs 
 GUI=clonalorigin/gui/gui.app/Contents/MacOS/gui 
@@ -71,6 +73,7 @@ function prepare-filesystem {
   BASEDIR=`pwd`/output/$SPECIES
   RUNMAUVEDIR=$BASEDIR/run-mauve
   RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
+  RUNANALYSISDIR=$BASEDIR/run-analysis
   RUNLCBDIR=$BASEDIR/run-lcb
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
   RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
@@ -643,6 +646,12 @@ do
     echo \$JOBID > \$JOBIDFILE
     JOBID=\$(( JOBID - 1))
 
+    # To read in a line and delete the line so that a next job can be read.
+    # Note that jobidfile should contain a list of numbers.
+    #read -r JOBID < \${JOBIDFILE}
+    #sed '1d' \${JOBIDFILE} > \${JOBIDFILE}.temp;
+    #mv \${JOBIDFILE}.temp \${JOBIDFILE}
+
     rm -f "\$lockfile"
     trap - INT TERM
 
@@ -952,18 +961,44 @@ function receive-run-clonalorigin {
       echo -e "Receiving 1st stage of clonalorigin-output...\n"
       prepare-filesystem 
       mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
-      cp -r $CACRUNCLONALORIGIN/output/${REPLICATE} $RUNCLONALORIGIN/output/
+
+      echo "Skipping copy of the output files because I've already copied them ..."
+      #mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
+      #cp $CACRUNCLONALORIGIN/output/${REPLICATE}/* $RUNCLONALORIGIN/output/${REPLICATE}/
+
       echo -e "Computing the global medians of theta, rho, and delta ...\n"
       perl $COMPUTEMEDIANS \
         $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
         | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
-      MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-      MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-      MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-      echo -e "Preparing 2nd clonalorigin ... "
-      copy-batch-sh-run-clonalorigin Clonal2ndPhase
-      echo -e "Submit a job using a different command."
-      echo -e "$ bash batch.sh 3 to use three computing nodes"
+      echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
+      break
+    fi
+  done
+}
+
+# Prepare 2nd clonalorigin-analysis.
+function prepare-run-2nd-clonalorigin {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
+      prepare-filesystem 
+      if [ -f "$RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" ]; then
+        MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+        MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+        MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+        echo -e "Preparing 2nd clonalorigin ... "
+        copy-batch-sh-run-clonalorigin Clonal2ndPhase
+        echo -e "Submit a job using a different command."
+        echo -e "$ bash batch.sh 3 to use three computing nodes"
+      else
+        echo "No summary file called $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" 1>&2
+      fi
       break
     fi
   done
@@ -1022,17 +1057,17 @@ function analysis-clonalorigin {
       read REPLICATE
       prepare-filesystem 
  
-      select WHATANALYSIS in convergence summary recedge recmap traceplot ; do 
+      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot ; do 
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
         elif [ "$WHATANALYSIS" == "convergence" ];  then
           echo -e "Checking convergence of parameters for the blocks ...\n"
           #rm -f $RUNCLONALORIGIN/output/convergence.txt
-          for i in {1..100}; do
+          #for i in {1..100}; do
           #for i in {101..200}; do
           #for i in {201..300}; do
-          #for i in {301..415}; do
+          for i in {301..415}; do
             ALLTHREEDONE=YES
             for j in {1..3}; do
               FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$j/${SMALLERCLONAL}core_co.phase2.$i.xml)
@@ -1044,22 +1079,81 @@ function analysis-clonalorigin {
               fi
             done
 
-            if [[ "$ALLTHREEDONE" = "YES" ]]; then
-              echo "Block: $i" > $RUNCLONALORIGIN/output/convergence-$i.txt
-              echo -e "Computing Gelman-Rubin Test ...\n"
-              $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
-                -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/${SMALLERCLONAL}core_co.phase2.$i.xml:1 \
-                >> $RUNCLONALORIGIN/output/convergence-$i.txt
-              echo -e "Finding blocks with insufficient convergence ...\n"
-              perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
-            else
-              echo "Block: $i do not have all replicates" 1>&2
+            if [ ! -f "$RUNCLONALORIGIN/output/convergence-$i.txt" ]; then
+              if [[ "$ALLTHREEDONE" = "YES" ]]; then
+                echo "Block: $i" > $RUNCLONALORIGIN/output/convergence-$i.txt
+                echo -e "Computing Gelman-Rubin Test ...\n"
+                $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
+                  -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/${SMALLERCLONAL}core_co.phase2.$i.xml:1 \
+                  >> $RUNCLONALORIGIN/output/convergence-$i.txt
+                echo -e "Finding blocks with insufficient convergence ...\n"
+                perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
+              else
+                echo "Block: $i do not have all replicates" 1>&2
+              fi
             fi
           done 
 
           #echo -e "Finding blocks with insufficient convergence ...\n"
           #perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence.txt
           #break
+
+          break
+        elif [ "$WHATANALYSIS" == "heatmap" ];  then
+          perl $ECOP4 \
+            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
+            -e $RUNCLONALORIGIN/output2-xml \
+            -n 419 \
+            -s 5 
+          break
+ 
+          echo -e "Computing heat map for the blocks ...\n"
+          for i in {1..419}; do
+            if [ -f "$RUNCLONALORIGIN/output2-xml/${REPLICATE}/${SMALLERCLONAL}core_co.phase3.$i.xml" ]; then
+              # Compute prior expected number of recedges.
+              $GUI -b \
+                -o $RUNCLONALORIGIN/output2-xml/${REPLICATE}/${SMALLERCLONAL}core_co.phase3.$i.xml \
+                -H 3 \
+                > $RUNCLONALORIGIN/output2-xml/heatmap-$i.txt
+            else
+              echo "Block: $i was not used" 1>&2
+            fi
+          done 
+          #perl $GUIPERL -in $RUNCLONALORIGIN/output2/heatmap-$i.txt
+          # Use the phase 3 xml file to count the number of recombination
+          # events. For all possible pairs of 9 (5*2 - 1) find the number of
+          # recedges, and divide it by the number of sample size or number
+          # of <Iteration> tags. I need total length of the blocks and each
+          # block length to weight the odd ratio of the averge observed number
+          # of recedges and the prior expected number of recedges.
+          # ECOP2 and GUIPERL can be merged.  GUIPERL is rather simple.
+          # ECOP2 can be extened. Let's make ECOP4.
+          echo perl $ECOP4 \
+            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
+            -h $RUNCLONALORIGIN/output2-xml \
+            -n 2 \
+            -s 9 
+            # > $RUNCLONALORIGIN/log4.p
+
+          break
+        elif [ "$WHATANALYSIS" == "import-ratio-locus-tag" ];  then
+          echo -e "Computing import ratio per locus tag ...\n"
+          # I want to know import ratio for each locus tag.
+          # 1. List all locus tags with their genomic locations.
+          # 2. For each locus tag find the start and end locations of the locus
+          #    tag in the blocks. I assume that a locus falls into a block. The
+          #    region that the locus corresponds to is called a subblock.
+          # 3. Compute the import ratio of the subblock. The value is the import
+          #    ratio of the locus tag.
+          # run-analysis/NC_004070.gff 
+          # run-lcb/core_alignment_mauveable.xmfa
+          # run-clonalorigin/output2
+          echo perl $LISTGENEGFF \
+            -gff $RUNANALYSISDIR/NC_004070.gff \
+            -alignment $RUNLCBDIR/core_alignment.xmfa \
+            -clonalOrigin $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
+            -taxon 4 -ns 5
+          break
         elif [ "$WHATANALYSIS" == "summary" ];  then
           echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
           perl $ECOP \
@@ -1161,7 +1255,7 @@ function generate-species {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve filter-blocks prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
+CHOICES=( list-species generate-species preparation receive-run-mauve filter-blocks prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin prepare-run-2nd-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
 select CHOICE in ${CHOICES[@]}; do 
  
   if [ "$CHOICE" == "" ];  then
@@ -1198,6 +1292,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "receive-run-clonalorigin" ];  then
     receive-run-clonalorigin
+    break
+  elif [ "$CHOICE" == "prepare-run-2nd-clonalorigin" ];  then
+    prepare-run-2nd-clonalorigin
     break
   elif [ "$CHOICE" == "receive-run-2nd-clonalorigin" ];  then
     receive-run-2nd-clonalorigin

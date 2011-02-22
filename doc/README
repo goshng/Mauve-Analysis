@@ -1,5 +1,5 @@
-Inferring genomic flow between Streptococcus pyogenes and dysgalactiae ssp. equisimilis using genome sequences
-==============================================================================================================
+Inferring genomic flow between _Streptococcus pyogenes_ and _S. dysgalactiae ssp. equisimilis_ using whole genomes
+==================================================================================================================
 Sang Chul Choi <schoi@cornell.edu>
 v1.0, January 2010:
 Written for version 1 release.
@@ -12,6 +12,8 @@ TODO
 .. I may have to list all genes and then classify them.
 . Previous studies using _S. pyogenes_ and SDE.
 . Molecular mechanism of bacterial recombination.
+. Virulence factors and the others.
+. Simulation of ARG conditioning on a clonal frame.
 
 Authors
 -------
@@ -29,7 +31,6 @@ Keywords
 human group A streptococci (GAS)
 human group C streptococci (GCS)
 human group G streptococci (GGS)
-
 
 
 Abstract
@@ -66,6 +67,7 @@ imported genetic segments from _S. pyogenes_ via homologous recombination.
 Introduction
 ------------
 
+
 GAS
 ~~~
 . Group A streptococcus (GAS) is a human-specific pathogen primarily infecting the
@@ -98,6 +100,8 @@ What virulence factors?
 to profile the virulence gene repertoires of many (or 58) 
 _Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
 infections.
+
+Look at the file, doc/virulence-genes.txt, for virulence genes.
 
 What is disease propensity?
 
@@ -566,7 +570,7 @@ GCS/GGS and GAS colonize the same ecological niche and exhibit considerable
 overlap in their disease profiles.
 
 Kalia:2004
-^^^^^^^^^^
+~~~~~~~~~~
 The molecular mechanisms underlying niche adaptation in bacteria are not fully
 understood.
 
@@ -579,7 +583,7 @@ in GGS.  The multilocus sequence typing data also suggests that the overall
 direction of genetic flow is predominantly from GAS to GGS. -- cited by Twoers:2004
 
 Towers:2004
-^^^^^^^^^^^
+~~~~~~~~~~~
 We report evidence of interspecies gene transfer between the important virulence
 factor genes sfbI and gfbA.
 Because the identified group G streptococcus gfbA types possess DNA cassettes
@@ -587,7 +591,7 @@ that can be identified in a number of group A streptococcus strains, it appears
 that homologous recombination is occurring between these species.
 
 Bessen:2005
-^^^^^^^^^^^
+~~~~~~~~~~~
 _Streptococcus pyogenes_ is a highly prevalent bacterial pathogen, most often
 giving rise to superficial infections at the throat or skin of its human host.
 
@@ -598,9 +602,9 @@ exchange remains unknown.
 
 In contrast to the strong linkage observed between emm pattern and tissue site
 of isolation, the distribution of neutral housekeeping alleles among strains of
-S. pyogenes is highly random.
+_S. pyogenes_ is highly random.
 
-S. pyogenes ranks among the most highly recom- binogenic of several bacterial
+_S. pyogenes_ ranks among the most highly recombinogenic of several bacterial
 species examined (19), whereby genetic recombination is the consequence of a
 horizontal gene transfer (HGT) event. (I think that HGT is the result of genetic
 recombination, isn't it?)
@@ -611,7 +615,7 @@ bacterial species, which is otherwise lacking in pathogenicity islands (55). (I
 think that _S. pyogenes_ lacks in pathogenicity islands (PAI).)
 
 Schmidt:2004
-^^^^^^^^^^^^
+~~~~~~~~~~~
 The genome sequence of S. pyogenes revealed that a large number of virulence
 factors have been acquired by bacteriophage-mediated horizontal gene transfer
 but that PAI are absent from the genome (90). In contrast, a chromosomal region

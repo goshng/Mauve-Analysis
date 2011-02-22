@@ -89,6 +89,14 @@ run-clonalorigin.
 
 REPLICATE=1 This is the replicate number for run-clonalorigin.
 
+67,82,153,293 are removed from 419.
+121,160,203,247 will be removed from 415 because 160's log-likelihood does not
+seem to converge. 121,203,247 takes too much time to finish.
+What are those that are removed from 419?
+Multiple 2's, 160's and 236's are running run-clonalorigin5 at 6.
+
+0.0542/1425/0.00521 are used for 2nd clonal origin analysis.
+
 spyogenes
 ---------
 I used 13 genomes. Two runs did not converge. Clonal frame is hard to obtain.
