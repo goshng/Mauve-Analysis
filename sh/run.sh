@@ -78,7 +78,8 @@ function prepare-filesystem {
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
   RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
   RSCRIPTW=$BASEDIR/w.R
-  CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/output/$SPECIES
+  #CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/output/$SPECIES
+  CACBASEDIR=sc2265@linuxlogin.cac.cornell.edu:Documents/Projects/mauve/output/$SPECIES
   CACDATADIR=$CACBASEDIR/data
   CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
   CACRUNLCBDIR=$CACBASEDIR/run-lcb
@@ -101,15 +102,16 @@ function prepare-filesystem {
 
 function mkdir-SPECIES {
   mkdir $BASEDIR
-  mkdir $CACBASEDIR
-  mkdir $CACDATADIR
-  mkdir $CACRUNMAUVEDIR
   mkdir $RUNMAUVEDIR
-  mkdir $CACRUNCLONALFRAME
-  mkdir $CACRUNCLONALORIGIN
   mkdir $RUNCLONALFRAME
   mkdir $RUNCLONALORIGIN
   mkdir $RUNLCBDIR
+
+  mkdir $CACBASEDIR
+  mkdir $CACDATADIR
+  mkdir $CACRUNMAUVEDIR
+  mkdir $CACRUNCLONALFRAME
+  mkdir $CACRUNCLONALORIGIN
   mkdir $CACRUNLCBDIR
 }
 
@@ -135,7 +137,7 @@ function copy-batch-sh-run-mauve-called {
 
 function copy-genomes-to-cac-called {
   line="$@" # get all args
-  cp $GENOMEDATADIR/$line $CACDATADIR
+  scp $GENOMEDATADIR/$line $CACDATADIR
 }
 
 function processLine {
@@ -250,7 +252,7 @@ cd
 rm -rf \$TMPDIR
 EOF
   chmod a+x $BATCH_SH_RUN_MAUVE 
-  cp $BATCH_SH_RUN_MAUVE $CACRUNMAUVEDIR/
+  scp $BATCH_SH_RUN_MAUVE $CACRUNMAUVEDIR/
 }
 
 function mkdir-tmp {
@@ -332,7 +334,7 @@ EOF
 }
 
 function send-clonalframe-input-to-cac {
-  cp $RUNLCBDIR/${SMALLER}core_alignment.xmfa $CACRUNLCBDIR/
+  scp $RUNLCBDIR/${SMALLER}core_alignment.xmfa $CACRUNLCBDIR/
 }
 
 function copy-batch-sh-run-clonalframe {
@@ -359,12 +361,10 @@ cp \$CLONALFRAME \$TMPDIR/
 cp \$LCBDIR/* \$INPUTDIR/
 cd \$TMPDIR
 
-x=( 10000 10000 20000 20000 30000 30000 40000 40000 )
-y=( 10000 10000 20000 20000 30000 30000 40000 40000 )
-z=(    10    10    20    20    30    30    40    40 )
+x=( 10000 10000 10000 10000 10000 10000 10000 10000 )
+y=( 10000 10000 10000 10000 10000 10000 10000 10000 )
+z=(    10    10    10    10    10    10    10    10 )
 
-# 1506.71
-# 0.3026701 
 #-t 2 \\
 #-m 1506.71 -M \\
 
@@ -372,7 +372,7 @@ for index in 0 1 2 3 4 5 6 7
 do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--m $WATTERSON_ESIMATE -M \\
+-t 2 -m $WATTERSON_ESIMATE -M \\
 \$INPUTDIR/${SMALLER}core_alignment.xmfa \\
 \$OUTPUTDIR/${SMALLER}core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
@@ -386,7 +386,8 @@ cd
 rm -rf \$TMPDIR
 EOF
   chmod a+x $BATCH_SH_RUN_CLONALFRAME
-  cp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
+  scp -r $RUNCLONALFRAME $CACBASEDIR
+  #scp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
 }
 
 function send-clonalorigin-input-to-cac {
@@ -747,7 +748,7 @@ function receive-run-mauve {
     else  
       echo -e "Receiving mauve-output...\n"
       prepare-filesystem 
-      cp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
+      scp -r $CACRUNMAUVEDIR/output $RUNMAUVEDIR/
       echo -e "Now, find core blocks of the alignment.\n"
       break
     fi
@@ -772,7 +773,10 @@ function filter-blocks {
       mkdir-tmp 
       run-lcb 
       rmdir-tmp
-      echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
+      #echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
+      #mv $RUNLCBDIR/core_alignment.xmfa.org $RUNLCBDIR/core_alignment.xmfa
+      #run-blocksplit2fasta
+      #break
        
       echo -e "Choose blocks to remove (e.g., 33,42,57): "
       read BLOCKSREMOVED
@@ -884,7 +888,7 @@ function receive-run-clonalframe {
       echo -e "Receiving clonalframe-output...\n"
       prepare-filesystem 
       mkdir -p $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-      cp $CACRUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
+      scp $CACRUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
       echo -e "Sending clonalframe-output to swiftgen...\n"
       scp -r $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE $SWIFTGENRUNCLONALFRAME/
       echo -e "Now, prepare clonalorigin.\n"
@@ -1057,7 +1061,7 @@ function analysis-clonalorigin {
       read REPLICATE
       prepare-filesystem 
  
-      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot ; do 
+      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role; do 
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
@@ -1131,8 +1135,8 @@ function analysis-clonalorigin {
           echo perl $ECOP4 \
             -d $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
             -h $RUNCLONALORIGIN/output2-xml \
-            -n 2 \
-            -s 9 
+            -n 419 \
+            -s 5 
             # > $RUNCLONALORIGIN/log4.p
 
           break
@@ -1152,7 +1156,7 @@ function analysis-clonalorigin {
             -gff $RUNANALYSISDIR/NC_004070.gff \
             -alignment $RUNLCBDIR/core_alignment.xmfa \
             -clonalOrigin $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
-            -taxon 4 -ns 5
+            -taxon 4 -ns 5 > 1.sh
           break
         elif [ "$WHATANALYSIS" == "summary" ];  then
           echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
@@ -1217,6 +1221,23 @@ function analysis-clonalorigin {
           done
           mv /tmp/in a.log
           rm x* 
+          break
+        elif [ "$WHATANALYSIS" == "parse-jcvi-role" ];  then
+          echo -e "Parsing jcvi_role.html to find role identifiers ...\n"
+          #perl pl/parse-jcvi-role.pl -in $RUNANALYSISDIR/jcvi_role.html > $RUNANALYSISDIR/jcvi_role.html.txt
+          echo -e "Parsing jcvi_role.html to find role identifiers ...\n"
+          #perl pl/parse-m3-locus.pl \
+          #  -primary $RUNANALYSISDIR/bcp_m3_primary_locus.txt \
+          #  -jcvi $RUNANALYSISDIR/bcp_m3_jcvi_locus.txt > \
+          #  $RUNANALYSISDIR/bcp_m3_primary_to_jcvi.txt
+          echo -e "Getting one-to-one relationships of locus_tag and JCVI loci ..."
+          #perl pl/get-primary-jcvi-loci.pl $RUNANALYSISDIR/get-primary-jcvi-loci.txt
+          echo -e "Listing locus_tags, their gene ontology, and JCVI roles" 
+          #perl pl/list-locus-tag-go-jcvi-role.pl \
+          #  -bcpRoleLink=$RUNANALYSISDIR/bcp_role_link \
+          #  -bcpGoRoleLink=$RUNANALYSISDIR/bcp_go_role_link \
+          #  -locusTagToJcviLocus=$RUNANALYSISDIR/get-primary-jcvi-loci.txt \
+          #  > $RUNANALYSISDIR/list-locus-tag-go-jcvi-role.txt
           break
         fi
       done

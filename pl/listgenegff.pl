@@ -34,7 +34,8 @@ my $VERSION = 'listgenegff.pl 0.1.0';
 
 my $man = 0;
 my $help = 0;
-my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);        
+my $perblock = 0;
+my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man, 'perblock' => \$perblock);        
 GetOptions( \%params,
             'help|h',
             'man',
@@ -44,7 +45,8 @@ GetOptions( \%params,
             'alignment=s',
             'clonalOrigin=s',
             'taxon=i',
-            'ns=i'
+            'ns=i',
+            'perblock'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -142,7 +144,10 @@ You should have received a copy of the GNU General Public License along with thi
 ################################################################
 
 sub locate_block ($$$$);
+sub find_block_length ($$);
 sub compute_import_ratio ($$$$);
+sub compute_import_ratio_prev ($$$$);
+sub compute_import_ratio_block ($);
 
 my $gffFilename;
 my $alignmentFilename;
@@ -196,35 +201,95 @@ if ($taxon > $numberOfSpecies)
 # 
 ################################################################
 
-my $numGene = 0;
-my $gffLine;
-open GFF, "$gffFilename" or die $!;
-while ($gffLine = <GFF>)
+if ($perblock)
 {
-  if ($gffLine =~ /RefSeq\s+gene\s+(\d+)\s+(\d+).+locus_tag=(\w+);/)
+  for (my $blockid = 1; $blockid <= 419; $blockid++)
   {
-    my $start = $1;
-    my $end = $2;
-    my $locus_tag = $3; 
-    my ($blockid, $leftBoundary, $rightBoundary) = locate_block ($alignmentFilename, $locus_tag, $start, $end); 
-    # Use the blockid and region to compute import ratio.
-    if (defined $leftBoundary)
-    {
-      my $importRatio = compute_import_ratio ($locus_tag, $blockid, $leftBoundary, $rightBoundary);
-      print "$locus_tag\t($start-$end)\tblock $blockid\t($leftBoundary-$rightBoundary)\t$importRatio\n";
-    }
-  } 
-  if ($gffLine =~ /RefSeq\s+gene/)
-  {
-    $numGene++;
+    my ($leftBoundary, $rightBoundary, $start, $end) = find_block_length ($alignmentFilename, $blockid); 
+    my ($importRatio, $sdeOverSpy) = compute_import_ratio ($blockid, $blockid, $leftBoundary, $rightBoundary);
+    print "$blockid\t$start\t$end\t$blockid\t$leftBoundary\t$rightBoundary\t$importRatio\t$sdeOverSpy\n";
   }
 }
-close (GFF);
+else
+{
+  my $numGene = 0;
+  my $gffLine;
+  my $blockid_prev = 0;
+  open GFF, "$gffFilename" or die $!;
+  while ($gffLine = <GFF>)
+  {
+    if ($gffLine =~ /RefSeq\s+gene\s+(\d+)\s+(\d+).+locus_tag=(\w+);/)
+    {
+      my $start = $1;
+      my $end = $2;
+      my $locus_tag = $3; 
+      my ($blockid, $leftBoundary, $rightBoundary) = locate_block ($alignmentFilename, $locus_tag, $start, $end); 
+      if (defined $leftBoundary)
+      {
+        my $importRatio;
+        my $sdeOverSpy;
+        if ($blockid == $blockid_prev)
+        {
+          ($importRatio, $sdeOverSpy) = compute_import_ratio_prev ($locus_tag, $blockid, $leftBoundary, $rightBoundary);
+        }
+        else
+        {
+          # Use the blockid and region to compute import ratio.
+          ($importRatio, $sdeOverSpy) = compute_import_ratio ($locus_tag, $blockid, $leftBoundary, $rightBoundary);
+        }
+        print "$locus_tag\t$start\t$end\t$blockid\t$leftBoundary\t$rightBoundary\t$importRatio\t$sdeOverSpy\n";
+        $blockid_prev = $blockid;
+      }
+    } 
+    if ($gffLine =~ /RefSeq\s+gene/)
+    {
+      $numGene++;
+    }
+  }
+  close (GFF);
+}
 exit;
 
 #################################################################################
 ### Main FUNCTIONS
 #################################################################################
+
+sub find_block_length ($$)
+{
+  my ($f, $blockid) = @_;
+  my $id = 0;
+  my $lineAlignment;
+
+  my $start;
+  my $end;
+  my $blockBegin = 1;
+  my $blockEnd;
+  open ALIGNMENT, "$f" or die $!;
+  while ($lineAlignment = <ALIGNMENT>)
+  {
+    if ($lineAlignment =~ /^>\s$taxon:(\d+)-(\d+)/)
+    {
+      $id++;
+      if ($blockid == $id)
+      {
+        $start = $1;
+        $end = $2;
+        # print "$locus found at block $blockid\n";
+        my $sequence;
+        while ($lineAlignment = <ALIGNMENT>)
+        {
+          last if $lineAlignment =~ /^>/;
+          chomp ($lineAlignment);
+          $sequence .= $lineAlignment;
+        }
+        $blockEnd = length($sequence);
+        last;
+      }
+    }
+  }
+  close (ALIGNMENT);
+  return ($blockBegin, $blockEnd, $start, $end);
+}
 
 sub locate_block ($$$$)
 {
@@ -296,15 +361,52 @@ sub locate_block ($$$$)
   return ($blockid, $blockBegin, $blockEnd);
 }
 
+my @mapImport;
+my $importRatio;
+my $sdeOverSpy;
+my $blockLength;
+sub compute_import_ratio_prev ($$$$)
+{
+  my ($locus, $blockid, $s, $e) = @_;
+
+    $importRatio = 0;
+    $sdeOverSpy = 0;
+    my $toSPY = 0;
+    my $toSDE = 0;
+    for (my $i = 0; $i < $blockLength; $i++)
+    {
+      my $pos = $i;
+      if ($s <= $i and $i <= $e)
+      { 
+        for (my $j = 0; $j < $numberOfLineage; $j++)
+        {
+          for (my $k = 0; $k < $numberOfLineage; $k++)
+          {
+            $importRatio += $mapImport[$j][$k][$pos];
+          }
+        }
+        $toSPY += $mapImport[0][3][$pos]
+                    + $mapImport[0][4][$pos]
+                    + $mapImport[1][3][$pos]
+                    + $mapImport[1][4][$pos] + 0.001;
+        $toSDE += $mapImport[3][0][$pos]
+                    + $mapImport[3][1][$pos]
+                    + $mapImport[4][0][$pos]
+                    + $mapImport[4][1][$pos] + 0.001;
+      }
+    }
+    die "locus[$locus] blockid[$blockid] s[$s], e[$e], blocklength[$blockLength]" if $toSPY == 0;
+    $sdeOverSpy = ($toSDE/$toSPY);
+    $importRatio /= ($e - $s + 1);
+  return ($importRatio, $sdeOverSpy);
+}
+
 my $itercount;
 my $tag;
 my @blockImport;
-my @mapImport;
 my %recedge;
 my $subblockStart;
 my $subblockEnd;
-my $blockLength;
-my $importRatio;
 my $content;
 my @lens;
 sub compute_import_ratio ($$$$)
@@ -327,14 +429,17 @@ sub compute_import_ratio ($$$$)
   print STDERR "Locus: [ $locus ]\t";
 	eval{ $doc = $parser->parsefile($fs)};
 	die "Unable to parse XML of $fs, error $@\n" if $@;
-  return $importRatio;
+  return ($importRatio, $sdeOverSpy);
 }
-
 
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;
 	$tag = $element;
   SWITCH: {
+    if ($element eq "outputFile") {
+
+      last SWITCH;
+    }
     if ($element eq "Iteration") {
       $itercount++;
 
@@ -350,16 +455,19 @@ sub startElement {
         }
         push @blockImport, [ @mapPerLineage ];
       }
-      @mapImport = ();
-      for (my $i = 0; $i < $numberOfLineage; $i++)
+      if ($itercount == 1)
       {
-        my @mapPerLineage;
-        for (my $j = 0; $j < $numberOfLineage; $j++)
+        @mapImport = ();
+        for (my $i = 0; $i < $numberOfLineage; $i++)
         {
-          my @asinglemap = (0) x $blockLength;
-          push @mapPerLineage, [ @asinglemap ];
+          my @mapPerLineage;
+          for (my $j = 0; $j < $numberOfLineage; $j++)
+          {
+            my @asinglemap = (0) x $blockLength;
+            push @mapPerLineage, [ @asinglemap ];
+          }
+          push @mapImport, [ @mapPerLineage ];
         }
-        push @mapImport, [ @mapPerLineage ];
       }
       last SWITCH;
     }
@@ -434,6 +542,21 @@ sub endElement {
     print STDERR "[ $blockLength ]\t";
     print STDERR "[ $itercount ]\n";
     $importRatio = 0;
+    $sdeOverSpy = 0; 
+    my $toSPY = 0;
+    my $toSDE = 0;
+    for (my $i = 0; $i < $blockLength; $i++)
+    {
+      my $pos = $i;
+      for (my $j = 0; $j < $numberOfLineage; $j++)
+      {
+        for (my $k = 0; $k < $numberOfLineage; $k++)
+        {
+          $mapImport[$j][$k][$pos] /= $itercount;
+        }
+      }
+    }
+
     for (my $i = 0; $i < $blockLength; $i++)
     {
       my $pos = $i;
@@ -443,12 +566,20 @@ sub endElement {
         {
           for (my $k = 0; $k < $numberOfLineage; $k++)
           {
-            $mapImport[$j][$k][$pos] /= $itercount;
             $importRatio += $mapImport[$j][$k][$pos];
           }
         }
+        $toSPY += $mapImport[0][3][$pos]
+                    + $mapImport[0][4][$pos]
+                    + $mapImport[1][3][$pos]
+                    + $mapImport[1][4][$pos] + 0.001;
+        $toSDE += $mapImport[3][0][$pos]
+                    + $mapImport[3][1][$pos]
+                    + $mapImport[4][0][$pos]
+                    + $mapImport[4][1][$pos] + 0.001;
       }
     }
+    $sdeOverSpy = ($toSDE/$toSPY);
     $importRatio /= ($subblockEnd - $subblockStart + 1);
   }
 }

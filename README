@@ -57,7 +57,12 @@ MC3 may be necessary.  We might try more chains not 3.
 
 cornell6
 --------
-Two genomes sequenced at Cornell and four genomes publicly available are used. 
+In addition to the 5 genomes from cornell, S. canis is also added.
+3 blocks are removed because their alignments do have too much deletions. Some
+alignments have large partial one side flanking gaps.
+1:17740
+1:160477
+4:1720750
 
 cornell5
 --------
@@ -96,6 +101,47 @@ What are those that are removed from 419?
 Multiple 2's, 160's and 236's are running run-clonalorigin5 at 6.
 
 0.0542/1425/0.00521 are used for 2nd clonal origin analysis.
+
+run-analysis
+~~~~~~~~~~~~
+NC_004070.gff
+
+I downloaded bcp_go_role_link and bcp_role_link at
+ftp://ftp.jcvi.org//pub/data/Omniome_Database/tab_delimited_omniome
+
+I downloaded loci information of MGAS315 at
+http://cmr.jcvi.org
+as files
+bcp_m3_jcvi_locus.txt
+and 
+bcp_m3_primary_locus.txt.
+
+I compare bcp_m3_jcvi_locus.txt with bcp_m3_primary_locus.txt to find one-to-one
+associations between primary locus (Genbank locus_tag) and JCVI locus. I use
+bcp_go_role_link to find gene ontology annotations for the JCVI loci. The
+one-to-one associations are used to assign primary loci with their gene ontology
+annotations. What is bcp_role_link?
+
+I can list roles at
+http://cmr.jcvi.org/cgi-bin/CMR/shared/RoleList.cgi
+
+Where are links between role id and these role categories?
+I found a web site at
+http://cmr.jcvi.org/cgi-bin/CMR/shared/RoleList.cgi
+and saved it as a source file named jcvi_role.html.
+I parse jcvi_role.html to find the assignment role IDs of JCVI role category
+lists.
+
+For JCVI roles I can group locus tags by main roles or submain roles using the
+numbers.  For gene ontologies I should be able to test if a gene ontology
+category of a locus tag belongs to a main gene ontology category; say metabolism
+within a cellular process.  There is a slim gene ontology as far as I know. The
+slim gene ontology should contain most gene ontology categories and it can be
+used to test a gene ontology category's membership in the gene ontology. There
+must be a PERL script to test that. Let me find the PERL script and the slim
+gene ontology file. Note that one locus tag can belong to multiple functional
+categories.
+
 
 spyogenes
 ---------
@@ -139,6 +185,10 @@ The 16 genome data set clonalframe analysis failed to converge. I remove 4 of
 them to have 12 genomes.  I stop this analysis until I know what I should do.
 Obviously, I have to restart from 12 genome alignment using mauve.
 
+cornell6
+--------
+
+union -sequence SCAZ3_08042009.gbf -sformat genbank -outseq sca.gbk -osformat genbank -feature Y -auto
 
 Command Lines
 -------------
