@@ -569,11 +569,13 @@ sub endElement {
             $importRatio += $mapImport[$j][$k][$pos];
           }
         }
-        $toSPY += $mapImport[0][3][$pos]
+        # I have reversed it in the blockImport.
+        # $blockImport[$recedge{eto}][$recedge{efrom}][$i]++;
+        $toSDE += $mapImport[0][3][$pos]
                     + $mapImport[0][4][$pos]
                     + $mapImport[1][3][$pos]
                     + $mapImport[1][4][$pos] + 0.001;
-        $toSDE += $mapImport[3][0][$pos]
+        $toSPY += $mapImport[3][0][$pos]
                     + $mapImport[3][1][$pos]
                     + $mapImport[4][0][$pos]
                     + $mapImport[4][1][$pos] + 0.001;

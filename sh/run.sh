@@ -1061,7 +1061,7 @@ function analysis-clonalorigin {
       read REPLICATE
       prepare-filesystem 
  
-      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role; do 
+      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role combine-import-ratio-jcvi-role; do 
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
@@ -1238,6 +1238,12 @@ function analysis-clonalorigin {
           #  -bcpGoRoleLink=$RUNANALYSISDIR/bcp_go_role_link \
           #  -locusTagToJcviLocus=$RUNANALYSISDIR/get-primary-jcvi-loci.txt \
           #  > $RUNANALYSISDIR/list-locus-tag-go-jcvi-role.txt
+          break
+        elif [ "$WHATANALYSIS" == "combine-import-ratio-jcvi-role" ];  then
+          echo -e "Combining import-ratio and jcvi-role ..."
+          echo perl pl/combine-import-ratio-jcvi-role.pl \
+            -importRatio $MAUVEANALYSISDIR/import-ratio-with-sde1.txt \
+            -jcviRole $RUNANALYSISDIR/list-locus-tag-go-jcvi-role.txt
           break
         fi
       done

@@ -1,19 +1,26 @@
 Inferring genomic flow between _Streptococcus pyogenes_ and _S. dysgalactiae ssp. equisimilis_ using whole genomes
 ==================================================================================================================
-Sang Chul Choi <schoi@cornell.edu>
-v1.0, January 2010:
+Sang Chul Choi <goshng@gmail.edu>
+
+v1.0, January 2011:
 Written for version 1 release.
-v2.0, February 2010:
+
+v2.0, March 2011:
 Rewritten for version 2 release.
 
 TODO
 ----
-. List genes of interest.
-.. I may have to list all genes and then classify them.
-. Previous studies using _S. pyogenes_ and SDE.
-. Molecular mechanism of bacterial recombination.
-. Virulence factors and the others.
+. Readings
+.. Previous studies using _S. pyogenes_ and SDE.
+.. Molecular mechanism of bacterial recombination.
+.. Virulence factors and the others.
 . Simulation of ARG conditioning on a clonal frame.
+. Three JCVI roles have higher recombination rates. Some of papers seem to
+support the result. 
+.. Bar charts or box plots can be done for recombination
+intensity for the roles. 
+.. List of genes with directional flow from _S. pyogenes_
+to SDE, and from SDE to _S. pyogenes_.
 
 Authors
 -------
@@ -21,16 +28,19 @@ Sang Chul Choi
 
 Contacts
 --------
-- Email: schoi@cornell.edu
+- Email: goshng@gmail.com
 - Phone: +1-607-542-9362
 - Address: Dept. of Biological Statistics & Computational Biology, 
            Cornell University, Ithaca, NY 14853, USA
 
 Keywords
 --------
-human group A streptococci (GAS)
-human group C streptococci (GCS)
-human group G streptococci (GGS)
+ancestral recombination graph (ARG),
+group A streptococci (GAS),
+group C streptococci (GCS),
+group G streptococci (GGS),
+_Streptococcus pyogenes_ (SPY), and
+_S. dysgalactiae_ subspecies _equisimilis_ (SDE)
 
 
 Abstract
@@ -66,70 +76,74 @@ imported genetic segments from _S. pyogenes_ via homologous recombination.
 
 Introduction
 ------------
+Bacteria evolve vertically and horizontally. 
+Clonal evolution of bacteria allows us to trace back their history via species
+trees. 
+Homologous recombination among 
+closely related species and gene transfer between distantly related
+species shape the diversity of bacterial speices.  The diversification of
+bacterial species via horizontal gene flow make inferring species trees
+a formidable statistical problem.  Species boundaries among bacterial
+species formed horizontally are blurred.
+Bacterial conjugation, transformation, and transduction induce homologous
+recombinations that are biological mechanisms through which a donor
+bacterium gives a recipient bacterium. 
+Inferring recombination events between bacteria species would facilitate
+understanding of gene flow from a bacterial species to another.
+ 
+_Streptococcus pyogenes_ (SPY) belongs to group A streptococcus (GAS)
+that is a human-specific pathogen primarily infecting the throat and skin. 
+The human pathogen has high prevalence throughout the world
+causing severe invasive disease. One of its closely related species,
+_Streptococcus dysgalactiae_ spp. _equisimilis_ (SDE), belongs to group C or G
+streptococcus (GCS or GGS), which used to be generally regarded as a animal-specific  
+pathogen.  Recently, researchers have been confirming that SDE can
+cause serious and life-threatening diseases to human traditionally
+associated with SPY.  
+Because SDE cohabits with SPY at the same ecological niche of tissue sites,
+SDE and SPY may as well exhibit overlap in their disease profiles.
+Genetic interaction between the two species might have played roles 
+in human pathogenicity of SDE.
+Understanding genetic interaction between SDE and SPY could enhance our
+knowledge of their pathogenic effect on human health.
 
+High-throughput genotyping efforts of many bacterial species are underway.
+Methodological developments keep pace with the endeavor. Notably, 
+Didelot:2010 developed a powerful statistical method and implemented it
+into a software called ClonalOrigin.  The method uses a reference species tree
+inferred using genomes of the species of the tree.  The reference species tree
+serves as a back-bone which additional edges, hereafter I call them recombinant
+edges, are attached to.  
+A recombinant edge connects two different branches of the reference
+tree.  It ``departs'' from an older species branch and ``arrives'' at a more
+recent species branch.  The arrival point corresponds to a recombination event
+in an ancestral recombination graph (ARG).  
+As the reference tree traverses a genome alignment and
+meets a recombinant edge, its sister branch of the arrival point is erased and
+the recombinant edge replaces it.
+Gene trees change sequentially along a genome.  
+It reminisces about gene conversion modeling by Wiuf:1999, and the sequential
+Markov coalescent due to McVean:2005.
+Although recombinant edges between two species branches do not denote gene flow
+between two species in their original model, Didelot:2010 exploited their method
+to infer flow of genetic segment between _Bacillus cereus_ species.
 
-GAS
-~~~
-. Group A streptococcus (GAS) is a human-specific pathogen primarily infecting the
-throat and skin.
-. S. pyogenes can cause severe invasive disease.
-. Streptococcus pyogenes is a human pathogen having high prevalence throughout
-the world.
-
-
-GGS
-~~~
-. Group G streptococcus (GGS) is generally regarded as a less important organism,
-which cohabits with GAS at the same tissue sites.
-. Some GGS, specifically Streptococcus dysgalactiae subsp. equi- similis, are
-capable of causing serious and life-threatening dis- eases traditionally
-associated with GAS.
-
-GCS/GGS and GAS colonize the same ecological niche
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Where?
-
-GCS/GGS and GAS exhibit overlap in their disease profiles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What disease profiles?
-
-Virulence factors associated with disease
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What virulence factors?
-[Davies2007] studied 216 GAS virulence genes, not other genes
-to profile the virulence gene repertoires of many (or 58) 
-_Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
-infections.
-
-Look at the file, doc/virulence-genes.txt, for virulence genes.
-
-What is disease propensity?
-
-A Question of interest
-~~~~~~~~~~~~~~~~~~~~~~
-_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
-domesticated animals (CITEs).
-Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
-human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
-Although SDE and
-SPY form distinct genotypic contents, pathogenic phenotypes of the two species
-manifest similarly (CITEs).
-How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
-Did it evolve from a commensal bacteria? Did genetic elements transfer from
-SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
-flow? In this study, I want to catalogue genetic elements according to their
-pattern of flow in the evolutionary history that relates SPY and SDE. 
-
-Scenarios of evolution of SPY and SDE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
-was losing virulence factors since the divergence of the ancestor. SDE regains
-virulence factors from SPY because of the same niche.
-2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
-SPY evolves virulence factors since the divergence of the ancestor. SDE gains
-virulence factors from SPY.
-
-
+I wish to apply the method of ClonalOrigin to 
+scrutinze intensity of gene flow between the two species.  
+It could be a step towards the understanding of interaction between two close
+related human pathogens. 
+I have three questions about gene flow between SPY and SDE.  Did SPY and SDE
+exchange genetic segments?  The question has been addressed using 
+mostly limited sets of genes provided by a database called Multi Locus Sequence
+Typing (MLST).  It has not yet been addressed in genomic scale.  
+Secondly, if the two pyogenic
+species share genetic segments, was it overall unidirectional or bidirectional?
+Thirdly, what kind of genes were exchanged if SPY and SDE exchanged genetic
+segments? 
+I organize the remainder of the paper as follows.  I describe the data and its
+analysis in Methods and Materials.  In Results, I provide evidence supporting my
+answers to the questions of interest.
+I discuss a few points in Discussion.
 
 Methods and Materials
 ---------------------
@@ -166,6 +180,10 @@ I removed variable regions from the alignment to leave
 
 ClonalFrame
 ~~~~~~~~~~~
+Species relationship among bacterial species of the _Streptococcus_ pyogenic
+group is difficult because of higher recombination among them.  Bacterial
+genomes are the ultimate resources for resolving species tree of them.
+
 I downloaded ClonalFrame version 1.1 at
 http://www.xavierdidelot.xtreemhost.com/clonalframe.htm.
 I applied ClonalFrame to the 419 core alignment blocks to obtain a clonal frame,
@@ -192,15 +210,137 @@ generation being 11,100,000. The first 1,100,000 generations of each chain were
 discarded as burn-in. The remaining 10,000,000 generations were subsampled every
 100,000 generations, leaving a sample of size 100. 
 
-Recombination map
-~~~~~~~~~~~~~~~~~
+Recombination heat map
+~~~~~~~~~~~~~~~~~~~~~~
+I wish to measure overall recombination events between all possible pairs of
+species tree branches.  Recombinant edges are classified by the departure and
+arrival species tree branches.  
+For each block of alignment I count averge number of
+a particular type of recombinant edge over MCMC iterations.  
+I sum the averge numbers over all the blocks.  This is the observed number of
+recombinant edges of a particular type.  Because the departure and arrival
+species tree branches exist differently, the expected number of recombinant
+edges that connect two species branches is different from one type of
+recombinant edge to another.  I used the software of ClonalOrigin to compute the
+expected number of recombinant edges for each block.  I sum the expected number
+of recombinant edges over all the blocks.   I divide the total observed number
+of recombinant edges by the total expected number of recombinant edges.   
+This is similar to Figure 5 of Didelot:2010.
+
+Recombinant import
+~~~~~~~~~~~~~~~~~~
+I wish to measure how often a particular site along a genome is affected by
+bacterial recombination.  A site of a block is affected by as many types of
+recombinant edges as possible.  A type of recombinant edge is determined by the
+departure and arrival branches of the reference species tree.  Sixty different
+kinds of recombinant edges are possible in the species tree with five taxa.
+Among the sixty types of recombinant edges 
+
+Gene flow and recombinant edges
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thirty two pairs of branches are possible int an ultrametric species tree with
+five taxa.  Not all types of the recombinant edges can correspond to legitimate
+pairs of species tree branches for gene flow because some of branch pairs did
+not exist at any past in time.  A recombinant edge can depart from a root edge
+of a spcies tree and arrive at a leaf edge, and the recombinant edge cannot be
+considered a channel that connect the two species tree branches.  I am
+interested in gene flows between SPY and SDE.  Since they are at extant nodes,
+pairs of species tree branches one from SPY and another from SDE can be
+considered as gene flow channels.  Four ordered pairs of species branches
+represent gene flow from SPY to SDE.  Another four ordered pairs represent gene
+flow from SDE to SPY.   
+
+[latex]
+\LARGE $y = \int_0^\infty \gamma^2 \cos(x) dx$
+
+["latex","latex1.png",align="center"]
+---------------------------------------------------------------------
+\LARGE $\displaystyle{ V_i = C_0 - C_3
+\frac{C_1\cos(\theta_i+C_3)}{C_4+C_1\cos(\theta_i+C_2)} }$
+---------------------------------------------------------------------
+
+.LaTeX filter example
+[latex]
+["latex","latex3.png"]
+---------------------------------------------------------------------
+\LARGE \begin{equation}
+\Re{z} =\frac{n\pi \dfrac{\theta +\psi}{2}}{
+\left(\dfrac{\theta +\psi}{2}\right)^2 + \left( \dfrac{1}{2}
+\log \left\lvert\dfrac{B}{A}\right\rvert\right)^2}.
+\end{equation}
+
+\begin{equation}
+\boxed{\eta \leq C(\delta(\eta) +\Lambda_M(0,\delta))}
+\end{equation}
+
+\begin{equation}\label{first}
+a=b+c
+\end{equation}
+
+\begin{subequations}\label{grp}
+\begin{align}
+a&=b+c\label{second}\\
+d&=e+f+g\label{third}\\
+h&=i+j\label{fourth}
+\end{align}
+\end{subequations}
+---------------------------------------------------------------------
+
+.A LaTeX table
+[latex]
+\LARGE
+\begin{tabular}{c r @{.} l}
+Pi expression &
+\multicolumn{2}{c}{Value} \\
+\hline
+$\pi$ & 3&1416 \\
+$\pi^{\pi}$ & 36&46 \\
+$(\pi^{\pi})^{\pi}$ & 80662&7 \\
+\end{tabular}
+
+1. Total counts of events on average between species branches.
+2. Import rate of a particular ordered pair of species branches along SPY1
+genome.
+3. Import rate of all ordered pairs of species branches along SPY1 genome.
+4. Odd ratio of import rates to compare gene-flow-to-SDE and gene-flow-to-SPY
+along SPY1 genome or SDE genome. 
+5. Compute import rate per site for a locus tag. Find if loci and import rates
+are correlated in terms of loci's JCVI role categories.
 
 
 Bacterial genome annotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I used SPY1 genome for annotations.  The genbank formatted genome annotation was
+downloaded from NCBI.  I downloaded JCVI role annotations of all JCVI annotated
+genes at ftp://ftp.jcvi.org.  
+I downloaded JCVI loci information of SPY1 genome at http://cmr.jcvi.org.  
+I searched the JCVI CMV website for SPY1 genome to list JCVI loci. I compared
+JCVI loci and NCBI locus_tag to find one-to-one association between JCVI
+locus and NCCI locus_tag.  I downloaded bcp_go_role_link and bcp_role_link at
+ftp://ftp.jcvi.org/pub/data/Omniome_Database/tab_delimited_omniome.
+I used bcp_go_role_link to find gene ontology annotations for the JCVI loci.
+The one-to-one associations were used to assign NCBI loci with their gene
+ontology annotations and JCVI role annotations.
+I listed roles at
+http://cmr.jcvi.org/cgi-bin/CMR/shared/RoleList.cgi and parsed the HTML source
+to find role categories and their identifiers.
 
-MGAS315 (NC_004070.gbk) or other _S. pyogenes_ genomes might have genome
-annotations. 
+For JCVI roles I can group locus tags by main roles or submain roles using the
+numbers.  For gene ontologies I should be able to test if a gene ontology
+category of a locus tag belongs to a main gene ontology category; say
+metabolism
+within a cellular process.  There is a slim gene ontology as far as I know.
+The
+slim gene ontology should contain most gene ontology categories and it can
+be
+used to test a gene ontology category's membership in the gene ontology.
+There
+must be a PERL script to test that. Let me find the PERL script and the slim
+gene ontology file. Note that one locus tag can belong to multiple
+functional
+categories.
+
+
 
 How do I know functional categories of genes?
 No citations were made in [Davies2007] about the categorization. 
@@ -309,6 +449,45 @@ Genomic content flow
 
 
 
+Virulence factors associated with disease
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What virulence factors?
+[Davies2007] studied 216 GAS virulence genes, not other genes
+to profile the virulence gene repertoires of many (or 58) 
+_Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
+infections.
+
+Look at the file, doc/virulence-genes.txt, for virulence genes.
+
+What is disease propensity?
+
+A Question of interest
+~~~~~~~~~~~~~~~~~~~~~~
+_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
+domesticated animals (CITEs).
+Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
+human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
+Although SDE and
+SPY form distinct genotypic contents, pathogenic phenotypes of the two species
+manifest similarly (CITEs).
+How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
+Did it evolve from a commensal bacteria? Did genetic elements transfer from
+SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
+flow? In this study, I want to catalogue genetic elements according to their
+pattern of flow in the evolutionary history that relates SPY and SDE. 
+
+Scenarios of evolution of SPY and SDE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
+was losing virulence factors since the divergence of the ancestor. SDE regains
+virulence factors from SPY because of the same niche.
+2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
+SPY evolves virulence factors since the divergence of the ancestor. SDE gains
+virulence factors from SPY.
+
+
+
+
 Results
 -------
 
@@ -356,6 +535,14 @@ evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
 
 References
 ----------
+. Gene Ontology: tool for the unification of biology. The Gene Ontology
+Consortium (2000) Nature Genet. 25: 25-29 
+. Wiuf, C. and Hein, J. 1999. Recombination as a point process along sequences.
+Theor. Pop. Biol., 55, 248–259.
+. McVean, G. A. and Cardin, N. J. 2005. Approximating the coalescent with
+recombination. Philos. Trans. R. Soc. Lond. B Biol. Sci., 360, 1387–93.
+. Jeffrey G. Lawrence. Gene Transfer in Bacteria: Speciation without Species? 
+Theoretical Population Biology 61, 449–460 (2002) doi:10.1006/tpbi.2002.1587
 . Ahmad et al. 2009. J Clin Microbiol. 2009 July; 47(7): 2046–2054. Published online 2009 April 22. doi: 10.1128/JCM.00246-09.
 . Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al. (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives. PLoS ONE 3(7): e2683. doi:10.1371/journal.pone.0002683
 . Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci of the Salivarius Group. J. Bacteriol. 189 (4): 1330
@@ -384,6 +571,8 @@ DUE TO SOME PROBLEM THAT I DID NOT KNOW]
 equisimilis isolated from infected humans reveals 2 distinct genetic lineages
 that do not segregate with their phenotypes or propensity to cause diseases. 
 Clin Infect Dis. 2007 Jun 1;44(11):1442-54. Epub 2007 Apr 19.
+. Johnson PLF, Slatkin M (2009) Inference of Microbial Recombination Rates from
+Metagenomic Data. PLoS Genet 5(10): e1000674. doi:10.1371/ journal.pgen.1000674
 
 Tables
 ------
