@@ -45,34 +45,18 @@ _S. dysgalactiae_ subspecies _equisimilis_ (SDE)
 
 Abstract
 --------
-Flow of genomic regions between _Streptococcus pyogenes_ and 
-_S. dysgalactiae_ subspecies _equisimilis_ 
-is investigated using five genomes including _S.
-dysgalactiae_ spp. _dysgalactiae_.  Unidirectional flow of genomic regions
-from _S. pyogenes_ to _S. dysgalactiae_ spp. _equisimilis_ is more prevalent
-than the other direction.  
-Two competing hypotheses on the evolution of the two species are tested.
-I privide more evidence for hypothesis 1 with detailed view of evolutionary
-history of the two Streptococci species.
+Group A streptococci (GAS) and group C/G streptococci (GCS/GGS) cohabit the same
+ecological niche.  I investigate exchange of genetic elements between GAS and
+GCS/GGS using their genomes.  The study shows that the two groups exchange genetic
+segments across the entire genomes not just housekeeping genes.  
+It shows that more genetic elements flowed
+overall from GAS to GCS/GGS than the other direction.  
+I found no evidence that virulence genes were exchanged more than other regions
+of the genome. Three functional
+categories show higher recombination rates: biosynthesis in fatty acid and
+phospholipid metabolism, phosphoenolpyruvate:carbohydrate phosphotransferase
+system (PTS) in signal transduction, and tRNA aminoacylation in protein fate.
 
-Homologous recombination between bacterial species results in horizontal
-transfer of genetic segments from a donor to a recipient species (CITE). Group A
-streptococci (GAS) have been conjectured to be the donor speices of group C and
-G streptococci (GCS and GGS, respectively) in genetic loci including
-housekeeping genes and virulence factors (CITE). Data analyses for testing the
-hypothesis are limited by both very short regions of bacterial genomes and
-unsatisfactory methods of statistical inference (CITE). 
-Tens of GAS genomes are publically available (e.g., CITE of one GAS genome), and
-two genomes for _S. dysgalactiae_ spp. _equisimilis_ (SDE) that is GCS or GGS
-are also recently available (CITE of each of the two genomes).
-Despite the surge of bacterial genomic data, development of methods for
-analyzing those data lags behind. Recently, Didelot:2010 pioneered to exploit
-bacterial genomes in an effort to better understand homologous recombination
-between bacterial species and strains.
-I take the advantage of the powerful statistical method to investigate
-horizontal transfer of genetic segments between _S. pyogenes_ and 
-_S. dysgalactiae_ spp. _equisimilis_.  I provide evidence supporting that SDE
-imported genetic segments from _S. pyogenes_ via homologous recombination.
 
 Introduction
 ------------
@@ -83,27 +67,36 @@ Homologous recombination among
 closely related species and gene transfer between distantly related
 species shape the diversity of bacterial speices.  The diversification of
 bacterial species via horizontal gene flow make inferring species trees
-a formidable statistical problem.  Species boundaries among bacterial
+a formidable statistical problem.  Some researchers tend to abandon evolutionary
+models of bifurcating tree, and embrace web-like network models. The web-like
+network is difficult to interpret.
+Species boundaries among bacterial
 species formed horizontally are blurred.
 Bacterial conjugation, transformation, and transduction induce homologous
 recombinations that are biological mechanisms through which a donor
-bacterium gives a recipient bacterium. 
+bacterium gives a recipient bacterium genetic segments. 
 Inferring recombination events between bacteria species would facilitate
 understanding of gene flow from a bacterial species to another.
  
 _Streptococcus pyogenes_ (SPY) belongs to group A streptococcus (GAS)
 that is a human-specific pathogen primarily infecting the throat and skin. 
 The human pathogen has high prevalence throughout the world
-causing severe invasive disease. One of its closely related species,
+causing severe invasive disease: 
+septicemia (10), endocarditis (25), septic arthritis (12), pneumonia,
+meningitis, pharyngitis (``strep'' throat), impetigo, otitis media, 
+acute poststreptococcal glomerulonephritis (22), cellulitis, 
+acute rheumatic fever (13), and toxic shock syndrome 
+(Towers:2004 cited these diseases).
+One of its closely related species,
 _Streptococcus dysgalactiae_ spp. _equisimilis_ (SDE), belongs to group C or G
-streptococcus (GCS or GGS), which used to be generally regarded as a animal-specific  
-pathogen.  Recently, researchers have been confirming that SDE can
+streptococci (GCS or GGS), which used to be generally regarded as a animal-specific  
+pathogen.  Researchers have been confirming that SDE can
 cause serious and life-threatening diseases to human traditionally
 associated with SPY.  
 Because SDE cohabits with SPY at the same ecological niche of tissue sites,
 SDE and SPY may as well exhibit overlap in their disease profiles.
 Genetic interaction between the two species might have played roles 
-in human pathogenicity of SDE.
+in pathogenicity of SDE.
 Understanding genetic interaction between SDE and SPY could enhance our
 knowledge of their pathogenic effect on human health.
 
@@ -111,11 +104,11 @@ High-throughput genotyping efforts of many bacterial species are underway.
 Methodological developments keep pace with the endeavor. Notably, 
 Didelot:2010 developed a powerful statistical method and implemented it
 into a software called ClonalOrigin.  The method uses a reference species tree
-inferred using genomes of the species of the tree.  The reference species tree
-serves as a back-bone which additional edges, hereafter I call them recombinant
+inferred using genomes of species of the tree.  The reference species tree
+serves as a back-bone which additional edges, hereafter I refer to as recombinant
 edges, are attached to.  
 A recombinant edge connects two different branches of the reference
-tree.  It ``departs'' from an older species branch and ``arrives'' at a more
+tree.  It ``departs'' from an older species branch and ``arrives'' at another more
 recent species branch.  The arrival point corresponds to a recombination event
 in an ancestral recombination graph (ARG).  
 As the reference tree traverses a genome alignment and
@@ -130,10 +123,11 @@ to infer flow of genetic segment between _Bacillus cereus_ species.
 
 I wish to apply the method of ClonalOrigin to 
 scrutinze intensity of gene flow between the two species.  
-It could be a step towards the understanding of interaction between two close
-related human pathogens. 
-I have three questions about gene flow between SPY and SDE.  Did SPY and SDE
-exchange genetic segments?  The question has been addressed using 
+It could be a step towards the understanding of interaction between the two
+closely related human pathogens of SPY and SDE. I wish to answer to three
+questions. Firstly, did SPY and SDE exchange genetic segments across the entire
+genome or parts of the genome?  
+The question has been addressed using 
 mostly limited sets of genes provided by a database called Multi Locus Sequence
 Typing (MLST).  It has not yet been addressed in genomic scale.  
 Secondly, if the two pyogenic
@@ -147,42 +141,45 @@ I discuss a few points in Discussion.
 
 Methods and Materials
 ---------------------
+Suzuki2011 analyzed six genomes. I used five of them in this study.
+To use the software of ClonalOrigin I followed the tutorial provided at
+http://code.google.com/p/clonalorigin. To answer the three questions of interest
+I developed short scripts to summarize output of ClonalOrigin.
 
-Bacterial genomes from NCBI
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-I use two genomes of _S. dysgalactiae_ spp. _equisimilis_, two genomes of 
-_Streptococcus pyogenes_, and one genome of _S. dysgalactiae_ spp. _dysgalactiae_.
-Two genomes of _S. pyogenes_ were downloaded from
+Bacterial genome sequences
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+I used two genomes of SDE, two genomes of SPY, and 
+one genome of _S. dysgalactiae_ spp. _dysgalactiae_ (SDD).
+The two genomes of SPY were downloaded from
 ftp://ftp.ncbi.nih.gov/genomes: 
 Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk [Beres2002]
 and 
 Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk [Beres2006].
 A genome Genbank file of _S. dysgalactiae_ spp. _equisimilis_ was found at 
-Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk.
-Two more genomes were provided by (CITEs):
-cornell_sde1/SdeqATCC12394.gbk 
+Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+(Shimomura2011).
+Two more genomes were provided by 
+cornell_sde1/SdeqATCC12394.gbk [Suzuki2011]
 and
-cornell_sdd/SddyATCC27957.gbk.
+cornell_sdd/SddyATCC27957.gbk [Suzuki2011].
 I refer the two genomes of MGAS315 and MGAS1075 as SPY1 and SPY2, respectively. 
 The two genomes of SdeqATCC12394.gbk and GGS_124 are referred to as SDE1 and
 SDE2, respectively. The genome of Genbank file SddyATCC27957.gbk is called SDD.
 
-I followed the tutorial provided at
-http://code.google.com/p/clonalorigin.
 
-Genome alignment
-~~~~~~~~~~~~~~~~
+Genome alignment (Darling2004,Darling2010)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 I downloaded progressiveMauve version 2.3.1, released on November 11th 2009 from 
 http://asap.ahabs.wisc.edu/mauve/download.php.
 Default options were used to align the five _Streptococcus_ genomes. 
 I removed variable regions from the alignment to leave 
 419 alignment blocks that are longer than 500 base pair.
+I removed two blocks because of too many gaps in the multiple alignment. I also
+excluded two more blocks because I could not finish the first stage of MCMC with
+ClonalOrigin within a length of reasonable time (e.g., a month of computation).
 
-ClonalFrame
-~~~~~~~~~~~
-Species relationship among bacterial species of the _Streptococcus_ pyogenic
-group is difficult because of higher recombination among them.  Bacterial
-genomes are the ultimate resources for resolving species tree of them.
+Species tree inferrence using ClonalFrame (Didelot2007)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 I downloaded ClonalFrame version 1.1 at
 http://www.xavierdidelot.xtreemhost.com/clonalframe.htm.
@@ -348,6 +345,239 @@ A block can contain multiple genes.
 I think that I need to know how I can categorize genetic elements of MGAS315
 genome.
 
+
+Results
+-------
+Figure 1. A species tree with the 5 taxa.
+Figure 2 (or a Table). A heat map values with their standard deviations.
+Figure 3. 
+
+The 3 questions
+~~~~~~~~~~~~~~~
+Firstly, did SPY and SDE exchange genetic segments across the entire
+genome or parts of the genome?  
+Secondly, if the two pyogenic
+species share genetic segments, was it overall unidirectional or bidirectional?
+Thirdly, what kind of genes were exchanged if SPY and SDE exchanged genetic
+segments? 
+
+Core- and pan-genome
+~~~~~~~~~~~~~~~~~~~~
+
+Summary of gene flow
+~~~~~~~~~~~~~~~~~~~~
+I want to develop scripts to summarize gene flow of a genomic segment given a
+speices tree. A genomic segment includes protein-coding genes or non-coding
+elements.
+I like Figures 2, 5, and 7 of Didelot's ClonalOrigin paper. For
+each site or a window of a contiguous segment, a figure just like Figure 5 can
+be depicted. As I scan through a genomic segment by site or window, dynamic
+changes to the figure similiar to Figure 5 would show fluctuation of gene flow
+of the genomic segment.
+How can I summarize gene flows properly from a posterior sample of recombinant
+edges?
+Or, I could use figures such as Figures 2 and 7 to describe results
+qualitatively. I may have to do this.
+
+
+Discussions
+-----------
+Species relationship among bacterial species of the _Streptococcus_ pyogenic
+group is difficult because of higher recombination among them (Didelot2010).  
+Bacterial genomes are the ultimate resources for resolving species tree of them.
+
+Flow of genomic regions between _Streptococcus pyogenes_ and 
+_S. dysgalactiae_ subspecies _equisimilis_ 
+is investigated using five genomes including _S.
+dysgalactiae_ spp. _dysgalactiae_.  Unidirectional flow of genomic regions
+from _S. pyogenes_ to _S. dysgalactiae_ spp. _equisimilis_ is more prevalent
+than the other direction.  
+Two competing hypotheses on the evolution of the two species are tested.
+I privide more evidence for hypothesis 1 with detailed view of evolutionary
+history of the two Streptococci species.
+
+Homologous recombination between bacterial species results in horizontal
+transfer of genetic segments from a donor to a recipient species (CITE). 
+
+have been conjectured to be the donor speices of 
+in genetic loci including
+housekeeping genes and virulence factors (CITE). Data analyses for testing the
+hypothesis are limited by both very short regions of bacterial genomes and
+unsatisfactory methods of statistical inference (CITE). 
+Tens of GAS genomes are publically available (e.g., CITE of one GAS genome), and
+two genomes for _S. dysgalactiae_ spp. _equisimilis_ (SDE) that is GCS or GGS
+are also recently available (CITE of each of the two genomes).
+Despite the surge of bacterial genomic data, development of methods for
+analyzing those data lags behind. Recently, Didelot:2010 pioneered to exploit
+bacterial genomes in an effort to better understand homologous recombination
+between bacterial species and strains.
+I take the advantage of the powerful statistical method to investigate
+horizontal transfer of genetic segments between _S. pyogenes_ and 
+_S. dysgalactiae_ spp. _equisimilis_.  I provide evidence supporting that SDE
+imported genetic segments from _S. pyogenes_ via homologous recombination.
+
+
+Shared genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Presence and absence of genomic contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Genomic content flow
+~~~~~~~~~~~~~~~~~~~~
+
+
+Lack of analyses
+~~~~~~~~~~~~~~~~
+Only two genomes of _S. pyogenes_ were used.
+Only two genomes of _S. dysgalactiae_ subspecies _equisimilis_ were used.
+Analyses with more isolates could potentially reveal congruent relationships
+between virulence profiles and GCS/GGS disease propensity.
+
+I did not account for gene gain and loss in the analysis. Only well aligned
+regions were used in the analysis.
+
+
+Delorme:2007 indicated that _S. salivarius_ and _S. vestibularis_ may have
+evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
+
+
+
+
+
+Virulence factors associated with disease
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What virulence factors?
+[Davies2007] studied 216 GAS virulence genes, not other genes
+to profile the virulence gene repertoires of many (or 58) 
+_Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
+infections.
+
+Look at the file, doc/virulence-genes.txt, for virulence genes.
+
+What is disease propensity?
+
+A Question of interest
+~~~~~~~~~~~~~~~~~~~~~~
+_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
+domesticated animals (CITEs).
+Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
+human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
+Although SDE and
+SPY form distinct genotypic contents, pathogenic phenotypes of the two species
+manifest similarly (CITEs).
+How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
+Did it evolve from a commensal bacteria? Did genetic elements transfer from
+SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
+flow? In this study, I want to catalogue genetic elements according to their
+pattern of flow in the evolutionary history that relates SPY and SDE. 
+
+Scenarios of evolution of SPY and SDE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
+was losing virulence factors since the divergence of the ancestor. SDE regains
+virulence factors from SPY because of the same niche.
+2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
+SPY evolves virulence factors since the divergence of the ancestor. SDE gains
+virulence factors from SPY.
+
+Acknowledgments
+---------------
+Adam Siepel and Ilan (coauthors)
+
+Melissa Jane Hubisz
+Xavier Didelot
+NIH
+
+References
+----------
+. Didelot, X., and M. C. Maiden, 2010.  Impact of recombination on bacterial
+evolution. Trends Microbiol. 18: 315–322.
+. Darling, A. C., B. Mau, F. R. Blattner and N. T. Perna, 2004 Mauve: multiple
+alignment of conserved genomic se- quence with rearrangements. Genome Res. 14:
+1394–1403.
+. Darling, A., B. Mau and N. Perna, 2010  ProgressiveMauve: multi- ple genome
+alignment with gene gain, loss and rearrangement. PLoS One 5: e11147.
+. Didelot, X., and D. Falush, 2007  Inference of bacterial microevo- lution using
+multilocus sequence data. Genetics 175: 1251–1266.
+. Shimomura Y, Okumura K, Murayama SY, Yagi J, Ubukata K, Kirikae T,
+Miyoshi-Akiyama T.
+Complete genome sequencing and analysis of a Lancefield group G Streptococcus
+dysgalactiae subsp. equisimilis strain causing streptococcal toxic shock
+syndrome (STSS).
+BMC Genomics. 2011 Jan 11;12:17.
+. Haruo Suzuki, Tristan Lefebure, Melissa Jane Hubisz, Paulina Pavinski Bitar,
+Ping Lang, Adam Siepel, and Michael J. Stanhope.
+Comparative genomic analysis of the Streptococcus dysgalactiae species group:
+gene content, molecular adaptation, and promoter evolution.
+Genome Biol Evol first published online January 31, 2011 doi:10.1093/gbe/evr006
+. Beres SB, Richter EW, Nagiec MJ, Sumby P, Porcella SF, DeLeo FR, Musser JM.
+Molecular genetic anatomy of inter- and intraserotype variation in the human
+bacterial pathogen group A Streptococcus.
+Proc Natl Acad Sci U S A. 2006 May 2;103(18):7059-64. Epub 2006 Apr 24.
+. Beres SB, Sylva GL, Barbian KD, Lei B, Hoff JS, Mammarella ND, Liu MY, Smoot JC,
+Porcella SF, Parkins LD, Campbell DS, Smith TM, McCormick JK, Leung DY,
+Schlievert PM, Musser JM.
+Genome sequence of a serotype M3 strain of group A Streptococcus: phage-encoded
+toxins, the high-virulence phenotype, and clone emergence.
+Proc Natl Acad Sci U S A. 2002 Jul 23;99(15):10078-83. Epub 2002 Jul 16.
+. Gene Ontology: tool for the unification of biology. The Gene Ontology
+Consortium (2000) Nature Genet. 25: 25-29 
+. Wiuf, C. and Hein, J. 1999. Recombination as a point process along sequences.
+Theor. Pop. Biol., 55, 248–259.
+. McVean, G. A. and Cardin, N. J. 2005. Approximating the coalescent with
+recombination. Philos. Trans. R. Soc. Lond. B Biol. Sci., 360, 1387–93.
+. Jeffrey G. Lawrence. Gene Transfer in Bacteria: Speciation without Species? 
+Theoretical Population Biology 61, 449–460 (2002) doi:10.1006/tpbi.2002.1587
+. Ahmad et al. 2009. J Clin Microbiol. 2009 July; 47(7): 2046–2054. Published online 2009 April 22. doi: 10.1128/JCM.00246-09.
+. Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al. (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives. PLoS ONE 3(7): e2683. doi:10.1371/journal.pone.0002683
+. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci of the Salivarius Group. J. Bacteriol. 189 (4): 1330
+. Kalia A., and D. E. Bessen. Natural Selection and Evolution of Streptococcal Virulence Genes Involved in Tissue-Specific Adaptations. Journal of Bacteriology, January 2004, p. 110-121, Vol. 186, No. 1 
+. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.  Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.  Spratt. 2001. Recombination within natural populations of pathogenic bac- teria: short-term empirical estimates and long-term phylogenetic conse- quences. Proc.  Natl. Acad. Sci. 98:182–187.
+.. Recombination between bacterial species.
+. Towers et al. Fibronectin-binding protein gene recombination and horizontal transfer between group A and G streptococci.  J Clin Microbiol. 2004 Nov;42(11):5357-61.
+. Bessen et al. Evolution of transcription regulatory genes is linked to niche
+specialization in the bacterial pathogen Streptococcus pyogenes. J Bacteriol. 2005 Jun;187(12):4163-72.
+. Kalia, A., B. G. Spratt, M. C. Enright, and D. E. Bessen. 2002. Influence of
+recombination and niche separation on the population genetic structure of the
+pathogen Streptococcus pyogenes. Infect. Immun. 70:1971–1983 [NOT YET READ]
+. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.
+Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.
+Spratt. 2001. Recombination within natural populations of pathogenic bacteria:
+short-term empirical estimates and long-term phylogenetic consequences. Proc. Natl. Acad. Sci. USA 98:182–187. [NOT YET READ]
+. Schmidt, H., and M. Hensel. 2004. Pathogenicity islands in bacterial
+pathogenesis. Clin. Microbiol. Rev. 17:14–56. [NOT YET READ]
+. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci
+of the Salivarius Group. JOURNAL OF BACTERIOLOGY, Feb. 2007, p. 1330–1341
+. Kalia et al. Directional gene movement from human-pathogenic to commensal-like
+streptococci. Infect Immun. 2001 Aug;69(8):4858-69. [THIS PAPER WAS RETRACTED
+DUE TO SOME PROBLEM THAT I DID NOT KNOW]  
+. Cohan, F. M. 2001. Bacterial species and speciation. Syst. Biol. 50:513–524.
+. Davies et al. Virulence profiling of Streptococcus dysgalactiae subspecies
+equisimilis isolated from infected humans reveals 2 distinct genetic lineages
+that do not segregate with their phenotypes or propensity to cause diseases. 
+Clin Infect Dis. 2007 Jun 1;44(11):1442-54. Epub 2007 Apr 19.
+. Johnson PLF, Slatkin M (2009) Inference of Microbial Recombination Rates from
+Metagenomic Data. PLoS Genet 5(10): e1000674. doi:10.1371/ journal.pgen.1000674
+
+Tables
+------
+
+Figures
+-------
+
+
+
+END OF MANUSCRIPT
+-----------------
+
+
+
+
+
+
+
 Adhesins
 ^^^^^^^^
 GAPDH
@@ -436,149 +666,6 @@ Towers:2004 cited the following disease:
 
 Throat and skin are the primary habitat for _S. pyogenes_.
 
-Shared genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Presence and absence of genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Genomic content flow
-~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-Virulence factors associated with disease
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What virulence factors?
-[Davies2007] studied 216 GAS virulence genes, not other genes
-to profile the virulence gene repertoires of many (or 58) 
-_Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
-infections.
-
-Look at the file, doc/virulence-genes.txt, for virulence genes.
-
-What is disease propensity?
-
-A Question of interest
-~~~~~~~~~~~~~~~~~~~~~~
-_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
-domesticated animals (CITEs).
-Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
-human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
-Although SDE and
-SPY form distinct genotypic contents, pathogenic phenotypes of the two species
-manifest similarly (CITEs).
-How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
-Did it evolve from a commensal bacteria? Did genetic elements transfer from
-SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
-flow? In this study, I want to catalogue genetic elements according to their
-pattern of flow in the evolutionary history that relates SPY and SDE. 
-
-Scenarios of evolution of SPY and SDE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
-was losing virulence factors since the divergence of the ancestor. SDE regains
-virulence factors from SPY because of the same niche.
-2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
-SPY evolves virulence factors since the divergence of the ancestor. SDE gains
-virulence factors from SPY.
-
-
-
-
-Results
--------
-
-Core- and pan-genome
-~~~~~~~~~~~~~~~~~~~~
-
-Summary of gene flow
-~~~~~~~~~~~~~~~~~~~~
-I want to develop scripts to summarize gene flow of a genomic segment given a
-speices tree. A genomic segment includes protein-coding genes or non-coding
-elements.
-I like Figures 2, 5, and 7 of Didelot's ClonalOrigin paper. For
-each site or a window of a contiguous segment, a figure just like Figure 5 can
-be depicted. As I scan through a genomic segment by site or window, dynamic
-changes to the figure similiar to Figure 5 would show fluctuation of gene flow
-of the genomic segment.
-How can I summarize gene flows properly from a posterior sample of recombinant
-edges?
-Or, I could use figures such as Figures 2 and 7 to describe results
-qualitatively. I may have to do this.
-
-
-
-Discussion
-----------
-
-Lack of analyses
-~~~~~~~~~~~~~~~~
-Only two genomes of _S. pyogenes_ were used.
-Only two genomes of _S. dysgalactiae_ subspecies _equisimilis_ were used.
-Analyses with more isolates could potentially reveal congruent relationships
-between virulence profiles and GCS/GGS disease propensity.
-
-I did not account for gene gain and loss in the analysis. Only well aligned
-regions were used in the analysis.
-
-
-Discussion
-----------
-
-Delorme:2007 indicated that _S. salivarius_ and _S. vestibularis_ may have
-evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
-
-
-
-References
-----------
-. Gene Ontology: tool for the unification of biology. The Gene Ontology
-Consortium (2000) Nature Genet. 25: 25-29 
-. Wiuf, C. and Hein, J. 1999. Recombination as a point process along sequences.
-Theor. Pop. Biol., 55, 248–259.
-. McVean, G. A. and Cardin, N. J. 2005. Approximating the coalescent with
-recombination. Philos. Trans. R. Soc. Lond. B Biol. Sci., 360, 1387–93.
-. Jeffrey G. Lawrence. Gene Transfer in Bacteria: Speciation without Species? 
-Theoretical Population Biology 61, 449–460 (2002) doi:10.1006/tpbi.2002.1587
-. Ahmad et al. 2009. J Clin Microbiol. 2009 July; 47(7): 2046–2054. Published online 2009 April 22. doi: 10.1128/JCM.00246-09.
-. Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al. (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives. PLoS ONE 3(7): e2683. doi:10.1371/journal.pone.0002683
-. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci of the Salivarius Group. J. Bacteriol. 189 (4): 1330
-. Kalia A., and D. E. Bessen. Natural Selection and Evolution of Streptococcal Virulence Genes Involved in Tissue-Specific Adaptations. Journal of Bacteriology, January 2004, p. 110-121, Vol. 186, No. 1 
-. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.  Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.  Spratt. 2001. Recombination within natural populations of pathogenic bac- teria: short-term empirical estimates and long-term phylogenetic conse- quences. Proc.  Natl. Acad. Sci. 98:182–187.
-.. Recombination between bacterial species.
-. Towers et al. Fibronectin-binding protein gene recombination and horizontal transfer between group A and G streptococci.  J Clin Microbiol. 2004 Nov;42(11):5357-61.
-. Bessen et al. Evolution of transcription regulatory genes is linked to niche
-specialization in the bacterial pathogen Streptococcus pyogenes. J Bacteriol. 2005 Jun;187(12):4163-72.
-. Kalia, A., B. G. Spratt, M. C. Enright, and D. E. Bessen. 2002. Influence of
-recombination and niche separation on the population genetic structure of the
-pathogen Streptococcus pyogenes. Infect. Immun. 70:1971–1983 [NOT YET READ]
-. Feil, E. J., E. C. Holmes, D. E. Bessen, M.-S. Chan, N. P. J. Day, M. C.
-Enright, R. Goldstein, D. Hood, A. Kalia, C. E. Moore, J. Zhou, and B. G.
-Spratt. 2001. Recombination within natural populations of pathogenic bacteria:
-short-term empirical estimates and long-term phylogenetic consequences. Proc. Natl. Acad. Sci. USA 98:182–187. [NOT YET READ]
-. Schmidt, H., and M. Hensel. 2004. Pathogenicity islands in bacterial
-pathogenesis. Clin. Microbiol. Rev. 17:14–56. [NOT YET READ]
-. Delorme et al. Extent of Horizontal Gene Transfer in Evolution of Streptococci
-of the Salivarius Group. JOURNAL OF BACTERIOLOGY, Feb. 2007, p. 1330–1341
-. Kalia et al. Directional gene movement from human-pathogenic to commensal-like
-streptococci. Infect Immun. 2001 Aug;69(8):4858-69. [THIS PAPER WAS RETRACTED
-DUE TO SOME PROBLEM THAT I DID NOT KNOW]  
-. Cohan, F. M. 2001. Bacterial species and speciation. Syst. Biol. 50:513–524.
-. Davies et al. Virulence profiling of Streptococcus dysgalactiae subspecies
-equisimilis isolated from infected humans reveals 2 distinct genetic lineages
-that do not segregate with their phenotypes or propensity to cause diseases. 
-Clin Infect Dis. 2007 Jun 1;44(11):1442-54. Epub 2007 Apr 19.
-. Johnson PLF, Slatkin M (2009) Inference of Microbial Recombination Rates from
-Metagenomic Data. PLoS Genet 5(10): e1000674. doi:10.1371/ journal.pgen.1000674
-
-Tables
-------
-
-Figures
--------
 
 Data Analyses
 -------------
