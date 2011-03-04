@@ -1245,6 +1245,11 @@ function analysis-clonalorigin {
             -importRatio $MAUVEANALYSISDIR/import-ratio-with-sde1.txt \
             -jcviRole $RUNANALYSISDIR/list-locus-tag-go-jcvi-role.txt
           break
+        elif [ "$WHATANALYSIS" == "plot-import-ratio-jcvi-role" ];  then
+          echo -e "Plotting import-ratio and jcvi-role ..."
+          echo perl pl/plot-import-ratio-jcvi-role.pl \
+            -importRatio $MAUVEANALYSISDIR/combine-import-ratio-jcvi-role.txt \
+            -jcviRole $RUNANALYSISDIR/list-locus-tag-go-jcvi-role.txt
         fi
       done
       break

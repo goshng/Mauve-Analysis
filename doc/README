@@ -90,7 +90,7 @@ knowledge of their pathogenic effect on human health.
 
 High-throughput genotyping efforts of many bacterial species are underway.
 Methodological developments keep pace with the endeavor. Notably, 
-Didelot:2010 developed a powerful statistical method, and implemented it
+Didelot2010 developed a powerful statistical method, and implemented it
 into a software called ClonalOrigin.  The method uses a reference species tree
 inferred using genomes of species of the tree.  The reference species tree
 serves as a back-bone which additional edges, hereafter I refer to as recombinant
@@ -213,7 +213,7 @@ recombinant edge to another.  I used the software of ClonalOrigin to compute the
 expected number of recombinant edges for each block.  I sumed the expected number
 of recombinant edges over all the blocks.   I divided the total observed number
 of recombinant edges by the total expected number of recombinant edges.   
-This is similar to Figure 5 of Didelot:2010.
+This is similar to Figure 5 of Didelot2010.
 
 1. Total counts of events on average between species branches.
 
@@ -295,10 +295,55 @@ genome.
 
 Results
 -------
-Figure 1. A species tree with the 5 taxa.
-Figure 2 (or a Table). A heat map values with their standard deviations.
-Figure 3. 
 
+////////
+Figure 1
+////////
+.Phylogeny of the five genomes.
+image::figure1.png[Clonal frame]
+
+////////
+I describe the parameter values in the text:
+estimates of recombination rates, mutation rates, and recombinant tract lengths.
+////////
+
+/////////
+Figure 2.
+Posterior probability of 60 different imports along SDE1 genomes.
+Posterior probability of import along SDE1 genome.
+/////////
+.Posterior probability of 60 different imports along SDE1 genomes.
+image::figure2.png[Posterior probability]
+
+///////
+Table 1
+///////
+.Number of recombination events inferred relative to its expected number under the prior model given recombination rate for each donor/recipient pairs of species branches. Species of rows are donors, and speices of columns are recipients.
+[format="dsv",separator="\s",options="header"]
+|===================================================
+ SDE1 SDE2 SDD SPY1 SPY2 SDE SPY SD R
+include::table1.txt[]
+|===================================================
+
+/////////
+Figure 3.
+Odd ratios of posterior probability of import between SDE and SPY along SDE1 genome.
+Odd ratios of posterior probability of import between SDE and SPY by locus genes.
+/////////
+.Odd ratios of posterior probability of import between SDE and SPY by locus genes.
+image::figure3.png[Posterior probability]
+
+
+/////////
+Figure 4.
+Import rates for JCVI role categories.
+/////////
+.Functional categories and import rates.
+image::figure4.png[Functional categories]
+
+////////
+Table 3.
+////////
 
 
 The 3 questions
@@ -357,7 +402,7 @@ Tens of GAS genomes are publically available (e.g., CITE of one GAS genome), and
 two genomes for _S. dysgalactiae_ spp. _equisimilis_ (SDE) that is GCS or GGS
 are also recently available (CITE of each of the two genomes).
 Despite the surge of bacterial genomic data, development of methods for
-analyzing those data lags behind. Recently, Didelot:2010 pioneered to exploit
+analyzing those data lags behind. Recently, Didelot2010 pioneered to exploit
 bacterial genomes in an effort to better understand homologous recombination
 between bacterial species and strains.
 I take the advantage of the powerful statistical method to investigate
