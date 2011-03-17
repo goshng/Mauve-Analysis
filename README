@@ -101,6 +101,12 @@ seem to converge. 121,203,247 takes too much time to finish.
 What are those that are removed from 419?
 Multiple 2's, 160's and 236's are running run-clonalorigin5 at 6.
 
+67  82       153                 293 among 419.
+        121       160  203  247      among 415.
+67  82  123  153  163  206  250  293 among 419 ?
+67,82,123,153,163,206,250,293
+were filtered out.
+
 0.0542/1425/0.00521 are used for 2nd clonal origin analysis.
 
 run-analysis

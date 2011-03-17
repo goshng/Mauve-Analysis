@@ -29,9 +29,11 @@ ancestral recombination graph (ARG),
 group A streptococci (GAS),
 group C streptococci (GCS),
 group G streptococci (GGS),
+restriction-modification system (RMS),
+phosphoenolpyruvate:carbohydrate phosphotransferase system (PTS),
 _Streptococcus pyogenes_ (SPY), 
 _S. dysgalactiae_ spp. _dysgalactiae_ (SDD), and
-_S. dysgalactiae_ subspecies _equisimilis_ (SDE)
+_S. dysgalactiae_ spp. _equisimilis_ (SDE)
 
 Abstract
 --------
@@ -343,6 +345,9 @@ $\theta_s$, $\rho_s$ fixed to the estimated median values.
 
 Genomic proportion under recombination
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Distribution of number of recombinant edge along the genome and its histogram.
+I just concatenate alignment blocks to make a genome. 
+
 IMPORTANT: +Compute the proportion of sites along all of the alignment blocks where the
 average number of recombinant edges per site is less than 1.+
 
@@ -390,6 +395,8 @@ phosphoenolpyruvate:carbohydrate phosphotransferase system (PTS) in signal trans
 tRNA aminoacylation in protein fate.
 (p-value of 0.003271).
 
+Divide the p-value by the number of functional categories in JCVI roles.
+
 
 1. Total counts of events on average between species branches.
 2. Import rate of a particular ordered pair of species branches along SPY1
@@ -398,128 +405,176 @@ genome.
 4. Odd ratio of import rates to compare gene-flow-to-SDE and gene-flow-to-SPY
 along SPY1 genome or SDE genome. 
 
+IMPORTANT: +Functional categories and polarized direction. I think that I did
+not find any association.+
 
-Discussions
------------
-
-
-What did we learn from the analysis of ClonalOrigin?
-
-Limitations of the method?
-
-biosynthesis in fatty acid and phospholipid metabolism
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Kinsella2003
-
-phosphoenolpyruvate:carbohydrate phosphotransferase system (PTS) in signal transduction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Zuniga2005
-
-tRNA aminoacylation in protein fate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Previous studies of tRNA aminoacylation and gene transfer.
-Wang2011
-Woese2000
-Andam2010
-
-
-
-Species relationship among bacterial species of the _Streptococcus_ pyogenic
-group is difficult because of higher recombination among them (Didelot2010).  
-Bacterial genomes are the ultimate resources for resolving species tree of them.
-
-Flow of genomic regions between _Streptococcus pyogenes_ and 
-_S. dysgalactiae_ subspecies _equisimilis_ 
-is investigated using five genomes including _S.
-dysgalactiae_ spp. _dysgalactiae_.  Unidirectional flow of genomic regions
-from _S. pyogenes_ to _S. dysgalactiae_ spp. _equisimilis_ is more prevalent
-than the other direction.  
-Two competing hypotheses on the evolution of the two species are tested.
-I privide more evidence for hypothesis 1 with detailed view of evolutionary
-history of the two Streptococci species.
-
-Homologous recombination between bacterial species results in horizontal
-transfer of genetic segments from a donor to a recipient species (CITE). 
-
-have been conjectured to be the donor speices of 
-in genetic loci including
-housekeeping genes and virulence factors (CITE). Data analyses for testing the
-hypothesis are limited by both very short regions of bacterial genomes and
-unsatisfactory methods of statistical inference (CITE). 
-Tens of GAS genomes are publically available (e.g., CITE of one GAS genome), and
-two genomes for _S. dysgalactiae_ spp. _equisimilis_ (SDE) that is GCS or GGS
-are also recently available (CITE of each of the two genomes).
-Despite the surge of bacterial genomic data, development of methods for
-analyzing those data lags behind. Recently, Didelot2010 pioneered to exploit
-bacterial genomes in an effort to better understand homologous recombination
-between bacterial species and strains.
-I take the advantage of the powerful statistical method to investigate
-horizontal transfer of genetic segments between _S. pyogenes_ and 
-_S. dysgalactiae_ spp. _equisimilis_.  I provide evidence supporting that SDE
-imported genetic segments from _S. pyogenes_ via homologous recombination.
-
-
-Shared genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~
-xxx
-
-Presence and absence of genomic contents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-xxx
-
-Genomic content flow
-~~~~~~~~~~~~~~~~~~~~
-xxx
-
-Lack of analyses
-~~~~~~~~~~~~~~~~
-Only two genomes of _S. pyogenes_ were used.
-Only two genomes of _S. dysgalactiae_ subspecies _equisimilis_ were used.
-Analyses with more isolates could potentially reveal congruent relationships
-between virulence profiles and GCS/GGS disease propensity.
-
-I did not account for gene gain and loss in the analysis. Only well aligned
-regions were used in the analysis.
-
-
-Delorme:2007 indicated that _S. salivarius_ and _S. vestibularis_ may have
-evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
-
-Virulence factors associated with disease
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-What virulence factors?
-[Davies2007] studied 216 GAS virulence genes, not other genes
+IMPORTANT: +What virulence factors?+
+Davies2007 studied 216 GAS virulence genes, not other genes
 to profile the virulence gene repertoires of many (or 58) 
 _Streptococcus dysgalactiae_ spp. _equisimilis_ isolates recovered during human
 infections.
 
-Look at the file, doc/virulence-genes.txt, for virulence genes.
+Discussions
+-----------
+Gene flow direction between 
+_S. dysgalactiae_ spp. _equisimilis_ 
+and _S. pyogenes_ has been questioned and challenged
+(Kalia2001, Kalia2004, Towers2004, Bessen2005, and see Bessen2010). 
+Until recently it was not possible because of lack of genome data and methods
+that can handle them. Here I showcase a study that polarized direction of gene
+flow seems broadly distributed across the entire genome. Additionally,
+I found functional categories that were under higher recombination, and
+consequently targets of lateral gene transfer.  Separate studies of association
+of those functional categories with lateral gene transfer had been done.  These
+fortified my finding of association of those functional categories with higher
+recombination. 
 
-What is disease propensity?
-
-A Question of interest
-~~~~~~~~~~~~~~~~~~~~~~
-_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
-domesticated animals (CITEs).
-Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
-human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
-Although SDE and
-SPY form distinct genotypic contents, pathogenic phenotypes of the two species
-manifest similarly (CITEs).
+I asked and answer to three questions.  
 How did SDE evolve? Did it evolve from an ancestral form of pathogenic bateria?
 Did it evolve from a commensal bacteria? Did genetic elements transfer from
 SPY's lineage to SDE's? Or, were there cases of the opposite direction of gene
 flow? In this study, I want to catalogue genetic elements according to their
 pattern of flow in the evolutionary history that relates SPY and SDE. 
-
-Scenarios of evolution of SPY and SDE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1. The most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
+Kalia2001 conjectured two hypothetical scenarios of the evolution of the two
+species: 
+The first one is that the most recent common ancestor of SPY and SDE is a GAS-like pathogen. SDE
 was losing virulence factors since the divergence of the ancestor. SDE regains
-virulence factors from SPY because of the same niche.
-2. The most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
+virulence factors from SPY because of the same niche.  
+The second one is that the most recent common ancestor of SPY and SDE is a GGS/GCS-like commensal.
 SPY evolves virulence factors since the divergence of the ancestor. SDE gains
 virulence factors from SPY.
+
+Directional gene flow
+~~~~~~~~~~~~~~~~~~~~~
+Flow of genomic regions between _Streptococcus pyogenes_ and 
+_S. dysgalactiae_ spp. _equisimilis_ 
+is investigated using five genomes including _S.
+dysgalactiae_ spp. _dysgalactiae_.  Unidirectional flow of genomic regions
+from _S. pyogenes_ to _S. dysgalactiae_ spp. _equisimilis_ is more prevalent
+than the other direction.  
+Two competing hypotheses on the evolution of the two species are tested.
+I provide more evidence for hypothesis 1 with detailed view of evolutionary
+history of the two Streptococci species.
+
+Gene exchange via recombination among bacteria has driven bacterial evoltuion.
+Bacterial recombinations happen more freely within the same species.  Barriers
+to bacterial recombination can include geographic isolation. Geographic
+isolation cannot be the only reason.  Genetic isolation can prevent
+recombination between coinhating bacteria.  Restriction-modification system is a
+biological self-defense mechanism of bacteria.  It is diverse in prokaryote
+world.  Relatively unidirectional gene flow between  
+_S. pyogenes_ and _S. dysgalactiae_ ssp. _equisimilis_ might be associated with
+different restriction-modification system in the two species.  Most of 
+_S. pyogenes_ genomes contain restriction-modification type I system as well as
+type II system. The two genomes of _S. dysgalactiae_ ssp. _equisimilis_ contain
+only type II system.  I conjecture that more tight self-defense system of 
+_S. pyogenes_ might make the species less capable of aquiring foreign genetic
+material from _S. dysgalactiae_ ssp. _equisimilis_.  I did not find evidence
+against the hypothesis that functional categories of genes were independent of
+polarization of gene flow between the two species.  Genes associated with 
+polarized gene flow seem to be more or less randomly distributed across the
+genome.  Kalia2001 discussed possible mechanisms of the polarized gene flow.
+Kalia2001 mentioned potential roles of RMS in the polarized gene flow.
+Budroni2011 studied that _Neisseria meningitidis_ phylogenetic clades were
+associated with RMS.  Budroni2011 mentioned that RM systems modulate homologous
+recombination in the bacteria of _N. meningitidis_.  Biological roles of RM
+systems might be to maintain and control species identity (Jeltsch2003).
+
+Considering the observation that recombination events happen across the entire
+genome, I did not expect that some genes could be associated with higher
+recombination.  I did find that ClonalOrigin's framework could help discover
+functional categories of genes with higher recombination.  Some of functional
+categories are a classical example where genes with the corresponding function
+were under higher recombination, consequently leading to be under the force of
+lateral gene transfer.  
+A functional category of tRNA aminoacylation were reportedly associated with
+higher lateral gene transfer by Woese2000. There are recent reports about tRNA
+aminoacylation (Andam2010, Wang2011).
+I found that PTS in signal transduction was associated with higher
+recombination.  Zuniga2005 also found that PTS genes were more easily
+transferred between bacteria. 
+Function category of biosynthesis in fatty acid and phospholipid metabolism
+was also found to be associated with higher recombination. 
+Kinsella2003 studied lateral gene transfer of fatty acid metabolism.
+Although I did not show that proof of concept, I do think that higher
+recombination in _S. pyogenes_ has been known to be apparent in other studies 
+(Vos2009a, Hanage2006, Perez-Losada2006).
+Other corroborating studies seems to support that the three function categories
+were under relatively higher recombination.
+
+Evoultion from commensal to pathogenic
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Commensal bacteria could evolve by aquiring virulence genes from its closely
+related bacteria that are pathogenic.  I expected that virulence genes of 
+_S. dysgalactiae_ spp. _equisimilis_ 
+might have been transferred from _S. pyogenes_. I could not find evidence to
+support the lateral gene transfer of virulence genes from _S. pyogenes_ to
+_S. dysgalactiae_ spp. _equisimilis_.
+This marginally seem to support that virulence genes might
+have existed in the common ancester of the two species.  I could not rule out
+that virulence genes were transferred to 
+_S. dysgalactiae_ spp. _equisimilis_.  The reports that 
+_S. dysgalactiae_ spp. _equisimilis_ were human-pathogens seem to be
+retropective.  
+_Streptococcus dysgalactiae_ spp. _equisimilis_ had been known to infect
+domesticated animals (CITEs).
+Recently, reports that _S. dysgalactiae_ spp. _equisimilis_ (SDE) were recovered as
+human pathogens just like _S. pyogenes_ (SPY) are increasing (CITEs).  
+The species might have been human-pathogenic, and they were not
+reported to be so much as _S. pyogenes_.  Further studies should be pursued to
+resolve this issue of lateral gene transfer of virulence genes.
+
+What did we learn from the analysis of ClonalOrigin?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Without account of recombination it seems to hard to study bacterial evolution
+with a few exceptions.  My study is just a showcase of using a recently
+developed statistical software of ClonalOrigin to apply it to two groups of
+genomes to answer three questions.  Although the analysis using ClonalOrigin
+requires a series of analyses, the approach is based on a sound statistical
+model of coalescent with recombination.  
+
+Lack of analyses and Limitations of the method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I used only 
+two genomes of _S. pyogenes_,
+and two genomes of _S. dysgalactiae_ spp. _equisimilis_ with additional genome
+from _S. dysgalactiae_ spp. _dysgalactiae_. 
+Additional to the five genomes from closely related species could increase the
+power of detecting recombination.  
+Analyses with more isolates could potentially reveal congruent relationships
+between virulence profiles and GCS/GGS disease propensity.
+I also used only core genomes where not so much gaps were allowed.  
+Relatively short alignment blocks were excluded from the analysis.
+Alignment blocks with many gaps were excluded.  
+With this inherent filtering of the input data preparation
+I did not account for gene gain and loss in the analysis. 
+Only well aligned regions were used in the analysis.  More complicated
+evolutionary models could have been considered: genome rearrangement, gene
+segment gain and loss, and gene duplications.  Without these evolutionary events
+in their model Didelot2010 still used the two stages of Bayesian approach where
+the second stage uses the result from the first stage as a prior.  
+If this compromise seems to be necessary due to smaller uncertainty of some
+parameters and computational cost, using whole genomes intact with all
+alignment blocks seems to be impracticable.  Incorporating the other
+evolutionary events in the ClonalOrigin's framework seems
+to be out of the question.  It seems to be natural to consider some of
+evolutionary models such as gene segment gain and loss
+becasue bacterial genomes are the ultimate resources for resolving many
+biological questions such as species tree of them.  I am wondering if species
+tree can be studied using gene tree model that Didelot2010 developed in
+ClonalOrigin.
+
+Delorme:2007 indicated that _S. salivarius_ and _S. vestibularis_ may have
+evolutionary history that is parallel to _SDE_ and _S. pyogenes_.
+
+Divergence time estimation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kalia2001 suggested the divergence time of 
+_S. dysgalactiae_ spp. _dysgalactiae_ (SDD) to be around the time when human
+started to domesticate wildlife animals around 10,000 years ago. A demographic
+model could be made with two species to study the divergence time
+quantitatively. This would require ancestral recombination graphs
+embedded in a species tree.  
 
 Acknowledgments
 ---------------
@@ -708,407 +763,4 @@ image::figure4.png[Functional categories]
 
 END OF MANUSCRIPT
 -----------------
-
-
-
-
-Proteins
---------
-
-Towers:2004 cites some of the following proteins:
-. Plasminogen (Plg)-binding group A streptococcal M protein (PAM) 
-. M suface proteins
-. C5a peptidase
-. streptolysin O
-. streptococcal pyrogenic exotoxin G (SpeG)
-. streptokinase (_ska_)
-. plasmin: broad-spectrum proteinase involved in blood clot dissolution and cellular migration
-. streptococcal fibronectin-binding protein I (SfbI; also
-known as protein F1) (_sbfI_)
-.. an important and well-characterized virulence factor in GAS that is involved
-in adherence to throat and skin cells (21, 27) and mediates GAS internalization
-in epithelial cells (15, 19). 
-. fibronnectin
-. RofA is encoded in the FCT region.
-.. a global regulator of GAS (8) found in the FCT region, a locus which exhibits
-high rates of recombination (3).
-.. These are mga and rofA/nra, encoding the ``stand- alone'' response regulators
-Mga and RofA/Nra, for which the interacting sensory elements remain unknown (36,
-50)
-. plasminogen activator (Ska)
-
-
-Other genomes
--------------
-Genomes OnLine Database (GOLD; Liolios et al., 2006)
-- _Haemophilus influenzae_ (Fleischmann et al., 1995)
-- _Escherichia coli_ (Blattner et al., 1997)
-
-
-
-
-Debra E. Bessen: Population Genetics of Streptococcus
------------------------------------------------------
-The following is based on the chapter 17 of Bacterial Population Genetics in
-Infectious Disease.
-
-About Streptococcus Genus
--------------------------
-- Comprises more than 50 species,
-- Inhabits hosts including humans and domesticated animals,
-- Includes gram-positive bacteria,
-- Undergoes extensive lateral gene transfer,
-
-Streptococcus pyogenes
-~~~~~~~~~~~~~~~~~~~~~~
-- Contains serogroups A carbohydrate,
-- Group A Streptococcus, or GAS,
-- Includes beta-hemolytic streptococci,
-- Responsible for many cases of throat infection, pharyngitis and tonsillitis,
-- Responsible for many cases of skin infection, nonbullous impetigo,
-
-Streptococcus dysgalactiae ssp. equisimilis
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- Contains serogroups C, G, or L carbohydrate,
-- Are often commensals, and are human pathogens,
-- Are beta-hemolytic streptococci,
-
-Streptococcus equi ssp. equi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- Contains serogroup C
-- Are animal pathogens, infecting equine
-- Are beta-hemolytic streptococci,
-
-Streptococcus mutans
-~~~~~~~~~~~~~~~~~~~~
-- alpha-hemolytic streptococci,
-- major pathogen of dental caries in humans,
-- Characterized by vertical transmission, from mother to infant,
-
-Lancefield Method
------------------
-- Classfies gram-positive cocci,
-- Serology-based typing approaches,
-
-Virulence Genes of Streptococcus
---------------------------------
-
-_emm_
-~~~~~
-- M Protein,
-
-_sof_
-~~~~~
-- Lies upstream of the _emm_ gene,
-
-_mga_
-~~~~~
-
-FCT region
-~~~~~~~~~~
-- Lies 300kb away from the _emm_ region,
-
-MLST
-----
-- Based on housekeeping genes,
-- Tools used for population genetics study of a bacterial species,
-
-Analysis Tools
-~~~~~~~~~~~~~~
-- eBURST analysis (Feil et al., 2004) can infer the ancestor-descendant
-  relationships between sequence types (ST),
-- Empirical analysis of genetic change in single-locus variants (SLVs) (Feil et
-  al., 2000),
-- ClonalFrame uses a coalescent-based approach to estimate the relative
-  probabilities that a nucleotide is changed as the result of homologous
-  recombnation versus point muation (Didelot and Falush, 2007),
-- Infinite allele model can estimate population recombination and mutation rates
-  (Fraser et al., 2005; Hanage et al., 2006),
-- Congruency of gene tree topologies can evaluate the relative extent of genetic
-  diversification by recombination versus mutation by assessing congruence via
-  pairwise comparisons of housekeeping gene tree topologies (Feil et al., 2001;
-  see also Bessen, 2009),
-
-Recombinations and Mutations
-----------------------------
-The high rates of recombination characterize most _Streptococcus_ species.
-
-
-Streptococcus Genomes Available
--------------------------------
-- pneumococci (Tettelin et al., 2001)
-- GAS (Ferretti et al., 2001)
-- GBS (Tettelin et al., 2002)
-- _S. equi_
-- _S. zooepidemicus_
-- _S. gordonii_
-- _S. mutans_
-- _S. mitis_
-- _S. suis_
-- _S. uberis_
-The _Streptococcus_ genomes range in size from ~1.7 to 2.2 Mb.
-
-Genomic Elements
-~~~~~~~~~~~~~~~~
-- Exogenous genetic elements
-- prophages
-- integrative and conjugative elements (ICEs)
-- conjugative transposons and plasmids
-- Some exogenous genetic elements in GAS harbor virulence and antibiotic
-  resistance genes.
-- The prophage and ICEs have modular structures that are indicative of
-  recombinational events.
-- Experimentally, it can be demonstrated that ICEs transfer from one
-  streptococcal donor species (e.g., _Streptococcus thermophilus_) and integrate
-  into another recipient species (e.g., GAS) (Bellanger et al., 2009)
-- Mobile genetic elements (MGEs)
-
-Close Genetic Relatives of GAS
-------------------------------
-Human isolates of latexmath:[$\beta$]-hemolytic streptococci bearing group C or
-G cell wall carbohydrate (GCS/GGS) are often classified as _S. dysgalactiae_
-ssp. _equisimilis_. These organisms are common commensals of the upper
-repiratory tract and are occasionally found in association with disease,
-including invasive infections (Broyles et al., 2009). 
-
-- _emm_ genes are very similar.
-
-MLST data analysis provides evidence for genetic recombination between GCS/GGS 
-and GAS (Ahmad et. al., 2009). 
-
-Did the GCS/GGS human commensal organisms evolve from an ancestral GAS-like
-pathogen, as observed for the close genetic relatives of the Mitis group? 
-There
-is evidence for the sharing of some virulence-related genes between GCS/GGS and
-GAS (Kalia and Bessen, 2004; Towers et al., 2004; Bessen et al., 2005; Davies et
-al., 2007).  Yet, certain virulence genes appear to have originated from one
-species, whereas other virulence genes seem to have been transferred in the
-opposite direction.  Some key GAS virulence factors (e.g., the secreted cysteine
-proteinase SpeB) are absent from GCS/GGS.  
-
-An important missing piece of the puzzle has been the complete genome sequence
-for one or more strains of _S. dysgalactiae_ ssp. _equisimilis_, which has only
-recently been released.  Perhaps with this added information, the evolution of
-species within the pyogenic division can become better elucidated.
-
-Rates of Gene Gain and Loss
----------------------------
-Genetic flux in GAS was found to be dominated by gain and loss of prophage genes
-(Didelot et al., 2009). 
-
-
-
-
-Sentences
----------
-Horizontal gene exchange followed by high rates of homologous recombination
-among genes with relatively low levels of sequence divergence may have
-contributed to the blurring boundaries (Fraser et al. 2007).
-
-Models for the evolution of bacterial pathogens often invoke the acquisition of
-virulence genes, followed by successful and rapid expansion of the pathogen
-population.  The model for the evolution of the Mitis cluster is significant in
-that it more strongly supports the opposite scenario, whereby commensals evolved
-from a pathogen by a loss of virulence genes.
-
-GCS/GGS and GAS colonize the same ecological niche and exhibit considerable
-overlap in their disease profiles.
-
-Kalia:2004
-~~~~~~~~~~
-The molecular mechanisms underlying niche adaptation in bacteria are not fully
-understood.
-
-The emm genes encode M surface proteins, which display extensive heterogeneity
-in terms of structure and function.
-
-More recently, multilocus sequence typing revealed that horizontal acquisition
-may also have contributed to variations in selection-neutral housekeeping genes
-in GGS.  The multilocus sequence typing data also suggests that the overall
-direction of genetic flow is predominantly from GAS to GGS. -- cited by Twoers:2004
-
-Towers:2004
-~~~~~~~~~~~
-We report evidence of interspecies gene transfer between the important virulence
-factor genes sfbI and gfbA.
-Because the identified group G streptococcus gfbA types possess DNA cassettes
-that can be identified in a number of group A streptococcus strains, it appears
-that homologous recombination is occurring between these species.
-
-Bessen:2005
-~~~~~~~~~~~
-_Streptococcus pyogenes_ is a highly prevalent bacterial pathogen, most often
-giving rise to superficial infections at the throat or skin of its human host.
-
-The findings provide strong support for a mechanism underlying niche
-specialization that involves orthologous replacement of regulatory genes follow-
-ing interspecies horizontal transfer, although the directionality of gene
-exchange remains unknown.
-
-In contrast to the strong linkage observed between emm pattern and tissue site
-of isolation, the distribution of neutral housekeeping alleles among strains of
-_S. pyogenes_ is highly random.
-
-_S. pyogenes_ ranks among the most highly recombinogenic of several bacterial
-species examined (19), whereby genetic recombination is the consequence of a
-horizontal gene transfer (HGT) event. (I think that HGT is the result of genetic
-recombination, isn't it?)
-
-Orthologous gene replacements leading to the successful exploitation of a new
-niche may have a particularly high impact on the accelerated evolution of this
-bacterial species, which is otherwise lacking in pathogenicity islands (55). (I
-think that _S. pyogenes_ lacks in pathogenicity islands (PAI).)
-
-Schmidt:2004
-~~~~~~~~~~~
-The genome sequence of S. pyogenes revealed that a large number of virulence
-factors have been acquired by bacteriophage-mediated horizontal gene transfer
-but that PAI are absent from the genome (90). In contrast, a chromosomal region
-reminiscent of a PAI has been identified in S. pneumoniae. This locus was termed
-pneumo- coccal pathogenicity island 1 (PPI-1) (34).
-
-Good wordings
--------------
-. It is postulated that ...
-. The studies described in this report are part of a multidisciplinary effort to better understand ...
-. ... consistent with the observation that ...
-. Two bacteria have a common disease spectrum.
-
-Why is recombination rate between SPY1 and SPY2 lower than that between SPY and SDE?
-------------------------------------------------------------------------------------
-It is because Clonal Origin cannot detect recombination between SPY1 and SPY2.
-It can easily detect recombination between SPY and SDE. Recombinations are
-common events between strains with a species, e.g., SPY. Clonal Origin cannot
-detect those.
-
-Questions
----------
-. See if _sbfI_ and _gfbA_ are under high recombination. Towers:2004 found
-evidence that suports horizontal transfer from _S. pyogenes_ to SDE.
-. Bessen:2005 found evidence that supports horizontal transfer of _mga_ and
-_rofA/nra_ genes between _S. pyogenes_ and SDE. But, they could not find
-evidence for the direction of the flow.
-. Beesen:2005 suggested that _rofCG_ may have been transferred from SDE to 
-_S. pyogenes_.
-. Bessen:2005 suggested that _rofA_ and _ska-2a_ may have been transferred from
-SDE to _S. pyogenes_. This might facilitate the adaptation of some clones of 
-_S. pyogenes_ to the throat, a new niche.
-. Correlation between genomic location and recombination rates exits. Unless
-there are correlations between functional categories and genomic locations I'd
-not expect correlation between recombination and function classes.
-
-
-TODO
-----
-. Readings
-.. Previous studies using _S. pyogenes_ and SDE.
-.. Molecular mechanism of bacterial recombination.
-.. Virulence factors and the others.
-. Simulation of ARG conditioning on a clonal frame.
-. Three JCVI roles have higher recombination rates. Some of papers seem to
-support the result. 
-.. Bar charts or box plots can be done for recombination
-intensity for the roles. 
-.. List of genes with directional flow from _S. pyogenes_
-to SDE, and from SDE to _S. pyogenes_.
-
-
-[latex]
-\LARGE $y = \int_0^\infty \gamma^2 \cos(x) dx$
-
-["latex","latex1.png",align="center"]
----------------------------------------------------------------------
-\LARGE $\displaystyle{ V_i = C_0 - C_3
-\frac{C_1\cos(\theta_i+C_3)}{C_4+C_1\cos(\theta_i+C_2)} }$
----------------------------------------------------------------------
-
-.LaTeX filter example
-[latex]
-["latex","latex3.png"]
----------------------------------------------------------------------
-\LARGE \begin{equation}
-\Re{z} =\frac{n\pi \dfrac{\theta +\psi}{2}}{
-\left(\dfrac{\theta +\psi}{2}\right)^2 + \left( \dfrac{1}{2}
-\log \left\lvert\dfrac{B}{A}\right\rvert\right)^2}.
-\end{equation}
-
-\begin{equation}
-\boxed{\eta \leq C(\delta(\eta) +\Lambda_M(0,\delta))}
-\end{equation}
-
-\begin{equation}\label{first}
-a=b+c
-\end{equation}
-
-\begin{subequations}\label{grp}
-\begin{align}
-a&=b+c\label{second}\\
-d&=e+f+g\label{third}\\
-h&=i+j\label{fourth}
-\end{align}
-\end{subequations}
----------------------------------------------------------------------
-
-.A LaTeX table
-[latex]
-\LARGE
-\begin{tabular}{c r @{.} l}
-Pi expression &
-\multicolumn{2}{c}{Value} \\
-\hline
-$\pi$ & 3&1416 \\
-$\pi^{\pi}$ & 36&46 \\
-$(\pi^{\pi})^{\pi}$ & 80662&7 \\
-\end{tabular}
-
-
-Goldenfeld2007 requested new ways of approaches to studying bacterial evolutions.
-
-
-
-The question has been tried using 
-mostly limited sets of genes provided by a database called Multi Locus Sequence
-Typing (MLST) (Maiden1998).  It has not yet been addressed in genomic scale.  
-
-Population genetic studies of SDE.
-McMillan2010
-
-Find molecular markers to discrminate SDE and SPY.
-McMillan2010b
-
-An example where virulence genes were transferred.
-Rosas-Magallanes2006
-
-Bacteria evolve vertically and horizontally. 
-Clonal evolution of bacteria allows us to trace their history via species
-trees. 
-Homologous recombination among 
-closely related species and gene transfer between distantly related
-species shape the diversity of bacterial speices.  The diversification of
-bacterial species via horizontal gene flow make inferring species trees
-a formidable statistical problem.  Researchers tend to abandon evolutionary
-models of bifurcating tree, and embrace web-like network models. Web-like
-network models are difficult to interpret.
-Species boundaries among bacterial
-species formed horizontally are blurred.
-Bacterial conjugation, transformation, and transduction induce homologous
-recombinations that are biological mechanisms through which 
-a donor bacterium gives a recipient bacterium genetic segments. 
-Inferring recombination events between bacterial species would facilitate
-understanding of gene flow from a bacterial species to another.
- 
-High-throughput genotyping efforts of many bacterial species are underway.
-Methodological developments keep pace with the endeavor. Notably, 
-
-
-For gene ontologies I should be able to test if a gene ontology
-category of a locus tag belongs to a main gene ontology category; say
-metabolism
-within a cellular process.  There is a slim gene ontology as far as I know.  The
-slim gene ontology should contain most gene ontology categories and it can be
-used to test a gene ontology category's membership in the gene ontology.
-There must be a PERL script to test that. Let me find the PERL script and the slim
-gene ontology file. Note that one locus tag can belong to multiple
-functional
-categories.
 

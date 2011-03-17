@@ -1,22 +1,19 @@
 #!/bin/bash
+# File  : run.sh
 # Author: Sang Chul Choi
+# Date  : Wed Mar 16 16:59:42 EDT 2011
 
-# How to customize this script:
-# SMALLER: To analyze a smaller data set with ClonalFrame.
-# SMALLERCLONAL: To nalayze a smaller data set with ClonalOrigin.
-# Remove either of these to analyze the full data set.
-# 
-# FIXME:
-# When running ClonalOrigin, I use nodes=1 and -t option to
-# control the number of computing nodes. I do not know 
-# how to find the number of nodes.  NODECNT must be the same
-# as the number of elements in the PBS's ARRAY.
-# NODECNT=2 # This must match -t option.
-#
+# This is the key run file to analyze bacterial genome data sets using ClonalOrigin.
+# A menu is displayed so that a user can choose an operation that she or he want
+# to execute. Some commands do their job on their own right, and others require
+# users to go to a cluster to submit a job. Each menu is executed by its
+# corresponding bash function. Locate the bash function to understand what it
+# does.
+
 # Menus:
-#   - list-species: 
-#   - generate-species:
-#   - preparation: makes file system for a species, and make it ready to run
+#   - list-species: lists species names in NCBI ftp directory called bacteria.
+#   - generate-species: creates species files.
+#   - choose-species: makes file system for a species, and make it ready to run
 #   mauve.
 #   - receive-run-mauve: gets the result of mauve alignment from the cluster
 #   - prepare-run-clonalframe: finds blocks and makes a script to run
@@ -29,7 +26,44 @@
 #   - receive-run-2nd-clonalorigin: receives the result of the second stage of
 #   clonal analysis.
 
-# Set this global variable.
+# Prerequisites
+# -------------
+# . You need a user ID in a linux cluster: edit $CACUSERNAME, and $CACLOGIN.
+# . You need a user ID in a linux machine with X Window: edit $X11USERNAME,
+# and $X11LOGIN.
+# . Create a directory in the linux cluster, and put the name in $CACBASE: edit
+# $CACBASE.
+# . Create a directory in the linux machine with X Window, and put the name
+# X11BASE: edit $X11BASE.
+# . Prepare automatic ssh login for the two machines.
+# . Edit BATCHEMAIL to your email address to which you will be notified fo jobs
+# status.
+# . Edit BATCHACCESS to your access queue. Note that should different cluster batch
+# system be used you have to change much part of this script.
+# . Download unix version of progressiveMauve and install it in the cluster:
+# edit BATCHPROGRESSIVEMAUVE. In the example, I installed it usr/bin of my home
+# directory of my cluster account. The BATCHPROGRESSIVEMAUVE looks like this:
+# BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
+# . Install stripSubsetLCBs at $HOME/usr/bin/stripSubsetLCBs of the local
+# computer. It must be a part of progressiveMauve.
+# . Download unix version of ClonalFrame and install it into the cluster:
+# edit BATCHCLONALFRAME. In the example, I installed it usr/bin of my home
+# directory of my cluster account. The BATCHCLONALFRAME looks like this:
+# BATCHCLONALFRAME=usr/bin/ClonalFrame
+
+# Edit these global variables.
+# ----------------------------
+CACUSERNAME=sc2265
+CACLOGIN=linuxlogin.cac.cornell.edu
+CACBASE=Documents/Projects/mauve/output
+X11USERNAME=choi
+X11LOGIN=swiftgen
+X11BASE=Documents/Projects/mauve/output
+BATCHEMAIL=schoi@cornell.edu
+BATCHACCESS=acs4_0001
+BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
+BATCHCLONALFRAME=usr/bin/ClonalFrame
+
 CLONALFRAMEREPLICATE=1
 REPLICATE=1
 # bash sh/run.sh smaller
@@ -37,24 +71,37 @@ REPLICATE=1
 SMALLER=$1
 SMALLERCLONAL=$1
 
-# Programs
-MAUVE=$HOME/Documents/Projects/mauve/build/mauveAligner/src/progressiveMauve
-GCT=$HOME/usr/bin/getClonalTree 
-AUI=$HOME/usr/bin/addUnalignedIntervals 
-MWF=$HOME/usr/bin/makeMauveWargFile.pl
-ECOP=$HOME/usr/bin/extractClonalOriginParameter.pl
-ECOP2=$HOME/usr/bin/extractClonalOriginParameter2.pl
-ECOP3=$HOME/usr/bin/extractClonalOriginParameter3.pl
-ECOP4=$HOME/usr/bin/extractClonalOriginParameter4.pl
-RECOMBINATIONMAP=pl/recombinationmap.pl
-LISTGENEGFF=pl/listgenegff.pl 
-COMPUTEMEDIANS=$HOME/usr/bin/computeMedians.pl
-LCB=$HOME/usr/bin/stripSubsetLCBs 
-GUI=clonalorigin/gui/gui.app/Contents/MacOS/gui 
-GUIPERL=pl/findBlocksWithInsufficientConvergence.pl
+# Perl scripts
+PERLGCT=pl/getClonalTree.pl
+PERLMWF=pl/makeMauveWargFile.pl
+PERLRECOMBINATIONMAP=pl/recombinationmap.pl
+PERLLISTGENEGFF=pl/listgenegff.pl 
+PERLCOMPUTEMEDIANS=pl/computeMedians.pl
+PERLECOP=pl/extractClonalOriginParameter.pl
+PERLECOP2=pl/extractClonalOriginParameter2.pl
+PERLECOP3=pl/extractClonalOriginParameter3.pl
+PERLECOP4=pl/extractClonalOriginParameter4.pl
+PERLRECOMBINATIONINTENSITY=pl/recombination-intensity.pl
+PERLGUIPERL=pl/findBlocksWithInsufficientConvergence.pl
+
+# Binary files installed by progressiveMauve and ClonalOrigin
+# FIXME: Can I have source files of the binary just for inventory?
+# Note that I installed usr/bin of my home directory.
+AUI=$HOME/usr/bin/addUnalignedIntervals  # a part of Mauve.
+LCB=$HOME/usr/bin/stripSubsetLCBs        # a part of Mauve.
+GUI=clonalorigin/gui/gui.app/Contents/MacOS/gui  # GUI program of ClonalOrigin
+
 # Genome Data Directory
+# ---------------------
+# Bacterial genomes can be downloaded into a directory. I used to download and
+# store them in a separate driver because total file sizes can be too large to
+# be stored in a local machine. 
 GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
 
+# This is prepared using list-species.
+ALLSPECIES=( Escherichia_coli Salmonella_enterica Staphylococcus_aureus Streptococcus_pneumoniae Streptococcus_pyogenes Prochlorococcus_marinus Helicobacter_pylori Clostridium_botulinum Bacillus_cereus Yersinia_pestis Sulfolobus_islandicus Francisella_tularensis Rhodopseudomonas_palustris Listeria_monocytogenes Chlamydia_trachomatis Buchnera_aphidicola Bacillus_anthracis Acinetobacter_baumannii Streptococcus_suis Neisseria_meningitidis Mycobacterium_tuberculosis Legionella_pneumophila Cyanothece_PCC Coxiella_burnetii Campylobacter_jejuni Burkholderia_pseudomallei Bifidobacterium_longum Yersinia_pseudotuberculosis Xylella_fastidiosa Xanthomonas_campestris Vibrio_cholerae Shewanella_baltica Rhodobacter_sphaeroides Pseudomonas_putida Pseudomonas_aeruginosa Methanococcus_maripaludis Lactococcus_lactis Haemophilus_influenzae Chlamydophila_pneumoniae Candidatus_Sulcia Burkholderia_mallei Burkholderia_cenocepacia )
+
+# Format seconds into a time format.
 function hms
 {
   s=$1
@@ -65,26 +112,74 @@ function hms
   printf "%02d:%02d:%02d\n" $h $m $s
 }
 
-# Directories
+# Structure directories.
+# ----------------------
+# The name of file system is overkill.  Subdirectory names are stored in bash
+# variables for convenient access to the names. This run.sh is placed in a
+# subdirectory named sh. The main directory is $MAUVEANALYSISDIR. This
+# run.sh file is executed at the main directory. Let's list directory variables
+# and their usages. Refer to each variable in the following.
 function prepare-filesystem {
+  # The main base directory contains all the subdirectories.
   MAUVEANALYSISDIR=`pwd`
-  SPECIESFILE=species/$SPECIES
+
+  # SPECIES must be set before the call of this bash function. $SPECIESFILE
+  # contains a list of Genbank formatted genome file names.
+  SPECIESFILE=$MAUVEANALYSISDIR/species/$SPECIES
+
+  # Number of species in the analysis. The species file can contain comment
+  # lines starting with # character at the 1st column.
   NUMBER_SPECIES=$(grep -v "^#" species/$SPECIES | wc -l)
-  BASEDIR=`pwd`/output/$SPECIES
+
+  # The subdirectory output contains directories named after the species file.
+  # The output species directory would contain all of the results from the
+  # analysis.
+  BASEDIR=$MAUVEANALYSISDIR/output/$SPECIES
+
+  # The output species directory would contain 5 subdirectories. 
+  # run-mauve contains genome alignments.
+  # run-lcb contains alignment blocks that are generated by the genome
+  # alignment.
+  # run-clonalframe contains the reference species tree estimated by ClonalFrame.
+  # run-clonalorigin contains the result from ClonalOrigin.
+  # run-analysis should contain all the results. The final results must be from
+  # this directory. A manuscript in the subdirectory doc/README will have
+  # special words that will be replaced by values from files in run-analysis.
+  # Whenever I change the analysis, values must be changed accordingly.
+  DATADIR=$BASEDIR/data
   RUNMAUVEDIR=$BASEDIR/run-mauve
-  RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
-  RUNANALYSISDIR=$BASEDIR/run-analysis
   RUNLCBDIR=$BASEDIR/run-lcb
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
   RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
-  RSCRIPTW=$BASEDIR/w.R
-  #CACBASEDIR=/Volumes/sc2265/Documents/Projects/mauve/output/$SPECIES
-  CACBASEDIR=sc2265@linuxlogin.cac.cornell.edu:Documents/Projects/mauve/output/$SPECIES
+  RUNANALYSISDIR=$BASEDIR/run-analysis
+
+  # Mauve alignments are stored in output directory. 
+  RUNMAUVEOUTPUTDIR=$RUNMAUVEDIR/output
+
+  # The cluster has almost the same file system. I used to used Samba client to
+  # use the file system of the cluster. This stopped working. I did not know the
+  # reason, which I did not want to know. Since then, I use scp command.
+  # Note that the cluster base directory does not contain run-analysis. The
+  # basic analysis is done in the local machine.
+  CACROOTDIR=$CACUSERNAME@$CACLOGIN:$CACBASE
+  CACBASEDIR=$CACROOTDIR/$SPECIES
   CACDATADIR=$CACBASEDIR/data
   CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
   CACRUNLCBDIR=$CACBASEDIR/run-lcb
   CACRUNCLONALFRAME=$CACBASEDIR/run-clonalframe
   CACRUNCLONALORIGIN=$CACBASEDIR/run-clonalorigin
+
+  # Jobs are submitted using a batch script. Their names are a batch.sh. This is
+  # for simplifying submission of jobs. Just execute
+  # nsub batch.sh
+  # to submit jobs. This would work usually when submitting a job that uses a
+  # single computing node. ClonalOrigin analysis should be done with multiple
+  # computing nodes. Then, execute
+  # bash batch.sh 8
+  # to submit a job that would use 8 computing nodes. In CAC cluster each
+  # computing node is equipped with 8 CPUs. The above command would use 64 CPUs
+  # at the same time. Note that you have to change many parts of the codes if
+  # the cluster's submission system is different from Cornell CAC Linux cluster.
   BATCH_SH_RUN_MAUVE=$RUNMAUVEDIR/batch.sh
   BATCH_SH_RUN_CLONALFRAME=$RUNCLONALFRAME/batch.sh
   BATCH_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch.sh
@@ -92,33 +187,65 @@ function prepare-filesystem {
   BATCH_TASK_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_task.sh
   BATCH_REMAIN_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_remain.sh
   BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_remain_body.sh
+
+  # Some of ClonalOrigin analysis uses file system that were used in the
+  # previous analysis such as Mauve alignment.  This may be a little long story,
+  # but I have to comment on it. The alignment file from Mauve lists the actual
+  # Genbank file names in its header. This information is used when finding core
+  # alignment blocks. See run-lcb and filter-blocks for detail. Finding core
+  # blocks is done in the local computer whereas the alignment is done in the
+  # cluster. To let run-lcb to work in the local computer I have to make the
+  # same temp directory in the local computer as in the cluster. When a job is
+  # submitted in the cluster in CAC cluster, the job creates a temporary
+  # directory where it can save the input and output files. JOBID is the CAC job
+  # id for run-mauve. This job ID should be found in the Mauve alignment file.
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
-  SWIFTGENDIR=choi@swiftgen:Documents/Projects/mauve/output/$SPECIES
+
+  # ClonalFrame has a program with X Window interface. I copy clonal frame
+  # result to the linux machine where I set up ClonalFrame. Setting up
+  # ClonalFrame's GUI program was done in the Linux machine.
+  SWIFTGENROOTDIR=$X11USERNAME@$X11LOGIN:$X11BASE
+  SWIFTGENDIR=$SWIFTGENROOTDIR/$SPECIES
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
    
+  # FIXME: Do not create files at the base directory.
   RUNLOG=$BASEDIR/run.log
+  RSCRIPTW=$BASEDIR/w.R
 }
 
+# Create direcotires for storing analyses and their results.
+# ----------------------------------------------------------
+# The species directory is created in output subdirectory. The cluster's file
+# system is almost the same as the local one. 
 function mkdir-SPECIES {
   mkdir $BASEDIR
+  mkdir $DATADIR
   mkdir $RUNMAUVEDIR
+  mkdir $RUNLCBDIR
   mkdir $RUNCLONALFRAME
   mkdir $RUNCLONALORIGIN
-  mkdir $RUNLCBDIR
+  mkdir $RUNANALYSISDIR
 
-  mkdir $CACBASEDIR
-  mkdir $CACDATADIR
-  mkdir $CACRUNMAUVEDIR
-  mkdir $CACRUNCLONALFRAME
-  mkdir $CACRUNCLONALORIGIN
-  mkdir $CACRUNLCBDIR
+  scp -r $BASEDIR $CACROOTDIR
+  scp -r $DATADIR $CACBASEDIR
+  scp -r $RUNMAUVEDIR $CACBASEDIR
+  scp -r $RUNLCBDIR $CACBASEDIR
+  scp -r $RUNCLONALFRAME $CACBASEDIR
+  scp -r $RUNCLONALORIGIN $CACBASEDIR
+
+  scp -r $BASEDIR $SWIFTGENROOTDIR
+  scp -r $RUNCLONALFRAME $SWIFTGENDIR
 }
 
-########################################################################
-# 
-########################################################################
-
+# Do something using species file.
+# --------------------------------
+# Species file contains list of Genbank genome files. I use the list of a
+# species file to do a few things: 1. batch file for alignment is genreated
+# using the list of a species file. Two bash functions can do this:
+# read-species-genbank-files and copy-batch-sh-run-mauve-called.
+# Similarly, mkdir-tmp-called can replace copy-batch-sh-run-mauve-called to copy
+# the Genbank genome files to somewhere using a species file.
 function mkdir-tmp-called {
   line="$@" # get all args
   cp $GENOMEDATADIR/$line $TMPINPUTDIR
@@ -155,11 +282,6 @@ function processLine {
 # http://bash.cyberciti.biz/file-management/read-a-file-line-by-line/ 
 # to read a file line by line. I use it to read a species file.
 # I could directly read the directory to find genbank files.
-# Genbank directory of my machine is
-# /Users/goshng/Elements/Documents/Projects/mauve/bacteria.
-# A command line to list genbank files is as follows:
-# ls -l `find . -name *.gbk`| grep Clostridium_botulinum >
-# ~/Documents/Projects/mauve/species/Clostridium_botulinum
 # Let me try to use the script of reading line by line for the time being.
 ########################################################################
 function read-species-genbank-files {
@@ -219,19 +341,25 @@ function read-species-genbank-files {
   BAKIFS=$ORIGIFS
 }
 
+# A batch file for Mauve alignment.
+# ---------------------------------
+# The menu choose-species calls this bash function to create a batch file for
+# mauve genome alignment. The batch file is also copied to the cluster.
+# Note that ${BATCHACCESS}, ${BATCHEMAIL}, ${BATCHPROGRESSIVEMAUVE} should be
+# edited.
 function copy-batch-sh-run-mauve {
 cat>$BATCH_SH_RUN_MAUVE<<EOF
 #!/bin/bash
 #PBS -l walltime=8:00:00,nodes=1
-#PBS -A acs4_0001
+#PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N Strep-${SPECIES}-Mauve
 #PBS -q v4
 #PBS -m e
-#PBS -M schoi@cornell.edu
+#PBS -M ${BATCHEMAIL}
 WORKDIR=\$PBS_O_WORKDIR
 DATADIR=\$WORKDIR/../data
-MAUVE=\$HOME/usr/bin/progressiveMauve
+MAUVE=\$HOME/${BATCHPROGRESSIVEMAUVE}
 
 OUTPUTDIR=\$TMPDIR/output
 INPUTDIR=\$TMPDIR/input
@@ -277,6 +405,7 @@ function run-core2smallercore {
     $RUNLCBDIR/core_alignment.xmfa 0.1 12345
 }
 
+# FIXME: put perl script in the pl directory.
 function run-blocksplit2fasta {
   rm -f $RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
   perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/${SMALLER}core_alignment.xmfa
@@ -341,17 +470,16 @@ function copy-batch-sh-run-clonalframe {
   cat>$BATCH_SH_RUN_CLONALFRAME<<EOF
 #!/bin/bash
 #PBS -l walltime=168:00:00,nodes=1
-#PBS -A acs4_0001
+#PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N Strep-${SPECIES}-ClonalFrame
 #PBS -q v4
 #PBS -m e
-#PBS -M schoi@cornell.edu
+#PBS -M ${BATCHEMAIL}
 WORKDIR=\$PBS_O_WORKDIR
 DATADIR=\$WORKDIR/../data
-MAUVE=\$HOME/usr/bin/progressiveMauve
 LCBDIR=\$WORKDIR/../run-lcb
-CLONALFRAME=\$HOME/usr/bin/ClonalFrame
+CLONALFRAME=\$HOME/${BATCHCLONALFRAME}
 
 OUTPUTDIR=\$TMPDIR/output
 INPUTDIR=\$TMPDIR/input
@@ -386,8 +514,7 @@ cd
 rm -rf \$TMPDIR
 EOF
   chmod a+x $BATCH_SH_RUN_CLONALFRAME
-  scp -r $RUNCLONALFRAME $CACBASEDIR
-  #scp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
+  scp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
 }
 
 function send-clonalorigin-input-to-cac {
@@ -720,6 +847,18 @@ function run-bbfilter {
 }
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
+# --------------------------------------------------------------------------
+# Users need to download genome files to a local directory named $GENOMEDATADIR.
+# They also need to prepare a species file that contains the actual Genbank
+# files. See the bash functions: list-species and generate-species for detail.
+# The first job that a user would want to do is to align the genomes. This would
+# be done in the cluster CAC. The procedure is as follows:
+# 1. Almost all bash variables are set in prepare-filesystem. See the bash function
+# for detail. 
+# 2. mkdir-SPECIES creates main file systems.
+# 3. copy-genomes-to-cac copies Genkbank genomes files to CAC.
+# 4. copy-batch-sh-run-mauve creates the batch file for mauve alignment, and
+# copies it to CAC cluster.
 function choose-species {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -739,6 +878,8 @@ function choose-species {
 }
 
 # 2. Receive mauve-analysis.
+# --------------------------
+# I simply copy the alignment. 
 function receive-run-mauve {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -755,6 +896,33 @@ function receive-run-mauve {
   done
 }
 
+# 3. Find core alignment blocks.
+# ------------------------------
+# Core alignment blocks are generated from the mauve alignment. This is somewhat
+# iterative procedure. I often was faced with two difficulties. The program,
+# stripSubsetLCBs, is a part of progressiveMauve.  Core alignment blocks were
+# filtered. Often some allignments were a little bizarre: two many gaps are
+# still in some alignment. Another difficulty happens in ClonalOrigin analysis.
+# ClonalOrigin's runs with some alignment blocks did not finish within bearable
+# time, say a month. ClonalOrigin's run with some other alignment blocks were
+# finished relatively fast. It depends on the option of chain lengths. I
+# consider that runs are finished when multiple independent MCMC more or less
+# converged. Those blocks had to be excluded from the analysis. At the first run
+# of this whole procedure, I simply execute the stripSubsetLCBs to find core
+# alignment blocks. I manually check the core alignment blocks to remove any
+# weird alignments. I then proceed to ClonalFrame and the first stage of
+# ClonalOrigin. I find problematic alignment blocks with which ClonalOrigin runs
+# take too much computing time. Then, I come back to filter-blocks to remove
+# them. I had to be careful in ordering of alignment blocks because when I remove any
+# blocks that are not the last all the preceding block numbers have to change.
+#
+# Note that run-lcb alwasys use the output of Mauve alignment. In the 2nd stage
+# of filtering you need to consider proper numbering. Say, in the first
+# filtering of alignment with many gaps you removed the 3rd among 10 alignment
+# blocks. In the 2nd stage, you found 6th alignment needed too long computing
+# time. Then, you should remove 3rd and 7th, not 3rd and 6th because the 6th is
+# actually the 7th among the first 10 alignment blocks. The 6th alignment is 6th
+# among 9 alignment blocks that were from the 1st stage of filtering.
 function filter-blocks {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -763,7 +931,8 @@ function filter-blocks {
       continue
     else  
       echo -e 'What is the temporary id of mauve-analysis?'
-      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
+      echo -e "You may find it in the following directory"
+      echo -e "`pwd`/output/$SPECIES/run-mauve/output/full_alignment.xmfa"
       echo -n "JOB ID: " 
       read JOBID
       echo -e "Preparing clonalframe analysis...\n"
@@ -773,24 +942,35 @@ function filter-blocks {
       mkdir-tmp 
       run-lcb 
       rmdir-tmp
+
       #echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
       #mv $RUNLCBDIR/core_alignment.xmfa.org $RUNLCBDIR/core_alignment.xmfa
       #run-blocksplit2fasta
       #break
+
+      echo -e 'Do you want to filter? (y/n)'
+      read WANTFILTER
+      if [ "$WANTFILTER" == "y" ]; then
+        echo -e "Choose blocks to remove (e.g., 33,42,57): "
+        read BLOCKSREMOVED
+        perl pl/remove-blocks-from-core-alignment.pl \
+          -blocks $BLOCKSREMOVED -fasta $RUNLCBDIR/core_alignment.xmfa.org \
+          -outfile $RUNLCBDIR/core_alignment.xmfa
+        echo -e "  A new $RUNLCBDIR/core_alignment.xmfa is generated\n"
+        echo -e "Now, prepare clonalframe analysis.\n"
+      else
+        mv $RUNLCBDIR/core_alignment.xmfa.org $RUNLCBDIR/core_alignment.xmfa
+      fi
        
-      echo -e "Choose blocks to remove (e.g., 33,42,57): "
-      read BLOCKSREMOVED
-      perl pl/remove-blocks-from-core-alignment.pl \
-        -blocks $BLOCKSREMOVED -fasta $RUNLCBDIR/core_alignment.xmfa.org \
-        -outfile $RUNLCBDIR/core_alignment.xmfa
-      echo -e "  A new $RUNLCBDIR/core_alignment.xmfa is generated\n"
-      echo -e "Now, prepare clonalframe analysis.\n"
       break
     fi
   done
 }
 
-# 3. Prepare clonalframe analysis.
+# 4. Prepare clonalframe analysis.
+# --------------------------------
+# FIXME: Read the code and document it.
+#
 # NOTE: full_alignment.xmfa has input genome files full paths.
 #       These are the paths that were used in CAC not local machine.
 #       I have to replace those paths to the genome files paths
@@ -818,21 +998,10 @@ function prepare-run-clonalframe {
       echo -e "You need to enter something\n"
       continue
     else  
-      #echo -e 'What is the temporary id of mauve-analysis?'
-      #echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
-      #echo -n "JOB ID: " 
-      #read JOBID
       echo -e "Preparing clonalframe analysis...\n"
       prepare-filesystem 
-      echo -e "  Making temporary data files....\n"
-      #mkdir-tmp 
-      # Find all the blocks in FASTA format.
-      #run-blocksplit2fasta 
       echo -e "  Computing Wattersons's estimates...\n"
-      run-core2smallercore
       run-blocksplit2fasta 
-      #run-blocksplit2smallerfasta 
-      # Compute Watterson's estimate.
       compute-watterson-estimate > w.txt
       # Use R to sum the values in w.txt.
       sum-w
@@ -841,7 +1010,6 @@ function prepare-run-clonalframe {
       echo -e "Or, you may ignore.\n"
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
-      #rmdir-tmp
       echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
       break
     fi
@@ -874,7 +1042,9 @@ function compute-watterson-estimate-for-clonalframe {
   done
 }
 
-# 6. Receive clonalframe-analysis.
+# 5. Receive clonalframe-analysis.
+# --------------------------------
+# A few replicates of ClonalFrame could be created.
 function receive-run-clonalframe {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -897,7 +1067,23 @@ function receive-run-clonalframe {
   done
 }
 
-# 7. Prepare the first stage of clonalorigin.
+# 6. Prepare the first stage of clonalorigin.
+# -------------------------------------------
+# A few variables need explanation before describing the first stage of
+# ClonalOrigin.
+# CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.
+# RUNID: multiple runs in each replicate of clonal frame run are available.
+# Choose clonal frame replicate first, and then run identifier later. This
+# combination represents a species tree using the core alignment blocks.
+# REPLICATE: multiple replicates of clonal origin are avaiable. I also need to
+# check the convergence before proceeding with the second stage of clonal
+# origin. 
+# I used split core alignments into blocks. I did it for estimating Watterson's
+# estimate. Each block was in FASTA format. I modified the perl script,
+# blocksplit.pl, to generate FASTA formatted files. I just use blocksplit.pl to
+# split the core alignments into blocks that ClonalOrigin can read in. I delete
+# all the core alignment blocks that were generated before, and recreate them so
+# that I let ClonalOrigin read its expected formatted blocks.
 function prepare-run-clonalorigin {
   PS3="Choose the species to analyze with clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -905,17 +1091,13 @@ function prepare-run-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
-      #echo -e 'What is the temporary id of mauve-analysis?'
-      #echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
-      #echo -n "JOB ID: " 
-      #read JOBID
       echo -e "Which replicate set of ClonalFrame output files?"
       echo -n "ClonalFrame REPLICATE ID: " 
       read CLONALFRAMEREPLICATE
       echo -e "Which replicate set of ClonalOrigin output files?"
       echo -n "ClonalOrigin REPLICATE ID: " 
       read REPLICATE
-      echo -e "Preparing clonalframe analysis..."
+      echo -e "Preparing clonal origin analysis..."
       prepare-filesystem 
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
       mkdir $RUNCLONALORIGIN/output
@@ -925,12 +1107,13 @@ function prepare-run-clonalorigin {
       echo -e "Read which clonalframe output file is used to have a phylogeny of a clonal frame."
       echo -n "RUN ID: " 
       read RUNID
-      perl $GCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
+      perl $PERLGCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
       echo -e "  Splitting alignment into one file per block..."
       rm $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.*
+      # FIXME: put perl script in the pl directory.
       perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
-      send-clonalorigin-input-to-cac
 
+      send-clonalorigin-input-to-cac
       cp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
       # Some script.
       copy-batch-sh-run-clonalorigin
@@ -946,12 +1129,13 @@ function prepare-run-clonalorigin {
       break
     fi
   done
-
-
-
 }
 
-# 8. Receive clonalorigin-analysis.
+# 7. Receive clonalorigin-analysis.
+# ---------------------------------
+# Note that we can have multiple replicates of clonal origin. 
+# I might want to just compute global median estimates of the first stage of
+# ClonalOrigin.
 function receive-run-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -962,16 +1146,21 @@ function receive-run-clonalorigin {
       echo -e "Which replicate set of output files?"
       echo -n "REPLICATE ID: " 
       read REPLICATE
-      echo -e "Receiving 1st stage of clonalorigin-output...\n"
       prepare-filesystem 
       mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
 
-      echo "Skipping copy of the output files because I've already copied them ..."
-      #mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
-      #cp $CACRUNCLONALORIGIN/output/${REPLICATE}/* $RUNCLONALORIGIN/output/${REPLICATE}/
+      echo -e 'Have you already downloaded and do you want to skip the downloading? (y/n)'
+      read WANTSKIPDOWNLOAD
+      if [ "$WANTSKIPDOWNLOAD" == "y" ]; then
+        echo "Skipping copy of the output files because I've already copied them ..."
+      else
+        echo -e "Receiving 1st stage of clonalorigin-output...\n"
+        mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
+        cp $CACRUNCLONALORIGIN/output/${REPLICATE}/* $RUNCLONALORIGIN/output/${REPLICATE}/
+      fi
 
       echo -e "Computing the global medians of theta, rho, and delta ...\n"
-      perl $COMPUTEMEDIANS \
+      perl $PERLCOMPUTEMEDIANS \
         $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
         | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
@@ -980,7 +1169,16 @@ function receive-run-clonalorigin {
   done
 }
 
-# Prepare 2nd clonalorigin-analysis.
+# 8. Check the convergence
+# ------------------------
+# A multiple runs of the first stage of ClonalOrigin are checked for their
+# convergence.
+# FIXME: we need a bash function.
+
+# 9. Prepare 2nd clonalorigin-analysis.
+# -------------------------------------
+# I use one of replicates of the first stage of ClonalOrigin. I do not combine
+# the replicates.
 function prepare-run-2nd-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1009,6 +1207,9 @@ function prepare-run-2nd-clonalorigin {
 }
 
 # 9. Receive 2nd clonalorigin-analysis.
+# -------------------------------------
+# Instead of checking the convergence of the 2nd stage of ClonalOrigin I check
+# if all of my results are consistent between independent runs.
 function receive-run-2nd-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1034,13 +1235,13 @@ function receive-run-2nd-clonalorigin {
         bzip2 $f
       done
       
-# Directory is needed: /tmp/1074429.scheduler.v4linux/input/SdeqATCC12394.gbk
+      # Directory is needed: /tmp/1074429.scheduler.v4linux/input/SdeqATCC12394.gbk
       echo -e "Doing AUI ...\n"
       DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
         $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
       echo -e "Doing MWF ...\n"
       
-      perl $MWF $RUNCLONALORIGIN/output2/${REPLICATE}/*phase3*.bz2         # -done should be trimmed
+      perl $PERLMWF $RUNCLONALORIGIN/output2/${REPLICATE}/*phase3*.bz2         # -done should be trimmed
       rmdir-tmp
       echo -e "Now, do more analysis with mauve.\n"
       break
@@ -1048,7 +1249,24 @@ function receive-run-2nd-clonalorigin {
   done
 }
 
-# 11. Some post-processing procedures follow clonal origin runs.
+# 10. Some post-processing procedures follow clonal origin runs.
+# --------------------------------------------------------------
+# Several analyses were performed using output of ClonalOrigin. Let's list
+# those.
+# recombination-intensity: I order all the alignment blocks with respect to the
+# genome of SDE1, which is the 1st genome in the alignment.  The number of
+# recombinant edges that affect a nucleotide site is recorded. 
+#
+# convergence: This should go to a separate menu.
+# heatmap:
+# import-ratio-locus-tag: 
+# summary: 
+# recedge: 
+# recmap: 
+# traceplot: 
+# parse-jcvi-role: 
+# combine-import-ratio-jcvi-role:
+#
 function analysis-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1061,10 +1279,15 @@ function analysis-clonalorigin {
       read REPLICATE
       prepare-filesystem 
  
-      select WHATANALYSIS in convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role combine-import-ratio-jcvi-role; do 
+      select WHATANALYSIS in recombination-intensity convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role combine-import-ratio-jcvi-role; do 
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
+        elif [ "$WHATANALYSIS" == "recombination-intensity" ]; then
+          echo -e "Computing recombination intensity ..."
+          echo perl $PERLRECOMBINATIONINTENSITY \
+            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3
+          break
         elif [ "$WHATANALYSIS" == "convergence" ];  then
           echo -e "Checking convergence of parameters for the blocks ...\n"
           #rm -f $RUNCLONALORIGIN/output/convergence.txt
@@ -1091,7 +1314,7 @@ function analysis-clonalorigin {
                   -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/${SMALLERCLONAL}core_co.phase2.$i.xml:1 \
                   >> $RUNCLONALORIGIN/output/convergence-$i.txt
                 echo -e "Finding blocks with insufficient convergence ...\n"
-                perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
+                perl $PERLGUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
               else
                 echo "Block: $i do not have all replicates" 1>&2
               fi
@@ -1099,7 +1322,7 @@ function analysis-clonalorigin {
           done 
 
           #echo -e "Finding blocks with insufficient convergence ...\n"
-          #perl $GUIPERL -in $RUNCLONALORIGIN/output/convergence.txt
+          #perl $PERLGUIPERL -in $RUNCLONALORIGIN/output/convergence.txt
           #break
 
           break
@@ -1123,14 +1346,14 @@ function analysis-clonalorigin {
               echo "Block: $i was not used" 1>&2
             fi
           done 
-          #perl $GUIPERL -in $RUNCLONALORIGIN/output2/heatmap-$i.txt
+          #perl $PERLGUIPERL -in $RUNCLONALORIGIN/output2/heatmap-$i.txt
           # Use the phase 3 xml file to count the number of recombination
           # events. For all possible pairs of 9 (5*2 - 1) find the number of
           # recedges, and divide it by the number of sample size or number
           # of <Iteration> tags. I need total length of the blocks and each
           # block length to weight the odd ratio of the averge observed number
           # of recedges and the prior expected number of recedges.
-          # ECOP2 and GUIPERL can be merged.  GUIPERL is rather simple.
+          # ECOP2 and PERLGUIPERL can be merged.  PERLGUIPERL is rather simple.
           # ECOP2 can be extened. Let's make ECOP4.
           echo perl $ECOP4 \
             -d $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
@@ -1152,7 +1375,7 @@ function analysis-clonalorigin {
           # run-analysis/NC_004070.gff 
           # run-lcb/core_alignment_mauveable.xmfa
           # run-clonalorigin/output2
-          echo perl $LISTGENEGFF \
+          echo perl $PERLLISTGENEGFF \
             -gff $RUNANALYSISDIR/NC_004070.gff \
             -alignment $RUNLCBDIR/core_alignment.xmfa \
             -clonalOrigin $RUNCLONALORIGIN/output2-xml/${REPLICATE} \
@@ -1178,29 +1401,29 @@ function analysis-clonalorigin {
           # Recombination maps along the genome
           for i in {0..4}; do
             for j in {0..8}; do
-              perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair $i,$j -map $RUNCLONALORIGIN/log2.p
+              perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair $i,$j -map $RUNCLONALORIGIN/log2.p
             done
           done
           for j in {2..8}; do
-            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,$j -map $RUNCLONALORIGIN/log2.p
+            perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,$j -map $RUNCLONALORIGIN/log2.p
           done
           for j in 2 5 6 7 8; do
-            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 6,$j -map $RUNCLONALORIGIN/log2.p
+            perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 6,$j -map $RUNCLONALORIGIN/log2.p
           done
           for j in 6 7 8; do
-            perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 7,$j -map $RUNCLONALORIGIN/log2.p
+            perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 7,$j -map $RUNCLONALORIGIN/log2.p
           done
-          perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 8,8 -map $RUNCLONALORIGIN/log2.p
+          perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 8,8 -map $RUNCLONALORIGIN/log2.p
 
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,3 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,4 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,6 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,3 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,4 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,6 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,3 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,4 -map $RUNCLONALORIGIN/log2.p
-          #perl $RECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,6 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 0,6 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 1,6 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,3 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,4 -map $RUNCLONALORIGIN/log2.p
+          #perl $PERLRECOMBINATIONMAP -samplesize 101 -chromosomename NC_004070.1 -importpair 5,6 -map $RUNCLONALORIGIN/log2.p
           break
         elif [ "$WHATANALYSIS" == "traceplot" ];  then
           echo -e "Trace plots ... \n"
@@ -1258,38 +1481,48 @@ function analysis-clonalorigin {
 }
 
 # Find bacteria species and their counts in the NCBI genome data.
+# ---------------------------------------------------------------
+# The directory bacteria in NCBI's ftp site was downloaded for easy access to
+# the raw sequence data set. $GENOMEDATADIR was the downloaded directory.
+# A bacterial genome was stored in a separate directory in the ftp site. The
+# name of a bacteria directory was prefixed species name. I extracted 
+# species names from the bacteria directory names. 
 function list-species {
   for i in `ls $GENOMEDATADIR`; do 
     echo $i | sed 's/\([[:alpha:]]*\)_\([[:alpha:]]*\)_.*/\1\_\2/'
-    #echo $i | sed "s/\([[:alpha:]]+\)/\1/p"
-    #echo ${i/*_*_*/}
-    #mv $i${i%%.txt}.html
   done
 }
 
-# This is prepared using list-species.
-ALLSPECIES=( Escherichia_coli Salmonella_enterica Staphylococcus_aureus Streptococcus_pneumoniae Streptococcus_pyogenes Prochlorococcus_marinus Helicobacter_pylori Clostridium_botulinum Bacillus_cereus Yersinia_pestis Sulfolobus_islandicus Francisella_tularensis Rhodopseudomonas_palustris Listeria_monocytogenes Chlamydia_trachomatis Buchnera_aphidicola Bacillus_anthracis Acinetobacter_baumannii Streptococcus_suis Neisseria_meningitidis Mycobacterium_tuberculosis Legionella_pneumophila Cyanothece_PCC Coxiella_burnetii Campylobacter_jejuni Burkholderia_pseudomallei Bifidobacterium_longum Yersinia_pseudotuberculosis Xylella_fastidiosa Xanthomonas_campestris Vibrio_cholerae Shewanella_baltica Rhodobacter_sphaeroides Pseudomonas_putida Pseudomonas_aeruginosa Methanococcus_maripaludis Lactococcus_lactis Haemophilus_influenzae Chlamydophila_pneumoniae Candidatus_Sulcia Burkholderia_mallei Burkholderia_cenocepacia )
-
-# Improvements that are needed.
-# 1. Do not use file size options.
-# To list genomes:
-# $ GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria 
-# $ ls -1 `find $GENOMEDATADIR -name *.gbk -and -size +1000k` | grep Staphylococcus >> ~/Documents/Projects/mauve/species/Staphylococcus
+# Create species files in the species directory.
+# ----------------------------------------------
+# The species directory contains files, each of which lists NCBI Genbank files.
+# An NCBI Genbank file name starts with the unique genome name: e.g., 
+# Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+# where the first directory is the genome name, and the second is its NCBI
+# Genbank file. The following bash function creates a species file for one of
+# species name in ALLSPECIES array. This is also a semi-automatic procedure. I
+# do not use it, but I used it.  I just want to save the function. I filtered
+# Genbank files with at least 1 Megabytes. This is undesirable because I do not
+# know how large a genome Genbank file is. It would be better to find
+# automatically find genome Genbank files in NCBI ftp directory bacteria. 
+# Note that the base directory name is hard-coded in the sed command. Change the
+# name to suit your need, and $GENOMEDATADIR should be the same as the directory
+# name in the sed command.
 function generate-species {
   prepare-filesystem
   for s in ${ALLSPECIES[@]}; do
-    ls -1 `find $GENOMEDATADIR -name *.gbk -and -size +1000k` | sed 's/\/Volumes\/Elements\/Documents\/Projects\/mauve\/bacteria\///' | grep $s > $MAUVEANALYSISDIR/species/$s
+    ls -1 `find $GENOMEDATADIR -name *.gbk -and -size +1000k` \
+      | sed 's/\/Volumes\/Elements\/Documents\/Projects\/mauve\/bacteria\///' \
+      | grep $s > $MAUVEANALYSISDIR/species/$s
   done
-  #ls -l `find . -name *.gbk`| grep Chlamydia_trachomatis > ~/Documents/Projects/mauve/species/Chlamydia_trachomatis
 }
 
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( list-species generate-species preparation receive-run-mauve filter-blocks prepare-run-clonalframe compute-watterson-estimate-for-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin prepare-run-2nd-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin )
+CHOICES=( choose-species receive-run-mauve filter-blocks prepare-run-clonalframe receive-run-clonalframe prepare-run-clonalorigin receive-run-clonalorigin prepare-run-2nd-clonalorigin receive-run-2nd-clonalorigin analysis-clonalorigin list-species generate-species compute-watterson-estimate-for-clonalframe )
 select CHOICE in ${CHOICES[@]}; do 
- 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
     continue
@@ -1301,7 +1534,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "generate-species" ];  then
     generate-species 
     break
-  elif [ "$CHOICE" == "preparation" ];  then
+  elif [ "$CHOICE" == "choose-species" ];  then
     choose-species
     break
   elif [ "$CHOICE" == "receive-run-mauve" ];  then
