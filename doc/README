@@ -313,6 +313,59 @@ performed for each functional category.
 I also used the category of virulence genes from Davies2007 to test if virulence
 genes were under higher or lower recombination. 
 
+One more studies
+~~~~~~~~~~~~~~~~
+IMPORTANT: +I need to find an interesting topic in bacterial recombination to
+have enough contents to draft a manuscript.+
+
+Simulation studies
+~~~~~~~~~~~~~~~~~~
+WARNING: +I consider a simulation study where two populations share a common
+ancestral population. In addition to the single recombination rate I have two
+more recombination rates. These additional recombination rates are related with
+migration in bacteria because homologous recombinations in bacteria often is
+translated to lateral gene transfer. 
+I label all the extant individuals two separate populations before
+coalescent with recombination simulation. Two genomes in the same populations
+can coalescent. Any two genomes from different populations are not allowed to
+coalesce before they enter their common ancestral population. A splitting event
+time is set to signal the entrance into a common ancestor. Two types of
+recombination events are possible in the extant populations. One recombination
+event generates a donor genome, which stays at the same population, and another
+creates a donor, which migrates to the other population.
+The two additional recombination rates implicitly accommodate migration rates.
+The difference between the two recombination rates can be related to 
+polarized gene flow between two extant populations. I did not pursue to make
+inference of the model, and yet I wished to test ClonalOrigin's framework with
+simulated data sets under the new model.+
+
+IMPORTANT: +Simulation study seems to be needed. So, I should not believe the method under
+the biological scenario. What should I show? It is not clear to me what I
+should show them. I believe his intuition, but I do not know exactly what
+the simulation is for.
+Why should I show them? I need to convince myself. It seems good to know how
+it works. I may not be inclined to simulation studies.  I may need to think
+about what kind of extension to ClonalOrigin. Unless I have that vision, I
+still do not find reasons of doing the simulation study although I admit that
+I have to do it. It would be better to find an extension to that.  I think
+that what he says is kin to *Bayesian model checking*. It seems good to go that
+direction because I do not know the model we are using is appropriate. I think
+that I am somewhat convinced.
+Discussion with Ilan: I do not think that I have parameters that control
+directionality of gene flow due to bacterial recombinations. I need to see if
+I can control it in the MLSTSim, Didelot's another program for simulating data
+sets for ClonalOrigin and ClonalFrame. Can I add parameters of controling
+recombinant edge types? Can I add something that does allow more recombinant
+within a clade than between clades by having a ``splitting'' event?  I could
+have three different recombination rates. This was the old idea that I had
+before. One recombination rate is within a clade. A clade can be a present
+population or an ancestral one. Another recombination rate is for a flow from
+one present clade to another present clade. The other is for the reverse
+direction of the flow. If the simulation approach can accommodate the three
+recombination rates, then the inferrence method of ClonalOrigin should be able
+to do so as well.+
+
+
 Results
 -------
 

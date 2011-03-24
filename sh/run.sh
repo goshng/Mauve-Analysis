@@ -82,6 +82,7 @@ PERLECOP2=pl/extractClonalOriginParameter2.pl
 PERLECOP3=pl/extractClonalOriginParameter3.pl
 PERLECOP4=pl/extractClonalOriginParameter4.pl
 PERLRECOMBINATIONINTENSITY=pl/recombination-intensity.pl
+PERLRECOMBINATIONINTENSITY2=pl/recombination-intensity2.pl
 PERLGUIPERL=pl/findBlocksWithInsufficientConvergence.pl
 
 # Binary files installed by progressiveMauve and ClonalOrigin
@@ -1249,13 +1250,60 @@ function receive-run-2nd-clonalorigin {
   done
 }
 
+function recombination-intensity3 {
+  cat>$RUNANALYSISDIR/recombination-intensity3.R<<EOF
+x <- read.table ("$RUNANALYSISDIR/recombination-intensity.txt.sgr")
+length(x\$V3[x\$V3<1])/length(x\$V3)
+stem(x\$V3)
+postscript("$RUNANALYSISDIR/recombination-intensity.eps", width=10, height=10)
+hist(x\$V3, main="Distribution of number of recombinant edge types", xlab="Number of recombinant edge types")
+dev.off()
+EOF
+  R --no-save < $RUNANALYSISDIR/recombination-intensity3.R
+}
+
 # 10. Some post-processing procedures follow clonal origin runs.
 # --------------------------------------------------------------
 # Several analyses were performed using output of ClonalOrigin. Let's list
 # those.
-# recombination-intensity: I order all the alignment blocks with respect to the
-# genome of SDE1, which is the 1st genome in the alignment.  The number of
-# recombinant edges that affect a nucleotide site is recorded. 
+#
+# recombination-intensity: A recombinant edge is classifed by its departure and
+# arrival species tree branches. The number of types of recombinant edges could
+# have been equal to the sqaure of the number of species tree branches including
+# the rooting edge. Let the number of species tree branches L. A nucleotide site
+# is affected by only a single recombinant edge type.  I can have a matrix of
+# size L-by-L, each element of which is a binary value that represents that the
+# corresponding site is affected by the recombinant edge with departure of the
+# row index of the element, and arrival of the column index of it. Note that
+# some of elements must be always 0 because their recombinant edge types are
+# impossible.
+#
+# recombination-intensity2: This uses the output file from
+# recombination-intensity menu; it must be called after the call of
+# recombination-intensity. The output of recombination-intensity is a series of
+# matrices.  Each line starts with a position number that represents a site in a
+# genome. The position is followed by a L*L many integers. These numbers are
+# elements of a matrix of size L-by-L. Numbers in the elements can be larger
+# than 1 because each element is the sum of binary values over the MCMC
+# iterations of ClonalOrigin. The number ranges from 0 to the size of
+# iterations. I have to divide numbers in the elements by the number of
+# iterations to obtain average values. I want to consider the number of
+# recombinant edge types that affect a site as a measure of recombination
+# intensity. The total number of recombination edge types that affect a
+# nucleotide site is just the sum of all of the elements of the matrix of size
+# L-by-L.
+#
+# recombination-intensity3: This uses the output file from
+# recombination-intensity2 menu. It draw the distribution of numbers of
+# recombinant edge types over sites of all of the alignment blocks.
+# recombination-intensity.eps shows the distribution.
+#
+#
+#
+# 
+#
+# More literature search for studies of bacterial recombination.
+#
 #
 # convergence: This should go to a separate menu.
 # heatmap:
@@ -1279,14 +1327,36 @@ function analysis-clonalorigin {
       read REPLICATE
       prepare-filesystem 
  
-      select WHATANALYSIS in recombination-intensity convergence heatmap import-ratio-locus-tag summary recedge recmap traceplot parse-jcvi-role combine-import-ratio-jcvi-role; do 
+      select WHATANALYSIS in recombination-intensity \
+                             recombination-intensity2 \
+                             recombination-intensity3 \
+                             gene-flow \
+                             convergence \
+                             heatmap \
+                             import-ratio-locus-tag \
+                             summary \
+                             recedge \
+                             recmap \
+                             traceplot \
+                             parse-jcvi-role \
+                             combine-import-ratio-jcvi-role; do 
         if [ "$WHATANALYSIS" == "" ];  then
           echo -e "You need to enter something\n"
           continue
         elif [ "$WHATANALYSIS" == "recombination-intensity" ]; then
           echo -e "Computing recombination intensity ..."
           echo perl $PERLRECOMBINATIONINTENSITY \
-            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3
+            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3 \
+            > $RUNANALYSISDIR/recombination-intensity.txt
+          break
+        elif [ "$WHATANALYSIS" == "recombination-intensity2" ]; then
+          echo -e "Draw recombination intensity along all the blocks"
+          perl $PERLRECOMBINATIONINTENSITY2 \
+            -d $RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3 \
+            -map $RUNANALYSISDIR/recombination-intensity.txt 
+          break
+        elif [ "$WHATANALYSIS" == "recombination-intensity3" ]; then
+          recombination-intensity3
           break
         elif [ "$WHATANALYSIS" == "convergence" ];  then
           echo -e "Checking convergence of parameters for the blocks ...\n"

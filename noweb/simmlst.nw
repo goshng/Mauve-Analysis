@@ -1,0 +1,64 @@
+\title{A simulator of ClonalOrigin data analysis.}
+\author{Sang Chul Choi\\
+Department of Biological Statistics & Computational Biology,\\ 
+Cornell University, Ithaca, NY 14853, USA}
+
+\tableofcontents
+
+\newpage{}
+\section{History}
+
+\begin{enumerate}
+\item Thu Mar 24 14:51:14 EDT 2011: A first draft is created.
+\end{enumerate}
+
+\newpage{}
+\section{Installation}
+
+\section{Methods}
+
+\section{Class Arg}
+
+\section{Compilation}
+<<simmlst.compile>>=
+#!/bin/bash
+BASE=`pwd`
+notangle -RCMakeLists.txt $BASE/../simmlst.nw > CMakeLists.txt
+notangle -L -Rsimmlst.cpp $BASE/../simmlst.nw > simmlst.cpp
+
+<<CMakeLists.txt>>=
+cmake_minimum_required (VERSION 2.6)
+project (simmlst)
+add_executable(simmlst simmlst.cpp)
+
+@
+\section{Default C++ headers}
+<<c++ headers>>=
+#include<iostream>
+
+@
+\section{Copyright}
+I base the code on SimMLST that was originally developed by Xavier Didelot,
+Daniel Lawson, and Daniel Falush. I do not know how exactly I write the
+copyright notice.
+<<copyright>>=
+/**
+ * This file is a part of SimMLST.
+ *
+ * Please, find the original version of SimMLST developed by Xavier Didelot,
+ * Daniel Lawson, and Daniel Falush.
+ * 
+ */
+
+<<simmlst.cpp>>=
+<<copyright>>
+<<c++ headers>>
+int
+main (int argc, const char * argv[]) 
+{
+  std::cout << "Hello, World!" << std::endl;
+}
+
+<<arg.cpp>>=
+
+

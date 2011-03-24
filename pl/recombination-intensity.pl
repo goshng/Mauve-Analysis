@@ -33,18 +33,19 @@
 #            two or more times. To avoid the multiple count we use a matrix with
 #            binary values. Then, we sum the binary matrices across all the
 #            iteratons.
+#            Note that the source and destination edges could be reversed. Be
+#            careful not to reverse it. I used to use to -> from not from -> to.
+#            Now, I use from -> to for each position.
 #
 #   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
 #   Computational Science Research Center @ SDSU, CA as a template. Some of
 #   words are his not mine, and credit should be given to him. 
 #===============================================================================
-
 use strict;
 use warnings;
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
-use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
@@ -137,18 +138,19 @@ You should have received a copy of the GNU General Public License along with thi
 
 =cut
 
-sub get_exp_map($$); # Delete this
-sub get_obs_map($$); # Delete this
-
 sub find_number_files ($);
 sub get_species_tree ($$);
+sub get_length_block ($$);
+sub get_length_all_blocks ($);
+sub get_number_leave ($);
+
+#
+################################################################################
+## COMMANDLINE OPTION PROCESSING
+################################################################################
+#
 
 my $xmlDir;
-my $numBlocks;
-my $numSpecies;
-
-my $heatDir; # Delete this.
-
 if (exists $params{d})
 {
   $xmlDir = $params{d};
@@ -164,17 +166,85 @@ else
 ################################################################################
 #
 
-my $numberFile = find_number_files ($xmlDir);
-my $speciesTree = get_species_tree ($xmlDir, 1);
+my $tag;
+my $content;
+my %recedge;
+my $itercount=0;
+my $numberBlock = find_number_files ($xmlDir);
+my $speciesTree = get_species_tree ($xmlDir, 1); # Just to get the tree.
+my $blockLength = get_length_block ($xmlDir, 1); # Just for test.
+my $genomeLength = get_length_all_blocks ($xmlDir);
+my $numberTaxa = get_number_leave ($speciesTree);
+my $numberLineage = 2 * $numberTaxa - 1;
 
+# mapImport index is 1-based, and blockImmport index is 0-based.
+# map starts at 1.
+# block starts at 0.
+# mapImport is created.
+my @blockImport;
+my @mapImport;
+for (my $i = 0; $i < $numberLineage; $i++)
+{
+  my @mapPerLineage;
+  for (my $j = 0; $j < $numberLineage; $j++)
+  {
+    my @asinglemap = (0) x ($genomeLength + 1);
+    push @mapPerLineage, [ @asinglemap ];
+  }
+  push @mapImport, [ @mapPerLineage ];
+}
 
+# mapImport is filled in.
+my $offsetPosition = 0;
+my $prevBlockLength = 1;
+for (my $blockID = 1; $blockID <= $numberBlock; $blockID++)
+{
+  my $f = "$xmlDir.$blockID.xml";
+  my $blockLength = get_length_block ($xmlDir, $blockID);
+  $offsetPosition += $prevBlockLength;
+  $prevBlockLength = $blockLength;
 
+	my $parser = new XML::Parser();
+	$parser->setHandlers(Start => \&startElement,
+                       End => \&endElement,
+                       Char => \&characterData,
+                       Default => \&default);
 
+	$itercount=0;
+	my $doc;
+	eval{ $doc = $parser->parsefile($f)};
+	print "Unable to parse XML of $f, error $@\n" if $@;
+	next if $@;
+}
 
+# mapImport is printed out.
+for (my $i = 1; $i <= $genomeLength; $i++)
+{
+  my $pos = $i;
+  print "$pos";
+  for (my $j = 0; $j < $numberLineage; $j++)
+  {
+    for (my $k = 0; $k < $numberLineage; $k++)
+    {
+      print "\t", $mapImport[$j][$k][$pos];
+    }
+  }
+  print "\n";
+}
 
+exit;
 
+#
+################################################################################
+## END OF DATA PROCESSING
+################################################################################
+#
 
-
+#
+################################################################################
+## FUNCTION DEFINITION
+################################################################################
+#
 
 # Find the number of ClonalOrigin's output files.
 # I just check if files exist.
@@ -213,223 +283,89 @@ sub get_species_tree ($$)
   return $r;
 }
 
-exit;
-
-##############################################################
-# Global variables
-##############################################################
-my $tag;
-my $content;
-my %recedge;
-my $itercount=0;
-
-
-##############################################################
-# An initial heat map is created.
-##############################################################
-my @heatMap;
-my $numberOfTaxa = $numSpecies;
-my $numberOfLineage = 2 * $numberOfTaxa - 1;
-for (my $j = 0; $j < $numberOfLineage; $j++)
+# Get the length of a block
+sub get_length_block ($$)
 {
-  my @rowMap = (0) x $numberOfLineage;
-  push @heatMap, [ @rowMap ];
-}
-my @obsMap;
-my @blockObsMap;
-my $blockLength;
-my $totalLength;
-
-##############################################################
-# Find the total length of all the blocks.
-##############################################################
-$totalLength = 0;
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-  $totalLength += $blockLength;
-}
-
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $heatfilename = "$heatDir/heatmap-$blockid.txt";
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @expMap = get_exp_map($heatfilename, $numberOfLineage);
-
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-
-  # Debug
-print "========================================\n";
-print "expMap - block $blockid\n";
-for my $i ( 0 .. $#expMap ) {
-  print "$expMap[$i][0]";
-  for my $j ( 1 .. $#{ $expMap[$i] } ) {
-    print ",$expMap[$i][$j]";
-  }
-  print "\n";
-}
-print "----------------------------------------\n";
-print "obsMap - block $blockid\n";
-for my $i ( 0 .. $#obsMap ) {
-  print "$obsMap[$i][0]";
-  for my $j ( 1 .. $#{ $obsMap[$i] } ) {
-    print ",$obsMap[$i][$j]";
-  }
-  print "\n";
-}
-print "----------------------------------------\n";
-print "block length: $blockLength for block $blockid\n";
-print "Total block length: $totalLength\n";
-print "----------------------------------------\n";
-
-  # blockLength is given.
-
-  for my $i ( 0 .. $#heatMap ) {
-    for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-      if ($expMap[$i][$j] > 0)
-      {
-        my $blockValue = ($blockLength / $totalLength); # weight
-        $blockValue *= ($obsMap[$i][$j] / $expMap[$i][$j]);
-        $heatMap[$i][$j] += $blockValue;
-      }
-    }
-  }
-}
-
-############################################################
-# Compute the sample variance.
-############################################################
-my @heatVarMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @heatVarMap, [ @rowMap ];
-}
-
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $heatfilename = "$heatDir/heatmap-$blockid.txt";
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @expMap = get_exp_map($heatfilename, $numberOfLineage);
-
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-
-print "----------------------------------------\n";
-print "block length: $blockLength for block $blockid\n";
-print "Total block length: $totalLength\n";
-print "----------------------------------------\n";
-
-  # blockLength is given.
-  for my $i ( 0 .. $#heatVarMap ) {
-    for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-      if ($expMap[$i][$j] > 0)
-      {
-        my $blockValue = ($blockLength / $totalLength); # weight
-        $blockValue *= (($heatMap[$i][$j] - $obsMap[$i][$j] / $expMap[$i][$j]) 
-                       * ($heatMap[$i][$j] - $obsMap[$i][$j] / $expMap[$i][$j]));
-        $heatVarMap[$i][$j] += $blockValue;
-      }
-    }
-  }
-}
-
-##############################################################
-# Print the resulting heat map.
-##############################################################
-for my $i ( 0 .. $#heatMap ) {
-  print "$heatMap[$i][0]";
-  for my $j ( 1 .. $#{ $heatMap[$i] } ) {
-    print ",$heatMap[$i][$j]";
-  }
-  print "\n";
-}
-print "\n";
-for my $i ( 0 .. $#heatVarMap ) {
-  print "$heatVarMap[$i][0]";
-  for my $j ( 1 .. $#{ $heatVarMap[$i] } ) {
-    print ",$heatVarMap[$i][$j]";
-  }
-  print "\n";
-}
-
-exit;
-##############################################################
-# END OF RUN OF THIS PERL SCRIPT
-##############################################################
-
-sub get_exp_map($$)
-{
-  my ($infilename, $numElements) = @_;
-  my @expMap;
-
-  # Count multiple hits of a short read.
-  open FILE, "$infilename" or die "$! - $infilename";
+  my ($prefix, $blockID) = @_;
   my $line;
-  # Three lines of head of the heat map file.
-  for (my $i = 0; $i < 3; $i++)
+  my $r;
+  my $f = "$prefix.$blockID.xml";
+  open XML, $f or die "$f $!";
+  while (<XML>)
   {
-    $line = <FILE>;
-  }
-
-  # Next lines of expected heat map values.
-  for (my $i = 0; $i < $numElements; $i++)
-  {
-    $line = <FILE>;
-#print "[ $numElements ]\n";
-#print "[ $infilename ]\n";
-#print "[ $line ]\n";
-    chomp($line);
-    my @elements = split /,/, $line;
-    push @expMap, [ @elements ];    
-  }
-  close(FILE);
-  return @expMap;
+    if (/^<Blocks>/)
+    {
+      $line = <XML>;
+      chomp ($line);
+      $line =~ /^(\d+),(\d+)$/;
+      $r = $2;
+      last;
+    }
+  } 
+  close (XML); 
+  die "The $f does not contain a species tree" unless defined $r;
+  return $r;
 }
 
-sub get_obs_map($$)
+# Get length of all of the blocks.
+sub get_length_all_blocks ($)
 {
-  my ($f, $numElements) = @_;
-
-	my $parser = new XML::Parser();
-	$parser->setHandlers(Start => \&startElement,
-                       End => \&endElement,
-                       Char => \&characterData,
-                       Default => \&default);
-
-  @blockObsMap = ();
-  for (my $j = 0; $j < $numElements; $j++)
+  my ($prefix) = @_;
+  my $r = 0;
+  my $blockID = 1;
+  my $f = "$prefix.$blockID.xml";
+  while (-e $f)
   {
-    my @rowMap = (0) x $numElements;
-    push @blockObsMap, [ @rowMap ];
+    $r += get_length_block ($prefix, $blockID);
+    $blockID++;
+    $f = "$prefix.$blockID.xml";
   }
-	$itercount=0;
+  $blockID--;
+  return $r; 
+}
 
-	my $doc;
-	eval{ $doc = $parser->parsefile($f)};
-	die "Unable to parse XML of $f, error $@\n" if $@;
-  return @blockObsMap;
+# Find the number of leaves of a rooted tree.
+# (((0:4.359500e-02,1:4.359500e-02)5:1.951410e-01,2:2.387360e-01)7:8.480900e-02,(3:7.356900e-02,4:7.356900e-02)6:2.499760e-01)8:0.000000e+00; 
+sub get_number_leave ($)
+{
+  my ($newickTree) = @_;
+  my $r = 0;
+  my $s = $newickTree;
+  print $s, "\n";
+  my @elements = split (/[\(\),]/, $s);
+  for (my $i = 0; $i <= $#elements; $i++)
+  {
+    if (length $elements[$i] > 0)
+    {
+      $r++;
+    }
+  }
+  $r = ($r + 1) / 2;
+
+  return $r;
 }
 
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;
 	$tag = $element;
   SWITCH: {
-    if ($element eq "Iteration") {
+    if ($element eq "Iteration") 
+    {
       $itercount++;
-      last SWITCH;
-    }
-    if ($element eq "delta") {
-      last SWITCH;
-    }
-    if ($element eq "rho") {
+      @blockImport = ();
+      for (my $i = 0; $i < $numberLineage; $i++)
+      {
+        my @mapPerLineage;
+        for (my $j = 0; $j < $numberLineage; $j++)
+        {
+          my @asinglemap = (0) x $blockLength;
+          push @mapPerLineage, [ @asinglemap ];
+        }
+        push @blockImport, [ @mapPerLineage ];
+      }
       last SWITCH;
     }
     if ($element eq "recedge") {
-      last SWITCH;
-    }
-    if ($element eq "Tree") {
-      $content = "";
       last SWITCH;
     }
   }
@@ -438,81 +374,85 @@ sub startElement {
 sub endElement {
   my ($p, $elt) = @_;
 	$tag = "";
-  if ($elt eq "Tree")
-  {
-    # No Code.
-
-    # print STDERR $content, "\n";
-  }
   if ($elt eq "recedge")
   {
-    $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
-
-    #print $recedge{start}, "\t";
-    #print $recedge{end}, "\t";
-    #print $recedge{efrom}, "\t";
-    #print $recedge{eto}, "\t";
-    #print $recedge{afrom}, "\t";
-    #print $recedge{ato}, "\n";
+    for (my $i = $recedge{start}; $i < $recedge{end}; $i++)
+    {
+      # NOTE: efrom -> eto. This used to be eto -> efrom.
+      $blockImport[$recedge{efrom}][$recedge{eto}][$i]++;
+    }
   }
-  
   if ($elt eq "Iteration")
   {
-    # No Code.
+    for (my $i = 0; $i < $blockLength; $i++)
+    {
+      my $pos = $i;
+      for (my $j = 0; $j < $numberLineage; $j++)
+      {
+        for (my $k = 0; $k < $numberLineage; $k++)
+        {
+          if ($blockImport[$j][$k][$pos] > 0) 
+          {
+            $blockImport[$j][$k][$pos] = 1;
+          }
+        }
+      }
+    }
+
+    for (my $i = 0; $i < $blockLength; $i++)
+    {
+      my $pos = $offsetPosition + $i;
+      for (my $j = 0; $j < $numberLineage; $j++)
+      {
+        for (my $k = 0; $k < $numberLineage; $k++)
+        {
+          $mapImport[$j][$k][$pos] += $blockImport[$j][$k][$i];
+        }
+      }
+    }
   }
 
   if ($elt eq "outputFile")
   {
-    print STDERR "outFile: [ $blockLength ]\n";
-    print STDERR "outFile: [ $itercount ]\n";
-    for (my $j = 0; $j < $numberOfLineage; $j++)
+    for (my $i = 0; $i < $blockLength; $i++)
     {
-      for (my $k = 0; $k < $numberOfLineage; $k++)
+      my $pos = $offsetPosition + $i;
+      for (my $j = 0; $j < $numberLineage; $j++)
       {
-        $blockObsMap[$j][$k] /= $itercount;
+        for (my $k = 0; $k < $numberLineage; $k++)
+        {
+          # $mapImport[$j][$k][$pos] /= $itercount;
+        }
       }
     }
   }
 }
 
 sub characterData {
-       my( $parseinst, $data ) = @_;
-	$data =~ s/\n|\t//g;
-	if($tag eq "Tree"){
-    $content .= $data;    
-	}
-	if($tag eq "start"){
+  my( $parseinst, $data ) = @_;
+  $data =~ s/\n|\t//g;
+  if($tag eq "start"){
     $recedge{start} = $data;
-	}
-	if($tag eq "end"){
+  }
+  if($tag eq "end"){
     $recedge{end} = $data;
-	}
-	if($tag eq "efrom"){
+  }
+  if($tag eq "efrom"){
     $recedge{efrom} = $data;
-	}
-	if($tag eq "eto"){
+  }
+  if($tag eq "eto"){
     $recedge{eto} = $data;
-	}
-	if($tag eq "afrom"){
+  }
+  if($tag eq "afrom"){
     $recedge{afrom} = $data;
-	}
-	if($tag eq "ato"){
+  }
+  if($tag eq "ato"){
     $recedge{ato} = $data;
-	}
-
-	if($tag eq "Blocks"){
-		if ($data =~ s/.+\,//g)
-    {
-      $blockLength = $data;
-      print STDERR "Blocks: [ $blockLength ]\n";
-    }
-		#push( @lens, $data ) if(length($data)>1);
-	}
+  }
 }
 
 sub default {
 }
-
 
 ##
 #################################################################################
@@ -535,7 +475,6 @@ sub getLineNumber {
     return $lines;
 }
 
-
 sub checkFileFormat {
     my $file = shift;
 
@@ -547,6 +486,3 @@ sub checkFileFormat {
     my $format = 'map';
     return $format;
 }
-
-
-
