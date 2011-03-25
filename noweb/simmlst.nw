@@ -25,11 +25,19 @@ Cornell University, Ithaca, NY 14853, USA}
 BASE=`pwd`
 notangle -RCMakeLists.txt $BASE/../simmlst.nw > CMakeLists.txt
 notangle -L -Rsimmlst.cpp $BASE/../simmlst.nw > simmlst.cpp
+notangle -L -Rarg.cpp $BASE/../simmlst.nw > arg.cpp
+notangle -Rarg.h $BASE/../simmlst.nw | cpif arg.h
+notangle -L -Rdata.cpp $BASE/../simmlst.nw > data.cpp
+notangle -Rdata.h $BASE/../simmlst.nw | cpif data.h
+notangle -L -Rpopsize.cpp $BASE/../simmlst.nw > popsize.cpp
+notangle -Rpopsize.h $BASE/../simmlst.nw | cpif popsize.h
+notangle -Rrng.h $BASE/../simmlst.nw | cpif rng.h
 
 <<CMakeLists.txt>>=
 cmake_minimum_required (VERSION 2.6)
 project (simmlst)
-add_executable(simmlst simmlst.cpp)
+add_executable(simmlst simmlst.cpp arg.cpp data.cpp popsize.cpp)
+target_link_libraries(simmlst gsl gslcblas m)
 
 @
 \section{Default C++ headers}
@@ -50,15 +58,821 @@ copyright notice.
  * 
  */
 
+<<simple option>>=
+enum { OPT_HELP,
+       OPT_NUM_ISOLATES,
+       OPT_THETA,
+       OPT_RHO,
+       OPT_DELTA,
+       OPT_LENGTH_FRAGMENT,
+       OPT_OUTPUT_FILE,
+       OPT_CLONALTREE_FILE,
+       OPT_LOCALTREE_FILE,
+       OPT_DOT_FILE,
+       OPT_INCLUDE_ANCESTRAL_MATERIAL,
+       OPT_HOGE };
+CSimpleOpt::SOption g_rgOptions[] = {
+    // ID       TEXT          TYPE
+    { OPT_NUM_ISOLATES, 
+      "-N", SO_REQ_SEP }, // "-N ARG"
+    { OPT_THETA,
+      "-T", SO_REQ_SEP }, // "-T ARG"
+    { OPT_RHO,
+      "-R", SO_REQ_SEP }, // "-R ARG"
+    { OPT_DELTA,
+      "-D", SO_REQ_SEP }, // "-D ARG"
+    { OPT_LENGTH_FRAGMENT, 
+      "-B", SO_REQ_SEP }, // "-B ARG"
+    { OPT_OUTPUT_FILE, 
+      "-o", SO_REQ_SEP }, // "-o ARG"
+    { OPT_CLONALTREE_FILE, 
+      "-c", SO_REQ_SEP }, // "-c ARG"
+    { OPT_LOCALTREE_FILE, 
+      "-l", SO_REQ_SEP }, // "-l ARG"
+    { OPT_DOT_FILE, 
+      "-d", SO_REQ_SEP }, // "-d ARG"
+    { OPT_INCLUDE_ANCESTRAL_MATERIAL, 
+      "-a", SO_NONE },    // "-a"
+    { OPT_HELP, 
+      "-h", SO_NONE },    // "-h"
+    { OPT_HELP, 
+      "--help", SO_NONE },// "--help"
+    SO_END_OF_OPTIONS     // END
+};
+
+<<simple option usage>>=
+void ShowUsage() {
+  printf ("Usage: simmlst [-N num] [-T theta] [-R rho] [-D delta] [-B num,num,...]\n");
+}
+
 <<simmlst.cpp>>=
 <<copyright>>
 <<c++ headers>>
+#include <cstdlib>
+#include "arg.h"
+#include "rng.h"
+#include "SimpleOpt.h"
+
+<<simple option>>
+<<simple option usage>>
+
 int
-main (int argc, const char * argv[]) 
+main (int argc, char * argv[]) 
 {
-  std::cout << "Hello, World!" << std::endl;
+  int n = 5; 
+  double theta = 100.0;
+  double rho = 100.0;
+  double delta = 500; 
+  string blockArg("400,400,400");
+  const char * dataFilename = "1.fa";
+  const char * localtreeFilename = "1lt.tre";
+  const char * globaltreeFilename = "1gt.tre";
+  const char * dotFilename = "1.dot";
+  bool includeAncestralMaterial = false; 
+
+  CSimpleOpt args(argc, argv, g_rgOptions);
+  while (args.Next()) {
+    if (args.LastError() == SO_SUCCESS) {
+      switch (args.OptionId())
+      {
+        case OPT_HELP:
+          ShowUsage();
+          return 0;
+          break;
+        case OPT_NUM_ISOLATES:
+          n = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_THETA:
+          theta = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_RHO:
+          rho = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_DELTA:
+          delta = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_LENGTH_FRAGMENT:
+          blockArg = args.OptionArg();
+          break;
+        case OPT_OUTPUT_FILE:
+          dataFilename = args.OptionArg();
+          break;
+        case OPT_CLONALTREE_FILE:
+          globaltreeFilename = args.OptionArg();
+          break;
+        case OPT_LOCALTREE_FILE:
+          localtreeFilename = args.OptionArg();
+          break;
+        case OPT_DOT_FILE:
+          dotFilename = args.OptionArg();
+          break;
+        case OPT_INCLUDE_ANCESTRAL_MATERIAL:
+          includeAncestralMaterial = true;
+          break;
+      }
+    }
+    else {
+      // handle error (see the error codes - enum ESOError)
+      printf ("Invalid argument: %s\n", args.OptionText());
+      return 1;
+    }
+  }
+
+  printf ("n = %d\n", n);
+  printf ("theta = %lf\n", theta);
+  printf ("rho = %lf\n", rho);
+  printf ("delta = %lf\n", delta);
+  printf ("block = %s\n", blockArg.c_str());
+  printf ("data file = %s\n", dataFilename);
+  printf ("local tree file = %s\n", localtreeFilename);
+  printf ("global tree file = %s\n", globaltreeFilename);
+  printf ("dot file = %s\n", dotFilename);
+  printf ("anc = %d\n", includeAncestralMaterial); 
+  return 0;
+
+  makerng();
+  vector<int> blocks=Arg::makeBlocks(blockArg);
+  PopSize * popsize=NULL;
+
+  //Interpret population size model
+
+  //if (popsize!=NULL) popsize->show();
+  //Build the ARG
+  Arg * arg=new Arg(n,rho,delta,blocks,popsize);
+  //Build the data and export it
+  if (1) {
+      Data * data=arg->drawData(theta);
+      ofstream dat;
+      dat.open(dataFilename);
+      data->output(&dat);
+      dat.close();
+      delete(data);
+    }
+  //Extract the local trees and export them
+  if (1) {
+      ofstream lf;
+      lf.open(localtreeFilename);
+      arg->outputLOCAL(&lf);
+      lf.close();
+    }
+  //Extract the clonal genealogy and export it
+  if (1) {
+      string truth=arg->extractCG();
+      ofstream tru;
+      tru.open(globaltreeFilename);
+      tru<<truth<<endl;
+      tru.close();
+    }
+  //Export to DOT format
+  if (1) {
+      ofstream dot;
+      dot.open(dotFilename);
+      arg->outputDOT(&dot,true);
+      dot.close();
+    }
+  delete(arg);
+  cout << "Simulate!\n";
 }
 
+@
+\section{Arg Class}
+
+<<arg.h>>=
+<<copyright>>
+#ifndef ARG_H
+#define ARG_H
+#include <iostream>
+#include <vector>
+#include <list>
+#include <cmath>
+#include <gsl/gsl_randist.h>
+#include "data.h"
+#include "popsize.h"
+
+extern gsl_rng * rng;
+
+using namespace std;
+
+/**
+    @brief This class represents a "small" ARG, that is one where all lines carry some ancestral material
+*/
+class Arg {
+    public:
+      Arg(int n,double rho,double delta,vector<int> blocks,PopSize * popsize=NULL);///<Creates an ARG for n isolates, with recombination rate rho, tract length delta and block structure as given by the vector "blocks"
+      Data * drawData(double theta);///<Create sequence data for the leaves of the ARG using theta/2 as mutation rate
+      string extractCG();///<Extracts the clonal genealogy of the ARG
+      string extractLT(int site);///<Extracts the local tree at the given site
+      void outputDOT(ostream * out,bool am);///<Create a DOT description of the ARG and export it
+      void outputLOCAL(ostream * out);///<Export the local trees
+      static vector<int> makeBlocks(string str) {
+        vector<int> v;
+        int s=0;
+        char * pch;
+        pch = strtok ((char*)str.data(),",");
+        v.push_back(s);
+        while (pch!=NULL) {
+            s+=atoi(pch);
+            v.push_back(s);
+            pch = strtok (NULL, ",");
+          };
+        return v;
+      }
+    protected:
+      void construct();///<Construction of the ARG, called by class constructor
+      int n;///<Number of isolates
+      double rho;///<Scaled recombination rate
+      double delta;///<Average tract length
+      vector<int> blocks;///<Structure of the observed data
+      vector<vector<int> > s;///<List of the nodes in the ARG, with s[.][0] and s[.][1] being the two children, s[.][2] and s[.][3] being the two parents, s[.][4] and s[.][5] being the start and end point of an import
+      vector<double> ages;///<Ages of the nodes in the ARG
+      vector<bool> clonal;///<Whether a node is part of the clonal genealogy or not
+      vector<bool> changeLT;///<Indicates whether the local tree change at the sites
+      string buildTree(int r);
+      PopSize * popsize;///<Model for population size
+  };
+#endif
+
 <<arg.cpp>>=
+#include "arg.h"
+//
+Arg::Arg(int n,double rho,double delta,vector<int> blocks,PopSize * popsize) {
+  this->n=n;
+  this->rho=rho;
+  this->delta=delta;
+  this->blocks=blocks;
+  this->popsize=popsize;
+  changeLT=vector<bool>(blocks.back(),false);
+  changeLT[0]=true;
+  construct();
+}
+
+void Arg::construct() {
+  s.clear();
+  ages.clear();
+  clonal.clear();
+  int L=blocks.back();
+  int b=blocks.size()-1;
+  vector<double> probstart(L,1.0/(b*delta+L-b));//Contains the probabilities that a recombination event starts at each point of the observed data
+  for (int i=0;i<b;i++) probstart[blocks[i]]*=delta;
+  int k=n;
+  vector<int> toCoal;//Contains the list of lines currently in the ARG
+  vector<vector<bool> > toCoalAncMat;//Describes the ancestral material of these lines
+  for (int i=0;i<n;i++) {
+      toCoal.push_back(i);
+      toCoalAncMat.push_back(vector<bool>(L,true));
+      s.push_back(vector<int>(6,-1));
+      ages.push_back(0.0);
+      clonal.push_back(true);
+    }
+  double time=0.0;
+  while (k>1) {
+      time+=gsl_ran_exponential(rng,2.0/(k*(k-1+rho)));
+      if (gsl_rng_uniform(rng)<1.0*(k-1)/(k-1+rho)) {
+//Coalescence
+          int i=floor(gsl_rng_uniform(rng)*k);
+          int j=i;
+          while (j==i) j=floor(gsl_rng_uniform(rng)*k);
+          s.push_back(vector<int>(6,-1));
+          s.back()[0]=toCoal[i];
+          s.back()[1]=toCoal[j];
+          s[toCoal[i]][2]=s.size()-1;
+          s[toCoal[j]][2]=s.size()-1;
+          ages.push_back(time);
+          clonal.push_back(clonal[toCoal[i]]||clonal[toCoal[j]]);
+          toCoal[i]=s.size()-1;
+          for (int a=0;a<L;a++) toCoalAncMat[i][a]=toCoalAncMat[i][a]||toCoalAncMat[j][a];
+          toCoal[j]=toCoal.back();
+          toCoalAncMat[j]=toCoalAncMat.back();
+          if (i==k-1) i=j;
+          toCoal.pop_back();
+          toCoalAncMat.pop_back();
+          k--;
+          //Test for fully coalesced material
+          for (int a=0;a<L;a++) if (toCoalAncMat[i][a]==true) {
+                bool rem=true;
+                for (int b=0;b<k;b++) if (b!=i&&toCoalAncMat[b][a]==true) {
+                      rem=false;
+                      break;
+                    }
+                if (rem==true) toCoalAncMat[i][a]=false;
+              }
+        } else {
+//Recombination
+          int i=floor(gsl_rng_uniform(rng)*k);
+          double r=gsl_rng_uniform(rng);
+          int beg=0;
+          while (r>probstart[beg]) {
+              r-=probstart[beg];
+              beg++;
+            }
+          int len=gsl_ran_geometric(rng,1.0/delta);
+          int nd=beg+len;
+          for (unsigned int ii=0;ii<blocks.size();ii++) {
+              int loc=blocks[ii];
+              if (beg<loc && nd>loc) {nd=loc;break;}
+            }
+          bool ok=false;
+          for (int ii=beg;ii<nd;ii++) if (toCoalAncMat[i][ii]==true) {ok=true;break;}
+          if (!ok) continue;//Skip if import is empty
+          ok=false;
+        for (int ii=0;ii<L;ii++) if ((ii<beg || ii>=nd) && toCoalAncMat[i][ii]==true) {ok=true;break;}
+          if (!ok && !clonal[toCoal[i]]) continue;//Skip if import is all and node is not clonal
+          changeLT[beg]=true;
+          if (nd<(int)changeLT.size()) changeLT[nd]=true;
+          ages.push_back(time);
+          ages.push_back(time);
+          clonal.push_back(clonal[toCoal[i]]);
+          clonal.push_back(false);
+          s.push_back(vector<int>(6,-1));
+          s.back()[0]=toCoal[i];
+          s.push_back(vector<int>(6,-1));
+          s.back()[0]=toCoal[i];
+          s.back()[4]=beg;
+          s.back()[5]=nd;
+          s[toCoal[i]][2]=s.size()-2;
+          s[toCoal[i]][3]=s.size()-1;
+          toCoal[i]=s.size()-2;
+          toCoal.push_back(s.size()-1);
+          toCoalAncMat.push_back(vector<bool>(L,false));
+          for (int ii=beg;ii<nd;ii++) {
+              toCoalAncMat.back()[ii]=toCoalAncMat[i][ii];
+              toCoalAncMat[i][ii]=false;
+            }
+          k++;
+        }
+    }
+  if (popsize!=NULL) for (unsigned int i=0;i<ages.size();i++) ages[i]=popsize->convert(ages[i]);
+}
+
+Data * Arg::drawData(double theta) {
+  string done;
+  int L=blocks.back();
+  vector<string*> genotypes(s.size(),NULL);
+  genotypes[s.size()-1]=new string(L,'N');
+  for (int j=0;j<L;j++) genotypes[s.size()-1]->at(j)=floor(gsl_rng_uniform(rng)*4);
+  for (int i=s.size()-2;i>=0;i--) {
+      genotypes[i]=new string(*(genotypes[s[i][2]]));//Copy data from first parent
+      if ((s[s[i][2]][0]<0 || genotypes[s[s[i][2]][0]]!=NULL) && (s[s[i][2]][1]<0 || genotypes[s[s[i][2]][1]]!=NULL)) {
+          delete(genotypes[s[i][2]]);
+          genotypes[s[i][2]]=&done;
+        }
+      if (s[i][3]>0) {//If there is a second parent, copy the imported fragment
+          int beg=s[s[i][3]][4];
+          int  nd=s[s[i][3]][5];
+          for (int j=beg;j<nd;j++) genotypes[i]->at(j)=genotypes[s[i][3]]->at(j);
+          if ((s[s[i][3]][0]<0 || genotypes[s[s[i][3]][0]]!=NULL) && (s[s[i][3]][1]<0 || genotypes[s[s[i][3]][1]]!=NULL)) {
+              delete(genotypes[s[i][3]]);
+              genotypes[s[i][3]]=&done;
+            }
+        }
+      //Add mutations
+      int nbmuts=gsl_ran_poisson(rng,theta/2.0*(ages[s[i][2]]-ages[i]));
+      for (int m=0;m<nbmuts;m++) {
+          int loc=floor(gsl_rng_uniform(rng)*L);
+          genotypes[i]->at(loc)=(genotypes[i]->at(loc)+1+(int)floor(gsl_rng_uniform(rng)*3))%4;
+        }
+    }
+  //Create data object
+  Data * data=new Data(n,blocks);
+  for (int i=0;i<n;i++) {
+      for (int j=0;j<L;j++) data->set_NO_POLY_UPDATE(i,j,genotypes[i]->at(j));
+      delete(genotypes[i]);
+    }
+  return data;
+}
+
+string Arg::extractCG() {
+  vector<bool> s4(s.size(),false);//Whether to keep a node or not
+  vector<vector<int> > s2=s;
+  //First add all nodes on clonal branches
+  for (unsigned int k=0;k<s4.size();k++) s4[k]=clonal[k];
+  //Second remove nodes with a single son, updating the branching matrix accordingly
+  for (int i=n;i<(int)s.size();i++) {
+      if (s4[i]==false) continue;
+      if (s[i][0]<0 || s4[s[i][0]]==false) swap(s[i][0],s[i][1]);
+      if (s[i][1]<0 || s4[s[i][1]]==false) {
+          s4[i]=false;
+          if (s[i][0]>=0) {
+              s[s[i][0]][2]=s[i][2];
+              if (s[i][2]>=0) {
+                  if (s[s[i][2]][0]==i) s[s[i][2]][0]=s[i][0];
+                  else s[s[i][2]][1]=s[i][0];
+                }
+            }
+        }
+    }
+  //Find new root
+  int ii=s.size()-1;while (s4[ii]==false) ii--;
+  if (s[ii][0]<0 || s4[s[ii][0]]==false || s[ii][1]<0 || s4[s[ii][1]]==false) s4[ii]=false;
+  while (s4[ii]==false) ii--;
+  //Construct tree from root
+  string str=buildTree(ii).append(";");
+  s=s2;
+  return str;
+}
+
+string Arg::extractLT(int site) {
+  vector<bool> s4(s.size(),false);//Whether to keep a node or not
+  vector<vector<int> > s2=s;
+  //First add all nodes which are ancestral for the given site
+  for (int k=0;k<n;k++) s4[k]=true;
+  for (unsigned int k=0;k<s4.size()-1;k++) {
+      if (s4[k]==false) continue;
+      if (s[k][3]==-1) s4[s[k][2]]=true;else {
+        int beg=s[s[k][3]][4];
+        int  nd=s[s[k][3]][5];
+        if (site>=beg && site<nd) s4[s[k][3]]=true;else s4[s[k][2]]=true;
+      }
+    }
+//Second remove nodes with a single son, updating the branching matrix accordingly
+for (int i=n;i<(int)s.size();i++) {
+      if (s4[i]==false) continue;
+      if (s[i][2]<0 || s4[s[i][2]]==false) swap(s[i][2],s[i][3]);
+      if (s[i][0]<0 || s4[s[i][0]]==false) swap(s[i][0],s[i][1]);
+      if (s[i][1]<0 || s4[s[i][1]]==false) {
+          s4[i]=false;
+          if (s[i][0]>=0) {
+              s[s[i][0]][2]=s[i][2];
+              if (s[i][2]>=0) {
+                  if (s[s[i][2]][0]==i) s[s[i][2]][0]=s[i][0];
+                  else s[s[i][2]][1]=s[i][0];
+                }
+            }
+        }
+    }
+  //Find new root
+  int ii=s.size()-1;while (s4[ii]==false) ii--;
+  if (s[ii][0]<0 || s4[s[ii][0]]==false || s[ii][1]<0 || s4[s[ii][1]]==false) s4[ii]=false;
+  while (s4[ii]==false) ii--;
+  //Construct tree from root
+  string str=buildTree(ii).append(";");
+  s=s2;
+  return str;
+}
+
+string Arg::buildTree(int r) {
+  ostringstream stm;
+  if (r<n) {
+      stm<<r<<":"<<ages[s[r][2]];
+    } else {
+      stm<<"("<<buildTree(s[r][0])<<","<<buildTree(s[r][1])<<"):";
+      if (s[r][2]<0) stm<<0.0;
+      else stm<<ages[s[r][2]]-ages[r];
+    }
+  return stm.str();
+}
+
+void Arg::outputDOT(ostream * out,bool am) {
+  *out << "1" << endl;
+}
+
+void Arg::outputLOCAL(ostream * out) {
+  unsigned int i=0;
+  while (1) {
+      string tree=extractLT(i);
+      int n=0;
+      while (i+1<changeLT.size() && changeLT[i+1]==false) {i++;n++;}
+      *out<<"["<<n+1<<"]"<<tree<<endl;
+      i++;
+      if (i==changeLT.size()) break;
+    }
+}
+
+@
+\section{Data Class}
+
+<<data.h>>=
+#ifndef DATA_H
+#define DATA_H
+#include <vector>
+#include <string>
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+/**
+    @brief Sequence data for the leaves of the topology
+*/
+class Data {
+public:
+    Data(string filename);///<Reads in the data from a file
+    Data(int n,vector <int> blocks);///<Creates empty data
+    ~Data();
+    inline char get(int i,int j) {
+        return data[i][j];
+    } ///<Get accessor to the data
+    inline void set(int i,int j,char c) {
+    	data[i][j]=c;
+    	makePoly(j);
+   	} ///<Set accessor to the data
+    inline void set_NO_POLY_UPDATE(int i,int j,char c) {data[i][j]=c;}
+    inline int getN() {
+        return n;
+    }///<Returns the number of isolates
+    inline int getL() {
+        return L;
+    }///<Returns the length of the sequences
+    inline int getB() {
+    	return blocks.size()-1;
+   	}///<Returns the number of blocks
+    inline int inblock(int site) {
+	int blockin=0;while(blocks[blockin+1]<=site) blockin++;
+	return blockin;
+    }///<Returns the block a given site is in
+    inline vector<int> * getBlocks() {
+   		return &blocks;
+  	}///<Returns the block structure
+   	void output(ostream * out);
+   	inline bool isPoly(unsigned int site) {return poly[site];}///<Returns whether a site is polymorphic
+   	void makePoly(unsigned int site) {
+   		if (data[0][site]>3) {poly[site]=true;return;}
+   		for (unsigned int i=1;i<n;i++) if (data[0][site]!=data[i][site]) {poly[site]=true;return;}
+  		poly[site]=false;
+  	}
+  	double watterson();///<Returns watterson's estimate of theta
+  	inline int numPoly() {int r=0;for (unsigned int i=0;i<L;i++) if (poly[i]) r++;return r;}///<Returns the number of polymorphic sites 
+    inline bool isBegEnd(int a) {return begEnd[a];}
+protected:
+    char convert(char in);///<Converts a character from A,C,G,T to 0,1,2,3
+    char convertBack(char in);///<Converts a character from 0,1,2,3 to A,C,G,T
+    unsigned int n;///<Number of isolates
+    unsigned int L;///<Length of concatenated sequences
+    vector<string> data;///<Concatenated data
+    vector<int> blocks;///<Starting points of blocks in concatenated data, finished with L
+    vector<bool> poly;///<Indicates whether the sites are polymorphic
+    vector<bool> begEnd;///<Indicates whether the sites are beginning or end of blocks
+};
+#endif // DATA_H
+
+<<data.cpp>>=
+#include "data.h"
+
+Data::Data(int n,vector<int> blocks) {
+	this->n=n;
+	this->L=blocks.back();
+	this->blocks=blocks;
+	data=vector<string>(n,string(L,'N'));
+	poly=vector<bool>(L,true);
+	begEnd=vector<bool>(L+1,false);
+	for (unsigned int i=0;i<blocks.size();i++) begEnd[blocks[i]]=true;
+}
+
+Data::Data(string filename) {
+    string line;
+    ifstream file;
+    file.open(filename.data());//Open file
+    unsigned int which=0;
+    while (1) {
+        getline(file,line);//Read next line from file
+        if (file.eof()) break;//Stop if end of file
+        if (line.size()==0 || line[0]=='#' || line[0]=='=') continue;//Ignore empty lines, comments, and end of block lines
+        if (line[0]=='>') {//Header line
+            line.erase(0,1);
+            istringstream iss(line);
+            iss>>which;
+            while (which>=data.size()) data.push_back("");
+            if (which==0) {
+                blocks.push_back(data[0].size());
+            };
+            continue;
+        }
+        //Sequence data line
+        data[which].append(line);
+    }
+    file.close();//Close file
+    n=data.size();
+    L=data[0].size();
+    blocks.push_back(L);
+    for (unsigned int i=1;i<n;i++) if (data[0].size()!=data[i].size()) {
+            cerr<<"Data is inconsistent: "<<data[0].size()<<"!="<<data[i].size()<<endl;
+            break;
+        }
+    cout<<"Read input file with "<<n<<" isolates and "<<getB()<<" blocks for a total of "<<L<<" sites."<<endl;
+    for (unsigned int i=0;i<n;i++) for (unsigned int j=0;j<L;j++) data[i][j]=convert(data[i][j]);
+    poly=vector<bool>(L,true);
+    for (unsigned int i=0;i<L;i++) makePoly(i);
+	begEnd=vector<bool>(L+1,false);
+	for (unsigned int i=0;i<blocks.size();i++) begEnd[blocks[i]]=true;
+}
+
+char Data::convert(char in) {
+    switch (in) {
+    case 'a':
+    case 'A':
+        return 0;
+    case 't':
+    case 'T':
+        return 1;
+    case 'c':
+    case 'C':
+        return 2;
+    case 'g':
+    case 'G':
+        return 3;
+    default:
+        return 'N';
+    }
+}
+
+char Data::convertBack(char in) {
+    switch (in) {
+    case 0:
+        return 'A';
+    case 1:
+        return 'T';
+    case 2:
+        return 'C';
+    case 3:
+        return 'G';
+    default:
+        return 'N';
+    }
+}
+
+void Data::output(ostream * out)
+{
+	for (int i=0;i<getB();i++)
+	{
+		for (unsigned int j=0;j<n;j++) 
+		{
+			*out<<">"<<j<<endl;
+			for (int k=blocks[i];k<blocks[i+1];k++) *out<<convertBack(data[j][k]);
+			*out<<endl;
+		}
+		*out<<"="<<endl;
+	}
+}
+
+double Data::watterson()
+{
+	int p=0;
+	for (unsigned int i=0;i<poly.size();i++) if (poly[i]) p++;//bad with missing data
+	double s=0;
+	for (unsigned int i=1;i<=n;i++) s+=1.0/i;
+	return 1.0*p/s;
+}
+
+Data::~Data() {}
+
+@
+\section{PopSize Class}
+
+<<popsize.h>>=
+#ifndef POPSIZE_H
+#define POPSIZE_H
+#include <iostream>
+#include <vector>
+#include <cmath>
+//
+using namespace std;
+//
+class PopSize {
+
+    public:
+      PopSize();
+      void addEvent(bool isExp,double time,double value);
+      double convert(double time);
+      double getSizeUnscaled(double time);
+      void show();
+      void writePopSize(ostream * out,int numpoints=1001);
+      vector<double> * getVectorSizes(double *maxtime);
+    protected:
+      vector<bool> types;
+      vector<double> times;
+      vector<double> values;
+  };
+#endif
+
+<<popsize.cpp>>=
+#include "popsize.h"
+//
+PopSize::PopSize() {
+  types.push_back(false);
+  times.push_back(0.0);
+  values.push_back(1.0);
+}
+
+void PopSize::addEvent(bool isExp,double time,double value) {
+  unsigned int index=0;
+  while (index<types.size() && time>times[index]) index++;
+  while (index<types.size() && time==times[index] && types[index]==false) index++;
+if (!isExp && value<0) {value=0.0,isExp=true;}
+  types. insert(types .begin()+index,isExp);
+  times. insert(times .begin()+index,time );
+  values.insert(values.begin()+index,value);
+}
+
+double PopSize::convert(double time) {
+  unsigned int cur=0;
+  double tleft=time;
+  double curSize=1.0;
+  double max;
+  while (1) {
+      if (types[cur]==false || values[cur]==0.0) {//Constant part
+          if (types[cur]==false) curSize=values[cur];
+        if (curSize<0.0) {cerr << "Error: Negative population size."<<endl;exit(1);}
+          double t1=times[cur],t2=times[cur+1];
+          if (cur+1==types.size()) max=tleft+1; else max=(t2-t1)/curSize;
+          if (tleft<max) return t1+tleft*curSize;
+        else {tleft-=max;cur++;}
+        } else {//Exponential part
+          double beta=values[cur],t1=times[cur],t2=times[cur+1];
+          if (cur+1==types.size()) max=tleft+1; else max=(exp(beta*(t2-t1))-1.0)/beta/curSize;
+          if (tleft<max) {
+              if (tleft*beta*curSize+1.0<0.0) {cerr << "Error: Infinite time to next event due to negative growth rate." << endl;exit(1);} else return t1+log(tleft*beta*curSize+1.0)/beta;
+            } else {curSize*=exp(-beta*(t2-t1));tleft-=max;cur++;}
+        }
+    };
+}
+
+double PopSize::getSizeUnscaled(double time) {
+  unsigned int cur=0;
+  double tleft=time;
+  double curSize=1.0;
+  double max;
+  while (1) {
+      if (types[cur]==false || values[cur]==0.0) {//Constant part
+          if (types[cur]==false) curSize=values[cur];
+        if (curSize<0.0) {cerr << "Error: Negative population size."<<endl;exit(1);}
+          double t1=times[cur],t2=times[cur+1];
+          if (cur+1==types.size()) max=tleft+1; else max=(t2-t1);
+          if (tleft<max) {
+              return(curSize);
+            } else {tleft-=max;cur++;}
+        } else {//Exponential part
+          double beta=values[cur],t1=times[cur],t2=times[cur+1];
+          if (cur+1==types.size()) max=tleft+1; else max=t2-t1;//(exp(beta*(t2-t1))-1.0)/beta/curSize;
+          if (tleft<max) {
+              return(curSize*exp(-beta*(tleft)));
+            } else {curSize*=exp(-beta*(t2-t1));tleft-=max;cur++;}
+        }
+    }
+}
+
+void PopSize::writePopSize(ostream * out,int numpoints) {
+  double timeto=1.0 + times[times.size()-1];
+  double tstep = timeto/numpoints;
+  double curtime=0;
+  *out<<"Time(Real),Time(coalescent),Population"<<endl;
+  for (int c1=0;c1<=numpoints;c1++) {
+      *out<<curtime<<","<<convert(curtime)<<","<<getSizeUnscaled(curtime)<<endl;
+      curtime+=tstep;
+    }
+}
+
+vector<double> * PopSize::getVectorSizes(double *maxtime) {
+  int numpoints=1001;
+  double timeto=1.0 + times[times.size()-1];
+  *maxtime=timeto;
+  double tstep = timeto/numpoints;
+  double curtime=0;
+  vector<double> * v=new vector<double>();
+  for (int c1=0;c1<=numpoints;c1++) {
+      v->push_back(getSizeUnscaled(curtime));
+      curtime+=tstep;
+    }
+  return v;
+}
+
+void PopSize::show() {
+  for (unsigned int i=0;i<types.size();i++) cout<<types[i]<<" "<<times[i]<<" "<<values[i]<<endl;
+}
+
+@
+\section{GSL rng header}
+<<rng.h>>=
+#ifndef __RNG_H__
+#define __RNG_H__
+
+#include <gsl/gsl_rng.h>
+#include <time.h>
+
+gsl_rng * rng;
+
+void makerng() {
+    const gsl_rng_type *rng_type;
+    long int rng_seed;
+    gsl_rng_env_setup();
+    rng_type = gsl_rng_default;
+    rng_seed = gsl_rng_default_seed;
+    rng = gsl_rng_alloc (rng_type);
+    unsigned int seed;
+    FILE *devrandom;
+
+ if ((devrandom = fopen("/dev/urandom","r")) == NULL) {
+   seed = (unsigned long) time(NULL);
+   printf("Got seed %u from time()\n",seed);
+ } else {
+   fread(&seed,sizeof(seed),1,devrandom);
+   printf("Got seed %u from /dev/urandom\n",seed);
+   fclose(devrandom);
+ }
+    //seed=0;//This is for debugging purposes only
+    gsl_rng_set(rng,seed);
+}
 
 
+#endif // __RNG_H__
