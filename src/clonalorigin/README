@@ -1,0 +1,70 @@
+Simulation Studies with ClonalOrigin
+====================================
+
+Source files of ClonalOrigin
+----------------------------
+I start to add ones with the least dependency.
+
+Independent source files
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Independent files
+1. exponential.h
+2. slotallocator.h
+3. rng.h/cpp
+4. weakarg.h
+
+
+
+I remove mpiutils.h/cpp.
+
+.Orders
+1. wargxml.h/cpp
+2. weakarg.h/cpp
+3. mpiutils.h/cpp
+
+
+C++ Formatter
+-------------
+astyle wargxml.h
+
+astyle wargxml.cpp
+
+
+CMake
+-----
+
+targets
+
+generators
+
+commands
+
+The SET command is an inherited command.
+
+The ADD_EXECUTABLE command is not inherited.
+
+The InitialPass method.
+
+The FinalPass method.
+
+Targets represent executables, libraries, and utilities built by CMake:
+ADD_LIBRARY, ADD_EXECUTABLE, and ADD_CUSTOM_TARGET commands.
+
+Libraries can be declared to be STATIC, SHARED, MODULE, or left undeclared. 
+BUILD_SHARED_LIBS is used to determine if the library should be SHARED or
+STATIC.
+
+TRY_COMPILE
+
+TRY_RUN
+
+FIND_FILE
+
+FIND_LIBRARY
+
+FIND_PATH
+
+FIND_PROGRAM
+
+FIND_PACKAGE

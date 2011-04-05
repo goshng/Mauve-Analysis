@@ -1,0 +1,625 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Simulation study with SimMLST
+\end_layout
+
+\begin_layout Standard
+The rate of coalescent events is 1, and the rate of recombination events
+ 
+\begin_inset Formula $\rho/2.$
+\end_inset
+
+ The waiting time of a next event is exponentially distributed with mean
+ 
+\begin_inset Formula $1/(\frac{k(k-1)}{2}+k\frac{\rho}{2})=2/(k\times(k-1+\rho)).$
+\end_inset
+
+ The next event time is sampled using inverse transform sampling: 
+\begin_inset Formula $u\sim\mathrm{uniform}(0,1)$
+\end_inset
+
+ and 
+\begin_inset Formula $t=-\frac{2}{k\times(k-1+\rho)}\ln(u).$
+\end_inset
+
+ I choose either coalescent or recombination with their relative rates.
+ Now, consider two populations and two recombination rates.
+ While coalescence between two individuals in the same population is allowed,
+ coalescence between one in a population and another in a different population
+ is not.
+ Recombination events involve a donor and a recipient population.
+ When a recombination event occurs, the donor population can be the same
+ as that of the recipient.
+ The recombination with a population happen with rate 
+\begin_inset Formula $\rho.$
+\end_inset
+
+ When the donor population is different from the recipient one, it happens
+ with rate 
+\begin_inset Formula $\rho_{d}.$
+\end_inset
+
+ Two kinds of recombination events between different population can be considere
+d depending on the combination of a donor and a recipient.
+ Let us call 
+\begin_inset Formula $\rho_{1}$
+\end_inset
+
+ the recombination rate with a recipient population being 1.
+ Similarly, 
+\begin_inset Formula $\rho_{2}$
+\end_inset
+
+ is defined.
+ The two rates 
+\begin_inset Formula $\rho_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{2}$
+\end_inset
+
+ of recombination between different donor and recipient populations can
+ be different, which is the case of interest in the evolution of 
+\emph on
+Streptococcus pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+\begin_inset space \space{}
+\end_inset
+
+
+\emph on
+equisimilis
+\emph default
+.
+ The two populations are assumed to speciate at time 
+\begin_inset Formula $T$
+\end_inset
+
+ back in the past.
+ Ancestral genetic material that 
+\begin_inset Quotes eld
+\end_inset
+
+survived
+\begin_inset Quotes erd
+\end_inset
+
+ until the speciation event time can coalesce with one that used to be in
+ a separate population.
+ This is an interesting situation because recombination events can involve
+ migration events.
+ 
+\end_layout
+
+\begin_layout Standard
+A simulation could be achieved using the above procedure with three more
+ parameters: 
+\begin_inset Formula $\rho_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{2},$
+\end_inset
+
+ and 
+\begin_inset Formula $T.$
+\end_inset
+
+ The three populations can have different population sizes, which would
+ increase parameters by 2.
+ Though we might not able to make inference of these parameters, ClonalOrigin
+ might help to make inference.
+ Or at least it could infer the directional gene flow.
+\end_layout
+
+\begin_layout Section
+Equation (7) of Didelot 
+\emph on
+et al.
+
+\emph default
+ (2010)
+\end_layout
+
+\begin_layout Standard
+The equation (7) of Didelot 
+\emph on
+et al.
+
+\emph default
+ (2010) is the probability of recombination events given species tree, recombina
+tion rate, and recombinant tract length:
+\begin_inset Formula \begin{eqnarray*}
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(\mathcal{R}|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
+ & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
+
+\end_inset
+
+Refer to their Genetics paper for description of the parameters in the equation.
+ I am wondering if I can obtain a similar probability with divergence model,
+ in which two populations diverged at time 
+\begin_inset Formula $\tau$
+\end_inset
+
+ in the past, and recombination rates are different for the time before
+ and after the splitting time 
+\begin_inset Formula $\tau.$
+\end_inset
+
+ Before the splitting time, the ancestral population of the two present-day
+ populations existed.
+ Individuals recombine with the within-population recombination rate 
+\begin_inset Formula $\rho_{3}.$
+\end_inset
+
+ After the splitting time, individuals could recombine with an individual
+ either within the same populatioin, or from the different population.
+ Specifically, an individual in population 1 could recombine with an individual
+ in population 1 at the rate of 
+\begin_inset Formula $\rho_{3}.$
+\end_inset
+
+ An individual in population 1 could recombine with one in population 2
+ at the rate of 
+\begin_inset Formula $\rho_{1}.$
+\end_inset
+
+ Similarly, an individual in population 2 could recombine with one in population
+ 1 at the rate of 
+\begin_inset Formula $\rho_{2}.$
+\end_inset
+
+ Under this model and its paramters I wish to obtain the probability of
+ recombination events.
+ As in equation (2) of Didolet 
+\emph on
+et al.
+
+\emph default
+ (2010), the distribution of the total number 
+\begin_inset Formula $R$
+\end_inset
+
+ of recombination events is
+\begin_inset Formula \[
+R|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau\sim\mathrm{Poisson}\left(\frac{\rho_{1}+\rho_{3}}{4}T_{1}+\frac{\rho_{2}+\rho_{3}}{4}T_{2}+\frac{\rho_{3}}{2}T_{3}\right)\]
+
+\end_inset
+
+where 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ the total branch length of the clonal tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ in population 1 and 2, respectively.
+ The total branch length in the ancestor of the two populations 1 and 2
+ is 
+\begin_inset Formula $T_{3}.$
+\end_inset
+
+ The probability of recombination events under the divergence model is
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau,\delta)=\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)\]
+
+\end_inset
+
+where the last term 
+\begin_inset Formula $\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)$
+\end_inset
+
+ needs attention.
+ The probability depends on the population label at 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+, or
+\begin_inset Formula \[
+\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)=\begin{cases}
+\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau) & b_{i}\,\mathrm{is}\,\mathrm{in}\,\mathrm{population}\,1\,\mathrm{or}\,2\\
+\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{3}) & b_{i}\,\mathrm{is}\,\mathrm{in}\,\mathrm{population}\,3\end{cases}.\]
+
+\end_inset
+
+Consider the case where 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+ is in population 2.
+ I can consider the probability as a product of Poisson denstities, one
+ final exponential density, and uniform probability.
+ Figure 1 shows a possible scinario of a clonal frame of 5 individuals where
+ individuals 1 and 2 are in the population 1, and 3, 4, and 5 in the population
+ 2.
+ The arrival 
+\begin_inset Formula $b$
+\end_inset
+
+ is sampled from the uniform distribution with density 
+\begin_inset Formula $1/T.$
+\end_inset
+
+ Seven possible departures are denoted by 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $a_{7}.$
+\end_inset
+
+ Let us consider the depature 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+.
+ The probability of no event during time 
+\begin_inset Formula $\Delta t_{1}$
+\end_inset
+
+ is the Poisson density with 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ being 
+\begin_inset Formula $\frac{k_{1}^{(1)}\rho_{2}+k_{2}^{(1)}\rho_{3}}{\rho}\Delta t_{1}$
+\end_inset
+
+ where 
+\begin_inset Formula $k_{1}^{(1)}$
+\end_inset
+
+ is the number of lineages in population 1 during 
+\begin_inset Formula $\Delta t_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $k_{2}^{(1)}$
+\end_inset
+
+ is the corresponding number in population 2.
+ Let us assume that I know that the total rate 
+\begin_inset Formula $\rho$
+\end_inset
+
+ of recombination events that will occur within 
+\begin_inset Formula $T.$
+\end_inset
+
+ The next event is exponentially distributed with mean 
+\begin_inset Formula $\rho/\left(k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}\right)$
+\end_inset
+
+
+\begin_inset Formula \[
+\frac{\left(k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}\right)}{\rho}e^{-\frac{k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}}{\rho}\Delta t_{2}}.\]
+
+\end_inset
+
+I choose one of two events: departure from population 1 or 2.
+ I multiply it by 
+\begin_inset Formula \[
+\frac{\rho_{2}I_{2}+\rho_{3}I_{3}}{\left(k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}\right)}\]
+
+\end_inset
+
+where 
+\begin_inset Formula $I_{2}$
+\end_inset
+
+ is 1 when the departure is in population 1, or 0 otherwise, and 
+\begin_inset Formula $I_{3}$
+\end_inset
+
+ is 1 when the departure is in population 2 or 3, or 0 otherwise.
+ Because 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+ is in population 2, 
+\begin_inset Formula $I_{2}=0$
+\end_inset
+
+ and 
+\begin_inset Formula $I_{3}=1.$
+\end_inset
+
+ 
+\begin_inset Formula \[
+\frac{\left(k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}\right)}{\rho}e^{-\frac{k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}}{\rho}\Delta t_{2}}\times\frac{\rho_{2}I_{2}+\rho_{3}I_{3}}{\left(k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}\right)}=\frac{\rho_{3}}{\rho}e^{-\frac{k_{1}^{(2)}\rho_{2}+k_{2}^{(2)}\rho_{3}}{\rho}\Delta t_{2}}.\]
+
+\end_inset
+
+Similarly, for the other cases of departures (e.g., 
+\begin_inset Formula $a_{2},\ldots,a_{7}$
+\end_inset
+
+) I should be able to find the probability of recombination events given
+ relevant parameters.
+ Note that the probability of recombination events under this model is reduced
+ to Equation (7) when 
+\begin_inset Formula $\rho_{1}=\rho_{2}=\rho_{3}.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Consider a case where arrival 
+\begin_inset Formula $b$
+\end_inset
+
+ is in population 3.
+ If the arrival is one of two lineages during time interval 
+\begin_inset Formula $\Delta t_{4}$
+\end_inset
+
+ and the departure is 
+\begin_inset Formula $a_{7},$
+\end_inset
+
+ I obtain the following probability of recombination events 
+\begin_inset Formula \[
+\frac{\rho_{3}}{\rho_{3}}\times\frac{\rho_{3}}{\rho}e^{-\frac{\rho_{3}}{\rho}\left(\Delta t_{5}+\Delta t_{4}-\left(b_{2}-\tau\right)\right)}.\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The average number of recombination events is 
+\begin_inset Formula $\frac{\rho}{2}T=\frac{\rho_{1}+\rho_{3}}{4}T_{1}+\frac{\rho_{2}+\rho_{3}}{4}T_{2}+\frac{\rho_{3}}{2}T_{3}$
+\end_inset
+
+ because the number of recombination is Poisson ditributed with 
+\begin_inset Formula $\lambda.$
+\end_inset
+
+ Taking 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ being equal to 
+\begin_inset Formula $\frac{\rho}{2}T$
+\end_inset
+
+ I obtain the total rate of recombination events given by
+\begin_inset Formula \begin{eqnarray*}
+\rho & = & \left(\frac{\rho_{1}+\rho_{3}}{4}T_{1}+\frac{\rho_{2}+\rho_{3}}{4}T_{2}+\frac{\rho_{3}}{2}T_{3}\right)2/T\\
+ & = & \left(\frac{\rho_{1}+\rho_{3}}{2}T_{1}+\frac{\rho_{2}+\rho_{3}}{2}T_{2}+\rho_{3}T_{3}\right)/T\\
+ & = & \left(\frac{\rho_{1}-\rho_{3}}{2}T_{1}+\frac{2\rho_{3}}{2}T_{1}+\frac{\rho_{2}-\rho_{3}}{2}T_{2}+\frac{2\rho_{3}}{2}T_{2}+\rho_{3}T_{3}\right)\\
+ & = & \left(\frac{\rho_{1}-\rho_{3}}{2}T_{1}+\frac{\rho_{2}-\rho_{3}}{2}T_{2}\right)/T+\rho_{3}.\end{eqnarray*}
+
+\end_inset
+
+Note that when 
+\begin_inset Formula $\rho_{1}=\rho_{3}$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{2}=\rho_{3},$
+\end_inset
+
+ the total rate 
+\begin_inset Formula $\rho$
+\end_inset
+
+ becomes 
+\begin_inset Formula $\rho_{3}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Total rate of recombination events
+\end_layout
+
+\begin_layout Standard
+Given 
+\begin_inset Formula $\rho,$
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+ I might be able to simulate data under ClonalOrigin model.
+ I presume that 
+\begin_inset Formula $\rho_{1}/\rho=\alpha_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{2}/\rho=\alpha_{2},$
+\end_inset
+
+ to get 
+\begin_inset Formula $\rho_{1}=\alpha_{1}\rho,$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{2}=\alpha_{2}\rho.$
+\end_inset
+
+ What is 
+\begin_inset Formula $\rho_{3}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $\rho,$
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{1},$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+? A natural question similarly arises: What is the total recombination rate
+ given 
+\begin_inset Formula $\rho_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{2},$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{3}$
+\end_inset
+
+? I assumed that
+\begin_inset Formula \[
+(\rho/2)\times T=\frac{\rho_{1}/2+\rho_{3}/2}{2}T_{1}+\frac{\rho_{2}/2+\rho_{3}/2}{2}T_{2}+(\rho_{3}/2)\times T_{3}\]
+
+\end_inset
+
+that I am not confident about.
+ For a population 1 or 2, two kinds of recombination events are possible:
+ within and between populations.
+ As there are 2 kinds of events possible, I half 
+\begin_inset Formula $(\rho_{1}/2+\rho_{3}/2)\times T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $(\rho_{2}/2+\rho_{3}/2)\times T_{2},$
+\end_inset
+
+ respectively.
+\end_layout
+
+\begin_layout Standard
+I can simulate data under full ARG with 
+\begin_inset Formula $\rho_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{2},$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{3}$
+\end_inset
+
+ given a splitting time.
+ Then, I can construct empirical distribution of 
+\begin_inset Formula $\rho$
+\end_inset
+
+ by assuming that the number of recombination events is distributed as Poisson
+ distribution with 
+\begin_inset Formula $T\times(\rho/2)$
+\end_inset
+
+ where 
+\begin_inset Formula $T$
+\end_inset
+
+ is the total branch length of the clonal tree.
+  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve/noweb/clonalorigin-two-populations.ps
+	lyxscale 70
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Divergence model with ClonalOrigin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

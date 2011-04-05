@@ -1,7 +1,10 @@
-\title{A simulator of ClonalOrigin data analysis.}
+@
+\title{A simulator for ClonalOrigin data analysis}
 \author{Sang Chul Choi\\
-Department of Biological Statistics & Computational Biology,\\ 
+Department of Biological Statistics and Computational Biology,\\ 
 Cornell University, Ithaca, NY 14853, USA}
+
+\maketitle
 
 \tableofcontents
 
@@ -19,19 +22,64 @@ Cornell University, Ithaca, NY 14853, USA}
 
 \section{Class Arg}
 
+\section{PDF Document}
+
 \section{Compilation}
-<<simmlst.compile>>=
+
+<<simmlst.sh>>=
 #!/bin/bash
+
 BASE=`pwd`
-notangle -RCMakeLists.txt $BASE/../simmlst.nw > CMakeLists.txt
-notangle -L -Rsimmlst.cpp $BASE/../simmlst.nw > simmlst.cpp
-notangle -L -Rarg.cpp $BASE/../simmlst.nw > arg.cpp
-notangle -Rarg.h $BASE/../simmlst.nw | cpif arg.h
-notangle -L -Rdata.cpp $BASE/../simmlst.nw > data.cpp
-notangle -Rdata.h $BASE/../simmlst.nw | cpif data.h
-notangle -L -Rpopsize.cpp $BASE/../simmlst.nw > popsize.cpp
-notangle -Rpopsize.h $BASE/../simmlst.nw | cpif popsize.h
-notangle -Rrng.h $BASE/../simmlst.nw | cpif rng.h
+
+function make-pdf-simmlst {
+  noweave -x $BASE/../simmlst.nw > simmlst.tex
+  latex simmlst
+  latex simmlst
+  dvipdf simmlst.dvi
+  open simmlst.pdf
+}
+
+function make-simmlst {
+  notangle -RCMakeLists.txt $BASE/../simmlst.nw > CMakeLists.txt
+  notangle -L -Rsimmlst.cpp $BASE/../simmlst.nw > simmlst.cpp
+  notangle -L -Rarg.cpp $BASE/../simmlst.nw > arg.cpp
+  notangle -Rarg.h $BASE/../simmlst.nw | cpif arg.h
+  notangle -L -Rdata.cpp $BASE/../simmlst.nw > data.cpp
+  notangle -Rdata.h $BASE/../simmlst.nw | cpif data.h
+  notangle -L -Rpopsize.cpp $BASE/../simmlst.nw > popsize.cpp
+  notangle -Rpopsize.h $BASE/../simmlst.nw | cpif popsize.h
+  notangle -Rrng.h $BASE/../simmlst.nw | cpif rng.h
+}
+
+function c1-sim {
+  notangle -Rcalc.sh $BASE/../simmlst.nw > calc.sh
+  notangle -Rc1-sim.sh $BASE/../simmlst.nw | bash
+}
+
+PS3="Select what you want to do with the simmlst: "
+CHOICES=( make-pdf-simmlst make-simmlst c1-sim )
+select CHOICE in ${CHOICES[@]}; do 
+  if [ "$CHOICE" == "" ];  then
+    echo -e "You need to enter something\n"
+    continue
+  elif [ "$CHOICE" == "make-pdf-simmlst" ];  then
+    make-pdf-simmlst 
+    break
+  elif [ "$CHOICE" == "make-simmlst" ];  then
+    make-simmlst 
+    echo -e "Run the following commands"
+    echo -e "\$ cmake ."
+    echo -e "\$ make"
+    break
+  elif [ "$CHOICE" == "c1-sim" ];  then
+    c1-sim
+    break
+  else
+    echo -e "You need to enter something\n"
+    continue
+  fi
+done
+
 
 <<CMakeLists.txt>>=
 cmake_minimum_required (VERSION 2.6)
@@ -58,6 +106,178 @@ copyright notice.
  * 
  */
 
+@
+\section{Simulation studies}
+The average length of 415 blocks was 3085. Watterson's estimate of $\theta$ was
+105815. 
+I applied the first stage of ClonalOrigin's MCMC to each of the alignment
+blocks in order to estimate mutation rate, recombination rate, and recombination
+tract length.  The median value for the recombination tract length $\delta$ was
+estimated to be
+1425 bp.  The median value for the per-site mutation rate $\theta_s/2$ was
+0.0542.  The median value for the per-site recombination rate $\rho_s/2$ was
+0.00521.  The median inferred value of $\rho/\theta$ was 0.096, which was
+roughly equal to the corresponding value estimated by ClonalFrame. 
+I proceeded to the second stage of ClonalOrigin's MCMC with values of $\delta$,
+$\theta_s$, $\rho_s$ fixed to the estimated median values.
+
+\subsection{$\theta$, $\rho$, $\delta$}
+I wish to test if the estimates are within the range for which ClonalOrigin is
+able to estimate with some precision. I use a smaller number of blocks for
+simulation purposes. I would keep other parameter values: $\theta$, $\rho$,
+$\delta$, and the average length of blocks. Let's try to use 5 blocks of 3,000
+base pairs. I use 10 number of replicates.
+Here, I wish to check if ClonalOrigin recover the true values of parameters.
+
+The value of $\theta$ is $15000 \times 0.0542 \times 2 = 1626$.
+The value of $\rho$ is $15000 \times 0.00521 \times 2 = 156.3$
+The value of $\delta$ is 1425. 
+I use 5 blocks of 3,000 base pairs: i.e., 3000,3000,3000,3000,3000.
+
+The clonal tree will be given to Clonal Origin.
+
+I wish to just check the estimated values of three parameters. I then have to
+use the cluster to run Clonal Origin's for the 10 sets of simulated data. I
+would have to check the convergence of the runs.  The parameters that I could
+change is the average length of blocks and the number of blocks. I would have to
+run a few sets of simulations by changing the number of blocks and their average
+lengths. The total length of alignments was about 1.2 mega base pairs. 
+
+Let us try to use the similar setup that Didelot2010 used. I use a single block
+of length being 10,000 base pairs. 
+The value of $\theta$ is $10000 \times 0.0542 \times 2 = 1084$.
+The value of $\rho$ is $15000 \times 0.00521 \times 2 = 104.2$
+The value of $\delta$ is 1425. 
+I use a  block of 10,000 base pairs: i.e., 10000.
+
+<<c1-sim true>>=
+theta=1084
+rho=104.2
+delta=1425
+blocks=10000
+gmax=8
+
+@
+\subsection{Boilerplate}
+
+<<sim bash>>=
+#!/bin/bash
+
+<<calc.sh>>=
+<<sim bash>>
+echo "scale=3; $1" | /usr/bin/bc ;exit
+<<sim calc>>=
+CALC=./calc.sh
+<<sim simmlst>>=
+SIMMLST=./simmlst
+
+<<sim seq>>=
+if [[ "$OSTYPE" =~ "linux" ]]; then
+  SEQ=seq
+elif [[ "$OSTYPE" =~ "darwin" ]]; then
+  SEQ=jot
+fi
+
+<<c1 set input file>>=
+fname=c1_$g
+
+<<c1 run simmlst>>=
+$SIMMLST -T $theta \
+         -R $rho \
+         -D $delta \
+         -B $blocks \
+         -s $RANDOM \
+         -o c1/input/$fname.fa \
+         -c c1/input/$fname.tre \
+         -l c1/input/$fname.local
+
+<<c1-sim.sh>>=
+<<sim bash>>
+<<sim calc>>
+<<sim simmlst>>
+<<sim seq>>
+<<c1-sim true>>
+rm -rf c1
+mkdir -p c1/input
+
+RANDOM=1
+for g in `$SEQ $gmax`
+do
+  <<c1 set input file>>
+  <<c1 run simmlst>>
+done
+
+@
+\subsection{$\mathcal{R}$: recombinations}
+I studied recombination events in bacteria. I called the number recombinant edge
+types that affect a site recombination intensity of a site. 
+The meaning of recombination intensity may be clarified by using simulation
+studies. The intensity of recombination at a site allows for measuring
+degrees of recombination along a genome.  I also counted total number of
+recombinant edges of a particular source and destination species tree branches.
+I just count edges but not considering sites along the genome.  
+
+The recombination intensity could have been measured for combinations of source
+and destination branches of a species tree. This is something that Didelot2010
+plotted. I may reconsider their approach. I think that I did, but I am not sure
+if I did it correctly or appropriately. 
+
+These measures of recombination intensity, recombinant edge counts,
+recombination intensity for different edge types should (because Didelot2010
+showed something similar) and could (although Didelot2010 showed some
+simulations but I do not know if the measures are exactly the same) be shown to
+be ones that I intended using simulation studies. 
+
+I am wondering if ``differential'' recombination can be studied.  I consider two
+kinds of recombination events depending on whether donor and recipient species
+or populations are in the same or different populations.  A simulation can be
+done by having two or three recombination rates, and a splitting time. Consider
+a two population that diverged at $T$ back in the time.
+Let us have 2 pairs of individual genomes where each of pairs is in the same
+population. 
+
+The rate of coalescent events is 1, and the rate of recombination
+events $\rho/2.$ The waiting time of a next event is exponentially
+distributed with mean
+$1/(\frac{k(k-1)}{2}+k\frac{\rho}{2})=2/(k\times(k-1+\rho)).$
+The next event time is sampled using inverse transform sampling:
+$u\sim\mathrm{uniform}(0,1)$
+and $t=-\frac{2}{k\times(k-1+\rho)}\ln(u).$ I choose either coalescent
+or recombination with their relative rates. Now, consider two populations
+and two recombination rates. While coalescence between two individuals
+in the same population is allowed, coalescence between one in a population
+and another in a different population is not. Recombination events
+involve a donor and a recipient population. When a recombination event
+occurs, the donor population can be the same as that of the recipient.
+The recombination with a population happen with rate $\rho.$ When
+the donor population is different from the recipient one, it happens
+with rate $\rho_{d}.$ Two kinds of recombination events between different
+population can be considered depending on the combination of a donor
+and a recipient. Let us call $\rho_{1}$ the recombination rate with
+a recipient population being 1. Similarly, $\rho_{2}$ is defined.
+The two rates $\rho_{1}$ and $\rho_{2}$ of recombination between
+different donor and recipient populations can be different, which
+is the case of interest in the evolution of \emph{Streptococcus pyogenes}
+and \emph{S. dysgalactiae} spp.\ \emph{equisimilis}. The two populations
+are assumed to speciate at time $T$ back in the past. Ancestral genetic
+material that {}``survived'' until the speciation event time can
+coalesce with one that used to be in a separate population. This is
+an interesting situation because recombination events can involve
+migration events. 
+
+A simulation could be achieved using the above procedure with three
+more parameters: $\rho_{1},$ $\rho_{2},$ and $T.$ The three populations
+can have different population sizes, which would increase parameters
+by 2. Though we might not able to make inference of these parameters,
+ClonalOrigin might help to make inference. Or at least it could infer
+the directional gene flow.
+
+I am in a quandary. I do not know exactly what I should do. At best I know that
+I have to show that ClonalOrigin is working fine under the setup of parameters
+that ClonalOrigin inferred. It will take time, though.
+
+@
+\section{SimMLST command line options}
 <<simple option>>=
 enum { OPT_HELP,
        OPT_NUM_ISOLATES,
@@ -65,6 +285,7 @@ enum { OPT_HELP,
        OPT_RHO,
        OPT_DELTA,
        OPT_LENGTH_FRAGMENT,
+       OPT_RANDOM,
        OPT_OUTPUT_FILE,
        OPT_CLONALTREE_FILE,
        OPT_LOCALTREE_FILE,
@@ -83,6 +304,8 @@ CSimpleOpt::SOption g_rgOptions[] = {
       "-D", SO_REQ_SEP }, // "-D ARG"
     { OPT_LENGTH_FRAGMENT, 
       "-B", SO_REQ_SEP }, // "-B ARG"
+    { OPT_RANDOM, 
+      "-s", SO_REQ_SEP }, // "-s ARG"
     { OPT_OUTPUT_FILE, 
       "-o", SO_REQ_SEP }, // "-o ARG"
     { OPT_CLONALTREE_FILE, 
@@ -102,7 +325,7 @@ CSimpleOpt::SOption g_rgOptions[] = {
 
 <<simple option usage>>=
 void ShowUsage() {
-  printf ("Usage: simmlst [-N num] [-T theta] [-R rho] [-D delta] [-B num,num,...]\n");
+  printf ("Usage: simmlst [-N num] [-T theta] [-R rho] [-D delta] [-B num,num,...] [-s num]\n");
 }
 
 <<simmlst.cpp>>=
@@ -124,6 +347,7 @@ main (int argc, char * argv[])
   double rho = 100.0;
   double delta = 500; 
   string blockArg("400,400,400");
+  int randomSeed = -1;
   const char * dataFilename = "1.fa";
   const char * localtreeFilename = "1lt.tre";
   const char * globaltreeFilename = "1gt.tre";
@@ -154,6 +378,9 @@ main (int argc, char * argv[])
         case OPT_LENGTH_FRAGMENT:
           blockArg = args.OptionArg();
           break;
+        case OPT_RANDOM:
+          randomSeed = strtol (args.OptionArg(), NULL, 10);
+          break;
         case OPT_OUTPUT_FILE:
           dataFilename = args.OptionArg();
           break;
@@ -178,6 +405,7 @@ main (int argc, char * argv[])
     }
   }
 
+/*
   printf ("n = %d\n", n);
   printf ("theta = %lf\n", theta);
   printf ("rho = %lf\n", rho);
@@ -188,9 +416,15 @@ main (int argc, char * argv[])
   printf ("global tree file = %s\n", globaltreeFilename);
   printf ("dot file = %s\n", dotFilename);
   printf ("anc = %d\n", includeAncestralMaterial); 
-  return 0;
+*/
 
-  makerng();
+  if (randomSeed == -1) {
+    makerng(); 
+  } else {
+    rng=gsl_rng_alloc(gsl_rng_default);
+    gsl_rng_set(rng, randomSeed);
+  }
+
   vector<int> blocks=Arg::makeBlocks(blockArg);
   PopSize * popsize=NULL;
 
@@ -876,3 +1110,4 @@ void makerng() {
 
 
 #endif // __RNG_H__
+

@@ -11,34 +11,27 @@ NOWEBDIR=$BASEDIR/noweb
 SIMMLSTNW=$NOWEBDIR/simmlst.nw
 SIMMLSTTEX=$NOWEBDIR/output/simmlst.tex
 SIMMLSTDVI=$NOWEBDIR/output/simmlst.dvi
-SIMMLSTCOMPILE=$NOWEBDIR/output/simmlst.compile
+SIMMLSTCOMPILE=$NOWEBDIR/output/simmlst.compile.sh
+SIMMLSTLATEX=$NOWEBDIR/output/simmlst.latex.sh
+SIMMLSTSH=$NOWEBDIR/output/simmlst.sh
 
-function make-pdf-simmlst {
-  noweave -x $SIMMLSTNW > $SIMMLSTTEX
-  latex $SIMMLSTTEX
-  latex $SIMMLSTTEX
-  mv simmlst.* $NOWEBDIR/output/
-  open $SIMMLSTDVI
+function simmlst {
+  notangle -Rsimmlst.sh $SIMMLSTNW > $SIMMLSTSH
 }
 
-function make-simmlst {
-  notangle -Rsimmlst.compile $SIMMLSTNW > $SIMMLSTCOMPILE
-}
+
 
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with the noweb of mauve-analysis: "
-CHOICES=( make-pdf-simmlst make-simmlst )
+CHOICES=( simmlst )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
     continue
-  elif [ "$CHOICE" == "make-pdf-simmlst" ];  then
-    make-pdf-simmlst 
-    break
-  elif [ "$CHOICE" == "make-simmlst" ];  then
-    make-simmlst 
+  elif [ "$CHOICE" == "simmlst" ];  then
+    simmlst
     break
   else
     echo -e "You need to enter something\n"

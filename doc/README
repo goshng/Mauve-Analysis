@@ -1,7 +1,7 @@
 Inferring genomic flow between _Streptococcus pyogenes_ and _S. dysgalactiae_ subspecies _equisimilis_ using whole genomes
 ==========================================================================================================================
-:Author: Sang_Chul_Choi,_Ilan_Gronau,_and_Adam Siepel
-:Author Initials: SCC & IG & AS
+:Author: Sang_Chul_Choi
+:Author Initials: SCC
 
 v1.0, January 2011:
 Written for version 1 release.
@@ -12,8 +12,6 @@ Rewritten for version 2 release.
 Authors
 -------
 - Sang Chul Choi <goshng@gmail.edu>
-- Ilan Gronau <ig67@cornell.edu>
-- Adam Siepel <acs4@cornell.edu>
 
 
 Contacts
