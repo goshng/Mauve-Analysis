@@ -1,3 +1,8 @@
+/** \file weakargsim.cpp
+ * The main source file for simulating under ClonalOrigin model. 
+ * This is the main source file for the project of simulating data under
+ * ClonalOrigin model. 
+ */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -12,6 +17,10 @@
 #include "mpiutils.h"
 #include "weakarg.h"
 #include "wargxml.h"
+
+#include <cstdlib>
+#include "SimpleOpt.h"
+
 
 using namespace std;
 namespace weakarg
@@ -52,41 +61,25 @@ using namespace weakarg;
 
 static const char * help=
     "\
-    Usage: weakarg [OPTIONS] treefile datafile outputfile\n\
+    Usage: weakargsim [OPTIONS] treefile datafile outputfile\n\
     \n\
     Options:\n\
     -w NUM      	Sets the number of pre burn-in iterations (default is 100000)\n\
-    -x NUM      	Sets the number of burn-in iterations (default is 100000)\n\
-    -y NUM      	Sets the number of iterations after burn-in (default is 100000)\n\
-    -z NUM      	Sets the number of iterations between samples (default is 100)\n\
-    -T NUM      	Sets the value of theta. Use sNUM instead of NUM for per-site\n\
-    -R NUM      	Sets the value of rho. Use sNUM instead of NUM for per-site\n\
-    -D NUM      	Sets the value of delta\n\
-    -s NUM      	Use given seed to initiate random number generator\n\
-    -S NUM,SEED 	Run on a subset of NUM regions determined by seed SEED\n\
-       NUM/NUM/../NUM 	Run on a specified region(s) given by each NUM.\n\
-    -r NUM		Perform r tempered steps between topological updates (default:0)\n\
-    -t NUM		Tempered at \"temperature\" t for topological updates (default:1.0)\n\
-    -U			Start from UPGMA tree, rather than the default random tree.\n\
-    -G NUM		Greedily compute the \"best fit\" tree, given the recombination\n\
-			observed on the current tree.  If NUM is negative and a previous\n\
-			run is provided, the tree is calculated from all observed values.\n\
-			If NUM is positive, a \"greedy move\" is performed with weight\n\
-			NUM (see -a).  Note that this is NOT an MCMC move and causes bias.\n\
-    -a NUM,...,NUM	Set the ELEVEN (real valued) move weightings to the given vector,\n\
-    with weightings separated by commas (NOT SPACES).  \n\
-    The weightings need not sum to 1, but must be in the following order:\n\
-    	MoveRho   (ignored if not needed)\n\
-    	MoveDelta (ignored if not needed)\n\
-    	MoveTheta (ignored if not needed)\n\
-    	MoveRemEdge\n\
-    	MoveAddEdge\n\
-    	MoveSiteChange\n\
-    	MoveTimeChange\n\
-    	MoveEdgeChange\n\
-    	MoveAgeClonal\n\
-    	MoveScaleTree\n\
-    	MoveRegraftClonal\n\
+    -N NUM        Sets the number of isolates (the default is 100)\n\
+    -T NUM        Sets the value of theta, the scaled mutation rate (the default is 100)\n\
+    -R NUM        Sets the value of rho, the scaled recombination rate (the default is 100)\n\
+    -D NUM        Sets the value of delta, the mean size of imports (the default is 500)\n\
+    -B NUM,...    Sets the number and length of the fragments (the default is 400,400,400,400,400,400,400)\n\
+    -C T,N        Sets the population size constant and equal to N before time T (cf. below)\n\
+    -E T,R        Sets the population size exponentially growing with rate R before time T (cf. below)\n\
+    -s NUM        Use the given seed to initiate random number generator\n\ 
+                  (by default the seed is generated from /dev/urandom on\n\
+                  Linux systems and from the clock on Windows systems)\n\
+    -o FILE       Export the data to the given file in XMFA format (cf. below)\n\
+    -c FILE       Export the clonal genealogy to the given file in the Newick format (cf. below)\n\
+    -l FILE       Export the local trees to the given file in the seq-gen format (cf. below)\n\
+    -d FILE       Export the graph of ancestry as a DOT graph to the given file (cf. below)\n\
+    -a            Include the ancestral material in the DOT graph (cf. below)\n\
     -i NUM,...,NUM	Set the SIX parameters for creating random Recombination Trees\n\
 			under the inference model.  The parameters are:\n\
     	N	(integer)	The number of sequences in the sample (default 10)\n\
@@ -95,11 +88,62 @@ static const char * help=
     	delta	(real)		The average length of imports (default 500.0)\n\
     	theta	(real)		The mutation rate NOT per site (default 100.0)\n\
     	rho	(real)		The recombination rate NOT per site (default 50.0)\n\
-    -f			Forbid topology changes, (allowing updates of coalescence times).\n\
     -v          	Verbose mode\n\
     -h          	This help message\n\
     -V          	Print Version info\n\
     ";
+
+/**
+ * Command line options.
+ * A header file SimpleOpt.h is used to parse the command line of the program.
+ */
+enum { OPT_HELP,
+       OPT_NUM_ISOLATES,
+       OPT_THETA,
+       OPT_RHO,
+       OPT_DELTA,
+       OPT_LENGTH_FRAGMENT,
+       OPT_RANDOM,
+       OPT_OUTPUT_FILE,
+       OPT_CLONALTREE_FILE,
+       OPT_LOCALTREE_FILE,
+       //OPT_DOT_FILE,
+       OPT_INCLUDE_ANCESTRAL_MATERIAL };
+
+/**
+ * Command line options.
+ * A header file SimpleOpt.h is used to parse the command line of the program.
+ */
+CSimpleOpt::SOption g_rgOptions[] = {
+    // ID       TEXT          TYPE
+    { OPT_NUM_ISOLATES, 
+      "-N", SO_REQ_SEP }, // "-N ARG"
+    { OPT_THETA,
+      "-T", SO_REQ_SEP }, // "-T ARG"
+    { OPT_RHO,
+      "-R", SO_REQ_SEP }, // "-R ARG"
+    { OPT_DELTA,
+      "-D", SO_REQ_SEP }, // "-D ARG"
+    { OPT_LENGTH_FRAGMENT, 
+      "-B", SO_REQ_SEP }, // "-B ARG"
+    { OPT_RANDOM, 
+      "-s", SO_REQ_SEP }, // "-s ARG"
+    { OPT_OUTPUT_FILE, 
+      "-o", SO_REQ_SEP }, // "-o ARG"
+    { OPT_CLONALTREE_FILE, 
+      "-c", SO_REQ_SEP }, // "-c ARG"
+    { OPT_LOCALTREE_FILE, 
+      "-l", SO_REQ_SEP }, // "-l ARG"
+    //{ OPT_DOT_FILE, 
+      //"-d", SO_REQ_SEP }, // "-d ARG"
+    { OPT_INCLUDE_ANCESTRAL_MATERIAL, 
+      "-a", SO_NONE },    // "-a"
+    { OPT_HELP, 
+      "-h", SO_NONE },    // "-h"
+    { OPT_HELP, 
+      "--help", SO_NONE },// "--help"
+    SO_END_OF_OPTIONS     // END
+};
 
 int main(int argc, char *argv[])
 {
@@ -127,6 +171,71 @@ int main(int argc, char *argv[])
     unsigned long seed=0;
     bool readparams=false;
     bool setregions=false;
+
+  int n = 5; 
+  double theta = 100.0;
+  double rho = 100.0;
+  double delta = 500; 
+  string blockArg("400,400,400");
+  int randomSeed = -1;
+  const char * dataFilename = "1.fa";
+  const char * localtreeFilename = "1lt.tre";
+  const char * globaltreeFilename = "1gt.tre";
+  const char * dotFilename = "1.dot";
+  bool includeAncestralMaterial = false; 
+
+  CSimpleOpt args(argc, argv, g_rgOptions);
+  while (args.Next()) {
+    if (args.LastError() == SO_SUCCESS) {
+      switch (args.OptionId())
+      {
+        case OPT_HELP:
+          ShowUsage();
+          return 0;
+          break;
+        case OPT_NUM_ISOLATES:
+          simparN = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_THETA:
+          simpartheta = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_RHO:
+          simparrho = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_DELTA:
+          simpardelta = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_LENGTH_FRAGMENT:
+          blockArg = args.OptionArg();
+          break;
+        case OPT_RANDOM:
+          randomSeed = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_OUTPUT_FILE:
+          dataFilename = args.OptionArg();
+          break;
+        case OPT_CLONALTREE_FILE:
+          globaltreeFilename = args.OptionArg();
+          break;
+        case OPT_LOCALTREE_FILE:
+          localtreeFilename = args.OptionArg();
+          break;
+        case OPT_DOT_FILE:
+          dotFilename = args.OptionArg();
+          break;
+        case OPT_INCLUDE_ANCESTRAL_MATERIAL:
+          includeAncestralMaterial = true;
+          break;
+      }
+    }
+    else {
+      // handle error (see the error codes - enum ESOError)
+      printf ("Invalid argument: %s\n", args.OptionText());
+      return 1;
+    }
+  }
+
+
     while ((c = getopt (argc, argv, "w:x:y:z:s:va:T:R:D:L:C:r:t:i:S:G:fUhV")) != -1)
         switch (c)
         {
@@ -373,6 +482,140 @@ int main(int argc, char *argv[])
     endmpi();
     return 0;
 }
+
+void ShowUsage() {
+  cout << help << endl;
+}
+
+int
+main (int argc, char * argv[]) 
+{
+  int n = 5; 
+  double theta = 100.0;
+  double rho = 100.0;
+  double delta = 500; 
+  string blockArg("400,400,400");
+  int randomSeed = -1;
+  const char * dataFilename = "1.fa";
+  const char * localtreeFilename = "1lt.tre";
+  const char * globaltreeFilename = "1gt.tre";
+  const char * dotFilename = "1.dot";
+  bool includeAncestralMaterial = false; 
+
+  CSimpleOpt args(argc, argv, g_rgOptions);
+  while (args.Next()) {
+    if (args.LastError() == SO_SUCCESS) {
+      switch (args.OptionId())
+      {
+        case OPT_HELP:
+          ShowUsage();
+          return 0;
+          break;
+        case OPT_NUM_ISOLATES:
+          n = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_THETA:
+          theta = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_RHO:
+          rho = strtod (args.OptionArg(), NULL);
+          break;
+        case OPT_DELTA:
+          delta = strtol (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_LENGTH_FRAGMENT:
+          blockArg = args.OptionArg();
+          break;
+        case OPT_RANDOM:
+          seed = strtoul (args.OptionArg(), NULL, 10);
+          break;
+        case OPT_OUTPUT_FILE:
+          opt().outfile = args.OptionArg();
+          break;
+        case OPT_CLONALTREE_FILE:
+          opt().treefile = args.OptionArg();
+          break;
+        case OPT_LOCALTREE_FILE:
+          opt().localtreefile = args.OptionArg();
+          break;
+        //case OPT_DOT_FILE:
+          //dotFilename = args.OptionArg();
+          //break;
+        case OPT_INCLUDE_ANCESTRAL_MATERIAL:
+          includeAncestralMaterial = true;
+          break;
+      }
+    }
+    else {
+      // handle error (see the error codes - enum ESOError)
+      printf ("Invalid argument: %s\n", args.OptionText());
+      return 1;
+    }
+  }
+
+/*
+  printf ("n = %d\n", n);
+  printf ("theta = %lf\n", theta);
+  printf ("rho = %lf\n", rho);
+  printf ("delta = %lf\n", delta);
+  printf ("block = %s\n", blockArg.c_str());
+  printf ("data file = %s\n", dataFilename);
+  printf ("local tree file = %s\n", localtreeFilename);
+  printf ("global tree file = %s\n", globaltreeFilename);
+  printf ("dot file = %s\n", dotFilename);
+  printf ("anc = %d\n", includeAncestralMaterial); 
+*/
+
+  if (randomSeed == -1) {
+    makerng(); 
+  } else {
+    rng=gsl_rng_alloc(gsl_rng_default);
+    gsl_rng_set(rng, randomSeed);
+  }
+
+  vector<int> blocks=Arg::makeBlocks(blockArg);
+  PopSize * popsize=NULL;
+
+  //Interpret population size model
+
+  //if (popsize!=NULL) popsize->show();
+  //Build the ARG
+  Arg * arg=new Arg(n,rho,delta,blocks,popsize);
+  //Build the data and export it
+  if (1) {
+      Data * data=arg->drawData(theta);
+      ofstream dat;
+      dat.open(dataFilename);
+      data->output(&dat);
+      dat.close();
+      delete(data);
+    }
+  //Extract the local trees and export them
+  if (1) {
+      ofstream lf;
+      lf.open(localtreeFilename);
+      arg->outputLOCAL(&lf);
+      lf.close();
+    }
+  //Extract the clonal genealogy and export it
+  if (1) {
+      string truth=arg->extractCG();
+      ofstream tru;
+      tru.open(globaltreeFilename);
+      tru<<truth<<endl;
+      tru.close();
+    }
+  //Export to DOT format
+  if (1) {
+      ofstream dot;
+      dot.open(dotFilename);
+      arg->outputDOT(&dot,true);
+      dot.close();
+    }
+  delete(arg);
+  cout << "Simulate!\n";
+}
+///////////////////////////////////////////////////////////////////////
 
 
 namespace weakarg

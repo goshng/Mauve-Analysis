@@ -17,14 +17,19 @@
 
 \graphics default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -179,7 +184,7 @@ et al.
  (2010) is the probability of recombination events given species tree, recombina
 tion rate, and recombinant tract length:
 \begin_inset Formula \begin{eqnarray*}
-\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(\mathcal{R}|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
  & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
 
 \end_inset
@@ -577,7 +582,1277 @@ I can simulate data under full ARG with
 \end_inset
 
  is the total branch length of the clonal tree.
-  
+ 
+\end_layout
+
+\begin_layout Subsection
+Coalescent and migration events
+\end_layout
+
+\begin_layout Standard
+I have realized that the simulation under full ancestral recombination graph
+ and that of ClonalOrigin model were different.
+ The simulation under ClonalOrigin model involves three parameters: splitting
+ time 
+\begin_inset Formula $\tau,$
+\end_inset
+
+ rate of coalescent between an individual from population 1 as a donor and
+ one from population 2 as its recipient 
+\begin_inset Formula $\alpha_{1},$
+\end_inset
+
+ and rate of coalescent for the reverse direction or population 2 as a donor
+ 
+\begin_inset Formula $\alpha_{2}.$
+\end_inset
+
+ The two rates of coalescent between populations implicitly involve migration
+ of individuals between the populations.
+ 
+\end_layout
+
+\begin_layout Standard
+When considering a simulation under the full ancestral recombination graph,
+ I thought that I would have three types of recombinations events, and according
+ly their rates: recombination within a population, and two different recombinati
+on rates between populations.
+ There would be four more parameters inculding population splitting time.
+ The total rate of recombination is a function of the four parameters.
+ In this case, I considered that migration events were intertwined with
+ recombination.
+ But, I soon realized that this caused conflict between the two approaches
+ of simulation under the full ancestral recombination graph and under the
+ ClonalOrigin model: i.e., the number of parameters were different.
+ I think that multiple types of coalescent events can be considered: Doing
+ so I could have the two simulatoin approaches under different models could
+ be matched.
+\end_layout
+
+\begin_layout Standard
+Or, I might consider migration events explicitly under the full ancestral
+ recombination graph.
+ Only individuals within a population can coalesce.
+ This seems complicated on top of the complication incurred above.
+ It seems to be worth consideration.
+ In this case, the ClonalOrigin model is another approximation for the full
+ ancestral recombination graph with migration between populations.
+ I still keep the recombination rate constant along genomes and during their
+ evolution.
+ 
+\end_layout
+
+\begin_layout Subsection
+MCMC moves
+\end_layout
+
+\begin_layout Standard
+Didelot 
+\emph on
+et al.
+
+\emph default
+ (2010) describe details of the MCMC moves in its appendix.
+ I would consider a naive dicretization of splitting event time: i.e., the
+ splitting time would be fixed at one of intervals in which splitting time
+ would be expected to exist.
+ I think that considering moves of splitting time would not allow the independen
+ce assumption among blocks.
+ Given a splitting time several moves need to be considered.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+add
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+remove
+\begin_inset Quotes erd
+\end_inset
+
+ of a recombinant edge,
+\end_layout
+
+\begin_layout Enumerate
+move of start and end points of a recombination event,
+\end_layout
+
+\begin_layout Enumerate
+move of departure and arrival points of a recombination event,
+\end_layout
+
+\begin_layout Enumerate
+move of 
+\begin_inset Formula $\theta$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+move of 
+\begin_inset Formula $\rho$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+move of 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, and
+\end_layout
+
+\begin_layout Enumerate
+move of 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Some of the moves would be similar to those given in the appendix of the
+ paper.
+ Others can be new: e.g., 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}.$
+\end_inset
+
+ When I consider these moves and their Metropolis-Hastings acceptance probabilit
+y, I hope that several key formulae are clearer to understand.
+\end_layout
+
+\begin_layout Standard
+The Equation (1) is the probability of the clonal frame:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{T})=\prod_{i=2}^{N}\exp\left(-{i \choose 2}t_{i}\right).\]
+
+\end_inset
+
+This equation assumes a coalescent prior for 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ (Kingman 1982).
+ I instead consider 
+\begin_inset Formula $\mathbf{P}(\mathcal{T}|\tau,\alpha_{1},\alpha_{2})$
+\end_inset
+
+ where 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is a given splitting event time, and 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+ are coalescent rates between populations with respect to the rate of coalescent
+ within population, or 1.
+ Lineages between populations can coalesce with much less rates than those
+ within a population.
+ In the ancestral population lineages can coalescent with 1.
+ 
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{T}|\tau,\alpha_{1},\alpha_{2})=\prod_{i=2}^{N}\left(I_{e_{i}\in E_{1}}+I_{e_{i}\in E_{2}}+I_{e_{i}\in E_{2\rightarrow1}}\alpha_{1}+I_{e_{i}\in E_{1\rightarrow2}}\alpha_{2}\right)\exp\left(-\left({k_{1,i} \choose 2}+{k_{2,i} \choose 2}+k_{1,i}k_{2,i}(\alpha_{1}+\alpha_{2})\right)t_{i}\right).\]
+
+\end_inset
+
+The total number of recombination events is distributed as Poisson with
+ rate being 
+\begin_inset Formula $\rho T/2:$
+\end_inset
+
+
+\begin_inset Formula \[
+R|\mathcal{T},\rho\sim\mathrm{Poisson}\left(\frac{\rho\mathcal{T}}{2}\right)\]
+
+\end_inset
+
+which is independent of 
+\begin_inset Formula $\alpha_{1},$
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+.
+ The recombination happens at a constant rate on the clonal frame.
+ The arrival points are independent and identically distributed uniformly
+ on the clonal frame; i.e., 
+\begin_inset Formula \[
+\mathbf{P}(b_{i}|\mathcal{T})=\frac{1}{T}.\]
+
+\end_inset
+
+This is also true for the population divergence model.
+ Given an arrival point, the recombinant edge reconnects with the clonal
+ frame at two rates (1 and 
+\begin_inset Formula $\alpha_{j}$
+\end_inset
+
+) during time when two populations exist, or at a constant rate during time
+ when their ancestor exists.
+ I consider several cases of the arrival and departure points of recombinant
+ edge 
+\begin_inset Formula $r.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 1, and the departure
+ point is in population 1 or 2.
+\begin_inset Formula \[
+\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)=\left(I_{e_{n_{b}}\in E_{1}}+I_{e_{n_{b}}\in E_{1\rightarrow2}}\alpha_{2}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 2, and the departure
+ point is in population 1 or 2.
+\begin_inset Formula \[
+\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in2)=\left(I_{e_{n_{b}}\in E_{2}}+I_{e_{n_{b}}\in E_{2\rightarrow1}}\alpha_{1}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{2,i}+k_{1,i}\alpha_{1}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 1, and the departure
+ point is in population 3.
+\begin_inset Formula \[
+\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in1)=\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{2,i}+k_{1,i}\alpha_{1}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 3, and the departure
+ point is in population 3.
+\begin_inset Formula \[
+\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,A(b_{r})\in3)=\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)=\exp\left(-L(a_{r},b_{r})\right).\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $n_{a^{'}}$
+\end_inset
+
+ is the index for a time duration between the time at the arrival point
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ and time at the next coalescent event further in the past.
+ 
+\begin_inset Formula $n_{a}$
+\end_inset
+
+ is the index for a time duration between the time at the top of the species
+ branch 
+\begin_inset Formula $a$
+\end_inset
+
+ and the time at the arrival point 
+\begin_inset Formula $a.$
+\end_inset
+
+ Note that the top of an edge 
+\begin_inset Formula $a$
+\end_inset
+
+ is nearer the present time than the bottom of the edge.
+ The probability of start position of a recombinant tract is given by Equation
+ (5)
+\begin_inset Formula \[
+\mathbf{P}(x_{r}=s|\delta)=\begin{cases}
+\frac{\delta}{B\delta+L-B} & \mbox{if \ensuremath{s}is at the beginning of a block}\\
+\frac{1}{B\delta+L-B} & \mbox{otherwise}\end{cases}.\]
+
+\end_inset
+
+The probability of end position is given by Equation (6)
+\begin_inset Formula \[
+P(y_{r}=s|x_{r},\delta)=\begin{cases}
+\delta^{-1}(1-\delta^{-1})^{s-x_{r}} & \mbox{if \ensuremath{s} is before the end of the block}\\
+(1-\delta^{-1})^{s-x_{r}+1} & \mbox{if \ensuremath{s} is the end of the block}\end{cases}\]
+
+\end_inset
+
+(Didelot and Falush 2007).
+ The probability of recombination events given pertinent parameters is given
+ by Equation (7)
+\begin_inset Formula \begin{eqnarray*}
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
+ & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
+
+\end_inset
+
+This is the product of three terms: the probability of number of recombination
+ events, all possible orders of the events, and the product of probabilities
+ of recombination events.
+ I find
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta)=\mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,A(b_{i}))\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The posterior distribution is specified as
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{D},\mathcal{T},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta)\propto\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta)\mathbf{P}(\mathcal{D}|\mathcal{T},\mathcal{R},\theta).\]
+
+\end_inset
+
+The likelihood (Equation 9) is decomposed as
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{D}|\mathcal{T},\mathcal{R},\theta)=\prod_{s=1}^{L}\mathbf{P}(\mathcal{D}_{s}|T_{s},\theta).\]
+
+\end_inset
+
+The distribution of recombination events (Equation 10) can also be decomposed
+ as
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{D},\mathcal{T},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta)=\prod_{b=1}^{B}\mathbf{P}(\mathcal{R}_{b}|\mathcal{D}_{b},\mathcal{T},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta)\]
+
+\end_inset
+
+by assuming that the population splitting time is given at the fixed value
+ of 
+\begin_inset Formula $\tau.$
+\end_inset
+
+ Is this true? Can we safely assume the independence of blocks? The posterior
+ distribution of my interest is
+\begin_inset Formula \begin{eqnarray*}
+\mathbf{P}(\mathcal{R},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta|\mathcal{D},\mathcal{T}) & \propto & \mathbf{P}(\mathcal{R}|\mathcal{D},\mathcal{T},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta)\mathbf{P}(\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta|\mathcal{D},\mathcal{T})\\
+ & = & \mathbf{P}(\mathcal{R}|\mathcal{D},\mathcal{T},\tau,\alpha_{1},\alpha_{2},\theta,\rho,\delta)\mathbf{P}(\tau)\mathbf{P}(\alpha_{1})\mathbf{P}(\alpha_{2})\mathbf{P}(\theta)\mathbf{P}(\rho)\mathbf{P}(\delta).\end{eqnarray*}
+
+\end_inset
+
+I do not think that I can assume the independence among blocks.
+ I do think that I can fix the splitting time, and infer parameters other
+ than the splitting time for each block by assuming the independence.
+ In the end, I can sum the average log likelihoods over all the blocks.
+ Different fixed values of splitting event time would give rise to different
+ total log likelihoods.
+ I might be able to make sensible guess of splitting time estimate along
+ with 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}.$
+\end_inset
+
+ Even if I can assume the independence among blocks I might want to leave
+ it as future works.
+ I might focus on 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+ by accounting for their robustness with respect to population splitting
+ event time.
+ I might be able to assume that each block is associated with particular
+ values of 
+\begin_inset Formula $\theta,$
+\end_inset
+
+ 
+\begin_inset Formula $\rho,$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta.$
+\end_inset
+
+ The average of 
+\begin_inset Formula $\theta,$
+\end_inset
+
+ 
+\begin_inset Formula $\rho,$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ might make sense.
+ What about the population splitting event? Does it make sense to have different
+ splitting event time? It may or may not.
+\end_layout
+
+\begin_layout Standard
+I think that the assumption of independence among blocks may not be applicable
+ to other framework such as IM with eukaryote data.
+ It may be approximately true for ClonalOrigin with prokaryote data where
+ mutation rate, and recombination rate appear to be constant.
+ In this case the splitting time might be possible to estimate by assuming
+ the independence among blocks.
+ 
+\end_layout
+
+\begin_layout Subsection
+Implementation
+\end_layout
+
+\begin_layout Standard
+I am going through ClonalOrigin source code for simulating data under its
+ model.
+ SimMLST simulates data under the full ancestral recombination graph, which
+ might not be the one that I wish to use.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Source codes
+\end_layout
+
+\begin_layout Itemize
+src/clonalorigin/SimpleOpt.h: Parses command lines.
+\end_layout
+
+\begin_layout Itemize
+src/clonalorigin/SimpleGlob.h: Parses command lines.
+\end_layout
+
+\begin_layout Itemize
+src/clonalorigin/weakargsim.cpp: The main source file.
+\end_layout
+
+\begin_layout Section*
+Tables
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Tables of symbols
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="29" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Symbols
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aligned sequence data
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of isolates
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $L$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Total length of the alignment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of blocks in the alignment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of coalescent from population 2 to 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of coalescent from population 1 to 2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Population splitting time
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Length of 
+\begin_inset Formula $i$
+\end_inset
+
+-th time in the clonal genealogy
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sum of branch lengths of the clonal frame
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $k_{j,i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of ancestors in population 
+\begin_inset Formula $j$
+\end_inset
+
+ during time 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{r}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Departure point of the recombination event 
+\begin_inset Formula $r$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $b_{r}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Arrival point of the recombination event 
+\begin_inset Formula $r$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathrm{sb}(a)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speceis branch at which departure point 
+\begin_inset Formula $a$
+\end_inset
+
+ is present 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathrm{sb}(b)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speceis branch at which arrival point 
+\begin_inset Formula $b$
+\end_inset
+
+ is present 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathrm{spn}(\mathrm{sb}(a))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parental node of species branch 
+\begin_inset Formula $\mathrm{sb}(a)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathrm{sdn}(\mathrm{sb}(a))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Daughter node of species branch 
+\begin_inset Formula $\mathrm{sb}(a)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $A(a)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Population label of the departure 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E_{j}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set of coalescent events in population 
+\begin_inset Formula $j$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E_{j\rightarrow k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set of coalescent events from population 
+\begin_inset Formula $j$
+\end_inset
+
+ to 
+\begin_inset Formula $k$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $e_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Event at the end of the time during 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{e_{i}\in E}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Indicator variable for event 
+\begin_inset Formula $e_{i}$
+\end_inset
+
+ in the set of events 
+\begin_inset Formula $E$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{a}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Index for the time interval between the arrival point and the daughter node
+ of the edge 
+\begin_inset Formula $a$
+\end_inset
+
+, or 
+\begin_inset Formula $\mathrm{sdn}(\mathrm{sb}(a))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{a^{'}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Index for the time interval between the arrival point and the parental node
+ of the edge 
+\begin_inset Formula $a$
+\end_inset
+
+, or 
+\begin_inset Formula $\mathrm{spn}(\mathrm{sb}(a))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{b}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Index for the time interval between the arrival point and the daughter node
+ of the edge 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $\mathrm{sdn}(\mathrm{sb}(b))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{\tau}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Index for the time interval between the splitting event and one of its neighbori
+ng coalescent event nearer the present time 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Figures
 \end_layout
 
 \begin_layout Standard
@@ -589,7 +1864,6 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /Users/goshng/Documents/Projects/mauve/noweb/clonalorigin-two-populations.ps
-	lyxscale 70
 	scale 40
 
 \end_inset
@@ -615,7 +1889,37 @@ Divergence model with ClonalOrigin
 \end_layout
 
 \begin_layout Standard
-\begin_inset VSpace medskip
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clonal-origin-departure-040611.ps
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Probability of departure point given an arrival point
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
