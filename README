@@ -342,3 +342,21 @@ Long Jobs
 cornell5
 ^^^^^^^^
 67 and 293
+
+
+CMake
+-----
+cmake -DCMAKE_CXX_FLAGS="-g3 -ggdb -O0" b
+cd b
+make
+
+GDB with C++
+------------
+.To check the content of a vector
+print *(blocks._M_impl._M_start)@blocks.size()
+
+.To iterate the content of a vector
+for (unsigned i = 0; i < blocks.size(); i++) {
+  cout << "[" << i << "] " << blocks[i];
+}
+

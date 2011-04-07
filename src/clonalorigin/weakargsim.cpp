@@ -1,7 +1,7 @@
 /** \file weakargsim.cpp
- * The main source file for simulating under ClonalOrigin model. 
+ * The main source file for simulating under ClonalOrigin model.
  * This is the main source file for the project of simulating data under
- * ClonalOrigin model. 
+ * ClonalOrigin model.
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -18,6 +18,9 @@
 #include "weakarg.h"
 #include "wargxml.h"
 
+#include <limits>
+#include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include "SimpleOpt.h"
 
@@ -28,6 +31,12 @@ namespace weakarg
 bool initializeTree(Data* &datap, RecTree* &rectree,vector<string> inputfiles,string datafile);///< initialises the rectree based on the inputfiles specified.
 RecTree * makeGreedyTree(Data * data,WargXml * infile,vector< vector<double> >  * sumdetails,int *count,vector<double> * pars,vector<double> *sumdists);///< makes a greeedy "best tree" from a previous warg run
 vector<double> readInputFiles(Data* &data, RecTree* &rectree,vector<double> &sumdists,vector<int> &keepregions,vector<int> &previousL,vector<string> inputfiles,string datafile,int greedystage);///< Reads the input files and processes them according to the stage of the input procedure.
+
+/**
+ * Reads a l-th line of a file.
+ */
+string readLine (string& filename, unsigned l = 1);
+vector<int> readBlock (string& filename, unsigned b = 0);
 
 ProgramOptions& opt() {
     static ProgramOptions po;	// define a single instance of ProgramOptions per process.
@@ -64,7 +73,6 @@ static const char * help=
     Usage: weakargsim [OPTIONS] treefile datafile outputfile\n\
     \n\
     Options:\n\
-    -w NUM      	Sets the number of pre burn-in iterations (default is 100000)\n\
     -N NUM        Sets the number of isolates (the default is 100)\n\
     -T NUM        Sets the value of theta, the scaled mutation rate (the default is 100)\n\
     -R NUM        Sets the value of rho, the scaled recombination rate (the default is 100)\n\
@@ -72,10 +80,20 @@ static const char * help=
     -B NUM,...    Sets the number and length of the fragments (the default is 400,400,400,400,400,400,400)\n\
     -C T,N        Sets the population size constant and equal to N before time T (cf. below)\n\
     -E T,R        Sets the population size exponentially growing with rate R before time T (cf. below)\n\
-    -s NUM        Use the given seed to initiate random number generator\n\ 
+    -s NUM        Use the given seed to initiate random number generator\n\
                   (by default the seed is generated from /dev/urandom on\n\
                   Linux systems and from the clock on Windows systems)\n\
-    -o FILE       Export the data to the given file in XMFA format (cf. below)\n\
+    --block-file FILE\n\
+                  A block file contains numbers delimited by comma,\n\
+                  spaces, or newline (default: in.block)\n\
+    --tree-file FILE\n\
+                  A tree file contains a list of newick formatted strings\n\
+                  (default: in.tree)\n\
+    --out-file FILE\n\
+                  A base name of output file names. (default: out)\n\
+                  For example, an alignment file name is the output \n\
+                  file base name suffixed \".xmfa\".\n\
+    -o FILE       Export the data to the given file in XMFA format\n\
     -c FILE       Export the clonal genealogy to the given file in the Newick format (cf. below)\n\
     -l FILE       Export the local trees to the given file in the seq-gen format (cf. below)\n\
     -d FILE       Export the graph of ancestry as a DOT graph to the given file (cf. below)\n\
@@ -94,6 +112,13 @@ static const char * help=
     ";
 
 /**
+ * Shows the help message.
+ */
+void ShowUsage() {
+    cout << help << endl;
+}
+
+/**
  * Command line options.
  * A header file SimpleOpt.h is used to parse the command line of the program.
  */
@@ -104,11 +129,15 @@ enum { OPT_HELP,
        OPT_DELTA,
        OPT_LENGTH_FRAGMENT,
        OPT_RANDOM,
+       OPT_BLOCK_FILE,
+       OPT_OUT_FILE,
+       OPT_TREE_FILE,
        OPT_OUTPUT_FILE,
        OPT_CLONALTREE_FILE,
        OPT_LOCALTREE_FILE,
        //OPT_DOT_FILE,
-       OPT_INCLUDE_ANCESTRAL_MATERIAL };
+       OPT_INCLUDE_ANCESTRAL_MATERIAL
+     };
 
 /**
  * Command line options.
@@ -116,35 +145,59 @@ enum { OPT_HELP,
  */
 CSimpleOpt::SOption g_rgOptions[] = {
     // ID       TEXT          TYPE
-    { OPT_NUM_ISOLATES, 
-      "-N", SO_REQ_SEP }, // "-N ARG"
-    { OPT_THETA,
-      "-T", SO_REQ_SEP }, // "-T ARG"
-    { OPT_RHO,
-      "-R", SO_REQ_SEP }, // "-R ARG"
-    { OPT_DELTA,
-      "-D", SO_REQ_SEP }, // "-D ARG"
-    { OPT_LENGTH_FRAGMENT, 
-      "-B", SO_REQ_SEP }, // "-B ARG"
-    { OPT_RANDOM, 
-      "-s", SO_REQ_SEP }, // "-s ARG"
-    { OPT_OUTPUT_FILE, 
-      "-o", SO_REQ_SEP }, // "-o ARG"
-    { OPT_CLONALTREE_FILE, 
-      "-c", SO_REQ_SEP }, // "-c ARG"
-    { OPT_LOCALTREE_FILE, 
-      "-l", SO_REQ_SEP }, // "-l ARG"
-    //{ OPT_DOT_FILE, 
-      //"-d", SO_REQ_SEP }, // "-d ARG"
-    { OPT_INCLUDE_ANCESTRAL_MATERIAL, 
-      "-a", SO_NONE },    // "-a"
-    { OPT_HELP, 
-      "-h", SO_NONE },    // "-h"
-    { OPT_HELP, 
-      "--help", SO_NONE },// "--help"
+    {   OPT_NUM_ISOLATES,
+        "-N", SO_REQ_SEP
+    }, // "-N ARG"
+    {   OPT_THETA,
+        "-T", SO_REQ_SEP
+    }, // "-T ARG"
+    {   OPT_RHO,
+        "-R", SO_REQ_SEP
+    }, // "-R ARG"
+    {   OPT_DELTA,
+        "-D", SO_REQ_SEP
+    }, // "-D ARG"
+    {   OPT_LENGTH_FRAGMENT,
+        "-B", SO_REQ_SEP
+    }, // "-B ARG"
+    {   OPT_RANDOM,
+        "-s", SO_REQ_SEP
+    }, // "-s ARG"
+    {   OPT_BLOCK_FILE,
+        "--block-file", SO_REQ_SEP
+    }, // "--block-file ARG"
+    {   OPT_OUT_FILE,
+        "--out-file", SO_REQ_SEP
+    }, // "--out-file ARG"
+    {   OPT_TREE_FILE,
+        "--tree-file", SO_REQ_SEP
+    }, // "--tree-file ARG"
+    {   OPT_OUTPUT_FILE,
+        "-o", SO_REQ_SEP
+    }, // "-o ARG"
+    {   OPT_CLONALTREE_FILE,
+        "-c", SO_REQ_SEP
+    }, // "-c ARG"
+    {   OPT_LOCALTREE_FILE,
+        "-l", SO_REQ_SEP
+    }, // "-l ARG"
+    //{ OPT_DOT_FILE,
+    //"-d", SO_REQ_SEP }, // "-d ARG"
+    {   OPT_INCLUDE_ANCESTRAL_MATERIAL,
+        "-a", SO_NONE
+    },    // "-a"
+    {   OPT_HELP,
+        "-h", SO_NONE
+    },    // "-h"
+    {   OPT_HELP,
+        "--help", SO_NONE
+    },// "--help"
     SO_END_OF_OPTIONS     // END
 };
 
+/**
+ * A species tree is given. Blocks should be given.
+ */
 int main(int argc, char *argv[])
 {
     string comment="Command line: ";
@@ -171,308 +224,122 @@ int main(int argc, char *argv[])
     unsigned long seed=0;
     bool readparams=false;
     bool setregions=false;
+    string blockFilename = "in.block";
+    string treeFilename = "in.tree";
+    bool includeAncestralMaterial = false;
+    opt().outfile = "out";
 
-  int n = 5; 
-  double theta = 100.0;
-  double rho = 100.0;
-  double delta = 500; 
-  string blockArg("400,400,400");
-  int randomSeed = -1;
-  const char * dataFilename = "1.fa";
-  const char * localtreeFilename = "1lt.tre";
-  const char * globaltreeFilename = "1gt.tre";
-  const char * dotFilename = "1.dot";
-  bool includeAncestralMaterial = false; 
+    //int n = 5;
+    //double theta = 100.0;
+    //double rho = 100.0;
+    //double delta = 500;
+    //string blockArg("400,400,400");
+    //int randomSeed = -1;
+    //const char * dataFilename = "1.fa";
+    //const char * localtreeFilename = "1lt.tre";
+    //const char * globaltreeFilename = "1gt.tre";
+    //const char * dotFilename = "1.dot";
+    //bool includeAncestralMaterial = false;
 
-  CSimpleOpt args(argc, argv, g_rgOptions);
-  while (args.Next()) {
-    if (args.LastError() == SO_SUCCESS) {
-      switch (args.OptionId())
-      {
-        case OPT_HELP:
-          ShowUsage();
-          return 0;
-          break;
-        case OPT_NUM_ISOLATES:
-          simparN = strtol (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_THETA:
-          simpartheta = strtod (args.OptionArg(), NULL);
-          break;
-        case OPT_RHO:
-          simparrho = strtod (args.OptionArg(), NULL);
-          break;
-        case OPT_DELTA:
-          simpardelta = strtol (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_LENGTH_FRAGMENT:
-          blockArg = args.OptionArg();
-          break;
-        case OPT_RANDOM:
-          randomSeed = strtol (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_OUTPUT_FILE:
-          dataFilename = args.OptionArg();
-          break;
-        case OPT_CLONALTREE_FILE:
-          globaltreeFilename = args.OptionArg();
-          break;
-        case OPT_LOCALTREE_FILE:
-          localtreeFilename = args.OptionArg();
-          break;
-        case OPT_DOT_FILE:
-          dotFilename = args.OptionArg();
-          break;
-        case OPT_INCLUDE_ANCESTRAL_MATERIAL:
-          includeAncestralMaterial = true;
-          break;
-      }
-    }
-    else {
-      // handle error (see the error codes - enum ESOError)
-      printf ("Invalid argument: %s\n", args.OptionText());
-      return 1;
-    }
-  }
-
-
-    while ((c = getopt (argc, argv, "w:x:y:z:s:va:T:R:D:L:C:r:t:i:S:G:fUhV")) != -1)
-        switch (c)
-        {
-        case('w'):
-            if(atoi(optarg)>=0)opt().preburnin=atoi(optarg);
-            break;
-        case('x'):
-            if(atoi(optarg)>=0)opt().burnin=atoi(optarg);
-            break;
-        case('y'):
-            if(atoi(optarg)>=0)opt().additional=atoi(optarg);
-            break;
-        case('z'):
-            if(atoi(optarg)> 0)opt().thinin=atoi(optarg);
-            break;
-        case('T'):
-            opt().theta=atof(optarg);
-            if (optarg[0]=='s') {
-                opt().theta=atof(optarg+1);
-                opt().thetaPerSite=true;
-            };
-            break;
-        case('R'):
-            opt().rho=atof(optarg);
-            if (optarg[0]=='s') {
-                opt().rho=atof(optarg+1);
-                opt().rhoPerSite=true;
-            };
-            break;
-        case('D'):
-            opt().delta=atof(optarg);
-            break;
-        case('s'):
-            seed=strtoul(optarg,NULL,10);
-            break;
-        case('v'):
-            opt().verbose=true;
-            break;
-        case('f'):
-            opt().allowclonal=false;
-            break;
-        case('U'):
-            upgma=true;
-            break;
-        case('a'):
-            pch = strtok (optarg,",");
-            for(int i=0; i<NUMMOVES; i++) {
-                if(pch==NULL) {
-                    cout<<"Wrong -a string."<<endl<<help<<endl;
-                    return 1;
-                }
-                opt().movep[i]=fabs(atof(pch));
-                pch = strtok (NULL, ",");
-            };
-            break;
-        case('i'):
-            pch = strtok (optarg,",");
-            for(int i=0; i<6; i++) {
-                if(pch==NULL) {
-                    cout<<"Wrong -i string."<<endl<<help<<endl;
-                    return 1;
-                }
-                switch(i) {
-                case(0):
-                    simparN=atoi(pch);
-                    break;
-                case(1):
-                    simparnumblocks=atoi(pch);
-                    break;
-                case(2):
-                    simparblocksize=atoi(pch);
-                    break;
-                case(3):
-                    simpardelta=fabs(atof(pch));
-                    break;
-                case(4):
-                    simpartheta=fabs(atof(pch));
-                    break;
-                case(5):
-                    simparrho=fabs(atof(pch));
-                    break;
-                case '?':
-                    cout<<"Wrong -i string."<<endl<<help<<endl;
-                    return 1;
-                }
-                pch = strtok (NULL, ",");
-            };
-            break;
-        case('r'):
-            opt().temperreps=atoi(optarg);
-            break;
-        case('t'):
-            opt().temperT=atof(optarg);
-            break;
-        case('L'):
-            opt().logfile=optarg;
-            break;
-        case('C'):
-            opt().csvoutfile=optarg;
-            break;
-        case('V'):
-            printVersion();
-            return 0;
-        case('S'):
-            pch= strrchr (optarg,',');
-            if(pch!=NULL) {
-                pch = strtok (optarg,",");
-                opt().subset.push_back(atoi(pch));
-                pch = strtok (NULL,",");
-                opt().subsetSeed=atoi(pch);
-            } else {
-                pch = strtok (optarg,"/");
-                while (pch != NULL) {
-                    opt().subset.push_back(atoi(pch));
-                    pch = strtok (NULL, "/");
-                }
+    CSimpleOpt args(argc, argv, g_rgOptions);
+    while (args.Next()) {
+        if (args.LastError() == SO_SUCCESS) {
+            switch (args.OptionId())
+            {
+            case OPT_HELP:
+                ShowUsage();
+                return 0;
+                break;
+            case OPT_NUM_ISOLATES:
+                simparN = strtol (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_THETA:
+                simpartheta = strtod (args.OptionArg(), NULL);
+                break;
+            case OPT_RHO:
+                simparrho = strtod (args.OptionArg(), NULL);
+                break;
+            case OPT_DELTA:
+                simpardelta = strtol (args.OptionArg(), NULL, 10);
+                break;
+            //case OPT_LENGTH_FRAGMENT:
+                //blockArg = args.OptionArg();
+                //break;
+            case OPT_RANDOM:
+                seed = strtoul (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_BLOCK_FILE:
+                blockFilename = args.OptionArg();
+                break;
+            case OPT_OUT_FILE:
+                opt().outfile = args.OptionArg();
+                break;
+            case OPT_TREE_FILE:
+                treeFilename = args.OptionArg();
+                break;
+            case OPT_INCLUDE_ANCESTRAL_MATERIAL:
+                includeAncestralMaterial = true;
+                break;
             }
-            setregions=true;
-            break;
-        case('G'):
-            opt().greedyWeight=atof(optarg);
-            break;
-        case('h'):
-            cout<<help<<endl;
-            return 0;
-        case '?':
-            cout<<"Wrong arguments: did not recognise "<<c<<" "<<optarg<<endl<<help<<endl;
-            return 1;
-        default:
-            abort ();
         }
+        else {
+            // handle error (see the error codes - enum ESOError)
+            printf ("Invalid argument: %s\n", args.OptionText());
+            return 1;
+        }
+    }
+
     seed=seedrng(seed);// <0 means use /dev/random or clock.
     comment.append("\nSeed: ");
     ss<<seed;
     comment.append(ss.str());
-    if (argc-optind==3 || (opt().greedyWeight<0 && argc-optind>3)) {
-        while(argc-optind>2) inputfiles.push_back(string(argv[optind++]));
-    }
-    if (argc-optind!=1 && argc-optind!=2) {
-        cout<<"Wrong number of arguments."<<endl<<help<<endl;
-        return 1;
-    }
 
     Param p;
-    RecTree*rectree=NULL;
-    Data*data=NULL;
-    if (argc-optind==1) {//Run on simulated tree and data
-        dlog(1)<<"Simulating rectree..."<<endl;
-        vector<int> blocks;
-        for (int i=0; i<simparnumblocks; i++) blocks.push_back(i*simparblocksize);
-        rectree=new RecTree(simparN,simparrho,simpardelta,blocks);
-        dlog(1)<<"Initiating parameter"<<endl;
-        p=Param(rectree,NULL);
-        dlog(1)<<"Simulating data..."<<endl;
-        p.setTheta(simpartheta);
-        p.simulateData(blocks);
-        p.setTheta(-1.0);
-        data=p.getData();
-        ofstream dat;
-        dat.open("simulatedData.xmfa");
-        data->output(&dat);
-        dat.close();
-        ofstream tru;
-        tru.open("truth.xml");
-        p.setRho(simparrho);
-        p.setTheta(simpartheta);
-        p.exportXMLbegin(tru,comment);
-        //p.exportXMLbegin(tru);
-        p.exportXMLiter(tru);
-        p.exportXMLend(tru);
-        tru.close();
-        // alternative initialisation options
-        //while (p.getRecTree()->numRecEdge()>0) p.getRecTree()->remRecEdge(i);// blank tree
-        //for(int i=0;i<p.getRecTree()->numRecEdge();i++) {// remove all but a specific edge	if(p.getRecTree()->getRecEdge(i)->getEdgeTo()!=28) {p.getRecTree()->remRecEdge(i);i--;} }
-    } else if(argc-optind==2 && inputfiles.size()==0) { //Load data from files
-        string datafile=string(argv[optind++]);
-        dlog(1)<<"Loading data..."<<endl;
-        try {
-            data=new Data(datafile);
-        } catch(const char *) {
-            exit(0);
-        }
-        if (upgma)
-        {
-            rectree=new RecTree(data,0.0,500.0,*(data->getBlocks()));
-            data->subset(opt().subset,opt().subsetSeed);
-        } else {
-            data->subset(opt().subset,opt().subsetSeed);
-            dlog(1)<<"Creating random tree..."<<endl;
-            rectree=new RecTree(data->getN(),0.0,500.0,*(data->getBlocks()));
-        }
-        dlog(1)<<"Initiating parameter..."<<endl;
-        p=Param(rectree,data);
-        p.setRho(0);
-    } else { //Load tree and data from files
-        string datafile=string(argv[optind++]);
-        try {
-            readparams=initializeTree(data,rectree,inputfiles,datafile);// initialises data and rectree! (passed by reference)
-        } catch(char *x) {
-            cout<<x<<endl;
-        }
-        if(data==NULL) {
-            cerr<<"Error: No Data initialised.  Was there a problem with the input file?"<<endl;
-            exit(0);
-        }
-        if(rectree==NULL) {
-            cerr<<"Error: No Rectree initialised.  Was there a problem with the input file?"<<endl;
-            exit(0);
-        }
-        dlog(1)<<"Initiating parameter..."<<endl;
-        p=Param(rectree,data);
-        p.setRho(0);
-        if(readparams) {
-            p.readProgramOptions();
-            WargXml infile(inputfiles[0]);
-            p.readParamsFromFile(&infile);
-        }
-    }
-    opt().outfile = argv[optind++];
+    RecTree* rectree=NULL;
+    Data* data=NULL;
 
-    if(opt().preburnin>0 && (opt().movep[8]>0 || opt().movep[10]>0)) {
-        cout<<"Starting Pre-burnin Metropolis-Hastings algorithm.."<<endl;
-        double rho=opt().rho;
-        opt().rho=0;
-        long int burnin= opt().burnin, additional=opt().additional,temperreps=opt().temperreps;
-        opt().burnin=opt().preburnin;
-        opt().additional=0;
-        p.readProgramOptions();
-        p.metropolis(comment);
-        opt().burnin=burnin;
-        opt().additional=additional;
-        opt().rho=rho;
-        opt().temperreps=temperreps;
-        p.readProgramOptions();
-    } else if(!readparams) p.readProgramOptions();
-    cout<<"Starting Metropolis-Hastings algorithm............."<<endl;
-    p.metropolis(comment);
+    dlog(1)<<"Simulating rectree..."<<endl;
+    vector<int> blocks;
+
+    /**
+     * A list of lengths of blocks is given.
+     */
+    blocks = readBlock (blockFilename);
+
+    /**
+     * A newick formatted string for a species is given.
+     */
+    string treeNewick = readLine (treeFilename);
+ 
+    /**
+     * A newick formatted string for a species is given.
+     */
+    treeNewick = readLine (treeFilename);
+    rectree=new RecTree(treeNewick, simparrho, simpardelta, blocks);
+
+    dlog(1)<<"Initiating parameter"<<endl;
+    p=Param(rectree,NULL);
+    dlog(1)<<"Simulating data..."<<endl;
+    p.setTheta(simpartheta);
+    p.simulateData(blocks);
+    p.setTheta(-1.0);
+    data=p.getData();
+
+    string dataFilename = opt().outfile + ".xmfa";
+    string trueFilename = opt().outfile + ".xml";
+
+    ofstream dat;
+    dat.open(dataFilename.data());
+    data->output(&dat);
+    dat.close();
+    ofstream tru;
+    tru.open(trueFilename.data());
+    p.setRho(simparrho);
+    p.setTheta(simpartheta);
+    p.exportXMLbegin(tru,comment);
+    p.exportXMLiter(tru);
+    p.exportXMLend(tru);
+    tru.close();
 
     dlog(1)<<"Cleaning up..."<<endl;
     if(p.getRecTree()) delete(p.getRecTree());
@@ -483,138 +350,136 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void ShowUsage() {
-  cout << help << endl;
-}
-
+#ifdef SIMMLSTMAIN
 int
-main (int argc, char * argv[]) 
+main (int argc, char * argv[])
 {
-  int n = 5; 
-  double theta = 100.0;
-  double rho = 100.0;
-  double delta = 500; 
-  string blockArg("400,400,400");
-  int randomSeed = -1;
-  const char * dataFilename = "1.fa";
-  const char * localtreeFilename = "1lt.tre";
-  const char * globaltreeFilename = "1gt.tre";
-  const char * dotFilename = "1.dot";
-  bool includeAncestralMaterial = false; 
+    int n = 5;
+    double theta = 100.0;
+    double rho = 100.0;
+    double delta = 500;
+    string blockArg("400,400,400");
+    int randomSeed = -1;
+    const char * dataFilename = "1.fa";
+    const char * localtreeFilename = "1lt.tre";
+    const char * globaltreeFilename = "1gt.tre";
+    const char * dotFilename = "1.dot";
+    bool includeAncestralMaterial = false;
 
-  CSimpleOpt args(argc, argv, g_rgOptions);
-  while (args.Next()) {
-    if (args.LastError() == SO_SUCCESS) {
-      switch (args.OptionId())
-      {
-        case OPT_HELP:
-          ShowUsage();
-          return 0;
-          break;
-        case OPT_NUM_ISOLATES:
-          n = strtol (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_THETA:
-          theta = strtod (args.OptionArg(), NULL);
-          break;
-        case OPT_RHO:
-          rho = strtod (args.OptionArg(), NULL);
-          break;
-        case OPT_DELTA:
-          delta = strtol (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_LENGTH_FRAGMENT:
-          blockArg = args.OptionArg();
-          break;
-        case OPT_RANDOM:
-          seed = strtoul (args.OptionArg(), NULL, 10);
-          break;
-        case OPT_OUTPUT_FILE:
-          opt().outfile = args.OptionArg();
-          break;
-        case OPT_CLONALTREE_FILE:
-          opt().treefile = args.OptionArg();
-          break;
-        case OPT_LOCALTREE_FILE:
-          opt().localtreefile = args.OptionArg();
-          break;
-        //case OPT_DOT_FILE:
-          //dotFilename = args.OptionArg();
-          //break;
-        case OPT_INCLUDE_ANCESTRAL_MATERIAL:
-          includeAncestralMaterial = true;
-          break;
-      }
+    CSimpleOpt args(argc, argv, g_rgOptions);
+    while (args.Next()) {
+        if (args.LastError() == SO_SUCCESS) {
+            switch (args.OptionId())
+            {
+            case OPT_HELP:
+                ShowUsage();
+                return 0;
+                break;
+            case OPT_NUM_ISOLATES:
+                n = strtol (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_THETA:
+                theta = strtod (args.OptionArg(), NULL);
+                break;
+            case OPT_RHO:
+                rho = strtod (args.OptionArg(), NULL);
+                break;
+            case OPT_DELTA:
+                delta = strtol (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_LENGTH_FRAGMENT:
+                blockArg = args.OptionArg();
+                break;
+            case OPT_RANDOM:
+                seed = strtoul (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_OUTPUT_FILE:
+                opt().outfile = args.OptionArg();
+                break;
+            case OPT_CLONALTREE_FILE:
+                opt().treefile = args.OptionArg();
+                break;
+            case OPT_LOCALTREE_FILE:
+                opt().localtreefile = args.OptionArg();
+                break;
+                //case OPT_DOT_FILE:
+                //dotFilename = args.OptionArg();
+                //break;
+            case OPT_INCLUDE_ANCESTRAL_MATERIAL:
+                includeAncestralMaterial = true;
+                break;
+            }
+        }
+        else {
+            // handle error (see the error codes - enum ESOError)
+            printf ("Invalid argument: %s\n", args.OptionText());
+            return 1;
+        }
     }
-    else {
-      // handle error (see the error codes - enum ESOError)
-      printf ("Invalid argument: %s\n", args.OptionText());
-      return 1;
-    }
-  }
 
-/*
-  printf ("n = %d\n", n);
-  printf ("theta = %lf\n", theta);
-  printf ("rho = %lf\n", rho);
-  printf ("delta = %lf\n", delta);
-  printf ("block = %s\n", blockArg.c_str());
-  printf ("data file = %s\n", dataFilename);
-  printf ("local tree file = %s\n", localtreeFilename);
-  printf ("global tree file = %s\n", globaltreeFilename);
-  printf ("dot file = %s\n", dotFilename);
-  printf ("anc = %d\n", includeAncestralMaterial); 
-*/
+    /*
+      printf ("n = %d\n", n);
+      printf ("theta = %lf\n", theta);
+      printf ("rho = %lf\n", rho);
+      printf ("delta = %lf\n", delta);
+      printf ("block = %s\n", blockArg.c_str());
+      printf ("data file = %s\n", dataFilename);
+      printf ("local tree file = %s\n", localtreeFilename);
+      printf ("global tree file = %s\n", globaltreeFilename);
+      printf ("dot file = %s\n", dotFilename);
+      printf ("anc = %d\n", includeAncestralMaterial);
+    */
 
-  if (randomSeed == -1) {
-    makerng(); 
-  } else {
-    rng=gsl_rng_alloc(gsl_rng_default);
-    gsl_rng_set(rng, randomSeed);
-  }
+    if (randomSeed == -1) {
+        makerng();
+    } else {
+        rng=gsl_rng_alloc(gsl_rng_default);
+        gsl_rng_set(rng, randomSeed);
+    }
 
-  vector<int> blocks=Arg::makeBlocks(blockArg);
-  PopSize * popsize=NULL;
+    vector<int> blocks=Arg::makeBlocks(blockArg);
+    PopSize * popsize=NULL;
 
-  //Interpret population size model
+    //Interpret population size model
 
-  //if (popsize!=NULL) popsize->show();
-  //Build the ARG
-  Arg * arg=new Arg(n,rho,delta,blocks,popsize);
-  //Build the data and export it
-  if (1) {
-      Data * data=arg->drawData(theta);
-      ofstream dat;
-      dat.open(dataFilename);
-      data->output(&dat);
-      dat.close();
-      delete(data);
+    //if (popsize!=NULL) popsize->show();
+    //Build the ARG
+    Arg * arg=new Arg(n,rho,delta,blocks,popsize);
+    //Build the data and export it
+    if (1) {
+        Data * data=arg->drawData(theta);
+        ofstream dat;
+        dat.open(dataFilename);
+        data->output(&dat);
+        dat.close();
+        delete(data);
     }
-  //Extract the local trees and export them
-  if (1) {
-      ofstream lf;
-      lf.open(localtreeFilename);
-      arg->outputLOCAL(&lf);
-      lf.close();
+    //Extract the local trees and export them
+    if (1) {
+        ofstream lf;
+        lf.open(localtreeFilename);
+        arg->outputLOCAL(&lf);
+        lf.close();
     }
-  //Extract the clonal genealogy and export it
-  if (1) {
-      string truth=arg->extractCG();
-      ofstream tru;
-      tru.open(globaltreeFilename);
-      tru<<truth<<endl;
-      tru.close();
+    //Extract the clonal genealogy and export it
+    if (1) {
+        string truth=arg->extractCG();
+        ofstream tru;
+        tru.open(globaltreeFilename);
+        tru<<truth<<endl;
+        tru.close();
     }
-  //Export to DOT format
-  if (1) {
-      ofstream dot;
-      dot.open(dotFilename);
-      arg->outputDOT(&dot,true);
-      dot.close();
+    //Export to DOT format
+    if (1) {
+        ofstream dot;
+        dot.open(dotFilename);
+        arg->outputDOT(&dot,true);
+        dot.close();
     }
-  delete(arg);
-  cout << "Simulate!\n";
+    delete(arg);
+    cout << "Simulate!\n";
 }
+#endif
 ///////////////////////////////////////////////////////////////////////
 
 
@@ -755,5 +620,43 @@ bool initializeTree(Data* &data, RecTree* &rectree,vector<string> inputfiles,str
     return(readparams);
 }
 
+string 
+readLine (string& filename, unsigned l)
+{
+    string aline;
+    ifstream f(filename.data());
+    if (!f) {
+        cerr << "Can't open a file " << filename << endl;
+        exit (1);
+    }
+    for (unsigned i = 0; i < l; i++) {
+        getline (f, aline);
+    }
+    f.close();
+    return aline;
+}
+
+vector<int>
+readBlock (string& filename, unsigned b)
+{
+    vector<int> blocks;
+    ifstream f(filename.data());
+    if (!f) {
+        cerr << "Can't open a file " << filename << endl;
+        exit (1);
+    }
+    int accumulatedBlockSize = 0;
+    blocks.push_back(0);
+    while (!f.eof()) {
+        int i;
+        f >> i;
+        if (!f.fail()) {
+            accumulatedBlockSize += i;
+            blocks.push_back(accumulatedBlockSize);
+        } 
+    }
+    f.close();
+    return blocks;
+}
 
 }

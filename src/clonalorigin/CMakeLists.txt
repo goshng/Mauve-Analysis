@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-PROJECT (warg)
+PROJECT (wargsim)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
@@ -11,6 +11,8 @@ set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 link_libraries(${LIBS})
 
 SET (WARG_SRCS 
+  SimpleOpt.h
+  SimpleGlob.h
   data.cpp
   data.h
   exponential.h
@@ -63,4 +65,4 @@ SET (WARG_SRCS
   weakarg.h
 )
 
-ADD_EXECUTABLE (warg ${WARG_SRCS})
+ADD_EXECUTABLE (wargsim ${WARG_SRCS})
