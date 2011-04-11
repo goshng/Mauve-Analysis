@@ -13,13 +13,16 @@ Authors
 -------
 - Sang Chul Choi <goshng@gmail.edu>
 
+IMPORTANT: Please, add your name and email addresses when you write or rewrite this
+document.
 
-Contacts
---------
-- Email: goshng@gmail.com
-- Phone: +1-607-542-9362
-- Address: Department of Biological Statistics & Computational Biology, 
-           Cornell University, Ithaca, NY 14853, USA
+
+//Contacts
+//--------
+//- Email: goshng@gmail.com
+//- Phone: +1-607-542-9362
+//- Address: Department of Biological Statistics & Computational Biology, 
+//           Cornell University, Ithaca, NY 14853, USA
 
 Keywords
 --------
@@ -311,15 +314,58 @@ performed for each functional category.
 I also used the category of virulence genes from Davies2007 to test if virulence
 genes were under higher or lower recombination. 
 
-One more studies
-~~~~~~~~~~~~~~~~
+IMPORTANT: Mellisa has setup gene ontology analysis. I need to add gene ontology
+analysis.
+
+Gene gain, loss, duplication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+IMPORTANT: Matt is trying to find what we can do about gene gain, loss, and
+duplication. 
+
+Horizontal gene transfer
+~~~~~~~~~~~~~~~~~~~~~~~~
+IMPORTANT: I do not know yet what I should do about it.
+
+Something other topic
+~~~~~~~~~~~~~~~~~~~~~
 IMPORTANT: +I need to find an interesting topic in bacterial recombination to
 have enough contents to draft a manuscript.+
 
+
 Simulation studies
 ~~~~~~~~~~~~~~~~~~
-WARNING: +I consider a simulation study where two populations share a common
-ancestral population. In addition to the single recombination rate I have two
+IMPORTANT: I cannot believe the method under the biological scenario. 
+The simulation approach may be kin to *Bayesian model checking* 
+in which I would check if the model I am using is appropriate. 
+What should I show? I need to show that ClonalOrigin implementation recovers the
+true ``values.'' What are the values? The three main parameters can be checked:
+mutation rate, recombination rate, and recombinant tract length. Recombination
+events should be checked although they are not just numerical values.
+
+There are two simulation programs that were developed by Xavier Didelot. One is
+SimMLST, and another is ClonalOrigin. SimMLST simulates data under the full
+ancestral recombination graph. ClonalOrigin does under its own model.
+
+.Parameters that I used for inferring recombination events
+----
+-T s0.0542 -D 1425 -R s0.00521
+----
+
+.A simulation setup
+[options="header"]
+|=====================================================
+| Number of blocks | Total Length | mu  | rho  | delta
+| 1                | 10 kb        | 542 | 52.1 | 1425
+| 411              | Real data    | 542 | 52.1 | 1425
+|=====================================================
+
+
+
+WARNING: I do not think that I have parameters that control
+directionality of gene flow due to bacterial recombinations. 
++I consider a simulation study where two populations share a common
+ancestral population. 
+In addition to the single recombination rate I have two
 more recombination rates. These additional recombination rates are related with
 migration in bacteria because homologous recombinations in bacteria often is
 translated to lateral gene transfer. 
@@ -327,7 +373,8 @@ I label all the extant individuals two separate populations before
 coalescent with recombination simulation. Two genomes in the same populations
 can coalescent. Any two genomes from different populations are not allowed to
 coalesce before they enter their common ancestral population. A splitting event
-time is set to signal the entrance into a common ancestor. Two types of
+time is set to signal the entrance into a common ancestor. 
+Two types of
 recombination events are possible in the extant populations. One recombination
 event generates a donor genome, which stays at the same population, and another
 creates a donor, which migrates to the other population.
@@ -336,24 +383,18 @@ The difference between the two recombination rates can be related to
 polarized gene flow between two extant populations. I did not pursue to make
 inference of the model, and yet I wished to test ClonalOrigin's framework with
 simulated data sets under the new model.+
+I have been reconsider the above idea, and have realized that something should
+be changed.
+I think that the idea of having multiple recombination rates is hard to fit the
+two population divergence model. Instead, I have two more coalescent events in
+addition to the single recombination rate. Under the ancestral recombination
+graph model individuals can ``spawn'' two parents.  Individuals can coalesce
+within a population, or between populations.
 
-IMPORTANT: +Simulation study seems to be needed. So, I should not believe the method under
-the biological scenario. What should I show? It is not clear to me what I
-should show them. I believe his intuition, but I do not know exactly what
-the simulation is for.
-Why should I show them? I need to convince myself. It seems good to know how
-it works. I may not be inclined to simulation studies.  I may need to think
-about what kind of extension to ClonalOrigin. Unless I have that vision, I
-still do not find reasons of doing the simulation study although I admit that
-I have to do it. It would be better to find an extension to that.  I think
-that what he says is kin to *Bayesian model checking*. It seems good to go that
-direction because I do not know the model we are using is appropriate. I think
-that I am somewhat convinced.
-Discussion with Ilan: I do not think that I have parameters that control
-directionality of gene flow due to bacterial recombinations. I need to see if
-I can control it in the MLSTSim, Didelot's another program for simulating data
-sets for ClonalOrigin and ClonalFrame. Can I add parameters of controling
-recombinant edge types? Can I add something that does allow more recombinant
+WARNING: This is an old idea of having multiple recombination rates. I do think
+that multiple coalescent rates with the single recombination rate can better fit
+the ClonalOrigin model.
++Can I add something that does allow more recombinant
 within a clade than between clades by having a ``splitting'' event?  I could
 have three different recombination rates. This was the old idea that I had
 before. One recombination rate is within a clade. A clade can be a present
@@ -629,12 +670,11 @@ embedded in a species tree.
 
 Acknowledgments
 ---------------
-Adam Siepel and Ilan (coauthors)
-
-Melissa Jane Hubisz
-
-Xavier Didelot
-
+Adam Siepel,
+Ilan Gronau,
+Melissa Jane Hubisz,
+Xavier Didelot,
+Matt Rasmussen,
 Grant information
 
 References

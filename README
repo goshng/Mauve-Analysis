@@ -360,3 +360,6 @@ for (unsigned i = 0; i < blocks.size(); i++) {
   cout << "[" << i << "] " << blocks[i];
 }
 
+The latest commands
+-------------------
+for i in {1..18}; do mjobctl -c 1081180-$i; done

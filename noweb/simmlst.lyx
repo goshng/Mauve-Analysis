@@ -47,6 +47,61 @@
 \begin_body
 
 \begin_layout Section
+Clonal Origin model
+\end_layout
+
+\begin_layout Standard
+Didelot 
+\emph on
+et al
+\emph default
+.
+ (2010) published a paper in Genetics, which is about recombination analysis
+ with bacterial whole genomes.
+ Their model is referred to as ClonalOrigin model in this document.
+\end_layout
+
+\begin_layout Section
+Recombination or coalescent
+\end_layout
+
+\begin_layout Standard
+The divergence model with ClonalOrigin model is envisioned here to address
+ differential gene flow between 
+\emph on
+Streptococcus pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae 
+\emph default
+spp.
+
+\emph on
+ equisimilis
+\emph default
+.
+ I have two individual genomes for one of the two species and, two more
+ individual genomes for the other.
+ The two species, or populations, share their common ancestor back in the
+ past.
+ The ancestral species diverged at time 
+\begin_inset Formula $\tau$
+\end_inset
+
+ ago (See Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Tables-of-symbols"
+
+\end_inset
+
+ for model parameters).
+ 
+\end_layout
+
+\begin_layout Section
 Simulation study with SimMLST
 \end_layout
 
@@ -184,8 +239,8 @@ et al.
  (2010) is the probability of recombination events given species tree, recombina
 tion rate, and recombinant tract length:
 \begin_inset Formula \begin{eqnarray*}
-\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
- & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
+ & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
 
 \end_inset
 
@@ -260,7 +315,7 @@ where
 
  The probability of recombination events under the divergence model is
 \begin_inset Formula \[
-\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau,\delta)=\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)\]
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau,\delta)=\mathbf{P}(\mathcal{R}|\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\rho_{1},\rho_{2},\rho_{3},\tau)\]
 
 \end_inset
 
@@ -909,8 +964,8 @@ The arrival point of a recombinant edge is in population 3, and the departure
 The probability of end position is given by Equation (6)
 \begin_inset Formula \[
 P(y_{r}=s|x_{r},\delta)=\begin{cases}
-\delta^{-1}(1-\delta^{-1})^{s-x_{r}} & \mbox{if \ensuremath{s} is before the end of the block}\\
-(1-\delta^{-1})^{s-x_{r}+1} & \mbox{if \ensuremath{s} is the end of the block}\end{cases}\]
+\delta^{-1}(1-\delta^{-1})^{s-x_{r}} & \mbox{if \ensuremath{s}is before the end of the block}\\
+(1-\delta^{-1})^{s-x_{r}+1} & \mbox{if \ensuremath{s}is the end of the block}\end{cases}\]
 
 \end_inset
 
@@ -918,8 +973,8 @@ P(y_{r}=s|x_{r},\delta)=\begin{cases}
  The probability of recombination events given pertinent parameters is given
  by Equation (7)
 \begin_inset Formula \begin{eqnarray*}
-\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
- & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T})\\
+ & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\exp(-L(a_{i},b_{i})).\end{eqnarray*}
 
 \end_inset
 
@@ -928,7 +983,7 @@ This is the product of three terms: the probability of number of recombination
  of recombination events.
  I find
 \begin_inset Formula \[
-\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta)=\mathbf{P}(R|\mathcal{T},\rho)R!\sum_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,A(b_{i}))\]
+\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta)=\mathbf{P}(R|\mathcal{T},\rho)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,A(b_{i}))\]
 
 \end_inset
 
@@ -1077,6 +1132,12 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Tables-of-symbols"
+
+\end_inset
+
 Tables of symbols
 \end_layout
 

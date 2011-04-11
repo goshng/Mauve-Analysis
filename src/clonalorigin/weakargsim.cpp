@@ -106,9 +106,9 @@ static const char * help=
     	delta	(real)		The average length of imports (default 500.0)\n\
     	theta	(real)		The mutation rate NOT per site (default 100.0)\n\
     	rho	(real)		The recombination rate NOT per site (default 50.0)\n\
-    -v          	Verbose mode\n\
-    -h          	This help message\n\
-    -V          	Print Version info\n\
+    -v            Verbose mode\n\
+    -h, --help    This help message\n\
+    -V, --version Print Version info\n\
     ";
 
 /**
@@ -123,6 +123,7 @@ void ShowUsage() {
  * A header file SimpleOpt.h is used to parse the command line of the program.
  */
 enum { OPT_HELP,
+       OPT_VERSION,
        OPT_NUM_ISOLATES,
        OPT_THETA,
        OPT_RHO,
@@ -192,6 +193,12 @@ CSimpleOpt::SOption g_rgOptions[] = {
     {   OPT_HELP,
         "--help", SO_NONE
     },// "--help"
+    {   OPT_VERSION,
+        "--version", SO_NONE
+    },// "--version"
+    {   OPT_VERSION,
+        "-V", SO_NONE
+    },// "-V"
     SO_END_OF_OPTIONS     // END
 };
 
@@ -228,6 +235,7 @@ int main(int argc, char *argv[])
     string treeFilename = "in.tree";
     bool includeAncestralMaterial = false;
     opt().outfile = "out";
+    char * optarg;
 
     //int n = 5;
     //double theta = 100.0;
@@ -250,14 +258,32 @@ int main(int argc, char *argv[])
                 ShowUsage();
                 return 0;
                 break;
+            case OPT_VERSION:
+                printVersion(); 
+                return 0;
+                break;
             case OPT_NUM_ISOLATES:
                 simparN = strtol (args.OptionArg(), NULL, 10);
                 break;
             case OPT_THETA:
-                simpartheta = strtod (args.OptionArg(), NULL);
+                optarg = args.OptionArg();
+                if (optarg[0]=='s') {
+                    simpartheta = strtod (optarg + 1, NULL);
+                    opt().thetaPerSite=true;
+                } else {
+                    simpartheta = strtod (optarg, NULL);
+                    opt().thetaPerSite=false;
+                } 
                 break;
             case OPT_RHO:
-                simparrho = strtod (args.OptionArg(), NULL);
+                optarg = args.OptionArg();
+                if (optarg[0]=='s') {
+                    simparrho = strtod (optarg + 1, NULL);
+                    opt().rhoPerSite=true;
+                } else {
+                    simparrho = strtod (optarg, NULL);
+                    opt().rhoPerSite=false;
+                } 
                 break;
             case OPT_DELTA:
                 simpardelta = strtol (args.OptionArg(), NULL, 10);
@@ -305,6 +331,15 @@ int main(int argc, char *argv[])
      * A list of lengths of blocks is given.
      */
     blocks = readBlock (blockFilename);
+    int totalLengthBlock = blocks.back();
+    if (opt().rhoPerSite == true)
+    {
+        simparrho *= totalLengthBlock;
+    }
+    if (opt().thetaPerSite == true)
+    {
+        simpartheta *= totalLengthBlock;
+    }
 
     /**
      * A newick formatted string for a species is given.
@@ -336,6 +371,7 @@ int main(int argc, char *argv[])
     tru.open(trueFilename.data());
     p.setRho(simparrho);
     p.setTheta(simpartheta);
+    p.setDelta(simpardelta);
     p.exportXMLbegin(tru,comment);
     p.exportXMLiter(tru);
     p.exportXMLend(tru);

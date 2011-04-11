@@ -91,6 +91,7 @@ PERLGUIPERL=pl/findBlocksWithInsufficientConvergence.pl
 AUI=$HOME/usr/bin/addUnalignedIntervals  # a part of Mauve.
 LCB=$HOME/usr/bin/stripSubsetLCBs        # a part of Mauve.
 GUI=clonalorigin/gui/gui.app/Contents/MacOS/gui  # GUI program of ClonalOrigin
+WARGSIM=src/clonalorigin/b/wargsim
 
 # Genome Data Directory
 # ---------------------
@@ -624,7 +625,7 @@ EOF
 }
 
 function send-clonalorigin-input-to-cac {
-  cp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
+  scp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
 }
 
 function copy-batch-sh-run-clonalorigin {
@@ -940,11 +941,11 @@ done
 EOF
 
   chmod a+x $BATCH_SH_RUN_CLONALORIGIN
-  cp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  cp $BATCH_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  cp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  cp $BATCH_REMAIN_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  cp $BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_REMAIN_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
 }
 
 function run-bbfilter {
@@ -1432,14 +1433,14 @@ function prepare-run-clonalorigin {
       perl $PERLGCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
       echo -e "  Splitting alignment into one file per block..."
       rm $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.*
-      # FIXME: put perl script in the pl directory.
-      perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
+      perl pl/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
 
       send-clonalorigin-input-to-cac
-      cp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
+      scp -r $RUNCLONALORIGIN/input $CACRUNCLONALORIGIN
+      #scp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
       # Some script.
       copy-batch-sh-run-clonalorigin
-      echo -e "Go to CAC's output/$SPECIES run-clonalorigin, and execute nsub batch.sh"
+      echo -e "Go to CAC's output/$SPECIES run-clonalorigin"
       echo -e "Submit a job using a different command."
       echo -e "$ bash batch.sh 3 to use three computing nodes"
       echo -e "Check the output if there are jobs that take longer"
@@ -1990,6 +1991,67 @@ function generate-species {
   done
 }
 
+# Computes lengths of blocks.
+# ---------------------------
+# The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
+function compute-block-length {
+  PS3="Choose the species to compute block lengths: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      prepare-filesystem 
+      perl pl/compute-block-length.pl \
+        -base=$RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa \
+        > $RUNLCBDIR/in.block
+      break
+    fi
+  done
+
+}
+
+# Computes lengths of blocks.
+# ---------------------------
+# The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
+function simulate-data {
+  PS3="Choose the species to compute block lengths: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      prepare-filesystem 
+      PS3="Choose a simulation: "
+      select WHATSIMULATION in block-1-10kb \
+                               block-411; do
+        if [ "$WHATSIMULATION" == "" ];  then
+          echo -e "You need to enter something\n"
+          continue
+        elif [ "$WHATSIMULATION" == "block-1-10kb" ]; then
+          for g in {1..10}; do 
+            sleep 3
+            $WARGSIM --tree-file $RUNCLONALORIGIN/input/1/clonaltree.nwk \
+              --block-file $RUNLCBDIR/in1.block \
+              --out-file $RUNLCBDIR/sim1_${g}_core_alignment \
+              -T s0.0542 -D 1425 -R s0.00521 
+          done
+          break
+        elif [ "$WHATSIMULATION" == "block-411" ]; then
+          $WARGSIM --tree-file $RUNCLONALORIGIN/input/1/clonaltree.nwk \
+            --block-file $RUNLCBDIR/in411.block \
+            --out-file $RUNLCBDIR/sim411_core_alignment \
+            -T s0.0542 -D 1425 -R s0.00521 
+          break
+        fi  
+      done
+      break
+    fi
+  done
+
+}
+
+
 #####################################################################
 # Main part of the script.
 #####################################################################
@@ -2007,6 +2069,8 @@ CHOICES=( choose-species \
           list-species \
           generate-species \
           compute-watterson-estimate-for-clonalframe \
+          compute-block-length \
+          simulate-data \
           prepare-run-clonalorigin-simulation )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
@@ -2055,6 +2119,12 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "prepare-run-clonalorigin-simulation" ];  then
     prepare-run-clonalorigin-simulation
+    break
+  elif [ "$CHOICE" == "compute-block-length" ];  then
+    compute-block-length
+    break
+  elif [ "$CHOICE" == "simulate-data" ];  then
+    simulate-data
     break
   else
     echo -e "You need to enter something\n"
