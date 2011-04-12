@@ -51,14 +51,20 @@
 # directory of my cluster account. The BATCHCLONALFRAME looks like this:
 # BATCHCLONALFRAME=usr/bin/ClonalFrame
 
-# User manual
+# User Manual
 # -----------
 # You should be able to download the source code from codaset repository called
 # mauve-analysis. 
 #
+# .To pull the source code 
+# ----
+# $ git clone git@codaset.com:goshng/mauve-analysis.git
+# $ cd mauve-analysis
+# ----
+# 
 # The output directory
 # ~~~~~~~~~~~~~~~~~~~~
-# Use the menu init-file-system to 
+# Use the menu init-file-system to create output 
 #
 # Dependency of menus
 # ~~~~~~~~~~~~~~~~~~~
@@ -70,13 +76,17 @@
 CAC_USERNAME=sc2265
 CAC_LOGIN=linuxlogin.cac.cornell.edu
 CAC_ROOT=Documents/Projects/m2
-CAC_MAUVEANALYSISDIR=$CAC_USERNAME@$CAC_LOGIN:$CAC_ROOT
+CAC_USERHOST=$CAC_USERNAME@$CAC_LOGIN
+CAC_MAUVEANALYSISDIR=$CAC_USERHOST:$CAC_ROOT
+CAC_OUTPUTDIR=$CAC_ROOT/output
 CACBASE=$CAC_ROOT/output
 # X11 linux ID setup
 X11_USERNAME=choi
 X11_LOGIN=swiftgen
 X11_ROOT=Documents/Projects/m2
-X11_MAUVEANALYSISDIR=$X11_USERNAME@$X11_LOGIN:$X11_ROOT
+X11_USERHOST=$X11_USERNAME@$X11_LOGIN
+X11_MAUVEANALYSISDIR=$X11_USERHOST:$X11_ROOT
+X11_OUTPUTDIR=$CAC_ROOT/output
 X11BASE=$X11_ROOT/output
 # CAC cluster access to job submission
 BATCHEMAIL=schoi@cornell.edu
@@ -86,6 +96,7 @@ BATCHCLONALFRAME=usr/bin/ClonalFrame
 
 # The main base directory contains all the subdirectories.
 MAUVEANALYSISDIR=`pwd`
+OUTPUTDIR=$MAUVEANALYSISDIR/output
 
 # Replicates and repetitions.
 # ---------------------------
@@ -211,6 +222,7 @@ function prepare-filesystem {
   # reason, which I did not want to know. Since then, I use scp command.
   # Note that the cluster base directory does not contain run-analysis. The
   # basic analysis is done in the local machine.
+  CAC_BASEDIR=$CAC_ROOT/output/$SPECIES$REPETITION_DIR
 
   CACROOTDIR=$CACUSERNAME@$CACLOGIN:$CACBASE
   CACBASEDIR=$CACROOTDIR/$SPECIES$REPETITION_DIR
@@ -267,11 +279,10 @@ function prepare-filesystem {
 
 # Create initial directories after checking out the source code from the
 # repository.
-
 function init-file-system {
   mkdir $MAUVEANALYSISDIR/output 
-  scp -r $MAUVEANALYSISDIR/output $CAC_MAUVEANALYSISDIR
-  scp -r $MAUVEANALYSISDIR/output $X11_MAUVEANALYSISDIR
+  ssh -x $CAC_USERHOST mkdir -p $CAC_ROOT/output
+  ssh -x $X11_USERHOST mkdir -p $X11_ROOT/output
 }
 
 # Create direcotires for storing analyses and their results.
@@ -309,6 +320,74 @@ function mkdir-SPECIES {
 
   scp -r $BASEDIR $SWIFTGENROOTDIR
   scp -r $RUNCLONALFRAME $SWIFTGENDIR
+}
+
+# Creates directories under the output directory.
+# ----------------------------------------------------------
+# The species directory is created in output subdirectory. The cluster's file
+# structure is almost the same as the local one. 
+# The followings are the directories to create:
+# 
+# /Users/goshng/Documents/Projects/mauve/output/cornell
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/data
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-mauve
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalframe
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalorigin
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-analysis
+# 
+# if 
+# BASEDIR=/Users/goshng/Documents/Projects/mauve/output/cornell
+# 
+
+# Creates a species directory in the output directory.
+# ----------------------------------------------------
+# The argument is the name of species or analysis. You can find them in the
+# subdirectory called species.
+function mkdir-simulation {
+  mkdir $MAUVEANALYSISDIR/$1
+  ssh -x $CAC_USERHOST mkdir -p $CAC_OUTPUTDIR/$1
+  ssh -x $X11_USERHOST mkdir -p $X11_OUTPUTDIR/$1
+}
+
+# Creates directories in each repeat directory.
+# ---------------------------------------------
+# The first argument is the species name, and the second is the repeat number.
+# Both of them are required.
+function mkdir-simulation-repeat {
+  BASEDIR=$OUTPUTDIR/$1/$2
+  DATADIR=$BASEDIR/data
+  RUNMAUVEDIR=$BASEDIR/run-mauve
+  RUNCLONALFRAME=$BASEDIR/run-clonalframe
+  RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
+  RUNANALYSISDIR=$BASEDIR/run-analysis
+  mkdir $BASEDIR \
+        $DATADIR \
+        $RUNMAUVEDIR \
+        $RUNCLONALFRAME \
+        $RUNCLONALORIGIN \
+        $RUNANALYSISDIR
+  CAC_BASEDIR=$CAC_OUTPUTDIR/$1/$2
+  CAC_DATADIR=$CAC_BASEDIR/data
+  CAC_RUNMAUVEDIR=$CAC_BASEDIR/run-mauve
+  CAC_RUNCLONALFRAME=$CAC_BASEDIR/run-clonalframe
+  CAC_RUNCLONALORIGIN=$CA_CBASEDIR/run-clonalorigin
+  ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
+                             $CAC_DATADIR \
+                             $CAC_RUNMAUVEDIR \
+                             $CAC_RUNCLONALFRAME \
+                             $CAC_RUNCLONALORIGIN \
+                             $CAC_RUNANALYSISDIR
+  X11_BASEDIR=$X11_OUTPUTDIR/$1/$2
+  X11_DATADIR=$X11_BASEDIR/data
+  X11_RUNMAUVEDIR=$X11_BASEDIR/run-mauve
+  X11_RUNCLONALFRAME=$X11_BASEDIR/run-clonalframe
+  X11_RUNCLONALORIGIN=$CA_CBASEDIR/run-clonalorigin
+  ssh -x $X11_USERHOST mkdir $X11_BASEDIR \
+                             $X11_DATADIR \
+                             $X11_RUNMAUVEDIR \
+                             $X11_RUNCLONALFRAME \
+                             $X11_RUNCLONALORIGIN \
+                             $X11_RUNANALYSISDIR
 }
 
 # I do not know yet how the simulation method works. Some variables need to be
@@ -1242,20 +1321,23 @@ function run-bbfilter {
 
 # 0. For simulation I make directories in CAC and copy genomes files to the data
 # directory. 
-function choose-simulatoin {
+function choose-simulation {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -e "Creating species directories"
+      mkdir-simulation $SPECIES
+
       echo -e "How many repetitions do you wish to run? (e.g., 5)"
       read HOW_MANY_REPETITION
       
       echo -e "Wait for file system preparation..."
       for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
         prepare-filesystem $REPETITION
-        mkdir-SPECIES
+        mkdir-simulation-repeat $SPECIES $REPETITION
       done
 
       #read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
