@@ -84,6 +84,9 @@ BATCHACCESS=acs4_0001
 BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
 BATCHCLONALFRAME=usr/bin/ClonalFrame
 
+# The main base directory contains all the subdirectories.
+MAUVEANALYSISDIR=`pwd`
+
 # Replicates and repetitions.
 # ---------------------------
 # The output directory contains different analyses. They can be different in
@@ -169,9 +172,6 @@ function prepare-filesystem {
   else
     REPETITION_DIR=/$1
   fi
-
-  # The main base directory contains all the subdirectories.
-  MAUVEANALYSISDIR=`pwd`
 
   # SPECIES must be set before the call of this bash function. $SPECIESFILE
   # contains a list of Genbank formatted genome file names.
@@ -271,7 +271,7 @@ function prepare-filesystem {
 function init-file-system {
   mkdir $MAUVEANALYSISDIR/output 
   scp -r $MAUVEANALYSISDIR/output $CAC_MAUVEANALYSISDIR
-  scp -r $MAUVEANALYSISDIR/output $CAC_MAUVEANALYSISDIR
+  scp -r $MAUVEANALYSISDIR/output $X11_MAUVEANALYSISDIR
 }
 
 # Create direcotires for storing analyses and their results.
