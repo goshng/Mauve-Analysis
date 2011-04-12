@@ -61,6 +61,14 @@
 # $ git clone git@codaset.com:goshng/mauve-analysis.git
 # $ cd mauve-analysis
 # ----
+#
+# .Execution of menus for simulation study s1
+# ----
+# init-file-system
+# choose-simulation
+# simulate-data
+# prepare-run-clonalorigin
+# ----
 # 
 # Menu: init-file-system
 # ~~~~~~~~~~~~~~~~~~~~~
@@ -72,8 +80,13 @@
 #
 # Menu: simulate-data
 # ~~~~~~~~~~~~~~~~~~~
+# The directory src/clonalorigin contains the source code of ClonalOrigin that
+# was modified. Compile it before simulating data. Refer to README in the
+# directory to build it.
+#
 # Simulation s1
 # ^^^^^^^^^^^^^
+# 
 # 
 # 
 # The output directory
@@ -790,6 +803,11 @@ function send-clonalorigin-input-to-cac {
 }
 
 function copy-batch-sh-run-clonalorigin {
+  BATCH_SH_RUN_CLONALORIGIN=$1/batch.sh
+  BATCH_BODY_SH_RUN_CLONALORIGIN=$1/batch_body.sh
+  BATCH_TASK_SH_RUN_CLONALORIGIN=$1/batch_task.sh
+  BATCH_REMAIN_SH_RUN_CLONALORIGIN=$1/batch_remain.sh
+  BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN=$1/batch_remain_body.sh
 
   cat>$BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
@@ -1102,11 +1120,383 @@ done
 EOF
 
   chmod a+x $BATCH_SH_RUN_CLONALORIGIN
-  scp $BATCH_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  scp $BATCH_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  scp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  scp $BATCH_REMAIN_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
-  scp $BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN $CACRUNCLONALORIGIN/
+  scp $BATCH_SH_RUN_CLONALORIGIN $2
+  scp $BATCH_BODY_SH_RUN_CLONALORIGIN $2
+  scp $BATCH_TASK_SH_RUN_CLONALORIGIN $2
+  scp $BATCH_REMAIN_SH_RUN_CLONALORIGIN $2
+  scp $BATCH_REMAIN_BODY_SH_RUN_CLONALORIGIN $2
+}
+
+# A script called run.sh is created at the SPECIES directory.
+# -----------------------------------------------------------
+# I create a text file from which each job can read a line. The line should
+# contain the input file for clonal origin.
+function copy-run-sh {
+  RUN_SH=$1/run.sh
+  RUN_BATCH_CLONALORIGIN_SH=$1/batch_clonalorigin.sh
+  RUN_BATCH_TASK_CLONALORIGIN_SH=$1/batch_clonalorigin_task.sh
+  RUN_BATCH_CLONALORIGIN2_SH=$1/batch_clonalorigin2.sh
+  SPECIES=$3
+
+  cat>$RUN_BATCH_CLONALORIGIN_SH<<EOF
+#!/bin/bash
+#PBS -l walltime=23:59:59,nodes=1
+#PBS -A ${BATCHACCESS}
+#PBS -j oe
+#PBS -N Strep-${SPECIES}-ClonalOrigin
+#PBS -q v4
+#PBS -m e
+#PBS -M ${BATCHEMAIL}
+#PBS -t 1-PBSARRAYSIZE
+
+# The wall time is the time duration during which a job can run. Use wall time
+# enough to finish jobs.
+# -A: The ID for accessing the cluster.
+# -j: The standard and error output
+# -N: The name of the job
+# -q: The name of the queue
+# -m: When is the job's status reported?
+# -M: The email address to get the notification of the jobs
+# -t: The number of nodes to use. I would replace PBSARRAYSIZE with a positive
+# number.
+
+REPLICATE=${REPLICATE}
+CLONAL2ndPHASE=
+WORKDIR=\$PBS_O_WORKDIR
+LCBDIR=\$WORKDIR/../run-lcb
+
+
+# Sets the echo of the command line on.
+set -x
+# The full path of the clonal origin executable.
+WARG=\$HOME/usr/bin/warg
+# The input and output directories.
+OUTPUTDIR=\$TMPDIR/output
+INPUTDIR=\$TMPDIR/input
+
+# 
+function to-node {
+  mkdir -p \$WORKDIR/output/\${REPLICATE}
+  mkdir -p \$WORKDIR/output2/\${REPLICATE}
+  mkdir -p \$WORKDIR/status/\${REPLICATE}
+  mkdir -p \$WORKDIR/status2/\${REPLICATE}
+  mkdir \$INPUTDIR
+  mkdir \$OUTPUTDIR
+  cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
+  cp \$WORKDIR/remain.txt \$TMPDIR/
+  cp \$WORKDIR/input/\${REPLICATE}/clonaltree.nwk \$TMPDIR/
+  cp \$WARG \$TMPDIR/
+  cp \$WORKDIR/batch_task.sh \$TMPDIR/  
+}
+
+function prepare-task {
+  # NODENUMBER=8 # What is this number? Is this number of cores of a node?
+
+  # I need to count total jobs.
+  TOTALJOBS=\$(ls -1 \$INPUTDIR/${SMALLERCLONAL}*.xmfa.* | wc -l)
+
+  # NODECNT: number of computing nodes
+  # TASKCNT: total number of cores
+  # PBS_ARRAYID represents a computing node among those nodes.
+  CORESPERNODE=\`grep processor /proc/cpuinfo | wc -l\`
+  #NODECNT=\$(wc -l < "\$PBS_NODEFILE")
+  NODECNT=PBSARRAYSIZE # This must match -t option.
+  TASKCNT=\`expr \$CORESPERNODE \\* \$NODECNT\`
+  #JOBSPERCORE=\$(( TOTALJOBS / TASKCNT + 1 ))
+  JOBSPERNODE=\$(( TOTALJOBS / NODECNT + 1 ))
+  # The job id is something like 613.scheduler.v4linux.
+  # This deletes everything after the first dot.
+  JOBNUMBER=\${PBS_JOBID%%.*}
+
+  # JOBIDFILE=\$TMPDIR/jobidfile
+  # STARTJOBID=\$(( JOBSPERNODE * (PBS_ARRAYID - 1) + 1 ))
+  # ENDJOBID=\$(( JOBSPERNODE * PBS_ARRAYID + 1 )) 
+  JOBIDFILE=\$WORKDIR/jobidfile
+  LOCKFILE=\$WORKDIR/lockfile
+  STARTJOBID=1
+  ENDJOBID=\$(( TOTALJOBS + 1))
+  TOTALJOBS=\$(( TOTALJOBS + 1))
+  # If JOBSPERNODE is 3, then
+  # STARTJOBID is 1, and ENDJOBID is 4.
+}
+
+function task {
+  cd \$TMPDIR
+  #for (( i=1; i<=TASKCNT; i++))
+  for (( i=1; i<=CORESPERNODE; i++))
+  do
+    bash batch_task.sh \$i \$TOTALJOBS \$ENDJOBID \$WORKDIR \$TMPDIR \$JOBIDFILE \$LOCKFILE \$CLONAL2ndPHASE&
+  done
+}
+
+echo -e "The job started ..."
+echo -n "Start at "
+date
+
+# Copy all the input data files to the compute node.
+to-node
+
+# 
+prepare-task
+
+#
+task
+
+# Wait for all of the 8 processes to finish.
+wait
+echo -n "End at "
+date
+echo -e "The job is finished."
+EOF
+
+  # The first part is from the cluster.
+  # Task batch script
+  cat>$RUN_BATCH_TASK_CLONALORIGIN_SH<<EOF
+#!/bin/bash
+
+function hms
+{
+  s=\$1
+  h=\$((s/3600))
+  s=\$((s-(h*3600)));
+  m=\$((s/60));
+  s=\$((s-(m*60)));
+  printf "%02d:%02d:%02d\n" \$h \$m \$s
+}
+
+REPLICATE=\$8
+PMI_RANK=\$1
+TOTALJOBS=\$2
+ENDJOBID=\$3
+WORKDIR=\$4
+SCRATCH=\$5
+JOBIDFILE=\$6
+LOCKFILE=\$7
+CLONAL2ndPHASE=\$9
+WHICHLINE=1
+JOBID=0
+
+cd \$SCRATCH
+
+# Read the filelock
+while [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
+do
+
+  # lockfile=filelock
+  lockfile=\$LOCKFILE
+  if ( set -o noclobber; echo "\$\$" > "\$lockfile") 2> /dev/null; 
+  then
+    # BK: this will cause the lock file to be deleted 
+    # in case of other exit
+    trap 'rm -f "\$lockfile"; exit \$?' INT TERM
+
+    # The critical section:
+    # Read a line, and delete it.
+    read -r JOBID < \${JOBIDFILE}
+    sed '1d' \$JOBIDFILE > \$JOBIDFILE.temp; 
+    mv \$JOBIDFILE.temp \$JOBIDFILE
+
+    rm -f "$lockfile"
+    trap - INT TERM
+
+    if [ $JOBID -lt $TOTALJOBS ] && [ $JOBID -lt $ENDJOBID ]
+    then
+      echo begin-$JOBID
+      START_TIME=`date +%s`
+      if [[ -z $CLONAL2ndPHASE ]]; then
+        FINISHED=$(tail -n 1 $WORKDIR/output/${REPLICATE}/core_co.phase2.$JOBID-$PMI_RANK.xml)
+        if [[ "$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: $WORKDIR/output/${REPLICATE}/core_co.phase2.$JOBID-$PMI_RANK.xml
+        else
+          STATUSFILE=$WORKDIR/status/${REPLICATE}/core_co.phase2.$JOBID-$PMI_RANK.status
+          if [ ! -f "$STATUSFILE" ]; then
+            touch $STATUSFILE
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 10000 \
+              clonaltree.nwk input/core_alignment.xmfa.$JOBID \
+              $WORKDIR/output/${REPLICATE}/core_co.phase2.$JOBID-$PMI_RANK.xml
+            rm $STATUSFILE
+          fi
+        fi
+      else
+        FINISHED=$(tail -n 1 $WORKDIR/output2/${REPLICATE}/core_co.phase3.$JOBID.xml)
+        if [[ "$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: $WORKDIR/output2/${REPLICATE}/core_co.phase3.$JOBID.xml
+        else
+          STATUSFILE=$WORKDIR/status2/${REPLICATE}/core_co.phase3.$JOBID.status
+          if [ ! -f "$STATUSFILE" ]; then
+            touch $STATUSFILE
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 10000000 -y 100000000 -z 100000 \
+              -T s0.0542 -D 1425 -R s0.00521 \
+              clonaltree.nwk input/core_alignment.xmfa.$JOBID \
+              $WORKDIR/output2/${REPLICATE}/core_co.phase3.$JOBID.xml
+            rm $STATUSFILE
+          fi
+        fi
+      fi
+      END_TIME=`date +%s`
+      ELAPSED=`expr $END_TIME - $START_TIME`
+      echo end-$JOBID
+      hms $ELAPSED
+    fi
+
+  else
+    echo "Failed to acquire lockfile: $lockfile." 
+    echo "Held by $(cat $lockfile)"
+    sleep 5
+    echo "Retry to access $lockfile"
+  fi
+
+done
+
+
+
+
+
+
+
+
+#!/bin/bash
+
+function hms
+{
+  s=\$1
+  h=\$((s/3600))
+  s=\$((s-(h*3600)));
+  m=\$((s/60));
+  s=\$((s-(m*60)));
+  printf "%02d:%02d:%02d\n" \$h \$m \$s
+}
+
+REPLICATE=${REPLICATE}
+PMI_RANK=\$1
+TOTALJOBS=\$2
+ENDJOBID=\$3
+WORKDIR=\$4
+SCRATCH=\$5
+JOBIDFILE=\$6
+LOCKFILE=\$7
+CLONAL2ndPHASE=\$8
+WHICHLINE=1
+JOBID=0
+
+cd \$SCRATCH
+
+# Read the filelock
+while [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
+do
+
+  #lockfile=filelock
+  lockfile=\$LOCKFILE
+  if ( set -o noclobber; echo "\$\$" > "\$lockfile") 2> /dev/null; 
+  then
+    # BK: this will cause the lock file to be deleted in case of other exit
+    trap 'rm -f "\$lockfile"; exit \$?' INT TERM
+
+    # critical-section BK: (the protected bit)
+    JOBID=\$(sed -n "\${WHICHLINE}p" "\${JOBIDFILE}")
+
+    JOBID=\$(( JOBID + 1))
+    echo \$JOBID > \$JOBIDFILE
+    JOBID=\$(( JOBID - 1))
+
+    # To read in a line and delete the line so that a next job can be read.
+    # Note that jobidfile should contain a list of numbers.
+    #read -r JOBID < \${JOBIDFILE}
+    #sed '1d' \${JOBIDFILE} > \${JOBIDFILE}.temp;
+    #mv \${JOBIDFILE}.temp \${JOBIDFILE}
+
+    rm -f "\$lockfile"
+    trap - INT TERM
+
+    if [ \$JOBID -lt \$TOTALJOBS ] && [ \$JOBID -lt \$ENDJOBID ]
+    then
+      echo begin-\$JOBID
+      START_TIME=\`date +%s\`
+      if [[ -z \$CLONAL2ndPHASE ]]; then
+        FINISHED=\$(tail -n 1 \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml)
+        if [[ "\$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml
+        else
+          STATUSFILE=\$WORKDIR/status/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.status
+          if [ ! -f "\$STATUSFILE" ]; then
+            touch \$STATUSFILE
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 10000 \\
+              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+            rm \$STATUSFILE
+          fi
+        fi
+      else
+        FINISHED=\$(tail -n 1 \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml)
+        if [[ "\$FINISHED" =~ "outputFile" ]]; then
+          echo Already finished: \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml
+        else
+          STATUSFILE=\$WORKDIR/status2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
+          if [ ! -f "\$STATUSFILE" ]; then
+            touch \$STATUSFILE
+            ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 100000 \\
+              -T s${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R s${MEDIAN_RHO} \\
+              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+            rm \$STATUSFILE
+          fi
+        fi
+      fi
+      END_TIME=\`date +%s\`
+      ELAPSED=\`expr \$END_TIME - \$START_TIME\`
+      echo end-\$JOBID
+      hms \$ELAPSED
+    fi
+
+  else
+    echo "Failed to acquire lockfile: \$lockfile." 
+    echo "Held by \$(cat \$lockfile)"
+    sleep 5
+    echo "Retry to access \$lockfile"
+  fi
+
+done
+EOF
+
+
+  cat>$RUN_SH<<EOF
+#!/bin/bash
+
+function submit-clonalorigin {
+  sed s/PBSARRAYSIZE/\$1/g < batch_clonalorigin.sh > tbatch.sh
+  nsub tbatch.sh
+  rm tbatch.sh
+}
+
+function submit-clonalorigin2 {
+  sed s/PBSARRAYSIZE/\$1/g < batch_clonalorigin2.sh > tbatch.sh
+  nsub tbatch.sh
+  rm tbatch.sh
+}
+
+PS3="Select what jobs you want to submit: "
+CHOICES=( submit-clonalorigin \
+          submit-clonalorigin2 ) 
+select CHOICE in \${CHOICES[@]}; do 
+  if [ "\$CHOICE" == "" ];  then
+    echo -e "You need to enter something\\n"
+    continue
+  elif [ "\$CHOICE" == "submit-clonalorigin" ];  then
+    submit-clonalorigin
+    break
+  elif [ "\$CHOICE" == "submit-clonalorigin2" ];  then
+    submit-clonalorigin2
+    break
+  else
+    echo -e "You need to enter something\n"
+    continue
+  fi
+done
+EOF
+  chmod a+x $RUN_SH
+  scp $RUN_SH $2
+  scp $RUN_BATCH_CLONALORIGIN_SH $2
+  scp $RUN_BATCH_TASK_CLONALORIGIN_SH $2
 }
 
 function run-bbfilter {
@@ -1594,6 +1984,7 @@ function receive-run-clonalframe {
 # split the core alignments into blocks that ClonalOrigin can read in. I delete
 # all the core alignment blocks that were generated before, and recreate them so
 # that I let ClonalOrigin read its expected formatted blocks.
+#
 function prepare-run-clonalorigin {
   PS3="Choose the species to analyze with clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -2090,53 +2481,67 @@ function analysis-clonalorigin {
 # Not only mutation rate, recombination rate, and tract length but also the
 # number of blocks and their lengths. I might have to remove more blocks based
 # on the proportion of gaps in alignments. 
+#
+# How can I submit jobs in the repetitions?
 function prepare-run-clonalorigin-simulation {
   PS3="Choose the simulation to analyze with clonalorigin: "
-  CHOICES=( c1 )
+  CHOICES=( s1 )
   select CHOICE in ${CHOICES[@]}; do 
     if [ "$CHOICE" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$CHOICE" == "c1" ];  then
-      echo -e "Which replicate set of output files?"
-      echo -n "REPLICATE ID: " 
+    elif [ "$CHOICE" == "s1" ];  then
+      echo -e "Which replicate set of ClonalOrigin output files?"
+      echo -n "ClonalOrigin REPLICATE ID: " 
       read REPLICATE
       echo -e "Preparing clonal origin analysis..."
-      NUMBER_SPECIES=5
-      prepare-filesystem-simulation
-      mkdir-simulation
-      for i in `ls $BASECHOICEDIR/input/*.fa`; do 
-        perl pl/blocksplit.pl $i
+      #prepare-filesystem 
+
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      read HOW_MANY_REPETITION
+
+      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+        BASEDIR=$OUTPUTDIR/$CHOICE/$g
+        DATADIR=$BASEDIR/data
+        RUNCLONALFRAME=$BASEDIR/run-clonalframe
+        RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
+        mkdir $RUNCLONALORIGIN/output
+        mkdir $RUNCLONALORIGIN/output2
+        mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
+        CAC_BASEDIR=$CAC_OUTPUTDIR/$CHOICE/$g
+        CAC_DATADIR=$CAC_BASEDIR/data
+        CAC_RUNCLONALORIGIN=$CAC_BASEDIR/run-clonalorigin
+        ssh -x $CAC_USERHOST \
+          mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
+
+        # I already have the tree.
+
+        echo -e "  Splitting alignment into one file per block..."
+        CORE_ALIGNMENT=sim1_${g}_core_alignment.xmfa
+        rm $DATADIR/$CORE_ALIGNMENT.*
+        perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
+
+        #send-clonalorigin-input-to-cac
+        scp $DATADIR/$CORE_ALIGNMENT.* \
+          $CAC_MAUVEANALYSISDIR/output/$CHOICE/$g/data
+
+        # Copy the input species tree.
+        scp $RUNCLONALORIGIN/input/${REPLICATE}/* \
+          $CAC_MAUVEANALYSISDIR/output/$CHOICE/$g/run-clonalorigin/input/${REPLICATE}
+
+        #scp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
+        # Some script.
+        copy-batch-sh-run-clonalorigin \
+          $RUNCLONALORIGIN \
+          $CAC_MAUVEANALYSISDIR/output/$CHOICE/$g/run-clonalorigin
       done
-      copy-batch-sh-run-clonalorigin-simulation
+
+      # Make a script for submitting jobs for all the repetitions.
+      copy-run-sh $OUTPUTDIR/$CHOICE \
+        $CAC_MAUVEANALYSISDIR/output/$CHOICE \
+        $CHOICE
+ 
       break
-
-      #mkdir -p $RUNCLONALORIGIN/input
-      #mkdir $RUNCLONALORIGIN/output
-      #mkdir $RUNCLONALORIGIN/output2
-      # mkdir -p $CACRUNCLONALORIGIN/input
-
-      #perl $PERLGCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
-      
-      #echo -e "  Splitting alignment into one file per block..."
-      #rm $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.*
-      # FIXME: put perl script in the pl directory.
-      #perl $HOME/usr/bin/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
-
-      #send-clonalorigin-input-to-cac
-      #cp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
-      # Some script.
-
-      #copy-batch-sh-run-clonalorigin-simulation
-      echo -e "Go to CAC's output/$SPECIES run-clonalorigin, and execute nsub batch.sh"
-      echo -e "Submit a job using a different command."
-      echo -e "$ bash batch.sh 3 to use three computing nodes"
-      echo -e "Check the output if there are jobs that take longer"
-      echo -e "tail -n 1 output/*> 1"
-      echo -e "Create a file named remain.txt with block IDs, and then run"
-      echo -e "$ bash batch_remain.sh 3"
-      echo -e "The number of computing nodes is larger than the number of"
-      echo -e "remaining jobs divided by 8"
     fi
   done
 }
@@ -2241,7 +2646,7 @@ function compute-block-length {
 # simulation studies I might have a similar one for setting up directories. How
 # about choose-simulation.
 # 
-# This function can be more generalized.
+# This function should be more generalized.
 function simulate-data {
   PS3="Choose a data set to analyze: "
   select SPECIES in `ls species`; do 
@@ -2258,12 +2663,11 @@ function simulate-data {
           continue
         elif [ "$WHATSIMULATION" == "s1" ]; then
           
-          echo -e "How many repetitions do you wish to run? (e.g., 5)"
+          echo -n "How many repetitions do you wish to run? (e.g., 5) "
           read HOW_MANY_REPETITION
-          #prepare-filesystem
 
           for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-            BASEDIR=$OUTPUTDIR/$SPECIES/$WHATSIMULATION
+            BASEDIR=$OUTPUTDIR/$SPECIES/$g
             RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
             DATADIR=$BASEDIR/data
             mkdir -p $RUNCLONALORIGIN/input/1
@@ -2271,11 +2675,12 @@ function simulate-data {
             cp $SPECIESTREE $RUNCLONALORIGIN/input/1
             INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
             cp $INBLOCK $DATADIR
-            
+            echo -n "  Simulating data under the ClonalOrigin model ..." 
             $WARGSIM --tree-file $RUNCLONALORIGIN/input/1/clonaltree.nwk \
               --block-file $DATADIR/in1.block \
               --out-file $DATADIR/sim1_${g}_core_alignment \
               -T s0.0542 -D 1425 -R s0.00521 
+            echo -e " done - repetition $g"
           done
           break
         elif [ "$WHATSIMULATION" == "block-1-10kb" ]; then
@@ -2308,6 +2713,8 @@ function simulate-data {
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
           choose-simulation \
+          simulate-data \
+          prepare-run-clonalorigin-simulation \
           choose-species \
           receive-run-mauve \
           filter-blocks \
@@ -2322,7 +2729,6 @@ CHOICES=( init-file-system \
           generate-species \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
-          simulate-data \
           prepare-run-clonalorigin-simulation )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then

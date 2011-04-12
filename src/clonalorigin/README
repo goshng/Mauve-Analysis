@@ -1,6 +1,14 @@
 Simulation Studies with ClonalOrigin
 ====================================
 
+.To build the clonal origin
+----
+$ mkdir b
+$ cd b
+$ cmake ..
+$ make
+----
+
 Source files of ClonalOrigin
 ----------------------------
 I start to add ones with the least dependency.
