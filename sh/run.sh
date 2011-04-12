@@ -51,21 +51,55 @@
 # directory of my cluster account. The BATCHCLONALFRAME looks like this:
 # BATCHCLONALFRAME=usr/bin/ClonalFrame
 
+# User manual
+# -----------
+# You should be able to download the source code from codaset repository called
+# mauve-analysis. 
+#
+# The output directory
+# ~~~~~~~~~~~~~~~~~~~~
+# Use the menu init-file-system to 
+#
+# Dependency of menus
+# ~~~~~~~~~~~~~~~~~~~
+# init-file-system -> 
+
 # Edit these global variables.
 # ----------------------------
-CACUSERNAME=sc2265
-CACLOGIN=linuxlogin.cac.cornell.edu
-CACBASE=Documents/Projects/mauve/output
-X11USERNAME=choi
-X11LOGIN=swiftgen
-X11BASE=Documents/Projects/mauve/output
+# CAC cluster ID setup
+CAC_USERNAME=sc2265
+CAC_LOGIN=linuxlogin.cac.cornell.edu
+CAC_ROOT=Documents/Projects/m2
+CAC_MAUVEANALYSISDIR=$CAC_USERNAME@$CAC_LOGIN:$CAC_ROOT
+CACBASE=$CAC_ROOT/output
+# X11 linux ID setup
+X11_USERNAME=choi
+X11_LOGIN=swiftgen
+X11_ROOT=Documents/Projects/m2
+X11_MAUVEANALYSISDIR=$X11_USERNAME@$X11_LOGIN:$X11_ROOT
+X11BASE=$X11_ROOT/output
+# CAC cluster access to job submission
 BATCHEMAIL=schoi@cornell.edu
 BATCHACCESS=acs4_0001
 BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
 BATCHCLONALFRAME=usr/bin/ClonalFrame
 
+# Replicates and repetitions.
+# ---------------------------
+# The output directory contains different analyses. They can be different in
+# their raw data or their purposes of analyses. For example, the output
+# directory can contain cornell5 for the 5 genomes of Streptococcus. It can
+# contain bacillus for the genomes that Didelot et al. (2010) used. It can also
+# contain a directory called s1 that includes analyses of one of simulation
+# studies. REPETITION macro is mainly used for the purpose of simulation
+# studies. A number of repetitons in a simulation study can performed. One
+# repetition can be different from another. For real data analyses repetitions
+# can be done at different time points. They can also be different in some of
+# their filtering steps, which could result in different temporary data.
 CLONALFRAMEREPLICATE=1
 REPLICATE=1
+REPETITION=1
+
 # bash sh/run.sh smaller
 # bash sh/run.sh 
 SMALLER=$1
@@ -103,6 +137,13 @@ GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
 # This is prepared using list-species.
 ALLSPECIES=( Escherichia_coli Salmonella_enterica Staphylococcus_aureus Streptococcus_pneumoniae Streptococcus_pyogenes Prochlorococcus_marinus Helicobacter_pylori Clostridium_botulinum Bacillus_cereus Yersinia_pestis Sulfolobus_islandicus Francisella_tularensis Rhodopseudomonas_palustris Listeria_monocytogenes Chlamydia_trachomatis Buchnera_aphidicola Bacillus_anthracis Acinetobacter_baumannii Streptococcus_suis Neisseria_meningitidis Mycobacterium_tuberculosis Legionella_pneumophila Cyanothece_PCC Coxiella_burnetii Campylobacter_jejuni Burkholderia_pseudomallei Bifidobacterium_longum Yersinia_pseudotuberculosis Xylella_fastidiosa Xanthomonas_campestris Vibrio_cholerae Shewanella_baltica Rhodobacter_sphaeroides Pseudomonas_putida Pseudomonas_aeruginosa Methanococcus_maripaludis Lactococcus_lactis Haemophilus_influenzae Chlamydophila_pneumoniae Candidatus_Sulcia Burkholderia_mallei Burkholderia_cenocepacia )
 
+# SEQUENCE Command can be different for Linux and MacOSX.
+if [[ "$OSTYPE" =~ "linux" ]]; then
+  SEQ=seq
+elif [[ "$OSTYPE" =~ "darwin" ]]; then
+  SEQ=jot
+fi
+
 # Format seconds into a time format.
 function hms
 {
@@ -114,6 +155,7 @@ function hms
   printf "%02d:%02d:%02d\n" $h $m $s
 }
 
+
 # Structure directories.
 # ----------------------
 # The name of file system is overkill.  Subdirectory names are stored in bash
@@ -122,6 +164,12 @@ function hms
 # run.sh file is executed at the main directory. Let's list directory variables
 # and their usages. Refer to each variable in the following.
 function prepare-filesystem {
+  if [ "$1" == "" ]; then
+    REPETITION_DIR=""
+  else
+    REPETITION_DIR=/$1
+  fi
+
   # The main base directory contains all the subdirectories.
   MAUVEANALYSISDIR=`pwd`
 
@@ -136,7 +184,7 @@ function prepare-filesystem {
   # The subdirectory output contains directories named after the species file.
   # The output species directory would contain all of the results from the
   # analysis.
-  BASEDIR=$MAUVEANALYSISDIR/output/$SPECIES
+  BASEDIR=$MAUVEANALYSISDIR/output/$SPECIES$REPETITION_DIR
 
   # The output species directory would contain 5 subdirectories. 
   # run-mauve contains genome alignments.
@@ -163,8 +211,9 @@ function prepare-filesystem {
   # reason, which I did not want to know. Since then, I use scp command.
   # Note that the cluster base directory does not contain run-analysis. The
   # basic analysis is done in the local machine.
+
   CACROOTDIR=$CACUSERNAME@$CACLOGIN:$CACBASE
-  CACBASEDIR=$CACROOTDIR/$SPECIES
+  CACBASEDIR=$CACROOTDIR/$SPECIES$REPETITION_DIR
   CACDATADIR=$CACBASEDIR/data
   CACRUNMAUVEDIR=$CACBASEDIR/run-mauve
   CACRUNLCBDIR=$CACBASEDIR/run-lcb
@@ -208,7 +257,7 @@ function prepare-filesystem {
   # result to the linux machine where I set up ClonalFrame. Setting up
   # ClonalFrame's GUI program was done in the Linux machine.
   SWIFTGENROOTDIR=$X11USERNAME@$X11LOGIN:$X11BASE
-  SWIFTGENDIR=$SWIFTGENROOTDIR/$SPECIES
+  SWIFTGENDIR=$SWIFTGENROOTDIR/$SPECIES$REPETITION_DIR
   SWIFTGENRUNCLONALFRAME=$SWIFTGENDIR/run-clonalframe
    
   # FIXME: Do not create files at the base directory.
@@ -216,15 +265,37 @@ function prepare-filesystem {
   RSCRIPTW=$BASEDIR/w.R
 }
 
+# Create initial directories after checking out the source code from the
+# repository.
+
+function init-file-system {
+  mkdir $MAUVEANALYSISDIR/output 
+  scp -r $MAUVEANALYSISDIR/output $CAC_MAUVEANALYSISDIR
+  scp -r $MAUVEANALYSISDIR/output $CAC_MAUVEANALYSISDIR
+}
+
 # Create direcotires for storing analyses and their results.
 # ----------------------------------------------------------
 # The species directory is created in output subdirectory. The cluster's file
 # system is almost the same as the local one. 
+# The followings are the directories to create:
+# 
+# /Users/goshng/Documents/Projects/mauve/output/cornell
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/data
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-mauve
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalframe
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalorigin
+# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-analysis
+# 
+# if 
+# BASEDIR=/Users/goshng/Documents/Projects/mauve/output/cornell
+# 
+# I use 
 function mkdir-SPECIES {
   mkdir $BASEDIR
   mkdir $DATADIR
   mkdir $RUNMAUVEDIR
-  mkdir $RUNLCBDIR
+  # mkdir $RUNLCBDIR
   mkdir $RUNCLONALFRAME
   mkdir $RUNCLONALORIGIN
   mkdir $RUNANALYSISDIR
@@ -1169,6 +1240,33 @@ function run-bbfilter {
   bbFilter $ALIGNMENT/full_alignment.xmfa.backbone 50 my_feats.bin gp
 }
 
+# 0. For simulation I make directories in CAC and copy genomes files to the data
+# directory. 
+function choose-simulatoin {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -e "How many repetitions do you wish to run? (e.g., 5)"
+      read HOW_MANY_REPETITION
+      
+      echo -e "Wait for file system preparation..."
+      for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
+        prepare-filesystem $REPETITION
+        mkdir-SPECIES
+      done
+
+      #read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
+      #copy-batch-sh-run-mauve
+      echo -e "Execute simulate-data!"
+      break
+    fi
+  done
+}
+
+
 # 1. I make directories in CAC and copy genomes files to the data directory.
 # --------------------------------------------------------------------------
 # Users need to download genome files to a local directory named $GENOMEDATADIR.
@@ -1872,8 +1970,8 @@ function analysis-clonalorigin {
   done
 }
 
-# 11. Prepare the first stage of clonalorigin.
-# -------------------------------------------
+# 11. Prepare the first stage of clonalorigin for simulation.
+# -----------------------------------------------------------
 # This may change depending on what simulation setup I would go with.
 # The first simulation set is called c1 at
 # /Users/goshng/Documents/Projects/mauve/noweb/output/c1
@@ -1881,7 +1979,7 @@ function analysis-clonalorigin {
 # that. I am not following the directory structure in the real data analysis.
 # Instead, I will use the output directory. Replicates are stored in the output
 # directory. I am concerned about that some duplicates of code can be generated.
-# I think that that might be necessary.
+# I think that that might be necessary. Why is this the case?
 #
 # mkdir-simulation: a run of a simulation study is stored in a directory,
 # BASEDIR=$MAUVEANALYSISDIR/noweb/output/$CHOICE/output/${REPLICATE}
@@ -2011,17 +2109,57 @@ function compute-block-length {
 
 }
 
-# Computes lengths of blocks.
-# ---------------------------
+# Simulates data under ClonalOrigin model or ancestral recombination graph.
+# -------------------------------------------------------------------------
 # The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
+# Two kinds of data are generated. I could simulate the ClonalOrigin model to
+# generate a single-block data set or a multiple-block data set. It would be
+# better to use the same bash script structure as that of real data sets. I need
+# an additional analysis step of comparing simulated results and their true
+# values. I would use the same file structure as real data analysis. Is there a
+# problem with that? I remember that there were some issues about this. There
+# was a subtle issue of file structure of the main output directory. I would
+# have a REPETITION under the SPECIES directory. REPETITION and REPLICATE would
+# be confusing. I did not have REPETITON, but I used it: e.g., cornell5 and
+# cornell5-1. Both of them use the same data set. One of them uses 419 or 415
+# blocks, and another uses 411. Their filtering steps were different. From the
+# view point of ClonalOrigin their data sets are different. Replicates are the
+# same analyses but different in time or random seeds. Repetitions are similar
+# analyses with differnt data.
+# 
+# After thinking over REPETITION and REPLICATE I decide to use a different
+# output file structure. The main output directory still contains SPECIES
+# directories. A SPECIES directory would contain directories named as numbers:
+# i.e., 1, 2, 3 and so on. A numbered directory would contain directories such
+# as run-mauve, run-clonalframe, run-clonalorigin, etc. This could change many
+# parts of this main run.sh script. One issue that I was concerned about was how
+# I could run multiple repeated analyses in a single batch script.
+#
+# Each sub-directory of a species directory contains shell scripts, one of which
+# is called batch.sh. I used to execute it to submit jobs. Now, I wish to
+# control jobs in multiple repetitions. Shell scripts may well be placed at the
+# SPECIES directory. Doing so a batch script can let you submit jobs in REPETITON
+# directories. The SPECIES directory would contain numbered directories, a shell
+# script called run.sh, and a directory called sh that contains more scripts.
+# The run.sh is the main shell script that would select one of commands
+# available. The scripts in ``sh'' directory are for various specific scripts:
+# e.g., run-mauve, run-clonalframe, run-clonalorigin. I will keep the batch scripts
+# in these directories. I will have two levels of batch scripts: one at the
+# SPECIES directory level, and the other at each run-xxx level.
+# 
+# Let's start with simulated data.
+# 1. choose-species is the starting point of a real data analysis. For 
+# simulation studies I might have a similar one for setting up directories. How
+# about choose-simulation.
+# 
 function simulate-data {
-  PS3="Choose the species to compute block lengths: "
+  PS3="Choose a data set to analyze: "
   select SPECIES in `ls species`; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    else  
-      prepare-filesystem 
+    else
+      prepare-filesystem
       PS3="Choose a simulation: "
       select WHATSIMULATION in block-1-10kb \
                                block-411; do
@@ -2056,7 +2194,9 @@ function simulate-data {
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
-CHOICES=( choose-species \
+CHOICES=( init-file-system \
+          choose-simulation \
+          choose-species \
           receive-run-mauve \
           filter-blocks \
           prepare-run-clonalframe \
@@ -2083,6 +2223,12 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "generate-species" ];  then
     generate-species 
+    break
+  elif [ "$CHOICE" == "init-file-system" ];  then
+    init-file-system
+    break
+  elif [ "$CHOICE" == "choose-simulation" ];  then
+    choose-simulation
     break
   elif [ "$CHOICE" == "choose-species" ];  then
     choose-species

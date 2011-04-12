@@ -1,6 +1,19 @@
 Mauve, Clonal Frame, Clonal Origin Analysis
 ===========================================
 
+Directories
+-----------
+
+species
+~~~~~~~
+This directory contains text files, each of which describes a data set and
+the purpose of analysis of thereof. 
+
+output
+~~~~~~
+This directory contains subdirectories with the same names as those in the main
+directory called +species+. A subdirectory contains more directories with
+positive integer numbers.
 
 Bacteria species under study
 ----------------------------
