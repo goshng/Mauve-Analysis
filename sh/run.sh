@@ -62,13 +62,27 @@
 # $ cd mauve-analysis
 # ----
 # 
+# Menu: init-file-system
+# ~~~~~~~~~~~~~~~~~~~~~
+# Choose the menu for the first time only.
+#
+# Menu: choose-simulation
+# ~~~~~~~~~~~~~~~~~~~~~~~
+# This must be executed before selecting simulate-data.
+#
+# Menu: simulate-data
+# ~~~~~~~~~~~~~~~~~~~
+# Simulation s1
+# ^^^^^^^^^^^^^
+# 
+# 
 # The output directory
 # ~~~~~~~~~~~~~~~~~~~~
 # Use the menu init-file-system to create output 
 #
 # Dependency of menus
 # ~~~~~~~~~~~~~~~~~~~
-# init-file-system -> 
+# 
 
 # Edit these global variables.
 # ----------------------------
@@ -280,9 +294,15 @@ function prepare-filesystem {
 # Create initial directories after checking out the source code from the
 # repository.
 function init-file-system {
+  echo -n "Creating $MAUVEANALYSISDIR/output ..." 
   mkdir $MAUVEANALYSISDIR/output 
+  echo -e " done"
+  echo -n "Creating $CAC_ROOT/output at $CAC_USERHOST ..."
   ssh -x $CAC_USERHOST mkdir -p $CAC_ROOT/output
+  echo -e " done"
+  echo -n "Creating $X11_ROOT/output at $X11_USERHOST ..."
   ssh -x $X11_USERHOST mkdir -p $X11_ROOT/output
+  echo -e " done"
 }
 
 # Create direcotires for storing analyses and their results.
@@ -344,9 +364,15 @@ function mkdir-SPECIES {
 # The argument is the name of species or analysis. You can find them in the
 # subdirectory called species.
 function mkdir-simulation {
-  mkdir $MAUVEANALYSISDIR/$1
-  ssh -x $CAC_USERHOST mkdir -p $CAC_OUTPUTDIR/$1
-  ssh -x $X11_USERHOST mkdir -p $X11_OUTPUTDIR/$1
+  echo -n "  Creating a species $1 at $OUTPUTDIR ..."
+  echo -e " done"
+  mkdir $OUTPUTDIR/$1
+  echo -n "  Creating a species $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
+  ssh -x $CAC_USERHOST mkdir $CAC_OUTPUTDIR/$1
+  echo -e " done"
+  echo -n "  Creating a species $1 at $X11_OUTPUTDIR in $X11_USERHOST ..."
+  ssh -x $X11_USERHOST mkdir $X11_OUTPUTDIR/$1
+  echo -e " done"
 }
 
 # Creates directories in each repeat directory.
@@ -360,34 +386,45 @@ function mkdir-simulation-repeat {
   RUNCLONALFRAME=$BASEDIR/run-clonalframe
   RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
   RUNANALYSISDIR=$BASEDIR/run-analysis
+  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
+  echo -n "    run-analysis at $BASEDIR ..."
   mkdir $BASEDIR \
         $DATADIR \
         $RUNMAUVEDIR \
         $RUNCLONALFRAME \
         $RUNCLONALORIGIN \
         $RUNANALYSISDIR
+  echo -e " done"
   CAC_BASEDIR=$CAC_OUTPUTDIR/$1/$2
   CAC_DATADIR=$CAC_BASEDIR/data
   CAC_RUNMAUVEDIR=$CAC_BASEDIR/run-mauve
   CAC_RUNCLONALFRAME=$CAC_BASEDIR/run-clonalframe
-  CAC_RUNCLONALORIGIN=$CA_CBASEDIR/run-clonalorigin
+  CAC_RUNCLONALORIGIN=$CAC_BASEDIR/run-clonalorigin
+  CAC_RUNANALYSISDIR=$CAC_BASEDIR/run-analysis
+  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
+  echo -n "    run-analysis at $CAC_BASEDIR ... of $CAC_USERHOST ..."
   ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
                              $CAC_DATADIR \
                              $CAC_RUNMAUVEDIR \
                              $CAC_RUNCLONALFRAME \
                              $CAC_RUNCLONALORIGIN \
                              $CAC_RUNANALYSISDIR
+  echo -e " done"
   X11_BASEDIR=$X11_OUTPUTDIR/$1/$2
   X11_DATADIR=$X11_BASEDIR/data
   X11_RUNMAUVEDIR=$X11_BASEDIR/run-mauve
   X11_RUNCLONALFRAME=$X11_BASEDIR/run-clonalframe
-  X11_RUNCLONALORIGIN=$CA_CBASEDIR/run-clonalorigin
+  X11_RUNCLONALORIGIN=$X11_BASEDIR/run-clonalorigin
+  X11_RUNANALYSISDIR=$X11_BASEDIR/run-analysis
+  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
+  echo -n "    run-analysis at $X11_BASEDIR ... of $X11_USERHOST ..."
   ssh -x $X11_USERHOST mkdir $X11_BASEDIR \
                              $X11_DATADIR \
                              $X11_RUNMAUVEDIR \
                              $X11_RUNCLONALFRAME \
                              $X11_RUNCLONALORIGIN \
                              $X11_RUNANALYSISDIR
+  echo -e " done"
 }
 
 # I do not know yet how the simulation method works. Some variables need to be
@@ -467,32 +504,6 @@ function prepare-filesystem-simulation {
   # FIXME: Do not create files at the base directory.
   RUNLOG=$BASEDIR/run.log
   RSCRIPTW=$BASEDIR/w.R
-}
-
-# Create direcotires for storing analyses and their results.
-# ----------------------------------------------------------
-# The species directory is created in output subdirectory. The cluster's file
-# system is almost the same as the local one. 
-function mkdir-simulation {
-  mkdir -p $BASEDIR
-
-  #mkdir $DATADIR
-  #mkdir $RUNMAUVEDIR
-  #mkdir $RUNLCBDIR
-  #mkdir $RUNCLONALFRAME
-  #mkdir $RUNCLONALORIGIN
-  #mkdir $RUNANALYSISDIR
-
-  scp -r $MAUVEANALYSISDIR/noweb/output/$CHOICE $CACROOTDIR
-  scp -r $MAUVEANALYSISDIR/noweb/output/$CHOICE/output $CACROOTDIR/$CHOICE
-  scp -r $BASEDIR $CACROOTDIR/$CHOICE/output
-
-  #scp -r $BASEDIR $CACROOTDIR
-  #scp -r $DATADIR $CACBASEDIR
-  #scp -r $RUNMAUVEDIR $CACBASEDIR
-  #scp -r $RUNLCBDIR $CACBASEDIR
-  #scp -r $RUNCLONALFRAME $CACBASEDIR
-  #scp -r $RUNCLONALORIGIN $CACBASEDIR
 }
 
 # Do something using species file.
@@ -1334,20 +1345,16 @@ function choose-simulation {
       echo -e "How many repetitions do you wish to run? (e.g., 5)"
       read HOW_MANY_REPETITION
       
-      echo -e "Wait for file system preparation..."
+      echo -e "Creating directories of repetitions ..."
       for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
-        prepare-filesystem $REPETITION
         mkdir-simulation-repeat $SPECIES $REPETITION
       done
 
-      #read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
-      #copy-batch-sh-run-mauve
       echo -e "Execute simulate-data!"
       break
     fi
   done
 }
-
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
 # --------------------------------------------------------------------------
@@ -2234,6 +2241,7 @@ function compute-block-length {
 # simulation studies I might have a similar one for setting up directories. How
 # about choose-simulation.
 # 
+# This function can be more generalized.
 function simulate-data {
   PS3="Choose a data set to analyze: "
   select SPECIES in `ls species`; do 
@@ -2241,13 +2249,35 @@ function simulate-data {
       echo -e "You need to enter something\n"
       continue
     else
-      prepare-filesystem
       PS3="Choose a simulation: "
-      select WHATSIMULATION in block-1-10kb \
+      select WHATSIMULATION in s1 \
+                               block-1-10kb \
                                block-411; do
         if [ "$WHATSIMULATION" == "" ];  then
           echo -e "You need to enter something\n"
           continue
+        elif [ "$WHATSIMULATION" == "s1" ]; then
+          
+          echo -e "How many repetitions do you wish to run? (e.g., 5)"
+          read HOW_MANY_REPETITION
+          #prepare-filesystem
+
+          for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+            BASEDIR=$OUTPUTDIR/$SPECIES/$WHATSIMULATION
+            RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
+            DATADIR=$BASEDIR/data
+            mkdir -p $RUNCLONALORIGIN/input/1
+            SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
+            cp $SPECIESTREE $RUNCLONALORIGIN/input/1
+            INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
+            cp $INBLOCK $DATADIR
+            
+            $WARGSIM --tree-file $RUNCLONALORIGIN/input/1/clonaltree.nwk \
+              --block-file $DATADIR/in1.block \
+              --out-file $DATADIR/sim1_${g}_core_alignment \
+              -T s0.0542 -D 1425 -R s0.00521 
+          done
+          break
         elif [ "$WHATSIMULATION" == "block-1-10kb" ]; then
           for g in {1..10}; do 
             sleep 3
