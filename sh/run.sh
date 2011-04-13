@@ -66,6 +66,7 @@
 # choose-simulation
 # simulate-data
 # prepare-run-clonalorigin
+# receive-run-clonalorigin-simulation
 # ----
 # 
 # Menu: init-file-system
@@ -198,6 +199,8 @@ fi
 # alignment.
 # ---
 # choose-species: Prepares genome data to align them by using mauve. 
+# analyze-run-clonalorigin-simulation: Analyzes simulation results of clonal
+# origin.
 
 ###############################################################################
 # Functions: utility
@@ -881,7 +884,7 @@ function make-run-list-repeat {
     # After deletion of longest match from XMFA_FILE.
     BLOCKID=${XMFA_FILE##*.}
     LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
-          -x 1000 -y 1000 -z 1 \
+          -x 1000000 -y 1000000 -z 10000 \
           input/$g/clonaltree.nwk input/$g/$XMFA_FILE \
           output/$g/core_co.phase2.$BLOCKID.xml"
     #LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
@@ -959,10 +962,10 @@ do
       echo "No more jobs"
     else
       echo begin-\$JOBID
-      START_TIME=`date +%s`
+      START_TIME=\`date +%s\`
       ./warg \$JOBID
-      END_TIME=`date +%s`
-      ELAPSED=`expr $END_TIME - $START_TIME`
+      END_TIME=\`date +%s\`
+      ELAPSED=\`expr $END_TIME - $START_TIME\`
       echo end-\$JOBID
       hms \$ELAPSED
     fi
@@ -1392,10 +1395,11 @@ function choose-simulation {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Creating species directories"
+      echo -e "Creating species directories..."
       mkdir-simulation $SPECIES
+      echo -e "done"
 
-      echo -e "How many repetitions do you wish to run? (e.g., 5)"
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
       read HOW_MANY_REPETITION
       
       echo -e "Creating directories of repetitions ..."
@@ -2191,7 +2195,7 @@ function prepare-run-clonalorigin-simulation {
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ];  then
+    elif [ "$SPECIES" == "s1" ]; then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
@@ -2249,6 +2253,91 @@ function prepare-run-clonalorigin-simulation {
         $HOW_MANY_REPETITION
  
       break
+    else
+      echo -e "You need to enter something\n"
+      continue
+    fi
+  done
+}
+
+# Receives result of clonal origin runs for simulation 
+# ----------------------------------------------------
+# Let's just receive the results.
+function receive-run-clonalorigin-simulation {
+  PS3="Choose the simulation result of clonalorigin: "
+  CHOICES=( s1 )
+  select SPECIES in ${CHOICES[@]}; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    elif [ "$SPECIES" == "s1" ]; then
+      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
+      read REPLICATE
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      read HOW_MANY_REPETITION
+      echo -e "Preparing clonal origin analysis..."
+
+      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+        NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
+        DATADIR=$NUMBERDIR/data
+        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
+        CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+        scp $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/* \
+          $RUNCLONALORIGIN/output/$REPLICATE
+      done
+      break
+    else
+      echo -e "You need to enter something\n"
+      continue
+    fi
+  done
+}
+
+# Analysis with clonal origin simulation
+# --------------------------------------
+# The recovery of the true values is evaluated. The 3 main scalar parameters of
+# Clonal origin model include mutation rate, recombination rate, and average
+# tract length. Each run samples $N$ values of each parameter. I repeated the
+# simulation $G$ times. How can I assess the coverage of estimates on the true
+# value?
+# For each repetition I find a point estimate such as mean or median of each
+# parameter. I will check how much the 100 point estimates cover the true value.
+# I could find an interval estimate for each repetition. I could check how often
+# or how many among 100 interval estimates cover the true value. If we use 95%
+# interval, then I'd expect that 95 of 100 interval estimates would cover the
+# true value. I need to build a matrix of 100-by-100 for each parameter. I could
+# use it to compute interval estimates.
+function analyze-run-clonalorigin-simulation {
+  PS3="Choose the simulation result of clonalorigin: "
+  CHOICES=( s1 )
+  select SPECIES in ${CHOICES[@]}; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    elif [ "$SPECIES" == "s1" ]; then
+      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
+      read REPLICATE
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      read HOW_MANY_REPETITION
+      echo -e "Preparing clonal origin analysis..."
+
+      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+        NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
+        DATADIR=$NUMBERDIR/data
+        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
+        CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+
+        # Files that we need to compare.
+        CORE_ALIGNMENT_XML=${SPECIES}_${g}_core_alignment.xml
+        perl pl/extractClonalOriginParameter5.pl \
+          $RUNCLONALORIGIN/output/$REPLICATE/$CORE_ALIGNMENT_XML \
+      done
+      break
+    else
+      echo -e "You need to enter something\n"
+      continue
     fi
   done
 }
@@ -2316,37 +2405,46 @@ function compute-block-length {
 # simulation studies I might have a similar one for setting up directories. How
 # about choose-simulation.
 # 
-# This function should be more generalized.
+# This function could be more generalized.
 function simulate-data {
   PS3="Choose a simulation (e.g., s1): "
   select SPECIES in `ls species`; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    else
+    elif [ "$SPECIES" == "s1" ];  then
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
       read HOW_MANY_REPETITION
+      echo -e "Species tree and blocks are given as"
+      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
+      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
+      echo "  species tree: $SPECIESTREE"
+      echo "  block: $INBLOCK"
 
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-        BASEDIR=$OUTPUTDIR/$SPECIES/$g
-        RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
-        DATADIR=$BASEDIR/data
-        mkdir -p $RUNCLONALORIGIN/input/1
-        SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
-        cp $SPECIESTREE $RUNCLONALORIGIN/input/1
-        INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
+        BASEDIR=$OUTPUTDIR/$SPECIES
+        NUMBERDIR=$BASEDIR/$g
+        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        DATADIR=$NUMBERDIR/data
+        mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
+        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
         cp $INBLOCK $DATADIR
         echo -n "  Simulating data under the ClonalOrigin model ..." 
-        $WARGSIM --tree-file $RUNCLONALORIGIN/input/1/clonaltree.nwk \
+        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/clonaltree.nwk \
           --block-file $DATADIR/in1.block \
           --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
           -T s0.0542 -D 1425 -R s0.00521 
         echo -e " done - repetition $g"
       done
       break
+    else
+      echo -e "You need to enter something\n"
+      continue
     fi
   done
-
 }
 
 
@@ -2358,6 +2456,8 @@ CHOICES=( init-file-system \
           choose-simulation \
           simulate-data \
           prepare-run-clonalorigin-simulation \
+          receive-run-clonalorigin-simulation \
+          analyze-run-clonalorigin-simulation \
           choose-species \
           receive-run-mauve \
           filter-blocks \
@@ -2416,6 +2516,12 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "prepare-run-clonalorigin-simulation" ];  then
     prepare-run-clonalorigin-simulation
+    break
+  elif [ "$CHOICE" == "receive-run-clonalorigin-simulation" ];  then
+    receive-run-clonalorigin-simulation
+    break
+  elif [ "$CHOICE" == "analyze-run-clonalorigin-simulation" ];  then
+    analyze-run-clonalorigin-simulation
     break
   elif [ "$CHOICE" == "compute-block-length" ];  then
     compute-block-length
