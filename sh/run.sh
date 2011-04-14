@@ -415,6 +415,7 @@ function mkdir-simulation {
   echo -n "  Creating a species $1 at $OUTPUTDIR ..."
   echo -e " done"
   mkdir $OUTPUTDIR/$1
+  mkdir $OUTPUTDIR/$1/run-analysis
   echo -n "  Creating a species $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
   ssh -x $CAC_USERHOST mkdir $CAC_OUTPUTDIR/$1
   echo -e " done"
@@ -965,7 +966,7 @@ do
       START_TIME=\`date +%s\`
       ./warg \$JOBID
       END_TIME=\`date +%s\`
-      ELAPSED=\`expr $END_TIME - $START_TIME\`
+      ELAPSED=\`expr \$END_TIME - \$START_TIME\`
       echo end-\$JOBID
       hms \$ELAPSED
     fi
@@ -1835,6 +1836,8 @@ EOF
   R --no-save < $RUNANALYSIS/recombination-intensity3.R
 }
 
+
+
 # 10. Some post-processing procedures follow clonal origin runs.
 # --------------------------------------------------------------
 # Several analyses were performed using output of ClonalOrigin. Let's list
@@ -2201,14 +2204,15 @@ function prepare-run-clonalorigin-simulation {
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
       read HOW_MANY_REPETITION
       echo -e "Preparing clonal origin analysis..."
+      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
 
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
         RUNCLONALFRAME=$NUMBERDIR/run-clonalframe
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-        mkdir $RUNCLONALORIGIN/output
-        mkdir $RUNCLONALORIGIN/output2
+        mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
+        mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
         mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_DATADIR=$CAC_NUMBERDIR/data
@@ -2217,6 +2221,7 @@ function prepare-run-clonalorigin-simulation {
           mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
         # I already have the tree.
+        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
 
         echo "  Splitting alignment into files per block..."
         CORE_ALIGNMENT=${SPECIES}_${g}_core_alignment.xmfa
@@ -2283,8 +2288,12 @@ function receive-run-clonalorigin-simulation {
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-        scp $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/* \
+        rm -rf $RUNCLONALORIGIN/output/$REPLICATE
+        mkdir -p $RUNCLONALORIGIN/output/$REPLICATE
+
+        scp $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.*.xml \
           $RUNCLONALORIGIN/output/$REPLICATE
+        # mv $RUNCLONALORIGIN/output/$REPLICATE/{,${SPECIES}_${g}_}core_alignment.xml
       done
       break
     else
@@ -2292,6 +2301,38 @@ function receive-run-clonalorigin-simulation {
       continue
     fi
   done
+}
+
+# Find the median of the median values of three parameters.
+# ---------------------------------------------------------
+# The simulation s1 would create an output file.  
+# It contains a matrix of column size being equal to the sample size (Note that
+# the sample size is 101 when run length is 1000000, and thinning interval is
+# 10000), and row being equal to the number of repetition.
+#
+# 
+function analyze-run-clonalorigin-simulation-s1-rscript {
+  S1OUT=$1
+  BATCH_R_S1=$2
+cat>$BATCH_R_S1<<EOF
+summaryThreeParameter <- function (f) {
+  x <- scan (f, quiet=TRUE)
+  x <- matrix (x, ncol=101, byrow=TRUE)
+  # x <- matrix (x, ncol=100, byrow=FALSE) # 100 is the number of repetition
+
+  y <- c() 
+  for (i in 1:100) {
+    y <- c(y, median(x[i,]))
+  }
+
+  cat (median(y))
+  cat ("\n")
+}
+summaryThreeParameter ("$S1OUT.theta")
+summaryThreeParameter ("$S1OUT.rho")
+summaryThreeParameter ("$S1OUT.delta")
+EOF
+  Rscript $BATCH_R_S1 > $BATCH_R_S1.out 
 }
 
 # Analysis with clonal origin simulation
@@ -2320,20 +2361,38 @@ function analyze-run-clonalorigin-simulation {
       read REPLICATE
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
       read HOW_MANY_REPETITION
-      echo -e "Preparing clonal origin analysis..."
 
+      echo "Extracting the 3 parameters from ${HOW_MANY_REPETITION} XML files"
+      echo "  of replicate ${REPLICATE}..."
+      BASEDIR=$OUTPUTDIR/$SPECIES
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-        NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
+        NUMBERDIR=$BASEDIR/$g
         DATADIR=$NUMBERDIR/data
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        RUNANALYSIS=$NUMBERDIR/run-analysis
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
 
         # Files that we need to compare.
-        CORE_ALIGNMENT_XML=${SPECIES}_${g}_core_alignment.xml
-        perl pl/extractClonalOriginParameter5.pl \
-          $RUNCLONALORIGIN/output/$REPLICATE/$CORE_ALIGNMENT_XML \
+        if [ "$g" == 1 ]; then
+          perl pl/extractClonalOriginParameter5.pl \
+            -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml \
+            -out $BASEDIR/run-analysis/out
+        else
+          perl pl/extractClonalOriginParameter5.pl \
+            -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml \
+            -out $BASEDIR/run-analysis/out \
+            -append
+        fi
       done
+
+      echo "Summarizing the three parameters..."
+      analyze-run-clonalorigin-simulation-s1-rscript \
+        $BASEDIR/run-analysis/out \
+        $BASEDIR/run-analysis/out.R 
+      echo "  $BASEDIR/run-analysis/out.R.out is created!"
+      echo "  Refer to the file for median values of the three parameters."
+      
       break
     else
       echo -e "You need to enter something\n"
@@ -2408,11 +2467,40 @@ function compute-block-length {
 # This function could be more generalized.
 function simulate-data {
   PS3="Choose a simulation (e.g., s1): "
-  select SPECIES in `ls species`; do 
+  CHOICES=( s1 s2 )
+  select SPECIES in ${CHOICES[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
     elif [ "$SPECIES" == "s1" ];  then
+      echo -e "Which replicate set of output files?"
+      echo -n "REPLICATE ID: " 
+      read REPLICATE
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      read HOW_MANY_REPETITION
+      echo -e "Species tree and blocks are given as"
+      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
+      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
+      echo "  species tree: $SPECIESTREE"
+      echo "  block: $INBLOCK"
+
+      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+        BASEDIR=$OUTPUTDIR/$SPECIES
+        NUMBERDIR=$BASEDIR/$g
+        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        DATADIR=$NUMBERDIR/data
+        mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
+        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+        cp $INBLOCK $DATADIR
+        echo -n "  Simulating data under the ClonalOrigin model ..." 
+        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/clonaltree.nwk \
+          --block-file $DATADIR/in1.block \
+          --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
+          -T s0.0542 -D 1425 -R s0.00521 
+        echo -e " done - repetition $g"
+      done
+      break
+    elif [ "$SPECIES" == "s2" ];  then
       echo -e "Which replicate set of output files?"
       echo -n "REPLICATE ID: " 
       read REPLICATE

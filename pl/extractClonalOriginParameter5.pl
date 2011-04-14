@@ -3,7 +3,7 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: extractClonalOriginParameter5.pl
-#   Date: 2011-04-13
+#   Date: 21.04-13
 #   Version: 1.0
 #
 #   Usage:
@@ -11,13 +11,12 @@
 #
 #      Try 'perl extractClonalOriginParameter5.pl -h' for more information.
 #
-#   Purpose: extractClonalOriginParameter5.pl help you extract 3 main parameters
-#            from the output XML file of ClonalOrigin.
+#   Purpose: extractClonalOriginParameter5.pl help you extract the 3 main
+#            parameters from the output XML file of ClonalOrigin.
 #===============================================================================
 
 use strict;
 use warnings;
-use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
@@ -25,7 +24,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter5.pl 0.1.0';
+my $VERSION = 'extractClonalOriginParameter5.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -33,12 +32,10 @@ my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);
 GetOptions( \%params,
             'help|h',
             'man',
-            'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
-            'd=s',
-            'e=s',
-            'n=i',
-            's=i'
+            'xml=s',
+            'append',
+            'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -49,26 +46,18 @@ extractClonalOriginParameter5.pl - Build a heat map of recombination.
 
 =head1 VERSION
 
-extractClonalOriginParameter5.pl 0.1.0
+extractClonalOriginParameter5.pl 1.0
 
 =head1 SYNOPSIS
 
 perl extractClonalOriginParameter5.pl [-h] [-help] [-version] 
-  [-d xml data directory] 
-  [-e per-block heat map directory] 
-  [-n number of blocks] 
-  [-s number of species] 
+  [-xml file] [-append] [-out file]
 
 =head1 DESCRIPTION
 
-The expected number of recedges a priori is given by ClonalOrigin's
-gui program that makes a matrix. The matrix dimension depends on
-the number of taxa in the clonal frame. Another matrix should be
-built and its element is an average observed recedes. I divide the
-latter matrix by the former one element-by-element. For each block
-I follow the computation above to obtain an odd-ratio matrix. 
-For each element over all the blocks I weight it by the length of
-the block to have an average odd-ratio.
+The three scalar parameters include mutation rate, recombination rate, and
+average recombinant tract length.  These values are extracted from a
+ClonalOrigin XML output file.
 
 =head1 OPTIONS
 
@@ -86,27 +75,21 @@ Print the full documentation; ignore other arguments.
 
 Print program version; ignore other arguments.
 
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
 =item B<***** INPUT OPTIONS *****>
 
-=item B<-d> <directory>
+=item B<-xml> <file>
 
-A directory that contains the 2nd phase run result from Clonal Origin.
+A ClonalOrigin output file in XML format is required.
 
-=item B<-e> <directory>
+=item B<-out> <base name of output file>
 
-A directory that contains files with prior expected number of recombinations.
+Three files are generated for the three parameters. The option string of out is
+used as a base name of them: i.e., out.theta, out.rho, and out.delta.
 
-=item B<-n> <number>
+=item B<-append>
 
-The number of blocks. Both directories must have pairs of files for each block.
-
-=item B<-s> <number>
-
-The number of species.
+Three output files are not created if append is on. If three output files exist,
+then we just use them.
 
 =back
 
@@ -133,50 +116,32 @@ You should have received a copy of the GNU General Public License along with thi
 
 =cut
 
-sub get_exp_map($$);
-sub get_obs_map($$);
+my $xmlFile;
+my $basenameOutFile;
+my $isAppend = 0;
 
-my $xmlDir;
-my $heatDir;
-my $numBlocks;
-my $numSpecies;
-
-if (exists $params{d})
+if (exists $params{xml})
 {
-  $xmlDir = $params{d};
+  $xmlFile = $params{xml};
 }
 else
 {
-  &printError("you did not specify a directory that contains Clonal Origin 2nd run results");
+  &printError("you did not specify an XML file that contains Clonal Origin run results");
 }
 
-if (exists $params{e})
+if (exists $params{out})
 {
-  $heatDir = $params{e};
+  $basenameOutFile = $params{out};
 }
 else
 {
-  &printError("you did not specify a directory that contains prior number of recombination");
+  &printError("you did not specify a base name of the output file");
 }
 
-if (exists $params{n})
+if (exists $params{append})
 {
-  $numBlocks = $params{n};
+  $isAppend = 1;
 }
-else
-{
-  &printError("you did not specify a number of blocks");
-}
-
-if (exists $params{s})
-{
-  $numSpecies = $params{s};
-}
-else
-{
-  &printError("you did not specify a number of species");
-}
-
 
 #
 ################################################################################
@@ -189,203 +154,60 @@ else
 ##############################################################
 my $tag;
 my $content;
-my %recedge;
 my $itercount=0;
 
-
 ##############################################################
-# An initial heat map is created.
+# Open the three output files.
 ##############################################################
-my @heatMap;
-my $numberOfTaxa = $numSpecies;
-my $numberOfLineage = 2 * $numberOfTaxa - 1;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @heatMap, [ @rowMap ];
-}
-my @obsMap;
-my @blockObsMap;
-my $blockLength;
-my $totalLength;
-
-##############################################################
-# Find the total length of all the blocks.
-##############################################################
-$totalLength = 0;
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-  $totalLength += $blockLength;
-}
-
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $heatfilename = "$heatDir/heatmap-$blockid.txt";
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @expMap = get_exp_map($heatfilename, $numberOfLineage);
-
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-
-  # Debug
-print "========================================\n";
-print "expMap - block $blockid\n";
-for my $i ( 0 .. $#expMap ) {
-  print "$expMap[$i][0]";
-  for my $j ( 1 .. $#{ $expMap[$i] } ) {
-    print ",$expMap[$i][$j]";
-  }
-  print "\n";
-}
-print "----------------------------------------\n";
-print "obsMap - block $blockid\n";
-for my $i ( 0 .. $#obsMap ) {
-  print "$obsMap[$i][0]";
-  for my $j ( 1 .. $#{ $obsMap[$i] } ) {
-    print ",$obsMap[$i][$j]";
-  }
-  print "\n";
-}
-print "----------------------------------------\n";
-print "block length: $blockLength for block $blockid\n";
-print "Total block length: $totalLength\n";
-print "----------------------------------------\n";
-
-  # blockLength is given.
-
-  for my $i ( 0 .. $#heatMap ) {
-    for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-      if ($expMap[$i][$j] > 0)
-      {
-        my $blockValue = ($blockLength / $totalLength); # weight
-        $blockValue *= ($obsMap[$i][$j] / $expMap[$i][$j]);
-        $heatMap[$i][$j] += $blockValue;
-      }
-    }
-  }
-}
-
-############################################################
-# Compute the sample variance.
-############################################################
-my @heatVarMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @heatVarMap, [ @rowMap ];
-}
-
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $heatfilename = "$heatDir/heatmap-$blockid.txt";
-  my $xmlfilename = "$xmlDir/core_co.phase3.$blockid.xml";
-  my @expMap = get_exp_map($heatfilename, $numberOfLineage);
-
-  my @obsMap = get_obs_map($xmlfilename, $numberOfLineage);
-
-print "----------------------------------------\n";
-print "block length: $blockLength for block $blockid\n";
-print "Total block length: $totalLength\n";
-print "----------------------------------------\n";
-
-  # blockLength is given.
-  for my $i ( 0 .. $#heatVarMap ) {
-    for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-      if ($expMap[$i][$j] > 0)
-      {
-        my $blockValue = ($blockLength / $totalLength); # weight
-        $blockValue *= (($heatMap[$i][$j] - $obsMap[$i][$j] / $expMap[$i][$j]) 
-                       * ($heatMap[$i][$j] - $obsMap[$i][$j] / $expMap[$i][$j]));
-        $heatVarMap[$i][$j] += $blockValue;
-      }
-    }
-  }
+if ($isAppend == 0) {
+  open OUTTHETA, ">$basenameOutFile.theta" or die $!;
+  open OUTRHO, ">$basenameOutFile.rho" or die $!;
+  open OUTDELTA, ">$basenameOutFile.delta" or die $!;
+} else {
+  open OUTTHETA, ">>$basenameOutFile.theta" or die $!;
+  open OUTRHO, ">>$basenameOutFile.rho" or die $!;
+  open OUTDELTA, ">>$basenameOutFile.delta" or die $!;
 }
 
 ##############################################################
-# Print the resulting heat map.
+# Start to parse the XML file.
 ##############################################################
-for my $i ( 0 .. $#heatMap ) {
-  print "$heatMap[$i][0]";
-  for my $j ( 1 .. $#{ $heatMap[$i] } ) {
-    print ",$heatMap[$i][$j]";
-  }
-  print "\n";
-}
-print "\n";
-for my $i ( 0 .. $#heatVarMap ) {
-  print "$heatVarMap[$i][0]";
-  for my $j ( 1 .. $#{ $heatVarMap[$i] } ) {
-    print ",$heatVarMap[$i][$j]";
-  }
-  print "\n";
-}
+my $parser = new XML::Parser();
+$parser->setHandlers(Start => \&startElement,
+                     End => \&endElement,
+                     Char => \&characterData,
+                     Default => \&default);
+
+my $doc;
+eval{ $doc = $parser->parsefile($xmlFile)};
+print "Unable to parse XML of $xmlFile, error $@\n" if $@;
+
+print OUTTHETA "\n";
+print OUTRHO "\n";
+print OUTDELTA "\n";
+
+close OUTTHETA;
+close OUTRHO;
+close OUTDELTA;
 
 exit;
 ##############################################################
 # END OF RUN OF THIS PERL SCRIPT
 ##############################################################
 
-sub get_exp_map($$)
-{
-  my ($infilename, $numElements) = @_;
-  my @expMap;
-
-  # Count multiple hits of a short read.
-  open FILE, "$infilename" or die "$! - $infilename";
-  my $line;
-  # Three lines of head of the heat map file.
-  for (my $i = 0; $i < 3; $i++)
-  {
-    $line = <FILE>;
-  }
-
-  # Next lines of expected heat map values.
-  for (my $i = 0; $i < $numElements; $i++)
-  {
-    $line = <FILE>;
-#print "[ $numElements ]\n";
-#print "[ $infilename ]\n";
-#print "[ $line ]\n";
-    chomp($line);
-    my @elements = split /,/, $line;
-    push @expMap, [ @elements ];    
-  }
-  close(FILE);
-  return @expMap;
-}
-
-sub get_obs_map($$)
-{
-  my ($f, $numElements) = @_;
-
-	my $parser = new XML::Parser();
-	$parser->setHandlers(Start => \&startElement,
-                       End => \&endElement,
-                       Char => \&characterData,
-                       Default => \&default);
-
-  @blockObsMap = ();
-  for (my $j = 0; $j < $numElements; $j++)
-  {
-    my @rowMap = (0) x $numElements;
-    push @blockObsMap, [ @rowMap ];
-  }
-	$itercount=0;
-
-	my $doc;
-	eval{ $doc = $parser->parsefile($f)};
-	die "Unable to parse XML of $f, error $@\n" if $@;
-  return @blockObsMap;
-}
-
+##############################################################
+# XML Processing procedures
+##############################################################
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;
-	$tag = $element;
+  $tag = $element;
+  $content = "";
   SWITCH: {
     if ($element eq "Iteration") {
       $itercount++;
+      last SWITCH;
+    }
+    if ($element eq "theta") {
       last SWITCH;
     }
     if ($element eq "delta") {
@@ -394,89 +216,39 @@ sub startElement {
     if ($element eq "rho") {
       last SWITCH;
     }
-    if ($element eq "recedge") {
-      last SWITCH;
-    }
-    if ($element eq "Tree") {
-      $content = "";
-      last SWITCH;
-    }
   }
 }
 
 sub endElement {
   my ($p, $elt) = @_;
-	$tag = "";
-  if ($elt eq "Tree")
-  {
-    # No Code.
-
-    # print STDERR $content, "\n";
+  if($tag eq "theta"){
+    print OUTTHETA "\t" if $itercount > 1;
+    print OUTTHETA "$content";
   }
-  if ($elt eq "recedge")
-  {
-    $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
-
-    #print $recedge{start}, "\t";
-    #print $recedge{end}, "\t";
-    #print $recedge{efrom}, "\t";
-    #print $recedge{eto}, "\t";
-    #print $recedge{afrom}, "\t";
-    #print $recedge{ato}, "\n";
+  if($tag eq "rho"){
+    print OUTRHO "\t" if $itercount > 1;
+    print OUTRHO "$content";
   }
-  
-  if ($elt eq "Iteration")
-  {
-    # No Code.
+  if($tag eq "delta"){
+    print OUTDELTA "\t" if $itercount > 1;
+    print OUTDELTA "$content";
   }
-
-  if ($elt eq "outputFile")
-  {
-    print STDERR "outFile: [ $blockLength ]\n";
-    print STDERR "outFile: [ $itercount ]\n";
-    for (my $j = 0; $j < $numberOfLineage; $j++)
-    {
-      for (my $k = 0; $k < $numberOfLineage; $k++)
-      {
-        $blockObsMap[$j][$k] /= $itercount;
-      }
-    }
-  }
+  $tag = "";
+  $content = "";
 }
 
 sub characterData {
-       my( $parseinst, $data ) = @_;
-	$data =~ s/\n|\t//g;
-	if($tag eq "Tree"){
-    $content .= $data;    
-	}
-	if($tag eq "start"){
-    $recedge{start} = $data;
-	}
-	if($tag eq "end"){
-    $recedge{end} = $data;
-	}
-	if($tag eq "efrom"){
-    $recedge{efrom} = $data;
-	}
-	if($tag eq "eto"){
-    $recedge{eto} = $data;
-	}
-	if($tag eq "afrom"){
-    $recedge{afrom} = $data;
-	}
-	if($tag eq "ato"){
-    $recedge{ato} = $data;
-	}
-
-	if($tag eq "Blocks"){
-		if ($data =~ s/.+\,//g)
-    {
-      $blockLength = $data;
-      print STDERR "Blocks: [ $blockLength ]\n";
-    }
-		#push( @lens, $data ) if(length($data)>1);
-	}
+  my( $parseinst, $data ) = @_;
+  $data =~ s/\n|\t//g;
+  if($tag eq "theta"){
+    $content .= $data;
+  }
+  if($tag eq "rho"){
+    $content .= $data;
+  }
+  if($tag eq "delta"){
+    $content .= $data;
+  }
 }
 
 sub default {
@@ -490,34 +262,7 @@ sub default {
 ##
 
 sub printError {
-    my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter5.pl -h\' for more information.\nExit program.\n";
-    exit(0);
+  my $msg = shift;
+  print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter5.pl -h\' for more information.\nExit program.\n";
+  exit(0);
 }
-
-sub getLineNumber {
-    my $file = shift;
-    my $lines = 0;
-    open(FILE,"perl -p -e 's/\r/\n/g' < $file |") or die "ERROR: Could not open file $file: $! \n";
-    $lines += tr/\n/\n/ while sysread(FILE, $_, 2 ** 16);
-    close(FILE);
-    return $lines;
-}
-
-
-sub checkFileFormat {
-    my $file = shift;
-
-    open(FILE,"perl -p -e 's/\r/\n/g' < $file |") or die "ERROR: Could not open file $file: $! \n";
-    while (<FILE>) {
-    }
-    close(FILE);
-
-    my $format = 'map';
-    return $format;
-}
-
-
-
-
-
