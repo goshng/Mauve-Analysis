@@ -82,6 +82,60 @@ alignments have large partial one side flanking gaps.
 1:160477
 4:1720750
 
+cornellf
+--------
+Somehow I got wrong version of SDE1 and SDD genomes. I asked Haruo for the
+version that he had. This cornellf means the final version of cornell5. The
+older version and the new one of SDE1 seem to be almost the same. SDD's genomes
+are somewhat different, but not much.
+
+Repetition 1: The 411 blocks that are filtered using 500 base pairs minimum.
+
+Repetition 2
+~~~~~~~~~~~~
+I use 1000 base pairs minimum for the filtering.
+
+The filtering of 1000 minimum length yields 341 blocks.  I removed 3 blocks with
+large gaps, which yields 338.
+
+Repetition 3
+~~~~~~~~~~~~
+I use 1500 base pairs minimum for the filtering. I removed 2 blocks with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+Repetition 4
+~~~~~~~~~~~~
+I use 2000 base pairs minimum for the filtering. I removed 2 blocks with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+Repetition 5
+~~~~~~~~~~~~
+I use 2500 base pairs minimum for the filtering. I removed 1 block with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+Repetition 6
+~~~~~~~~~~~~
+I use 3000 base pairs minimum for the filtering. I removed 1 block with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+Repetition 7
+~~~~~~~~~~~~
+I use 4000 base pairs minimum for the filtering. I removed 1 block with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+Repetition 8
+~~~~~~~~~~~~
+I use 5000 base pairs minimum for the filtering. I removed 1 block with large
+gaps (blocks with consecutive gaps of size larger than 50).
+
+simulation
+----------
+
+s1: 1 block of 10,000 base pairs
+s2: Real data - 500 minimum block
+s3: 10 blocks of 10000 base pairs
+s4: Real data - 4000 minimum block
+
 cornell5
 --------
 SEE is removed from the analysis of cornell6 because a whole genome may be

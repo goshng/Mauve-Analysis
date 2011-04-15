@@ -187,7 +187,8 @@ fi
 # s1: a single block of 10,000 base pairs
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
-SIMULATIONS=( s1 s2 s3 )
+# s4: 4000 minimum
+SIMULATIONS=( s1 s2 s3 s4 )
 
 ###############################################################################
 # Description of functions
@@ -328,10 +329,6 @@ function set-more-global-variable {
   TMPDIR=/tmp/$JOBID.scheduler.v4linux
   TMPINPUTDIR=$TMPDIR/input
 
-  
-  # FIXME: Do not create files at the base directory.
-  RUNLOG=$BASEDIR/run.log
-  RSCRIPTW=$BASEDIR/w.R
 }
 ###############################################################################
 # Functions: structuring file system (or creating directories)
@@ -372,6 +369,7 @@ function init-file-system {
 # 
 # I use 
 function mkdir-species {
+  mkdir $BASEDIR/run-analysis
   mkdir $BASEDIR \
         $NUMBERDIR \
         $DATADIR \
@@ -649,10 +647,11 @@ function rmdir-tmp {
 }
 
 function run-lcb {
+  MINIMUM_LENGTH=$1
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
   $LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
     $RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols \
-    $RUNLCBDIR/core_alignment.xmfa.org 500
+    $DATADIR/core_alignment.xmfa.org $MINIMUM_LENGTH
 }
 
 function run-core2smallercore {
@@ -660,14 +659,14 @@ function run-core2smallercore {
     $RUNLCBDIR/core_alignment.xmfa 0.1 12345
 }
 
-# FIXME: put perl script in the pl directory.
 function run-blocksplit2fasta {
-  rm -f $RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
-  perl $HOME/usr/bin/blocksplit2fasta.pl $RUNLCBDIR/${SMALLER}core_alignment.xmfa
+  rm -f $DATADIR/core_alignment.xmfa.*
+  perl pl/blocksplit2fasta.pl $DATADIR/core_alignment.xmfa
 }
 
+# FIXME: C source code must be in src
 function compute-watterson-estimate {
-  FILES=$RUNLCBDIR/${SMALLER}core_alignment.xmfa.*
+  FILES=$DATADIR/core_alignment.xmfa.*
   for f in $FILES
   do
     # take action on each file. $f store current file name
@@ -678,6 +677,8 @@ function compute-watterson-estimate {
 }
 
 function sum-w {
+  RUNLOG=$RUNANALYSIS/run.log
+  RSCRIPTW=$RUNANALYSIS/w.R
   cat>$RSCRIPTW<<EOF
 x <- read.table ("w.txt")
 print (paste("Number of blocks:", length(x\$V1)))
@@ -712,13 +713,14 @@ EOF
   rm -f $RUNLOG
   echo -e "Watterson estimate: $WATTERSON_ESIMATE" >> $RUNLOG
   echo -e "Finite-site version of Watterson estimate: $FINITEWATTERSON_ESIMATE" >> $RUNLOG
+  echo -e "Length of sequences: $LEGNTH_SEQUENCE" >> $RUNLOG
   echo -e "Number of blocks: $NUMBER_BLOCKS" >> $RUNLOG
   echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE" >> $RUNLOG
   echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES" >> $RUNLOG
 }
 
 function send-clonalframe-input-to-cac {
-  scp $RUNLCBDIR/${SMALLER}core_alignment.xmfa $CACRUNLCBDIR/
+  scp $DATADIR/core_alignment.xmfa $CAC_USERHOST:$CAC_DATADIR
 }
 
 function copy-batch-sh-run-clonalframe {
@@ -733,7 +735,6 @@ function copy-batch-sh-run-clonalframe {
 #PBS -M ${BATCHEMAIL}
 WORKDIR=\$PBS_O_WORKDIR
 DATADIR=\$WORKDIR/../data
-LCBDIR=\$WORKDIR/../run-lcb
 CLONALFRAME=\$HOME/${BATCHCLONALFRAME}
 
 OUTPUTDIR=\$TMPDIR/output
@@ -741,7 +742,7 @@ INPUTDIR=\$TMPDIR/input
 mkdir \$INPUTDIR
 mkdir \$OUTPUTDIR
 cp \$CLONALFRAME \$TMPDIR/
-cp \$LCBDIR/* \$INPUTDIR/
+cp \$DATADIR/* \$INPUTDIR/
 cd \$TMPDIR
 
 x=( 10000 10000 10000 10000 10000 10000 10000 10000 )
@@ -769,7 +770,7 @@ cd
 rm -rf \$TMPDIR
 EOF
   chmod a+x $BATCH_SH_RUN_CLONALFRAME
-  scp $BATCH_SH_RUN_CLONALFRAME $CACRUNCLONALFRAME/
+  scp $BATCH_SH_RUN_CLONALFRAME $CAC_USERHOST:$CAC_RUNCLONALFRAME
 }
 
 function send-clonalorigin-input-to-cac {
@@ -885,6 +886,7 @@ function make-run-list-repeat {
   g=$1
   BASEDIR=$2
   REPLICATE=$3
+  SPECIESTREE=$4
 
   NUMBERDIR=$BASEDIR/$g
   for l in `ls $NUMBERDIR/data/*.xmfa.*`; do 
@@ -893,7 +895,7 @@ function make-run-list-repeat {
     BLOCKID=${XMFA_FILE##*.}
     LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
           -x 1000000 -y 1000000 -z 10000 \
-          input/$g/clonaltree.nwk input/$g/$XMFA_FILE \
+          input/$g/$SPECIESTREE input/$g/$XMFA_FILE \
           output/$g/core_co.phase2.$BLOCKID.xml"
     #LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
           #-x 1000000 -y 10000000 -z 10000 \
@@ -906,12 +908,13 @@ function make-run-list-repeat {
 # A list jobs are stored as a file, which is accessed by all of the computing
 # nodes.
 function make-run-list {
-  BASEDIR=$1 
-  HOW_MANY_REPETITION=$2
+  HOW_MANY_REPETITION=$1
+  BASEDIR=$2
   REPLICATE=$3
+  SPECIESTREE=$4
 
   for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-    make-run-list-repeat $g $BASEDIR $REPLICATE
+    make-run-list-repeat $g $BASEDIR $REPLICATE $SPECIESTREE
   done
    
 }
@@ -1000,7 +1003,8 @@ function copy-run-sh {
   RUN_BATCH_CLONALORIGIN2_SH=$1/batch_clonalorigin2.sh
   SPECIES=$3
   HOW_MANY_REPETITION=$4
-  CLONAL2ndPHASE=$5
+  SPECIESTREE=$5
+  CLONAL2ndPHASE=$6
 
   cat>$RUN_BATCH_CLONALORIGIN_SH<<EOF
 #!/bin/bash
@@ -1062,7 +1066,7 @@ function to-node-repeat {
   mkdir \$INPUTDIR/\$1
   mkdir \$OUTPUTDIR/\$1
   cp \$PBS_O_WORKDIR/\$1/data/*.xmfa.* \$INPUTDIR/\$1
-  cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/clonaltree.nwk \\
+  cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
     \$INPUTDIR/\$1
 }
 
@@ -1409,7 +1413,7 @@ function choose-simulation {
 
       SPECIESFILE=species/$SPECIES
       echo "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep REPETITION $SPECIESFILE | cut -d":" -f2)
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
       
       echo -e "  Creating directories of $HOW_MANY_REPETITION repetitions..."
       for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
@@ -1457,9 +1461,12 @@ function choose-species {
   done
 }
 
+
+
 # 2. Receive mauve-analysis.
 # --------------------------
 # I simply copy the alignment. 
+# I could copy alignment from other repetition.
 function receive-run-mauve {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1467,9 +1474,33 @@ function receive-run-mauve {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Receiving mauve-output...\n"
-      set-more-global-variable 
-      scp -r $CACRUNMAUVE/output $RUNMAUVE/
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      echo -e "  Receiving mauve-output...\n"
+      set-more-global-variable $SPECIES $REPETITION
+      scp -r $CAC_USERHOST:$CAC_RUNMAUVE/output $RUNMAUVE/
+      echo -e "Now, find core blocks of the alignment.\n"
+      break
+    fi
+  done
+}
+
+function copy-mauve-alignment {
+  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  select SPECIES in `ls species`; do 
+    if [ "$SPECIES" == "" ];  then
+      echo -e "You need to enter something\n"
+      continue
+    else  
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      echo -n "From which repetition do you wish to copy? (e.g., 1) "
+      read SOURCE_REPETITION
+      echo -e "  Copying mauve-output..."
+      echo -e "    from $BASEDIR/$SOURCE_REPETITION/run-mauve"
+      echo -e "    to $RUNMAUVE/output"
+      set-more-global-variable $SPECIES $REPETITION
+      cp -r $BASEDIR/$SOURCE_REPETITION/run-mauve/output $RUNMAUVE
       echo -e "Now, find core blocks of the alignment.\n"
       break
     fi
@@ -1510,17 +1541,21 @@ function filter-blocks {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
       echo -e 'What is the temporary id of mauve-analysis?'
       echo -e "You may find it in the following directory"
-      echo -e "`pwd`/output/$SPECIES/run-mauve/output/full_alignment.xmfa"
+      echo -e "`pwd`/output/$SPECIES/$REPETITION/run-mauve/output/full_alignment.xmfa"
       echo -n "JOB ID: " 
       read JOBID
       echo -e "Preparing clonalframe analysis...\n"
-      set-more-global-variable 
+      set-more-global-variable $SPECIES $REPETITION
       # Then, run LCB.
       echo -e "  Finding core blocks of the alignment...\n"
+      echo -n "Minimum length of block: " 
+      read MINIMUM_LENGTH
       mkdir-tmp 
-      run-lcb 
+      run-lcb $MINIMUM_LENGTH
       rmdir-tmp
 
       #echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
@@ -1528,7 +1563,7 @@ function filter-blocks {
       #run-blocksplit2fasta
       #break
 
-      echo -e 'Do you want to filter? (y/n)'
+      echo -n 'Do you want to filter? (y/n) '
       read WANTFILTER
       if [ "$WANTFILTER" == "y" ]; then
         echo -e "Choose blocks to remove (e.g., 33,42,57): "
@@ -1539,9 +1574,12 @@ function filter-blocks {
         echo -e "  A new $RUNLCBDIR/core_alignment.xmfa is generated\n"
         echo -e "Now, prepare clonalframe analysis.\n"
       else
-        mv $RUNLCBDIR/core_alignment.xmfa.org $RUNLCBDIR/core_alignment.xmfa
+        mv $DATADIR/core_alignment.xmfa.org $DATADIR/core_alignment.xmfa
       fi
        
+      echo -e "The core blocks might have weird alignment."
+      echo -e "Now, edit core blocks of the alignment."
+      echo -e "This is the core alignment: $DATADIR/core_alignment.xmfa"
       break
     fi
   done
@@ -1578,10 +1616,15 @@ function prepare-run-clonalframe {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Preparing clonalframe analysis...\n"
-      set-more-global-variable 
-      echo -e "  Computing Wattersons's estimates...\n"
-      run-blocksplit2fasta 
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      echo -e "  Preparing clonalframe analysis..."
+      set-more-global-variable $SPECIES $REPETITION
+      echo -e "  Computing Wattersons's estimates..."
+      echo -e "  Removing previous blocks..."
+      rm -f $DATADIR/core_alignment.xmfa.*
+      echo -e "  Splitting core_alignemnt to blocks..."
+      perl pl/blocksplit2fasta.pl $DATADIR/core_alignment.xmfa
       compute-watterson-estimate > w.txt
       # Use R to sum the values in w.txt.
       sum-w
@@ -1632,17 +1675,20 @@ function receive-run-clonalframe {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      echo -e "  Receiving clonalframe-output...\n"
+      set-more-global-variable $SPECIES $REPETITION
       echo -e "Which replicate set of ClonalFrame output files?"
       echo -n "ClonalFrame REPLICATE ID: " 
       read CLONALFRAMEREPLICATE
-      echo -e "Receiving clonalframe-output...\n"
-      set-more-global-variable 
       mkdir -p $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-      scp $CACRUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
-      echo -e "Sending clonalframe-output to swiftgen...\n"
-      scp -r $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE 
-        $X11_MAUVEANALYSISDIR/ # <- Fix it.
-$X11_USERHOST:$X11_RUNCLONALFRAME # <- Fix it.
+      scp $CAC_USERHOST:$CAC_RUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
+      echo -e "  Sending clonalframe-output to swiftgen...\n"
+      ssh -x $X11_USERHOST \
+        mkdir -p $CAC_RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
+      scp $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/* \
+        $X11_USERHOST:$X11_RUNCLONALFRAME
       echo -e "Now, prepare clonalorigin.\n"
       break
     fi
@@ -1732,7 +1778,7 @@ function receive-run-clonalorigin {
       set-more-global-variable 
       mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
 
-      echo -e 'Have you already downloaded and do you want to skip the downloading? (y/n)'
+      echo -e 'Have you already downloaded and do you want to skip the downloading? (y/n) '
       read WANTSKIPDOWNLOAD
       if [ "$WANTSKIPDOWNLOAD" == "y" ]; then
         echo "Skipping copy of the output files because I've already copied them ..."
@@ -2201,19 +2247,23 @@ function analysis-clonalorigin {
 # the main batch script for the jobs of all the repeats.
 function prepare-run-clonalorigin-simulation {
   PS3="Choose a menu of simulation with clonalorigin: "
-  SIMULATIONS=( s1 s2 )
   select SPECIES in ${SIMULATIONS[@]}; do 
-    if [ "$SPECIES" == "" ];  then
+    if [ "$SPECIES" == "" ]; then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]
-      then
+    # elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]; then
+    else
+      SPECIESFILE=species/$SPECIES
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
-      echo -e "Preparing clonal origin analysis..."
-      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
+
+      echo -n "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
+      echo " $HOW_MANY_REPETITION"
+
+      echo -n "  Reading SPECIESTREE from $SPECIESFILE..."
+      SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
+      echo " $SPECIESTREE"
 
       #for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
       # Note that seq and jot behave differently when users give two numbers.
@@ -2235,7 +2285,7 @@ function prepare-run-clonalorigin-simulation {
           mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
         # I already have the tree.
-        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+        cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
 
         echo "  Splitting alignment into files per block..."
         CORE_ALIGNMENT=${SPECIES}_${g}_core_alignment.xmfa
@@ -2248,12 +2298,14 @@ function prepare-run-clonalorigin-simulation {
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
 
         echo "  Copying the input species tree..."
-        scp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk \
+        scp $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
 
         echo "  Making command options for clonal origin..."
         make-run-list-repeat $g \
-          $OUTPUTDIR/$SPECIES $REPLICATE \
+          $OUTPUTDIR/$SPECIES \
+          $REPLICATE \
+          $SPECIESTREE \
           > $RUNCLONALORIGIN/jobidfile
         scp $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
         copy-batch-sh-run-clonalorigin \
@@ -2263,18 +2315,19 @@ function prepare-run-clonalorigin-simulation {
       done
 
       echo "  Make a script for submitting jobs for all the repetitions."
-      make-run-list $OUTPUTDIR/$SPECIES $HOW_MANY_REPETITION $REPLICATE \
+      make-run-list $HOW_MANY_REPETITION \
+        $OUTPUTDIR/$SPECIES \
+        $REPLICATE \
+        $SPECIESTREE \
         > $OUTPUTDIR/$SPECIES/jobidfile
-      scp $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/x
+      scp $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES
       copy-run-sh $OUTPUTDIR/$SPECIES \
         $CAC_MAUVEANALYSISDIR/output/$SPECIES \
         $SPECIES \
-        $HOW_MANY_REPETITION
+        $HOW_MANY_REPETITION \
+        $SPECIESTREE
  
       break
-    else
-      echo -e "You need to enter something\n"
-      continue
     fi
   done
 }
@@ -2567,10 +2620,12 @@ function compute-block-length {
       echo -e "You need to enter something\n"
       continue
     else  
-      set-more-global-variable 
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      set-more-global-variable $SPECIES $REPETITION
       perl pl/compute-block-length.pl \
-        -base=$RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa \
-        > $RUNLCBDIR/in.block
+        -base=$DATADIR/core_alignment.xmfa \
+        > simulation/$SPECIES-$REPETITION-in.block
       break
     fi
   done
@@ -2626,24 +2681,44 @@ function compute-block-length {
 # tree. I may need to pick a tree somewhere else. The s1 or s2 text file in
 # species directory might contain more specific information about their
 # simulation setup.
+#
+# s2 should be handled in the same way as s1 and s3.
 function simulate-data {
   PS3="Choose a simulation (e.g., s1): "
-  SIMULATIONS=( s1 s2 )
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ];  then
+    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s3" ]; then
+      SPECIESFILE=species/$SPECIES
+
       echo -e "Which replicate set of output files?"
       echo -n "REPLICATE ID: " 
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
-      echo -e "Species tree and blocks are given as"
-      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
-      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
-      echo "  species tree: $SPECIESTREE"
-      echo "  block: $INBLOCK"
+
+      echo -n "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
+      echo " $HOW_MANY_REPETITION"
+      
+      echo -n "  Reading SPECIESTREE from $SPECIESFILE..."
+      SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
+      echo " $SPECIESTREE"
+
+      echo -n "  Reading INBLOCK from $SPECIESFILE..."
+      INBLOCK=$(grep InBlock $SPECIESFILE | cut -d":" -f2)
+      echo " $INBLOCK"
+
+      echo -n "  Reading from $SPECIESFILE..."
+      THETA_PER_SITE=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
+      echo " $THETA_PER_SITE"
+
+      echo -n "  Reading from $SPECIESFILE..."
+      RHO_PER_SITE=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
+      echo " $RHO_PER_SITE"
+
+      echo -n "  Reading from $SPECIESFILE..."
+      DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
+      echo " $DELTA"
 
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         BASEDIR=$OUTPUTDIR/$SPECIES
@@ -2651,13 +2726,13 @@ function simulate-data {
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
         DATADIR=$NUMBERDIR/data
         mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
-        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
-        cp $INBLOCK $DATADIR
+        cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+        cp simulation/$INBLOCK $DATADIR
         echo -n "  Simulating data under the ClonalOrigin model ..." 
-        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/clonaltree.nwk \
-          --block-file $DATADIR/in1.block \
+        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/$SPECIESTREE \
+          --block-file $DATADIR/$INBLOCK \
           --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
-          -T s0.0542 -D 1425 -R s0.00521 
+          -T s$THETA_PER_SITE -D $DELTA -R s$RHO_PER_SITE
         echo -e " done - repetition $g"
       done
       break
@@ -2712,7 +2787,9 @@ CHOICES=( init-file-system \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
+          ------------------------------------------ \
           choose-species \
+          copy-mauve-alignment \
           receive-run-mauve \
           filter-blocks \
           prepare-run-clonalframe \
@@ -2737,6 +2814,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "choose-species" ];  then
     choose-species
+    break
+  elif [ "$CHOICE" == "copy-mauve-alignment" ];  then
+    copy-mauve-alignment
     break
   elif [ "$CHOICE" == "receive-run-mauve" ];  then
     receive-run-mauve
