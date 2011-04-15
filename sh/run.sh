@@ -2337,19 +2337,19 @@ function prepare-run-clonalorigin-simulation {
 # Let's just receive the results.
 function receive-run-clonalorigin-simulation {
   PS3="Choose the simulation result of clonalorigin: "
-  SIMULATIONS=( s1 s2 )
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]
-      then
+    else
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
-      echo -e "Preparing clonal origin analysis..."
 
+      SPECIESFILE=species/$SPECIES
+      echo "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
+
+      echo -e "Preparing clonal origin analysis..."
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
@@ -2361,12 +2361,8 @@ function receive-run-clonalorigin-simulation {
 
         scp $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.*.xml \
           $RUNCLONALORIGIN/output/$REPLICATE
-        # mv $RUNCLONALORIGIN/output/$REPLICATE/{,${SPECIES}_${g}_}core_alignment.xml
       done
       break
-    else
-      echo -e "You need to enter something\n"
-      continue
     fi
   done
 }
@@ -2418,17 +2414,21 @@ EOF
 function analyze-run-clonalorigin-simulation-s2-rscript {
   S2OUT=$1
   BATCH_R_S2=$2
+  NUMBER_REPETITION=$3
+  NUMBER_BLOCK=$4
+  NUMBER_SAMPLE=$5
+  NUMBER_NUMBER=$(( NUMBER_BLOCK * NUMBER_SAMPLE ))
 cat>$BATCH_R_S2<<EOF
 summaryThreeParameter <- function (f) {
   x <- scan (f, quiet=TRUE)
-  x <- matrix (x, ncol=41511, byrow=TRUE)
+  x <- matrix (x, ncol=$NUMBER_NUMBER, byrow=TRUE)
   # x <- matrix (x, ncol=100, byrow=FALSE) # 100 is the number of repetition
 
   y <- c() 
-  for (i in 1:100) {
-    x1 <- matrix (x[i,], ncol=101, byrow=TRUE)
+  for (i in 1:$NUMBER_REPETITION) {
+    x1 <- matrix (x[i,], ncol=$NUMBER_SAMPLE, byrow=TRUE)
     y1 <- c()
-    for (j in 1:411) {
+    for (j in 1:$NUMBER_BLOCK) {
       y1 <- c(y1, median(x1[i,]))
     }
 
@@ -2463,11 +2463,10 @@ EOF
 #
 # s1: a single block
 # s2: multiple blocks or 411 blocks
-#
+# s3: 10 blocks
 # 
 function analyze-run-clonalorigin-simulation {
   PS3="Choose the simulation result of clonalorigin: "
-  SIMULATIONS=( s1 s2 )
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
@@ -2475,8 +2474,10 @@ function analyze-run-clonalorigin-simulation {
     elif [ "$SPECIES" == "s1" ]; then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
+
+      SPECIESFILE=species/$SPECIES
+      echo "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
 
       echo "Extracting the 3 parameters from ${HOW_MANY_REPETITION} XML files"
       echo "  of replicate ${REPLICATE}..."
@@ -2510,12 +2511,20 @@ function analyze-run-clonalorigin-simulation {
       echo "Refer to the file for median values of the three parameters."
       
       break
-    elif [ "$SPECIES" == "s2" ]; then
+    elif [ "$SPECIES" == "s2" ] || [ "$SPECIES" == "s3" ]; then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
-      NUMBER_BLOCK=411
+      SPECIESFILE=species/$SPECIES
+      echo "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
+
+      echo -n "  Reading INBLOCK from $SPECIESFILE..."
+      INBLOCK=$(grep InBlock $SPECIESFILE | cut -d":" -f2)
+      echo " $INBLOCK"
+      # NUMBER_BLOCK=411
+      NUMBER_BLOCK=`wc -l < simulation/$INBLOCK`
+      echo -e "  The number of blocks is $NUMBER_BLOCK."
+      NUMBER_SAMPLE=101 
 
       echo "Extracting the 3 parameters from ${HOW_MANY_REPETITION} XML files"
       echo "  of replicate ${REPLICATE}..."
@@ -2595,12 +2604,17 @@ function analyze-run-clonalorigin-simulation {
         done
       done
 
-      break
+      #break
       echo "Summarizing the three parameters..."
       analyze-run-clonalorigin-simulation-s2-rscript \
-        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
-        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R 
-      echo "  $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R.out is created!"
+        $BASEDIR/run-analysis/out \
+        $BASEDIR/run-analysis/out.R \
+        $HOW_MANY_REPETITION \
+        $NUMBER_BLOCK \
+        $NUMBER_SAMPLE 
+        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
+        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R \
+      echo "  $BASEDIR/run-analysis/out.R.out is created!"
       echo "Refer to the file for median values of the three parameters."
       break
     else
@@ -2682,14 +2696,13 @@ function compute-block-length {
 # species directory might contain more specific information about their
 # simulation setup.
 #
-# s2 should be handled in the same way as s1 and s3.
 function simulate-data {
   PS3="Choose a simulation (e.g., s1): "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s3" ]; then
+    else
       SPECIESFILE=species/$SPECIES
 
       echo -e "Which replicate set of output files?"
@@ -2736,42 +2749,6 @@ function simulate-data {
         echo -e " done - repetition $g"
       done
       break
-    elif [ "$SPECIES" == "s2" ];  then
-      echo -e "Which replicate set of output files?"
-      echo -n "REPLICATE ID: " 
-      read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 3) "
-      read HOW_MANY_REPETITION
-      echo -e "Species tree and blocks are given as"
-      SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
-      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in411.block
-      echo "  species tree: $SPECIESTREE"
-      echo "  block: $INBLOCK"
-
-      # Note that seq and jot behave differently when users give two numbers.
-      # seq 4 10
-      # jot 7 4
-      #for g in `jot 7 4`; do 
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-        BASEDIR=$OUTPUTDIR/$SPECIES
-        NUMBERDIR=$BASEDIR/$g
-        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-        DATADIR=$NUMBERDIR/data
-        mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
-        # tree may be the only different part
-        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE 
-        cp $INBLOCK $DATADIR
-        echo -n "  Simulating data under the ClonalOrigin model ..." 
-        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/clonaltree.nwk \
-          --block-file $DATADIR/in411.block \
-          --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
-          -T s0.0542 -D 1425 -R s0.00521
-        echo -e " done - repetition $g"
-      done
-      break
-    else
-      echo -e "You need to enter something\n"
-      continue
     fi
   done
 }
