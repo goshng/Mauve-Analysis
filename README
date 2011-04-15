@@ -4,6 +4,10 @@ Mauve, Clonal Frame, Clonal Origin Analysis
 Directories
 -----------
 
+simulation
+~~~~~~~~~~
+Simulation setups are stored in this directory.
+
 species
 ~~~~~~~
 This directory contains text files, each of which describes a data set and

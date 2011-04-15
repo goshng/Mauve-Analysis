@@ -1,5 +1,7 @@
 # This is a directory for a simulation study.
-# REPETITON 10
+# REPETITON 3
 # ThetaPerSite 0.0542
 # RhoPerSite 0.00521
 # Delta 1425
+# BLOCK 1
+# 10,000 base pairs

@@ -32,7 +32,8 @@ GetOptions( \%params,
             'help|h',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
-            'base=s'
+            'base=s',
+            'block=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -78,6 +79,10 @@ core_alignment.xmfa, and suffixed with dot and numbers: i.e.,
 core_alignment.xmfa.1.  The base name includes the base directory as well so
 that the script can locate an alignment file with its full path.
 
+=item B<-block> <number>
+
+This allows to compute the length of a single block.
+
 =back
 
 =head1 AUTHOR
@@ -111,10 +116,18 @@ sub lengthBlock ($);
 #
 
 my $basename;
+my $isSingleBlock = 0;
+my $blockID = 1;
+
 if (exists $params{base}) {
   $basename = $params{base};
 } else {
   &printError("you did not specify a base name");
+}
+
+if (exists $params{block}) {
+  $isSingleBlock = 1;
+  $blockID = $params{block};
 }
 
 #
@@ -123,14 +136,18 @@ if (exists $params{base}) {
 ################################################################################
 #
 
-my $blockID = 1;
 my $xmfaFilename = "$basename.$blockID";
 
-while (-e $xmfaFilename) {
+if ($isSingleBlock == 0) {
+  while (-e $xmfaFilename) {
+    my $l = lengthBlock ($xmfaFilename);
+    print $l, "\n";
+    $blockID++;
+    $xmfaFilename = "$basename.$blockID";
+  }
+} else {
   my $l = lengthBlock ($xmfaFilename);
   print $l, "\n";
-  $blockID++;
-  $xmfaFilename = "$basename.$blockID";
 }
 
 sub lengthBlock ($)

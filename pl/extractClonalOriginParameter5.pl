@@ -35,6 +35,8 @@ GetOptions( \%params,
             'version' => sub { print $VERSION."\n"; exit; },
             'xml=s',
             'append',
+            'nonewline',
+            'firsttab',
             'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -91,6 +93,15 @@ used as a base name of them: i.e., out.theta, out.rho, and out.delta.
 Three output files are not created if append is on. If three output files exist,
 then we just use them.
 
+=item B<-nonewline>
+
+Numbers form a line. The line does not end in a newline.
+
+=item B<-firsttab>
+
+The first number is prefixed with a tab. The first line does not start with a
+tab in the default setting.
+
 =back
 
 =head1 AUTHOR
@@ -119,6 +130,8 @@ You should have received a copy of the GNU General Public License along with thi
 my $xmlFile;
 my $basenameOutFile;
 my $isAppend = 0;
+my $isNoNewline = 0;
+my $isFirstTab = 0;
 
 if (exists $params{xml})
 {
@@ -128,6 +141,9 @@ else
 {
   &printError("you did not specify an XML file that contains Clonal Origin run results");
 }
+
+$xmlFile =~ /(\d)\.xml/;
+my $blockID = $1;
 
 if (exists $params{out})
 {
@@ -141,6 +157,16 @@ else
 if (exists $params{append})
 {
   $isAppend = 1;
+}
+
+if (exists $params{nonewline})
+{
+  $isNoNewline = 1;
+}
+
+if (exists $params{firsttab})
+{
+  $isFirstTab = 1;
 }
 
 #
@@ -182,9 +208,11 @@ my $doc;
 eval{ $doc = $parser->parsefile($xmlFile)};
 print "Unable to parse XML of $xmlFile, error $@\n" if $@;
 
-print OUTTHETA "\n";
-print OUTRHO "\n";
-print OUTDELTA "\n";
+if ($isNoNewline == 0) {
+  print OUTTHETA "\n";
+  print OUTRHO "\n";
+  print OUTDELTA "\n";
+}
 
 close OUTTHETA;
 close OUTRHO;
@@ -222,15 +250,16 @@ sub startElement {
 sub endElement {
   my ($p, $elt) = @_;
   if($tag eq "theta"){
-    print OUTTHETA "\t" if $itercount > 1;
+    print OUTTHETA "\t" if $isFirstTab == 1 or $itercount > 1;
+    #print OUTTHETA "($blockID-$itercount)$content";
     print OUTTHETA "$content";
   }
   if($tag eq "rho"){
-    print OUTRHO "\t" if $itercount > 1;
+    print OUTRHO "\t" if $isFirstTab == 1 or $itercount > 1;
     print OUTRHO "$content";
   }
   if($tag eq "delta"){
-    print OUTDELTA "\t" if $itercount > 1;
+    print OUTDELTA "\t" if $isFirstTab == 1 or $itercount > 1;
     print OUTDELTA "$content";
   }
   $tag = "";

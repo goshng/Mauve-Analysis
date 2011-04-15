@@ -182,6 +182,13 @@ elif [[ "$OSTYPE" =~ "darwin" ]]; then
   SEQ=jot
 fi
 
+# Simulations
+# -----------
+# s1: a single block of 10,000 base pairs
+# s2: 411 blocks
+# s3: 10 blocks of 10,000 base pairs
+SIMULATIONS=( s1 s2 s3 )
+
 ###############################################################################
 # Description of functions
 ###############################################################################
@@ -412,14 +419,14 @@ function mkdir-species {
 # The argument is the name of species or analysis. You can find them in the
 # subdirectory called species.
 function mkdir-simulation {
-  echo -n "  Creating a species $1 at $OUTPUTDIR ..."
+  echo -n "  Creating a simulation $1 at $OUTPUTDIR ..."
   echo -e " done"
   mkdir $OUTPUTDIR/$1
   mkdir $OUTPUTDIR/$1/run-analysis
-  echo -n "  Creating a species $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
+  echo -n "  Creating a simulation $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
   ssh -x $CAC_USERHOST mkdir $CAC_OUTPUTDIR/$1
   echo -e " done"
-  echo -n "  Creating a species $1 at $X11_OUTPUTDIR in $X11_USERHOST ..."
+  echo -n "  Creating a simulation $1 at $X11_OUTPUTDIR in $X11_USERHOST ..."
   ssh -x $X11_USERHOST mkdir $X11_OUTPUTDIR/$1
   echo -e " done"
 }
@@ -1390,20 +1397,21 @@ function run-bbfilter {
 # 0. For simulation I make directories in CAC and copy genomes files to the data
 # directory. 
 function choose-simulation {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
+  PS3="Choose the simulation for clonalorigin: "
+  select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Creating species directories..."
+      echo -e "  Creating simulation directories output..."
       mkdir-simulation $SPECIES
       echo -e "done"
 
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
-      read HOW_MANY_REPETITION
+      SPECIESFILE=species/$SPECIES
+      echo "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep REPETITION $SPECIESFILE | cut -d":" -f2)
       
-      echo -e "Creating directories of repetitions ..."
+      echo -e "  Creating directories of $HOW_MANY_REPETITION repetitions..."
       for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
         mkdir-simulation-repeat $SPECIES $REPETITION
       done
@@ -2193,12 +2201,13 @@ function analysis-clonalorigin {
 # the main batch script for the jobs of all the repeats.
 function prepare-run-clonalorigin-simulation {
   PS3="Choose a menu of simulation with clonalorigin: "
-  CHOICES=( s1 )
-  select SPECIES in ${CHOICES[@]}; do 
+  SIMULATIONS=( s1 s2 )
+  select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ]; then
+    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]
+      then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
@@ -2206,6 +2215,11 @@ function prepare-run-clonalorigin-simulation {
       echo -e "Preparing clonal origin analysis..."
       SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
 
+      #for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+      # Note that seq and jot behave differently when users give two numbers.
+      # seq 4 10
+      # jot 7 4
+      #for g in `jot 7 4`; do 
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
@@ -2251,7 +2265,7 @@ function prepare-run-clonalorigin-simulation {
       echo "  Make a script for submitting jobs for all the repetitions."
       make-run-list $OUTPUTDIR/$SPECIES $HOW_MANY_REPETITION $REPLICATE \
         > $OUTPUTDIR/$SPECIES/jobidfile
-      scp $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES
+      scp $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/x
       copy-run-sh $OUTPUTDIR/$SPECIES \
         $CAC_MAUVEANALYSISDIR/output/$SPECIES \
         $SPECIES \
@@ -2270,12 +2284,13 @@ function prepare-run-clonalorigin-simulation {
 # Let's just receive the results.
 function receive-run-clonalorigin-simulation {
   PS3="Choose the simulation result of clonalorigin: "
-  CHOICES=( s1 )
-  select SPECIES in ${CHOICES[@]}; do 
+  SIMULATIONS=( s1 s2 )
+  select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s1" ]; then
+    elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]
+      then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
       echo -n "How many repetitions do you wish to run? (e.g., 5) "
@@ -2335,6 +2350,49 @@ EOF
   Rscript $BATCH_R_S1 > $BATCH_R_S1.out 
 }
 
+# Find the median of the median values of three parameters.
+# ---------------------------------------------------------
+# The simulation s2 would create an output file. 
+# It contains a matrix of column size being equal to 
+# a number equal to the product of sample size (N) 
+# and block size (B),
+# and row being equal to the number of repetition (G).
+# I take the mean of a parameter of the sample of a block. 
+# The B-many mean values are used to find their median.
+# I summarize G-many median values.
+# N * B = 101 * 411 = 41511;
+#
+function analyze-run-clonalorigin-simulation-s2-rscript {
+  S2OUT=$1
+  BATCH_R_S2=$2
+cat>$BATCH_R_S2<<EOF
+summaryThreeParameter <- function (f) {
+  x <- scan (f, quiet=TRUE)
+  x <- matrix (x, ncol=41511, byrow=TRUE)
+  # x <- matrix (x, ncol=100, byrow=FALSE) # 100 is the number of repetition
+
+  y <- c() 
+  for (i in 1:100) {
+    x1 <- matrix (x[i,], ncol=101, byrow=TRUE)
+    y1 <- c()
+    for (j in 1:411) {
+      y1 <- c(y1, median(x1[i,]))
+    }
+
+    y <- c(y, median(y1))
+  }
+
+  cat (median(y))
+  cat ("\n")
+}
+summaryThreeParameter ("$S2OUT.theta")
+summaryThreeParameter ("$S2OUT.rho")
+summaryThreeParameter ("$S2OUT.delta")
+EOF
+  Rscript $BATCH_R_S2 > $BATCH_R_S2.out 
+}
+
+
 # Analysis with clonal origin simulation
 # --------------------------------------
 # The recovery of the true values is evaluated. The 3 main scalar parameters of
@@ -2349,10 +2407,15 @@ EOF
 # interval, then I'd expect that 95 of 100 interval estimates would cover the
 # true value. I need to build a matrix of 100-by-100 for each parameter. I could
 # use it to compute interval estimates.
+#
+# s1: a single block
+# s2: multiple blocks or 411 blocks
+#
+# 
 function analyze-run-clonalorigin-simulation {
   PS3="Choose the simulation result of clonalorigin: "
-  CHOICES=( s1 )
-  select SPECIES in ${CHOICES[@]}; do 
+  SIMULATIONS=( s1 s2 )
+  select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -2377,22 +2440,115 @@ function analyze-run-clonalorigin-simulation {
         if [ "$g" == 1 ]; then
           perl pl/extractClonalOriginParameter5.pl \
             -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml \
-            -out $BASEDIR/run-analysis/out
+            -out $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out
         else
           perl pl/extractClonalOriginParameter5.pl \
             -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml \
-            -out $BASEDIR/run-analysis/out \
+            -out $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
             -append
         fi
       done
 
       echo "Summarizing the three parameters..."
       analyze-run-clonalorigin-simulation-s1-rscript \
-        $BASEDIR/run-analysis/out \
-        $BASEDIR/run-analysis/out.R 
-      echo "  $BASEDIR/run-analysis/out.R.out is created!"
-      echo "  Refer to the file for median values of the three parameters."
+        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
+        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R 
+      echo "  $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R.out is created!"
+      echo "Refer to the file for median values of the three parameters."
       
+      break
+    elif [ "$SPECIES" == "s2" ]; then
+      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
+      read REPLICATE
+      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      read HOW_MANY_REPETITION
+      NUMBER_BLOCK=411
+
+      echo "Extracting the 3 parameters from ${HOW_MANY_REPETITION} XML files"
+      echo "  of replicate ${REPLICATE}..."
+      BASEDIR=$OUTPUTDIR/$SPECIES
+
+      #echo "Summarizing the three parameters..."
+      #analyze-run-clonalorigin-simulation-s2-rscript \
+        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
+        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R 
+      #echo "  $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R.out is created!"
+      #echo "Refer to the file for median values of the three parameters."
+      #break
+
+      #BLOCK_ALLREPETITION=()
+      #for b in `$SEQ $NUMBER_BLOCK`; do
+        #NOTALLREPETITION=0
+        #for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+          #NUMBERDIR=$BASEDIR/$g
+          #DATADIR=$NUMBERDIR/data
+          #RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+          #RUNANALYSIS=$NUMBERDIR/run-analysis
+          #CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
+          #CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+          #FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.$b.xml)
+          #if [[ "$FINISHED" =~ "outputFile" ]]; then
+            ## NOTALLREPETITION=1
+            #NOTALLREPETITION=1 # This should be something else.
+          #else 
+            #NOTALLREPETITION=1
+          #fi
+        #done
+        #if [ "$NOTALLREPETITION" == 0 ]; then
+          ## Add the block to the analysis
+          #BLOCK_ALLREPETITION=("${BLOCK_ALLREPETITION[@]}" $b)
+        #fi 
+      #done
+
+      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+        NUMBERDIR=$BASEDIR/$g
+        DATADIR=$NUMBERDIR/data
+        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
+        RUNANALYSIS=$NUMBERDIR/run-analysis
+        CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
+        CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+
+        # Files that we need to compare.
+        #for b in ${BLOCK_ALLREPETITION[@]}; do
+        for b in `$SEQ $NUMBER_BLOCK`; do
+          ECOP="pl/extractClonalOriginParameter5.pl \
+            -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.$b.xml \
+            -out $BASEDIR/run-analysis/out"
+          FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.$b.xml)
+          if [[ "$FINISHED" =~ "outputFile" ]]; then
+            if [ "$g" == 1 ] && [ "$b" == 1 ]; then
+              ECOP="$ECOP -nonewline"
+              #echo perl $ECOP
+              #continue
+            else
+              if [ "$b" == $NUMBER_BLOCK ]; then
+                ECOP="$ECOP -firsttab -append"
+              elif [ "$b" != 1 ]; then
+                ECOP="$ECOP -firsttab -nonewline -append" 
+              elif [ "$b" == 1 ]; then
+                ECOP="$ECOP -nonewline -append" 
+              else
+                echo "Not possible block $b"
+                exit
+              fi
+            fi
+            perl $ECOP
+          else
+            LENGTHBLOCK=$(perl pl/compute-block-length.pl \
+              -base $DATADIR/${SPECIES}_${g}_core_alignment.xmfa \
+              -block $b)
+            echo "NOTYETFINISHED $g $b $LENGTHBLOCK" >> 1
+          fi
+        done
+      done
+
+      break
+      echo "Summarizing the three parameters..."
+      analyze-run-clonalorigin-simulation-s2-rscript \
+        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
+        $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R 
+      echo "  $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R.out is created!"
+      echo "Refer to the file for median values of the three parameters."
       break
     else
       echo -e "You need to enter something\n"
@@ -2465,10 +2621,15 @@ function compute-block-length {
 # about choose-simulation.
 # 
 # This function could be more generalized.
+#
+# REPLICATE in simulation might not make sense. I use it for copying a species
+# tree. I may need to pick a tree somewhere else. The s1 or s2 text file in
+# species directory might contain more specific information about their
+# simulation setup.
 function simulate-data {
   PS3="Choose a simulation (e.g., s1): "
-  CHOICES=( s1 s2 )
-  select SPECIES in ${CHOICES[@]}; do 
+  SIMULATIONS=( s1 s2 )
+  select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -2504,27 +2665,32 @@ function simulate-data {
       echo -e "Which replicate set of output files?"
       echo -n "REPLICATE ID: " 
       read REPLICATE
-      echo -n "How many repetitions do you wish to run? (e.g., 5) "
+      echo -n "How many repetitions do you wish to run? (e.g., 3) "
       read HOW_MANY_REPETITION
       echo -e "Species tree and blocks are given as"
       SPECIESTREE=$OUTPUTDIR/cornell5-1/run-clonalorigin/input/1/clonaltree.nwk
-      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in1.block
+      INBLOCK=$OUTPUTDIR/cornell5-1/run-lcb/in411.block
       echo "  species tree: $SPECIESTREE"
       echo "  block: $INBLOCK"
 
+      # Note that seq and jot behave differently when users give two numbers.
+      # seq 4 10
+      # jot 7 4
+      #for g in `jot 7 4`; do 
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         BASEDIR=$OUTPUTDIR/$SPECIES
         NUMBERDIR=$BASEDIR/$g
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
         DATADIR=$NUMBERDIR/data
         mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
-        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+        # tree may be the only different part
+        cp $SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE 
         cp $INBLOCK $DATADIR
         echo -n "  Simulating data under the ClonalOrigin model ..." 
         $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/clonaltree.nwk \
-          --block-file $DATADIR/in1.block \
+          --block-file $DATADIR/in411.block \
           --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
-          -T s0.0542 -D 1425 -R s0.00521 
+          -T s0.0542 -D 1425 -R s0.00521
         echo -e " done - repetition $g"
       done
       break
