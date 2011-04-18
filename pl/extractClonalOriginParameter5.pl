@@ -142,7 +142,7 @@ else
   &printError("you did not specify an XML file that contains Clonal Origin run results");
 }
 
-$xmlFile =~ /(\d)\.xml/;
+$xmlFile =~ /\.(\d+)\.xml/;
 my $blockID = $1;
 
 if (exists $params{out})

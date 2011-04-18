@@ -188,7 +188,7 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 )
+SIMULATIONS=( s1 s2 s3 s4 s5 s6 )
 
 ###############################################################################
 # Description of functions
@@ -2429,7 +2429,7 @@ summaryThreeParameter <- function (f) {
     x1 <- matrix (x[i,], ncol=$NUMBER_SAMPLE, byrow=TRUE)
     y1 <- c()
     for (j in 1:$NUMBER_BLOCK) {
-      y1 <- c(y1, median(x1[i,]))
+      y1 <- c(y1, median(x1[j,]))
     }
 
     y <- c(y, median(y1))
@@ -2511,7 +2511,11 @@ function analyze-run-clonalorigin-simulation {
       echo "Refer to the file for median values of the three parameters."
       
       break
-    elif [ "$SPECIES" == "s2" ] || [ "$SPECIES" == "s3" ]; then
+    elif [ "$SPECIES" == "s2" ] \
+         || [ "$SPECIES" == "s3" ] \
+         || [ "$SPECIES" == "s4" ] \
+         || [ "$SPECIES" == "s5" ] \
+         || [ "$SPECIES" == "s6" ]; then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
       SPECIESFILE=species/$SPECIES
@@ -2616,6 +2620,7 @@ function analyze-run-clonalorigin-simulation {
         #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R \
       echo "  $BASEDIR/run-analysis/out.R.out is created!"
       echo "Refer to the file for median values of the three parameters."
+      cat $BASEDIR/run-analysis/out.R.out
       break
     else
       echo -e "You need to enter something\n"
