@@ -3,12 +3,12 @@
 # Author: Sang Chul Choi
 # Date  : Wed Mar 16 16:59:42 EDT 2011
 
-# This is the key run file to analyze bacterial genome data sets using ClonalOrigin.
-# A menu is displayed so that a user can choose an operation that she or he want
-# to execute. Some commands do their job on their own right, and others require
-# users to go to a cluster to submit a job. Each menu is executed by its
-# corresponding bash function. Locate the bash function to understand what it
-# does.
+# This is the key run file to analyze bacterial genome data sets using
+# ClonalOrigin. A menu is displayed so that a user can choose an operation that
+# she or he wants to execute. Some commands do their job on their own right, and
+# others require users to go to a cluster to submit a job. Each menu is executed
+# by its corresponding bash function. Locate the bash function to understand
+# what it does. 
 
 # Menus:
 #   - choose-species: makes file system for a species, and make it ready to run
@@ -141,17 +141,10 @@ CLONALFRAMEREPLICATE=1
 REPLICATE=1
 REPETITION=1
 
-# bash sh/run.sh smaller
-# bash sh/run.sh 
-SMALLER=$1
-SMALLERCLONAL=$1
-
 # Perl scripts
-PERLGCT=pl/getClonalTree.pl
 PERLMWF=pl/makeMauveWargFile.pl
 PERLRECOMBINATIONMAP=pl/recombinationmap.pl
 PERLLISTGENEGFF=pl/listgenegff.pl 
-PERLCOMPUTEMEDIANS=pl/computeMedians.pl
 PERLECOP=pl/extractClonalOriginParameter.pl
 PERLECOP2=pl/extractClonalOriginParameter2.pl
 PERLECOP3=pl/extractClonalOriginParameter3.pl
@@ -188,7 +181,7 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 s5 s6 )
+SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 )
 
 ###############################################################################
 # Description of functions
@@ -511,7 +504,7 @@ function copy-batch-sh-run-mauve-called {
 
 function copy-genomes-to-cac-called {
   line="$@" # get all args
-  scp $GENOMEDATADIR/$line $CAC_USERHOST:$CAC_DATADIR
+  scp -q $GENOMEDATADIR/$line $CAC_USERHOST:$CAC_DATADIR
 }
 
 function processLine {
@@ -633,7 +626,7 @@ cd
 rm -rf \$TMPDIR
 EOF
   chmod a+x $BATCH_SH_RUN_MAUVE 
-  scp $BATCH_SH_RUN_MAUVE $2
+  scp -q $BATCH_SH_RUN_MAUVE $2
 }
 
 function mkdir-tmp {
@@ -720,7 +713,7 @@ EOF
 }
 
 function send-clonalframe-input-to-cac {
-  scp $DATADIR/core_alignment.xmfa $CAC_USERHOST:$CAC_DATADIR
+  scp -q $DATADIR/core_alignment.xmfa $CAC_USERHOST:$CAC_DATADIR
 }
 
 function copy-batch-sh-run-clonalframe {
@@ -757,8 +750,8 @@ do
 LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
 ./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
 -t 2 -m $WATTERSON_ESIMATE -M \\
-\$INPUTDIR/${SMALLER}core_alignment.xmfa \\
-\$OUTPUTDIR/${SMALLER}core_clonalframe.out.\$index \\
+\$INPUTDIR/core_alignment.xmfa \\
+\$OUTPUTDIR/core_clonalframe.out.\$index \\
 > \$OUTPUTDIR/cf_stdout.\$index &
 sleep 5
 done
@@ -774,18 +767,22 @@ EOF
 }
 
 function send-clonalorigin-input-to-cac {
-  scp $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.* $CACRUNLCBDIR/
+  scp $RUNLCBDIR/core_alignment.xmfa.* $CACRUNLCBDIR/
 }
 
 # 
 function copy-batch-sh-run-clonalorigin {
-  RUNCLONALORIGIN=$1 
-  BATCH_SH_RUN_CLONALORIGIN=$1/batch.sh
-  BATCH_BODY_SH_RUN_CLONALORIGIN=$1/batch_body.sh
-  BATCH_TASK_SH_RUN_CLONALORIGIN=$1/batch_task.sh
-  CAC_RUNCLONALORIGIN=$2
-  REPLICATE=$3
-  CLONAL2ndPHASE=$4
+  REPETITION=$1
+  RUNCLONALORIGIN=$2/$REPETITION/run-clonalorigin 
+  BATCH_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch.sh
+  BATCH_BODY_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_body.sh
+  BATCH_TASK_SH_RUN_CLONALORIGIN=$RUNCLONALORIGIN/batch_task.sh
+  CAC_RUNCLONALORIGIN=$3
+  SPECIES=$4
+  SPECIESTREE=$5
+  REPLICATE=$6
+  CLONAL2ndPHASE=$7
+  CAC_RUNCLONALORIGINOUTPUT=$3/$REPETITION/run-clonalorigin
 
   cat>$BATCH_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
@@ -796,7 +793,7 @@ EOF
 
   cat>$BATCH_BODY_SH_RUN_CLONALORIGIN<<EOF
 #!/bin/bash
-#PBS -l walltime=23:59:59,nodes=1
+#PBS -l walltime=24:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N Strep-${SPECIES}-ClonalOrigin$CLONAL2ndPHASE
@@ -808,7 +805,6 @@ EOF
 set -x
 REPLICATE=${REPLICATE}
 CLONAL2ndPHASE=$CLONAL2ndPHASE
-WORKDIR=\$PBS_O_WORKDIR
 WARG=\$HOME/usr/bin/warg
 OUTPUTDIR=\$TMPDIR/output
 INPUTDIR=\$TMPDIR/input
@@ -818,21 +814,23 @@ function to-node {
   mkdir \$OUTPUTDIR
   cp \$PBS_O_WORKDIR/batch_task.sh \$TMPDIR/  
   cp \$WARG \$TMPDIR/
-  # The list of job descriptions (or warg command line options) 
-  # is at the the working directory.
-  # cp \$PBS_O_WORKDIR/remain.txt \$TMPDIR/
 }
 
 function to-node-repeat {
-  mkdir -p \$PBS_O_WORKDIR/run-clonalorigin/output/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/run-clonalorigin/output2/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/run-clonalorigin/status/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/run-clonalorigin/status2/\${REPLICATE}
-  mkdir \$INPUTDIR/
-  mkdir \$OUTPUTDIR/
-  cp \$PBS_O_WORKDIR/data/*.xmfa.* \$INPUTDIR/
-  cp \$PBS_O_WORKDIR/run-clonalorigin/input/\${REPLICATE}/clonaltree.nwk \\
-    \$INPUTDIR/
+  mkdir -p \$PBS_O_WORKDIR/output/\${REPLICATE}
+  mkdir -p \$PBS_O_WORKDIR/output2/\${REPLICATE}
+  mkdir -p \$PBS_O_WORKDIR/status/\${REPLICATE}
+  mkdir -p \$PBS_O_WORKDIR/status2/\${REPLICATE}
+  mkdir \$INPUTDIR/\$1
+  mkdir \$OUTPUTDIR/\$1
+  cp \$PBS_O_WORKDIR/../data/*.xmfa.* \$INPUTDIR/\$1
+  cp \$PBS_O_WORKDIR/input/\${REPLICATE}/$SPECIESTREE \\
+    \$INPUTDIR/\$1
+}
+
+# Copy the results back to the working directory for each repeat.
+function from-node-repeat {
+  cp \$OUTPUTDIR/\$1/* \$PBS_O_WORKDIR/output/\${REPLICATE}
 }
 
 function prepare-task {
@@ -842,6 +840,7 @@ function prepare-task {
 
 function task {
   cd \$TMPDIR
+  CORESPERNODE=8
   for (( i=1; i<=CORESPERNODE; i++))
   do
     bash batch_task.sh \\
@@ -857,7 +856,7 @@ date
 to-node
 
 # Copy all the input data files to the compute node.
-to-node-repeat 
+to-node-repeat $REPETITION
 
 # What am I preparing?
 prepare-task
@@ -867,6 +866,9 @@ task
 
 # Wait for all of the 8 processes to finish.
 wait
+
+from-node-repeat $REPETITION
+
 echo -n "End at "
 date
 echo -e "The job is finished."
@@ -876,9 +878,12 @@ EOF
   create-batch-task-sh $BATCH_TASK_SH_RUN_CLONALORIGIN
 
   chmod a+x $BATCH_SH_RUN_CLONALORIGIN
-  scp $BATCH_SH_RUN_CLONALORIGIN $2
-  scp $BATCH_BODY_SH_RUN_CLONALORIGIN $2
-  scp $BATCH_TASK_SH_RUN_CLONALORIGIN $2
+  scp $BATCH_SH_RUN_CLONALORIGIN \
+    $CAC_RUNCLONALORIGINOUTPUT
+  scp $BATCH_BODY_SH_RUN_CLONALORIGIN \
+    $CAC_RUNCLONALORIGINOUTPUT
+  scp $BATCH_TASK_SH_RUN_CLONALORIGIN \
+    $CAC_RUNCLONALORIGINOUTPUT
 }
 
 # A list of jobs for a repeat is created in a file.
@@ -1017,16 +1022,16 @@ function copy-run-sh {
 #PBS -M ${BATCHEMAIL}
 #PBS -t 1-PBSARRAYSIZE
 
-# -l: The wall time is the time duration during which a job can run. 
-#     Use wall time enough to finish jobs.
+# -l: The wall time is the time duration during which 
+#     a job can run.  Use wall time enough to finish jobs.
 # -A: The ID for accessing the cluster.
 # -j: The standard and error output
 # -N: The name of the job
 # -q: The name of the queue
 # -m: When is the job's status reported?
 # -M: The email address to get the notification of the jobs
-# -t: The number of nodes to use. I would replace PBSARRAYSIZE with a positive
-# number.
+# -t: The number of nodes to use.  I would replace 
+#     PBSARRAYSIZE with a positive number.
 
 HOW_MANY_REPETITION=$HOW_MANY_REPETITION
 REPLICATE=$REPLICATE
@@ -1049,9 +1054,6 @@ function to-node {
   mkdir \$OUTPUTDIR
   cp \$PBS_O_WORKDIR/batch_clonalorigin_task.sh \$TMPDIR/  
   cp \$WARG \$TMPDIR/
-  # The list of job descriptions (or warg command line options) 
-  # is at the the working directory.
-  # cp \$PBS_O_WORKDIR/remain.txt \$TMPDIR/
 }
 
 # Create output and status directories for each repeat.
@@ -1224,7 +1226,7 @@ function to-node {
   mkdir -p \$WORKDIR/status2/\${REPLICATE}
   mkdir \$INPUTDIR
   mkdir \$OUTPUTDIR
-  cp \$LCBDIR/${SMALLERCLONAL}*.xmfa.* \$INPUTDIR/
+  cp \$LCBDIR/*.xmfa.* \$INPUTDIR/
   cp \$WORKDIR/remain.txt \$TMPDIR/
   cp \$WORKDIR/input/\${REPLICATE}/clonaltree.nwk \$TMPDIR/
   cp \$WARG \$TMPDIR/
@@ -1235,7 +1237,7 @@ function prepare-task {
   # NODENUMBER=8 # What is this number? Is this number of cores of a node?
 
   # I need to count total jobs.
-  TOTALJOBS=\$(ls -1 \$INPUTDIR/${SMALLERCLONAL}*.xmfa.* | wc -l)
+  TOTALJOBS=\$(ls -1 \$INPUTDIR/*.xmfa.* | wc -l)
 
   # NODECNT: number of computing nodes
   # TASKCNT: total number of cores
@@ -1346,12 +1348,12 @@ do
         if [[ "\$FINISHED" =~ "outputFile" ]]; then
           echo Already finished: \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml
         else
-          STATUSFILE=\$WORKDIR/status/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.status
+          STATUSFILE=\$WORKDIR/status/\${REPLICATE}/core_co.phase2.\$JOBID.status
           if [ ! -f "\$STATUSFILE" ]; then
             touch \$STATUSFILE
             ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 10000 \\
-              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-              \$WORKDIR/output/\${REPLICATE}/${SMALLERCLONAL}core_co.phase2.\$JOBID.xml
+              clonaltree.nwk input/core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output/\${REPLICATE}/core_co.phase2.\$JOBID.xml
             rm \$STATUSFILE
           fi
         fi
@@ -1360,13 +1362,13 @@ do
         if [[ "\$FINISHED" =~ "outputFile" ]]; then
           echo Already finished: \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml
         else
-          STATUSFILE=\$WORKDIR/status2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.status
+          STATUSFILE=\$WORKDIR/status2/\${REPLICATE}/core_co.phase3.\$JOBID.status
           if [ ! -f "\$STATUSFILE" ]; then
             touch \$STATUSFILE
             ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 -x 1000000 -y 10000000 -z 100000 \\
               -T s${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R s${MEDIAN_RHO} \\
-              clonaltree.nwk input/${SMALLERCLONAL}core_alignment.xmfa.\$JOBID \\
-              \$WORKDIR/output2/\${REPLICATE}/${SMALLERCLONAL}core_co.phase3.\$JOBID.xml
+              clonaltree.nwk input/core_alignment.xmfa.\$JOBID \\
+              \$WORKDIR/output2/\${REPLICATE}/core_co.phase3.\$JOBID.xml
             rm \$STATUSFILE
           fi
         fi
@@ -1720,6 +1722,9 @@ function prepare-run-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      g=$REPETITION
       echo -e "Which replicate set of ClonalFrame output files?"
       echo -n "ClonalFrame REPLICATE ID: " 
       read CLONALFRAMEREPLICATE
@@ -1727,25 +1732,53 @@ function prepare-run-clonalorigin {
       echo -n "ClonalOrigin REPLICATE ID: " 
       read REPLICATE
       echo -e "Preparing clonal origin analysis..."
-      set-more-global-variable 
+      set-more-global-variable $SPECIES $REPETITION
+      echo -e "  Creating an input directory for a species tree..."
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
+      echo -e "  Creating an output directory for the 1st stage of ClonalOrigin..." 
       mkdir $RUNCLONALORIGIN/output
+      echo -e "  Creating an output directory for the 2nd stage of ClonalOrigin..." 
       mkdir $RUNCLONALORIGIN/output2
-      mkdir -p $CACRUNCLONALORIGIN/input/${REPLICATE}
+      echo -e "  Creating an input directory in the cluster..."
+      CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+      ssh -x $CAC_USERHOST \
+        mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
-      echo -e "Read which clonalframe output file is used to have a phylogeny of a clonal frame."
-      echo -n "RUN ID: " 
+      echo -n "Which clonal frame is used for a phylogeny? (e.g., 1) "
       read RUNID
-      perl $PERLGCT $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/${SMALLER}core_clonalframe.out.${RUNID} $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk
+      SPECIESTREE=clonaltree.nwk
+      perl pl/getClonalTree.pl \
+        $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/core_clonalframe.out.${RUNID} \
+        $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE
       echo -e "  Splitting alignment into one file per block..."
-      rm $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa.*
-      perl pl/blocksplit.pl $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa
+      CORE_ALIGNMENT=core_alignment.xmfa
+      rm $DATADIR/core_alignment.xmfa.*
+      perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
 
-      send-clonalorigin-input-to-cac
-      scp -r $RUNCLONALORIGIN/input $CACRUNCLONALORIGIN
-      #scp $RUNCLONALORIGIN/input/${REPLICATE}/clonaltree.nwk $CACRUNCLONALORIGIN/input/${REPLICATE}/
+      echo "  Copying the split alignments..."
+      scp -q $DATADIR/$CORE_ALIGNMENT.* \
+        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
+
+      echo "  Copying the input species tree..."
+      scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
+        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
+
       # Some script.
-      copy-batch-sh-run-clonalorigin
+      echo "  Creating job files..."
+      make-run-list-repeat $g \
+        $OUTPUTDIR/$SPECIES \
+        $REPLICATE \
+        $SPECIESTREE \
+        > $RUNCLONALORIGIN/jobidfile
+      scp -q $OUTPUTDIR/$SPECIES/$g/run-clonalorigin/jobidfile \
+        $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/$g/run-clonalorigin
+
+      copy-batch-sh-run-clonalorigin $g \
+        $OUTPUTDIR/$SPECIES \
+        $CAC_MAUVEANALYSISDIR/output/$SPECIES \
+        $SPECIES \
+        $SPECIESTREE \
+        $REPLICATE
       echo -e "Go to CAC's output/$SPECIES run-clonalorigin"
       echo -e "Submit a job using a different command."
       echo -e "$ bash batch.sh 3 to use three computing nodes"
@@ -1772,26 +1805,31 @@ function receive-run-clonalorigin {
       echo -e "You need to enter something\n"
       continue
     else  
-      echo -e "Which replicate set of output files?"
-      echo -n "REPLICATE ID: " 
+      echo -n "What repetition do you wish to run? (e.g., 1) "
+      read REPETITION
+      g=$REPETITION
+      echo -n "Which replicate set of output files? (e.g., 1) "
       read REPLICATE
-      set-more-global-variable 
+      set-more-global-variable $SPECIES $REPETITION
       mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
 
-      echo -e 'Have you already downloaded and do you want to skip the downloading? (y/n) '
+      echo -n 'Have you already downloaded and do you want to skip the downloading? (y/n) '
       read WANTSKIPDOWNLOAD
       if [ "$WANTSKIPDOWNLOAD" == "y" ]; then
-        echo "Skipping copy of the output files because I've already copied them ..."
+        echo "  Skipping copy of the output files because I've already copied them ..."
       else
-        echo -e "Receiving 1st stage of clonalorigin-output...\n"
+        echo -e "  Receiving 1st stage of clonalorigin-output..."
         mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
-        cp $CACRUNCLONALORIGIN/output/${REPLICATE}/* $RUNCLONALORIGIN/output/${REPLICATE}/
+        scp -q $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/${REPLICATE}/* \
+          $RUNCLONALORIGIN/output/${REPLICATE}/
       fi
 
-      echo -e "Computing the global medians of theta, rho, and delta ...\n"
-      perl $PERLCOMPUTEMEDIANS \
-        $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
+      echo -e "  Computing the global medians of theta, rho, and delta ..."
+      perl pl/computeMedians.pl \
+        $RUNCLONALORIGIN/output/${REPLICATE}/core_co.phase2.*.xml \
         | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+      echo -e "This is the summary of the first stage of clonal origin run:"
+      cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
       break
     fi
@@ -1867,7 +1905,7 @@ function receive-run-2nd-clonalorigin {
       # Directory is needed: /tmp/1074429.scheduler.v4linux/input/SdeqATCC12394.gbk
       echo -e "Doing AUI ...\n"
       DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-        $AUI $RUNLCBDIR/${SMALLERCLONAL}core_alignment.xmfa $RUNLCBDIR/${SMALLERCLONAL}core_alignment_mauveable.xmfa
+        $AUI $RUNLCBDIR/core_alignment.xmfa $RUNLCBDIR/core_alignment_mauveable.xmfa
       echo -e "Doing MWF ...\n"
       
       perl $PERLMWF $RUNCLONALORIGIN/output2/${REPLICATE}/*phase3*.bz2         # -done should be trimmed
@@ -1924,16 +1962,12 @@ EOF
 # L-by-L.
 #
 # recombination-intensity3: This uses the output file from
-# recombination-intensity2 menu. It draw the distribution of numbers of
+# recombination-intensity2 menu. It draws the distribution of numbers of
 # recombinant edge types over sites of all of the alignment blocks.
 # recombination-intensity.eps shows the distribution.
-#
-#
-#
 # 
 #
 # More literature search for studies of bacterial recombination.
-#
 #
 # convergence: This should go to a separate menu.
 # heatmap:
@@ -1997,7 +2031,7 @@ function analysis-clonalorigin {
           for i in {301..415}; do
             ALLTHREEDONE=YES
             for j in {1..3}; do
-              FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$j/${SMALLERCLONAL}core_co.phase2.$i.xml)
+              FINISHED=$(tail -n 1 $RUNCLONALORIGIN/output/$j/core_co.phase2.$i.xml)
               if [[ "$FINISHED" =~ "outputFile" ]]; then
                 ALLTHREEDONE=YES
               else
@@ -2010,8 +2044,8 @@ function analysis-clonalorigin {
               if [[ "$ALLTHREEDONE" = "YES" ]]; then
                 echo "Block: $i" > $RUNCLONALORIGIN/output/convergence-$i.txt
                 echo -e "Computing Gelman-Rubin Test ...\n"
-                $GUI -b -o $RUNCLONALORIGIN/output/1/${SMALLERCLONAL}core_co.phase2.$i.xml \
-                  -g $RUNCLONALORIGIN/output/2/${SMALLERCLONAL}core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/${SMALLERCLONAL}core_co.phase2.$i.xml:1 \
+                $GUI -b -o $RUNCLONALORIGIN/output/1/core_co.phase2.$i.xml \
+                  -g $RUNCLONALORIGIN/output/2/core_co.phase2.$i.xml,$RUNCLONALORIGIN/output/3/core_co.phase2.$i.xml:1 \
                   >> $RUNCLONALORIGIN/output/convergence-$i.txt
                 echo -e "Finding blocks with insufficient convergence ...\n"
                 perl $PERLGUIPERL -in $RUNCLONALORIGIN/output/convergence-$i.txt
@@ -2036,10 +2070,10 @@ function analysis-clonalorigin {
  
           echo -e "Computing heat map for the blocks ...\n"
           for i in {1..419}; do
-            if [ -f "$RUNCLONALORIGIN/output2-xml/${REPLICATE}/${SMALLERCLONAL}core_co.phase3.$i.xml" ]; then
+            if [ -f "$RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3.$i.xml" ]; then
               # Compute prior expected number of recedges.
               $GUI -b \
-                -o $RUNCLONALORIGIN/output2-xml/${REPLICATE}/${SMALLERCLONAL}core_co.phase3.$i.xml \
+                -o $RUNCLONALORIGIN/output2-xml/${REPLICATE}/core_co.phase3.$i.xml \
                 -H 3 \
                 > $RUNCLONALORIGIN/output2-xml/heatmap-$i.txt
             else
@@ -2084,13 +2118,13 @@ function analysis-clonalorigin {
         elif [ "$WHATANALYSIS" == "summary" ];  then
           echo -e "Finding  theta, rho, and delta estimates for all the blocks ...\n"
           perl $ECOP \
-            $RUNCLONALORIGIN/output/${SMALLERCLONAL}core*.xml \
+            $RUNCLONALORIGIN/output/core*.xml \
             > $RUNCLONALORIGIN/log.p
           break
         elif [ "$WHATANALYSIS" == "recedge" ];  then
           echo -e "Finding the number of recombination events inferred relative to its expectation under our prior model given the stage 2 inferred recombination rate, for each donor/recipient pair of branches.\n"
           perl $ECOP2 \
-            $RUNCLONALORIGIN/output2/${REPLICATE}/${SMALLERCLONAL}core*.xml.bz2 \
+            $RUNCLONALORIGIN/output2/${REPLICATE}/core*.xml.bz2 \
             > $RUNCLONALORIGIN/log2.p
           break
         elif [ "$WHATANALYSIS" == "recmap" ];  then
@@ -2128,7 +2162,7 @@ function analysis-clonalorigin {
         elif [ "$WHATANALYSIS" == "traceplot" ];  then
           echo -e "Trace plots ... \n"
           perl $ECOP3 \
-            $RUNCLONALORIGIN/output/${REPLICATE}/${SMALLERCLONAL}core*.xml \
+            $RUNCLONALORIGIN/output/${REPLICATE}/core*.xml \
             > $RUNCLONALORIGIN/log3.p
           echo -e "Splitting the log files ...\n"
           split -l 100 $RUNCLONALORIGIN/log3.p
@@ -2294,11 +2328,11 @@ function prepare-run-clonalorigin-simulation {
 
         #send-clonalorigin-input-to-cac
         echo "  Copying the split alignments..."
-        scp $DATADIR/$CORE_ALIGNMENT.* \
+        scp -q $DATADIR/$CORE_ALIGNMENT.* \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
 
         echo "  Copying the input species tree..."
-        scp $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
+        scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
 
         echo "  Making command options for clonal origin..."
@@ -2307,10 +2341,13 @@ function prepare-run-clonalorigin-simulation {
           $REPLICATE \
           $SPECIESTREE \
           > $RUNCLONALORIGIN/jobidfile
-        scp $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
+        scp -q $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
         copy-batch-sh-run-clonalorigin \
-          $RUNCLONALORIGIN \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin \
+          $g \
+          $OUTPUTDIR/$SPECIES \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES \
+          $SPECIES \
+          $SPECIESTREE \
           $REPLICATE
       done
 
@@ -2320,7 +2357,7 @@ function prepare-run-clonalorigin-simulation {
         $REPLICATE \
         $SPECIESTREE \
         > $OUTPUTDIR/$SPECIES/jobidfile
-      scp $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES
+      scp -q $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES
       copy-run-sh $OUTPUTDIR/$SPECIES \
         $CAC_MAUVEANALYSISDIR/output/$SPECIES \
         $SPECIES \
@@ -2349,7 +2386,7 @@ function receive-run-clonalorigin-simulation {
       echo "  Reading REPETITION from $SPECIESFILE..."
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
 
-      echo -e "Preparing clonal origin analysis..."
+      echo -e "  Receiving clonal origin analysis..."
       for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
@@ -2359,7 +2396,7 @@ function receive-run-clonalorigin-simulation {
         rm -rf $RUNCLONALORIGIN/output/$REPLICATE
         mkdir -p $RUNCLONALORIGIN/output/$REPLICATE
 
-        scp $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.*.xml \
+        scp -q $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.*.xml \
           $RUNCLONALORIGIN/output/$REPLICATE
       done
       break
@@ -2515,7 +2552,8 @@ function analyze-run-clonalorigin-simulation {
          || [ "$SPECIES" == "s3" ] \
          || [ "$SPECIES" == "s4" ] \
          || [ "$SPECIES" == "s5" ] \
-         || [ "$SPECIES" == "s6" ]; then
+         || [ "$SPECIES" == "s6" ] \
+         || [ "$SPECIES" == "s7" ]; then
       echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
       read REPLICATE
       SPECIESFILE=species/$SPECIES
@@ -2758,6 +2796,8 @@ function simulate-data {
   done
 }
 
+source sh/scatter-plot-parameter.sh
+source sh/plot-number-recombination-within-blocks.sh
 
 #####################################################################
 # Main part of the script.
@@ -2780,6 +2820,9 @@ CHOICES=( init-file-system \
           receive-run-clonalorigin \
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
+          ------------------------------------------ \
+          scatter-plot-parameter \
+          plot-number-recombination-within-blocks \
           analysis-clonalorigin \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
@@ -2844,6 +2887,12 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "simulate-data" ];  then
     simulate-data
+    break
+  elif [ "$CHOICE" == "scatter-plot-parameter" ];  then
+    scatter-plot-parameter
+    break
+  elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ];  then
+    plot-number-recombination-within-blocks
     break
   else
     echo -e "You need to enter something\n"

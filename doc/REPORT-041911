@@ -1,0 +1,95 @@
+Report on Progress of Streptococcus Project
+===========================================
+
+Authors
+-------
+- Matt Rasmussen <rasmus@mit.edu>
+- Melissa Jane Hubisz <mjhubisz@cornell.edu>
+- Sang Chul Choi <schoi@cornell.edu>
+
+Matt
+----
+
+Melissa
+-------
+
+Sang Chul
+---------
+Because group A streptococci (GAS) and group C/G streptococci (GCS/GGS) cohabit
+the same ecological niche, genetic exchanges between the two groups are
+possible.
+Genetic exchanges between bacterial individuals are facilitated
+by bacterial recombination via transduction, conjugation, and transformation.
+Bacterial recombination introduces parts of a donor individual genome 
+into a recipient one. 
+The process is similar to that of gene conversion rather than homologous
+recombination.
+By studying genome-wide recombination of bacterial genomes of GAS and GCS/GGS
+groups we are able to investigate exchange of genetic elements between GAS and
+GCS/GGS.
+Previous studies were limited to housekeeping genes partly because of lack of 
+methods of studying bacterial recombination in genome scale, and partly because
+of unavailability of relevant bacterial genomes. 
+Fortunately, there were recently developed statistical methods of studying
+bacterial recombination (Didelot2007, Didelot2010). There were also release of
+more bacterial genomes of GCS/GGS such as
+S. dysgalactiae subsp. equisimilis ATCC 12394 (Suzuki2011).
+We studied genome-wide recombination of the five streptococcus species including
+Streptococcus pyogenes MGAS315,
+S. pyogenes MGAS10750,
+S. dysgalactiae subsp. equisimilis GGS_124,
+S. dysgalactiae subsp. equisimilis ATCC 12394, and
+S. dysgalactiae subsp. dysgalactiae. 
+These genomes and S. equi subsp. equi strain 4047
+were studied by Suzuki (2011) for positive selection.
+
+1. 
+Number of recombinant edges per site within a block
+along S. dysgalactiae subsp. equisimilis ATCC 12394
+
+Number of recombination: recombination boundaries per site
+/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/8/run-analysis/plot-number-recombination-within-blocks-cornellf-1.out.recomb.ps 
+
+Our preliminary study showed that not surprisingly many parts of genomic regions were under
+high recombination .
+
+The two groups were shown to exchange genetic
+material across the entire genomes not just housekeeping genes (Figure X).
+
+2. 
+It also showed that overall more genetic elements flowed
+from GAS to GCS/GGS than the other direction (Figure X).
+
+3. 
+Three functional
+categories show higher recombination: biosynthesis in fatty acid and
+phospholipid metabolism, phosphoenolpyruvate:carbohydrate phosphotransferase
+system (PTS) in signal transduction, and tRNA aminoacylation in protein fate
+(Figure X).
+
+
+References
+----------
+
+Didelot, X. & Falush, D., 2007 Inference of bacterial microevolution using
+multilocus sequence data. Genetics 175: 1251-1266.
+
+Didelot, X.; Lawson, D.; Darling, A. & Falush, D., 2010 Inference of homologous
+recombination in bacteria using whole-genome sequences. Genetics 186: 1435-1449.
+
+Suzuki, H.; Lefébure, T.; Hubisz, M. J.; Bitar, P. P.; Lang, P.; Siepel, A. &
+Stanhope, M. J., 2011 Comparative Genomic Analysis of the Streptococcus
+dysgalactiae Species Group: Gene Content, Molecular Adaptation, and Promoter
+Evolution. Genome Biol Evol 3: 168-185.
+
+Adam Email
+----------
+Mike, I'm travelling, but Sang Chul, Matt, and Melissa should be able to get you
+something by Wed.  Folks, please send Mike a brief description of progress so
+far on the recombination/gain/loss/LGT work (roughly 1 page), focusing on
+overall goals and major findings so far.  If you have any figures, you could
+send those along as well.  Melissa, it would be great if you could take an
+editing pass before sending.  Please cc me.  I'll be back Thurs and can have a
+look then.
+Thanks,
+Adam

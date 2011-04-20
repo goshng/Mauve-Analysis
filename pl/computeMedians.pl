@@ -1,6 +1,6 @@
 #!/opt/local/bin/perl -w
 use strict;
-use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
+#use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
 use XML::Parser;
 
 if(@ARGV==0){
@@ -23,8 +23,8 @@ my $blockcount=scalar(@ARGV);	# assume one block per file
 foreach my $f (@ARGV){
 	my $fs;
 	if($f =~ /\.bz2$/){
-		$fs = bunzip2 $f => "tmpxml" or die "IO::Uncompress::Bunzip2 failed: $Bunzip2Error\n";
-		$fs = "tmpxml";
+		#$fs = bunzip2 $f => "tmpxml" or die "IO::Uncompress::Bunzip2 failed: $Bunzip2Error\n";
+		#$fs = "tmpxml";
 	}else{
 		$fs = $f;
 	}

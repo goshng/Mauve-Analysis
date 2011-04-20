@@ -3,9 +3,18 @@ Mauve, Clonal Frame, Clonal Origin Analysis
 
 Current analysis
 ----------------
-s4, s5
-cornellf's repetition 8 (5000 minimum) is considered. I will run this repetition
-8.
+repetition 8 - replicate 2 
+s7
+
+cornellf's repetition 8 (5000 minimum) is considered. 
+
+I am running this repetition 8 on the cluster. 
+I want to know what is the difference from the 411 cluster and 71 cluster.
+Median theta: 0.0749323036174269
+Median delta: 614.149554455445
+Median rho: 0.0137842770601471
+
+
 
 Directories
 -----------
