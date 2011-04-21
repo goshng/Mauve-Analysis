@@ -80,21 +80,21 @@ for(my $ttally=$thetalens{$tsort[$j]}; $ttally < $lensum/2; $ttally += $thetalen
 {
 	$j++;
 }
-print "Median theta: ".$tsort[$j]."\n";
+print "Median theta:".$tsort[$j]."\n";
 
 $j=0;
 for(my $dtally=$deltalens{$dsort[$j]}; $dtally < $lensum/2; $dtally += $deltalens{$dsort[$j]})
 {
 	$j++;
 }
-print "Median delta: ".$dsort[$j]."\n";
+print "Median delta:".$dsort[$j]."\n";
 
 $j=0;
 for(my $rtally=$rholens{$rsort[$j]}; $rtally < $lensum/2; $rtally += $rholens{$rsort[$j]})
 {
 	$j++;
 }
-print "Median rho: ".$rsort[$j]."\n";
+print "Median rho:".$rsort[$j]."\n";
 
 
 exit;

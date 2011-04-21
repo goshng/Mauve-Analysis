@@ -4,7 +4,7 @@
 #
 #   File: extractClonalOriginParameter4.pl
 #   Date: 2011-02-18
-#   Version: 0.1.0
+#   Version: 1.0
 #
 #   Usage:
 #      perl extractClonalOriginParameter4.pl [options]
@@ -137,11 +137,17 @@ Copyright (C) 2011  Sang Chul Choi
 
 =head1 LICENSE
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. 
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
 
@@ -372,8 +378,8 @@ sub get_obs_map($$)
 {
   my ($f, $numElements) = @_;
 
-	my $parser = new XML::Parser();
-	$parser->setHandlers(Start => \&startElement,
+  my $parser = new XML::Parser();
+  $parser->setHandlers(Start => \&startElement,
                        End => \&endElement,
                        Char => \&characterData,
                        Default => \&default);
@@ -384,33 +390,24 @@ sub get_obs_map($$)
     my @rowMap = (0) x $numElements;
     push @blockObsMap, [ @rowMap ];
   }
-	$itercount=0;
+  $itercount=0;
 
-	my $doc;
-	eval{ $doc = $parser->parsefile($f)};
-	die "Unable to parse XML of $f, error $@\n" if $@;
+  my $doc;
+  eval{ $doc = $parser->parsefile($f)};
+  die "Unable to parse XML of $f, error $@\n" if $@;
   return @blockObsMap;
 }
 
+#############################################################
+# XML Parsing functions
+#############################################################
+
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;
-	$tag = $element;
+  $tag = $element;
   SWITCH: {
     if ($element eq "Iteration") {
       $itercount++;
-      last SWITCH;
-    }
-    if ($element eq "delta") {
-      last SWITCH;
-    }
-    if ($element eq "rho") {
-      last SWITCH;
-    }
-    if ($element eq "recedge") {
-      last SWITCH;
-    }
-    if ($element eq "Tree") {
-      $content = "";
       last SWITCH;
     }
   }
@@ -418,34 +415,33 @@ sub startElement {
 
 sub endElement {
   my ($p, $elt) = @_;
-	$tag = "";
-  if ($elt eq "Tree")
-  {
-    # No Code.
 
-    # print STDERR $content, "\n";
+  if($elt eq "start"){
+    $recedge{start} = $content;
   }
+  if($elt eq "end"){
+    $recedge{end} = $content;
+  }
+  if($elt eq "efrom"){
+    $recedge{efrom} = $content;
+  }
+  if($elt eq "eto"){
+    $recedge{eto} = $content;
+  }
+  if($elt eq "afrom"){
+    $recedge{afrom} = $content;
+  }
+  if($elt eq "ato"){
+    $recedge{ato} = $content;
+  }
+
   if ($elt eq "recedge")
   {
     $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
-
-    #print $recedge{start}, "\t";
-    #print $recedge{end}, "\t";
-    #print $recedge{efrom}, "\t";
-    #print $recedge{eto}, "\t";
-    #print $recedge{afrom}, "\t";
-    #print $recedge{ato}, "\n";
   }
   
-  if ($elt eq "Iteration")
-  {
-    # No Code.
-  }
-
   if ($elt eq "outputFile")
   {
-    print STDERR "outFile: [ $blockLength ]\n";
-    print STDERR "outFile: [ $itercount ]\n";
     for (my $j = 0; $j < $numberOfLineage; $j++)
     {
       for (my $k = 0; $k < $numberOfLineage; $k++)
@@ -454,41 +450,30 @@ sub endElement {
       }
     }
   }
+  $tag = "";
+  $content = "";
 }
 
 sub characterData {
-       my( $parseinst, $data ) = @_;
-	$data =~ s/\n|\t//g;
-	if($tag eq "Tree"){
-    $content .= $data;    
-	}
-	if($tag eq "start"){
-    $recedge{start} = $data;
-	}
-	if($tag eq "end"){
-    $recedge{end} = $data;
-	}
-	if($tag eq "efrom"){
-    $recedge{efrom} = $data;
-	}
-	if($tag eq "eto"){
-    $recedge{eto} = $data;
-	}
-	if($tag eq "afrom"){
-    $recedge{afrom} = $data;
-	}
-	if($tag eq "ato"){
-    $recedge{ato} = $data;
-	}
+  my( $parseinst, $data ) = @_;
+  $data =~ s/\n|\t//g;
 
-	if($tag eq "Blocks"){
-		if ($data =~ s/.+\,//g)
-    {
+  if ($tag eq "start"
+      or $tag eq "end"
+      or $tag eq "efrom"
+      or $tag eq "eto"
+      or $tag eq "afrom"
+      or $tag eq "ato") 
+  {
+    $content .= $data;
+  }
+
+  if($tag eq "Blocks"){
+    if ($data =~ s/.+\,//g){
       $blockLength = $data;
       print STDERR "Blocks: [ $blockLength ]\n";
     }
-		#push( @lens, $data ) if(length($data)>1);
-	}
+  }
 }
 
 sub default {

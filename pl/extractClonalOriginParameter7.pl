@@ -36,7 +36,8 @@ GetOptions( \%params,
             'version' => sub { print $VERSION."\n"; exit; },
             'xmlbase=s',
             'xmfabase=s',
-            'out=s'
+            'out=s',
+            'thin=d'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -127,6 +128,7 @@ sub getMidPosition ($);
 my $xmlFilebase;
 my $xmfaFilebase;
 my $basenameOutFile;
+my $thinSize = 1;
 
 if (exists $params{xmlbase})
 {
@@ -153,6 +155,11 @@ if (exists $params{out})
 else
 {
   &printError("you did not specify a base name of the output file");
+}
+
+if (exists $params{thin})
+{
+  $thinSize = $params{thin};
 }
 
 #
@@ -204,6 +211,7 @@ foreach my $xmlFile (@xmlFiles) {
   print OUTRECOMB "\t$blockLength\t$blockID\t$position\n";
   $curR /= $itercount;
   push @meanR, $curR;
+  print "$blockID: $itercount\n";
   #last;
 }
 
@@ -279,8 +287,10 @@ sub endElement {
     } 
   }
   if ($elt eq "Iteration") {
-    print OUTRECOMB "\t" if $itercount > 1;
-    print OUTRECOMB $numberRecEdge;
+    if ($itercount % $thinSize == 0) {
+      print OUTRECOMB "\t" if $itercount > 1;
+      print OUTRECOMB $numberRecEdge;
+    }
     $curR += $numberRecEdge;
   }
   $tag = "";

@@ -7,89 +7,240 @@ Authors
 - Melissa Jane Hubisz <mjhubisz@cornell.edu>
 - Sang Chul Choi <schoi@cornell.edu>
 
-Matt
-----
+The six streptococcus genomes
+-----------------------------
+We investigate gene duplication, losses, horizontal transfer, and bacterial
+recombination using the six genomes including 
+Streptococcus pyogenes MGAS315 (SPY1),
+S. pyogenes MGAS10750 (SPY2),
+S. dysgalactiae subsp. equisimilis ATCC 12394 (SDE1),
+S. dysgalactiae subsp. equisimilis GGS_124 (SDE2),
+S. dysgalactiae subsp. dysgalactiae (SDD),
+and S. equi subsp. equi strain 4047 (SEE).
+These genomes were studied by Suzuki (2011) for positive selection.
+In the recombination analysis we use five of them by removing SEE to increase
+the length of genome to analyze.
 
-Melissa
--------
+Inferring duplication, loss, and transfer events
+------------------------------------------------
+Gene duplications, losses, and horizontal gene transfers (HGT) were identified
+using the following methods.  Gene annotations from the species 
+SDE1, SDE2, SDD,
+SPY1, SPY2, and SEE 
+were clustered into gene families using OrthoMCL (Li2003,
+Suzuki2011).  For each gene family cluster, the corresponding peptide sequences
+were aligned using the MUSCLE program (Edgar2004a).  Nucleotide alignments were
+then constructed for each family by mapping nucleotide sequences onto each
+peptide alignment, replacing each amino acid with its corresponding codon and
+each gap with a triplet of gaps.  Gene trees were then constructed for each
+nucleotide alignment using the RAxML program (Stamatakis2006) and
+were rooted by minimizing inferred duplications and losses.  Each rooted gene
+tree was then reconciled using the Mowgli program (Doyon2011), which inferred
+the most parsimonious gene duplication, loss, and transfer events for each
+family.  Default values were used for all programs.
 
-Sang Chul
----------
+Figure 1 shows the inferred gene counts for each extant and ancestral species.
+Overall, we find that duplications make up only a small fraction of
+the events within the clade (9.6%), while horizontal transfers and
+losses are significantly more frequent (37.5% and 52.9%,
+respectively).  We also find that duplications are most often
+species-specific.  Many gene losses are likely represent horizontal
+transfers that replace the native gene sequence.
+
+Inferring bacterial recombination
+---------------------------------
 Because group A streptococci (GAS) and group C/G streptococci (GCS/GGS) cohabit
 the same ecological niche, genetic exchanges between the two groups are
 possible.
-Genetic exchanges between bacterial individuals are facilitated
+Genetic exchanges between bacteria are facilitated
 by bacterial recombination via transduction, conjugation, and transformation.
 Bacterial recombination introduces parts of a donor individual genome 
 into a recipient one. 
-The process is similar to that of gene conversion rather than homologous
+This process is similar to that of gene conversion rather than homologous
 recombination.
 By studying genome-wide recombination of bacterial genomes of GAS and GCS/GGS
-groups we are able to investigate exchange of genetic elements between GAS and
+groups we should be able to investigate exchange of genetic elements between GAS and
 GCS/GGS.
 Previous studies were limited to housekeeping genes partly because of lack of 
 methods of studying bacterial recombination in genome scale, and partly because
 of unavailability of relevant bacterial genomes. 
 Fortunately, there were recently developed statistical methods of studying
-bacterial recombination (Didelot2007, Didelot2010). There were also release of
+bacterial recombination (Didelot2007, Didelot2010). There were also
 more bacterial genomes of GCS/GGS such as
 S. dysgalactiae subsp. equisimilis ATCC 12394 (Suzuki2011).
-We studied genome-wide recombination of the five streptococcus species including
-Streptococcus pyogenes MGAS315,
-S. pyogenes MGAS10750,
-S. dysgalactiae subsp. equisimilis GGS_124,
-S. dysgalactiae subsp. equisimilis ATCC 12394, and
-S. dysgalactiae subsp. dysgalactiae. 
-These genomes and S. equi subsp. equi strain 4047
-were studied by Suzuki (2011) for positive selection.
 
-1. 
-Number of recombinant edges per site within a block
-along S. dysgalactiae subsp. equisimilis ATCC 12394
+The statistical method of studying bacterial recombination developed by
+Didelot2010 uses a reference species tree
+inferred using bacterial genomes.  The reference species tree
+serves as a back-bone where additional edges, hereafter we refer to as recombinant
+edges, are attached to the species tree branches.  
+A recombinant edge connects two branches of the reference
+tree.  The authors describe that a recombinant edge 
+``departs'' from an older time point at a species branch, 
+and ``arrives'' at a more recent time point of another species branch.  
+The arrival point corresponds to a recombination event
+in an ancestral recombination graph (ARG).  
+As the reference tree traverses a genome alignment to
+meet a recombinant edge, its sister branch of the arrival point is erased and
+the recombinant edge replaces it.
+Consequently, gene trees change sequentially along a genome.  
+This reminisces about gene conversion modeling by Wiuf1999, and the sequential
+Markov coalescent due to McVean2005.
+Although recombinant edges between two species branches do not denote gene flow
+between two species in their original model, Didelot2010 exploited their method
+to infer flow of genetic segment between Bacillus cereus species.
+We here studied genome-wide recombination of the five streptococcus species 
+by applying the method of clonal origin developed by Didelot2010.
 
-Number of recombination: recombination boundaries per site
-/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/8/run-analysis/plot-number-recombination-within-blocks-cornellf-1.out.recomb.ps 
+The five genomes were aligned using 
+progressiveMauve (Darling2004, Darling2010)
+with default options that had been 
+released on November 11th 2009 with version 2.3.1 at
+http://asap.ahabs.wisc.edu/mauve/download.php.
+We removed variable regions from the alignments to leave 
+415 alignment blocks that were longer than 500 base pairs.
+ClonalFrame version 1.1 that was available at 
+http://www.xavierdidelot.xtreemhost.com/clonalframe.htm
+was applied to the 415 alignment blocks to estimate a clonal frame, or 
+or a species tree of the five genomes (Didelot2007). 
+ClonalOrigin with a subversion r19 released on October 1st 2010 was downloaded
+from http://clonalorigin.googlecode.com/svn/trunk.
 
-Our preliminary study showed that not surprisingly many parts of genomic regions were under
-high recombination .
+The recombinant tract length was estimated to be 795 base pairs.
+The mutation rate per site and the recombination rate per site were estimated to
+be 0.0805 and 0.0104, respectively. 
+Recombinant edges can start before the start position of an alignment block, and
+end after the ending position of the block. By counting recombinant edges
+starting and ending within an alignment block we can measure number of
+recombination events that affect the block.
+Figure 2 shows number of recombinant edges per site within an alignment block
+along S. dysgalactiae subsp. equisimilis ATCC 12394.
+This preliminary study showed that not surprisingly many parts of genomic
+regions were under high recombination.
+This might indicate that the two groups of GAS and GCS/GGS exchanged genetic
+material across the entire genomes not just housekeeping genes.
 
-The two groups were shown to exchange genetic
-material across the entire genomes not just housekeeping genes (Figure X).
+Figure 3 shows heat maps of logarithm base 2 transformation of
+the observed number of recombinant edges relative to the prior
+expected number of recombinant edges for each donor/recipient pair in the
+species tree of the five genomes.  
+The result appears to
+indicate that gene flow from _Streptococcus pyogenes_ to
+_S. dysgalactiae_ ssp. _equisimilis_ was larger than that for the other
+direction.
 
-2. 
-It also showed that overall more genetic elements flowed
-from GAS to GCS/GGS than the other direction (Figure X).
+A nucleotide site along a genome under clonal origin model is affected by
+recombinant edges with different source and destination species tree branches.
+By counting recombinant edge types on a nucleotide site and averaging it over
+the nucleotides of a gene we were able to measure recombination intensity on a
+gene.
 
-3. 
+IMPORTANT: GO Analysis by Melissa and the results should be here.
+
 Three functional
 categories show higher recombination: biosynthesis in fatty acid and
 phospholipid metabolism, phosphoenolpyruvate:carbohydrate phosphotransferase
-system (PTS) in signal transduction, and tRNA aminoacylation in protein fate
-(Figure X).
+system (PTS) in signal transduction, and tRNA aminoacylation in protein fate.
 
+Figure Files
+-------------
+Figure 1.
+strep.events.pdf
+
+Figure 2.
+plot-number-recombination-within-blocks-cornell5-1.out.recomb.ps
+
+Figure 3.
+figure3.pdf
+
+Figure Legend
+-------------
+Figure 1. Gene counts for each extant and ancestral species. 
+The notation on each branch is DX LY TZ, where X is the number of
+duplications on that branch, Y is the number of losses, and Z is the
+number transfers into the branch. Transfer out of a branch are not
+indicated in this figure.  
+
+Figure 2. The number of recombination event boundaries per site for each block along the 
+S. dysgalactiae subsp. equisimilis ATCC 12394 (Suzuki2011).
+
+Figure 3. 
+Heat map for the number of recombination
+events inferred relative to its expectation under the prior clonal origin model of given the
+recombination rate, for each donor/recipient pair of branches.
 
 References
 ----------
 
-Didelot, X. & Falush, D., 2007 Inference of bacterial microevolution using
+(McVean2005) McVean, G. A. and Cardin, N. J. 2005. Approximating the coalescent with
+recombination. Philos. Trans. R. Soc. Lond. B Biol. Sci., 360, 1387–93.
+
+(Wiuf1999) Wiuf, C. and Hein, J. 1999. Recombination as a point process along sequences.
+Theor. Pop. Biol., 55, 248–259.
+
+(Darling2004) Darling, A. C., B. Mau, F. R. Blattner and N. T. Perna, 2004 Mauve: multiple
+alignment of conserved genomic sequence with rearrangements. Genome Res. 14:
+1394–1403.
+
+(Darling2010) Darling, A., B. Mau and N. Perna, 2010  ProgressiveMauve: multiple genome
+alignment with gene gain, loss and rearrangement. PLoS One 5: e11147.
+
+(Didelot2007) Didelot, X. & Falush, D., 2007 Inference of bacterial microevolution using
 multilocus sequence data. Genetics 175: 1251-1266.
 
-Didelot, X.; Lawson, D.; Darling, A. & Falush, D., 2010 Inference of homologous
+(Didelot2010) Didelot, X.; Lawson, D.; Darling, A. & Falush, D., 2010 Inference of homologous
 recombination in bacteria using whole-genome sequences. Genetics 186: 1435-1449.
 
-Suzuki, H.; Lefébure, T.; Hubisz, M. J.; Bitar, P. P.; Lang, P.; Siepel, A. &
+(Suzuki2011) Suzuki, H.; Lefébure, T.; Hubisz, M. J.; Bitar, P. P.; Lang, P.; Siepel, A. &
 Stanhope, M. J., 2011 Comparative Genomic Analysis of the Streptococcus
 dysgalactiae Species Group: Gene Content, Molecular Adaptation, and Promoter
 Evolution. Genome Biol Evol 3: 168-185.
 
-Adam Email
-----------
-Mike, I'm travelling, but Sang Chul, Matt, and Melissa should be able to get you
-something by Wed.  Folks, please send Mike a brief description of progress so
-far on the recombination/gain/loss/LGT work (roughly 1 page), focusing on
-overall goals and major findings so far.  If you have any figures, you could
-send those along as well.  Melissa, it would be great if you could take an
-editing pass before sending.  Please cc me.  I'll be back Thurs and can have a
-look then.
-Thanks,
-Adam
+(Doyon2011) Doyon, J.; Scornavacca, C.; Gorbunov, K.; Szöllosi, G.; Ranwez, V. &
+Berry, V.
+Tannier, E. (ed.) An Efficient Algorithm for Gene/Species Trees Parsimonious
+Reconciliation with Losses, Duplications and Transfers. Comparative Genomics,
+Springer Berlin / Heidelberg, 2011, 6398, 93-108
+
+(Edgar2004a) Edgar, R. C. MUSCLE: multiple sequence alignment with high accuracy
+and high throughput. Nucleic Acids Res, 2004, 32, 1792-1797 
+
+(Li2003) Li, L.; Stoeckert, C. J. & Roos, D. S. OrthoMCL: identification of
+ortholog groups for eukaryotic genomes. Genome Res, 2003, 13, 2178-2189 
+
+(Stamatakis2006) Stamatakis, A. RAxML-VI-HPC: maximum likelihood-based
+phylogenetic analyses with thousands of taxa and mixed models. Bioinformatics,
+2006, 22, 2688-2690 
+
+
+
+tRNA aminoacylation and gene transfer
+-------------------------------------
+
+Woese, C. R.; Olsen, G. J.; Ibba, M. & Söll, D., 2000 Aminoacyl-tRNA
+synthetases, the genetic code, and the evolutionary process. Microbiol Mol Biol
+Rev 64: 202-236.
+
+Wang, X. & Lavrov, D. V., 2011 Gene recruitment - A common mechanism in the
+775 evolution of transfer RNA gene families. Gene 475: 22-29.
+
+Andam, C. P.; Williams, D. & Gogarten, J. P., 2010 Biased gene transfer mimics
+patterns created through shared ancestry. Proc Natl Acad Sci U S A 107:
+10679-10684.
+
+PTS and gene transfer
+---------------------
+
+Zúñiga, M.; Comas, I.; Linaje, R.; Monedero, V.; Yebra, M. J.; Esteban, C. D.;
+Deutscher, J.; Pérez-Martínez, G. & González-Candelas, F., 2005 Horizontal gene
+transfer in the molecular evolution of mannose PTS transporters. Mol Biol Evol
+22: 1673-1685. 
+
+Fatty acid biosynthesis and gene transfer
+-----------------------------------------
+
+Kinsella, R. J.; Fitzpatrick, D. A.; Creevey, C. J. & McInerney, J. O., 2003
+Fatty acid biosynthesis in Mycobacterium tuberculosis: lateral gene transfer,
+adaptive evolution, and gene duplication. Proc Natl Acad Sci U S A 100:
+10320-10325.
+

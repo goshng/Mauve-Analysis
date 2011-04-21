@@ -26,21 +26,22 @@ function plot-number-recombination-within-blocks {
       perl pl/extractClonalOriginParameter7.pl \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
         -xmfabase $DATADIR/core_alignment.xmfa \
-        -out $RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out
-      echo "$RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out"
+        -thin 10 \
+        -out $RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out.another
+      echo "$RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out.another"
+      break
 
-      #echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
-      #break 
-      # NUMBER_BLOCK=`wc -l < simulation/$INBLOCK`
-      NUMBER_BLOCK=71
+      NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml|wc -l`)
       echo -e "  The number of blocks is $NUMBER_BLOCK."
-      NUMBER_SAMPLE=101 
-      echo -e "  The sample size per block is $NUMBER_BLOCK."
+      echo -e "  The sample size per block is $NUMBER_SAMPLE."
+      echo -e "  The number of species is $NUMBER_SPECIES."
 
-      rscript-plot-number-recombination-within-blocks \
-        $RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out \
-        $NUMBER_BLOCK \
-        $NUMBER_SAMPLE 
+      #rscript-plot-number-recombination-within-blocks \
+        #$RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out \
+        #$NUMBER_BLOCK \
+        #$NUMBER_SAMPLE 
  
       #cat $RUNANALYSIS/$FUNCNAME-$SPECIES-$REPLICATE.out.R.out
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
@@ -113,7 +114,7 @@ plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
 }
 
 wm <- medianParameter ("$S2OUT.recomb") 
-plotThreeParameter ("$S2OUT.recomb", "", "Recombination event boundaries per site", wm, FALSE)
+plotThreeParameter ("$S2OUT.recomb", "Genomic position", "Recombination event boundaries per site", wm, FALSE)
 EOF
   Rscript $BATCH_R > $BATCH_R.out 
 }

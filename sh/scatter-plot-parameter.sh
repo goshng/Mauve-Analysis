@@ -26,13 +26,12 @@ function scatter-plot-parameter {
         -out $RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out
       echo "$RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out"
 
-      echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
-      break 
-      # NUMBER_BLOCK=`wc -l < simulation/$INBLOCK`
-      NUMBER_BLOCK=71
+      NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml|wc -l`)
       echo -e "  The number of blocks is $NUMBER_BLOCK."
-      NUMBER_SAMPLE=101 
-      echo -e "  The sample size per block is $NUMBER_BLOCK."
+      echo -e "  The sample size per block is $NUMBER_SAMPLE."
+      echo -e "  The number of species is $NUMBER_SPECIES."
 
       analyze-run-clonalorigin-scatter-plot-parameter-rscript \
         $RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out \
