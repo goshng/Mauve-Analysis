@@ -2840,6 +2840,7 @@ source sh/compute-global-median.sh
 source sh/prepare-run-clonalorigin2-simulation.sh 
 source sh/receive-run-clonalorigin-simulation.sh 
 source sh/analyze-run-clonalorigin2-simulation.sh 
+source sh/divide-simulated-xml-data.sh
 
 #####################################################################
 # Main part of the script.
@@ -2848,6 +2849,7 @@ PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
           choose-simulation \
           simulate-data \
+          divide-simulated-xml-data \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
@@ -2959,6 +2961,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "compute-global-median" ];  then
     compute-global-median
+    break
+  elif [ "$CHOICE" == "divide-simulated-xml-data" ];  then
+    divide-simulated-xml-data
     break
   else
     echo -e "You need to enter something\n"

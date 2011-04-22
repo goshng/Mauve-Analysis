@@ -1,12 +1,18 @@
 # Author: Sang Chul Choi
 # Date  : Wed Apr 20 21:50:15 EDT 2011
 
-# Analyzes the 2nd stage of clonal origin simulation
-# --------------------------------------------------
-# 1. The number of recombinant edges.
-# 2. The count for heat map.
-# 3. The recombination intensity.
-function analyze-run-clonalorigin2-simulation {
+# Divides a clonal origin XML file into as many as blocks.
+# --------------------------------------------------------
+# A simulation with clonal origin generates an alignment and a clonal frame with
+# recombinant edges attatched to it. The alignment was easily divided into
+# blocks. The XML file that contains recombinant edges is somewhat complicated.
+# A full-fledged clonal origin XML parser is needed.
+# 
+# Two exemplary output files are:
+# s9/1/data/s9_1_core_alignment.xml
+# s9/1/data/s9_1_core_alignment.xmfa
+# 
+function divide-simulated-xml-data {
   PS3="Choose the simulation result of clonalorigin: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -34,8 +40,7 @@ function analyze-run-clonalorigin2-simulation {
       NUMBER_SPECIES=$(grep NumberSpecies $SPECIESFILE | cut -d":" -f2)
       echo " $NUMBER_SPECIES"
 
-      echo "Extracting the recombination events from ${HOW_MANY_REPETITION} XML files"
-      echo "  of replicate ${REPLICATE}..."
+      echo "  Dividing XML files of replicate ${REPLICATE}..."
       BASEDIR=$OUTPUTDIR/$SPECIES
       for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
         NUMBERDIR=$BASEDIR/$g
@@ -44,6 +49,8 @@ function analyze-run-clonalorigin2-simulation {
         RUNANALYSIS=$NUMBERDIR/run-analysis
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
+
+        XMLFILE=${SPECIES}_${REPLICATE}_core_alignment.xml
 
         # Compute prior expected number of recedges.
         if [ -f "$RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.1.xml" ]; then

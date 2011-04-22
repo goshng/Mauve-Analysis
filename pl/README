@@ -1,0 +1,54 @@
+Perl Scripts used in mauve-analysis
+===================================
+
+sub-simple-parser.pl
+--------------------
+Some simple Clonal Origin XML parser functions.
+
+get_block_length($)
+~~~~~~~~~~~~~~~~~~~
+Argument 1: A Clonal Origin XML file.
+Return: Length of the block of the XML file.
+
+get_sample_size($)
+~~~~~~~~~~~~~~~~~~
+Argument 1: A Clonal Origin XML file.
+Return: Number of Iteration or sample size.
+
+extractClonalOriginParameter9.pl
+--------------------------------
+A first full-fledged Clonal Origin XML parser is needed. wargsim creates a
+single XML even if there are multiple blocks. To compare the simulated and the
+true one I need to divide a simulated colonal origin XML file into as many as
+blocks.
+
+README
+blocksplit.pl
+blocksplit2fasta.pl
+blocksplit2smallerfasta.pl
+combine-import-ratio-jcvi-role.pl
+compute-block-length.pl
+computeMedians.pl
+core2smallercore.pl
+extractClonalOriginParameter.pl
+extractClonalOriginParameter2.pl
+extractClonalOriginParameter3.pl
+extractClonalOriginParameter4.pl
+extractClonalOriginParameter5.pl
+extractClonalOriginParameter6.pl
+extractClonalOriginParameter7.pl
+extractClonalOriginParameter8.pl
+findBlocksWithInsufficientConvergence.pl
+get-primary-jcvi-loci.pl
+getClonalTree.pl
+list-locus-tag-go-jcvi-role.pl
+listgenegff.pl
+makeMauveWargFile.pl
+parse-jcvi-role.pl
+parse-m3-locus.pl
+plot-import-ratio-jcvi-role.pl
+recombination-intensity.pl
+recombination-intensity2.pl
+recombinationmap.pl
+remove-blocks-from-core-alignment.pl
+test-sub-simple-parser.pl

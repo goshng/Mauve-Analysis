@@ -1118,6 +1118,155 @@ src/clonalorigin/SimpleGlob.h: Parses command lines.
 src/clonalorigin/weakargsim.cpp: The main source file.
 \end_layout
 
+\begin_layout Section
+Heatmap
+\end_layout
+
+\begin_layout Standard
+I wish to describe how clonal origin's heat map is generated.
+ I think that I need to make sure that the heat map is computed correctly.
+\end_layout
+
+\begin_layout Standard
+Relevant functions include HeatImpl::compute_correct of warg's gui, and
+ RecTree::priorEdge of warg.
+ The expected number of recombination events is
+\begin_inset Formula \[
+\frac{\rho_{s}(L_{b}+\delta-1)}{2}T=\frac{\rho_{b}}{2}T\]
+
+\end_inset
+
+which is the mean value of the Poisson probability.
+ In the 2nd stage of clonal origin, the 
+\begin_inset Formula $\rho_{s}$
+\end_inset
+
+ is fixed.
+ Because 
+\begin_inset Formula $L_{b}$
+\end_inset
+
+ is specific to alignment block 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $\rho_{b}$
+\end_inset
+
+ varies among different blocks.
+ Accordingly, the expected number of recombination events varies among blocks.
+ This implies that the expected number of recombination events of all of
+ the blocks is just sum of those from the blocks.
+ For a given clonal frame and an arrival point the departure point is distribute
+d as
+\begin_inset Formula \[
+\mathbf{P}(a|b,\mathcal{T})=\exp(-L(a,b))\]
+
+\end_inset
+
+where 
+\begin_inset Formula $L(a,b)$
+\end_inset
+
+ is the sum of the branch lengths of 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ found between the time of 
+\begin_inset Formula $a$
+\end_inset
+
+ and that of 
+\begin_inset Formula $b.$
+\end_inset
+
+ Didelot computed a relative probability of recombinant edges between two
+ species tree branches by discretizing both of the branches and calculating
+ 
+\begin_inset Formula $\exp(-L(a_{i},b_{j}))$
+\end_inset
+
+ where 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $b_{j}$
+\end_inset
+
+ are points in the discretized branches.
+ Summing the exponential values over all the discretized combinations of
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ he computed a relative probability.
+ Once all of the pairs of species branches are dealt with, a sum of all
+ of the exponential values is computed and it is used to divide each exponential
+ value, yielding a ratio for each pair of species branches.
+ Then a prior expected number of recombination events between two species
+ branches is just the fraction of 
+\begin_inset Formula $\rho_{b}T/2$
+\end_inset
+
+ by the ratio.
+\end_layout
+
+\begin_layout Standard
+I could do this for all of the blocks as I said above.
+ What about the observed counts? I could sum recombination events for all
+ of the blocks for each iteration although iterations are independent.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\rho_{b}$
+\end_inset
+
+ is set to 
+\begin_inset Formula $\rho_{s}\times(L_{b}+\delta-1).$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Let's do this:
+\end_layout
+
+\begin_layout Standard
+1.
+ Find the matrix of prior expected number of recombination events over all
+ of the blocks.
+\end_layout
+
+\begin_layout Standard
+2.
+ For each iteration we find the matrix of observed number of recombinations
+ over all of the blocks.
+\end_layout
+
+\begin_layout Standard
+3.
+ Take the average of the observed numbers over iterations.
+\end_layout
+
+\begin_layout Standard
+4.
+ I can find sample variance over iterations.
+\end_layout
+
+\begin_layout Standard
+5.
+ For true values the iteration is 1.
+ I do not need to consider any variance.
+\end_layout
+
 \begin_layout Section*
 Tables
 \end_layout
@@ -1149,7 +1298,7 @@ Tables of symbols
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="29" columns="2">
+<lyxtabular version="3" rows="36" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -1247,6 +1396,33 @@ Total length of the alignment
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $L_{b}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Length of an alignment block 
+\begin_inset Formula $b$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 \begin_inset Formula $B$
 \end_inset
 
@@ -1260,6 +1436,162 @@ Total length of the alignment
 
 \begin_layout Plain Layout
 Number of blocks in the alignment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $b$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Index of an alignment block 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{s}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of recombination per site
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{b}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of recombination for block 
+\begin_inset Formula $b$
+\end_inset
+
+; the value 
+\begin_inset Formula $\rho_{b}=\rho_{s}\times L_{b}$
+\end_inset
+
+ (a wrong version)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of recombination for all of the blocks; 
+\begin_inset Formula $\rho=\sum_{b}\rho_{b}=\sum_{b}\rho_{s}L_{b}=\rho_{s}\sum_{b}L_{b}=\rho_{s}L$
+\end_inset
+
+ (a wrong version)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=\rho_{s}((\delta-1)B+L)=\rho_{s}(\delta B+L-B)=\rho_{s}\sum_{b}(L_{b}+\delta-1)=\sum_{b}\rho_{s}\left(L_{b}+\delta-1\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{b}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{b}=\rho_{s}\left(L_{b}+\delta-1\right)$
+\end_inset
+
+
 \end_layout
 
 \end_inset
