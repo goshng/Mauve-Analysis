@@ -136,11 +136,17 @@ else
 ################################################################################
 #
 
+sub print_xml_one_line ($$);
+
 ##############################################################
 # Global variables
 ##############################################################
+my $delta;
+my $rho;
+my $Lt;           # Total length of all of the blocks
 my $numberBlock; 
 my @xmlFiles;
+my @blockLength;
 my @blocks;
 my $tag;
 my $content;
@@ -173,6 +179,10 @@ sub startElement {
   $content = "";
   if ($e eq "Iteration") {
     $itercount++;
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<Iteraton>\n";
+    }
   }
   if ($e eq "outputFile") {
     # The start of XML file.
@@ -181,35 +191,224 @@ sub startElement {
 
 sub endElement {
   my ($p, $elt) = @_;
-
+  my $eltname;
   if ($elt eq "Blocks") {
     @blocks = split /,/, $content;
     $numberBlock = $#blocks;
-    for (my $i = 0; $i < $#blocks; $i++)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
       my $xmlFileBlock = "$xmlFile.$i";
       my $f;
       open $f, ">$xmlFileBlock" 
         or die "Could not open $xmlFileBlock";
       push @xmlFiles, $f;
-      print $f i" <?xml version = '1.0' encoding = 'UTF-8'?>kkkkjjj:wq
+      print $f "<?xml version = '1.0' encoding = 'UTF-8'?>\n";
+      print $f "<outputFile>\n<Blocks>\n0,";
+      my $d = $blocks[$i] - $blocks[$i-1];
+      push @blockLength, $d;
+      print $f $blockLength[$i-1];
+      print $f "\n<\/Blocks>\n";
     }
-
+    $Lt = $blocks[$#blocks];
   }
 
-  if ($elt eq "outputFile") {
-    # The end of XML file.
-    foreach (@xmlFiles)
+  if ($elt eq "comment") {
+    foreach my $f (@xmlFiles)
     {
-      close;
+      print $f "<comment>$content<\/comment>\n";
     }
   }
 
+  if ($elt eq "nameMap") {
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<nameMap>$content<\/nameMap>\n";
+    }
+  }
+
+  $eltname = "regions";
+  if ($elt eq $eltname) {
+    my @regions = split /,/, $content;
+    my $i = 0;
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<$eltname>$regions[$i]<\/$eltname>\n";
+      $i++;
+    }
+  }
+
+  $eltname = "Tree";
+  if ($elt eq $eltname) {
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<$eltname>\n$content\n<\/$eltname>\n";
+    }
+  }
+
+  print_xml_one_line ("number", $elt);
+  print_xml_one_line ("ll", $elt);
+  print_xml_one_line ("prior", $elt);
+
+  $eltname = "theta";
+  if ($elt eq $eltname) {
+    for (my $i = 0; $i < $#blocks; $i++)
+    {
+      my $f = $xmlFiles[$i];
+      my $Lb = $blockLength[$i];
+      my $thetaPerBlock = $content / $Lt * $Lb;
+      print $f "<$eltname>$thetaPerBlock<\/$eltname>\n";
+    }
+  }
+
+  $eltname = "rho";
+  if ($elt eq $eltname) {
+    $rho = $content;
+  }
+
+  $eltname = "delta";
+  if ($elt eq $eltname) {
+    $delta = $content;
+
+    # Print rho's and delta.
+    for (my $i = 0; $i < $#blocks; $i++)
+    {
+      my $f = $xmlFiles[$i];
+      my $Lb = $blockLength[$i];
+      my $rhoPerBlock = $rho / ($Lt + $numberBlock*($delta - 1)) * ($Lb + $delta - 1);
+      print $f "<rho>$rhoPerBlock<\/rho>\n";
+      print $f "<$eltname>$delta<\/$eltname>\n";
+    }
+  }
+
+  print_xml_one_line ("tmrca", $elt);
+  print_xml_one_line ("esttheta", $elt);
+  print_xml_one_line ("estvartheta", $elt);
+  print_xml_one_line ("estrho", $elt);
+  print_xml_one_line ("estvarrho", $elt);
+  print_xml_one_line ("estdelta", $elt);
+  print_xml_one_line ("estvardelta", $elt);
+  print_xml_one_line ("estnumrecedge", $elt);
+  print_xml_one_line ("estvarnumrecedge", $elt);
+  print_xml_one_line ("estedgeden", $elt);
+  print_xml_one_line ("estvaredgeden", $elt);
+  print_xml_one_line ("estedgepb", $elt);
+  print_xml_one_line ("estvaredgepb", $elt);
+  print_xml_one_line ("estedgevarpb", $elt);
+  print_xml_one_line ("estvaredgevarpb", $elt);
+
+  $eltname = "recedge";
+  if ($elt eq $eltname) {
+    my $startBlock;
+    my $endBlock;
+    # 0   10000    20000   30000
+    # 0..9999 
+    # 10000..19999
+    # 20000..29999
+    for (my $i = 0; $i <= $#blocks; $i++)
+    {
+      if ($recedge{start} < $blocks[$i])
+      {
+        $startBlock = $i;
+        last;
+      }
+    }
+    for (my $i = 0; $i <= $#blocks; $i++)
+    {
+      if ($recedge{end} <= $blocks[$i])
+      {
+        $endBlock = $i;
+        last;
+      }
+    }
+    if ($startBlock == $endBlock) {
+      my $start = $recedge{start} - $blocks[$startBlock-1];
+      my $end = $recedge{end} - $blocks[$startBlock-1];
+      my $f = $xmlFiles[$startBlock-1];
+      print $f "<recedge>";
+      print $f "<start>$start<\/start>";
+      print $f "<end>$end<\/end>";
+      print $f "<efrom>$recedge{efrom}<\/efrom>";
+      print $f "<eto>$recedge{eto}<\/eto>";
+      print $f "<afrom>$recedge{afrom}<\/afrom>";
+      print $f "<ato>$recedge{ato}<\/ato>";
+      print $f "<\/recedge>\n";
+    } else {
+      die "$startBlock == $endBlock must be the same";
+      my $start = $recedge{start} - $blocks[$startBlock-1];
+      my $end = $blocks[$startBlock] - $blocks[$startBlock-1];
+      my $f = $xmlFiles[$startBlock-1];
+      print $f "<recedge>";
+      print $f "<start>$start<\/start>";
+      print $f "<end>$end<\/end>";
+      print $f "<efrom>$recedge{efrom}<\/efrom>";
+      print $f "<eto>$recedge{eto}<\/eto>";
+      print $f "<afrom>$recedge{afrom}<\/afrom>";
+      print $f "<ato>$recedge{ato}<\/ato>";
+      print $f "<\/recedge>\n";
+
+      for (my $i = 0; $i < $endBlock - $startBlock - 1; $i++)
+      {
+        my $start = 0;
+        my $end = $blocks[$startBlock + 1 + $i] - $blocks[$startBlock + $i];
+        my $f = $xmlFiles[$startBlock-1];
+        print $f "<recedge>";
+        print $f "<start>$start<\/start>";
+        print $f "<end>$end<\/end>";
+        print $f "<efrom>$recedge{efrom}<\/efrom>";
+        print $f "<eto>$recedge{eto}<\/eto>";
+        print $f "<afrom>$recedge{afrom}<\/afrom>";
+        print $f "<ato>$recedge{ato}<\/ato>";
+        print $f "<\/recedge>\n";
+      }
+
+      $start = $blocks[$endBlock] - $blocks[$endBlock-1];
+      $end = $recedge{end} - $blocks[$endBlock-1];
+      $f = $xmlFiles[$endBlock-1];
+      print $f "<recedge>";
+      print $f "<start>$start<\/start>";
+      print $f "<end>$end<\/end>";
+      print $f "<efrom>$recedge{efrom}<\/efrom>";
+      print $f "<eto>$recedge{eto}<\/eto>";
+      print $f "<afrom>$recedge{afrom}<\/afrom>";
+      print $f "<ato>$recedge{ato}<\/ato>";
+      print $f "<\/recedge>\n";
+    }
+  }
+
+  $eltname = "Iteration";
+  if ($elt eq $eltname) {
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<\/$eltname>\n";
+    }
+  }
+
+  $eltname = "outputFile";
+  if ($elt eq $eltname) {
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<\/$eltname>\n";
+      close ($f);
+    }
+  }
+
+  if ($elt eq "start") {
+    $recedge{start} = $content;
+  }
+  if ($elt eq "end") {
+    $recedge{end} = $content;
+  }
   if ($elt eq "efrom") {
     $recedge{efrom} = $content;
   }
   if ($elt eq "eto") {
     $recedge{eto} = $content;
+  }
+  if ($elt eq "afrom") {
+    $recedge{afrom} = $content;
+  }
+  if ($elt eq "ato") {
+    $recedge{ato} = $content;
   }
 
   if ($elt eq "recedge")
@@ -250,3 +449,14 @@ sub getLineNumber {
     close(FILE);
     return $lines;
 }
+
+sub print_xml_one_line ($$) {
+  my ($eltname, $elt) = @_;
+  if ($elt eq $eltname) {
+    foreach my $f (@xmlFiles)
+    {
+      print $f "<$eltname>$content<\/$eltname>\n";
+    }
+  }
+}
+
