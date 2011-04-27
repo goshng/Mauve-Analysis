@@ -22,6 +22,20 @@ single XML even if there are multiple blocks. To compare the simulated and the
 true one I need to divide a simulated colonal origin XML file into as many as
 blocks.
 
+extractClonalOriginParameter11.pl
+---------------------------------
+A directory is given that contains Clonal Origin XML output files: e.g.,
+core_co.phase3.1.xml. I subsample recedges across all the blocks. 
+
+report-clonalorigin-job.pl
+--------------------------
+A number of clonal origin jobs were executed, some of which were not finished
+within reasonable time. I do not know why. I cannot use them. Although it would
+be desirable to have all of the jobs finished, some jobs may not be finished
+practically.
+I need to check output files of clonal origin if files conform to clonal
+origin's output format.
+
 README
 blocksplit.pl
 blocksplit2fasta.pl

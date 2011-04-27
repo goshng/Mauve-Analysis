@@ -7,7 +7,7 @@
 # ClonalOrigin. A menu is displayed so that a user can choose an operation that
 # she or he wants to execute. Some commands do their job on their own right, and
 # others require users to go to a cluster to submit a job. Each menu is executed
-# by its corresponding bash function. Locate the bash function to understand
+# by its corresponding bash function. Locate the bash function to see
 # what it does. 
 
 # Menus:
@@ -137,6 +137,16 @@ OUTPUTDIR=$MAUVEANALYSISDIR/output
 # repetition can be different from another. For real data analyses repetitions
 # can be done at different time points. They can also be different in some of
 # their filtering steps, which could result in different temporary data.
+#
+# In simulation for second stage of Clonal Origin a clonal frame and recombinant
+# edges are fixed to generate a number of DNA sequence alignments. A number of
+# replicates are generated with a given clonal frame and its recombinant edges
+# fixed. A number of repetitions are performed and each repetition would have
+# a different set of recombinant edges. I am not sure what this kind of two
+# levels of repeated experiments can do for me. I could generate data with a
+# clonal frame with its recombinant edges where a set of recombinant edges can
+# come from one iteration of ClonalOrigin output.
+#
 CLONALFRAMEREPLICATE=1
 REPLICATE=1
 REPETITION=1
@@ -180,7 +190,7 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 )
+SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 )
 
 ###############################################################################
 # Description of functions
@@ -902,13 +912,21 @@ function make-run-list-repeat {
     XMFA_FILE=$(basename $l) 
     # After deletion of longest match from XMFA_FILE.
     BLOCKID=${XMFA_FILE##*.}
+    REPLICATEID=$(eval echo $XMFA_FILE | cut -d'.' -f 2)
+    if [ "$REPLICATEID" == "xmfa" ]; then
+      REPLICATEID=""
+    else
+      REPLICATEID="$REPLICATEID/"
+    fi
 
     if [[ -z $CLONAL2ndPHASE ]]; then
       LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
-            -x 1000000 -y 10000000 -z 100000 \
+            -x $BURNIN -y $CHAINLENGTH -z $THIN \
             input/$g/$SPECIESTREE input/$g/$XMFA_FILE \
-            output/$g/core_co.phase2.$BLOCKID.xml"
-      XML_FILE=$NUMBERDIR/run-clonalorigin/output/$REPLICATE/core_co.phase2.$BLOCKID.xml
+            output/$g/${REPLICATEID}core_co.phase2.xml.$BLOCKID"
+            #output/$g/core_co.phase2.$REPLICATEID.xml.$BLOCKID"
+            # output/$g/core_co.phase2.$BLOCKID.xml"
+      XML_FILE=$NUMBERDIR/run-clonalorigin/output/$REPLICATE/core_co.phase2.xml.$BLOCKID
       if [ -f "$XML_FILE" ]; then
         FINISHED=$(tail -n 1 $XML_FILE)
         if [[ ! "$FINISHED" =~ "outputFile" ]]; then
@@ -919,10 +937,12 @@ function make-run-list-repeat {
       fi 
     else
       LINE="-a 1,1,0.1,1,1,1,1,1,0,0,0 \
-            -x 1000000 -y 10000000 -z 100000 \
+            -x $BURNIN -y $CHAINLENGTH -z $THIN \
             -T s${MEDIAN_THETA} -D ${MEDIAN_DELTA} -R s${MEDIAN_RHO} \
             input/$g/$SPECIESTREE input/$g/$XMFA_FILE \
-            output/$g/core_co.phase3.$BLOCKID.xml"
+            output/$g/${REPLICATEID}core_co.phase3.xml.$BLOCKID"
+            #output/$g/core_co.phase3.$REPLICATEID.xml.$BLOCKID"
+            #output/$g/core_co.phase3.$BLOCKID.xml"
             #-x 1000000 -y 1000000 -z 10000 \
             #-x 100 -y 100 -z 10 \
             #-x 1000000 -y 10000000 -z 100000 \
@@ -930,7 +950,7 @@ function make-run-list-repeat {
           #-x 1000000 -y 10000000 -z 10000 \
           #input/$g/clonaltree.nwk input/$g/$XMFA_FILE \
           #output/$g/core_co.phase2.$BLOCKID.xml"
-      XML_FILE=$NUMBERDIR/run-clonalorigin/output2/$REPLICATE/core_co.phase3.$BLOCKID.xml
+      XML_FILE=$NUMBERDIR/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID
       if [ -f "$XML_FILE" ]; then
         FINISHED=$(tail -n 1 $XML_FILE)
         if [[ ! "$FINISHED" =~ "outputFile" ]]; then
@@ -1048,7 +1068,7 @@ function copy-run-sh {
 
   cat>$RUN_BATCH_CLONALORIGIN_SH<<EOF
 #!/bin/bash
-#PBS -l walltime=23:59:59,nodes=1
+#PBS -l walltime=$WALLTIME:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N Strep-${SPECIES}-ClonalOrigin
@@ -1069,6 +1089,7 @@ function copy-run-sh {
 #     PBSARRAYSIZE with a positive number.
 
 HOW_MANY_REPETITION=$HOW_MANY_REPETITION
+HOW_MANY_REPLICATE=$HOW_MANY_REPLICATE
 REPLICATE=$REPLICATE
 CLONAL2ndPHASE=$CLONAL2ndPHASE
 # WORKDIR=\$PBS_O_WORKDIR
@@ -1096,23 +1117,46 @@ function to-node {
 # Copy all the data to the input for each repeat.
 # Copy the tree file to the input directory.
 function to-node-repeat {
-  mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status/\${REPLICATE}
-  mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status2/\${REPLICATE}
   mkdir \$INPUTDIR/\$1
-  mkdir \$OUTPUTDIR/\$1
   cp \$PBS_O_WORKDIR/\$1/data/*.xmfa.* \$INPUTDIR/\$1
-  cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
-    \$INPUTDIR/\$1
+  mkdir \$OUTPUTDIR/\$1
+  if [ "\$HOW_MANY_REPLICATE" == "1" ]; then
+    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
+    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
+    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status/\${REPLICATE}
+    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status2/\${REPLICATE}
+    cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
+      \$INPUTDIR/\$1
+    mkdir \$OUTPUTDIR/\$1/\$REPLICATE
+  else
+    for REPLICATE in \$(eval echo {1..\$HOW_MANY_REPLICATE}); do 
+      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
+      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
+      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status/\${REPLICATE}
+      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status2/\${REPLICATE}
+      cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
+        \$INPUTDIR/\$1
+      mkdir \$OUTPUTDIR/\$1/\$REPLICATE
+    done 
+  fi
 }
 
 # Copy the results back to the working directory for each repeat.
 function from-node-repeat {
-  if [[ -z \$CLONAL2ndPHASE ]]; then
-    cp \$OUTPUTDIR/\$1/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
+  if [ "\$HOW_MANY_REPLICATE" == "1" ]; then
+    if [[ -z \$CLONAL2ndPHASE ]]; then
+      cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
+    else
+      cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
+    fi
   else
-    cp \$OUTPUTDIR/\$1/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
+    for REPLICATE in \$(eval echo {1..\$HOW_MANY_REPLICATE}); do 
+      if [[ -z \$CLONAL2ndPHASE ]]; then
+        cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
+      else
+        cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
+      fi
+    done 
   fi
 }
 
@@ -1147,7 +1191,7 @@ date
 to-node
 
 # Copy all the input data files to the compute node.
-for g in \`\$SEQ \$HOW_MANY_REPETITION\`; do
+for g in \$(eval echo {1..\$HOW_MANY_REPETITION}); do 
   to-node-repeat \$g
 done
 
@@ -1160,7 +1204,7 @@ task
 # Wait for all of the 8 processes to finish.
 wait
 
-for g in \`\$SEQ \$HOW_MANY_REPETITION\`; do
+for g in \$(eval echo {1..\$HOW_MANY_REPETITION}); do 
   from-node-repeat \$g
 done
 
@@ -1826,106 +1870,12 @@ function prepare-run-clonalorigin {
   done
 }
 
-# 7. Receive clonalorigin-analysis.
-# ---------------------------------
-# Note that we can have multiple replicates of clonal origin. 
-# I might want to just compute global median estimates of the first stage of
-# ClonalOrigin.
-function receive-run-clonalorigin {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
-      set-more-global-variable $SPECIES $REPETITION
-      mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
-
-      echo -n 'Have you already downloaded and do you want to skip the downloading? (y/n) '
-      read WANTSKIPDOWNLOAD
-      if [ "$WANTSKIPDOWNLOAD" == "y" ]; then
-        echo "  Skipping copy of the output files because I've already copied them ..."
-      else
-        echo -e "  Receiving 1st stage of clonalorigin-output..."
-        mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
-        scp -q $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output/${REPLICATE}/* \
-          $RUNCLONALORIGIN/output/${REPLICATE}/
-      fi
-
-      echo -e "  Computing the global medians of theta, rho, and delta ..."
-      perl pl/computeMedians.pl \
-        $RUNCLONALORIGIN/output/${REPLICATE}/core_co.phase2.*.xml \
-        | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
-      echo -e "This is the summary of the first stage of clonal origin run:"
-      cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
-      echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
-      break
-    fi
-  done
-}
 
 # 8. Check the convergence
 # ------------------------
 # A multiple runs of the first stage of ClonalOrigin are checked for their
 # convergence.
 # FIXME: we need a bash function.
-
-# 9. Prepare 2nd clonalorigin-analysis.
-# -------------------------------------
-# I use one of replicates of the first stage of ClonalOrigin. I do not combine
-# the replicates.
-function prepare-run-2nd-clonalorigin {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      g=$REPETITION
-      echo -e "Which replicate set of ClonalOrigin output files?"
-      echo -n "ClonalOrigin REPLICATE ID: " 
-      read REPLICATE
-      set-more-global-variable $SPECIES $REPETITION
-      if [ -f "$RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" ]; then
-        MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-        MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-        MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-        echo -e "  Preparing 2nd clonalorigin ... "
-
-        SPECIESTREE=clonaltree.nwk
-        echo "  Creating job files..."
-        make-run-list-repeat $g \
-          $OUTPUTDIR/$SPECIES \
-          $REPLICATE \
-          $SPECIESTREE Clonal2ndPhase \
-          > $RUNCLONALORIGIN/jobidfile
-        scp -q $OUTPUTDIR/$SPECIES/$g/run-clonalorigin/jobidfile \
-          $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/$g/run-clonalorigin
-
-        copy-batch-sh-run-clonalorigin $g \
-          $OUTPUTDIR/$SPECIES \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-          $SPECIES \
-          $SPECIESTREE \
-          $REPLICATE Clonal2ndPhase
-   
-        echo -e "Submit a job using the following command:"
-        echo -e "$ bash batch.sh 3"
-        echo -e "to use three computing nodes!"
-      else
-        echo "No summary file called $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" 1>&2
-      fi
-      break
-    fi
-  done
-}
 
 # 9. Receive 2nd clonalorigin-analysis.
 # -------------------------------------
@@ -2841,6 +2791,12 @@ source sh/prepare-run-clonalorigin2-simulation.sh
 source sh/receive-run-clonalorigin-simulation.sh 
 source sh/analyze-run-clonalorigin2-simulation.sh 
 source sh/divide-simulated-xml-data.sh
+source sh/divide-simulated-xmfa-data.sh
+source sh/simulate-data-clonalorigin2.sh
+source sh/receive-run-clonalorigin.sh 
+source sh/prepare-run-2nd-clonalorigin.sh
+source sh/simulate-data-clonalorigin2-from-xml.sh
+          
 
 #####################################################################
 # Main part of the script.
@@ -2850,12 +2806,17 @@ CHOICES=( init-file-system \
           choose-simulation \
           simulate-data \
           divide-simulated-xml-data \
+          divide-simulated-xmfa-data \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
+          ------------------------------------------ \
+          simulate-data-clonalorigin2 \
           prepare-run-clonalorigin2-simulation \
           receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
+          ------------------------------------------ \
+          simulate-data-clonalorigin2-from-xml \
           ------------------------------------------ \
           choose-species \
           copy-mauve-alignment \
@@ -2947,6 +2908,12 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "simulate-data" ];  then
     simulate-data
     break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin2" ];  then
+    simulate-data-clonalorigin2
+    break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin2-from-xml" ]; then
+    $CHOICE
+    break
   elif [ "$CHOICE" == "scatter-plot-parameter" ];  then
     scatter-plot-parameter
     break
@@ -2964,6 +2931,9 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "divide-simulated-xml-data" ];  then
     divide-simulated-xml-data
+    break
+  elif [ "$CHOICE" == "divide-simulated-xmfa-data" ];  then
+    divide-simulated-xmfa-data
     break
   else
     echo -e "You need to enter something\n"

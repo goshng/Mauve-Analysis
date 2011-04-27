@@ -3,7 +3,7 @@
 
 # Prepare the 2nd stage of clonal origin analysis
 # -----------------------------------------------
-# 
+# REPETITION and REPLICATE are used as indices of repeated experiments.
 function prepare-run-clonalorigin2-simulation {
   Clonal2ndPhase=$1
   PS3="Choose a menu of simulation with clonalorigin: "
@@ -13,8 +13,18 @@ function prepare-run-clonalorigin2-simulation {
       continue
     else
       SPECIESFILE=species/$SPECIES
-      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
-      read REPLICATE
+
+      echo -n "  Reading REPLICATE from $SPECIESFILE..."
+      HOW_MANY_REPLICATE=$(grep Replicate $SPECIESFILE | cut -d":" -f2)
+      if [ "$HOW_MANY_REPLICATE" == "" ]; then
+        HOW_MANY_REPLICATE=0
+        echo " $HOW_MANY_REPLICATE"
+        echo "  No Replicate is specified at $SPECIESFILE!" 
+        echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
+        read REPLICATE
+      else
+        echo " $HOW_MANY_REPLICATE"
+      fi
 
       echo -n "  Reading REPETITION from $SPECIESFILE..."
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
@@ -36,6 +46,21 @@ function prepare-run-clonalorigin2-simulation {
       MEDIAN_RHO=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
       echo " $MEDIAN_RHO"
 
+      echo -n "  Reading BRUNIN from $SPECIESFILE..."
+      BURNIN=$(grep Burnin $SPECIESFILE | cut -d":" -f2)
+      echo " $BURNIN"
+
+      echo -n "  Reading CHAINLENGTH from $SPECIESFILE..."
+      CHAINLENGTH=$(grep ChainLength $SPECIESFILE | cut -d":" -f2)
+      echo " $CHAINLENGTH"
+
+      echo -n "  Reading THIN from $SPECIESFILE..."
+      THIN=$(grep Thin $SPECIESFILE | cut -d":" -f2)
+      echo " $THIN"
+
+      echo -n "  Reading WALLTIME from $SPECIESFILE..."
+      WALLTIME=$(grep Walltime $SPECIESFILE | cut -d":" -f2)
+      echo " $WALLTIME"
 
       for g in $(eval echo {1..$HOW_MANY_REPETITION}); do 
         echo -n "$g "
@@ -43,46 +68,49 @@ function prepare-run-clonalorigin2-simulation {
         DATADIR=$NUMBERDIR/data
         RUNCLONALFRAME=$NUMBERDIR/run-clonalframe
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-        mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
-        mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
-        mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_DATADIR=$CAC_NUMBERDIR/data
         CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-        ssh -x $CAC_USERHOST \
-          mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
-        # I already have the tree.
-        cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+        for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do 
+          mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
+          mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
+          ssh -x $CAC_USERHOST \
+            mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
-        #echo "  Splitting alignment into files per block... ($g)"
-        CORE_ALIGNMENT=${SPECIES}_${g}_core_alignment.xmfa
-        rm -f $DATADIR/$CORE_ALIGNMENT.*
-        perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
+          # I already have the tree.
+          cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
 
-        #echo "  Copying the split alignments... ($g)"
-        scp -q $DATADIR/$CORE_ALIGNMENT.* \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
+          #echo "  Splitting alignment into files per block... ($g)"
+          CORE_ALIGNMENT=core_alignment.$REPLICATE.xmfa
+          #rm -f $DATADIR/$CORE_ALIGNMENT.*
+          perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
 
-        #echo "  Copying the input species tree... ($g)"
-        scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
+          #echo "  Copying the split alignments... ($g)"
+          scp -q $DATADIR/$CORE_ALIGNMENT.* \
+            $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
 
-        #echo "  Making command options for clonal origin... ($g)"
-        make-run-list-repeat $g \
-          $OUTPUTDIR/$SPECIES \
-          $REPLICATE \
-          $SPECIESTREE $Clonal2ndPhase \
-          > $RUNCLONALORIGIN/jobidfile
-        scp -q $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
-        copy-batch-sh-run-clonalorigin \
-          $g \
-          $OUTPUTDIR/$SPECIES \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-          $SPECIES \
-          $SPECIESTREE \
-          $REPLICATE
+          #echo "  Copying the input species tree... ($g)"
+          scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
+            $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
+
+          #echo "  Making command options for clonal origin... ($g)"
+          make-run-list-repeat $g \
+            $OUTPUTDIR/$SPECIES \
+            $REPLICATE \
+            $SPECIESTREE $Clonal2ndPhase \
+            > $RUNCLONALORIGIN/jobidfile
+          scp -q $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
+          copy-batch-sh-run-clonalorigin \
+            $g \
+            $OUTPUTDIR/$SPECIES \
+            $CAC_MAUVEANALYSISDIR/output/$SPECIES \
+            $SPECIES \
+            $SPECIESTREE \
+            $REPLICATE
+        done
       done
+
       echo ""
       echo "  Make a script for submitting jobs for all the repetitions."
       make-run-list $HOW_MANY_REPETITION \

@@ -89,6 +89,8 @@ static const char * help=
     --tree-file FILE\n\
                   A tree file contains a list of newick formatted strings\n\
                   (default: in.tree)\n\
+    --xml-file FILE\n\
+                  An XML file contains a list of recedges\n\
     --out-file FILE\n\
                   A base name of output file names. (default: out)\n\
                   For example, an alignment file name is the output \n\
@@ -133,6 +135,8 @@ enum { OPT_HELP,
        OPT_BLOCK_FILE,
        OPT_OUT_FILE,
        OPT_TREE_FILE,
+       OPT_XML_FILE,
+       OPT_NUMBER_DATA,
        OPT_OUTPUT_FILE,
        OPT_CLONALTREE_FILE,
        OPT_LOCALTREE_FILE,
@@ -173,6 +177,12 @@ CSimpleOpt::SOption g_rgOptions[] = {
     {   OPT_TREE_FILE,
         "--tree-file", SO_REQ_SEP
     }, // "--tree-file ARG"
+    {   OPT_XML_FILE,
+        "--xml-file", SO_REQ_SEP
+    }, // "--xml-file ARG"
+    {   OPT_NUMBER_DATA,
+        "--number-data", SO_REQ_SEP
+    }, // "--number-data ARG"
     {   OPT_OUTPUT_FILE,
         "-o", SO_REQ_SEP
     }, // "-o ARG"
@@ -233,6 +243,8 @@ int main(int argc, char *argv[])
     bool setregions=false;
     string blockFilename = "in.block";
     string treeFilename = "in.tree";
+    string xmlFilename = "";
+    unsigned long numberData = 1;
     bool includeAncestralMaterial = false;
     opt().outfile = "out";
     char * optarg;
@@ -303,6 +315,12 @@ int main(int argc, char *argv[])
             case OPT_TREE_FILE:
                 treeFilename = args.OptionArg();
                 break;
+            case OPT_XML_FILE:
+                xmlFilename = args.OptionArg();
+                break;
+            case OPT_NUMBER_DATA:
+                numberData = strtoul (args.OptionArg(), NULL, 10);
+                break;
             case OPT_INCLUDE_ANCESTRAL_MATERIAL:
                 includeAncestralMaterial = true;
                 break;
@@ -341,32 +359,46 @@ int main(int argc, char *argv[])
         simpartheta *= totalLengthBlock;
     }
 
-    /**
-     * A newick formatted string for a species is given.
-     */
-    string treeNewick = readLine (treeFilename);
- 
-    /**
-     * A newick formatted string for a species is given.
-     */
-    treeNewick = readLine (treeFilename);
-    rectree=new RecTree(treeNewick, simparrho, simpardelta, blocks);
+
+    if (xmlFilename.length() == 0)
+    {
+        /**
+         * A newick formatted string for a species is given.
+         */
+        string treeNewick = readLine (treeFilename);
+     
+        /**
+         * A newick formatted string for a species is given.
+         */
+        treeNewick = readLine (treeFilename);
+        rectree=new RecTree(treeNewick, simparrho, simpardelta, blocks);
+    }
+    else
+    {
+        WargXml infile(xmlFilename);
+        rectree = new RecTree(totalLengthBlock, &infile);
+    }
 
     dlog(1)<<"Initiating parameter"<<endl;
     p=Param(rectree,NULL);
     dlog(1)<<"Simulating data..."<<endl;
     p.setTheta(simpartheta);
-    p.simulateData(blocks);
-    p.setTheta(-1.0);
-    data=p.getData();
+    for (unsigned long i = 1; i <= numberData; i++) 
+    {
+      p.simulateData(blocks);
+      //p.setTheta(-1.0);
+      data=p.getData();
+      std::stringstream ss;
+      ss << "." << i << ".xmfa";
 
-    string dataFilename = opt().outfile + ".xmfa";
+      string dataFilename = opt().outfile + ss.str();
+
+      ofstream dat;
+      dat.open(dataFilename.data());
+      data->output(&dat);
+      dat.close();
+    }
     string trueFilename = opt().outfile + ".xml";
-
-    ofstream dat;
-    dat.open(dataFilename.data());
-    data->output(&dat);
-    dat.close();
     ofstream tru;
     tru.open(trueFilename.data());
     p.setRho(simparrho);

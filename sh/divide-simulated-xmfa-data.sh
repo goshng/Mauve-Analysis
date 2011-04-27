@@ -1,5 +1,5 @@
 # Author: Sang Chul Choi
-# Date  : Mon Apr 25 09:27:36 EDT 2011
+# Date  : Mon Apr 25 10:25:22 EDT 2011
 
 # Divides a clonal origin XML file into as many as blocks.
 # --------------------------------------------------------
@@ -17,7 +17,7 @@
 # 
 # SPECIES/REPETITION/core_alignment.REPLICATE.xmfa.BLOCKID
 #
-function divide-simulated-xml-data {
+function divide-simulated-xmfa-data {
   PS3="Choose the simulation result of clonalorigin: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -63,10 +63,11 @@ function divide-simulated-xml-data {
         RUNANALYSIS=$NUMBERDIR/run-analysis
         CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
         CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-        XMLFILE=core_alignment.xml
-
-        perl pl/extractClonalOriginParameter9.pl \
-          -xml $DATADIR/$XMLFILE
+        for h in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+          CORE_ALIGNMENT=core_alignment.$h.xmfa
+          rm -f $DATADIR/$CORE_ALIGNMENT.*
+          perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
+        done
       done
       break
     fi

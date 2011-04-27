@@ -3,6 +3,10 @@ Mauve, Clonal Frame, Clonal Origin Analysis
 
 Current analysis
 ----------------
+s9 is done
+cornellf/2/run-clonalorigin/output/1 not done yet.
+
+
 repetition 8 - replicate 2 
 s7
 
@@ -27,6 +31,7 @@ ClonalFrameREPLICATE:1
 REPLICATE:1
 ClonalFrame Tree:1
 -x 1,000,000 -y 10,000,000 -z 100,000
+Not done yet.
 
 cornellf/3/run-clonalorigin/output/1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,6 +185,9 @@ s4: Real data - 4000 base pairs of minimum block (2 times)
 s5: 10 blocks of 10000 base pairs (50 times) -> Seems okay! s3's result is due
 to smaller repetitions.
 s6: 100 blocks of 10000 base pairs (5 times) -> Seems okay, too!
+s8: 1 block - 10k base pairs (100 times)
+s9: 100 blocks - 10k base pairs (5 times)
+s10: 1 block with the same recombinant edges - 10k base pairs (100 times)
 
 cornell5
 --------
@@ -479,3 +487,21 @@ for (unsigned i = 0; i < blocks.size(); i++) {
 The latest commands
 -------------------
 for i in {1..18}; do mjobctl -c 1081180-$i; done
+
+About simulation
+----------------
+I simulate the clonal origin model to generate sequence data. By product I would
+have a clonal frame with recombinant edges. I can use multiply repeated
+sequence data to recover mutation rate, recombination rate, recombinant tract
+length. I cannot recover recombinant edges because the recombinant edges are one
+realization of the model. This is like attempting to recover a data set, which
+is also one realization. I need to generate multiple data from a clonal
+frame with a single set of recombinant edges. This requires changing weakargsim
+code.
+
+Given a species tree, and the true values of the 3 main parameters.
+1. The number of recombinant edges.
+2. Heat map analysis.
+3. Recombination intensity.
+
+

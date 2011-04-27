@@ -181,7 +181,7 @@ sub startElement {
     $itercount++;
     foreach my $f (@xmlFiles)
     {
-      print $f "<Iteraton>\n";
+      print $f "<Iteration>\n";
     }
   }
   if ($e eq "outputFile") {

@@ -2,32 +2,19 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: extractClonalOriginParameter8.pl
+#   File: extractClonalOriginParameter10.pl
 #   Date: Thu Apr 21 12:42:10 EDT 2011
 #   Version: 1.0
 #
 #   Usage:
-#      perl extractClonalOriginParameter8.pl [options]
+#      perl extractClonalOriginParameter10.pl [options]
 #
-#      Try 'perl extractClonalOriginParameter8.pl -h' for more information.
+#      Try 'perl extractClonalOriginParameter10.pl -h' for more information.
 #
-#   Purpose: This is based on extractClonalOriginParameter4.pl. The detailed
-#            code will be different from it. 
-#            extractClonalOriginParameter8.pl help you build heat map of 
-#            recombination events. 
-#            This is used with simulation.
-#            A heat map is a matrix of size being number of species by number of
-#            species. 
+#   Purpose: This is based on extractClonalOriginParameter8.pl.
+#            I count recombinant edges. The prior is not considered.
+#            This can be combined with extractClonalOriginParameter8.pl.
 # 
-#            The expected number of recedges a priori is given by ClonalOrigin's
-#            gui program that makes a matrix. The matrix dimension depends on
-#            the number of taxa in the clonal frame. Another matrix should be
-#            built and its element is an average observed recedes. I divide the
-#            latter matrix by the former one element-by-element. For each block
-#            I follow the computation above to obtain an odd-ratio matrix. 
-#            For each element over all the blocks I weight it by the length of
-#            the block to have an average odd-ratio.
-#
 #   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
 #   Computational Science Research Center @ SDSU, CA as a template. Some of
 #   words are his not mine, and credit should be given to him. 
@@ -43,7 +30,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter8.pl 1.0';
+my $VERSION = 'extractClonalOriginParameter10.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -67,15 +54,15 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter8.pl - Build a heat map of recombination.
+extractClonalOriginParameter10.pl - Build a heat map of recombination.
 
 =head1 VERSION
 
-extractClonalOriginParameter8.pl 0.1.0
+extractClonalOriginParameter10.pl 0.1.0
 
 =head1 SYNOPSIS
 
-perl extractClonalOriginParameter8.pl [-h] [-help] [-version] 
+perl extractClonalOriginParameter10.pl [-h] [-help] [-version] 
   [-d xml data directory] 
   [-e per-block heat map directory] 
   [-n number of blocks] 
@@ -162,7 +149,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make extractClonalOriginParameter8.pl better.
+com repository so that I can make extractClonalOriginParameter10.pl better.
 
 =head1 COPYRIGHT
 
@@ -209,10 +196,6 @@ else
 if (exists $params{e})
 {
   $heatDir = $params{e};
-}
-else
-{
-  &printError("you did not specify a directory that contains prior number of recombination");
 }
 
 if (exists $params{n})
@@ -286,12 +269,6 @@ for (my $j = 0; $j < $numberOfLineage; $j++)
   my @rowMap = (0) x $numberOfLineage;
   push @obsMap, [ @rowMap ];
 }
-my @expMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @expMap, [ @rowMap ];
-}
 
 my @blockObsMap;
 my $blockLength;
@@ -351,28 +328,7 @@ if ($check == 1)
 ##############################################################
 # Find the expected number of recombination over all of the blocks.
 ##############################################################
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-{
-  my $heatfilename = "$heatDir/heatmap-$blockid.txt";
-  my @expMapBlock = get_exp_map($heatfilename, $numberOfLineage);
-
-  for my $i ( 0 .. $#expMap ) {
-    for my $j ( 0 .. $#{ $expMap[$i] } ) {
-      $expMap[$i][$j] += $expMapBlock[$i][$j];
-    }
-  }
-}
-if ($check == 1)
-{
-  print "expMap:\n";
-  for my $i ( 0 .. $#expMap ) {
-    print "  ";
-    for my $j ( 0 .. $#{ $expMap[$i] } ) {
-      print "[$i][$j] $expMap[$i][$j] ";
-    }
-    print "\n";
-  }
-}
+# Nothing done for expected number of recombinant edges.
 
 ##############################################################
 # Find the observed number of recombination over all of the blocks
@@ -380,7 +336,7 @@ if ($check == 1)
 ##############################################################
 for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
 {
-  
+  print STDERR "$iterationid:";
   for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
   {
     my $xmlfilename = "$xmlDir/$xmlBasename.$blockid.xml";
@@ -408,8 +364,9 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
         print "\n";
       }
     }
-    print STDERR "$iterationid - $blockid\n"
+    print STDERR "$blockid ";
   }
+  print STDERR "\n";
 }
 
 if ($check == 1)
@@ -444,10 +401,10 @@ if ($check == 1)
 
 for my $i ( 0 .. $#heatMap ) {
   for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-    if ($expMap[$i][$j] > 0)
-    {
-      $heatMap[$i][$j] = $obsMap[$i][$j] / $expMap[$i][$j];
-    }
+    #if ($expMap[$i][$j] > 0)
+    #{
+      $heatMap[$i][$j] = $obsMap[$i][$j]; # / $expMap[$i][$j];
+    #}
   }
 }
 
@@ -482,6 +439,7 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
     push @obsMapIteration, [ @rowMap ];
   }
 
+  print STDERR "v:$iterationid:";
   for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
   {
     my $xmlfilename = "$xmlDir/$xmlBasename.$blockid.xml";
@@ -497,7 +455,9 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
         $obsMapIteration[$i][$j] += $obsMapBlock[$i][$j];
       }
     }
+    print STDERR "$blockid ";
   }
+  print STDERR "\n";
 
   for my $i ( 0 .. $#heatVarMap ) {
     for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
@@ -509,10 +469,10 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
 
 for my $i ( 0 .. $#heatVarMap ) {
   for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-    if ($expMap[$i][$j] > 0)
-    {
-      $heatVarMap[$i][$j] = sqrt ($heatVarMap[$i][$j]/$sampleSizeFirst) / $expMap[$i][$j];
-    }
+    #if ($expMap[$i][$j] > 0)
+    #{
+      $heatVarMap[$i][$j] = sqrt ($heatVarMap[$i][$j]/$sampleSizeFirst); # / $expMap[$i][$j];
+    #}
   }
 }
 
@@ -675,7 +635,7 @@ sub default {
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter8.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter10.pl -h\' for more information.\nExit program.\n";
     exit(0);
 }
 
