@@ -15,12 +15,31 @@ get_sample_size($)
 Argument 1: A Clonal Origin XML file.
 Return: Number of Iteration or sample size.
 
+get_species_tree ($)
+~~~~~~~~~~~~~~~~~~~~
+Argument 1: A Clonal Origin XML file.
+Return: Species tree or a clonal frame.
+
+sub-newick-parser.pl
+--------------------
+Simple newick tree parser functions.
+
+get_number_leave ($)
+~~~~~~~~~~~~~~~~~~~~
+Argument 1: A string for a newick tree.
+Return: Number of taxa at leaves.
+
 extractClonalOriginParameter9.pl
 --------------------------------
 A first full-fledged Clonal Origin XML parser is needed. wargsim creates a
 single XML even if there are multiple blocks. To compare the simulated and the
 true one I need to divide a simulated colonal origin XML file into as many as
 blocks.
+
+extractClonalOriginParameter10.pl
+---------------------------------
+I just count the number of recombination events without considering prior
+expected number.
 
 extractClonalOriginParameter11.pl
 ---------------------------------

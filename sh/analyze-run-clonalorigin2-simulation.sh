@@ -14,7 +14,9 @@ function analyze-run-clonalorigin2-simulation {
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s10" ]; then
+    elif [ "$SPECIES" == "s10" ] \
+         || [ "$SPECIES" == "s11" ] \
+         || [ "$SPECIES" == "sxx" ]; then
       SPECIESFILE=species/$SPECIES
       echo -n "  Reading REPETITION from $SPECIESFILE..."
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
@@ -105,15 +107,14 @@ function analyze-run-clonalorigin2-simulation {
             -xml $DATADIR/core_alignment.xml
         done
       fi 
+      break
 
       extract_heatmap \
         yes \
         $REPLICATE \
         $HOW_MANY_REPETITION \
         core_alignment
- 
 
-      break
 
     elif [ "$SPECIES" == "sxx" ]; then
       SPECIESFILE=species/$SPECIES
@@ -226,16 +227,6 @@ function analyze-run-clonalorigin2-simulation {
         core_alignment
         #core_co.phase3.1.xml
 
-      echo "Summarizing the three parameters..."
-      #analyze-run-clonalorigin-simulation-s1-rscript \
-        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out \
-        #$BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R 
-      echo "  $BASEDIR/run-analysis/$SPECIES.$REPLICATE.out.R.out is created!"
-      echo "Refer to the file for median values of the three parameters."
-
-      # output/s8/1/data/s8_1_core_alignment.xml
-      # output/s9/1/data/s9_1_core_alignment.xml
-      #perl pl/extractClonalOriginParameter9.pl \
       break
     else
       echo -e "You need to enter something\n"

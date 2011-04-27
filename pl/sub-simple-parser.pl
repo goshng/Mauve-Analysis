@@ -39,5 +39,25 @@ sub get_sample_size($) {
   return $v;
 }
 
+# Get the species tree of a block.
+sub get_species_tree ($)
+{
+  my ($f) = @_;
+  my $r;
+  open XML, $f or die "$f $!";
+  while (<XML>)
+  {
+    if (/^<Tree>/)
+    {
+      $r = <XML>;
+      chomp ($r);
+      last;
+    }
+  } 
+  close (XML); 
+  die "The $f does not contain a species tree" unless defined $r;
+  return $r;
+}
+
 
 1;

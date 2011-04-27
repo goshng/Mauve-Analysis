@@ -1,0 +1,21 @@
+Manual of Mauve Analysis
+========================
+:Author: Sang_Chul_Choi
+:Author Initials: SCC
+
+
+Installation
+------------
+Several software need to be installed.
+
+Mauve
+~~~~~
+Mauve is a genome alignment software.
+
+ClonalFrame
+~~~~~~~~~~~
+ClonalFrame is ...
+
+ClonalOrigin
+~~~~~~~~~~~~
+ClonalOrigin is the main program used in this analysis.

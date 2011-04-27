@@ -2796,13 +2796,15 @@ source sh/simulate-data-clonalorigin2.sh
 source sh/receive-run-clonalorigin.sh 
 source sh/prepare-run-2nd-clonalorigin.sh
 source sh/simulate-data-clonalorigin2-from-xml.sh
-          
+source sh/probability-recombination.sh
+source sh/recombination-intensity.sh 
 
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
+          --- SIMULATION ---\
           choose-simulation \
           simulate-data \
           divide-simulated-xml-data \
@@ -2810,14 +2812,14 @@ CHOICES=( init-file-system \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
-          ------------------------------------------ \
+          --- SIMULATION2 ---\
           simulate-data-clonalorigin2 \
           prepare-run-clonalorigin2-simulation \
           receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
-          ------------------------------------------ \
+          --- SIMULATION3 ---\
           simulate-data-clonalorigin2-from-xml \
-          ------------------------------------------ \
+          --- REAL DATA ---\
           choose-species \
           copy-mauve-alignment \
           receive-run-mauve \
@@ -2828,11 +2830,15 @@ CHOICES=( init-file-system \
           receive-run-clonalorigin \
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
-          ------------------------------------------ \
+          --- RECOMBINATION COUNT ---\
           scatter-plot-parameter \
           plot-number-recombination-within-blocks \
           heatmap-compute-prior \
           heatmap-get-observed \
+          --- RECOMBINATION INTENSITY ---\
+          probability-recombination \
+          recombination-intensity \
+          ----------\
           analysis-clonalorigin \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
@@ -2935,6 +2941,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "divide-simulated-xmfa-data" ];  then
     divide-simulated-xmfa-data
     break
+  elif [ "$CHOICE" == "probability-recombination" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "recombination-intensity" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue
