@@ -1,0 +1,3132 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing double
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\topmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Subsubsection*
+Title: 
+\end_layout
+
+\begin_layout Standard
+Inferring genomic flow between 
+\emph on
+Streptococcus pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ subspecies 
+\emph on
+equisimilis
+\emph default
+ using whole genomes
+\end_layout
+
+\begin_layout Subsubsection*
+Authors:
+\end_layout
+
+\begin_layout Standard
+Sang Chul Choi
+\begin_inset Formula $^{1}$
+\end_inset
+
+, Matt Rasmussen
+\begin_inset Formula $^{1}$
+\end_inset
+
+, Melissa Jane Hubisz
+\begin_inset Formula $^{1}$
+\end_inset
+
+, Michael J.
+ Stanhope
+\begin_inset Formula $^{2}$
+\end_inset
+
+, and Adam Siepel
+\begin_inset Formula $^{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Affiliations:
+\end_layout
+
+\begin_layout Address
+\begin_inset Formula $^{1}$
+\end_inset
+
+Department of Biological Statistics and Computational Biology, Cornell Universit
+y, Ithaca, NY 14853, USA.
+\end_layout
+
+\begin_layout Address
+\begin_inset Formula $^{2}$
+\end_inset
+
+Department of Population Medicine and Diagnostic Sciences, College of Veterinary
+ Medicine, Cornell University, Ithaca, NY 14853, USA.
+\end_layout
+
+\begin_layout Subsubsection*
+Authors for Correspondence:
+\end_layout
+
+\begin_layout Standard
+Adam Siepel, Department of Biological Statistics and Computational Biology,
+ Cornell University, Ithaca, NY 14853, USA, Phone: 607-254-1157, Fax: 607-255-46
+98, Email: acs4@cornell.edu
+\end_layout
+
+\begin_layout Subsubsection*
+Abbreviations:
+\end_layout
+
+\begin_layout Standard
+ancestral recombination graph (ARG), group A streptococci (GAS), group C
+ streptococci (GCS), group G streptococci (GGS), 
+\emph on
+Streptococcus pyogenes
+\emph default
+ (SPY), 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ subspecies 
+\emph on
+dysgalactiae
+\emph default
+ (SDD), 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ subspecies 
+\emph on
+equisimilis
+\emph default
+ (SDE), restriction-modification system (RMS), phosphoenolpyruvate:carbohydrate
+ phosphotransferase system (PTS).
+\end_layout
+
+\begin_layout Subsubsection*
+Keywords:
+\end_layout
+
+\begin_layout Standard
+gene gain/loss/duplication/transfer
+\end_layout
+
+\begin_layout Section*
+Abstract
+\end_layout
+
+\begin_layout Standard
+Group A streptococci (GAS) and group C/G streptococci (GCS/GGS) cohabit
+ the same ecological niche.
+ We investigate exchange of genetic elements between GAS and GCS/GGS using
+ their genomes.
+ The study shows that the two groups exchange genetic segments across the
+ entire genomes not just housekeeping genes.
+ It shows that more genetic elements flowed overall from GAS to GCS/GGS
+ than the other direction.
+ We found no evidence that virulence genes were exchanged more than other
+ regions of the genome.
+ Three functional categories show higher recombination rates: biosynthesis
+ in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
+ phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
+ in protein fate.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+S.
+ pyogenes
+\emph default
+ (SPY) is a pervasive human-specific pathogen which causes a wide variety
+ of streptococcal diseases.
+ The closely related species 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ (SDE) has long been thought of as a veterinary pathogen, but recent evidence
+ suggests that it can cause serious and life-threatening human diseases
+ traditionally associated with SPY 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Brandt2009"
+
+\end_inset
+
+.
+ Because these two species cohabit the same ecological niche, genetic exchanges
+ between the two groups seem likely.
+ In this study we explore patterns of recombination between these species,
+ as well as rates of duplication, loss, and transfer.
+ One question we are trying to address is whether these genetic exchanges
+ from SPY to SDE could have played a role in the formation of pathogenicity
+ of SDE.
+ Previous studies were limited to housekeeping genes partly because of a
+ lack of methods for studying bacterial recombination on the genome scale,
+ and partly due to unavailability of relevant bacterial genomes.
+ We have utilized the ClonalOrigin software 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2010"
+
+\end_inset
+
+ to study patterns of recombination between five Streptococcus genomes.
+ ClonalOrigin takes a reference species tree and uses an MCMC framework
+ to add recombinant edges to the tree, exploring a state space of possible
+ ancestral recombination graphs (ARGs).
+ Each recombinant edge represents transfer of genetic material from a donor
+ genome to a recipient genome.
+ We first used progressiveMauve 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Darling2004,Darling2010"
+
+\end_inset
+
+ to align the genomes of the five species: 
+\emph on
+Streptococcus pyogenes
+\emph default
+ MGAS315 (SPY1), 
+\emph on
+S.
+ pyogenes
+\emph default
+ MGAS10750 (SPY2), 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ ATCC 12394 (SDE1), 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ GGS_124 (SDE2), and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+dysgalactiae
+\emph default
+ (SDD).
+ This resulted in 415 alignment blocks with lengths of at least 500 base
+ pairs.
+ The reference species tree was inferred by ClonalFrame 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2007"
+
+\end_inset
+
+, and was in agreement with the one used by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Suzuki2011"
+
+\end_inset
+
+.
+ ClonalOrigin could then be applied to these alignment blocks and species
+ tree.
+ The results enable us to create a map of recombination rates across each
+ genome (Figure 1).
+ We observe high variation in recombination rates, including several loci
+ which seem to be hotspots for bacterial recombination.
+ A preliminary gene ontology (GO) analysis suggests that categories having
+ to do with sugar phosphotransferase and fatty acid biosynthesis may be
+ enriched for high levels of recombination.
+ We are also able to look at the rates of genetic transfer between all branches
+ of the species tree.
+ Figure 2 shows the amount of gene flow to and from each species relative
+ to the expectation under the prior.
+ We find that there appears to be more gene flow from SPY1 and SPY2 to SDE1
+ and SDE2 than in the other direction.
+ We are also exploring gene duplication, loss, and horizontal gene transfer
+ using a complementary approach.
+ We used the clusters of gene families computed by OrthoMCL 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Li2003,Suzuki2011"
+
+\end_inset
+
+.
+ These include the five species from ClonalOrigin analysis, and also the
+ outgroup S.
+ equi subsp.
+ equi strain 4047.
+ For each family cluster, the corresponding peptide sequences were aligned
+ using the MUSCLE program 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Edgar2004a"
+
+\end_inset
+
+ and nucleotide alignments were constructed by mapping nucleotide sequences
+ onto each peptide alignment.
+ Gene trees were created for each nucleotide alignment using the RAxML program
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Stamatakis2006a"
+
+\end_inset
+
+ and were rooted by minimizing duplications and losses.
+ Each rooted gene tree was then reconciled using the Mowgli program 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Doyon2011"
+
+\end_inset
+
+, which inferred the most parsimonious gene duplication, loss, and transfer
+ events for each family.
+ Figure 3 shows the inferred gene counts for each extant and ancestral species.
+ Overall, we find that duplications make up only a small fraction of the
+ events within the clade (9.6%), while horizontal transfers and losses are
+ significantly more frequent (37.5% and 52.9%, respectively).
+  We also find that duplications are most often species-specific.
+  Many gene losses likely represent horizontal transfers that replace the
+ native gene sequence.
+ The relatively high number of transfers into SDE1 and SDE2 seems to support
+ the findings from the ClonalOrigin analysis, although our investigation
+ is ongoing.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Pathogenic bacteria infect many human diseases: e.g., food poisoning by 
+\emph on
+Eschericha Coli
+\emph default
+, strep throat by 
+\emph on
+Streptococcus pyrogenes
+\emph default
+, tuberculosis by 
+\emph on
+Mycobacterium tuberculosis
+\emph default
+, cholera by 
+\emph on
+Vibrio cholera
+\emph default
+, anthrax by 
+\emph on
+Bacillus anthracis
+\emph default
+, pneumonia by 
+\emph on
+Streptococcus pneumoniae
+\emph default
+ and 
+\emph on
+Chlamydophila pneumoniae
+\emph default
+, and influenza by 
+\emph on
+Haemophilus influenzae
+\emph default
+, to name a few (a single CITE).
+ Among them,
+\emph on
+ Streptococcus pyogenes
+\emph default
+ belongs to group A streptococci (GAS) that are a human-specific pathogen
+ primarily infecting the throat and skin (CITE).
+ This human pathogen has high prevalence throughout the world causing severe
+ invasive streptococcal diseases: pharyngitis also called strep throat,
+ impetigo, cellulitis, necrotizing fasciitis, toxic shock syndrome, acute
+ rheumatic fever, and acute glomerulonephritis (CITE).
+ Its closely related species, 
+\emph on
+Streptococcus dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+, belongs to group C or G streptococci (GCS or GGS), once generally regarded
+ as veterinary pathogens (CITE).
+ Researchers have been confirming that GCS/GGS can cause serious and life-threat
+ening streptococcal diseases to human traditionally associated with GAS
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Brandt2009"
+
+\end_inset
+
+.
+ Because 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ cohabits with 
+\emph on
+S.
+ pyogenes
+\emph default
+ at the same ecological niche of tissue sites, they may as well exhibit
+ overlap in the disease profile 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Davies2007a"
+
+\end_inset
+
+.
+ Therefore, genetic interaction between the two species may have played
+ roles in formation of pathogenicity of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ Understanding the genetic exchange could enhance our knowledge of their
+ pathogenic effect on human health.
+ Previously experimental research in gene exchange between the two pyogeneic
+ species was limited to relatively smaller portion of the bacterial genome,
+ mostly focusing on virulence genes
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kalia2004,Towers2004,Bessen2005"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007a"
+
+\end_inset
+
+ tackled a genome-wide profiling of virulence genes of the two species using
+ microarrays.
+ An earlier attempt at resolving the direction of gene flow between the
+ two species seemed unfortunately premature 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "see"
+key "Kalia2001"
+
+\end_inset
+
+.
+ Yet, certain virulence genes appear to have originated from one to another,
+ and vice versa 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bessen2010"
+
+\end_inset
+
+.
+ Lateral gene transfer in bacteria is so prevalent, and lack of gene exchange
+ is considered unusual in bacterial evolution 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2010b"
+
+\end_inset
+
+.
+ Biological mechanisms that induce lateral gene transfer include conjugation
+ by plasmid, transduction by bacteriophages, and transformation of naked
+ DNA uptake 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Thomas2005"
+
+\end_inset
+
+.
+ Transferred DNAs through the machanisms replace their endogenous homologs,
+ involving homologous recombination (CITE).
+ Bacteria appear to benefit from recombination to acquire genetic material
+ that is selectively advantageous 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Vos2009"
+
+\end_inset
+
+.
+ Although lateral gene transfer by homologous recombination has driven bacterial
+ evolution, methodological development has hardly been able to deal with
+ properly the important evolutionary force.
+ Bacterial phylogenetic studies recognized early on that lateral gene transfer
+ would complicate analyses of evolutionary relationships of the species
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Woese1987"
+
+\end_inset
+
+.
+ Methods of infferring phylogenies in the presence of laternal gene transfer
+ have been proposed 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Bapteste2004,Simonson2005,Beiko2009"
+
+\end_inset
+
+.
+ Yet, most of the methods use relatively small portion of bacterial genomes,
+ which is an unfortunate situation.
+ As sequencing costs plummet 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Mardis2011"
+
+\end_inset
+
+, bacterial genomes sequencing produces genomes of high quality in many
+ bacterial species 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Tettelin2009a"
+
+\end_inset
+
+.
+ Given high prevalence of laternal gene transfer via homologous recombination
+ in bacteria, values of complete bacterial genomes must not be understated
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Fraser2002"
+
+\end_inset
+
+.
+ Development of downstream analysis methods using bacterial genomes appears
+ to lag behind that of high-throughput sequencing technology 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Green2011"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ developed a powerful statistical method, and implemented it into a software
+ called ClonalOrigin.
+ The method uses a reference species tree inferred using bacterial genomes.
+ The reference species tree serves as a back-bone where additional edges,
+ hereafter I refer to as recombinant edges, are attached to the species
+ tree branches.
+ A recombinant edge connects two branches of the reference tree.
+ The authors describe that a recombinant edge ``departs'' from an older
+ time point at a species branch, and ``arrives'' at a more recent time point
+ of another species branch.
+ The arrival point corresponds to a recombination event in an ancestral
+ recombination graph (ARG).
+ As the reference tree traverses a genome alignment to meet a recombinant
+ edge, its sister branch of the arrival point is erased and the recombinant
+ edge replaces it.
+ Consequently, gene trees change sequentially along a genome.
+ This reminisces about gene conversion modeling by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Wiuf1999"
+
+\end_inset
+
+, and the sequential Markov coalescent due to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McVean2005"
+
+\end_inset
+
+.
+ Although recombinant edges between two species branches do not denote gene
+ flow between two species in their original model, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ exploited their method to infer flow of genetic segment between 
+\emph on
+Bacillus cereus
+\emph default
+ species.
+ Here we applied the method of ClonalOrigin to scrutinze intensity of gene
+ flow between the two species of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ and 
+\emph on
+S.
+ pyogenes
+\emph default
+.
+ We hope that this study could be a step towards the understanding of interactio
+n between the two closely related human pathogens.
+ Specifically, we wish to answer to three questions.
+ Firstly, did two species exchange genetic segments across the entire genome
+ or parts of the genome? What proportion of the genome underwent higher
+ recombination? Secondly, if the two pyogenic species exchanged genetic
+ segments, was it overall unidirectional or bidirectional? Thirdly, what
+ classes of genes were exchanged if they exchanged genetic material? 
+\end_layout
+
+\begin_layout Standard
+We organize the remainder of the paper as follows.
+ We describe the data set and its analysis in Methods and Materials.
+ In Results, we provide evidence supporting my answers to the questions
+ of interest.
+ We end in Discussion.
+\end_layout
+
+\begin_layout Subsection*
+Recent studies
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Luo2011"
+
+\end_inset
+
+: Genome sequencing of 
+\emph on
+Escherichia coli
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Retchless2007"
+
+\end_inset
+
+: Fragmented Speciation Model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Zhaxybayeva2006"
+
+\end_inset
+
+: embedded quartet decomposition analyses (EQDA), a method of detection
+ of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Abby2010"
+
+\end_inset
+
+: a method of detection of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Alekseyev2008,Alekseyev2008a"
+
+\end_inset
+
+: a method of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Angiuoli2011"
+
+\end_inset
+
+: a method of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Anisimova2007"
+
+\end_inset
+
+: a study of Streptococcus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ane2011"
+
+\end_inset
+
+: a method of gene tree /species tree reconciliation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Arnold2011"
+
+\end_inset
+
+: a recent study in a bacterial genome.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2007"
+
+\end_inset
+
+: a simulator of genome evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2009"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bellanger2009"
+
+\end_inset
+
+: an example of HGT biological entity - Integrative and conjugative elements
+ (ICE).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Chen2010"
+
+\end_inset
+
+: a review of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cohen2010"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Csuros2009"
+
+\end_inset
+
+: a study of gene gain and loss, duplication, and transfer?
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cunningham2000a"
+
+\end_inset
+
+: about streptococcal diseases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cutter2011"
+
+\end_inset
+
+: a study of recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2008"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2007"
+
+\end_inset
+
+: a tutorial of mauve in analyzing bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2005,Davies2009"
+
+\end_inset
+
+: studies on genetic flow of SDE.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Graham2005"
+
+\end_inset
+
+: a method of detection of recombination breakpoints.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hamady2006"
+
+\end_inset
+
+: a study of HGT and recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hanage2006"
+
+\end_inset
+
+: how to make this study more interesting? Tug of war between recombination
+ and gene gain/duplication/loss/transfer.
+ Tests of bacterial evolutionary models (fragmented speciation model).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hao2004,Hao2006,Hao2008"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Marri2006"
+
+\end_inset
+
+: Hao and Golding's methods in gene gain/loss/transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Holden2009,Holden2009a"
+
+\end_inset
+
+: a study of virulence of Streptococcus suis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hondorp2007"
+
+\end_inset
+
+: a study of GAS, PTS ...
+ may be interesting to read.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Husmeier2001,Husmeier2002"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Iwasaki2007"
+
+\end_inset
+
+: a study of gene content.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kedzierska2006"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kettler2007"
+
+\end_inset
+
+: a paper that may be worth reading.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "King2005a"
+
+\end_inset
+
+: a study of virulence gene and recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Koonin2008"
+
+\end_inset
+
+: a review of bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lajoie2010"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lanie2007"
+
+\end_inset
+
+: a genome sequence of Streptococcus pneumoniae.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Larget2005"
+
+\end_inset
+
+: a study of genome rearrangement - it seems out of control to add genome
+ arrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lee2008"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Li2009"
+
+\end_inset
+
+: a study of gene gain and loss.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Majewski2000"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nielsen1998"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sorek2007"
+
+\end_inset
+
+: a maybe interesting mechanism of genetic barrier between bacterial species.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McMillan2007,McMillan2010,McMillan2010b"
+
+\end_inset
+
+: studies on SDE and SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McShan2008"
+
+\end_inset
+
+: genome paper of SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Miklos2003,Miklos2009"
+
+\end_inset
+
+: genome arragnement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Minin2005"
+
+\end_inset
+
+: recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Musser2005,Musser2009"
+
+\end_inset
+
+: Musser's studies on GAS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Neumann2010"
+
+\end_inset
+
+: tRNA aminoacylation ...
+ experimential evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pepperell2011"
+
+\end_inset
+
+: bacteria and gene flow.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pinho2010"
+
+\end_inset
+
+: a maybe interesting story.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Quinolone resistance is an emerging problem in Streptococcus pyogenes, and
+ recombination with Streptococcus dysgalactiae DNA has been implicated as
+ a frequent mechanism leading to resistance.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Perez-Losada2006"
+
+\end_inset
+
+: recombination and mutation rate ratio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Roberts2010,Roberts2007"
+
+\end_inset
+
+: RMS database.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Robinson2003"
+
+\end_inset
+
+: chromosomal deletion in S.
+ mutans.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Rosas-Magallanes2006"
+
+\end_inset
+
+: a study of virulence gene transfer in M.
+ tuberculosis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Simonson2005"
+
+\end_inset
+
+: HGT study.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sinsheimer2003"
+
+\end_inset
+
+: Recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ward2009"
+
+\end_inset
+
+: a study of Streptococcus genome.
+\end_layout
+
+\begin_layout Section
+Methods and Materials
+\end_layout
+
+\begin_layout Standard
+Briefly, a genome data set is described, which was also analyzed by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Suzuki2011"
+
+\end_inset
+
+.
+ The main procedure of using ClonalOrigin was described in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+.
+ A practical guide of the software could be found at http://code.google.com/p/clon
+alorigin.
+ We also briefly described the procedure, but refer the users to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ for further details.
+ Additionally, we summarized output of ClonalOrigin to answer to our specific
+ questions.
+\end_layout
+
+\begin_layout Subsection
+ClonalOrigin analysis
+\end_layout
+
+\begin_layout Standard
+Two genomes of 
+\emph on
+S.
+ pyogenes
+\emph default
+, and one of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ were downloaded from GenBank with accessions: NC_004070 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Beres2002"
+
+\end_inset
+
+, NC_008024 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Beres2006"
+
+\end_inset
+
+, and NC_012891 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Shimomura2011"
+
+\end_inset
+
+
+\family typewriter
+[THIS CITATION MAY BE CHANGED]
+\family default
+.
+ Additional two genomes, each of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+dysgalactiae
+\emph default
+ were provided by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Suzuki2011"
+
+\end_inset
+
+ with accession identifiers of CP002215 and SddyATCC27957, respectively.
+ We refer the two genomes of NC_004070 and NC_008024 as SPY1 and SPY2, respectiv
+ely.
+ The two genomes of CP002215 and NC_012891 are referred to as SDE1 and SDE2,
+ respectively.
+ Finally, the genome of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+dysgalactiae
+\emph default
+ is referred to as SDD.
+ The five genomes were first aligned using progressiveMauve 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Darling2004,Darling2010"
+
+\end_inset
+
+ with default options that had been released on November 11th 2009 with
+ version 2.3.1 at http://asap.ahabs.wisc.edu/mauve/download.php.
+ We removed variable regions from the alignments to leave 419 alignment
+ blocks that were longer than 500 base pairs.
+ We excluded additional two alignment blocks because of too many gaps in
+ their multiple alignments.
+ Two more alignment blocks were excluded from a downstream analysis because
+ the first stage of Markov chain Monte Carlo (MCMC) with ClonalOrigin was
+ not finished within a month of computation.
+ This filtered the alignment blocks to leave 415 core alignment blocks.
+ ClonalFrame version 1.1 that was available at http://www.xavierdidelot.xtreemhost.c
+om/clonalframe.htm was applied to the 415 alignment blocks to estimate a
+ clonal frame, or or a species tree of the five genomes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2007"
+
+\end_inset
+
+.
+ Independent runs of Markov chain Monte Carlo were executed with a total
+ generation of chains being 20,000.
+ The first 10,000 generations were discarded as burn-in.
+ A few species trees were estimated, from which we chose one based on its
+ likelihood.
+ ClonalOrigin with a subversion r19 released on October 1st 2010 was downloaded
+ from http://clonalorigin.googlecode.com/svn/trunk.
+ Two stages of MCMC with ClonalOrigin were used as described in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+.
+ The first one is used to obtain an estimate of population parameters including
+ mutation rate, recombination rate, and recombinant tract length.
+ The second stage of MCMC with ClonalOrigin was executed with the population
+ parameters fixed to the estimated values in the previous stage.
+ This allowed to obtain a posterior sample of recombinant edges.
+ Two independent runs of the first Markov chain Monte Carlo of ClonalOrigin
+ were executed with a total generation of each chain being 2,000,000.
+ The first 1,000,000 generations of each chain were discarded as burn-in.
+ The remaining 1,000,000 generations were subsampled every 10,000-th generation,
+ leaving a posterior sample of size 100.
+ Additionally, two independent chains of the second ClonalOrigin Markov
+ chain Montel Carlo were executed with a total generation being 11,000,000.
+ The first 1,000,000 generations of each chain were discarded as burn-in.
+ The remaining 10,000,000 generations were subsampled every 100,000 generations,
+ leaving a sample of size 100.
+\end_layout
+
+\begin_layout Subsection
+Recombinant edge count
+\end_layout
+
+\begin_layout Standard
+A species tree in the ClonalOrigin framework can include recombinant edges,
+ each of which exists only over a variable region of an alignment block.
+ A recombinant edge departs at an older time of one of the species tree
+ branches, and arrives at an earlier time of another branch.
+ As a reference species tree starts from one side to another along the alignment
+, and meets a recombinant edge, the arrival branch of the species tree is
+ detached and regrafted to the departure point of the departure branch.
+ The species tree sequentially change along the alignment.
+ The number of recombinant edges along all of the alignment blocks could
+ indicate overall recombination event intensity.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ summarized the number of recombination events inferred relative to its
+ expected number under the prior of the ClonalOrigin model given recombination
+ rate for each pair of donor and recipient branches.
+ Note that departure branches are donors, and arrival branches are recipients.
+ The observed number of recombination events for a donor/recipient pair
+ is equal to the inferred number of recombinant edges across all of the
+ alignment blocks.
+ The prior expected number of recombination events given a global recombination
+ rate is approximated using Equation 7 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+.
+ Practically, the prior expected number of recombination events was computed
+ per block using ClonalOrigin.
+ The point estimate of the ratio was the average value of the ratio over
+ all the posterior sample.
+ The sample variable of the ratio was also computed over the posterior sample.
+ We interpreted the ratio of recombination events for a given donor/recipient
+ pair as a measure of gene flow from a donor to a recipient species tree
+ branch.
+\end_layout
+
+\begin_layout Subsection
+Recombination intensity
+\end_layout
+
+\begin_layout Standard
+Overall recombination intensity, or measure of gene flow from a donor to
+ a recipient can be captured by the observed number of recombination events
+ relative to the prior expected number of recombination events.
+ Additionally, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ provided another summary of recombination events along a genome.
+ The summary measures the effect of donor branches on a recipient species
+ tree branch.
+ Although the detailed procedure could be different from theirs, we used
+ a similar approach to summarizing recombination intensity along a genome,
+ which we describe as follows.
+ We wish to measure how often a particular site along a genome is affected
+ by bacterial recombination.
+ A site of a block is affected by as potentially multiple types of recombinant
+ edges.
+ A type of recombinant edge is specified by its departure and arrival branches
+ of the reference species tree.
+ Sixty different kinds of recombinant edges are possible in the species
+ tree with five taxa.
+ Among the 60 types of recombinant edges 32 pairs of branches are possible
+ in an ultrametric species tree with five taxa.
+ Not all types of the recombinant edges can correspond to legitimate pairs
+ of species tree branches for gene flow because some of branch pairs did
+ not coexist at any past in time.
+ A recombinant edge that departs from a root edge of a spcies tree and arrives
+ at a leaf edge cannot be considered a channel that connect the two species
+ tree branches.
+ We are interested in gene flows between 
+\emph on
+S.
+ pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ Since they are at extant nodes, pairs of species tree branches one from
+ 
+\emph on
+S.
+ pyogenes
+\emph default
+, and another from 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ can be considered as gene flow channels.
+ Four ordered pairs of species branches represent gene flow from 
+\emph on
+S.
+ pyogenes
+\emph default
+ to 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ Another four ordered pairs represent gene flow from 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ to 
+\emph on
+S.
+ pyogenes
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Recombination intensity2
+\end_layout
+
+\begin_layout Standard
+A clonal frame and its attached recombinant edges with a multiple sequence
+ alignment can be decomposed of local gene trees.
+ The nucleotides of a column of the multiple alignment are related by a
+ local gene tree.
+ Local gene trees can change along columns of a multiple alignment.
+ Changes to local gene trees can involve changes in gene tree topology.
+ The number of tree topology changes along a multiple alignment can be a
+ surrogate for recombination intensity on the genomic region covered by
+ the multiple alignment.
+ Counting tree topology changes on a subregion of a multiple alignment,
+ or a gene within the multiple alignment, can allow a surrogate quantification
+ of recombination intensity on a gene.
+\end_layout
+
+\begin_layout Standard
+Recombinant edges in a clonal frame can change the tree topology.
+ Recombinant edges that departs from a parent edge, and arrives at its daughter
+ edge do not change the tree topology.
+ 
+\end_layout
+
+\begin_layout Subsection
+Recombinant edges and genes
+\end_layout
+
+\begin_layout Standard
+A site of a multiple alignment can be affected by a particular recombinant
+ edge.
+ Focusing on a particular type of recombinant edge I can measure a probability
+ that a site experiences genetic movement by the recombinant edge type by
+ averaging over all the posterior sample of recombinant edges.
+ Furthremore, I can measure the average probability that a gene experiences
+ genetic movement by a recombinant edge type by average over all the sites
+ that are covered by the gene.
+ Enrichment of functional categories using the average probability of genes
+ experiencing genetic movement can be employed using gene ontology 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ashburner2000"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Functional categories under recombination
+\end_layout
+
+\begin_layout Standard
+I used SPY1 genome for annotations.
+ The genbank formatted genome annotation was downloaded from NCBI.
+ I downloaded JCVI role annotations of all JCVI annotated genes at ftp://ftp.jcvi.
+org.
+ I downloaded JCVI loci information of SPY1 genome at http://cmr.jcvi.org.
+ I searched the JCVI CMV website for SPY1 genome to list JCVI loci.
+ I compared JCVI loci and NCBI locus_tag to find one-to-one association
+ between JCVI locus and NCCI locus_tag.
+ I downloaded bcp_go_role_link and bcp_role_link at ftp://ftp.jcvi.org/pub/data/Om
+niome_Database/tab_delimited_omniome.
+ I used bcp_go_role_link to find gene ontology annotations for the JCVI
+ loci.
+ The one-to-one associations were used to assign NCBI loci with their gene
+ ontology annotations and JCVI role annotations.
+ I listed roles at http://cmr.jcvi.org/cgi-bin/CMR/shared/RoleList.cgi and
+ parsed the HTML source to find role categories and their identifiers.
+ For JCVI roles I can group locus tags by main roles or submain roles using
+ the numbers.
+ I measured recombination intensity of a gene.
+ Recombination intensity of a gene is an average weighted over the length
+ of the gene in nucleotide.
+ For each functional category of JCVI roles I divided genes into two groups
+ where one consists of genes with the corresponding functional category
+ and another of genes not annotated with the category.
+ Two-sample Kolmogorov-Smirnov tests were performed for each functional
+ category.
+ I also used the category of virulence genes from Davies2007 to test if
+ virulence genes were under higher or lower recombination.
+ IMPORTANT: Mellisa has setup gene ontology analysis.
+ I need to add gene ontology analysis.
+ 
+\end_layout
+
+\begin_layout Subsection
+Gene gain, loss, duplication 
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: Matt is trying to find what we can do about gene gain, loss,
+ and duplication.
+ 
+\end_layout
+
+\begin_layout Subsection
+Horizontal gene transfer 
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: I do not know yet what I should do about it.
+ 
+\end_layout
+
+\begin_layout Subsection
+Something other topic
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: +I need to find an interesting topic in bacterial recombination
+ to have enough contents to draft a manuscript.+ 
+\end_layout
+
+\begin_layout Subsection
+Simulation studies 
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: I cannot believe the method under the biological scenario.
+ The simulation approach may be kin to *Bayesian model checking* in which
+ I would check if the model I am using is appropriate.
+ What should I show? I need to show that ClonalOrigin implementation recovers
+ the true ``values.'' What are the values? 
+\end_layout
+
+\begin_layout Subsubsection
+The three main parameters
+\end_layout
+
+\begin_layout Standard
+The three main parameters can be checked: mutation rate, recombination rate,
+ and recombinant tract length.
+\end_layout
+
+\begin_layout Subsubsection
+Recombinant counts
+\end_layout
+
+\begin_layout Standard
+Number of recombinant edges can be checked.
+\end_layout
+
+\begin_layout Standard
+Recombinant
+\end_layout
+
+\begin_layout Standard
+Recombination events should be checked although they are not just numerical
+ values.
+ There are two simulation programs that were developed by Xavier Didelot.
+ One is SimMLST, and another is ClonalOrigin.
+ SimMLST simulates data under the full ancestral recombination graph.
+ ClonalOrigin does under its own model.
+\end_layout
+
+\begin_layout Standard
+.Parameters that I used for inferring recombination events
+\end_layout
+
+\begin_layout Standard
+----
+\end_layout
+
+\begin_layout Standard
+-T s0.0542 -D 1425 -R s0.00521
+\end_layout
+
+\begin_layout Standard
+----
+\end_layout
+
+\begin_layout Standard
+.A simulation setup
+\end_layout
+
+\begin_layout Standard
+[options="header"]
+\end_layout
+
+\begin_layout Standard
+|=====================================================
+\end_layout
+
+\begin_layout Standard
+| Number of blocks | Total Length | mu | rho | delta
+\end_layout
+
+\begin_layout Standard
+| 1 | 10 kb | 542 | 52.1 | 1425
+\end_layout
+
+\begin_layout Standard
+| 411 | Real data | 542 | 52.1 | 1425
+\end_layout
+
+\begin_layout Standard
+|=====================================================
+\end_layout
+
+\begin_layout Subsection
+ClonalOrigin with splitting time
+\end_layout
+
+\begin_layout Standard
+WARNING: I do not think that I have parameters that control directionality
+ of gene flow due to bacterial recombinations.
+ 
+\end_layout
+
+\begin_layout Standard
+I consider a simulation study where two populations share a common ancestral
+ population.
+ 
+\end_layout
+
+\begin_layout Standard
+I did not pursue to make inference of the model, and yet I wished to test
+ ClonalOrigin's framework with simulated data sets under the new model.
+\end_layout
+
+\begin_layout Standard
+I have been reconsider the above idea, and have realized that something
+ should be changed.
+\end_layout
+
+\begin_layout Standard
+WARNING: This is an old idea of having multiple recombination rates.
+ I do think that multiple coalescent rates with the single recombination
+ rate can better fit the ClonalOrigin model.
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Subsection
+Core- and pan-genome 
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: +Follow Darling2010 in the analysis of core- and pan-genome.+
+ 
+\end_layout
+
+\begin_layout Subsection
+The reference species tree
+\end_layout
+
+\begin_layout Standard
+Figure 1 shows the estimated species tree that relates the five streptococcal
+ genomes.
+ SPY1 and SPY2 form a clade while SDE1 and SDE2 form a separate clade.
+ SDD is connected to the lineage to the clade of SDE1 and SDE2.
+ Mutation rate, $
+\backslash
+theta$, was fixed to Watterson's estimate, or 106279.7.
+ $
+\backslash
+rho/
+\backslash
+theta = 0.10$ with an interquartile range of (0.097,0.105) relative mutation
+ rate.
+ The average length $
+\backslash
+delta = 370 bp$ with an interquartile range of (355,384).
+ $r/m = 4.7$ with an interquartile range of (4.5,4.9): more substitutions are
+ introduced by recombination than by mutation.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+[Can we add Canis in the species tree inference? If so, what would do with
+ that for recombination and gene gain and loss analysis?]
+\end_layout
+
+\begin_layout Subsection
+Population parameter estimates
+\end_layout
+
+\begin_layout Standard
+I applied the first stage of ClonalOrigin's MCMC to each of the alignment
+ blocks in order to estimate mutation rate, recombination rate, and recombinatio
+n tract length.
+ The median value for the recombination tract length $
+\backslash
+delta$ was 1425 bp.
+ The median value for the per-site mutation rate $
+\backslash
+theta_s/2$ was 0.0542.
+ The median value for the per-site recombination rate $
+\backslash
+rho_s/2$ was 0.00521.
+ The median inferred value of $
+\backslash
+rho/
+\backslash
+theta$ was 0.096, which was roughly equal to the corresponding value estimated
+ by ClonalFrame.
+ I proceeded to the second stage of ClonalOrigin's MCMC with values of $
+\backslash
+delta$, $
+\backslash
+theta_s$, $
+\backslash
+rho_s$ fixed to the estimated median values.
+\end_layout
+
+\begin_layout Subsection
+Genomic proportion under recombination 
+\end_layout
+
+\begin_layout Standard
+Distribution of number of recombinant edge along the genome and its histogram.
+ I just concatenate alignment blocks to make a genome.
+ IMPORTANT: +Compute the proportion of sites along all of the alignment
+ blocks where the average number of recombinant edges per site is less than
+ 1.+ IMPORTANT: +Recombination intensity per site is used to quantify proportion
+ of the genome alignment under weak recombination or strong recombination.+
+ Proportion of sites with recombinant edges less than 1 could indicate proportio
+n of the genome where local gene tree and global species tree are similar
+ to each other.
+ This threshold 1 is arbitrary.
+ 
+\end_layout
+
+\begin_layout Subsection
+Directional gene flow 
+\end_layout
+
+\begin_layout Standard
+Table 1 shows the observed number of recombinant edges relative to the prior
+ expected number of recombinant edges for each donor/recipient pair in the
+ species tree of the five genomes.
+ The ratios for the ordered pair from either SPY1 or SPY2 to either SDE1
+ or SDE2 were 2.46, 2.48, 2.5, and 2.58.
+ The ratios for the reverse direction were 1.16, 1.25, 1.47, and 1.59.
+ The result appears to indicate that gene flow from _Streptococcus pyogenes_
+ to _S.
+ dysgalactiae_ ssp.
+ _equisimilis_ was larger than that for the reverse direction.
+ IMPORTANT: +COMPUTE THE VARIANCE.+ I compared recombination intensity for
+ the direction from _Streptococcus pyogenes_ to _S.
+ dysgalactiae_ ssp.
+ _equisimilis_, and recombination intensity for the reverse direction.
+ Figure 3 shows the logarithm base 10 of the ratios for the genes along
+ SPY1 genome.
+ It indicates the overall unidirectional gene flow from _Streptococcus pyogenes_
+ to _S.
+ dysgalactiae_ ssp.
+ _equisimilis_.
+ It also indicates that the genes with unidirectional gene flow are uniformly
+ distributed across the SPY1 genome.
+\end_layout
+
+\begin_layout Subsection
+Function categories associated with higher recombination 
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: +Draw the boxplots of recombination intensity for the functional
+ categories.+ Function categories show higher recombination rates: biosynthesis
+ in fatty acid and phospholipid metabolism, (p-value of 0.0001642) phosphoenolpyr
+uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
+ (p-value of 0.0002365) tRNA aminoacylation in protein fate.
+ (p-value of 0.003271).
+ Divide the p-value by the number of functional categories in JCVI roles.
+ 1.
+ Total counts of events on average between species branches.
+ 2.
+ Import rate of a particular ordered pair of species branches along SPY1
+ genome.
+ 3.
+ Import rate of all ordered pairs of species branches along SPY1 genome.
+ 4.
+ Odd ratio of import rates to compare gene-flow-to-SDE and gene-flow-to-SPY
+ along SPY1 genome or SDE genome.
+ IMPORTANT: +Functional categories and polarized direction.
+ I think that I did not find any association.+ IMPORTANT: +What virulence
+ factors?+ Davies2007 studied 216 GAS virulence genes, not other genes to
+ profile the virulence gene repertoires of many (or 58) _Streptococcus dysgalact
+iae_ spp.
+ _equisimilis_ isolates recovered during human infections.
+ 
+\end_layout
+
+\begin_layout Subsection
+Gene gain, loss, duplication, and horizontal gene transfer
+\end_layout
+
+\begin_layout Standard
+xxx
+\end_layout
+
+\begin_layout Section
+Discussions
+\end_layout
+
+\begin_layout Standard
+Direction of gene flow between 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ and 
+\emph on
+S.
+ pyogenes
+\emph default
+ has been questioned and challenged 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kalia2001,Kalia2004,Towers2004,Bessen2005,Davies2007,Davies2007a,Bessen2010"
+
+\end_inset
+
+.
+ Until recently it was not possible because of lack of genome data and methods
+ that can handle them 
+\family typewriter
+[I want to rephrase this sentence]
+\family default
+.
+ Here we showcase a study that polarized direction of gene flow seems broadly
+ distributed across the entire genome.
+ Additionally, we found functional categories that were under higher recombinati
+on, and consequently targets of lateral gene transfer.
+ Separate studies of association of those functional categories with lateral
+ gene transfer had been done.
+ These fortified our finding of association of those functional categories
+ with higher recombination.
+ We asked and answer to three questions.
+ How did SDE evolve? Did it evolve from an ancestral form of pathogenic
+ bateria? Did it evolve from a commensal bacteria? Did genetic elements
+ transfer from SPY's lineage to SDE's? Or, were there cases of the opposite
+ direction of gene flow? In this study, we wish to catalogue genetic elements
+ according to their pattern of flow in the evolutionary history that relates
+ SPY and SDE.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ conjectured two hypothetical scenarios of the evolution of the two species:
+ The first one is that the most recent common ancestor of SPY and SDE is
+ a GAS-like pathogen.
+ SDE was losing virulence factors since the divergence of the ancestor.
+ SDE regains virulence factors from SPY because of the same niche.
+ The second one is that the most recent common ancestor of SPY and SDE is
+ a GGS/GCS-like commensal.
+ SPY evolves virulence factors since the divergence of the ancestor.
+ SDE gains virulence factors from SPY.
+\end_layout
+
+\begin_layout Subsection
+Directional gene flow
+\end_layout
+
+\begin_layout Standard
+Flow of genomic regions between 
+\emph on
+Streptococcus pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ is investigated using five genomes including 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+dysgalactiae
+\emph default
+.
+ Unidirectional flow 
+\family typewriter
+[This is a too strong word.
+ Differential or partical directional flow?]
+\family default
+ of genomic regions from 
+\emph on
+S.
+ pyogenes
+\emph default
+ to 
+\emph on
+S.
+ dysgalactiae
+\emph default
+_ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ is more prevalent than the other direction.
+ Two competing hypotheses on the evolution of the two species are tested.
+ We provide more evidence for hypothesis 1 with detailed view of evolutionary
+ history of the two Streptococci species.
+ Gene exchange via recombination among bacteria has been a driving force
+ of bacterial evoltuion.
+ Bacterial recombinations happen more freely within the same species.
+ Barriers to bacterial recombination can include geographic isolation.
+ Geographic isolation cannot be the only reason.
+ Genetic isolation can prevent recombination between coinhating bacteria.
+ 
+\end_layout
+
+\begin_layout Standard
+Restriction-modification system is a biological self-defense mechanism of
+ bacteria.
+ It is diverse in prokaryote world.
+ Relatively unidirectional gene flow between 
+\emph on
+S.
+ pyogenes
+\emph default
+ and 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ might be associated with different restriction-modification system in the
+ two species.
+ Most of 
+\emph on
+S.
+ pyogenes
+\emph default
+ genomes contain restriction-modification type I system as well as type
+ II system.
+ The two genomes of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ contain only type II system.
+ We conjecture that more tight self-defense system of 
+\emph on
+S.
+ pyogenes
+\emph default
+ might make the species less capable of aquiring foreign genetic material
+ from 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ We did not find evidence against the hypothesis that functional categories
+ of genes were independent of polarization of gene flow between the two
+ species.
+ Genes associated with polarized gene flow seem to be more or less randomly
+ distributed across the genome.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ discussed possible mechanisms of the polarized gene flow.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ mentioned potential roles of RMS in the polarized gene flow.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Budroni2011"
+
+\end_inset
+
+ studied that 
+\emph on
+Neisseria meningitidis
+\emph default
+ phylogenetic clades were associated with RMS.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Budroni2011"
+
+\end_inset
+
+ mentioned that RM systems modulate homologous recombination in the bacteria
+ of 
+\emph on
+N.
+ meningitidis
+\emph default
+.
+ Biological roles of RM systems might be to maintain and control species
+ identity 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Jeltsch2003"
+
+\end_inset
+
+.
+ Considering the observation that recombination events happen across the
+ entire genome, we did not expect that some genes could be associated with
+ higher recombination.
+ We did find that ClonalOrigin's framework could help discover functional
+ categories of genes with higher recombination.
+ Some of functional categories are a classical example where genes with
+ the corresponding function were under higher recombination, consequently
+ leading to be under the force of lateral gene transfer.
+ A functional category of tRNA aminoacylation were reportedly associated
+ with higher lateral gene transfer by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Woese2000"
+
+\end_inset
+
+.
+ There are recent reports about tRNA aminoacylation 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Andam2010,Wang2011"
+
+\end_inset
+
+.
+ We found that PTS in signal transduction was associated with higher recombinati
+on.
+ Zuniga2005 also found that PTS genes were more easily transferred between
+ bacteria.
+ Function category of biosynthesis in fatty acid and phospholipid metabolism
+ was also found to be associated with higher recombination.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kinsella2003"
+
+\end_inset
+
+ studied lateral gene transfer of fatty acid metabolism.
+ Although I did not show that proof of concept, I do think that higher recombina
+tion in 
+\emph on
+S.
+ pyogenes
+\emph default
+ has been known to be apparent in other studies 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hanage2006,Perez-Losada2006,Vos2009a"
+
+\end_inset
+
+.
+ Other corroborating studies seems to support that the three function categories
+ were under relatively higher recombination.
+ 
+\end_layout
+
+\begin_layout Subsection
+Evoultion from commensal to pathogenic
+\end_layout
+
+\begin_layout Standard
+Commensal bacteria could evolve by aquiring virulence genes from its closely
+ related bacteria that are pathogenic.
+ We expected that virulence genes of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ might have been transferred from 
+\emph on
+S.
+ pyogenes
+\emph default
+.
+ We could not find evidence to support the lateral gene transfer of virulence
+ genes from 
+\emph on
+S.
+ pyogenes
+\emph default
+ to 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ This marginally appears to support that virulence genes might have existed
+ in the common ancester of the two species.
+ We could not rule out that virulence genes were transferred to 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+.
+ The reports that 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ were human-pathogens seem to be retropective.
+ 
+\emph on
+Streptococcus dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ had been known to infect domesticated animals (CITEs).
+ Recently, reports that 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ (SDE) were recovered as human pathogens just like 
+\emph on
+S.
+ pyogenes
+\emph default
+ (SPY) are increasing (CITEs).
+ The species might have been human-pathogenic, and they were not reported
+ to be so much as 
+\emph on
+S.
+ pyogenes
+\emph default
+.
+ Further studies should be pursued to resolve this issue of lateral gene
+ transfer of virulence genes.
+ 
+\end_layout
+
+\begin_layout Subsection
+What did we learn from the analysis of ClonalOrigin? 
+\end_layout
+
+\begin_layout Standard
+Without account of recombination it seems to hard to study bacterial evolution
+ with a few exceptions.
+ Our study is just a showcase of using a recently developed statistical
+ software of ClonalOrigin to apply it to two groups of genomes to answer
+ three questions.
+ Although the analysis using ClonalOrigin requires a series of analyses,
+ the approach is based on a sound statistical model of coalescent with recombina
+tion.
+ 
+\end_layout
+
+\begin_layout Subsection
+Lack of analyses and Limitations of the method
+\end_layout
+
+\begin_layout Standard
+We used only two genomes of 
+\emph on
+S.
+ pyogenes
+\emph default
+, and two genomes of 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+equisimilis
+\emph default
+ with additional genome from 
+\emph on
+S.
+ dysgalactiae
+\emph default
+ spp.
+ 
+\emph on
+dysgalactiae
+\emph default
+.
+ In additional to the five genomes analyses with more genomes from closely
+ related species could increase the power of detecting recombination.
+ Analyses with more isolates could potentially reveal congruent relationships
+ between virulence profiles and GCS/GGS disease propensity.
+ We also used only core genomes where not so much gaps were allowed 
+\family typewriter
+[Matt's analysis may complement ClonalOrigin's analysis]
+\family default
+.
+ Relatively short alignment blocks were excluded from the analysis.
+ Alignment blocks with many gaps were excluded.
+ With this inherent filtering of the input data preparation we did not account
+ for gene gain and loss in the analysis.
+ Only well aligned regions were used in the analysis.
+ More complicated evolutionary models could have been considered: genome
+ rearrangement, gene segment gain and loss, and gene duplications.
+ Without these evolutionary events in their model 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ still used the two stages of Bayesian approach where the second stage uses
+ the result from the first stage as a prior.
+ If this compromise seems to be necessary due to smaller uncertainty of
+ some parameters and computational cost, using whole genomes intact with
+ all alignment blocks seems to be impracticable.
+ Incorporating the other evolutionary events in the ClonalOrigin's framework
+ seems to be out of the question.
+ It seems to be natural to consider some of evolutionary models such as
+ gene segment gain and loss becasue bacterial genomes are the ultimate resources
+ for resolving many biological questions such as species tree of them.
+ We are wondering if species tree can be studied using gene tree model that
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ developed in ClonalOrigin.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Delorme2007"
+
+\end_inset
+
+ indicated that 
+\emph on
+S.
+ salivarius
+\emph default
+ and 
+\emph on
+S.
+ vestibularis
+\emph default
+ may have evolutionary history that is parallel to SDE and 
+\emph on
+S.
+ pyogenes
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Divergence time estimation
+\end_layout
+
+\begin_layout Standard
+Kalia2001 suggested the divergence time of _S.
+ dysgalactiae_ spp.
+ _dysgalactiae_ (SDD) to be around the time when human started to domesticate
+ wildlife animals around 10,000 years ago.
+ A demographic model could be made with two species to study the divergence
+ time quantitatively.
+ This would require ancestral recombination graphs embedded in a species
+ tree.
+\end_layout
+
+\begin_layout Subsection
+Fragmented Speciation Model
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Retchless2007"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Luo2011"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Acknowledgments
+\end_layout
+
+\begin_layout Standard
+Ilan Gronau,
+\end_layout
+
+\begin_layout Standard
+Xavier Didelot,
+\end_layout
+
+\begin_layout Standard
+Grant information
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "siepel-strep"
+options "gberefs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Appendix
+\end_layout
+
+\begin_layout Standard
+Appendix 1.
+\end_layout
+
+\begin_layout Section*
+Tables
+\end_layout
+
+\begin_layout Standard
+Table 1.
+\end_layout
+
+\begin_layout Section*
+Figure Legends
+\end_layout
+
+\begin_layout Standard
+Figure 1.
+ The number of recombination event boundaries per site for each block along
+ the S.
+ dysgalactiae subsp.
+ equisimilis ATCC 12394 (Suzuki2011).
+\end_layout
+
+\begin_layout Standard
+Figure 2.
+ Heat map representing the log2 of the number of recombination events inferred
+ relative to its expectation under the prior, for each donor/recipient pair
+ of branches.
+ The donor is given by the y-axis; the recipient on the x.
+\end_layout
+
+\begin_layout Standard
+Figure 3.
+ Gene counts for each extant and ancestral species.
+ The notation on each branch is DX LY TZ, where X is the number of duplications
+ on that branch, Y is the number of losses, and Z is the number transfers
+ INTO the branch.
+ Transfers out of a branch are not indicated in this figure.
+ 
+\end_layout
+
+\begin_layout Section*
+Figures
+\end_layout
+
+\begin_layout Standard
+----------
+\end_layout
+
+\begin_layout Standard
+.
+ Ahmad et al.
+ 2009.
+ J Clin Microbiol.
+ 2009 July; 47(7): 2046–2054.
+ Published online 2009 April 22.
+ doi: 10.1128/JCM.00246-09.
+\end_layout
+
+\begin_layout Standard
+.
+ Cohan, F.
+ M.
+ 2001.
+ Bacterial species and speciation.
+ Syst.
+ Biol.
+ 50:513–524.
+\end_layout
+
+\begin_layout Standard
+.
+ Enright, R.
+ Goldstein, D.
+ Hood, A.
+ Kalia, C.
+ E.
+ Moore, J.
+ Zhou, and B.
+ G.
+\end_layout
+
+\begin_layout Standard
+Spratt.
+ 2001.
+ Recombination within natural populations of pathogenic bacteria:
+\end_layout
+
+\begin_layout Standard
+short-term empirical estimates and long-term phylogenetic consequences.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+ USA 98:182–187.
+ [NOT YET READ]
+\end_layout
+
+\begin_layout Standard
+.
+ Feil, E.
+ J., E.
+ C.
+ Holmes, D.
+ E.
+ Bessen, M.-S.
+ Chan, N.
+ P.
+ J.
+ Day, M.
+ C.
+ Enright, R.
+ Goldstein, D.
+ Hood, A.
+ Kalia, C.
+ E.
+ Moore, J.
+ Zhou, and B.
+ G.
+ Spratt.
+ 2001.
+ Recombination within natural populations of pathogenic bac- teria: short-term
+ empirical estimates and long-term phylogenetic conse- quences.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+ 98:182–187.
+\end_layout
+
+\begin_layout Standard
+.
+ Nigel Goldenfeld, and Carl Woese.
+ Biology's next revolution.
+ Nature 445, 369 (25 January 2007)
+\end_layout
+
+\begin_layout Standard
+.
+ Jeffrey G.
+ Lawrence.
+ Gene Transfer in Bacteria: Speciation without Species? 
+\end_layout
+
+\begin_layout Standard
+Theoretical Population Biology 61, 449–460 (2002) doi:10.1006/tpbi.2002.1587
+\end_layout
+
+\begin_layout Standard
+.
+ Johnson PLF, Slatkin M (2009) Inference of Microbial Recombination Rates
+ from
+\end_layout
+
+\begin_layout Standard
+Metagenomic Data.
+ PLoS Genet 5(10): e1000674.
+ doi:10.1371/ journal.pgen.1000674
+\end_layout
+
+\begin_layout Standard
+.
+ Kalia, A., B.
+ G.
+ Spratt, M.
+ C.
+ Enright, and D.
+ E.
+ Bessen.
+ 2002.
+ Influence of
+\end_layout
+
+\begin_layout Standard
+recombination and niche separation on the population genetic structure of
+ the
+\end_layout
+
+\begin_layout Standard
+pathogen Streptococcus pyogenes.
+ Infect.
+ Immun.
+ 70:1971–1983 [NOT YET READ]
+\end_layout
+
+\begin_layout Standard
+.
+ Bethany N.
+ Kent, Leonidas Salichos, John G.
+ Gibbons, Antonis Rokas, Irene L.G.
+\end_layout
+
+\begin_layout Standard
+Newton, Michael E.
+ Clark, and Seth R.
+ Bordenstein
+\end_layout
+
+\begin_layout Standard
+Complete Bacteriophage Transfer in a Bacterial Endosymbiont (Wolbachia)
+\end_layout
+
+\begin_layout Standard
+Determined by Targeted Genome Capture
+\end_layout
+
+\begin_layout Standard
+Genome Biol Evol first published online February 2, 2011 doi:10.1093/gbe/evr007
+\end_layout
+
+\begin_layout Standard
+.
+ Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al.
+ (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives.
+ PLoS ONE 3(7): e2683.
+ doi:10.1371/journal.pone.0002683
+\end_layout
+
+\begin_layout Standard
+.
+ Maiden, M.
+ C.
+ J., J.
+ A.
+ Bygraves, E.
+ Feil, G.
+ Morelli, J.
+ E.
+ Russell et al.,
+\end_layout
+
+\begin_layout Standard
+1998 Multilocus sequence typing: a portable approach to the identification
+ of
+\end_layout
+
+\begin_layout Standard
+clones within populations of pathogenic mi- croorganisms.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+\end_layout
+
+\begin_layout Standard
+USA 95: 3140–3145.
+\end_layout
+
+\begin_layout Standard
+.
+ The Gene Ontology.
+\end_layout
+
+\begin_layout Standard
+Consortium Gene Ontology: tool for the unification of biology.
+ (2000) Nature Genet.
+ 25: 25-29 
+\end_layout
+
+\begin_layout Standard
+.
+ Feil, E.
+ J., E.
+ C.
+ Holmes, D.
+ E.
+ Bessen, M.-S.
+ Chan, N.
+ P.
+ J.
+ Day, M.
+ C.
+\end_layout
+
+\begin_layout Standard
+.
+ Zúñiga, M.; Comas, I.; Linaje, R.; Monedero, V.; Yebra, M.
+ J.; Esteban, C.
+ D.;
+\end_layout
+
+\begin_layout Standard
+Deutscher, J.; Pérez-Martínez, G.
+ & González-Candelas, F., 2005 Horizontal gene
+\end_layout
+
+\begin_layout Standard
+transfer in the molecular evolution of mannose PTS transporters.
+ Mol Biol Evol
+\end_layout
+
+\begin_layout Standard
+22: 1673-1685.
+\end_layout
+
+\begin_layout Standard
+Tables
+\end_layout
+
+\begin_layout Standard
+------
+\end_layout
+
+\begin_layout Standard
+///////
+\end_layout
+
+\begin_layout Standard
+Table 1
+\end_layout
+
+\begin_layout Standard
+///////
+\end_layout
+
+\begin_layout Standard
+.Number of recombination events inferred relative to its expected number
+ under the prior model given recombination rate for each donor/recipient
+ pairs of species branches.
+ Species of rows are donors, and speices of columns are recipients.
+\end_layout
+
+\begin_layout Standard
+[format="dsv",separator="
+\backslash
+s",options="header"]
+\end_layout
+
+\begin_layout Standard
+|===================================================
+\end_layout
+
+\begin_layout Standard
+SDE1 SDE2 SDD SPY1 SPY2 SDE SPY SD R
+\end_layout
+
+\begin_layout Standard
+include::table1.txt[]
+\end_layout
+
+\begin_layout Standard
+|===================================================
+\end_layout
+
+\begin_layout Standard
+Figure Legends
+\end_layout
+
+\begin_layout Standard
+--------------
+\end_layout
+
+\begin_layout Standard
+Figure 1.
+ The reference species tree of the five streptococcal genomes.
+ 
+\end_layout
+
+\begin_layout Standard
+SDE1 and SDE2 represent genomes for 
+\end_layout
+
+\begin_layout Standard
+_Streptococcus dysgalactiae_ spp.
+ _equisimilis_.
+\end_layout
+
+\begin_layout Standard
+SPY1 and SPY2 represent genomes for _S.
+ pyogenes_.
+\end_layout
+
+\begin_layout Standard
+SDD is the genome for 
+\end_layout
+
+\begin_layout Standard
+_S.
+ dysgalactiae_ spp.
+ _dysgalactiae_.
+ The scale is proportional to the expected
+\end_layout
+
+\begin_layout Standard
+number of mutations in the branch given the inferred value of 
+\end_layout
+
+\begin_layout Standard
+$
+\backslash
+theta$ and $
+\backslash
+Tau$.
+ Internal nodes including the root are labeled.
+\end_layout
+
+\begin_layout Standard
+Figure 2.
+ 
+\end_layout
+
+\begin_layout Standard
+Figure 3.
+\end_layout
+
+\begin_layout Standard
+Figure 4.
+\end_layout
+
+\begin_layout Standard
+Figures
+\end_layout
+
+\begin_layout Standard
+-------
+\end_layout
+
+\begin_layout Standard
+////////
+\end_layout
+
+\begin_layout Standard
+Figure 1
+\end_layout
+
+\begin_layout Standard
+////////
+\end_layout
+
+\begin_layout Standard
+.Phylogeny of the five genomes.
+\end_layout
+
+\begin_layout Standard
+image::figure1.png[Clonal frame]
+\end_layout
+
+\begin_layout Standard
+////////
+\end_layout
+
+\begin_layout Standard
+I describe the parameter values in the text:
+\end_layout
+
+\begin_layout Standard
+estimates of recombination rates, mutation rates, and recombinant tract
+ lengths.
+\end_layout
+
+\begin_layout Standard
+////////
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Figure 2.
+\end_layout
+
+\begin_layout Standard
+Posterior probability of 60 different imports along SDE1 genomes.
+\end_layout
+
+\begin_layout Standard
+Posterior probability of import along SDE1 genome.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+.Posterior probability of 60 different imports along SDE1 genomes.
+\end_layout
+
+\begin_layout Standard
+image::figure2.png[Posterior probability]
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Figure 3.
+\end_layout
+
+\begin_layout Standard
+Odd ratios of posterior probability of import between SDE and SPY along
+ SDE1 genome.
+\end_layout
+
+\begin_layout Standard
+Odd ratios of posterior probability of import between SDE and SPY by locus
+ genes.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+.Odd ratios of posterior probability of import between SDE and SPY by locus
+ genes.
+\end_layout
+
+\begin_layout Standard
+image::figure3.png[Posterior probability]
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Figure 4.
+\end_layout
+
+\begin_layout Standard
+Import rates for JCVI role categories.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+.Functional categories and import rates.
+\end_layout
+
+\begin_layout Standard
+image::figure4.png[Functional categories]
+\end_layout
+
+\end_body
+\end_document
