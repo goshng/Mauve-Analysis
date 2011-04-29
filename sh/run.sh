@@ -190,7 +190,7 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 )
+SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 )
 
 ###############################################################################
 # Description of functions
@@ -2798,6 +2798,7 @@ source sh/prepare-run-2nd-clonalorigin.sh
 source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
 source sh/recombination-intensity.sh 
+source sh/compute-heatmap-recedge.sh
 
 #####################################################################
 # Main part of the script.
@@ -2819,7 +2820,7 @@ CHOICES=( init-file-system \
           analyze-run-clonalorigin2-simulation \
           --- SIMULATION3 ---\
           simulate-data-clonalorigin2-from-xml \
-          --- REAL DATA ---\
+          --- REAL-DATA ---\
           choose-species \
           copy-mauve-alignment \
           receive-run-mauve \
@@ -2830,14 +2831,17 @@ CHOICES=( init-file-system \
           receive-run-clonalorigin \
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
-          --- RECOMBINATION COUNT ---\
+          --- RECOMBINATION-COUNT ---\
           scatter-plot-parameter \
           plot-number-recombination-within-blocks \
-          heatmap-compute-prior \
-          heatmap-get-observed \
-          --- RECOMBINATION INTENSITY ---\
+          compute-prior-count-recedge \
+          count-observed-recedge \
+          compute-heatmap-recedge \
+          --- RECOMBINATION-INTENSITY ---\
           probability-recombination \
           recombination-intensity \
+          --- RECOMBINATION-INTENSITY2 ---\
+          map-tree-topology \
           ----------\
           analysis-clonalorigin \
           compute-watterson-estimate-for-clonalframe \
@@ -2920,16 +2924,14 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "simulate-data-clonalorigin2-from-xml" ]; then
     $CHOICE
     break
-  elif [ "$CHOICE" == "scatter-plot-parameter" ];  then
-    scatter-plot-parameter
-    break
+  elif [ "$CHOICE" == "scatter-plot-parameter" ]; then $CHOICE; break
   elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ];  then
     plot-number-recombination-within-blocks
     break
-  elif [ "$CHOICE" == "heatmap-compute-prior" ];  then
+  elif [ "$CHOICE" == "compute-prior-count-recedge" ];  then
     heatmap-compute
     break
-  elif [ "$CHOICE" == "heatmap-get-observed" ];  then
+  elif [ "$CHOICE" == "count-observed-recedge" ];  then
     heatmap-get-observed
     break
   elif [ "$CHOICE" == "compute-global-median" ];  then
@@ -2943,6 +2945,7 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "probability-recombination" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "compute-heatmap-recedge" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

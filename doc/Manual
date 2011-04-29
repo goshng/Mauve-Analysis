@@ -3,6 +3,9 @@ Manual of Mauve Analysis
 :Author: Sang_Chul_Choi
 :Author Initials: SCC
 
+System requirements
+-------------------
+xxx
 
 Installation
 ------------
@@ -19,3 +22,167 @@ ClonalFrame is ...
 ClonalOrigin
 ~~~~~~~~~~~~
 ClonalOrigin is the main program used in this analysis.
+
+Menus
+-----
+Users can perform jobs by selecting menus by running a bash script called
+sh/run.sh. 
+.Executing the main bash script
+----
+bash sh/run.sh
+----
+
+choose-simulation
+~~~~~~~~~~~~~~~~~
+Users have to setup simulation configuration including mostly creating
+directories.
+
+simulate-data-clonalorigin2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Three values of the three main parameters, and a species tree are given to
+ClonalOrigin simulator, ``wargsim,'' to generate sequence data. For each
+repetition a new recombinant species tree is simulated, which is then used to
+generate data under Jukes-Cantor model of DNA sequence evolution.
+
+prepare-run-clonalorigin2-simulation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This command is followed by ``simulate-data-clonalorigin2'' menu. 
+
+receive-run-clonalorigin2-simulation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When simulations s10, s11, and s12 were finished, I fetched the results from the
+computing cluster. Just select the simulation, and wait for the shell prompt.
+
+
+analyze-run-clonalorigin2-simulation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Simulation s10 generates 100 replicates of a single block using ClonalOrigin
+model where the three main parameters, recombinant edges, and species tree are
+fixed. I know a set of true recombinant edges. The numbers of recombinant edges
+between pairs of species branches are of my interest. I wish to check how well 
+the 100 simulations can recover the true numbers of recombinant edges.
+
+Simulation s11 generates 10 replicates of a 100-block using ClonalOrigin model.
+The three main parameters, recombinant edges, and a species tree are fixed. The
+numbers of recombinant edges between pairs of species branches are known. I wish
+to check how well the 10 simulations can recover the true numbers of recombinant
+edges.
+
+The simulated recombinant edges are stored in:
+
+.File of the true recombinant edges 
+----
+output/s11/1/data/core_alignment.xml
+----
+
+The counts of recombinant edges from simulation are stored in:
+
+.File of counts of recombinant edges from simulation
+----
+output/s11/run-analysis/s11-heatmap.txt
+----
+
+The true counts of recombinant edges are stored in:
+
+.File of true counts of recombinant edges
+----
+output/s11/run-analysis/s11-yes-heatmap.txt
+----
+
+.R script file for s11
+----
+output/s11/run-analysis/1.R
+----
+
+.R script of comparison
+----
+x <- read.table("s11-heatmap.txt")
+y <- read.table("s11-yes-heatmap.txt")
+
+for (i in 1:81) {
+  v <- round(mean(x[,i]) - y[,i],digit=3)
+  s <- mean(x[,i+81])
+  supper <- round(mean(x[,i]) + 2*s,digit=3) 
+  slower <- round(mean(x[,i]) - 2*s,digit=3) 
+  if ( y[,i] < slower || y[,i] > supper ) { 
+    print (paste(i,"not okay"))
+  }     
+  print (paste(sep="     ",i,round(y[,i],digit=3),round(mean(x[,i]),digit=3),v,round(s,digit=3),slower,supper))
+}
+----
+
+Simulation s12 generates 10 repetitions of 10 replicates of a 71-block using
+ClonalOrigin model. 
+The three main parameters, recombinant edges, and a species tree were obtained
+from cornellf/8. The cornellf/8 run used the minimum limit of 5,000 base pairs
+for blocks. This resulted in 71 blocks. I sampled 101 recombinant trees, 10 of
+which were used for the 10 repetitions. 
+I wish to check how well the 100 simulations can recover the true numbers of
+recombinant edges. 
+
+
+receive-run-2nd-clonalorigin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once jobs in the computing cluster are finished, select this command to receive
+the results from the cluster. Choose SPECIES, REPETITION, and REPLICATE to
+receive your runs from the cluster. It also ask a job ID, which is the job ID of
+run-mauve directory. You can find it in the 2nd line of the mauve alignment
+file:
+
+.A sample mauve alignment file
+----
+output/cornellf/8/run-mauve/output/full_alignment.xmfa
+----
+
+.The 2nd line of the mauve alignment file
+----
+#Sequence1File  /tmp/1081728.scheduler.v4linux/input/CP002215.gbk
+----
+
+WARNING: receive-run-2nd-clonalorigin may be split into two parts. The first
+part is to download the result, and the second part is to do something about it. 
+
+scatter-plot-parameter
+~~~~~~~~~~~~~~~~~~~~~~
+
+heatmap-compute-prior
+~~~~~~~~~~~~~~~~~~~~~
+Compute the prior expected numbers of recombinant edges given a species tree.
+The clonal origin's companion program called ``gui'' is used. 
+Select your SPECIES, REPETITION, and REPLICATE to choose a proper run from which
+you wish to compute the prior expected number of recombinant edges.
+The program ``gui'' runs on each block. It reads in a ClonalOrigin XML output
+file of the 2nd stage MCMC. For example, the following file is read in for
+SPECIES=cornellf, REPETITION=8, and REPLICATE=2:
+
+.ClonalOrigin XML file
+----
+output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
+----
+
+.File of prior expected number of recombinant edges
+----
+output/cornellf/8/run-clonalorigin/output2/priorcount-2/1.txt
+----
+
+map-tree-topology
+~~~~~~~~~~~~~~~~~
+The 3rd method needs to be finished.
+
+Terms
+-----
+block: a multiple alignment.
+
+Manual or user guide
+--------------------
+A cover page
+A title page and copyright page
+A preface, containing details of related documents and information on how to
+navigate the user guide
+A contents page
+A guide on how to use at least the main functions of the system
+A troubleshooting section detailing possible errors or problems that may occur,
+along with how to fix them
+A FAQ (Frequently Asked Questions)
+Where to find further help, and contact details
+A glossary and, for larger documents, an index

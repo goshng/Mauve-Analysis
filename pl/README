@@ -1,6 +1,22 @@
 Perl Scripts used in mauve-analysis
 ===================================
 
+sub-array.pl
+------------
+Functions for arrays.
+
+createSquareMatrix
+~~~~~~~~~~~~~~~~~~
+Argument 1: Size of the square matrix.
+Return    : a square matrix.
+
+printSquareMatrix
+~~~~~~~~~~~~~~~~~
+Argument 1: The reference of a square matrix.
+Argument 2: Size of the square matrix.
+Return    : None.
+Print     : The square matrix.
+
 sub-simple-parser.pl
 --------------------
 Some simple Clonal Origin XML parser functions.

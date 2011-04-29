@@ -3,28 +3,7 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: extractClonalOriginParameter4.pl
-#   Date: 2011-02-18
-#   Version: 1.0
-#
-#   Usage:
-#      perl extractClonalOriginParameter4.pl [options]
-#
-#      Try 'perl extractClonalOriginParameter4.pl -h' for more information.
-#
-#   Purpose: extractClonalOriginParameter4.pl help you build heat map of 
-#            recombination events.
-#            The expected number of recedges a priori is given by ClonalOrigin's
-#            gui program that makes a matrix. The matrix dimension depends on
-#            the number of taxa in the clonal frame. Another matrix should be
-#            built and its element is an average observed recedes. I divide the
-#            latter matrix by the former one element-by-element. For each block
-#            I follow the computation above to obtain an odd-ratio matrix. 
-#            For each element over all the blocks I weight it by the length of
-#            the block to have an average odd-ratio.
-#
-#   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
-#   Computational Science Research Center @ SDSU, CA as a template. Some of
-#   words are his not mine, and credit should be given to him. 
+#   Date: Fri Apr 29 11:53:47 EDT 2011
 #===============================================================================
 
 use strict;
@@ -37,7 +16,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter4.pl 0.1.0';
+my $VERSION = 'extractClonalOriginParameter4.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -50,18 +29,23 @@ GetOptions( \%params,
             'd=s',
             'e=s',
             'n=i',
-            's=i'
+            's=i',
+            'xmlbasename=s',
+            'endblockid',
+            'append',
+            'check'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter4.pl - Build a heat map of recombination.
+extractClonalOriginParameter4.pl - Count the number of posterior recombinant
+edges.
 
 =head1 VERSION
 
-extractClonalOriginParameter4.pl 0.1.0
+extractClonalOriginParameter4.pl 1.0
 
 =head1 SYNOPSIS
 
@@ -73,6 +57,11 @@ perl extractClonalOriginParameter4.pl [-h] [-help] [-version]
 
 =head1 DESCRIPTION
 
+A new description:
+The posterior number of recombinant edges are computed. This was done similarly
+in extractClonalOriginParameter8.pl, which is for simulation.
+
+This is an old description:
 The expected number of recedges a priori is given by ClonalOrigin's
 gui program that makes a matrix. The matrix dimension depends on
 the number of taxa in the clonal frame. Another matrix should be
@@ -151,6 +140,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
 
+require "pl/sub-simple-parser.pl";
+
 sub get_exp_map($$);
 sub get_obs_map($$);
 
@@ -158,7 +149,10 @@ my $xmlDir;
 my $heatDir;
 my $numBlocks;
 my $numSpecies;
-
+my $append = 0;
+my $check = 0;
+my $xmlBasename = "core_co.phase3";
+my $endblockid = 0;
 if (exists $params{d})
 {
   $xmlDir = $params{d};
@@ -195,6 +189,25 @@ else
   &printError("you did not specify a number of species");
 }
 
+if (exists $params{append})
+{
+  $append = 1;
+}
+
+if (exists $params{check})
+{
+  $check = 1;
+}
+
+if (exists $params{xmlbasename})
+{
+  $xmlBasename = $params{xmlbasename};
+}
+
+if (exists $params{endblockid})
+{
+  $endblockid = 1;
+}
 
 #
 ################################################################################
@@ -209,7 +222,6 @@ my $tag;
 my $content;
 my %recedge;
 my $itercount=0;
-
 
 ##############################################################
 # An initial heat map is created.

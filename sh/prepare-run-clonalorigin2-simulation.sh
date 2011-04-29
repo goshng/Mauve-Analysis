@@ -126,6 +126,8 @@ function prepare-run-clonalorigin2-simulation {
         $SPECIES \
         $HOW_MANY_REPETITION \
         $SPECIESTREE $Clonal2ndPhase 
+      echo "Go to ~/$CAC_OUTPUTDIR/$SPECIES at the cluster and submit jobs:"
+      echo "$ bash run.sh"
       break
     fi
   done

@@ -5,6 +5,20 @@ History
 -------
 Jobs that were done are described for later reference.
 
+.Meaning of arrows
+-> means I finished the job.
+---> means I need to do something about it.
+
+Fri Apr 29 13:54:44 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s13's analysis is being analyzed. This is the same analysis as s11 except the
+block configuration. I have two purposes: one for checking as s11, and another
+for comparing the simulation result with the real data. The simulation results
+can be similar to the prior count. I wish to extract any effect of clonal
+origin's inference using simulation.
+--->
+
 Thu Apr 28 14:14:00 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -20,25 +34,29 @@ Recombination events of 0 tend to be overestimated.
 
 s11's analysis is being analyzed. Counting recombination events is slow: s11 is
 1 repetition, 10 replicates with 100 blocks. Each replicate has 101 iterations.
----> done!
+-> done in 2 days (5 nodes) -> see the result
+output/s11/run-analysis/1.R.out
 
-s12 is executed in CAC. 
+s12 is executed in CAC.
+-> done in 2 days (5 nodes) ---> ?
 
-cornellf/8/clonalorigin2/2 is executed. 
+output/cornellf/8/run-clonalorigin/output2/2 is executed. 
 Burnin/ChainLength/Thin are 10,000,000/100,000,000/100,000. 
 A previous run is saved as
 cornellf/8/run-clonalorigin/output2/2a. The previous run of 2a was executed with
 Burnin/ChainLength/Thin were 1,000,000/10,000,000/100,000. It took less than a
 day.
---->
+-> done in 2 days (3 nodes) -> three analyses --->
 
-cornellf/3/run-clonalorigin/output2/1 is executed. 
-Burnin/ChainLength/Thin are 10,000,000/100,000,000/100,000. 
+cornellf/3/run-clonalorigin/output2/1 is executed.
+Burnin/ChainLength/Thin are 10,000,000/100,000,000/100,000.
 A previous run is saved as
 cornellf/3/run-clonalorigin/output2/1a. The previous run of 1a was executed with
 Burnin/ChainLength/Thin were 1,000,000/10,000,000/100,000. It took less than a
 day.
---->
+-> still running in 2 days (3 nodes)
+... the last 100 jobs were submitted cornellf/3/run-clonalorigin2 (5 nodes)
+... check tomorrow --->
 
 The main analyses should be recoded: counting recombination events, measure of
 recombination intensity (or probability of experiencing recombination events),

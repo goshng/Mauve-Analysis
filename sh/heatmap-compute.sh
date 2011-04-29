@@ -6,7 +6,7 @@
 # Compute the prior expected number of recombinant edges.
 # -------------------------------------------------------
 # This function must be called in the main run.sh. Variables would make sense
-# only in that situtiaon. The funciton alone would not work.
+# only in that situtiaon. The function alone would not work.
 function heatmap-compute {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -25,18 +25,23 @@ function heatmap-compute {
       echo -e "The number of blocks is $NUMBER_BLOCK."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
 
-      echo -e "Computing heat map for the blocks ...\n"
+      PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${REPLICATE}
+      mkdir $PRIORCOUNTDIR
+
+      echo -n "Computing heat map for the blocks ... "
       for i in $(eval echo {1..$NUMBER_BLOCK}); do
-        if [ -f "$RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.$i.xml" ]; then
+        if [ -f "$RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.$i" ]; then
           # Compute prior expected number of recedges.
           $GUI -b \
-            -o $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.$i.xml \
+            -o $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.$i \
             -H 3 \
-            > $RUNCLONALORIGIN/output2/heatmap-$i.txt
+            > $PRIORCOUNTDIR/$i.txt
         else
-          echo "Block: $i was not used" 1>&2
+          echo "Block: $i was not found" 1>&2
         fi
+        echo -ne "Block: $i\r";
       done 
+      echo -ne "Block: $i - Finished!\n";
       break
     fi
   done

@@ -2,35 +2,9 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: extractClonalOriginParameter8.pl
-#   Date: Thu Apr 21 12:42:10 EDT 2011
+#   File: extractClonalOriginParameter12.pl
+#   Date: Fri Apr 29 14:54:00 EDT 2011
 #   Version: 1.0
-#
-#   Usage:
-#      perl extractClonalOriginParameter8.pl [options]
-#
-#      Try 'perl extractClonalOriginParameter8.pl -h' for more information.
-#
-#   Purpose: This is based on extractClonalOriginParameter4.pl. The detailed
-#            code will be different from it. 
-#            extractClonalOriginParameter8.pl help you build heat map of 
-#            recombination events. 
-#            This is used with simulation.
-#            A heat map is a matrix of size being number of species by number of
-#            species. 
-# 
-#            The expected number of recedges a priori is given by ClonalOrigin's
-#            gui program that makes a matrix. The matrix dimension depends on
-#            the number of taxa in the clonal frame. Another matrix should be
-#            built and its element is an average observed recedes. I divide the
-#            latter matrix by the former one element-by-element. For each block
-#            I follow the computation above to obtain an odd-ratio matrix. 
-#            For each element over all the blocks I weight it by the length of
-#            the block to have an average odd-ratio.
-#
-#   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
-#   Computational Science Research Center @ SDSU, CA as a template. Some of
-#   words are his not mine, and credit should be given to him. 
 #===============================================================================
 
 use strict;
@@ -43,7 +17,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter8.pl 1.0';
+my $VERSION = 'extractClonalOriginParameter12.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -67,21 +41,29 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter8.pl - Build a heat map of recombination.
+extractClonalOriginParameter12.pl - Build a heat map of recombinant edges
 
 =head1 VERSION
 
-extractClonalOriginParameter8.pl 0.1.0
+extractClonalOriginParameter12.pl 1.0
 
 =head1 SYNOPSIS
 
-perl extractClonalOriginParameter8.pl [-h] [-help] [-version] 
+perl extractClonalOriginParameter12.pl [-h] [-help] [-version] 
   [-d xml data directory] 
   [-e per-block heat map directory] 
   [-n number of blocks] 
   [-s number of species] 
+  [-xmlbasename filename]
+  [-endblockid]
+  [-append]
 
 =head1 DESCRIPTION
+
+This is almost the same as extractClonalOriginParameter8.pl except that this
+actually uses the prior expected number of recombinant edges. It may be possible
+to have a single script by combining this and extractClonalOriginParameter8.pl.
+I do not know exactly how I can deal with the prior.
 
 The expected number of recedges a priori is given by ClonalOrigin's
 gui program that makes a matrix. The matrix dimension depends on
@@ -162,7 +144,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make extractClonalOriginParameter8.pl better.
+com repository so that I can make extractClonalOriginParameter12.pl better.
 
 =head1 COPYRIGHT
 
@@ -185,9 +167,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 =cut
 
 require "pl/sub-simple-parser.pl";
+require "pl/sub-array.pl";
+sub makeXMLFilename($$$$);
 sub get_exp_map($$);
-sub get_obs_map($$);
-sub get_obs_map_iteration($$$);
+sub get_obs_map_iteration($$);
 
 my $xmlDir;
 my $heatDir;
@@ -274,26 +257,9 @@ my $xmlIteration;
 ##############################################################
 my $numberOfTaxa = $numSpecies;
 my $numberOfLineage = 2 * $numberOfTaxa - 1;
-
-my @heatMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @heatMap, [ @rowMap ];
-}
-my @obsMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @obsMap, [ @rowMap ];
-}
-my @expMap;
-for (my $j = 0; $j < $numberOfLineage; $j++)
-{
-  my @rowMap = (0) x $numberOfLineage;
-  push @expMap, [ @rowMap ];
-}
-
+my @heatMap = createSquareMatrix ($numberOfLineage);
+my @obsMap = createSquareMatrix ($numberOfLineage);
+my @expMap = createSquareMatrix ($numberOfLineage);
 my @blockObsMap;
 my $blockLength;
 my $totalLength;
@@ -304,22 +270,14 @@ if ($check == 1)
 }
 
 ##############################################################
-# Find the sample size of an Clonal Origin XML.
+# Find the sample size of an Clonal Origin XML. All of the XML files are check
+# if they have the same posterior sample size.
 ##############################################################
-my $xmlfilename = "$xmlDir/$xmlBasename.1.xml";
-if ($endblockid == 1)
-{
-  $xmlfilename = "$xmlDir/$xmlBasename.xml.1";
-}
+my $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, 1, $endblckid);
 my $sampleSizeFirst = get_sample_size ($xmlfilename);
 for (my $blockid = 2; $blockid <= $numBlocks; $blockid++)
 {
-  my $xmlfilename = "$xmlDir/$xmlBasename.$blockid.xml";
-  if ($endblockid == 1)
-  {
-    $xmlfilename = "$xmlDir/$xmlBasename.xml.$blockid";
-  }
-
+  $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblckid);
   my $sampleSize = get_sample_size ($xmlfilename);
   die "The first block ($sampleSizeFirst) and the $blockid-th block ($sampleSize) are different"
     unless $sampleSizeFirst == $sampleSize;
@@ -335,12 +293,7 @@ if ($check == 1)
 $totalLength = 0;
 for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
 {
-  my $xmlfilename = "$xmlDir/$xmlBasename.$blockid.xml";
-  if ($endblockid == 1)
-  {
-    $xmlfilename = "$xmlDir/$xmlBasename.xml.$blockid";
-  }
-
+  $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblckid);
   my $blockLength = get_block_length ($xmlfilename);
   $totalLength += $blockLength;
 }
@@ -378,32 +331,31 @@ if ($check == 1)
 ##############################################################
 # Find the observed number of recombination over all of the blocks
 # and take the ratio of observed with respect to expected.
+# For each of iteration and blocks I count the number of recombinant edges for
+# all of the pairs of species branches. obsMap is the sum of all of the observed
+# recombinant edges over all 
 ##############################################################
 for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
 {
   for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
   {
-    my $xmlfilename = "$xmlDir/$xmlBasename.$blockid.xml";
-    if ($endblockid == 1)
-    {
-      $xmlfilename = "$xmlDir/$xmlBasename.xml.$blockid";
-    }
-    $xmlIteration = $iterationid;
-    my @obsMapBlock = get_obs_map_iteration($iterationid, $xmlfilename, $numberOfLineage);
+    $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblckid);
+    $xmlIteration = $iterationid; # Note $xmlIteration is a global.
+    my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
 
     for my $i ( 0 .. $#obsMap ) {
       for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        $obsMap[$i][$j] += $obsMapBlock[$i][$j];
+        $obsMap[$i][$j] += $obsPerBlockPerIteration[$i][$j];
       }
     }
 
     if ($check == 1)
     {
-      print "obsMapBlock (Iter: $iterationid - Block: $blockid):\n";
-      for my $i ( 0 .. $#obsMapBlock ) {
+      print "obsPerBlockPerIteration (Iter: $iterationid - Block: $blockid):\n";
+      for my $i ( 0 .. $#obsPerBlockPerIteration ) {
         print "  ";
-        for my $j ( 0 .. $#{ $obsMapBlock[$i] } ) {
-          print "[$i][$j] $obsMapBlock[$i][$j] ";
+        for my $j ( 0 .. $#{ $obsPerBlockPerIteration[$i] } ) {
+          print "[$i][$j] $obsPerBlockPerIteration[$i][$j] ";
         }
         print "\n";
       }
@@ -490,11 +442,11 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
       $xmlfilename = "$xmlDir/$xmlBasename.xml.$blockid";
     }
     $xmlIteration = $iterationid;
-    my @obsMapBlock = get_obs_map_iteration($iterationid, $xmlfilename, $numberOfLineage);
+    my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
 
     for my $i ( 0 .. $#obsMap ) {
       for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        $obsMapIteration[$i][$j] += $obsMapBlock[$i][$j];
+        $obsMapIteration[$i][$j] += $obsPerBlockPerIteration[$i][$j];
       }
     }
   }
@@ -540,6 +492,19 @@ exit;
 # END OF RUN OF THIS PERL SCRIPT
 ##############################################################
 
+# XML file name is completed by combining the directory name, base name, and
+# block ID. The position of block ID relative to xml file extension is
+# determined by the 4th argument.
+sub makeXMLFilename($$$$) {
+  my ($xmlDir, $xmlBasename, $i, $endblockid) = @_;
+  my $xmlfilename = "$xmlDir/$xmlBasename.$i.xml";
+  if ($endblockid == 1)
+  {
+    $xmlfilename = "$xmlDir/$xmlBasename.xml.$i";
+  }
+  return $xmlfilename;
+}
+
 sub get_exp_map($$)
 {
   my ($infilename, $numElements) = @_;
@@ -569,7 +534,7 @@ sub get_exp_map($$)
   return @expMap;
 }
 
-sub get_obs_map($$)
+sub get_obs_map_iteration($$)
 {
   my ($f, $numElements) = @_;
 
@@ -579,38 +544,9 @@ sub get_obs_map($$)
                        Char => \&characterData,
                        Default => \&default);
 
-  @blockObsMap = ();
-  for (my $j = 0; $j < $numElements; $j++)
-  {
-    my @rowMap = (0) x $numElements;
-    push @blockObsMap, [ @rowMap ];
-  }
+  # @blockObsMap and $itercount are global.
+  @blockObsMap = createSquareMatrix ($numElements);
   $itercount=0;
-
-  my $doc;
-  eval{ $doc = $parser->parsefile($f)};
-  die "Unable to parse XML of $f, error $@\n" if $@;
-  return @blockObsMap;
-}
-
-sub get_obs_map_iteration($$$)
-{
-  my ($iterationid, $f, $numElements) = @_;
-
-  my $parser = new XML::Parser();
-  $parser->setHandlers(Start => \&startElement,
-                       End => \&endElement,
-                       Char => \&characterData,
-                       Default => \&default);
-
-  @blockObsMap = ();
-  for (my $j = 0; $j < $numElements; $j++)
-  {
-    my @rowMap = (0) x $numElements;
-    push @blockObsMap, [ @rowMap ];
-  }
-  $itercount=0;
-
   my $doc;
   eval{ $doc = $parser->parsefile($f)};
   die "Unable to parse XML of $f, error $@\n" if $@;
@@ -675,33 +611,7 @@ sub default {
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter8.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter12.pl -h\' for more information.\nExit program.\n";
     exit(0);
 }
-
-sub getLineNumber {
-    my $file = shift;
-    my $lines = 0;
-    open(FILE,"perl -p -e 's/\r/\n/g' < $file |") or die "ERROR: Could not open file $file: $! \n";
-    $lines += tr/\n/\n/ while sysread(FILE, $_, 2 ** 16);
-    close(FILE);
-    return $lines;
-}
-
-
-sub checkFileFormat {
-    my $file = shift;
-
-    open(FILE,"perl -p -e 's/\r/\n/g' < $file |") or die "ERROR: Could not open file $file: $! \n";
-    while (<FILE>) {
-    }
-    close(FILE);
-
-    my $format = 'map';
-    return $format;
-}
-
-
-
-
 

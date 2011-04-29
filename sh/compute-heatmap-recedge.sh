@@ -1,13 +1,12 @@
 # Author: Sang Chul Choi
-# Date  : Wed Apr 20 11:09:22 EDT 2011
+# Date  : Fri Apr 29 14:38:20 EDT 2011
 
 #trim() { echo $1; }
 
-# Get the observed number of recombinant edges.
+# Computes the heatmap of recombinant edge counts.
 # -------------------------------------------------------
-# This function must be called in the main run.sh. Variables would make sense
-# only in that situtiaon. The funciton alone would not work.
-function heatmap-get-observed {
+# 
+function compute-heatmap-recedge {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
     if [ "$SPECIES" == "" ];  then
@@ -27,7 +26,7 @@ function heatmap-get-observed {
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
 
-      perl pl/extractClonalOriginParameter8.pl \
+      perl pl/extractClonalOriginParameter12.pl \
         -d $RUNCLONALORIGIN/output2/${REPLICATE} \
         -e $RUNCLONALORIGIN/output2/priorcount-${REPLICATE} \
         -endblockid \

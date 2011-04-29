@@ -16,7 +16,7 @@ function analyze-run-clonalorigin2-simulation {
       continue
     elif [ "$SPECIES" == "s10" ] \
          || [ "$SPECIES" == "s11" ] \
-         || [ "$SPECIES" == "sxx" ]; then
+         || [ "$SPECIES" == "s12" ]; then
       SPECIESFILE=species/$SPECIES
       echo -n "  Reading REPETITION from $SPECIESFILE..."
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
@@ -89,6 +89,7 @@ function analyze-run-clonalorigin2-simulation {
           done
         done
       fi
+break
 
       echo -n 'Do you wish to skip dividing true recombination? (y/n) '
       read WANTSKIP
@@ -107,14 +108,13 @@ function analyze-run-clonalorigin2-simulation {
             -xml $DATADIR/core_alignment.xml
         done
       fi 
-      break
 
       extract_heatmap \
         yes \
         $REPLICATE \
         $HOW_MANY_REPETITION \
         core_alignment
-
+      break
 
     elif [ "$SPECIES" == "sxx" ]; then
       SPECIESFILE=species/$SPECIES
