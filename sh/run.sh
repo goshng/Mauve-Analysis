@@ -190,7 +190,7 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 )
+SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 )
 
 ###############################################################################
 # Description of functions
@@ -2799,6 +2799,7 @@ source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
 source sh/recombination-intensity.sh 
 source sh/compute-heatmap-recedge.sh
+source sh/prepare-run-compute-heatmap-recedge.sh
 
 #####################################################################
 # Main part of the script.
@@ -2837,6 +2838,8 @@ CHOICES=( init-file-system \
           compute-prior-count-recedge \
           count-observed-recedge \
           compute-heatmap-recedge \
+          --- RECOMBINATION-COUNT ---\
+          prepare-run-compute-heatmap-recedge \
           --- RECOMBINATION-INTENSITY ---\
           probability-recombination \
           recombination-intensity \
@@ -2946,6 +2949,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "probability-recombination" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-heatmap-recedge" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

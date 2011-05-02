@@ -145,8 +145,8 @@ part is to download the result, and the second part is to do something about it.
 scatter-plot-parameter
 ~~~~~~~~~~~~~~~~~~~~~~
 
-heatmap-compute-prior
-~~~~~~~~~~~~~~~~~~~~~
+compute-prior-count-recedge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Compute the prior expected numbers of recombinant edges given a species tree.
 The clonal origin's companion program called ``gui'' is used. 
 Select your SPECIES, REPETITION, and REPLICATE to choose a proper run from which
@@ -164,6 +164,15 @@ output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
 ----
 output/cornellf/8/run-clonalorigin/output2/priorcount-2/1.txt
 ----
+
+count-observed-recedge
+~~~~~~~~~~~~~~~~~~~~~~
+Only observed recombinant edges are considered.
+
+compute-heatmap-recedge
+~~~~~~~~~~~~~~~~~~~~~~~
+Observed recombinant edges and the prior expected number of recombinant edges
+both are considered.
 
 map-tree-topology
 ~~~~~~~~~~~~~~~~~

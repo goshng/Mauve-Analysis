@@ -9,6 +9,31 @@ Jobs that were done are described for later reference.
 -> means I finished the job.
 ---> means I need to do something about it.
 
+
+Mon May  2 13:48:07 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s12's analysis takes too much time. I have to implement it in the cluster.
+cornellf/8's analysis takes too much time.
+
+.Jobs taking too much time
+---
+perl pl/extractClonalOriginParameter12.pl \
+-d /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/8/run-clonalorigin/output2/2
+-e /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/8/run-clonalorigin/output2/priorcount-2
+-endblockid -n 71 -s 5
+perl pl/extractClonalOriginParameter10.pl \
+-d /Users/goshng/Documents/Projects/mauve-analysis/output/s12/6/run-clonalorigin/output2/1
+-n 71 -s 5 -endblockid
+---
+
+
+Sat Apr 30 11:26:14 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s14's analysis is similar to s12's except that recombinant trees are random.
+--->
+
 Fri Apr 29 13:54:44 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -17,14 +42,19 @@ block configuration. I have two purposes: one for checking as s11, and another
 for comparing the simulation result with the real data. The simulation results
 can be similar to the prior count. I wish to extract any effect of clonal
 origin's inference using simulation.
---->
+-> ClonalOrigin run is done in 1 day.
+-> output/s13/run-analysis/s13-heatmap.txt
+-> output/s13/run-analysis/s13-yes-heatmap.txt
+-> output/s13/run-analysis/1.R.out shows that there are good agreements between
+simulation and the true.
+-> s10, s11, and s13 appear to show that simulations are okay.
+---> Compare it with the real data analysis?
 
 Thu Apr 28 14:14:00 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 I am trying to draft a manuscript.
 --->
-
 
 Wed Apr 27 10:34:40 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +67,7 @@ s11's analysis is being analyzed. Counting recombination events is slow: s11 is
 -> done in 2 days (5 nodes) -> see the result
 output/s11/run-analysis/1.R.out
 
-s12 is executed in CAC.
+s12 is executed in CAC. Actual count of recombinant edges comparison.
 -> done in 2 days (5 nodes) ---> ?
 
 output/cornellf/8/run-clonalorigin/output2/2 is executed. 
@@ -46,7 +76,11 @@ A previous run is saved as
 cornellf/8/run-clonalorigin/output2/2a. The previous run of 2a was executed with
 Burnin/ChainLength/Thin were 1,000,000/10,000,000/100,000. It took less than a
 day.
--> done in 2 days (3 nodes) -> three analyses --->
+-> done in 2 days (3 nodes) -> three analyses 
+1) Heat map of recombination event
+output/cornellf/8/run-analysis/heatmap-recedge-2.txt 
+2) Recombination intensity is not done yet.
+3) Recombination intensity2 is not done yet.
 
 cornellf/3/run-clonalorigin/output2/1 is executed.
 Burnin/ChainLength/Thin are 10,000,000/100,000,000/100,000.
@@ -54,9 +88,11 @@ A previous run is saved as
 cornellf/3/run-clonalorigin/output2/1a. The previous run of 1a was executed with
 Burnin/ChainLength/Thin were 1,000,000/10,000,000/100,000. It took less than a
 day.
--> still running in 2 days (3 nodes)
-... the last 100 jobs were submitted cornellf/3/run-clonalorigin2 (5 nodes)
-... check tomorrow --->
+-> done roughly in 7 days (7 nodes)
+0) Prior expected number of recombinant edges:
+output/cornellf/3/run-clonalorigin/output2/priorcount-1
+1) Heat map of recombination event
+output/cornellf/3/run-analysis/heatmap-recedge-1.txt 
 
 The main analyses should be recoded: counting recombination events, measure of
 recombination intensity (or probability of experiencing recombination events),

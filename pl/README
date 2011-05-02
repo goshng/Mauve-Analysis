@@ -1,6 +1,16 @@
 Perl Scripts used in mauve-analysis
 ===================================
 
+sub-heatmap.pl
+--------------
+Functions for heatmap operation.
+
+read_mean_obs_map
+~~~~~~~~~~~~~~~~~
+Argument 1: a file with a single line .
+Argument 2: size of a heat map.
+Return    : a square matrix of the size.
+
 sub-array.pl
 ------------
 Functions for arrays.
@@ -61,6 +71,19 @@ extractClonalOriginParameter11.pl
 ---------------------------------
 A directory is given that contains Clonal Origin XML output files: e.g.,
 core_co.phase3.1.xml. I subsample recedges across all the blocks. 
+
+extractClonalOriginParameter12.pl
+---------------------------------
+This may be equivalent to 
+extractClonalOriginParameter8.pl. The 8th is used with simulation. The 12-th is
+used in real data analysis. They are actually the same.
+The 12-th can replace 
+extractClonalOriginParameter10.pl due to its obsonly option. 
+Check this out. --->
+
+compute-heatmap-recedge.pl
+--------------------------
+cp extractClonalOriginParameter12.pl compute-heatmap-recedge.pl
 
 report-clonalorigin-job.pl
 --------------------------

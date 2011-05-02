@@ -2,7 +2,7 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: extractClonalOriginParameter12.pl
+#   File: compute-heatmap-recedge.pl
 #   Date: Fri Apr 29 14:54:00 EDT 2011
 #   Version: 1.0
 #===============================================================================
@@ -17,7 +17,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter12.pl 1.0';
+my $VERSION = 'compute-heatmap-recedge.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -32,6 +32,7 @@ GetOptions( \%params,
             'n=i',
             's=i',
             'meanonly',
+            'meanfile=s',
             'xmlbasename=s',
             'endblockid',
             'append',
@@ -43,15 +44,15 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter12.pl - Build a heat map of recombinant edges
+compute-heatmap-recedge.pl - Build a heat map of recombinant edges
 
 =head1 VERSION
 
-extractClonalOriginParameter12.pl 1.0
+compute-heatmap-recedge.pl 1.0
 
 =head1 SYNOPSIS
 
-perl extractClonalOriginParameter12.pl [-h] [-help] [-version] 
+perl compute-heatmap-recedge.pl [-h] [-help] [-version] 
   [-d xml data directory] 
   [-e per-block heat map directory] 
   [-n number of blocks] 
@@ -59,7 +60,9 @@ perl extractClonalOriginParameter12.pl [-h] [-help] [-version]
   [-xmlbasename filename]
   [-endblockid]
   [-obsonly]
+  [-meanonly]
   [-append]
+  [-meanfile an output file from meanonly option]
 
 =head1 DESCRIPTION
 
@@ -76,6 +79,30 @@ latter matrix by the former one element-by-element. For each block
 I follow the computation above to obtain an odd-ratio matrix. 
 For each element over all the blocks I weight it by the length of
 the block to have an average odd-ratio.
+
+Input XML files: <xml directory>/<xml basename>.[blockid] are read. 
+
+Situation 1: I wish to compute the average number of recombinant edges just
+by counting and averaging it by the number of sample size or iterations in the
+ClonalOrigin MCMC XML output.
+
+-meanonly -obsonly
+
+Situation 2: I wish to compute the ratio of average number of recombinant edges
+relative to the prior expected number of recombinant edges.
+
+-meanonly
+
+Situation 3: I wish to compute the average number of recombination and its
+standard deviation across MCMC sample.
+
+-obsonly
+
+Situation 4: I wish to compute the average number of recombination and its
+standard deviation across MCMC sample by considering prior expected number of
+recombinant edges.
+
+Default options (or neither meanonly nor obsonly).
 
 =head1 OPTIONS
 
@@ -99,7 +126,7 @@ Prints status and info messages during processing.
 
 =item B<***** INPUT OPTIONS *****>
 
-=item B<-d> <directory>
+=item B<-d> <xml directory>
 
 A directory that contains the 2nd phase run result from Clonal Origin.
 
@@ -124,6 +151,14 @@ generated.
 =item B<-obsonly>
 
 Prior expected numbers of recombinant edges are ignored.
+
+=item B<-meanonly>
+
+Average numbers of recombinant edges are computed.
+
+=item B<-meanfile> <file>
+
+An output file from meanonly option.
 
 =item B<-endblockid>
 
@@ -151,7 +186,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make extractClonalOriginParameter12.pl better.
+com repository so that I can make compute-heatmap-recedge.pl better.
 
 =head1 COPYRIGHT
 
@@ -175,6 +210,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require "pl/sub-simple-parser.pl";
 require "pl/sub-array.pl";
+require "pl/sub-heatmap.pl";
 sub makeXMLFilename($$$$);
 sub get_exp_map($$);
 sub get_obs_map_iteration($$);
@@ -186,6 +222,7 @@ my $numSpecies;
 
 my $obsonly = 0;
 my $meanonly = 0;
+my $meanfile = "";
 my $append = 0;
 my $check = 0;
 my $xmlBasename = "core_co.phase3";
@@ -236,6 +273,11 @@ if (exists $params{meanonly})
   $meanonly = 1;
 }
 
+if (exists $params{meanfile})
+{
+  $meanfile = $params{meanfile};
+}
+
 if (exists $params{obsonly})
 {
   $obsonly = 1;
@@ -276,9 +318,13 @@ my $xmlIteration;
 ##############################################################
 my $numberOfTaxa = $numSpecies;
 my $numberOfLineage = 2 * $numberOfTaxa - 1;
+my $sizeOfMatrix = $numberOfLineage * $numberOfLineage; 
 my @heatMap = createSquareMatrix ($numberOfLineage);
 my @obsMap = createSquareMatrix ($numberOfLineage);
 my @expMap = createSquareMatrix ($numberOfLineage);
+my @matrixXML;
+my @matrixXMLPerBlock;
+my @matrixXMLPerBlockPerIteration;
 my @blockObsMap;
 my $blockLength;
 my $totalLength;
@@ -324,14 +370,17 @@ if ($check == 1)
 ##############################################################
 # Find the expected number of recombination over all of the blocks.
 ##############################################################
-for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
+if ($obsonly == 0)
 {
-  my $heatfilename = "$heatDir/$blockid.txt";
-  my @expMapBlock = get_exp_map($heatfilename, $numberOfLineage);
+  for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
+  {
+    my $heatfilename = "$heatDir/$blockid.txt";
+    my @expMapBlock = get_exp_map($heatfilename, $numberOfLineage);
 
-  for my $i ( 0 .. $#expMap ) {
-    for my $j ( 0 .. $#{ $expMap[$i] } ) {
-      $expMap[$i][$j] += $expMapBlock[$i][$j];
+    for my $i ( 0 .. $#expMap ) {
+      for my $j ( 0 .. $#{ $expMap[$i] } ) {
+        $expMap[$i][$j] += $expMapBlock[$i][$j];
+      }
     }
   }
 }
@@ -352,15 +401,28 @@ if ($check == 1)
 # and take the ratio of observed with respect to expected.
 # For each of iteration and blocks I count the number of recombinant edges for
 # all of the pairs of species branches. obsMap is the sum of all of the observed
-# recombinant edges over all 
+# recombinant edges over all. 
+#
+# NOTE: Compare it with that of
+# extractClonalOriginParameter12.pl. I do not have a for-loop for iteration.
+#
+# Preparation of a matrix. 
+# ------------------------
+# I need a matrix of size being
+# (number of blocks) x (MCMC sample size) 
+# x (number of species) x (number of species).
+# @matrixXML contains these. The following code could have been done in the mean
+# computation above. I repeat it anyway.
 ##############################################################
-for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
+if ($meanfile eq "")
 {
   for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
   {
     $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
-    $xmlIteration = $iterationid; # Note $xmlIteration is a global.
+    $xmlIteration = -1; # Note $xmlIteration is a global.
+    @matrixXMLPerBlock = ();
     my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
+    push @matrixXML, [ @matrixXMLPerBlock ];
 
     for my $i ( 0 .. $#obsMap ) {
       for my $j ( 0 .. $#{ $obsMap[$i] } ) {
@@ -370,7 +432,6 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
 
     if ($check == 1)
     {
-      print "obsPerBlockPerIteration (Iter: $iterationid - Block: $blockid):\n";
       for my $i ( 0 .. $#obsPerBlockPerIteration ) {
         print "  ";
         for my $j ( 0 .. $#{ $obsPerBlockPerIteration[$i] } ) {
@@ -379,39 +440,32 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
         print "\n";
       }
     }
-    print STDERR "$iterationid - $blockid\r";
+    print STDERR "Block: $blockid\r";
   }
-}
-print STDERR "$iterationid - $blockid - Sample mean - Finished!\n";
+  print STDERR "Sample mean - Finished!\n";
 
-if ($check == 1)
-{
-  print "obsMap before division by sampleSize:\n";
-  for my $i ( 0 .. $#obsMap ) {
-    print "  ";
-    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-      print "[$i][$j] $obsMap[$i][$j] ";
+  if ($check == 1)
+  {
+    print "obsMap before division by sampleSize:\n";
+    for my $i ( 0 .. $#obsMap ) {
+      print "  ";
+      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+        print "[$i][$j] $obsMap[$i][$j] ";
+      }
+      print "\n";
     }
-    print "\n";
   }
-}
-
-for my $i ( 0 .. $#obsMap ) {
-  for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-    $obsMap[$i][$j] /= $sampleSizeFirst;
-  }
-}
-
-if ($check == 1)
-{
-  print "obsMap:\n";
   for my $i ( 0 .. $#obsMap ) {
-    print "  ";
     for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-      print "[$i][$j] $obsMap[$i][$j]";
+      $obsMap[$i][$j] /= $sampleSizeFirst;
     }
-    print "\n";
   }
+
+}
+else
+{
+  # I have to read obsMap only. 
+  @obsMap = read_mean_obs_map($meanfile, $numberOfLineage);
 }
 
 if ($obsonly == 0)
@@ -428,6 +482,15 @@ if ($obsonly == 0)
 
 if ($check == 1)
 {
+  print "obsMap:\n";
+  for my $i ( 0 .. $#obsMap ) {
+    print "  ";
+    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+      print "[$i][$j] $obsMap[$i][$j]";
+    }
+    print "\n";
+  }
+
   print "heatMap:\n";
   for my $i ( 0 .. $#heatMap ) {
     print "  ";
@@ -440,6 +503,90 @@ if ($check == 1)
 
 if ($meanonly == 1)
 {
+  if ($obsonly == 0)
+  {
+    for my $i ( 0 .. $#heatMap ) {
+      for my $j ( 0 .. $#{ $heatMap[$i] } ) {
+        unless ($i == 0 and $j == 0) {
+          print "\t";
+        }
+        print $heatMap[$i][$j];
+      }
+    }
+    print "\n";
+  }
+  else
+  {
+    for my $i ( 0 .. $#obsMap ) {
+      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+        unless ($i == 0 and $j == 0) {
+          print "\t";
+        }
+        print $obsMap[$i][$j];
+      }
+    }
+    print "\n";
+  }
+  exit;
+}
+
+############################################################
+# Compute the sample variance.
+############################################################
+my @heatVarMap = createSquareMatrix ($numberOfLineage);
+my @obsVarMap = createSquareMatrix ($numberOfLineage);
+
+for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
+{
+  my @obsMapIteration = createSquareMatrix ($numberOfLineage);
+
+  for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
+  {
+    for my $i ( 0 .. $#obsMap ) {
+      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+        $obsMapIteration[$i][$j] += $matrixXML[$blockid - 1][$iterationid - 1][$i][$j];
+      }
+    }
+    print STDERR "$iterationid - $blockid\r"
+  }
+
+  for my $i ( 0 .. $#obsVarMap ) {
+    for my $j ( 0 .. $#{ $obsVarMap[$i] } ) {
+      my $v = $obsMapIteration[$i][$j] - $obsMap[$i][$j];
+      $obsVarMap[$i][$j] += ($v * $v);
+    }
+  }
+}
+print STDERR "Sample variance - Finished!\n";
+
+for my $i ( 0 .. $#obsVarMap ) {
+  for my $j ( 0 .. $#{ $obsVarMap[$i] } ) {
+    $obsVarMap[$i][$j] /= $sampleSizeFirst;
+  }
+}
+
+for my $i ( 0 .. $#heatVarMap ) {
+  for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
+    if ($obsonly == 0)
+    {
+      if ($expMap[$i][$j] > 0)
+      {
+        $heatVarMap[$i][$j] = sqrt ($obsVarMap[$i][$j]) / $expMap[$i][$j];
+      }
+    }
+    else
+    {
+      $obsVarMap[$i][$j] = sqrt ($obsVarMap[$i][$j]);
+    }
+  }
+}
+
+##############################################################
+# Print the resulting heat map.
+##############################################################
+
+if ($obsonly == 0)
+{
   for my $i ( 0 .. $#heatMap ) {
     for my $j ( 0 .. $#{ $heatMap[$i] } ) {
       unless ($i == 0 and $j == 0) {
@@ -448,76 +595,32 @@ if ($meanonly == 1)
       print $heatMap[$i][$j];
     }
   }
-  print "\n";
-  exit;
-}
-
-############################################################
-# Compute the sample variance.
-############################################################
-my @heatVarMap = createSquareMatrix ($numberOfLineage);
-
-for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
-{
-  my @obsMapIteration = createSquareMatrix ($numberOfLineage);
-
-  for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-  {
-    $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
-    $xmlIteration = $iterationid;
-    my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
-
-    for my $i ( 0 .. $#obsMap ) {
-      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        $obsMapIteration[$i][$j] += $obsPerBlockPerIteration[$i][$j];
-      }
-    }
-    print STDERR "$iterationid - $blockid\r"
-  }
-
   for my $i ( 0 .. $#heatVarMap ) {
     for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-      my $v = $obsMapIteration[$i][$j] - $obsMap[$i][$j];
-      $heatVarMap[$i][$j] += ($v * $v);
-    }
-  }
-}
-print STDERR "$iterationid - $blockid - Sample variance - Finished!\n"
-
-for my $i ( 0 .. $#heatVarMap ) {
-  for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-    if ($expMap[$i][$j] > 0)
-    {
-      if ($obsonly == 0)
-      {
-        $heatVarMap[$i][$j] = sqrt ($heatVarMap[$i][$j]/$sampleSizeFirst) / $expMap[$i][$j];
-      }
-      else
-      {
-        $heatVarMap[$i][$j] = sqrt ($heatVarMap[$i][$j]/$sampleSizeFirst);
-      }
-    }
-  }
-}
-
-##############################################################
-# Print the resulting heat map.
-##############################################################
-for my $i ( 0 .. $#heatMap ) {
-  for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-    unless ($i == 0 and $j == 0) {
       print "\t";
+      print $heatVarMap[$i][$j];
     }
-    print $heatMap[$i][$j];
   }
+  print "\n";
 }
-for my $i ( 0 .. $#heatVarMap ) {
-  for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-    print "\t";
-    print $heatVarMap[$i][$j];
+else
+{
+  for my $i ( 0 .. $#obsMap ) {
+    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+      unless ($i == 0 and $j == 0) {
+        print "\t";
+      }
+      print $obsMap[$i][$j];
+    }
   }
+  for my $i ( 0 .. $#obsVarMap ) {
+    for my $j ( 0 .. $#{ $obsVarMap[$i] } ) {
+      print "\t";
+      print $obsVarMap[$i][$j];
+    }
+  }
+  print "\n";
 }
-print "\n";
 
 exit;
 ##############################################################
@@ -592,6 +695,7 @@ sub startElement {
   SWITCH: {
     if ($element eq "Iteration") {
       $itercount++;
+      @matrixXMLPerBlockPerIteration = createSquareMatrix ($numberOfLineage);
       last SWITCH;
     }
   }
@@ -609,9 +713,15 @@ sub endElement {
 
   if ($elt eq "recedge")
   {
-    if ($xmlIteration == $itercount) {
+    if ($xmlIteration == -1 or $xmlIteration == $itercount) {
       $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
     }
+    $matrixXMLPerBlockPerIteration[$recedge{efrom}][$recedge{eto}]++;
+  }
+
+  if ($elt eq "Iteration")
+  {
+    push @matrixXMLPerBlock, [ @matrixXMLPerBlockPerIteration ];
   }
   
   $tag = "";
@@ -640,6 +750,6 @@ sub default {
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter12.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'compute-heatmap-recedge.pl -h\' for more information.\nExit program.\n";
     exit(0);
 }
