@@ -27,6 +27,13 @@ Argument 2: Size of the square matrix.
 Return    : None.
 Print     : The square matrix.
 
+create3DMatrix 
+~~~~~~~~~~~~~~
+Argument 1: Size of the 1st dimension.
+Argument 2: Size of the 2nd dimension.
+Argument 3: Size of the 3rd dimension.
+Return    : The matrix.
+
 sub-simple-parser.pl
 --------------------
 Some simple Clonal Origin XML parser functions.
@@ -35,6 +42,11 @@ get_block_length($)
 ~~~~~~~~~~~~~~~~~~~
 Argument 1: A Clonal Origin XML file.
 Return: Length of the block of the XML file.
+
+get_length_all_blocks
+~~~~~~~~~~~~~~~~~~~~~
+Argument 1: Base name of ClonalOrigin XML files.
+Return: Total length of blocks.
 
 get_sample_size($)
 ~~~~~~~~~~~~~~~~~~

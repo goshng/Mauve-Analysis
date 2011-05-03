@@ -354,22 +354,7 @@ exit;
 ################################################################################
 #
 
-# Get length of all of the blocks.
-sub get_length_all_blocks ($)
-{
-  my ($prefix) = @_;
-  my $r = 0;
-  my $blockID = 1;
-  my $f = "$prefix.$blockID";
-  while (-e $f)
-  {
-    $r += get_block_length ($f);
-    $blockID++;
-    $f = "$prefix.$blockID";
-  }
-  $blockID--;
-  return $r; 
-}
+
 
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;

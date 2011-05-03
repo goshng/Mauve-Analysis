@@ -8,7 +8,6 @@ sub get_number_leave ($)
   my ($newickTree) = @_;
   my $r = 0;
   my $s = $newickTree;
-  print $s, "\n";
   my @elements = split (/[\(\),]/, $s);
   for (my $i = 0; $i <= $#elements; $i++)
   {

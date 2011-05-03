@@ -28,7 +28,7 @@ function heatmap-compute {
       PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${REPLICATE}
       mkdir $PRIORCOUNTDIR
 
-      echo -n "Computing heat map for the blocks ... "
+      echo "Computing heat map for the blocks ... "
       for i in $(eval echo {1..$NUMBER_BLOCK}); do
         if [ -f "$RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.$i" ]; then
           # Compute prior expected number of recedges.
@@ -39,9 +39,9 @@ function heatmap-compute {
         else
           echo "Block: $i was not found" 1>&2
         fi
-        echo -ne "Block: $i\r";
+        echo -ne "  Block: $i\r";
       done 
-      echo -ne "Block: $i - Finished!\n";
+      echo -ne "$i Block - Finished!\n";
       break
     fi
   done

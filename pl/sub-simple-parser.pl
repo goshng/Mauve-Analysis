@@ -24,6 +24,23 @@ sub get_block_length($) {
   return $v;
 }
 
+# Get length of all of the blocks.
+sub get_length_all_blocks ($)
+{
+  my ($prefix) = @_;
+  my $r = 0;
+  my $blockID = 1;
+  my $f = "$prefix.$blockID";
+  while (-e $f)
+  {
+    $r += get_block_length ($f);
+    $blockID++;
+    $f = "$prefix.$blockID";
+  }
+  $blockID--;
+  return $r; 
+}
+
 sub get_sample_size($) {
   my ($f) = @_;
   my $v = 0;
@@ -59,5 +76,14 @@ sub get_species_tree ($)
   return $r;
 }
 
+sub get_genome_length ($)
+{
+  my ($f) = @_;
+  open GENBANK, $f or die "$f could not be opened";
+  my $l = <GENBANK>;
+  my @e = split /\s+/, $l;
+  close GENBANK;
+  return $e[2];
+}
 
 1;

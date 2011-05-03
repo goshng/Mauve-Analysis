@@ -17,7 +17,9 @@ function analyze-run-clonalorigin2-simulation {
     elif [ "$SPECIES" == "s10" ] \
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s12" ] \
-         || [ "$SPECIES" == "s13" ]; then
+         || [ "$SPECIES" == "s13" ] \
+         || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "sxx" ]; then
       SPECIESFILE=species/$SPECIES
       echo -n "  Reading REPETITION from $SPECIESFILE..."
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
@@ -70,18 +72,21 @@ function analyze-run-clonalorigin2-simulation {
 
             # Files that we need to compare.
             if [ "$g" == 1 ] && [ "$REPLICATE" == 1 ]; then
-              perl pl/extractClonalOriginParameter10.pl \
+              #perl pl/extractClonalOriginParameter10.pl \
+              perl pl/compute-heatmap-recedge.pl \
                 -d $RUNCLONALORIGIN/output2/$REPLICATE \
                 -n $NUMBER_BLOCK \
                 -s $NUMBER_SPECIES \
+                -obsonly \
                 -endblockid \
                 > $BASERUNANALYSIS/$SPECIES-heatmap.txt
               echo "Creating $BASERUNANALYSIS/$SPECIES-heatmap.txt"
             else
-              perl pl/extractClonalOriginParameter10.pl \
+              perl pl/compute-heatmap-recedge.pl \
                 -d $RUNCLONALORIGIN/output2/$REPLICATE \
                 -n $NUMBER_BLOCK \
                 -s $NUMBER_SPECIES \
+                -obsonly \
                 -endblockid \
                 >> $BASERUNANALYSIS/$SPECIES-heatmap.txt
               echo "Appending $BASERUNANALYSIS/$SPECIES-heatmap.txt"
@@ -152,19 +157,23 @@ function extract_heatmap {
 
     # Files that we need to compare.
     if [ "$g" == 1 ]; then
-      perl pl/extractClonalOriginParameter10.pl \
+      #perl pl/extractClonalOriginParameter10.pl \
+      perl pl/compute-heatmap-recedge.pl \
         -d $XMLBASE \
         -n $NUMBER_BLOCK \
         -s $NUMBER_SPECIES \
         -endblockid \
+        -obsonly \
         -xmlbasename $XMLFILEBASE \
         > $BASERUNANALYSIS/$SPECIES-$ISTRUE-heatmap.txt
     else
-      perl pl/extractClonalOriginParameter10.pl \
+      #perl pl/extractClonalOriginParameter10.pl \
+      perl pl/compute-heatmap-recedge.pl \
         -d $XMLBASE \
         -n $NUMBER_BLOCK \
         -s $NUMBER_SPECIES \
         -endblockid \
+        -obsonly \
         -xmlbasename $XMLFILEBASE \
         >> $BASERUNANALYSIS/$SPECIES-$ISTRUE-heatmap.txt
       fi

@@ -216,7 +216,7 @@ sub get_exp_map($$);
 sub get_obs_map_iteration($$);
 
 my $xmlDir;
-my $heatDir;
+my $heatDir = "";
 my $numBlocks;
 my $numSpecies;
 
@@ -240,9 +240,14 @@ if (exists $params{e})
 {
   $heatDir = $params{e};
 }
-else
+
+if (exists $params{obsonly})
 {
-  &printError("you did not specify a directory that contains prior number of recombination");
+  $obsonly = 1;
+  unless ($heatDir eq "")
+  {
+    &printError("obsonly is used without -e option");
+  }
 }
 
 if (exists $params{n})
@@ -276,11 +281,6 @@ if (exists $params{meanonly})
 if (exists $params{meanfile})
 {
   $meanfile = $params{meanfile};
-}
-
-if (exists $params{obsonly})
-{
-  $obsonly = 1;
 }
 
 if (exists $params{check})

@@ -22,20 +22,20 @@ function heatmap-get-observed {
       set-more-global-variable $SPECIES $REPETITION
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
-      NUMBER_SPECIES=$(echo `grep gbk SPECIESFILE|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
       echo -e "The number of blocks is $NUMBER_BLOCK."
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
 
-      perl pl/extractClonalOriginParameter12.pl \
+      #perl pl/extractClonalOriginParameter12.pl \
+      perl pl/compute-heatmap-recedge.pl \
         -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-        -e $RUNCLONALORIGIN/output2/priorcount-${REPLICATE} \
         -endblockid \
         -obsonly \
         -n $NUMBER_BLOCK \
         -s $NUMBER_SPECIES \
-        > $RUNANALYSIS/obsonly-recedge.txt
-      echo "Check file $RUNANALYSIS/obsonly-recedge.txt"
+        > $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
+      echo "Check file $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt"
       break
     fi
   done

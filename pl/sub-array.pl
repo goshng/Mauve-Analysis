@@ -22,4 +22,21 @@ sub printSquareMatrix {
   }
 }
 
+sub create3DMatrix {
+  my ($d1, $d2, $d3) = @_;
+
+  my @m;
+  for (my $i = 0; $i < $d1; $i++)
+  {
+    my @mapPerLineage;
+    for (my $j = 0; $j < $d2; $j++)
+    {
+      my @asinglemap = (0) x ($d3);
+      push @mapPerLineage, [ @asinglemap ];
+    }
+    push @m, [ @mapPerLineage ];
+  }
+  return @m;
+}
+
 1;

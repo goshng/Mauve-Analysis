@@ -15,11 +15,17 @@ function recombination-intensity {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
+      NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)  
+      echo -e "  The number of blocks is $NUMBER_BLOCK."
+       
+      
       echo perl pl/recombination-intensity4.pl \
-        -d $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+        -d $RUNCLONALORIGIN/output2/${REPLICATE} \
         -xmfa $DATADIR/core_alignment.xmfa \
+        -speciesfile species/$SPECIES \
+        -genomedir $GENOMEDATADIR \
         -r 1 \
-        -coords simulation/sde1.coords.txt \
+        -numberblock $NUMBER_BLOCK \
         $RUNANALYSIS/recombination-intensity.txt
         #> $RUNANALYSIS/recombination-intensity.txt
       break
