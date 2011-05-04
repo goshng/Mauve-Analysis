@@ -103,6 +103,7 @@ public:
 // Tests:
     void testEdges() const;///<Tests recedges arrive in between the ages of the nodes they go to
     void testTree();///<Checks ages increase in the tree for all sites.
+    void rankLocalTree(std::ostream * out);///<Find all of the local gene trees.
     inline bool sameLocalTreeAsPrev(unsigned int site) const
     {
         return sameLTasPrev[site];
@@ -193,6 +194,34 @@ public:
 // Information functions
     std::vector<std::vector<double> > pairwiseDistanceMatrix(long site);///< returns a pairwise distance matrix for a given site
 
+};
+
+class RankTree {
+public:
+    class Y {
+    public:
+        Y *left; 
+        Y *right; 
+        Y *down; 
+        unsigned int edgeID;
+        unsigned int nodeID;
+        Y() {left = NULL; right = NULL; down = NULL;}
+    };
+
+    RankTree () {rank = 0; root = NULL;}
+    ~RankTree (); 
+    void set (std::vector<std::vector<int> >&, int);
+    void inorderTraverse (Y*);
+
+    unsigned int getRank ()
+    {
+        return rank;
+    }
+private:
+    int nt;
+    unsigned int rank; 
+    Y **a;
+    Y *root;
 };
 
 } // end namespace weakarg

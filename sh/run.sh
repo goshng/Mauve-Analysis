@@ -2798,6 +2798,7 @@ source sh/prepare-run-2nd-clonalorigin.sh
 source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
 source sh/recombination-intensity.sh 
+source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
 
@@ -2950,6 +2951,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "recombination-intensity" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

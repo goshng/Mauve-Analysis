@@ -872,6 +872,144 @@ void RecTree::testEdges() const
     }
 }
 
+// Sang Chul Choi: tabSons is the variable that I need to consider to find the
+// rank of a local tree.
+void RecTree::rankLocalTree(std::ostream * out)
+{
+    for(unsigned int site =0; site<L; site++)
+    {
+        makeLocalTree(site,1.0);
+        // Use the fact that tree topology can change only around recedge
+        // boundaries.
+        // Convert tabSons to an n-tuple.
+        // (3, 15, 105, 945, 10395, 135135, 2027025, 34459425), 654729075
+        // I use an inorder traverse of a tree.
+        // 1. Build a tree using tabSons.
+        // 2. Inorder-traverse the tree to set numbers to edges and preorder the
+        // tips of the tree.
+        
+        //*out < tabSons[i][isLeft];
+        //std::cout << "tabSons size: " << tabSons.size() << endl;
+        //std::cout << "tabFather size: " << tabFather.size() << endl;
+        //std::cout << "node\tson1\tson2\n";
+        //for (int i=0; i<2*n-1; i++)
+        //{
+           //std::cout << i << "\t" << tabSons[i][0] << "\t" <<  tabSons[i][1]<< endl;
+        //}
+        // This 2n-1 by 2 matrix can be converted to a rank.
+        RankTree *rt = new RankTree(); 
+        rt->set (tabSons, n);
+        if (site > 0)
+        {
+           *out << "\t";
+        }
+        unsigned int rank = rt->getRank ();
+        std::cout << rank;
+        delete rt;
+        rt = NULL;
+        break;
+    }
+    *out << endl;
+}
+
+// 0       0       0
+// 1       0       0
+// 2       0       0
+// 3       0       0
+// 4       0       0
+// 5       1       2
+// 6       3       5
+// 7       6       0
+// 8       4       7
+void RankTree::set (std::vector<std::vector<int> > &m, int n)
+{
+  nt = n;
+  int l = 2 * n - 1;
+  a = new Y * [l];
+  for (int i = 0; i < l; i++)
+  {
+    a[i] = new Y;
+  }
+  for (int i = 0; i < nt; i++)
+  {
+    Y *node = a[i];
+    node->nodeID = i;
+  }
+
+  for (int i = nt; i < l; i++)
+  {
+    int left = m[i][0];
+    int right = m[i][1];
+    Y *node = a[i];
+    node->nodeID = i;
+    node->left = a[left];
+    node->right = a[right];
+
+    Y *leftNode = a[left];
+    Y *rightNode = a[right];
+    leftNode->down = node; 
+    rightNode->down = node; 
+  }
+
+  // Find the root.
+  for (int i = nt - 1; i >= 0; i--)
+  {
+    Y *node = a[i];
+    if (node->down == NULL)
+    { 
+      root = node;
+      break;
+    }
+    node->nodeID = i;
+  }
+
+  // Inorder-Traverse.
+  // 1. Tip nodes are ordered.
+  // 2. Edges are numbered.
+  
+ 
+}
+
+void RankTree::inorderTraverse (Y* p)
+{
+  if (p->left == NULL)
+  {
+  }
+  else
+  {
+    inorderTraverse (p->left);
+  }
+
+  if (p->right == NULL)
+  {
+  }
+  else
+  {
+    inorderTraverse (p->right);
+  }
+
+  // Left's minimum must be smaller than right's.
+  if (p->left->nodeID > p->right->nodeID)
+  {
+    Y* t = p->left;
+    p->left = p->right;
+    p->right = t; 
+  }
+
+
+}
+
+RankTree::~RankTree ()
+{
+  int l = 2 * nt - 1;
+  for (int i = 0; i < l; i++)
+  {
+    delete a[i]; 
+    a[i] = NULL;
+  } 
+  delete [] a;
+}
+
 void RecTree::testTree()
 {
     dlog(1)<<"Testing tree"<<endl;

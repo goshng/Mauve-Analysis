@@ -18,16 +18,15 @@ function recombination-intensity {
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)  
       echo -e "  The number of blocks is $NUMBER_BLOCK."
        
-      
-      echo perl pl/recombination-intensity4.pl \
+      perl pl/recombination-intensity4.pl \
         -d $RUNCLONALORIGIN/output2/${REPLICATE} \
         -xmfa $DATADIR/core_alignment.xmfa \
         -speciesfile species/$SPECIES \
         -genomedir $GENOMEDATADIR \
         -r 1 \
+        -verbose \
         -numberblock $NUMBER_BLOCK \
-        $RUNANALYSIS/recombination-intensity.txt
-        #> $RUNANALYSIS/recombination-intensity.txt
+        > $RUNANALYSIS/recombination-intensity-${REPLICATE}.txt
       break
     fi
   done

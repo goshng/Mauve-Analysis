@@ -95,6 +95,10 @@ static const char * help=
                   A base name of output file names. (default: out)\n\
                   For example, an alignment file name is the output \n\
                   file base name suffixed \".xmfa\".\n\
+    --gene-tree\n\
+                  Gene trees for all of iteration and site are exported.\n\
+    --block-length\n\
+                  Length of a block (used with --gene-tree)\n\
     -o FILE       Export the data to the given file in XMFA format\n\
     -c FILE       Export the clonal genealogy to the given file in the Newick format (cf. below)\n\
     -l FILE       Export the local trees to the given file in the seq-gen format (cf. below)\n\
@@ -136,6 +140,8 @@ enum { OPT_HELP,
        OPT_OUT_FILE,
        OPT_TREE_FILE,
        OPT_XML_FILE,
+       OPT_BLOCK_LENGTH,
+       OPT_GENE_TREE,
        OPT_NUMBER_DATA,
        OPT_OUTPUT_FILE,
        OPT_CLONALTREE_FILE,
@@ -192,6 +198,12 @@ CSimpleOpt::SOption g_rgOptions[] = {
     {   OPT_LOCALTREE_FILE,
         "-l", SO_REQ_SEP
     }, // "-l ARG"
+    {   OPT_BLOCK_LENGTH,
+        "--block-length", SO_REQ_SEP
+    },    // "-a"
+    {   OPT_GENE_TREE,
+        "--gene-tree", SO_NONE
+    },    // "-a"
     //{ OPT_DOT_FILE,
     //"-d", SO_REQ_SEP }, // "-d ARG"
     {   OPT_INCLUDE_ANCESTRAL_MATERIAL,
@@ -248,6 +260,8 @@ int main(int argc, char *argv[])
     bool includeAncestralMaterial = false;
     opt().outfile = "out";
     char * optarg;
+    bool exportGenetree = false;
+    int blockLength; 
 
     //int n = 5;
     //double theta = 100.0;
@@ -318,6 +332,12 @@ int main(int argc, char *argv[])
             case OPT_XML_FILE:
                 xmlFilename = args.OptionArg();
                 break;
+            case OPT_BLOCK_LENGTH:
+                blockLength = strtol (args.OptionArg(), NULL, 10);
+                break;
+            case OPT_GENE_TREE:
+                exportGenetree = true;
+                break;
             case OPT_NUMBER_DATA:
                 numberData = strtoul (args.OptionArg(), NULL, 10);
                 break;
@@ -348,15 +368,23 @@ int main(int argc, char *argv[])
     /**
      * A list of lengths of blocks is given.
      */
-    blocks = readBlock (blockFilename);
-    int totalLengthBlock = blocks.back();
-    if (opt().rhoPerSite == true)
+    int totalLengthBlock;
+    if (exportGenetree == false)
     {
-        simparrho *= totalLengthBlock;
+        blocks = readBlock (blockFilename);
+        totalLengthBlock = blocks.back();
+        if (opt().rhoPerSite == true)
+        {
+            simparrho *= totalLengthBlock;
+        }
+        if (opt().thetaPerSite == true)
+        {
+            simpartheta *= totalLengthBlock;
+        }
     }
-    if (opt().thetaPerSite == true)
+    else
     {
-        simpartheta *= totalLengthBlock;
+      totalLengthBlock = blockLength;
     }
 
 
@@ -381,33 +409,47 @@ int main(int argc, char *argv[])
 
     dlog(1)<<"Initiating parameter"<<endl;
     p=Param(rectree,NULL);
-    dlog(1)<<"Simulating data..."<<endl;
-    p.setTheta(simpartheta);
-    for (unsigned long i = 1; i <= numberData; i++) 
+
+    if (exportGenetree == false)
     {
-      p.simulateData(blocks);
-      //p.setTheta(-1.0);
-      data=p.getData();
-      std::stringstream ss;
-      ss << "." << i << ".xmfa";
+      dlog(1)<<"Simulating data..."<<endl;
+      p.setTheta(simpartheta);
+      for (unsigned long i = 1; i <= numberData; i++) 
+      {
+        p.simulateData(blocks);
+        //p.setTheta(-1.0);
+        data=p.getData();
+        std::stringstream ss;
+        ss << "." << i << ".xmfa";
 
-      string dataFilename = opt().outfile + ss.str();
+        string dataFilename = opt().outfile + ss.str();
 
+        ofstream dat;
+        dat.open(dataFilename.data());
+        data->output(&dat);
+        dat.close();
+      }
+      string trueFilename = opt().outfile + ".xml";
+      ofstream tru;
+      tru.open(trueFilename.data());
+      p.setRho(simparrho);
+      p.setTheta(simpartheta);
+      p.setDelta(simpardelta);
+      p.exportXMLbegin(tru,comment);
+      p.exportXMLiter(tru);
+      p.exportXMLend(tru);
+      tru.close();
+
+    }
+    else
+    {
+      // Export gene trees.
+      string dataFilename = opt().outfile;
       ofstream dat;
       dat.open(dataFilename.data());
-      data->output(&dat);
+      rectree->rankLocalTree(&dat);
       dat.close();
     }
-    string trueFilename = opt().outfile + ".xml";
-    ofstream tru;
-    tru.open(trueFilename.data());
-    p.setRho(simparrho);
-    p.setTheta(simpartheta);
-    p.setDelta(simpardelta);
-    p.exportXMLbegin(tru,comment);
-    p.exportXMLiter(tru);
-    p.exportXMLend(tru);
-    tru.close();
 
     dlog(1)<<"Cleaning up..."<<endl;
     if(p.getRecTree()) delete(p.getRecTree());
@@ -417,139 +459,6 @@ int main(int argc, char *argv[])
     endmpi();
     return 0;
 }
-
-#ifdef SIMMLSTMAIN
-int
-main (int argc, char * argv[])
-{
-    int n = 5;
-    double theta = 100.0;
-    double rho = 100.0;
-    double delta = 500;
-    string blockArg("400,400,400");
-    int randomSeed = -1;
-    const char * dataFilename = "1.fa";
-    const char * localtreeFilename = "1lt.tre";
-    const char * globaltreeFilename = "1gt.tre";
-    const char * dotFilename = "1.dot";
-    bool includeAncestralMaterial = false;
-
-    CSimpleOpt args(argc, argv, g_rgOptions);
-    while (args.Next()) {
-        if (args.LastError() == SO_SUCCESS) {
-            switch (args.OptionId())
-            {
-            case OPT_HELP:
-                ShowUsage();
-                return 0;
-                break;
-            case OPT_NUM_ISOLATES:
-                n = strtol (args.OptionArg(), NULL, 10);
-                break;
-            case OPT_THETA:
-                theta = strtod (args.OptionArg(), NULL);
-                break;
-            case OPT_RHO:
-                rho = strtod (args.OptionArg(), NULL);
-                break;
-            case OPT_DELTA:
-                delta = strtol (args.OptionArg(), NULL, 10);
-                break;
-            case OPT_LENGTH_FRAGMENT:
-                blockArg = args.OptionArg();
-                break;
-            case OPT_RANDOM:
-                seed = strtoul (args.OptionArg(), NULL, 10);
-                break;
-            case OPT_OUTPUT_FILE:
-                opt().outfile = args.OptionArg();
-                break;
-            case OPT_CLONALTREE_FILE:
-                opt().treefile = args.OptionArg();
-                break;
-            case OPT_LOCALTREE_FILE:
-                opt().localtreefile = args.OptionArg();
-                break;
-                //case OPT_DOT_FILE:
-                //dotFilename = args.OptionArg();
-                //break;
-            case OPT_INCLUDE_ANCESTRAL_MATERIAL:
-                includeAncestralMaterial = true;
-                break;
-            }
-        }
-        else {
-            // handle error (see the error codes - enum ESOError)
-            printf ("Invalid argument: %s\n", args.OptionText());
-            return 1;
-        }
-    }
-
-    /*
-      printf ("n = %d\n", n);
-      printf ("theta = %lf\n", theta);
-      printf ("rho = %lf\n", rho);
-      printf ("delta = %lf\n", delta);
-      printf ("block = %s\n", blockArg.c_str());
-      printf ("data file = %s\n", dataFilename);
-      printf ("local tree file = %s\n", localtreeFilename);
-      printf ("global tree file = %s\n", globaltreeFilename);
-      printf ("dot file = %s\n", dotFilename);
-      printf ("anc = %d\n", includeAncestralMaterial);
-    */
-
-    if (randomSeed == -1) {
-        makerng();
-    } else {
-        rng=gsl_rng_alloc(gsl_rng_default);
-        gsl_rng_set(rng, randomSeed);
-    }
-
-    vector<int> blocks=Arg::makeBlocks(blockArg);
-    PopSize * popsize=NULL;
-
-    //Interpret population size model
-
-    //if (popsize!=NULL) popsize->show();
-    //Build the ARG
-    Arg * arg=new Arg(n,rho,delta,blocks,popsize);
-    //Build the data and export it
-    if (1) {
-        Data * data=arg->drawData(theta);
-        ofstream dat;
-        dat.open(dataFilename);
-        data->output(&dat);
-        dat.close();
-        delete(data);
-    }
-    //Extract the local trees and export them
-    if (1) {
-        ofstream lf;
-        lf.open(localtreeFilename);
-        arg->outputLOCAL(&lf);
-        lf.close();
-    }
-    //Extract the clonal genealogy and export it
-    if (1) {
-        string truth=arg->extractCG();
-        ofstream tru;
-        tru.open(globaltreeFilename);
-        tru<<truth<<endl;
-        tru.close();
-    }
-    //Export to DOT format
-    if (1) {
-        ofstream dot;
-        dot.open(dotFilename);
-        arg->outputDOT(&dot,true);
-        dot.close();
-    }
-    delete(arg);
-    cout << "Simulate!\n";
-}
-#endif
-///////////////////////////////////////////////////////////////////////
-
 
 namespace weakarg
 {

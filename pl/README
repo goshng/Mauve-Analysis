@@ -1,6 +1,12 @@
 Perl Scripts used in mauve-analysis
 ===================================
 
+splitCOXMLPerIteration.pl
+-------------------------
+map-tree-topology menu is used.
+extractClonalOriginParameter11.pl is used as a starting point of coding.
+
+
 sub-heatmap.pl
 --------------
 Functions for heatmap operation.
@@ -105,6 +111,11 @@ be desirable to have all of the jobs finished, some jobs may not be finished
 practically.
 I need to check output files of clonal origin if files conform to clonal
 origin's output format.
+
+map-tree-topology.pl
+--------------------
+For each site of a genome that corresponds to a column of a block alignment I
+find the gene tree for which I identify its tree topology.
 
 README
 blocksplit.pl

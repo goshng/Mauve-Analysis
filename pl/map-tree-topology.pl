@@ -2,16 +2,16 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: recombination-intensity4.pl
+#   File: map-tree-topology.pl
 #   Date: Tue May  3 09:22:29 EDT 2011
 #   Version: 1.0
 #
 #   Usage:
-#      perl recombination-intensity4.pl [options]
+#      perl map-tree-topology.pl [options]
 #
-#      Try 'perl recombination-intensity4.pl -h' for more information.
+#      Try 'perl map-tree-topology.pl -h' for more information.
 #
-#   Purpose: recombination-intensity4.pl help you compute recombinant edge counts
+#   Purpose: map-tree-topology.pl help you compute recombinant edge counts
 #            along a genome. I order all the alignment blocks with respect to
 #            one of genomes. I would use the first genome in the alignment. I
 #            need to use the species tree that is in the clonal origin output
@@ -49,7 +49,7 @@ use Pod::Usage;
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'recombination-intensity4.pl 1.0';
+my $VERSION = 'map-tree-topology.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -73,15 +73,15 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-recombination-intensity4.pl - Compute recombination intensity along the genome.
+map-tree-topology.pl - Compute recombination intensity along the genome.
 
 =head1 VERSION
 
-recombination-intensity4.pl 1.0
+map-tree-topology.pl 1.0
 
 =head1 SYNOPSIS
 
-perl recombination-intensity4.pl [-h] [-help] [-version] 
+perl map-tree-topology.pl [-h] [-help] [-version] 
   [-d xml data directory] 
   [-xmfa genome alignment] 
   [-r reference genome ID] 
@@ -159,7 +159,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make recombination-intensity4.pl better.
+com repository so that I can make map-tree-topology.pl better.
 
 =head1 COPYRIGHT
 
@@ -567,7 +567,7 @@ sub get_genome_file ($$)
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'recombination-intensity4.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'map-tree-topology.pl -h\' for more information.\nExit program.\n";
     exit(0);
 }
 

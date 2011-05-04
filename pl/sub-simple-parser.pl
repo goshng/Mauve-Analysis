@@ -56,6 +56,23 @@ sub get_sample_size($) {
   return $v;
 }
 
+sub get_header_coxml ($) {
+  my ($f) = @_;
+  my $v = "";
+  my $l;
+  open IN, $f or die "$!: $f is not found";
+  while ($l = <IN>)
+  {
+    if (/^<Iteration>/)
+    {
+      last;
+    }
+    $v .= $l;
+  }
+  close IN;
+  return $v;
+}
+
 # Get the species tree of a block.
 sub get_species_tree ($)
 {
