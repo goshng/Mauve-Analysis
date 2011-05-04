@@ -9,6 +9,43 @@ Jobs that were done are described for later reference.
 -> means I finished the job.
 ---> means I need to do something about it.
 
+
+Wed May  4 13:52:05 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s10, s11, s13 will be used for testing recombination intesnity. What is a better
+name for recombination intensity? 
+
+s10's recombination intensity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.The true recombinant tree
+. output/s10/1/data/core_alignment.xml.1 
+
+.The 100 simulated sequence data given the true recombinant tree
+. output/s10/1/data/core_alignment.1.xmfa.1   
+
+.The 100 clonal origin XML files
+. output/s10/1/run-clonalorigin/output2/1/core_co.phase3.xml.1
+
+pl/recombination-intensity4.pl is the current perl script that extracts
+recombination intensity. I could use that.
+
+.Perl script of checking simulation for recombination intensity
+----
+cp pl/recombination-intensity4.pl pl/analyze-run-clonalorigin2-simulation2.pl
+----
+
+map-tree-topology menu is almost working:
+output/cornellf/8/run-clonalorigin/output2/2 is used as a test.
+--->
+
+To Do for map-tree-topology menu:
+1. Combine ri-2-out's files for a block.
+2. Analyze those files with a perl script.
+--->
+
+
 Tue May  3 11:49:25 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -583,7 +620,7 @@ The following lines should be in the gff file. Then IGB can display names.
 Long Jobs
 ---------
 cornell5
-^^^^^^^^
+~~~~~~~~
 67 and 293
 
 

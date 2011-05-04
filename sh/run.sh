@@ -2801,6 +2801,7 @@ source sh/recombination-intensity.sh
 source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
+source sh/analyze-run-clonalorigin2-simulation2.sh 
 
 #####################################################################
 # Main part of the script.
@@ -2821,6 +2822,8 @@ CHOICES=( init-file-system \
           receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
           --- SIMULATION3 ---\
+          analyze-run-clonalorigin2-simulation2 \
+          --- SIMULATION4 ---\
           simulate-data-clonalorigin2-from-xml \
           --- REAL-DATA ---\
           choose-species \
@@ -2952,6 +2955,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

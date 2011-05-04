@@ -194,6 +194,7 @@ public:
 // Information functions
     std::vector<std::vector<double> > pairwiseDistanceMatrix(long site);///< returns a pairwise distance matrix for a given site
 
+    bool test ();
 };
 
 class RankTree {
@@ -211,7 +212,8 @@ public:
     RankTree () {rank = 0; root = NULL;}
     ~RankTree (); 
     void set (std::vector<std::vector<int> >&, int);
-    void inorderTraverse (Y*);
+    void inorderTraverseToOrderTipNode (Y*);
+    unsigned int inorderTraverseToNumberEdge (Y*, unsigned int);
 
     unsigned int getRank ()
     {

@@ -6,6 +6,7 @@
 #include "slotallocator.h"
 #include "mpiutils.h"
 #include "param.h"
+#include <cassert>
 
 
 //#define DEBUG
@@ -872,30 +873,26 @@ void RecTree::testEdges() const
     }
 }
 
+
 // Sang Chul Choi: tabSons is the variable that I need to consider to find the
 // rank of a local tree.
 void RecTree::rankLocalTree(std::ostream * out)
 {
+    // test (); Test of 15 gene trees using Rohlf 1983.
+    int verbose = 0;
     for(unsigned int site =0; site<L; site++)
     {
         makeLocalTree(site,1.0);
-        // Use the fact that tree topology can change only around recedge
-        // boundaries.
-        // Convert tabSons to an n-tuple.
-        // (3, 15, 105, 945, 10395, 135135, 2027025, 34459425), 654729075
-        // I use an inorder traverse of a tree.
-        // 1. Build a tree using tabSons.
-        // 2. Inorder-traverse the tree to set numbers to edges and preorder the
-        // tips of the tree.
-        
-        //*out < tabSons[i][isLeft];
-        //std::cout << "tabSons size: " << tabSons.size() << endl;
-        //std::cout << "tabFather size: " << tabFather.size() << endl;
-        //std::cout << "node\tson1\tson2\n";
-        //for (int i=0; i<2*n-1; i++)
-        //{
-           //std::cout << i << "\t" << tabSons[i][0] << "\t" <<  tabSons[i][1]<< endl;
-        //}
+        if (verbose)
+        {
+          std::cout << "node\tson1\tson2\n";
+          for (int i=0; i<2*n-1; i++)
+          {
+             std::cout << i << "\t" 
+                       << tabSons[i][0] << "\t" 
+                       <<  tabSons[i][1]<< endl;
+          }
+        }
         // This 2n-1 by 2 matrix can be converted to a rank.
         RankTree *rt = new RankTree(); 
         rt->set (tabSons, n);
@@ -903,15 +900,202 @@ void RecTree::rankLocalTree(std::ostream * out)
         {
            *out << "\t";
         }
-        unsigned int rank = rt->getRank ();
-        std::cout << rank;
+        *out << rt->getRank ();
+        if (verbose)
+        {
+          std::cout << rt->getRank () << endl;
+        }
         delete rt;
         rt = NULL;
-        break;
     }
     *out << endl;
 }
 
+// I test if I can compute ranks of the 15 trees presented
+// in Figure 2 of
+// Rohlf 1983 Bulletin of Mathematical Biology, Vol. 45
+// No. 1, pp. 33--40.
+bool RecTree::test()
+{
+  bool v = true; 
+  int numberOfTaxa = 4;
+  unsigned int numberOfNode = 7;
+  
+  std::vector<std::vector<int> > t;
+  t = vector<vector<int> >(numberOfNode,vector<int>(2,0));
+
+  std::cout << "RecTree::test Begin" << endl;
+  // Rank: 0
+  unsigned int r = 0;
+  t[4][0] = 0; t[4][1] = 3;
+  t[5][0] = 4; t[5][1] = 2;
+  t[6][0] = 5; t[6][1] = 1;
+  RankTree *rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 1
+  r = 1;
+  t[4][0] = 0; t[4][1] = 3;
+  t[5][0] = 1; t[5][1] = 2;
+  t[6][0] = 5; t[6][1] = 4;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 2
+  r = 2;
+  t[4][0] = 0; t[4][1] = 3;
+  t[5][0] = 4; t[5][1] = 1;
+  t[6][0] = 5; t[6][1] = 2;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 3
+  r = 3;
+  t[4][0] = 2; t[4][1] = 3;
+  t[5][0] = 0; t[5][1] = 4;
+  t[6][0] = 5; t[6][1] = 1;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 4
+  r = 4;
+  t[4][0] = 1; t[4][1] = 3;
+  t[5][0] = 4; t[5][1] = 2;
+  t[6][0] = 0; t[6][1] = 5;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 5
+  r = 5;
+  t[4][0] = 1; t[4][1] = 3;
+  t[5][0] = 0; t[5][1] = 4;
+  t[6][0] = 5; t[6][1] = 2;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 6
+  r = 6;
+  t[4][0] = 0; t[4][1] = 2;
+  t[5][0] = 4; t[5][1] = 3;
+  t[6][0] = 5; t[6][1] = 1;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 7
+  r = 7;
+  t[4][0] = 2; t[4][1] = 3;
+  t[5][0] = 4; t[5][1] = 1;
+  t[6][0] = 5; t[6][1] = 0;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 8
+  r = 8;
+  t[4][0] = 0; t[4][1] = 1;
+  t[5][0] = 4; t[5][1] = 3;
+  t[6][0] = 5; t[6][1] = 2;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 9
+  r = 9;
+  t[4][0] = 5; t[4][1] = 6;
+  t[5][0] = 0; t[5][1] = 2;
+  t[6][0] = 1; t[6][1] = 3;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 10
+  r = 10;
+  t[4][0] = 1; t[4][1] = 2;
+  t[5][0] = 0; t[5][1] = 6;
+  t[6][0] = 4; t[6][1] = 3;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 11
+  r = 11;
+  t[4][0] = 5; t[4][1] = 6;
+  t[5][0] = 2; t[5][1] = 3;
+  t[6][0] = 0; t[6][1] = 1;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 12
+  r = 12;
+  t[4][0] = 6; t[4][1] = 1;
+  t[5][0] = 4; t[5][1] = 3;
+  t[6][0] = 0; t[6][1] = 2;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 13
+  r = 13;
+  t[4][0] = 1; t[4][1] = 2;
+  t[5][0] = 0; t[5][1] = 4;
+  t[6][0] = 5; t[6][1] = 3;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  // Rank: 14
+  r = 14;
+  t[4][0] = 0; t[4][1] = 1;
+  t[5][0] = 4; t[5][1] = 2;
+  t[6][0] = 5; t[6][1] = 3;
+  rt = new RankTree(); 
+  rt->set (t, numberOfTaxa);
+  std::cout << r << " vs. " << rt->getRank () << endl;
+  delete rt;
+  rt = NULL;
+
+  std::cout << "RecTree::test End" << endl;
+  return v;
+}
+
+// The following tree has rank of 100.
+// node    son1    son2
 // 0       0       0
 // 1       0       0
 // 2       0       0
@@ -952,7 +1136,7 @@ void RankTree::set (std::vector<std::vector<int> > &m, int n)
   }
 
   // Find the root.
-  for (int i = nt - 1; i >= 0; i--)
+  for (int i = l - 1; i >= 0; i--)
   {
     Y *node = a[i];
     if (node->down == NULL)
@@ -960,43 +1144,146 @@ void RankTree::set (std::vector<std::vector<int> > &m, int n)
       root = node;
       break;
     }
-    node->nodeID = i;
   }
 
   // Inorder-Traverse.
   // 1. Tip nodes are ordered.
   // 2. Edges are numbered.
-  
- 
+  inorderTraverseToOrderTipNode (root);
+  unsigned int rootEdgeID;
+  rootEdgeID = inorderTraverseToNumberEdge (root, 0);
+  root->edgeID = rootEdgeID;
+
+  // I am ready to find the n-tuple of the tree.
+  // I detach n - 2 leaves sequentially to find the edgeID
+  // where each leaf is attached. That edge is called Nt
+  // where t is the number of leaves of a tree before 
+  // detaching a leaf. I need not reorder the tip nodes.
+  // I still need to call inorderTraverseToNumberEdge 
+  // to renumber edges after each detach of a leaf.
+  vector<unsigned int> NTuple (n+1,0); 
+  for (int i = n; i > 2; i--)
+  {
+    // Detach a node and remember its sister node.
+    // The sister node's down edge ID is the Nt.
+    Y* leafToDetach = a[i-1];
+    Y* downToDetach = leafToDetach->down;
+    assert (leafToDetach != NULL);
+    assert (downToDetach != NULL); 
+    // I find the sister of leafToDetach.
+    Y* sisterOfTheLeaf;
+    if (downToDetach->left == leafToDetach)
+    {
+      sisterOfTheLeaf = downToDetach->right; 
+    }
+    else
+    {
+      sisterOfTheLeaf = downToDetach->left; 
+    }
+    Y* downdownOfTheLeaf = downToDetach->down;
+    if (downdownOfTheLeaf == NULL)
+    {
+      sisterOfTheLeaf->down = NULL;
+      root = sisterOfTheLeaf;
+    }
+    else
+    {
+      sisterOfTheLeaf->down = downdownOfTheLeaf;
+      if (downdownOfTheLeaf->left == downToDetach)
+      {
+        downdownOfTheLeaf->left = sisterOfTheLeaf;
+      }
+      else
+      {
+        downdownOfTheLeaf->right = sisterOfTheLeaf;
+      }
+    }
+    // I do not have to nullify them, but just make sure
+    // that they are not a part of the tree.
+    downToDetach->down = NULL;
+    if (downToDetach->left == leafToDetach)
+    {
+      downToDetach->right = NULL; 
+    }
+    else
+    {
+      downToDetach->left = NULL; 
+    }
+
+    // Renumber edges of the tree.
+    rootEdgeID = inorderTraverseToNumberEdge (root, 0);
+    root->edgeID = rootEdgeID;
+    NTuple[i] = sisterOfTheLeaf->edgeID;
+  }
+
+  // B0, B1, B2, B3, B4, B5, B6, B7
+  // B8, B9, B10, B11
+  // 4,294,967,295
+  assert (n < 12);
+  unsigned int Bt[] = {0, 1, 1, 3, 15, 105, 945, 10395, 
+                       135135, 2027025, 34459425, 654729075};
+                       //13749310575};
+  // NTuple[0] = N3
+  // NTuple[1] = N4
+  // NTuple[2] = N5
+  rank = 0;
+  for (int t = n; t >= 3; t--)
+  {
+    rank += (NTuple[t] * Bt[t-1]);
+  }
 }
 
-void RankTree::inorderTraverse (Y* p)
+// 1. Visit the two daughter Y's first. At ths stage,
+//    left or right sides do not matter because I will 
+//    reorder left and right Y's so that the left Y's 
+//    node ID is smaller than right Y's.
+//    
+// Rohlf 1983 Bulletin of Mathematical Biology, Vol. 45
+// No. 1, pp. 33--40.
+// ``The branches of the tree are assumed to have been 
+// preordered so that, for example, the lowest ordered 
+// descendant of each left branch is lower than the lowest
+// ordered descendant of its right branch. The method of
+// determining the order for the terminal labels is 
+// arbitrary (numerically, alphabetically, etc.) but it
+// must be fixed for any one application.''
+void
+RankTree::inorderTraverseToOrderTipNode (RankTree::Y* p)
 {
-  if (p->left == NULL)
+  if (p->left != NULL && p->right != NULL)
   {
+    inorderTraverseToOrderTipNode (p->left);
+    inorderTraverseToOrderTipNode (p->right);
+    // Left Y's minimum must be smaller than right Y's.
+    // The node ID is set to the minimum of the subtree where
+    // the node p is the root of it.
+    if (p->left->nodeID > p->right->nodeID)
+    {
+      Y* t = p->left;
+      p->left = p->right;
+      p->right = t;
+    }
+    p->nodeID = p->left->nodeID;
   }
-  else
-  {
-    inorderTraverse (p->left);
-  }
+  return;
+}
 
-  if (p->right == NULL)
+// The companion method or
+// RankTree::inorderTraverseToOrderTipNode (Y* p)
+// must pre-called. 
+unsigned int 
+RankTree::inorderTraverseToNumberEdge (RankTree::Y* p, unsigned int edgeID)
+{
+  if (p->left != NULL && p->right != NULL)
   {
+    edgeID = inorderTraverseToNumberEdge (p->left, edgeID);
+    p->left->edgeID = edgeID;
+    edgeID++;
+    edgeID = inorderTraverseToNumberEdge (p->right, edgeID);
+    p->right->edgeID = edgeID; 
+    edgeID++;
   }
-  else
-  {
-    inorderTraverse (p->right);
-  }
-
-  // Left's minimum must be smaller than right's.
-  if (p->left->nodeID > p->right->nodeID)
-  {
-    Y* t = p->left;
-    p->left = p->right;
-    p->right = t; 
-  }
-
-
+  return edgeID;
 }
 
 RankTree::~RankTree ()

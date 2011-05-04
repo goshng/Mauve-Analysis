@@ -44,6 +44,16 @@ sub-simple-parser.pl
 --------------------
 Some simple Clonal Origin XML parser functions.
 
+get_inblock_length
+~~~~~~~~~~~~~~~~~~
+Argument 1: An inblock file.
+Return    : The total length of the blocks.
+
+get_inblock_number_block
+~~~~~~~~~~~~~~~~~~~~~~~~
+Argument 1: An inblock file.
+Return    : Number of blocks.
+
 get_block_length($)
 ~~~~~~~~~~~~~~~~~~~
 Argument 1: A Clonal Origin XML file.

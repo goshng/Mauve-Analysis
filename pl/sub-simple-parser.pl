@@ -103,4 +103,33 @@ sub get_genome_length ($)
   return $e[2];
 }
 
+sub get_inblock_number_block ($)
+{
+  my ($f) = @_;
+  my $v = 0;
+  open IN, $f or die "$!: $f is not found";
+  while (<IN>)
+  {
+    chomp;
+    $v++;
+  }
+  close IN;
+  return $v;
+}
+
+sub get_inblock_length ($)
+{
+  my ($f) = @_;
+  my $v = 0;
+  open IN, $f or die "$!: $f is not found";
+  while (<IN>)
+  {
+    chomp;
+    my $number = $_;
+    $v += $number;
+  }
+  close IN;
+  return $v;
+}
+
 1;

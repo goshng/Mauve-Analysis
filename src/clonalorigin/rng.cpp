@@ -34,12 +34,12 @@ unsigned long seedrng(unsigned long seed)
         if ((devrandom = fopen("/dev/random","r")) == NULL)
         {
             tseed = (unsigned long) time(NULL);
-            printf("Got seed %lu from time()\n",tseed);
+            //printf("Got seed %lu from time()\n",tseed);
         }
         else
         {
             fread(&tseed,sizeof(tseed),1,devrandom);
-            printf("Got seed %lu from /dev/random\n",tseed);
+            //printf("Got seed %lu from /dev/random\n",tseed);
             fclose(devrandom);
         }
     } else {

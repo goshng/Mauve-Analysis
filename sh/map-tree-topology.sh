@@ -49,18 +49,17 @@ function map-tree-topology {
       for b in $(eval echo {1..$NUMBER_BLOCK}); do
         for g in $(eval echo {1..$NUMBER_SAMPLE}); do
           BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g`) 
-          echo $WARGSIM --xml-file $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g \
+          $WARGSIM --xml-file $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g \
             --gene-tree \
             --out-file $RUNCLONALORIGIN/output2/ri-$REPLICATE-out/core_co.phase3.xml.$b.$g \
             --block-length $BLOCKSIZE
-          break
-
           echo -ne " done - block $b - $g\r"
         done
-
-        break
-
+        echo -ne "                                           \r"
       done
+
+      # Combine ri-2-out's files for a block.
+      # Analyze those files with a perl script.
 
       break
 
