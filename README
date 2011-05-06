@@ -10,6 +10,18 @@ Jobs that were done are described for later reference.
 ---> means I need to do something about it.
 
 
+Thu May  5 10:02:46 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+s11's recombination intensity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.An output file for recombination intensity
+----
+output/s11/run-analysis/ri.txt
+----
+
 Wed May  4 13:52:05 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -36,9 +48,21 @@ recombination intensity. I could use that.
 cp pl/recombination-intensity4.pl pl/analyze-run-clonalorigin2-simulation2.pl
 ----
 
+.An output file for recombination intensity
+----
+output/s10/run-analysis/ri.txt
+----
+
+results of s10's RI simulation
+-> output/s10/run-analysis/ri.R.out
+True/Estimate/Degree of Over- or Under-estimate
+
+
+Map Topology Change
+^^^^^^^^^^^^^^^^^^^
 map-tree-topology menu is almost working:
 output/cornellf/8/run-clonalorigin/output2/2 is used as a test.
---->
+---> not yet.
 
 To Do for map-tree-topology menu:
 1. Combine ri-2-out's files for a block.
@@ -117,8 +141,9 @@ day.
 1) Heat map of recombination event
 output/cornellf/8/run-analysis/heatmap-recedge-2.txt 
 2) Recombination intensity is not done yet.
-
+---> output/cornellf/8/run-analysis/recombination-intensity-2.txt
 3) Recombination intensity2 is not done yet.
+--->
 
 cornellf/3/run-clonalorigin/output2/1 is executed.
 Burnin/ChainLength/Thin are 10,000,000/100,000,000/100,000.
@@ -131,6 +156,11 @@ day.
 output/cornellf/3/run-clonalorigin/output2/priorcount-1
 1) Heat map of recombination event
 output/cornellf/3/run-analysis/heatmap-recedge-1.txt 
+2) Recombination intensity
+by recombination-intensity.sh 
+-> output/cornellf/3/run-analysis/recombination-intensity-1.txt
+3) Recombination intensity2 is not done yet.
+--->
 
 The main analyses should be recoded: counting recombination events, measure of
 recombination intensity (or probability of experiencing recombination events),

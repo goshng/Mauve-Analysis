@@ -178,6 +178,24 @@ map-tree-topology
 ~~~~~~~~~~~~~~~~~
 The 3rd method needs to be finished.
 
+
+SIMULATION3
+~~~~~~~~~~~
+
+Recombination intensity based on the average number of recombinant edge types
+per site is tested.
+
+analyze-run-clonalorigin2-simulation2
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using a local computer with a single CPU I can analyze the result of menu
+simulate-data-clonalorigin2. 
+
+analyze-run-clonalorigin2-simulation2-prepare
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+A number of simulation replicates are analyzed by using a cluster.
+
+
+
 Terms
 -----
 block: a multiple alignment.

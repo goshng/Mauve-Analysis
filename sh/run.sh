@@ -99,25 +99,20 @@
 ###############################################################################
 # Global variables.
 ###############################################################################
-# CAC cluster ID setup
-CAC_USERNAME=sc2265
-CAC_LOGIN=linuxlogin.cac.cornell.edu
-CAC_ROOT=Documents/Projects/m2
+source sh/conf.sh
+source sh/read-species.sh
+conf
+
 CAC_USERHOST=$CAC_USERNAME@$CAC_LOGIN
 CAC_MAUVEANALYSISDIR=$CAC_USERHOST:$CAC_ROOT
 CAC_OUTPUTDIR=$CAC_ROOT/output
 CACBASE=$CAC_ROOT/output
 # X11 linux ID setup
-X11_USERNAME=choi
-X11_LOGIN=swiftgen
-X11_ROOT=Documents/Projects/m2
 X11_USERHOST=$X11_USERNAME@$X11_LOGIN
 X11_MAUVEANALYSISDIR=$X11_USERHOST:$X11_ROOT
 X11_OUTPUTDIR=$CAC_ROOT/output
 X11BASE=$X11_ROOT/output
 # CAC cluster access to job submission
-BATCHEMAIL=schoi@cornell.edu
-BATCHACCESS=acs4_0001
 BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
 BATCHCLONALFRAME=usr/bin/ClonalFrame
 
@@ -2802,6 +2797,8 @@ source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
 source sh/analyze-run-clonalorigin2-simulation2.sh 
+source sh/analyze-run-clonalorigin2-simulation2-prepare.sh 
+source sh/create-ingene.sh
 
 #####################################################################
 # Main part of the script.
@@ -2823,6 +2820,7 @@ CHOICES=( init-file-system \
           analyze-run-clonalorigin2-simulation \
           --- SIMULATION3 ---\
           analyze-run-clonalorigin2-simulation2 \
+          analyze-run-clonalorigin2-simulation2-prepare \
           --- SIMULATION4 ---\
           simulate-data-clonalorigin2-from-xml \
           --- REAL-DATA ---\
@@ -2854,6 +2852,7 @@ CHOICES=( init-file-system \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
           compute-global-median \
+          create-ingene \
           prepare-run-clonalorigin-simulation )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
@@ -2956,6 +2955,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue
