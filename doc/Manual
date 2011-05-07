@@ -194,7 +194,34 @@ analyze-run-clonalorigin2-simulation2-prepare
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A number of simulation replicates are analyzed by using a cluster.
 
+convert-gff-ingene
+~~~~~~~~~~~~~~~~~~
+I use a gene annotation file that accompanies the genbank bacterial genome file.
+NCBI's ftp directory called bacteria contains complete genomes of bacteria and
+archiea. A genbank file could be used to locate genes in the genome of the
+genbank file. I instead use a companion file called gff file to extract gene
+locations.
 
+.A genome annotation gff file
+----
+Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+----
+
+Gene locations are stored an ingene file. The file has four columns that are
+delimited by a tab: gene name, start position, end position, and gene strand.
+An ingene file is created in run-analysis of a repetition directory.
+
+.An ingene file
+----
+output/cornellf/8/run-analysis/in.gene
+----
+
+locate-gene-in-block
+~~~~~~~~~~~~~~~~~~~~
+All of the gene in an ingene file are mapped to block alignments that are used
+in ClonalOrigin inference. Five more columns are appended to the ingene file:
+block ID, start and end position of a gene in the block, gene length, and
+proportions of gaps in the gene.
 
 Terms
 -----
