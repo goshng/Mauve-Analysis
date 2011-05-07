@@ -10,9 +10,23 @@ Jobs that were done are described for later reference.
 ---> means I need to do something about it.
 
 
-Thu May  5 10:02:46 EDT 2011
+Fri May  6 09:18:41 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Meeting with Melissa:
+1. p-Values by comparing R tilde and R hat.
+2. Genes with gaps. Summary of the alignment. Proportion of gaps.
+3. Average number of tree topology changes within a gene.
+4. Boundary effect on true RI and its estimates.
+-> This is possible concern because the first site of a block would have higher
+number of recombinant edges.
+5. Gene length, block length effects. Gene locations effect.
+
+
+
+
+Thu May  5 10:02:46 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 s11's recombination intensity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

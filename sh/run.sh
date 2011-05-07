@@ -2798,6 +2798,8 @@ source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
 source sh/analyze-run-clonalorigin2-simulation2.sh 
 source sh/analyze-run-clonalorigin2-simulation2-prepare.sh 
+source sh/analyze-run-clonalorigin2-simulation2-receive.sh 
+source sh/analyze-run-clonalorigin2-simulation2-analyze.sh 
 source sh/create-ingene.sh
 
 #####################################################################
@@ -2821,6 +2823,8 @@ CHOICES=( init-file-system \
           --- SIMULATION3 ---\
           analyze-run-clonalorigin2-simulation2 \
           analyze-run-clonalorigin2-simulation2-prepare \
+          analyze-run-clonalorigin2-simulation2-receive \
+          analyze-run-clonalorigin2-simulation2-analyze \
           --- SIMULATION4 ---\
           simulate-data-clonalorigin2-from-xml \
           --- REAL-DATA ---\
@@ -2956,6 +2960,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2" ]; then $CHOICE; break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-receive" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"

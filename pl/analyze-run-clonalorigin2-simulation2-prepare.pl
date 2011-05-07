@@ -441,7 +441,7 @@ open OUT, ">$outFile" or die "$outFile could not be opened";
 
 
 # Gene's RI's are printed out.
-for (my $i = 0; $i < $#genes; $i++)
+for (my $i = 0; $i <= $#genes; $i++)
 {
   my $href = $genes[$i];
   my $b = $href->{start} - $blockBegin + 1;
