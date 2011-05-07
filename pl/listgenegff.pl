@@ -4,8 +4,8 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: listgenegff.pl
-#   Date: 2011-02-10
-#   Version: 0.1.0
+#   Date: Fri May  6 20:28:29 EDT 2011
+#   Version: 1.0
 #
 #   Usage:
 #      perl listgenegff.pl [options]
@@ -30,7 +30,7 @@ use XML::Parser;
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'listgenegff.pl 0.1.0';
+my $VERSION = 'listgenegff.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -57,7 +57,7 @@ listgenegff.pl - Compute import ratio of all genes in the blocks
 
 =head1 VERSION
 
-listgenegff.pl 0.1.0
+listgenegff.pl 1.0
 
 =head1 SYNOPSIS
 
