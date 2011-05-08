@@ -176,7 +176,56 @@ both are considered.
 
 map-tree-topology
 ~~~~~~~~~~~~~~~~~
-The 3rd method needs to be finished.
+A ClonalOrigin XML output file contains a list of recombinant trees. The number
+of recombinant trees is equal to the the number of Iteration tags. A modified
+program wargsim can parse a ClonalOrigin XML file with a single recombinant
+tree. The ClonalOrigin XML output file with multiple recombinant trees have to
+divided to multiple XML files, each of which contains a single recombinant tree.
+
+.A ClonalOrigin XML output file: REPETITION=8, REPLICATE=2, BLOCK=1
+----
+output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
+----
+
+Splitted ClonalOrigin XML files are stored in ri-# directory where # represents
+REPLICATE.
+
+.A ClonalOrigin XML output file with a single recombinant tree: REPETITION=8,
+REPLICATE=2, BLOCK=1, ITERATION=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2/core_co.phase3.xml.1.1
+----
+
+To each splitted ClonalOrigin XML file is wargsim applied. Each output file is
+saved in ri-#-out directory where # represents REPLICATE.
+
+.A gene tree topology file from a single recombinant tree: REPETITION=8,
+REPLICATE=2, BLOCK=1, ITERATION=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2-out/core_co.phase3.xml.1.1
+----
+
+Some of recombinant trees may not be processible by wargsim, or wargsim can
+crash when parsing a ClonalOrigin XML file. I check if the number of tree
+topology indices and the size of a block are equal. If they are not equal, they
+should be removed in further analysis.
+
+Conceptually divided posterior samples should be recombined. 
+
+.A posterior sample of gene tree topology: REPETITION=8,
+REPLICATE=2, BLOCK=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2-combined/1
+----
+
+Gene 
+
+.An ingene file is appended
+----
+output/cornellf/8/run-analysis/in.gene
+----
+
+
 
 
 SIMULATION3
@@ -222,6 +271,28 @@ All of the gene in an ingene file are mapped to block alignments that are used
 in ClonalOrigin inference. Five more columns are appended to the ingene file:
 block ID, start and end position of a gene in the block, gene length, and
 proportions of gaps in the gene.
+
+.An ingene file is appended
+----
+output/cornellf/8/run-analysis/in.gene
+----
+
+clonalorigin2-simulation3
+~~~~~~~~~~~~~~~~~~~~~~~~~
+I wish to check how map of tree topology can be helpful. 
+
+I can still use the previous
+simulation, or s10, s11, and s13. I assume that a gene is 1,000 base pairs
+long. I compute recombination intensity for regions of 1,000 base pairs long.
+For simulation s10 and s11 I would have 10 regions of 1,000 base pairs long
+for a block. For s13 I would use genes from the real data, or genes of M3
+strains. I might have to use the cluster because the computation of
+recombination intensity appears slow.
+
+clonalorigin2-simulation3-prepare
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The simulation for map-tree-topology is done in a cluster.
+
 
 Terms
 -----

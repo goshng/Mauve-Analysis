@@ -16,7 +16,9 @@ Fri May  6 09:18:41 EDT 2011
 Meeting with Melissa:
 1. p-Values by comparing R tilde and R hat.
 2. Genes with gaps. Summary of the alignment. Proportion of gaps.
+-> done in menu locate-gene-in-block
 3. Average number of tree topology changes within a gene.
+--->
 4. Boundary effect on true RI and its estimates.
 -> This is possible concern because the first site of a block would have higher
 number of recombinant edges.

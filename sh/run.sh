@@ -2702,6 +2702,9 @@ source sh/analyze-run-clonalorigin2-simulation2-analyze.sh
 source sh/create-ingene.sh
 source sh/convert-gff-ingene.sh 
 source sh/locate-gene-in-block.sh
+source sh/clonalorigin2-simulation3.sh
+source sh/clonalorigin2-simulation3-prepare.sh
+source sh/clonalorigin2-simulation3-receive.sh
 
 #####################################################################
 # Main part of the script.
@@ -2726,7 +2729,11 @@ CHOICES=( init-file-system \
           analyze-run-clonalorigin2-simulation2-prepare \
           analyze-run-clonalorigin2-simulation2-receive \
           analyze-run-clonalorigin2-simulation2-analyze \
-          --- SIMULATION4 ---\
+          --- SIMULATION2-3 ---\
+          clonalorigin2-simulation3 \
+          clonalorigin2-simulation3-prepare \
+          clonalorigin2-simulation3-receive \
+          --- SIMULATION5 ---\
           simulate-data-clonalorigin2-from-xml \
           --- REAL-DATA ---\
           choose-species \
@@ -2869,6 +2876,9 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "convert-gff-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "locate-gene-in-block" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "clonalorigin2-simulation3" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "clonalorigin2-simulation3-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

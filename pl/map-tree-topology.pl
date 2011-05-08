@@ -3,43 +3,8 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: map-tree-topology.pl
-#   Date: Tue May  3 09:22:29 EDT 2011
+#   Date: Sat May  7 11:58:18 EDT 2011
 #   Version: 1.0
-#
-#   Usage:
-#      perl map-tree-topology.pl [options]
-#
-#      Try 'perl map-tree-topology.pl -h' for more information.
-#
-#   Purpose: map-tree-topology.pl help you compute recombinant edge counts
-#            along a genome. I order all the alignment blocks with respect to
-#            one of genomes. I would use the first genome in the alignment. I
-#            need to use the species tree that is in the clonal origin output
-#            files. Note that the numbering of internal nodes in the input
-#            species tree and that of the clonal output files were different. I
-#            have to use the species tree in the clonal origin to locate
-#            internal nodes. Using the species tree I should be able to find the
-#            species and their ancestors. Find which ordered pairs are possible
-#            and which others are not. I need to parse the species tree in a
-#            clonal origin outputfile. 
-#            Consider a species tree with recombinant edges: e.g., Didelot's
-#            2010 ClonalOrigin paper. For each site of an alignment block I can
-#            have a matrix where element is a binary character. A site is
-#            affected by multiple recombinant edges. It is possible that
-#            recombinant edges with the same arrival and departure affect a
-#            single site. This should not be possible under ClonalOrigin's
-#            model. It happened in the ClonalOrigin output file. If you simply
-#            count recombinant edges, you could count some recombinant edge type
-#            two or more times. To avoid the multiple count we use a matrix with
-#            binary values. Then, we sum the binary matrices across all the
-#            iteratons.
-#            Note that the source and destination edges could be reversed. Be
-#            careful not to reverse it. I used to use to -> from not from -> to.
-#            Now, I use from -> to for each position.
-#
-#   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
-#   Computational Science Research Center @ SDSU, CA as a template. Some of
-#   words are his not mine, and credit should be given to him. 
 #===============================================================================
 use strict;
 use warnings;
@@ -59,21 +24,16 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
-            'd=s',
-            'xmfa=s',
-            'xmlbasename=s',
-            'speciesfile=s',
-            'genomedir=s',
-            'numberblock=i',
-            'r=i',
-            'check'
+            'ricombined=s',
+            'ingene=s',
+            'treetopology=i' 
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-map-tree-topology.pl - Compute recombination intensity along the genome.
+map-tree-topology.pl - Measure number of topology changes
 
 =head1 VERSION
 
@@ -81,19 +41,14 @@ map-tree-topology.pl 1.0
 
 =head1 SYNOPSIS
 
-perl map-tree-topology.pl [-h] [-help] [-version] 
-  [-d xml data directory] 
-  [-xmfa genome alignment] 
-  [-r reference genome ID] 
-  [-xmlbasename xml file base name] 
-  [-speciesfile file] 
-  [-genomedir file] 
-  [-endblockid]
+perl map-tree-topology.pl [-h] [-help] [-version] [-verbose]
+  [-ricombined directory] 
+  [-ingene file] 
 
 =head1 DESCRIPTION
 
-The number of recombination edge types at a nucleotide site along all of the
-alignment blocks is computed.
+Number of tree topology changes are computed for all of the genes in ingene
+file.
 
 =head1 OPTIONS
 
@@ -117,38 +72,13 @@ Prints status and info messages during processing.
 
 =item B<***** INPUT OPTIONS *****>
 
-=item B<-d> <xml directory>
+=item B<-ricombined> <directory>
 
-A directory that contains the 2nd phase run result from Clonal Origin.
+A directory that contains the ri-REPLICATE-combined.
 
-=item B<-xmfa> <alignment directory>
+=item B<-infile> <file>
 
-A directory that contains the input alignment.
-
-=item B<-r> <number>
-
-A reference genome ID.
-
-=item B<-speciesfile> <speices file>
-
-=item B<-genomedir> <dir>
-
-=item B<-endblockid>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-The block id can follow xml or precede it. Default is to precede it: i.e.,
-core_co.phase3.1.xml is the default.
-
-=item B<-xmlbasename> <name>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-Default base name is core_co.phase3.
+An infile from locate-gene-in-block menu.
 
 =back
 
@@ -195,69 +125,36 @@ sub locate_nucleotide_in_block ($$);
 ################################################################################
 #
 
-my $xmlDir;
-my $xmfaBasename;
-my $check = 0;
-my $xmlBasename = "core_co.phase3";
-my $endblockid = 0;
-my $genomedir;
-my $speciesfile;
-my $refGenome;
-my $numberBlock; 
+my $ricombined;
+my $ingene;
 my $verbose = 0;
+my $treetopology;
 
-if (exists $params{d})
+if (exists $params{treetopology})
 {
-  $xmlDir = $params{d};
+  $treetopology = $params{treetopology};
 }
 else
 {
-  &printError("you did not specify a directory that contains Clonal Origin 2nd run results");
+  &printError("you did not specify a treetopology directory");
 }
 
-if (exists $params{numberblock})
+if (exists $params{ricombined})
 {
-  $numberBlock = $params{numberblock};
+  $ricombined = $params{ricombined};
 }
 else
 {
-  &printError("you did not specify the number of blocks");
+  &printError("you did not specify a ricombined directory");
 }
 
-if (exists $params{r})
+if (exists $params{ingene})
 {
-  $refGenome = $params{r};
+  $ingene = $params{ingene};
 }
 else
 {
-  &printError("you did not specify a reference genome");
-}
-
-if (exists $params{xmfa})
-{
-  $xmfaBasename = $params{xmfa};
-}
-else
-{
-  &printError("you did not specify a directory that contains genome alignments");
-}
-
-if (exists $params{speciesfile})
-{
-  $speciesfile = $params{speciesfile};
-}
-else
-{
-  &printError("you did not specify a directory that contains genomes");
-}
-
-if (exists $params{genomedir})
-{
-  $genomedir = $params{genomedir};
-}
-else
-{
-  &printError("you did not specify a directory that contains genomes");
+  &printError("you did not specify an ingene file");
 }
 
 if (exists $params{verbose})
@@ -265,394 +162,139 @@ if (exists $params{verbose})
   $verbose = 1;
 }
 
-if (exists $params{check})
-{
-  $check = 1;
-}
-
-if (exists $params{xmlbasename})
-{
-  $xmlBasename = $params{xmlbasename};
-}
-
-if (exists $params{endblockid})
-{
-  $endblockid = 1;
-}
-
-#
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
-#
 
-my $tag;
-my $content;
-my %recedge;
-my $itercount = 0;
-my $blockLength;
-my $speciesTree = get_species_tree ("$xmlDir/$xmlBasename.xml.1");
-my $numberTaxa = get_number_leave ($speciesTree);
-my $numberLineage = 2 * $numberTaxa - 1;
-my $genomefile = get_genome_file ($speciesfile, $refGenome);
-my $genomeLength = get_genome_length ("$genomedir/$genomefile");
+sub get_number_topology_change ($$$$);
+sub map_tree_topology ($$$);
+sub parse_in_gene ($); 
+sub print_in_gene ($$);
 
-if ($check == 1)
+my @genes = parse_in_gene ($ingene);
+map_tree_topology (\@genes, $ricombined, $treetopology);
+print_in_gene ($ingene, \@genes);
+
+sub map_tree_topology ($$$)
 {
-  print "Genome: $genomedir/$genomefile\n";
-  print "  Length - $genomeLength\n";
-}
-
-################################################################################
-# Find coordinates of the reference genome.
-################################################################################
-
-my @blockLocationGenome;
-for (my $i = 1; $i <= $numberBlock; $i++)
-{
-  my $xmfaFile = "$xmfaBasename.$i";
-  open XMFA, $xmfaFile or die "Could not open $xmfaFile";
-  while (<XMFA>) 
+  my ($genes, $ricombined, $treetopology) = @_;
+  my $numberGene = scalar @{ $genes };
+  my $processedTime = 0;
+  for (my $i = 0; $i < scalar @{ $genes }; $i++)
   {
-    if (/^>\s+$refGenome:(\d+)-(\d+)/)
-    {
-      my $startGenome = $1;
-      my $endGenome = $2;
-      my $rec = {};
-      $rec->{start} = $startGenome;
-      $rec->{end} = $endGenome;
-      push @blockLocationGenome, $rec;
-      last;
-    }
-  }
-  close XMFA;
-}
-
-if ($check == 1)
-{
-  for (my $i = 0; $i <= $#blockLocationGenome; $i++)
-  {
-    my $href = $blockLocationGenome[$i];
-    print "$i:$href->{start} - $href->{end}\n"; 
-  }
-}
-
-# mapImport index is 1-based, and blockImmport index is 0-based.
-# map starts at 1.
-# block starts at 0.
-# mapImport is created.
-my @blockImport;
-my @mapBlockImport;
-if ($verbose == 1)
-{
-  print STDERR "A new mapImport is being created...";
-}
-my @mapImport = create3DMatrix ($numberLineage, 
-                                $numberLineage, 
-                                $genomeLength + 1);
-if ($verbose == 1)
-{
-  print STDERR " done.\n";
-}
-
-# mapImport is filled in.
-my $offsetPosition = 0;
-my $prevBlockLength = 1;
-for (my $blockID = 1; $blockID <= $numberBlock; $blockID++)
-{
-  my $af = "$xmfaBasename.$blockID";
-  my $f = "$xmlDir/$xmlBasename.xml.$blockID";
-  $blockLength = get_block_length ($f);
-  $offsetPosition += $prevBlockLength;
-  $prevBlockLength = $blockLength;
-
-  @mapBlockImport = create3DMatrix ($numberLineage, 
-                                    $numberLineage, 
-                                    $blockLength);
-  if ($verbose == 1)
-  {
-    print STDERR "A new mapBlockImport for $blockID is created.\n";
-  }
-  my $parser = new XML::Parser();
-  $parser->setHandlers(Start => \&startElement,
-                       End => \&endElement,
-                       Char => \&characterData,
-                       Default => \&default);
-
-  $itercount = 0;
-  my $doc;
-  eval{ $doc = $parser->parsefile($f)};
-  print "Unable to parse XML of $f, error $@\n" if $@;
-  next if $@;
-
-  my @sites = locate_nucleotide_in_block ($af, $refGenome);
-  my ($b, $e, $strand) = locate_block_in_genome ($af, $refGenome);
-  my $c = 0; 
-  for my $i ( 0 .. $#sites ) {
-    if ($sites[$i] eq '-')
-    {
-      # No code.
-    }
-    else
-    {
-      my $pos;
-      if ($strand eq '+') 
-      {
-        $pos = $b + $c;
-      }
-      else
-      {
-        $pos = $e - $c;
-      }
-      for (my $j = 0; $j < $numberLineage; $j++)
-      {
-        for (my $k = 0; $k < $numberLineage; $k++)
-        {
-          $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$i];
-        }
-      }
-      $c++;
-    }
-  }
-  $c--;
-  die "$e and $b + $c do not match" unless $e == $b + $c;
-  if ($verbose == 1)
-  {
-    print "Block: $blockID\r";
-  }
-}
-
-# mapImport is printed out.
-for (my $i = 1; $i <= $genomeLength; $i++)
-{
-  my $pos = $i;
-  print "$pos";
-  for (my $j = 0; $j < $numberLineage; $j++)
-  {
-    for (my $k = 0; $k < $numberLineage; $k++)
-    {
-      print "\t", $mapImport[$j][$k][$pos];
-    }
-  }
-  print "\n";
-}
-
-exit;
-
-#
-################################################################################
-## END OF DATA PROCESSING
-################################################################################
-#
-
-#
-################################################################################
-## FUNCTION DEFINITION
-################################################################################
-#
-
-sub startElement {
-  my( $parseinst, $element, %attrs ) = @_;
-  $tag = $element;
-  SWITCH: {
-    if ($element eq "Iteration") 
-    {
-      $itercount++;
-      @blockImport = create3DMatrix ($numberLineage, 
-                                     $numberLineage, 
-                                     $blockLength);
-      last SWITCH;
-    }
-  }
-}
-
-sub endElement {
-  my ($p, $elt) = @_;
-
-  if ($elt eq "efrom") {
-    $recedge{efrom} = $content;
-  }
-  if ($elt eq "eto") {
-    $recedge{eto} = $content;
-  }
-  if ($elt eq "start") {
-    $recedge{start} = $content;
-  }
-  if ($elt eq "end") {
-    $recedge{end} = $content;
-  }
-
-  if ($elt eq "recedge")
-  {
-    for (my $i = $recedge{start}; $i < $recedge{end}; $i++)
-    {
-      # NOTE: efrom -> eto. This used to be eto -> efrom.
-      $blockImport[$recedge{efrom}][$recedge{eto}][$i]++;
-    }
-  }
-  if ($elt eq "Iteration")
-  {
-    for (my $i = 0; $i < $blockLength; $i++)
-    {
-      my $pos = $i;
-      for (my $j = 0; $j < $numberLineage; $j++)
-      {
-        for (my $k = 0; $k < $numberLineage; $k++)
-        {
-          if ($blockImport[$j][$k][$pos] > 0) 
-          {
-            $blockImport[$j][$k][$pos] = 1;
-          }
-        }
-      }
-    }
-
-    for (my $i = 0; $i < $blockLength; $i++)
-    {
-      my $pos = $i;
-      for (my $j = 0; $j < $numberLineage; $j++)
-      {
-        for (my $k = 0; $k < $numberLineage; $k++)
-        {
-          $mapBlockImport[$j][$k][$pos] += $blockImport[$j][$k][$i];
-        }
-      }
-    }
+    my $startTime = time; 
+    my $h = $genes->[$i];
+    my $block = $h->{block};
+    my $start = $h->{blockstart};
+    my $end = $h->{blockend};
+    my $rifile = "$ricombined/$block";
+    my ($ri,$ri2,$ri3) = get_number_topology_change ($rifile, $start, $end, $treetopology);
+    $h->{ri} = $ri;
+    $h->{ri2} = $ri2;
+    $h->{ri3} = $ri3;
+    my $endTime = time; 
+    my $elapsedTime = $endTime - $startTime;
+    $processedTime += $elapsedTime;
+    my $remainedGene = $numberGene - $i - 1;
+    my $remainedTime = int(($processedTime/($i+1)) * $remainedGene / 60);
     if ($verbose == 1)
     {
-      print STDERR "Iteration: $itercount\r";
+      print STDERR "Genes: $h->{gene} ($i/$numberGene) $remainedTime min. to go\r";
     }
   }
-  $tag = "";
-  $content = "";
 }
 
-sub characterData {
-  my( $parseinst, $data ) = @_;
-  $data =~ s/\n|\t//g;
-  $content .= $data;
-}
-
-sub default {
-}
-
-sub get_genome_file ($$)
+sub get_number_topology_change ($$$$)
 {
-  my ($speciesfile, $refGenome) = @_;
-  my $r;
-  my $l;
-  my $c = 0;
-  open SPECIES, "$speciesfile" or die "$speciesfile could not be opened";
-  while ($l = <SPECIES>)
+  my ($rifile, $start, $end, $treetopoogy) = @_;
+  my $sampleSize = 0;
+  my $v = 0;
+  my $vTopology = 0;
+  my $vCountTopology = 0;
+  open RI, $rifile or die "could not open $rifile";
+  while (<RI>)
   {
-    chomp $l;
-    unless ($l =~ /^#/)
+    chomp;
+    my @e = split /\t/;
+    for (my $i = $start; $i < $end; $i++)
     {
-      $c++;
-      if ($c == $refGenome)
+      if ($e[$i] != $e[$i+1])
       {
-        $r = $l;
-        last;
+        $v++;
+      }
+      if ($e[$i] != $treetopoogy)
+      {
+        $vTopology++;
       }
     }
-  }
-  close SPECIES;
-  return $r;
+    if ($e[$end] != $treetopoogy)
+    {
+      $vTopology++;
+    }
+    my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @e;
+    $vCountTopology += scalar (@uniquE);
+    $sampleSize++;
+  } 
+  close RI;
+  $v /= ($end - $start);
+  $v /= $sampleSize;
+  $vTopology /= (($end - $start + 1) * $sampleSize);
+  $vCountTopology /= (($end - $start + 1) * $sampleSize);
+  return ($v, $vTopology, $vCountTopology);
 }
-##
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-##
+
+sub parse_in_gene ($) {
+  my ($ingene) = @_;
+  my @genes;
+  open INGENE, "$ingene" or die "$ingene could be not opened";
+  while (<INGENE>)
+  {
+    chomp;
+    my @e = split /\t/;
+    my $rec = {};
+    $rec->{gene} = $e[0]; 
+    $rec->{start} = $e[1]; 
+    $rec->{end} = $e[2]; 
+    $rec->{strand} = $e[3]; 
+    $rec->{block} = $e[4]; 
+    $rec->{blockstart} = $e[5]; 
+    $rec->{blockend} = $e[6]; 
+    $rec->{genelength} = $e[7]; 
+    $rec->{proportiongap} = $e[8]; 
+    push @genes, $rec;
+  }
+  close INGENE;
+  return @genes;
+}
+
+sub print_in_gene ($$)
+{
+  my ($ingene, $genes) = @_;
+  
+  open INGENE, ">$ingene.temp" or die "$ingene.temp could be not opened";
+  for (my $i = 0; $i < scalar @{ $genes }; $i++)
+  {
+    my $rec = $genes->[$i];
+    print INGENE "$rec->{gene}\t";
+    print INGENE "$rec->{start}\t";
+    print INGENE "$rec->{end}\t";
+    print INGENE "$rec->{strand}\t";
+    print INGENE "$rec->{block}\t";
+    print INGENE "$rec->{blockstart}\t";
+    print INGENE "$rec->{blockend}\t";
+    print INGENE "$rec->{genelength}\t";
+    print INGENE "$rec->{proportiongap}\t";
+    print INGENE "$rec->{ri}\t";
+    print INGENE "$rec->{ri2}\t";
+    print INGENE "$rec->{ri3}\n";
+  }
+  close INGENE;
+  rename "$ingene.temp", $ingene
+}
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'map-tree-topology.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'-h\' option for more information.\nExit program.\n";
     exit(0);
-}
-
-sub locate_block_in_genome ($$)
-{
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
-    {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
-    }
-  }
-  close XMFA;
-  return ($startGenome, $endGenome, $strand);
-}
-
-sub locate_nucleotide_in_block ($$)
-{
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
-    {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
-    }
-  }
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>/)
-    {
-      last;
-    }
-    $sequence .= $line;
-  }
-  close XMFA;
-
-#print STDERR "\n$s-$e-$startGenome-$endGenome-$f\n";
-  #my $j = 0;
-  my @nucleotides = split //, $sequence;
-  return @nucleotides;
-
-  #for (my $i = 0; $i <= $#nucleotides; $i++)
-  #{
-    #if ($nucleotides[$i] eq 'a' 
-        #or $nucleotides[$i] eq 'c' 
-        #or $nucleotides[$i] eq 'g' 
-        #or $nucleotides[$i] eq 't') 
-    #{
-      #my $pos = $startGenome + $j;   
-      #if ($s <= $pos and $pos <= $e)
-      #{
-        #push @v, $i;
-        #$geneSequence .= $nucleotides[$i];
-      #}
-      #$j++;
-    #}
-  #}
-  #print "\n$geneSequence\n";
-
-  #return @v;
 }
 
