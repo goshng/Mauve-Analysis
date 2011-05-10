@@ -198,7 +198,7 @@ S.
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -258,7 +258,7 @@ S.
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -268,7 +268,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -278,7 +278,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 dysgalactiae
@@ -375,7 +375,8 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Pathogenic bacteria infect many human diseases: e.g., food poisoning by 
+Bacteria can infect humans with a variety of diseases: e.g., food poisoning
+ by 
 \emph on
 Eschericha Coli
 \emph default
@@ -407,30 +408,36 @@ Chlamydophila pneumoniae
 \emph on
 Haemophilus influenzae
 \emph default
-, to name a few (a single CITE).
- Among them,
-\emph on
- Streptococcus pyogenes
-\emph default
- belongs to group A streptococci (GAS) that are a human-specific pathogen
- primarily infecting the throat and skin (CITE).
- This human pathogen has high prevalence throughout the world causing severe
- invasive streptococcal diseases: pharyngitis also called strep throat,
- impetigo, cellulitis, necrotizing fasciitis, toxic shock syndrome, acute
- rheumatic fever, and acute glomerulonephritis (CITE).
- Its closely related species, 
-\emph on
-Streptococcus dysgalactiae
-\emph default
- spp.
+, to name a few (CITE).
  
 \emph on
+Streptococcus pyogenes
+\emph default
+ (SPY) belonging to group A streptococci (GAS) primarily infect humans in
+ the throat and on the skin (CITE).
+ It has high prevalence throughout the world causing diseases ranging from
+ mild illnesses such as pharyngitis and impetigo to severe invasive streptococca
+l diseases including necrotizing fasciitis and toxic shock syndrome (CITE).
+ A closely related species called
+\emph on
+ S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
-, belongs to group C or G streptococci (GCS or GGS), once generally regarded
- as veterinary pathogens (CITE).
+ (SDE) belonging to group C or G streptococci (GCS/GGS) used to be generally
+ regarded as veterinary pathogens (CITE).
  Researchers have been confirming that GCS/GGS can cause serious and life-threat
-ening streptococcal diseases to human traditionally associated with GAS
+ening streptococcal diseases to humans traditionally associated with GAS
  
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -443,17 +450,26 @@ key "Brandt2009"
  Because 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
- spp.
- 
+ ssp.
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  cohabits with 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  at the same ecological niche of tissue sites, they may as well exhibit
  overlap in the disease profile 
@@ -468,19 +484,29 @@ key "Davies2007a"
  roles in formation of pathogenicity of 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
- spp.
- 
+ ssp.
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
 .
  Understanding the genetic exchange could enhance our knowledge of their
- pathogenic effect on human health.
- Previously experimental research in gene exchange between the two pyogeneic
+ pathogenic effects on human health.
+ 
+\end_layout
+
+\begin_layout Standard
+Previous experimental research in gene exchange between the two pyogeneic
  species was limited to relatively smaller portion of the bacterial genome,
- mostly focusing on virulence genes
+ mostly focusing on virulence genes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kalia2004,Towers2004,Bessen2005"
@@ -516,7 +542,11 @@ key "Bessen2010"
 \end_inset
 
 .
- Lateral gene transfer in bacteria is so prevalent, and lack of gene exchange
+ 
+\end_layout
+
+\begin_layout Standard
+Lateral gene transfer in bacteria is so prevalent, and lack of gene exchange
  is considered unusual in bacterial evolution 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -535,7 +565,11 @@ key "Thomas2005"
 \end_inset
 
 .
- Transferred DNAs through the machanisms replace their endogenous homologs,
+ 
+\end_layout
+
+\begin_layout Standard
+Transferred DNAs through the machanisms replace their endogenous homologs,
  involving homologous recombination (CITE).
  Bacteria appear to benefit from recombination to acquire genetic material
  that is selectively advantageous 
@@ -571,7 +605,7 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 
 .
  Yet, most of the methods use relatively small portion of bacterial genomes,
- which is an unfortunate situation.
+ which is unfortunate.
  As sequencing costs plummet 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -665,7 +699,7 @@ Bacillus cereus
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -692,6 +726,12 @@ We organize the remainder of the paper as follows.
  In Results, we provide evidence supporting my answers to the questions
  of interest.
  We end in Discussion.
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+Nonrecombining lateral transfer of genes might be handled by mowgli.
 \end_layout
 
 \begin_layout Subsection*
@@ -1369,7 +1409,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 dysgalactiae
@@ -1391,7 +1431,7 @@ ely.
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 dysgalactiae
@@ -1697,7 +1737,7 @@ niome_Database/tab_delimited_omniome.
 \end_layout
 
 \begin_layout Subsection
-Gene gain, loss, duplication 
+Gene gain, loss, duplication, horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
@@ -1707,16 +1747,11 @@ IMPORTANT: Matt is trying to find what we can do about gene gain, loss,
 \end_layout
 
 \begin_layout Subsection
-Horizontal gene transfer 
+Something other topic
 \end_layout
 
 \begin_layout Standard
-IMPORTANT: I do not know yet what I should do about it.
- 
-\end_layout
-
-\begin_layout Subsection
-Something other topic
+Virulence genes and lateral transfer of theirs.
 \end_layout
 
 \begin_layout Standard
@@ -1993,7 +2028,7 @@ uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
  I think that I did not find any association.+ IMPORTANT: +What virulence
  factors?+ Davies2007 studied 216 GAS virulence genes, not other genes to
  profile the virulence gene repertoires of many (or 58) _Streptococcus dysgalact
-iae_ spp.
+iae_ ssp.
  _equisimilis_ isolates recovered during human infections.
  
 \end_layout
@@ -2016,7 +2051,7 @@ Direction of gene flow between
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2087,7 +2122,7 @@ Streptococcus pyogenes
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2097,7 +2132,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 dysgalactiae
@@ -2118,7 +2153,7 @@ S.
 S.
  dysgalactiae
 \emph default
-_ spp.
+_ ssp.
  
 \emph on
 equisimilis
@@ -2318,7 +2353,7 @@ Commensal bacteria could evolve by aquiring virulence genes from its closely
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2340,7 +2375,7 @@ S.
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2353,7 +2388,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2364,7 +2399,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2374,7 +2409,7 @@ equisimilis
 \emph on
 Streptococcus dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2385,7 +2420,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2439,7 +2474,7 @@ S.
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 equisimilis
@@ -2449,7 +2484,7 @@ equisimilis
 S.
  dysgalactiae
 \emph default
- spp.
+ ssp.
  
 \emph on
 dysgalactiae
@@ -2529,7 +2564,7 @@ Divergence time estimation
 
 \begin_layout Standard
 Kalia2001 suggested the divergence time of _S.
- dysgalactiae_ spp.
+ dysgalactiae_ ssp.
  _dysgalactiae_ (SDD) to be around the time when human started to domesticate
  wildlife animals around 10,000 years ago.
  A demographic model could be made with two species to study the divergence
@@ -2954,7 +2989,7 @@ SDE1 and SDE2 represent genomes for
 \end_layout
 
 \begin_layout Standard
-_Streptococcus dysgalactiae_ spp.
+_Streptococcus dysgalactiae_ ssp.
  _equisimilis_.
 \end_layout
 
@@ -2969,7 +3004,7 @@ SDD is the genome for
 
 \begin_layout Standard
 _S.
- dysgalactiae_ spp.
+ dysgalactiae_ ssp.
  _dysgalactiae_.
  The scale is proportional to the expected
 \end_layout

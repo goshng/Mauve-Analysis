@@ -49,6 +49,35 @@ function clonalorigin2-simulation3-analyze {
         echo "Skipping generating true XML..."
       fi
 
+      echo -n "Do you wish to check the XML? (e.g., y/n) "
+      read WANT
+      if [ "$WANT" == "y" ]; then
+        echo "Checking XML..."
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            # MTTRUE=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE
+            MTOUTTRUE=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE-out
+            for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+              BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID`)
+              NUMBER_SAMPLE=$(echo `grep number $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID|wc -l`)
+              for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+                NUMBERSITE=$(echo `cat $MTOUTTRUE/core_co.phase3.xml.$BLOCKID.$g|wc -w`)
+                if [ "$NUMBERSITE" != "$BLOCKSIZE" ]; then
+                  echo "Problem in $MTOUTTRUE/core_co.phase3.xml.$BLOCKID.$g blocksize must be $BLOCKSIZE $NUMBERSITE"
+                fi
+
+                echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - $BLOCKID/$NUMBER_BLOCK - $g/$NUMBER_SAMPLE\r"
+              done
+            done
+          done
+        done
+      else
+        echo "Skipping checking XML..."
+      fi
+
+exit
+
+
       echo "Generating a table for plotting..."
       NUMBER_SAMPLE=$(echo `grep number $BASEDIR/1/run-clonalorigin/output2/1/core_co.phase3.xml.1|wc -l`)
 

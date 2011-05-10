@@ -346,7 +346,7 @@ sub mt_get_value_gene ($$$)
   my $line = <FILE>;
   chomp $line;
   my @e = split /\t/, $line;
-  die "\$\#e and \$blocklength are different"
+  die "\$\#e and \$blocklength are different at $f"
     unless ($#e + 1) == $blocklength;
 
   my $v = 0;

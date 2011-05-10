@@ -23,11 +23,13 @@ Check this file:
 /Users/goshng/Documents/Projects/mauve-analysis/output/s14/run-analysis/mt.txt
 ----
 
-and
+
+Look at in.gene.R.ps for the distribution of tree topology.
 
 .cornllf/8/2's mt analysis
 ----
 output/cornellf/8/run-analysis/in.gene
+output/cornellf/8/run-analysis/in.gene.R.ps
 ----
 
 

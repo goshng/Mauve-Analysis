@@ -295,7 +295,7 @@ sub print_in_gene ($$)
     print INGENE "$rec->{proportiongap}\t";
     print INGENE "$rec->{mt}\t";
     print INGENE "$rec->{mt2}\t";
-    print INGENE "$rec->{mt3}\n";
+    print INGENE "$rec->{mt3}\t";
     print INGENE "$rec->{mt4}\n";
   }
   close INGENE;
