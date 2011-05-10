@@ -11,6 +11,7 @@ function analyze-run-clonalorigin2-simulation2-receive {
     elif [ "$SPECIES" == "s10" ] \
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
+         || [ "$SPECIES" == "s14" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -18,10 +19,12 @@ function analyze-run-clonalorigin2-simulation2-receive {
       BASERUNANALYSIS=$BASEDIR/run-analysis
       CAC_BASEDIR=$CAC_OUTPUTDIR/$SPECIES
 
+      echo "Receiving $SPECIES ri simulation..."
       for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
         for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
           scp -rq $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/output2/ri-$REPLICATE \
             $BASEDIR/$REPETITION/run-clonalorigin/output2/
+          echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE\r"
         done
       done
       break

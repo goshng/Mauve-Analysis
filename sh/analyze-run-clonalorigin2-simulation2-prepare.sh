@@ -13,6 +13,7 @@ function analyze-run-clonalorigin2-simulation2-prepare {
     elif [ "$SPECIES" == "s10" ] \
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
+         || [ "$SPECIES" == "s14" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -33,7 +34,7 @@ function analyze-run-clonalorigin2-simulation2-prepare {
       scp -q pl/$FUNCNAME.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
-      scp -q $BASERUNANALYSIS/in.block $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+      #scp -q $BASERUNANALYSIS/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
 
       echo "  Creating job files..."
       $FUNCNAME-jobidfile \
@@ -181,7 +182,8 @@ rm tbatch.sh
 EOF
   cat>$BATCH_SH<<EOF
 #!/bin/bash
-#PBS -l walltime=$WALLTIME:00,nodes=1
+##PBS -l walltime=$WALLTIME:00,nodes=1
+#PBS -l walltime=36:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N ${PROJECTNAME}-${SPECIES}-Simulation3

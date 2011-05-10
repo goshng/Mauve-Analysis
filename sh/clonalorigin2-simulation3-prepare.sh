@@ -26,143 +26,23 @@ function clonalorigin2-simulation3-prepare {
       # Copy perl scripts including
       # 1. clonalorigin2-simulation3-prepare.pl
       clonalorigin2-simulation3-prepare-copy-run-sh
+
       ssh -x $CAC_USERHOST mkdir -p $CAC_BASEDIR/pl
-      ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
       scp -q pl/$FUNCNAME.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
+      ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
       scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
-      scp -q $BASERUNANALYSIS/in.block $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+      scp -q simulation/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
 
       echo "  Creating job files..."
-      $FUNCNAME-jobidfile \
-      make-run-list-repeat $g \
-        $OUTPUTDIR/$SPECIES \
-        $REPLICATE \
-        $SPECIESTREE \
-        > $BASEDIR/jobidfile
-      scp -q $BASEDIR/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/
+      #$FUNCNAME-jobidfile > $BASEDIR/jobidfile
+      #scp -q $BASEDIR/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/
 
-break
-
-      echo -n 'Do you wish to skip extracting recombination intensity? (y/n) '
-      read SKIP
-      if [ "$SKIP" == "y" ]; then
-        echo "  Skipping copy of the output files because I've already copied them ..."
-      else
-        echo "Extracting the recombination events from ${HOW_MANY_REPETITION} XML files"
-        echo "  of replicate ${REPLICATE}..."
-        for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          NUMBERDIR=$BASEDIR/$g
-          DATADIR=$NUMBERDIR/data
-          RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-          RUNANALYSIS=$NUMBERDIR/run-analysis
-          CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-          CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-          for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
-            if [ "$g" == 1 ] && [ "$REPLICATE" == 1 ]; then
-              perl pl/$FUNCNAME.pl \
-                -d $RUNCLONALORIGIN/output2/$REPLICATE \
-                -xmfa $DATADIR/core_alignment.$REPLICATE.xmfa \
-                -genelength $GENELENGTH \
-                -inblock simulation/$INBLOCK \
-                -endblockid \
-                > $BASERUNANALYSIS/ri.txt
-              echo -ne "Creating $BASERUNANALYSIS/ri.txt "
-            else
-              perl pl/$FUNCNAME.pl \
-                -d $RUNCLONALORIGIN/output2/$REPLICATE \
-                -xmfa $DATADIR/core_alignment.$REPLICATE.xmfa \
-                -genelength $GENELENGTH \
-                -inblock simulation/$INBLOCK \
-                -endblockid \
-                >> $BASERUNANALYSIS/ri.txt
-              echo -ne "Appending $BASERUNANALYSIS/ri.txt "
-            fi
-            echo -ne "Repeition $g - $REPLICATE\r"
-          done
-        done
-      fi
-
-      echo -n 'Do you wish to skip dividing true recombination? (y/n) '
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo "  Skipping ..."
-      else
-        echo "  Dividing the true value of recombination..."
-        for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          NUMBERDIR=$BASEDIR/$g
-          DATADIR=$NUMBERDIR/data
-          RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-          RUNANALYSIS=$NUMBERDIR/run-analysis
-          CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-          CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-          perl pl/extractClonalOriginParameter9.pl \
-            -xml $DATADIR/core_alignment.xml
-        done
-      fi 
-
-      extract_ri \
-        yes \
-        $REPLICATE \
-        $HOW_MANY_REPETITION \
-        core_alignment
       break
     else
       echo -e "You need to enter something\n"
       continue
     fi
-  done
-}
-
-function extract_ri {
-  ISTRUE=$1
-  REPLICATE=$2
-  HOW_MANY_REPETITION=$3
-  WHATXMLFILEBASE=$4
-
-  echo "Extracting the recombination events from ${HOW_MANY_REPETITION} XML files"
-  echo "  of replicate ${REPLICATE}..."
-  for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-    NUMBERDIR=$BASEDIR/$g
-    DATADIR=$NUMBERDIR/data
-    RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-    RUNANALYSIS=$NUMBERDIR/run-analysis
-    CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-    CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-
-    if [ "$ISTRUE" == "yes" ]; then
-      XMLBASE=$DATADIR
-      XMLFILEBASE=$WHATXMLFILEBASE
-      XMLFILE=$XMLBASE/$XMLFILEBASE.xml.1
-      HEATFILE=$XMLBASE/${SPECIES}_${g}_heatmap-1.txt
-    else
-      XMLBASE=$RUNCLONALORIGIN/output2/$REPLICATE
-      XMLFILEBASE=$WHATXMLFILEBASE
-      XMLFILE=$XMLBASE/$XMLFILEBASE.1.xml
-      HEATFILE=$XMLBASE/heatmap-1.txt
-    fi
-
-    # Files that we need to compare.
-    if [ "$g" == 1 ]; then
-      perl pl/analyze-run-clonalorigin2-simulation2.pl \
-        -d $XMLBASE \
-        -xmfa $DATADIR/core_alignment.1.xmfa \
-        -genelength $GENELENGTH \
-        -inblock simulation/$INBLOCK \
-        -endblockid \
-        -xmlbasename $XMLFILEBASE \
-        > $BASERUNANALYSIS/ri-$ISTRUE.txt
-    else
-      perl pl/analyze-run-clonalorigin2-simulation2.pl \
-        -d $XMLBASE \
-        -xmfa $DATADIR/core_alignment.1.xmfa \
-        -genelength $GENELENGTH \
-        -inblock simulation/$INBLOCK \
-        -endblockid \
-        -xmlbasename $XMLFILEBASE \
-        >> $BASERUNANALYSIS/ri-$ISTRUE.txt
-      fi
-    echo "Repeition $g"
   done
 }
 
@@ -173,20 +53,26 @@ function clonalorigin2-simulation3-prepare-copy-run-sh {
 #!/bin/bash
 echo -n "How many computing nodes do you wish to use? (e.g., 3) "
 read HOW_MANY_NODE
+HOW_MANY_NODE=\$[ \$HOW_MANY_NODE - 1 ]
 sed s/PBSARRAYSIZE/\$HOW_MANY_NODE/g < batch.sh > tbatch.sh
+HOW_MANY_NODE=\$[ \$HOW_MANY_NODE + 1 ]
+NUMBERLINE=\$(echo \`cat jobidfile|wc -l\`)
+A=\$[ \$NUMBERLINE/\$HOW_MANY_NODE + 1 ]
+split -d -l \$A jobidfile
 nsub tbatch.sh 
 rm tbatch.sh
 EOF
   cat>$BATCH_SH<<EOF
 #!/bin/bash
-#PBS -l walltime=$WALLTIME:00,nodes=1
+##PBS -l walltime=$WALLTIME:00,nodes=1
+#PBS -l walltime=59:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N ${PROJECTNAME}-${SPECIES}-Simulation3
 #PBS -q ${QUEUENAME}
-#PBS -m e
-#PBS -M ${BATCHEMAIL}
-#PBS -t 1-PBSARRAYSIZE
+##PBS -m e
+##PBS -M ${BATCHEMAIL}
+#PBS -t 0-PBSARRAYSIZE
 
 # -l: The wall time is the time duration during which 
 #     a job can run.  Use wall time enough to finish jobs.
@@ -195,7 +81,7 @@ EOF
 # -N: The name of the job
 # -q: The name of the queue
 # -m: When is the job's status reported?
-# -M: The email address to get the notification of the jobs
+# -M: The email address to get notification of the jobs
 # -t: The number of nodes to use.  I would replace 
 #     PBSARRAYSIZE with a positive number.
 
@@ -206,20 +92,26 @@ HOW_MANY_REPLICATE=$HOW_MANY_REPLICATE
 set -x
 
 # The full path of the clonal origin executable.
-WARG=\$HOME/usr/bin/warg
+WARGSIM=\$HOME/Documents/Projects/mauve-analysis/src/clonalorigin/b/wargsim
 # The input and output directories.
 
 function copy-data {
+  ID=\$(printf "%02d\\n" \$PBS_ARRAYID)
+  cp \$PBS_O_WORKDIR/x\$ID \$TMPDIR/jobidfile
+  cp \$WARGSIM \$TMPDIR
   cp \$PBS_O_WORKDIR/batch_task.sh \$TMPDIR 
   cp -r \$PBS_O_WORKDIR/pl \$TMPDIR
   mkdir \$TMPDIR/run-analysis
   cp \$PBS_O_WORKDIR/run-analysis/in.gene \$TMPDIR/run-analysis
-  cp \$PBS_O_WORKDIR/run-analysis/in.block \$TMPDIR/run-analysis
+  cp \$PBS_O_WORKDIR/run-analysis/$INBLOCK \$TMPDIR/run-analysis
+  # HOW_MANY_REPETITION=1
   for g in \$(eval echo {1..$HOW_MANY_REPETITION}); do
     mkdir -p \$TMPDIR/\$g/run-clonalorigin/output2
     for REPLICATE in \$(eval echo {1..$HOW_MANY_REPLICATE}); do
-      cp -r \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/\$REPLICATE \$TMPDIR/\$g/run-clonalorigin/output2/
-      mkdir -p \$TMPDIR/\$g/run-clonalorigin/output2/ri-\$REPLICATE
+      # cp -r \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/\$REPLICATE \$TMPDIR/\$g/run-clonalorigin/output2/
+      # mkdir -p \$TMPDIR/\$g/run-clonalorigin/output2/mt-\$REPLICATE
+      cp -r \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/mt-\$REPLICATE \$TMPDIR/\$g/run-clonalorigin/output2/
+      mkdir -p \$TMPDIR/\$g/run-clonalorigin/output2/mt-\${REPLICATE}-out
     done
   done
 }
@@ -227,7 +119,7 @@ function copy-data {
 function retrieve-data {
   for g in \$(eval echo {1..$HOW_MANY_REPETITION}); do
     for REPLICATE in \$(eval echo {1..$HOW_MANY_REPLICATE}); do
-      cp -r \$TMPDIR/\$g/run-clonalorigin/output2/ri-\$REPLICATE \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/
+      cp -r \$TMPDIR/\$g/run-clonalorigin/output2/mt-\$REPLICATE-out \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/
     done
   done
 }
@@ -235,18 +127,24 @@ function retrieve-data {
 function process-data {
   cd \$TMPDIR
   CORESPERNODE=8
-  for (( i=1; i<=CORESPERNODE; i++))
+  NUMBERLINE=\$(echo \`cat jobidfile|wc -l\`)
+  A=\$[ \$NUMBERLINE/\$CORESPERNODE + 1 ]
+  split -d -l \$A jobidfile
+  for (( i=0; i<CORESPERNODE; i++))
   do
-    bash batch_task.sh \\
-      \$i \\
-      \$PBS_O_WORKDIR/jobidfile \\
-      \$PBS_O_WORKDIR/lockfile&
+    ID=\$(printf "%02d\\n" \$i)
+    bash x\$ID &
+    #bash batch_task.sh \\
+      #\$i \\
+      #\$PBS_O_WORKDIR/jobidfile \\
+      #\$PBS_O_WORKDIR/lockfile&
   done
 }
 echo -n "Started at "; date
 copy-data
 process-data; wait
 retrieve-data
+cd /tmp; rm -rf \$TMPDIR
 echo -n "End at "; date
 EOF
  
@@ -334,11 +232,25 @@ function clonalorigin2-simulation3-prepare-jobidfile {
       for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
         LINE="perl pl/clonalorigin2-simulation3-prepare.pl \
               -xml $REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID \
-              -inblock run-analysis/in.block \
-              -ingene run-analysis/in.gene \
-              -blockid $BLOCKID \
-              -out $REPETITION/run-clonalorigin/output2/ri-$REPLICATE/$BLOCKID"
-        echo $LINE
+              -out $REPETITION/run-clonalorigin/output2/mt-$REPLICATE/core_co.phase3.xml.$BLOCKID"
+        #echo $LINE
+      done
+    done
+  done
+
+  for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+    for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+      for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+        BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID`)
+        NUMBER_SAMPLE=$(echo `grep number $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID|wc -l`)
+        for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+          LINE="./wargsim \
+                --xml-file $REPETITION/run-clonalorigin/output2/mt-$REPLICATE/core_co.phase3.xml.$BLOCKID.$g \
+                --gene-tree \
+                --out-file $REPETITION/run-clonalorigin/output2/mt-$REPLICATE-out/core_co.phase3.xml.$BLOCKID.$g \
+                --block-length $BLOCKSIZE"
+          echo $LINE
+        done
       done
     done
   done

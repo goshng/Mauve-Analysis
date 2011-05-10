@@ -10,6 +10,103 @@ Jobs that were done are described for later reference.
 ---> means I need to do something about it.
 
 
+Tue May 10 08:34:26 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s14's ri and mt are under analysis
+
+--->
+
+Check this file:
+.s14's mt analysis result for genes:
+----
+/Users/goshng/Documents/Projects/mauve-analysis/output/s14/run-analysis/mt.txt
+----
+
+and
+
+.cornllf/8/2's mt analysis
+----
+output/cornellf/8/run-analysis/in.gene
+----
+
+
+Mon May  9 15:13:08 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+s14's mt: map-tree-topology was being checked with simulation s14. wargsim was
+slow becuase of random values from system. I did not need a random number for
+finding topology. I turned it off. Otherwise, wargsim was unpredictably slow
+because it waited for the random seed generation from system.
+-> done in 1 hour with 10 nodes (menu clonalorigin2-simulation3-prepare).
+.  
+---> (menu clonalorigin2-simulation3-analyze).
+
+.An exammple file: REPETITION=1, REPLICATE=2, BLOCK=3, SAMPLE=4
+----
+output/s14/1/run-clonalorigin/output2/mt-2-out/core_co.phase3.xml.3.4
+----
+
+.A true mt file: REPETITION=1, BLOCK=2, (SAMPLE=1 A single sample in true)
+----
+output/s14/1/run-analysis/mt-yes-out/core_co.phase3.xml.2.1
+----
+
+.s14's mt analysis result for genes:
+----
+/Users/goshng/Documents/Projects/mauve-analysis/output/s14/run-analysis/mt.txt
+----
+--->
+
+
+
+s14's ri: 
+-> done in 3 hours with 10 nodes. 
+(menu analyze-run-clonalorigin2-simulation2-prepare)
+
+--->
+(menu analyze-run-clonalorigin2-simulation2-analyze)
+
+.An example file: REPETITION=5, REPLICATE=10, BLOCK=1
+----
+output/s14/5/run-clonalorigin/output2/ri-10/1
+----
+
+.True XML file: REPETITION=1, BLOCK=2
+----
+output/s14/1/data/core_alignment.xml.2
+----
+
+.An example file for a true: REPETITION=1, BLOCK=2
+----
+output/s14/1/run-analysis/ri-true/2
+----
+
+.Table
+----
+gene true estimate
+----
+
+.Figure for s14 with ri analysis
+/Users/goshng/Documents/Projects/mauve-analysis/output/s14/run-analysis/ri.R.ps
+
+
+
+
+Sun May  8 00:59:12 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.CMakeLists.txt can be changed to compile wargsim at CAC cluster.
+----
+include_directories(/cac/contrib/gsl-1.12/include)
+set(LIBS ${LIBS} /cac/contrib/gsl-1.12/lib/libgsl.a /cac/contrib/gsl-1.12/lib/libgslcblas.a)
+----
+
+.M3 genes annotation is used in s14
+----
+cp output/cornellf/8/run-analysis/in.gene output/s14/run-analysis/
+----
+
+
 Fri May  6 09:18:41 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

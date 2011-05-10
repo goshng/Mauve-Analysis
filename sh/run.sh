@@ -2705,6 +2705,7 @@ source sh/locate-gene-in-block.sh
 source sh/clonalorigin2-simulation3.sh
 source sh/clonalorigin2-simulation3-prepare.sh
 source sh/clonalorigin2-simulation3-receive.sh
+source sh/clonalorigin2-simulation3-analyze.sh
 
 #####################################################################
 # Main part of the script.
@@ -2719,12 +2720,12 @@ CHOICES=( init-file-system \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
-          --- SIMULATION2 ---\
+          --- SIMULATION2-1 ---\
           simulate-data-clonalorigin2 \
           prepare-run-clonalorigin2-simulation \
           receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
-          --- SIMULATION3 ---\
+          --- SIMULATION2-2 ---\
           analyze-run-clonalorigin2-simulation2 \
           analyze-run-clonalorigin2-simulation2-prepare \
           analyze-run-clonalorigin2-simulation2-receive \
@@ -2733,6 +2734,9 @@ CHOICES=( init-file-system \
           clonalorigin2-simulation3 \
           clonalorigin2-simulation3-prepare \
           clonalorigin2-simulation3-receive \
+          clonalorigin2-simulation3-analyze \
+          --- SIMULATION2-4 ---\
+          clonalorigin2-simulation4 \
           --- SIMULATION5 ---\
           simulate-data-clonalorigin2-from-xml \
           --- REAL-DATA ---\
@@ -2879,6 +2883,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "clonalorigin2-simulation3" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

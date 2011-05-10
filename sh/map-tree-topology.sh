@@ -114,8 +114,9 @@ function map-tree-topology {
         perl pl/$FUNCNAME.pl \
           -ricombined $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined \
           -ingene $RUNANALYSIS/in.gene \
-          -treetopology $TREETOPOLOGY
-        echo "Check file $BASERUNANALYSIS/in.gene"
+          -treetopology $TREETOPOLOGY \
+          -verbose
+        echo "Check file $RUNANALYSIS/in.gene"
       fi
       break
     fi

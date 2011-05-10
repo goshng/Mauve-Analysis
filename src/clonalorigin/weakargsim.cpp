@@ -97,6 +97,7 @@ static const char * help=
                   file base name suffixed \".xmfa\".\n\
     --gene-tree\n\
                   Gene trees for all of iteration and site are exported.\n\
+                  Not random!\n\
     --block-length\n\
                   Length of a block (used with --gene-tree)\n\
     -o FILE       Export the data to the given file in XMFA format\n\
@@ -353,7 +354,10 @@ int main(int argc, char *argv[])
         }
     }
 
-    seed=seedrng(seed);// <0 means use /dev/random or clock.
+//std::cerr << "before seed: " << seed << std::endl;
+    if (exportGenetree == false) {
+      seed=seedrng(seed);// <0 means use /dev/random or clock.
+    }
     comment.append("\nSeed: ");
     ss<<seed;
     comment.append(ss.str());

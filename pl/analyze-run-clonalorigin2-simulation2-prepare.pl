@@ -27,7 +27,6 @@ GetOptions( \%params,
             'xml=s',
             'blockid=i',
             'xmfa=s',
-            'inblock=s',
             'ingene=s',
             'out=s',
             'realdataanalysis'
@@ -52,7 +51,6 @@ perl analyze-run-clonalorigin2-simulation2-prepare.pl
   [-endblockid]
   [-xmfa genome alignment] 
   [-genelength integer] 
-  [-inblock inblock file] 
   [-n integer] 
 
 =head1 DESCRIPTION
@@ -61,6 +59,12 @@ I wish to check if the recombination intensity can be recovered. Options -d,
 -xmlbasename, and -endblockid stay put. Option -xmfa is also kept. Option gene
 length is used to segment the alignment. I compute the recombination intensity
 of each segment. 
+
+I use the following two menus to find locations of genes in blocks:
+convert-gff-ingene and locate-gene-in-block. I do not need -xmfa. All that I
+need is ingene file. I do not need inblock either.
+
+I may not need this -realdataanalysis option.
 
 =head1 OPTIONS
 
@@ -117,11 +121,6 @@ core_co.phase3.1.xml.
 The base names are s8_1_core_alignment or core_co.phase3. 
 Default base name is core_co.phase3.
 
-=item B<-inblock> <name>
-
-An inblock file replaces a genome file. An inblock file contains a list of
-block lengths.
-
 =back
 
 =head1 AUTHOR
@@ -156,6 +155,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 require "pl/sub-simple-parser.pl";
 require "pl/sub-newick-parser.pl";
 require "pl/sub-array.pl";
+require "pl/sub-ingene.pl";
 sub get_genome_file ($$);
 sub locate_block_in_genome ($$);
 sub locate_nucleotide_in_block ($$);
@@ -170,7 +170,6 @@ my $blockID;
 my $xmlFile;
 my $xmfaFile;
 my $verbose = 0;
-my $inblock;
 my $ingene;
 my $realDataAnalysis = 0; 
 my $outFile;
@@ -219,15 +218,6 @@ if ($realDataAnalysis == 1)
   }
 }
 
-if (exists $params{inblock})
-{
-  $inblock = $params{inblock};
-}
-else
-{
-  &printError("you did not specify an inblock file");
-}
-
 if (exists $params{ingene})
 {
   $ingene = $params{ingene};
@@ -257,90 +247,15 @@ my $speciesTree = get_species_tree ($xmlFile);
 my $numberItartion = get_sample_size ($xmlFile);
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
-my $genomeLength = get_inblock_length ($inblock);
-my $numberBlock = get_inblock_number_block ($inblock);
 
-if ($verbose == 1)
-{
-  print STDERR "Genome: $inblock\n";
-  print STDERR "  Length - $genomeLength\n";
-}
-
-my $refGenome;
-
-################################################################################
-# Find coordinates of the reference genome.
-################################################################################
-
-my @blockLocationGenome;
-my $pos = 1;
-if ($realDataAnalysis == 1) 
-{
-  open XMFA, $xmfaFile or die "Could not open $xmfaFile";
-  while (<XMFA>) 
-  {
-    if (/^>\s+$refGenome:(\d+)-(\d+)/)
-    {
-      my $startGenome = $1;
-      my $endGenome = $2;
-      my $rec = {};
-      $rec->{start} = $startGenome;
-      $rec->{end} = $endGenome;
-      push @blockLocationGenome, $rec;
-      last;
-    }
-  }
-  close XMFA;
-}
-else
-{
-  my $line; 
-  open INBLOCK, $inblock or die "Could not open $inblock";
-  while ($line = <INBLOCK>)
-  {
-    my $lengthBlock = $line;
-    my $startGenome = $pos;
-    my $endGenome = $pos + $lengthBlock - 1;
-    $pos += $lengthBlock;
-    my $rec = {};
-    $rec->{start} = $startGenome;
-    $rec->{end} = $endGenome;
-    push @blockLocationGenome, $rec;
-  }
-  close INBLOCK;
-}
-
-if ($verbose == 1)
-{
-  for (my $i = 0; $i <= $#blockLocationGenome; $i++)
-  {
-    my $href = $blockLocationGenome[$i];
-    print STDERR "$i:$href->{start} - $href->{end}\n"; 
-  }
-}
-
-################################################################################
-# Find genes within the block
-################################################################################
-sub find_genes_within_block ($$$);
-my $href = $blockLocationGenome[$blockID - 1];
-my $blockBegin = $href->{start};
-my @genes = find_genes_within_block ($ingene, $href->{start}, $href->{end});
-
-if ($verbose == 1)
-{
-  for (my $i = 0; $i <= $#genes; $i++)
-  {
-    my $h = $genes[$i];
-    print STDERR "$i\t$h->{name}\t$h->{start}\t$h->{end}\n";
-  }
-}
-
+# FIXME:
+# convert-gff-ingene and locate-gene-in-block must be used to generate in.gene
+# file for simulation s10 and s11.
+# Do I need these?
 
 # !!! NOTE !!!
 # mapImport index is 1-based, and blockImmport index is 0-based.
-# map starts at 1.
-# block starts at 0.
+# or map starts at 1, and  block starts at 0.
 my @blockImport;
 my @mapBlockImport;
 if ($verbose == 1)
@@ -348,10 +263,9 @@ if ($verbose == 1)
   print STDERR "A new mapImport is being created...";
 }
 $blockLength = get_block_length ($xmlFile);
-$genomeLength = $blockLength;
 my @mapImport = create3DMatrix ($numberLineage, 
                                 $numberLineage, 
-                                $genomeLength + 1);
+                                $blockLength + 1);
 if ($verbose == 1)
 {
   print STDERR " done.\n";
@@ -381,52 +295,13 @@ my $prevBlockLength = 1;
   print "Unable to parse XML of $xmlFile, error $@\n" if $@;
   next if $@;
   
-  if ($realDataAnalysis == 1) 
+  for (my $pos = 0; $pos < $blockLength; $pos++)
   {
-    my @sites = locate_nucleotide_in_block ($xmfaFile, $refGenome);
-    my ($b, $e, $strand) = locate_block_in_genome ($xmfaFile, $refGenome);
-    my $c = 0; 
-    for my $i ( 0 .. $#sites ) {
-      if ($sites[$i] eq '-')
-      {
-        # No code.
-      }
-      else
-      {
-        my $pos;
-        if ($strand eq '+') 
-        {
-          $pos = $b + $c;
-        }
-        else
-        {
-          $pos = $e - $c;
-        }
-        for (my $j = 0; $j < $numberLineage; $j++)
-        {
-          for (my $k = 0; $k < $numberLineage; $k++)
-          {
-            $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$i];
-          }
-        }
-        $c++;
-      }
-    }
-    $c--;
-    die "$e and $b + $c do not match" unless $e == $b + $c;
-  }
-  else
-  {
-    my $b = 1;
-    my $e = $blockLength; 
-    for (my $pos = $b; $pos <= $e; $pos++)
+    for (my $j = 0; $j < $numberLineage; $j++)
     {
-      for (my $j = 0; $j < $numberLineage; $j++)
+      for (my $k = 0; $k < $numberLineage; $k++)
       {
-        for (my $k = 0; $k < $numberLineage; $k++)
-        {
-          $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$pos-$b];
-        }
+        $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$pos];
       }
     }
   }
@@ -435,57 +310,70 @@ my $prevBlockLength = 1;
 ################################################################################
 # Find genes in the block.
 ################################################################################
+sub map_recombination_intensity ($$$);
+
+my @genes = parse_in_gene ($ingene);
+map_recombination_intensity (\@genes, \@mapImport, $blockID);
+# print_in_gene ($ingene, \@genes);
 
 open OUT, ">$outFile" or die "$outFile could not be opened";
 
-
-
 # Gene's RI's are printed out.
+my $isFirst = 1;
 for (my $i = 0; $i <= $#genes; $i++)
 {
-  my $href = $genes[$i];
-  my $b = $href->{start} - $blockBegin + 1;
-  my $e = $href->{end} - $blockBegin + 1;
-  my $v = 0;
-  for (my $pos = $b; $pos <= $e; $pos++)
+  my $h = $genes[$i];
+  my $block = $h->{block};
+  if ($blockID == $block)
   {
-    for (my $j = 0; $j < $numberLineage; $j++)
+    if ($isFirst == 1)
     {
-      for (my $k = 0; $k < $numberLineage; $k++)
-      {
-        $v += $mapImport[$j][$k][$pos];
-      }
+      $isFirst = 0;
+      print OUT "$h->{gene}:";
     }
+    else
+    {
+      print OUT "\t";
+      print OUT "$h->{gene}:";
+    }
+    print OUT $h->{ri};
   }
-  $v /= ($e - $b + 1);
-  $v /= $numberItartion;
-  if ($i > 0)
-  {
-    print OUT "\t";
-  }
-  print OUT $v;
 }
 print OUT "\n";
 close OUT;
 
 exit;
 
-# mapImport is printed out.
-for (my $i = 1; $i <= $genomeLength; $i++)
+sub map_recombination_intensity ($$$)
 {
-  my $pos = $i;
-  print "$pos";
-  for (my $j = 0; $j < $numberLineage; $j++)
+  my ($genes, $mi, $blockID) = @_;
+  for (my $i = 0; $i < scalar @{ $genes }; $i++)
   {
-    for (my $k = 0; $k < $numberLineage; $k++)
+    my $h = $genes->[$i];
+    my $block = $h->{block};
+    if ($blockID == $block)
     {
-      print "\t", $mapImport[$j][$k][$pos];
+      # Only genes in the current block are used.
+      my $b = $h->{blockstart};
+      my $e = $h->{blockend};
+      my $v = 0;
+      for (my $pos = $b; $pos <= $e; $pos++)
+      {
+        for (my $j = 0; $j < $numberLineage; $j++)
+        {
+          for (my $k = 0; $k < $numberLineage; $k++)
+          {
+            $v += $mi->[$j][$k][$pos];
+          }
+        }
+      }
+      $v /= ($e - $b + 1);
+      $v /= $numberItartion;
+      $h->{ri} = $v;
     }
-  }
-  print "\n";
-}
 
-exit;
+  }
+}
 
 #
 ################################################################################

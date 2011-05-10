@@ -1,10 +1,7 @@
 # Author: Sang Chul Choi
-# Date  : Thu May  5 13:45:53 EDT 2011
+# Date  : Tue May 10 11:12:48 EDT 2011
 
-# Analyzes the 2nd stage of clonal origin simulation
-# --------------------------------------------------
-#
-function analyze-run-clonalorigin2-simulation2-analyze {
+function clonalorigin2-simulation3-analyze {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -26,32 +23,51 @@ function analyze-run-clonalorigin2-simulation2-analyze {
       if [ "$WANT" == "y" ]; then
         echo "Generating true XML..."
         for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
-          mkdir -p $RITRUE
+          MTTRUE=$BASEDIR/$REPETITION/data/mt-yes
+          MTOUTTRUE=$BASEDIR/$REPETITION/run-analysis/mt-yes-out
+          mkdir -p $MTTRUE
+          mkdir -p $MTOUTTRUE
           for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-            perl pl/analyze-run-clonalorigin2-simulation2-prepare.pl \
+            perl pl/clonalorigin2-simulation3-prepare.pl \
               -xml $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID \
-              -ingene $BASERUNANALYSIS/in.gene \
-              -blockid $BLOCKID \
-              -out $RITRUE/$BLOCKID
+              -out $MTTRUE/core_alignment.xml.$BLOCKID 
+
+            BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID`)
+            NUMBER_SAMPLE=1
+            for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+              $WARGSIM \
+                --xml-file $MTTRUE/core_alignment.xml.$BLOCKID.$g \
+                --gene-tree \
+                --out-file $MTOUTTRUE/core_alignment.xml.$BLOCKID.$g \
+                --block-length $BLOCKSIZE
+            done
             echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK\r"
           done
         done
-        echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes"
+        echo "Find files at $BASEDIR/REPETITION#/run-analysis/mt-yes-out"
       else
         echo "Skipping generating true XML..."
       fi
 
       echo "Generating a table for plotting..."
-      OUTFILE=$BASERUNANALYSIS/ri.txt
+      NUMBER_SAMPLE=$(echo `grep number $BASEDIR/1/run-clonalorigin/output2/1/core_co.phase3.xml.1|wc -l`)
+
+      OUTFILE=$BASERUNANALYSIS/mt.txt
       for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-        RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
+        MTOUTTRUE=$BASEDIR/$REPETITION/run-analysis/mt-yes-out
         for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-          PERLCOMMAND="perl pl/analyze-run-clonalorigin2-simulation2-analyze.pl \
-            -true $RITRUE/$BLOCKID \
-            -estimate $BASEDIR/$REPETITION/run-clonalorigin/output2/ri \
+
+          BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID`)
+
+          PERLCOMMAND="perl pl/clonalorigin2-simulation3-analyze.pl \
+            -true $MTOUTTRUE/core_alignment.xml.$BLOCKID \
+            -estimate $BASEDIR/$REPETITION/run-clonalorigin/output2/mt \
             -numberreplicate $HOW_MANY_REPLICATE \
+            -numbersample $NUMBER_SAMPLE \
             -block $BLOCKID \
+            -blocklength $BLOCKSIZE \
+            -ingene $BASERUNANALYSIS/in.gene \
+            -treetopology 89 \
             -out $OUTFILE"
           if [ "$REPETITION" != 1 ] || [ "$BLOCKID" != 1 ]; then
             PERLCOMMAND="$PERLCOMMAND -append"
@@ -61,23 +77,6 @@ function analyze-run-clonalorigin2-simulation2-analyze {
         done
       done
       echo "Check $OUTFILE"
-      
-exit 
-
-      for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-        RIFILES="" 
-        RTFILE=$BASEDIR/$REPETITION/run-clonalorigin/output2/$REPETITION.rt
-        for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
-          RIS="" 
-          RIFILE=$BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE.ri
-          for i in $(eval echo {1..$NUMBER_BLOCK}); do
-            RIS="$RIS $BASEDIR/$REPETITION/run-clonalorigin/output2/ri-$REPLICATE/$i" 
-          done
-          paste $RIS > $RIFILE
-          RIFILES="$RIFILES $RIFILE"
-        done
-        cat $RIFILES > $RTFILE
-      done
     fi
     break
   done

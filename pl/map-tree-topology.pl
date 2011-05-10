@@ -188,10 +188,11 @@ sub map_tree_topology ($$$)
     my $start = $h->{blockstart};
     my $end = $h->{blockend};
     my $rifile = "$ricombined/$block";
-    my ($ri,$ri2,$ri3) = get_number_topology_change ($rifile, $start, $end, $treetopology);
-    $h->{ri} = $ri;
-    $h->{ri2} = $ri2;
-    $h->{ri3} = $ri3;
+    my ($mt,$mt2,$mt3,$mt4) = get_number_topology_change ($rifile, $start, $end, $treetopology);
+    $h->{mt} = $mt;
+    $h->{mt2} = $mt2;
+    $h->{mt3} = $mt3;
+    $h->{mt4} = $mt4;
     my $endTime = time; 
     my $elapsedTime = $endTime - $startTime;
     $processedTime += $elapsedTime;
@@ -211,16 +212,19 @@ sub get_number_topology_change ($$$$)
   my $v = 0;
   my $vTopology = 0;
   my $vCountTopology = 0;
+  my $vTopologyChange = 0;
   open RI, $rifile or die "could not open $rifile";
   while (<RI>)
   {
     chomp;
     my @e = split /\t/;
+    my $anyTopologyChange = 0;
     for (my $i = $start; $i < $end; $i++)
     {
       if ($e[$i] != $e[$i+1])
       {
         $v++;
+        $anyTopologyChange++; 
       }
       if ($e[$i] != $treetopoogy)
       {
@@ -233,6 +237,10 @@ sub get_number_topology_change ($$$$)
     }
     my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @e;
     $vCountTopology += scalar (@uniquE);
+    if ($anyTopologyChange > 0)
+    {
+      $vTopologyChange++; 
+    }
     $sampleSize++;
   } 
   close RI;
@@ -240,7 +248,8 @@ sub get_number_topology_change ($$$$)
   $v /= $sampleSize;
   $vTopology /= (($end - $start + 1) * $sampleSize);
   $vCountTopology /= (($end - $start + 1) * $sampleSize);
-  return ($v, $vTopology, $vCountTopology);
+  $vTopologyChange /= $sampleSize;
+  return ($v, $vTopology, $vCountTopology, $vTopologyChange);
 }
 
 sub parse_in_gene ($) {
@@ -284,9 +293,10 @@ sub print_in_gene ($$)
     print INGENE "$rec->{blockend}\t";
     print INGENE "$rec->{genelength}\t";
     print INGENE "$rec->{proportiongap}\t";
-    print INGENE "$rec->{ri}\t";
-    print INGENE "$rec->{ri2}\t";
-    print INGENE "$rec->{ri3}\n";
+    print INGENE "$rec->{mt}\t";
+    print INGENE "$rec->{mt2}\t";
+    print INGENE "$rec->{mt3}\n";
+    print INGENE "$rec->{mt4}\n";
   }
   close INGENE;
   rename "$ingene.temp", $ingene
