@@ -1334,7 +1334,7 @@ Methods and Materials
 \end_layout
 
 \begin_layout Standard
-Briefly, a genome data set is described, which was also analyzed by 
+Briefly, a genome data set is described, which was analyzed by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Suzuki2011"
@@ -1362,7 +1362,7 @@ http://code.google.com/p/clonalorigin
 \end_inset
 
 .
- We also briefly describe the procedure, but refer the users to 
+ We briefly describe the procedure, but refer the users to 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1395,16 +1395,25 @@ ClonalOrigin analysis
 Two genomes of 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
 , and one of 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  were downloaded from GenBank with accessions: NC_004070 
@@ -1432,21 +1441,33 @@ key "Shimomura2011"
  Additional two genomes, each of 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  and 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 dysgalactiae
 \emph default
  were provided by 
@@ -1464,15 +1485,21 @@ ely.
  Finally, the genome of 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 dysgalactiae
 \emph default
  is referred to as SDD.
- The five genomes were first aligned using progressiveMauve 
+ The five genomes were aligned using progressiveMauve 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Darling2004,Darling2010"
@@ -1492,8 +1519,8 @@ http://asap.ahabs.wisc.edu/mauve/download.php
 \end_inset
 
 .
- A program of ClonalOrigin package, stripSubsetLCBs, was used to strip out
- variable regions from the alignment to leave 276 core alignment blocks
+ A program of the ClonalOrigin package, stripSubsetLCBs, was used to strip
+ out variable regions from the alignment to leave 276 core alignment blocks
  longer than 1,500 base pairs.
  We excluded additional two alignment blocks because of too many gaps in
  their multiple alignments.
@@ -1510,7 +1537,7 @@ http://www.xavierdidelot.xtreemhost.com/clonalframe.htm
 \end_inset
 
  was applied to the 274 alignment blocks to estimate a clonal frame, or
- or a species tree of the five genomes 
+ a species tree of the five genomes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2007"
@@ -1518,12 +1545,14 @@ key "Didelot2007"
 \end_inset
 
 .
- Independent runs of Markov chain Monte Carlo (MCMC) were executed with
- a total generation of chains being 20,000.
+ Eight independent runs of ClonalFrame's Markov chain Monte Carlo (MCMC)
+ were executed with a total generation of chains being 20,000.
  The first 10,000 generations were discarded as burn-in.
- A few species trees were estimated, from which we chose one based on its
- likelihood.
- ClonalOrigin with a subversion r19 released on October 1st 2010 was downloaded
+ The results of the eight different runs produced similar estimates of the
+ species tree.
+ We chose one of the eight estimates as the species tree of the five streptococc
+us genomes in ClonalOrigin analysis.
+ ClonalOrigin of subversion r19 released on October 1st 2010 was downloaded
  from 
 \begin_inset Flex URL
 status collapsed
@@ -1556,16 +1585,12 @@ key "Didelot2010"
  The remaining 10,000,000 generations were subsampled every 100,000-th generatio
 n, leaving a posterior sample of size 101 including the first sample right
  after the burn-in.
- Additionally, two independent chains of the second ClonalOrigin Markov
- chain Montel Carlo were executed with a total generation being 110,000,000.
+ Additionally, two independent chains of the second stage of ClonalOrigin's
+ MCMC were executed with a total generation being 110,000,000.
  The first 10,000,000 generations of each chain were discarded as burn-in.
- The remaining:w 100,000,000 generations were subsampled every 100,000 generatio
-ns, leaving a sample of size 1,001 including the first sample right after
- the burn-in.
-\end_layout
-
-\begin_layout Standard
-[DESCRIBE THE RESULTS].
+ The remaining 100,000,000 generations were subsampled every 100,000-th
+ generations, leaving a sample of size 1,001 including the first sample
+ right after the burn-in.
 \end_layout
 
 \begin_layout Subsection
@@ -1947,6 +1972,10 @@ I have been reconsider the above idea, and have realized that something
 WARNING: This is an old idea of having multiple recombination rates.
  I do think that multiple coalescent rates with the single recombination
  rate can better fit the ClonalOrigin model.
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1959,40 +1988,178 @@ Core- and pan-genome
 
 \begin_layout Standard
 IMPORTANT: +Follow Darling2010 in the analysis of core- and pan-genome.+
+\end_layout
+
+\begin_layout Subsection
+Multiple alignment using Mauve
+\end_layout
+
+\begin_layout Standard
+The total number of blocks we used was 274.
+ The total length of all of the block alignments was 1,147,632.
+ The average length of the blocks was 4,188, and the median was [MEDIAN
+ OF BLOCK LENGTH].
+ The proportion of polymorphic sites was 0.169.
+ Figure XX shows the distribution of lengths of the 274 blocks.
+ Because the rate of mutation on the branches of the genealogy and branch
+ lengths of the species tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ are reciprocally proportional, we set the rate of mutation 
+\begin_inset Formula $\theta$
+\end_inset
+
+ on the branches of the species tree to Watterson's estimate, or 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+92871.84.
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+The rate of nucleotide differences in the recombined stretches 
+\begin_inset Formula $\nu$
+\end_inset
+
+ was estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+0.134
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (0.132,0.135) of 95% credibility interval.
+ The rate of recombination on the branches of the genealogy 
+\begin_inset Formula $R$
+\end_inset
+
+ was estimated to be 9371 with (8953,9778) of 95% credibility interval.
+ The mean of the exponential distribution modeling the length of recombinant
+ segments 
+\begin_inset Formula $\delta$
+\end_inset
+
+ was estimated to be 362 with (347,376) of 95% credibility interval.
+ The ratio of probabilities that a given site is altered through recombination
+ and mutation 
+\begin_inset Formula $r/m$
+\end_inset
+
+ was estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+4.66
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (4.45,4.87) of 95% credibility interval.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+This is a measure of how important the effect of recombination was in the
+ diversification of the sample relative to mutation.
+\begin_inset Quotes erd
+\end_inset
+
+ The ratio of rates at which recombination and mutation occur 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ was to be estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+0.10
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (0.096,0.105) of 95% credibility interval.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+It is a measure of how often recombination events happen relative to mutations.
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The two statistics of 
+\begin_inset Formula $r/m$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ can be used to assess the relative contribution of recombination and mutation
+ in the creation of the sample from a common ancestor.
+\begin_inset Quotes erd
+\end_inset
+
  
 \end_layout
 
 \begin_layout Subsection
-The reference species tree
+Reference species tree
 \end_layout
 
 \begin_layout Standard
-Figure 1 shows the estimated species tree that relates the five streptococcal
- genomes.
- SPY1 and SPY2 form a clade while SDE1 and SDE2 form a separate clade.
- SDD is connected to the lineage to the clade of SDE1 and SDE2.
- Mutation rate, $
-\backslash
-theta$, was fixed to Watterson's estimate, or 106279.7.
- $
-\backslash
-rho/
-\backslash
-theta = 0.10$ with an interquartile range of (0.097,0.105) relative mutation
- rate.
- The average length $
-\backslash
-delta = 370 bp$ with an interquartile range of (355,384).
- $r/m = 4.7$ with an interquartile range of (4.5,4.9): more substitutions are
- introduced by recombination than by mutation.
+Figure XX shows a 50% majority-rule consensus tree that was built from the
+ species tree sampled by ClonalFrame.
+ The estimated species tree related the five streptococcal genomes: SPY1
+ and SPY2 form a clade while SDE1 and SDE2 form a separate clade, and SDD
+ is connected to the lineage to the clade of SDE1 and SDE2.
+ The sum of all of the branch lengths of the spcies tree was 1.02.
+ [I EXPECT THAT HALF OF THE WATTERSON'S ESTIMATE WOULD LEAD TO 2].
  
-\end_layout
-
-\begin_layout Standard
-
-\family typewriter
-[Can we add Canis in the species tree inference? If so, what would do with
- that for recombination and gene gain and loss analysis?]
 \end_layout
 
 \begin_layout Subsection
@@ -2000,31 +2167,18 @@ Population parameter estimates
 \end_layout
 
 \begin_layout Standard
-I applied the first stage of ClonalOrigin's MCMC to each of the alignment
- blocks in order to estimate mutation rate, recombination rate, and recombinatio
-n tract length.
- The median value for the recombination tract length $
-\backslash
-delta$ was 1425 bp.
- The median value for the per-site mutation rate $
-\backslash
-theta_s/2$ was 0.0542.
- The median value for the per-site recombination rate $
-\backslash
-rho_s/2$ was 0.00521.
- The median inferred value of $
-\backslash
-rho/
-\backslash
-theta$ was 0.096, which was roughly equal to the corresponding value estimated
- by ClonalFrame.
- I proceeded to the second stage of ClonalOrigin's MCMC with values of $
-\backslash
-delta$, $
-\backslash
-theta_s$, $
-\backslash
-rho_s$ fixed to the estimated median values.
+The median of mutation rate per site weighted over the lengths of blocks
+ was estimated to be 0.081 with (XXX,XXX) of interquartile range.
+ The median value for the recombinant tract length 
+\begin_inset Formula $\delta$
+\end_inset
+
+ was estimated to be 744 with (XXX,XXX) of interquartile range.
+ The median of recombination rate per site was estimated to be 0.012 with
+ (XXX,XXX) of interquartile range.
+ While the estimate of the recombinant tract length was twice the estimate
+ from ClonalFrame, the estimtes of mutation and recombination rates were
+ comparable to those from ClonalFrame.
 \end_layout
 
 \begin_layout Subsection

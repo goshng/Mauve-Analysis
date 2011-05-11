@@ -21,8 +21,6 @@ function clonalorigin2-simulation3-each-block {
       echo -n "What is BLOCK SIZE? "
       read BLOCKSIZE
 
-      NUMBER_SAMPLE=100
-
       BASEDIR=output/$SPECIES
       TREE=$BASEDIR/$REPETITION/run-clonalorigin/input/$REPLICATE/cornellf-8.tree
       XMFA=$BASEDIR/$REPETITION/data/core_alignment.$REPLICATE.xmfa.$BLOCK
@@ -30,6 +28,7 @@ function clonalorigin2-simulation3-each-block {
       XMLMTDIR=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE
       XMLMT=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE/core_co.phase3.xml.$BLOCK
       XMLMTOUT=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE-out/core_co.phase3.xml.$BLOCK
+      NUMBER_SAMPLE=$(echo `grep number $XML|wc -l`)
 
       warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
         -x 1000000 -y 1000000 -z 10000 \

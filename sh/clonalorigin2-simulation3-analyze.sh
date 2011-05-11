@@ -77,11 +77,14 @@ function clonalorigin2-simulation3-analyze {
 
       echo "Generating a table for plotting..."
       NUMBER_SAMPLE=$(echo `grep number $BASEDIR/1/run-clonalorigin/output2/1/core_co.phase3.xml.1|wc -l`)
-
+      PROCESSEDTIME=0
+      TOTALITEM=$(( $HOW_MANY_REPETITION * $NUMBER_BLOCK ));
+      ITEM=0
       OUTFILE=$BASERUNANALYSIS/mt.txt
       for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
         MTOUTTRUE=$BASEDIR/$REPETITION/run-analysis/mt-yes-out
         for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+          STARTTIME=$(date +%s)
 
           BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID`)
 
@@ -99,7 +102,13 @@ function clonalorigin2-simulation3-analyze {
             PERLCOMMAND="$PERLCOMMAND -append"
           fi
           $PERLCOMMAND
-          echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK\r"
+          ENDTIME=$(date +%s)
+          ITEM=$(( $ITEM + 1 ))
+          ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+          PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+          REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+          REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+          echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK - More $REMAINEDTIME min to go\r"
         done
       done
       echo "Check $OUTFILE"

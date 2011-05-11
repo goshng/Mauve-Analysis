@@ -10,6 +10,18 @@ Jobs that were done are described for later reference.
 ---> means I need to do something about it.
 
 
+Wed May 11 14:53:02 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cornellf/3
+^^^^^^^^^^
+
+.The species tree from clonal frame analysis
+----
+output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
+----
+
+
 Tue May 10 08:34:26 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -805,4 +817,28 @@ Given a species tree, and the true values of the 3 main parameters.
 2. Heat map analysis.
 3. Recombination intensity.
 
+Manuscript
+----------
+
+.Multiple alignment using Mauve
+----
+output/cornellf/3/run-analysis/run.log
+----
+
+.ClonalFrame Analysis
+----
+output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
+----
+
+.Species tree
+----
+output/cornellf/3/run-clonalorigin/input/1/clonaltree.nwk
+----
+
+(((1:0.045557,2:0.045557)6:0.195330,3:0.240887)8:0.089874,(4:0.074544,5:0.074544)7:0.256218)9:0.000000
+
+.ClonalOrigin's 1st stage results
+----
+output/cornellf/3/run-clonalorigin/summary/1/median.txt
+----
 
