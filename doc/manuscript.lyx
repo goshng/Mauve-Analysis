@@ -316,7 +316,11 @@ key "Suzuki2011"
  to the expectation under the prior.
  We find that there appears to be more gene flow from SPY1 and SPY2 to SDE1
  and SDE2 than in the other direction.
- We are also exploring gene duplication, loss, and horizontal gene transfer
+ 
+\end_layout
+
+\begin_layout Standard
+We are also exploring gene duplication, loss, and horizontal gene transfer
  using a complementary approach.
  We used the clusters of gene families computed by OrthoMCL 
 \begin_inset CommandInset citation
@@ -330,7 +334,11 @@ key "Li2003,Suzuki2011"
  outgroup S.
  equi subsp.
  equi strain 4047.
- For each family cluster, the corresponding peptide sequences were aligned
+ 
+\end_layout
+
+\begin_layout Standard
+For each family cluster, the corresponding peptide sequences were aligned
  using the MUSCLE program 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -480,8 +488,7 @@ key "Davies2007a"
 \end_inset
 
 .
- Therefore, genetic interaction between the two species may have played
- roles in formation of pathogenicity of 
+ Pathogenicity of 
 \emph on
 S.
 \begin_inset space \space{}
@@ -497,56 +504,14 @@ dysgalactiae
 
 equisimilis
 \emph default
-.
- Understanding the genetic exchange could enhance our knowledge of their
+ may have been facilitated by genetic interaction between the two species.
+ Understanding the genetic exchange would enhance our knowledge of their
  pathogenic effects on human health.
  
 \end_layout
 
 \begin_layout Standard
-Previous experimental research in gene exchange between the two pyogeneic
- species was limited to relatively smaller portion of the bacterial genome,
- mostly focusing on virulence genes 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Kalia2004,Towers2004,Bessen2005"
-
-\end_inset
-
-.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Davies2007a"
-
-\end_inset
-
- tackled a genome-wide profiling of virulence genes of the two species using
- microarrays.
- An earlier attempt at resolving the direction of gene flow between the
- two species seemed unfortunately premature 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "see"
-key "Kalia2001"
-
-\end_inset
-
-.
- Yet, certain virulence genes appear to have originated from one to another,
- and vice versa 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Bessen2010"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Lateral gene transfer in bacteria is so prevalent, and lack of gene exchange
+Lateral gene transfers in bacteria are so prevalent, and lack of gene exchanges
  is considered unusual in bacterial evolution 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -565,24 +530,26 @@ key "Thomas2005"
 \end_inset
 
 .
+ Horizontally transferred DNAs through the machanisms could replace their
+ endogenous homologs, involving homologous recombination (CITE), or could
+ be added to their recipient bacterial genomes (CITE).
+ The former process involves bacterial recombination, and the latter 
+\emph on
+de novo 
+\emph default
+integration of DNA fragments.
+ Although lateral gene transfer by homologous recombination or 
+\emph on
+de novo 
+\emph default
+integration has driven bacterial evolution, methodological development has
+ hardly been able to properly deal with the important evolutionary force.
  
 \end_layout
 
 \begin_layout Standard
-Transferred DNAs through the machanisms replace their endogenous homologs,
- involving homologous recombination (CITE).
- Bacteria appear to benefit from recombination to acquire genetic material
- that is selectively advantageous 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Vos2009"
-
-\end_inset
-
-.
- Although lateral gene transfer by homologous recombination has driven bacterial
- evolution, methodological development has hardly been able to deal with
- properly the important evolutionary force.
+Phylognetic approaches to understanding evolutionary forces should allow
+ analyses of bacterial genes.
  Bacterial phylogenetic studies recognized early on that lateral gene transfer
  would complicate analyses of evolutionary relationships of the species
  
@@ -594,7 +561,7 @@ key "Woese1987"
 \end_inset
 
 .
- Methods of infferring phylogenies in the presence of laternal gene transfer
+ Methods of inferring phylogenies in the presence of laternal gene transfer
  have been proposed 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -606,7 +573,40 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 .
  Yet, most of the methods use relatively small portion of bacterial genomes,
  which is unfortunate.
- As sequencing costs plummet 
+ Previous experimental researches in gene exchange between the two pyogeneic
+ species were limited to relatively smaller portion of the bacterial genome,
+ mostly focusing on virulence genes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kalia2004,Towers2004,Bessen2005"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007a"
+
+\end_inset
+
+ tackled a genome-wide profiling of virulence genes of the two species using
+ microarrays.
+ An earlier attempt at resolving the direction of gene flow between the
+ two species unfortunately appeared to be premature 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "see"
+key "Kalia2001"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+As sequencing costs plummet 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Mardis2011"
@@ -622,9 +622,13 @@ key "Tettelin2009a"
 \end_inset
 
 .
- Given high prevalence of laternal gene transfer via homologous recombination
- in bacteria, values of complete bacterial genomes must not be understated
- 
+ With high prevalence of lateral gene transfer via homologous recombination
+ and 
+\emph on
+de novo 
+\emph default
+integration in bacteria, values of complete bacterial genomes must not be
+ understated 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Fraser2002"
@@ -632,8 +636,8 @@ key "Fraser2002"
 \end_inset
 
 .
- Development of downstream analysis methods using bacterial genomes appears
- to lag behind that of high-throughput sequencing technology 
+ Development of methods for downstream analysis using bacterial genomes
+ appears to lag behind that of high-throughput sequencing technology 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -642,7 +646,34 @@ key "Green2011"
 \end_inset
 
 .
+ Execptions for the situation of under-developed methods include a method
+ of using whole bacterial genomes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2010"
+
+\end_inset
+
+, and a class of methods of inferring the most parsimonious gene duplication,
+ loss, and transfer events for families
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Doyon2011"
+
+\end_inset
+
+.
+ The first approach can infer lateral transfer of genomic segments due to
+ bacterial recombination, and the second can do similarly due to non-recombining
  
+\emph on
+de novo
+\emph default
+ integration of genic segments.
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -680,8 +711,8 @@ key "McVean2005"
 \end_inset
 
 .
- Although recombinant edges between two species branches do not denote gene
- flow between two species in their original model, 
+ Although recombinant edges between two species branches do not explicitly
+ denote gene flow between two species in their original model, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -693,31 +724,50 @@ key "Didelot2010"
 Bacillus cereus
 \emph default
  species.
- Here we applied the method of ClonalOrigin to scrutinze intensity of gene
- flow between the two species of 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Doyon2011"
+
+\end_inset
+
+ developed a method of reconciling rooted gene trees with their reference
+ species tree.
+ Their implementation, called Mowgli, can infer the most parsimonious gene
+ duplication, loss, and transfer events for a gene family.
+ Laterally transferred genes in Mowgli can replace endogenous homologous
+ copies in the recipient bacteria, or can 
 \emph on
-S.
- dysgalactiae
+de novo
 \emph default
- ssp.
- 
+ integrate into the recipient bacterial genome.
+ Mowgli allows study of gene flow events due to nonrecombining 
 \emph on
-equisimilis
+de novo
 \emph default
- and 
-\emph on
-S.
- pyogenes
-\emph default
-.
+ integration of gene segments.
+\end_layout
+
+\begin_layout Standard
+The development of methods of analyzing DNA sequences together with recent
+ release of bacterial genomes of SPY and SDE provides us with opportunity
+ of studying lateral gene transfer using whole bacterial genomes.
  We hope that this study could be a step towards the understanding of interactio
 n between the two closely related human pathogens.
- Specifically, we wish to answer to three questions.
- Firstly, did two species exchange genetic segments across the entire genome
- or parts of the genome? What proportion of the genome underwent higher
- recombination? Secondly, if the two pyogenic species exchanged genetic
- segments, was it overall unidirectional or bidirectional? Thirdly, what
- classes of genes were exchanged if they exchanged genetic material? 
+ Specifically, we wish to answer to three questions: Firstly, did two species
+ exchange genetic segments across the entire genome or parts of the genome?
+ What proportion of the genome underwent higher transfer of genes due to
+ bacterial recombination or 
+\emph on
+de novo
+\emph default
+ integration? Secondly, if the two pyogenic species exchanged genetic segments,
+ was the lateral transfer of genes balanced or unbalanced? Thirdly, what
+ functional categories of genes were exchanged more often than others if
+ they exchanged genetic material? Were virulence genes exchanged more often
+ than non-virulence genes?
 \end_layout
 
 \begin_layout Standard
@@ -726,12 +776,6 @@ We organize the remainder of the paper as follows.
  In Results, we provide evidence supporting my answers to the questions
  of interest.
  We end in Discussion.
-\end_layout
-
-\begin_layout Standard
-
-\family typewriter
-Nonrecombining lateral transfer of genes might be handled by mowgli.
 \end_layout
 
 \begin_layout Subsection*
@@ -3161,6 +3205,28 @@ Import rates for JCVI role categories.
 
 \begin_layout Standard
 image::figure4.png[Functional categories]
+\end_layout
+
+\begin_layout Standard
+Bacterial recombination could be beneficial to bacteria that acquire genetic
+ material that could be selectively advantageous 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Vos2009"
+
+\end_inset
+
+.
+ Yet, certain virulence genes appear to have originated from one to another,
+ and vice versa 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bessen2010"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \end_body
