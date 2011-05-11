@@ -293,6 +293,16 @@ clonalorigin2-simulation3-prepare
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The simulation for map-tree-topology is done in a cluster.
 
+clonalorigin2-simulation3-each-block
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Menu clonalorigin2-simulation3-prepare,
+clonalorigin2-simulation3-receive, and 
+clonalorigin2-simulation3-analyze may not be successful in analyzing a sequence
+alignment. Local genes trees from the sample using ClonalOrigin may be invalid.
+Among numerous simulations there are several cases of block alignments where
+this happens. In this case I have redo the simulation for those blocks. I need
+SPECIES, REPETITION, REPLICATE, BLOCK, and BLOCKSIZE. After this correction, I
+can proceed with clonalorigin2-simulation3-analyze.
 
 Terms
 -----

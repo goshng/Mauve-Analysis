@@ -174,7 +174,7 @@ sub split_clonaloriginxml ($$) {
       }
       $iterationid++; 
       my $outXmlFile = "$out.$iterationid";
-      open OUTXML, ">$outXmlFile" or die "$xmlFile could not be opended";
+      open OUTXML, ">$outXmlFile" or die "$outXmlFile could not be opended";
       print OUTXML $header;
     }
     if ($iterationid > 0)

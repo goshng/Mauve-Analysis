@@ -376,6 +376,10 @@ key "Doyon2011"
  The relatively high number of transfers into SDE1 and SDE2 seems to support
  the findings from the ClonalOrigin analysis, although our investigation
  is ongoing.
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -455,32 +459,8 @@ key "Brandt2009"
 \end_inset
 
 .
- Because 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- cohabits with 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
- at the same ecological niche of tissue sites, they may as well exhibit
- overlap in the disease profile 
+ Because SDE cohabits with SPY at the same ecological niche of tissue sites,
+ they may as well exhibit overlap in the disease profile 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Davies2007a"
@@ -488,31 +468,16 @@ key "Davies2007a"
 \end_inset
 
 .
- Pathogenicity of 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- may have been facilitated by genetic interaction between the two species.
- Understanding the genetic exchange would enhance our knowledge of their
+ Pathogenicity of SDE may have been facilitated by genetic interaction between
+ the two species.
+ Understanding their genetic exchanges should enhance our knowledge of their
  pathogenic effects on human health.
  
 \end_layout
 
 \begin_layout Standard
 Lateral gene transfers in bacteria are so prevalent, and lack of gene exchanges
- is considered unusual in bacterial evolution 
+ can be considered unusual in bacterial evolution 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2010b"
@@ -530,26 +495,27 @@ key "Thomas2005"
 \end_inset
 
 .
- Horizontally transferred DNAs through the machanisms could replace their
- endogenous homologs, involving homologous recombination (CITE), or could
+ Horizontally transferred DNAs through the machanisms can replace their
+ endogenous homologs, involving homologous recombination (CITE), or can
  be added to their recipient bacterial genomes (CITE).
  The former process involves bacterial recombination, and the latter 
 \emph on
 de novo 
 \emph default
 integration of DNA fragments.
- Although lateral gene transfer by homologous recombination or 
+ Although lateral gene transfer by homologous recombination and 
 \emph on
 de novo 
 \emph default
 integration has driven bacterial evolution, methodological development has
- hardly been able to properly deal with the important evolutionary force.
+ hardly been able to properly deal with the important evolutionary force
+ in bacteria.
  
 \end_layout
 
 \begin_layout Standard
-Phylognetic approaches to understanding evolutionary forces should allow
- analyses of bacterial genes.
+Phylognetic approaches to understanding evolutionary forces of lateral gene
+ transfer could allow analyses of bacterial genomes.
  Bacterial phylogenetic studies recognized early on that lateral gene transfer
  would complicate analyses of evolutionary relationships of the species
  
@@ -561,8 +527,8 @@ key "Woese1987"
 \end_inset
 
 .
- Methods of inferring phylogenies in the presence of laternal gene transfer
- have been proposed 
+ While methods of inferring phylogenies in the presence of laternal gene
+ transfer have been proposed 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -570,12 +536,13 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 
 \end_inset
 
-.
- Yet, most of the methods use relatively small portion of bacterial genomes,
+, most of the methods use relatively small portion of bacterial genomes,
  which is unfortunate.
- Previous experimental researches in gene exchange between the two pyogeneic
- species were limited to relatively smaller portion of the bacterial genome,
- mostly focusing on virulence genes 
+ Because of the difficulty of developing methods and limited resources of
+ bacterial genome sequences available, previous experimental researches
+ in gene exchange between the two pyogeneic species were limited to relatively
+ smaller portion of the bacterial genome, mostly focusing on virulence genes
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kalia2004,Towers2004,Bessen2005"
@@ -613,8 +580,8 @@ key "Mardis2011"
 
 \end_inset
 
-, bacterial genomes sequencing produces genomes of high quality in many
- bacterial species 
+, bacterial genome sequencing produces genomes of high quality in many bacterial
+ species 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Tettelin2009a"
@@ -636,7 +603,7 @@ key "Fraser2002"
 \end_inset
 
 .
- Development of methods for downstream analysis using bacterial genomes
+ Yet, development of methods for downstream analyses using bacterial genomes
  appears to lag behind that of high-throughput sequencing technology 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -646,16 +613,16 @@ key "Green2011"
 \end_inset
 
 .
- Execptions for the situation of under-developed methods include a method
- of using whole bacterial genomes 
+ Execptions for the situation include a method of using whole bacterial
+ genomes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2010"
 
 \end_inset
 
-, and a class of methods of inferring the most parsimonious gene duplication,
- loss, and transfer events for families
+, and a class of methods of inferring gene duplication, loss, and transfer
+ events for gene families 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -664,9 +631,9 @@ key "Doyon2011"
 \end_inset
 
 .
- The first approach can infer lateral transfer of genomic segments due to
- bacterial recombination, and the second can do similarly due to non-recombining
- 
+ The first approach can be used to infer lateral transfer of genomic segments
+ due to bacterial recombination, and the second can do similarly due to
+ non-recombining 
 \emph on
 de novo
 \emph default
@@ -684,7 +651,7 @@ key "Didelot2010"
  called ClonalOrigin.
  The method uses a reference species tree inferred using bacterial genomes.
  The reference species tree serves as a back-bone where additional edges,
- hereafter I refer to as recombinant edges, are attached to the species
+ hereafter referred to as recombinant edges, are attached to the species
  tree branches.
  A recombinant edge connects two branches of the reference tree.
  The authors describe that a recombinant edge ``departs'' from an older
@@ -736,7 +703,7 @@ key "Doyon2011"
  developed a method of reconciling rooted gene trees with their reference
  species tree.
  Their implementation, called Mowgli, can infer the most parsimonious gene
- duplication, loss, and transfer events for a gene family.
+ duplication, loss, and transfer events for gene families.
  Laterally transferred genes in Mowgli can replace endogenous homologous
  copies in the recipient bacteria, or can 
 \emph on
@@ -747,35 +714,36 @@ de novo
 \emph on
 de novo
 \emph default
- integration of gene segments.
+ integration of gene segments, which is fortunate becasue it complement
+ ClonalOrigin's capability of inferring gene flow due to bacterial recombination.
+ 
 \end_layout
 
 \begin_layout Standard
 The development of methods of analyzing DNA sequences together with recent
  release of bacterial genomes of SPY and SDE provides us with opportunity
  of studying lateral gene transfer using whole bacterial genomes.
- We hope that this study could be a step towards the understanding of interactio
-n between the two closely related human pathogens.
+ We hope that this study could further step towards the understanding of
+ interaction between the two closely related human pathogens.
  Specifically, we wish to answer to three questions: Firstly, did two species
  exchange genetic segments across the entire genome or parts of the genome?
  What proportion of the genome underwent higher transfer of genes due to
- bacterial recombination or 
+ bacterial recombination and 
 \emph on
 de novo
 \emph default
- integration? Secondly, if the two pyogenic species exchanged genetic segments,
- was the lateral transfer of genes balanced or unbalanced? Thirdly, what
- functional categories of genes were exchanged more often than others if
- they exchanged genetic material? Were virulence genes exchanged more often
- than non-virulence genes?
+ integration? Secondly, was the lateral transfer of genes balanced or unbalanced
+ if the two pyogenic species exchanged genetic segments? Thirdly, what functiona
+l categories of genes were exchanged more often than others if they exchanged
+ genetic material? Were virulence genes exchanged more often than non-virulence
+ genes?
 \end_layout
 
 \begin_layout Standard
 We organize the remainder of the paper as follows.
  We describe the data set and its analysis in Methods and Materials.
- In Results, we provide evidence supporting my answers to the questions
- of interest.
- We end in Discussion.
+ In Results, we provide evidence supporting our answers to the questions
+ above, and end in Discussion.
 \end_layout
 
 \begin_layout Subsection*
@@ -1355,6 +1323,10 @@ key "Ward2009"
 \end_inset
 
 : a study of Streptococcus genome.
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1370,7 +1342,7 @@ key "Suzuki2011"
 \end_inset
 
 .
- The main procedure of using ClonalOrigin was described in 
+ The procedure of using ClonalOrigin was described in 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1378,9 +1350,19 @@ key "Didelot2010"
 \end_inset
 
 .
- A practical guide of the software could be found at http://code.google.com/p/clon
-alorigin.
- We also briefly described the procedure, but refer the users to 
+ A practical guide of the software should be found at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://code.google.com/p/clonalorigin
+\end_layout
+
+\end_inset
+
+.
+ We also briefly describe the procedure, but refer the users to 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1388,8 +1370,21 @@ key "Didelot2010"
 \end_inset
 
  for further details.
- Additionally, we summarized output of ClonalOrigin to answer to our specific
- questions.
+ The procedure of using Mowgli shoud be reached at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.atgc-montpellier.fr/Mowgli
+\end_layout
+
+\end_inset
+
+.
+ We describe postprocessing procedures to summarize the results from analyses
+ using ClonalOrigin and Mowgli to answer to our questions.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1433,10 +1428,6 @@ key "Shimomura2011"
 
 \end_inset
 
-
-\family typewriter
-[THIS CITATION MAY BE CHANGED]
-\family default
 .
  Additional two genomes, each of 
 \emph on
@@ -1489,18 +1480,37 @@ key "Darling2004,Darling2010"
 \end_inset
 
  with default options that had been released on November 11th 2009 with
- version 2.3.1 at http://asap.ahabs.wisc.edu/mauve/download.php.
- We removed variable regions from the alignments to leave 419 alignment
- blocks that were longer than 500 base pairs.
+ version 2.3.1 at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://asap.ahabs.wisc.edu/mauve/download.php
+\end_layout
+
+\end_inset
+
+.
+ A program of ClonalOrigin package, stripSubsetLCBs, was used to strip out
+ variable regions from the alignment to leave 276 core alignment blocks
+ longer than 1,500 base pairs.
  We excluded additional two alignment blocks because of too many gaps in
  their multiple alignments.
- Two more alignment blocks were excluded from a downstream analysis because
- the first stage of Markov chain Monte Carlo (MCMC) with ClonalOrigin was
- not finished within a month of computation.
- This filtered the alignment blocks to leave 415 core alignment blocks.
- ClonalFrame version 1.1 that was available at http://www.xavierdidelot.xtreemhost.c
-om/clonalframe.htm was applied to the 415 alignment blocks to estimate a
- clonal frame, or or a species tree of the five genomes 
+ This filtered the alignment blocks to leave 274 core alignment blocks.
+ ClonalFrame version 1.1 that was available at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.xavierdidelot.xtreemhost.com/clonalframe.htm
+\end_layout
+
+\end_inset
+
+ was applied to the 274 alignment blocks to estimate a clonal frame, or
+ or a species tree of the five genomes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2007"
@@ -1508,14 +1518,25 @@ key "Didelot2007"
 \end_inset
 
 .
- Independent runs of Markov chain Monte Carlo were executed with a total
- generation of chains being 20,000.
+ Independent runs of Markov chain Monte Carlo (MCMC) were executed with
+ a total generation of chains being 20,000.
  The first 10,000 generations were discarded as burn-in.
  A few species trees were estimated, from which we chose one based on its
  likelihood.
  ClonalOrigin with a subversion r19 released on October 1st 2010 was downloaded
- from http://clonalorigin.googlecode.com/svn/trunk.
- Two stages of MCMC with ClonalOrigin were used as described in 
+ from 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://clonalorigin.googlecode.com/svn/trunk
+\end_layout
+
+\end_inset
+
+.
+ Two stages of MCMC with ClonalOrigin were employed as described in 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1523,21 +1544,28 @@ key "Didelot2010"
 \end_inset
 
 .
- The first one is used to obtain an estimate of population parameters including
- mutation rate, recombination rate, and recombinant tract length.
+ The first MCMC was used to obtain an estimate of population parameters
+ including mutation rate, recombination rate, and recombinant tract length.
  The second stage of MCMC with ClonalOrigin was executed with the population
- parameters fixed to the estimated values in the previous stage.
- This allowed to obtain a posterior sample of recombinant edges.
+ parameters fixed to the estimated values in the first stage.
+ This allowed to obtain a posterior sample of recombinant edges given population
+ parameters and the species tree.
  Two independent runs of the first Markov chain Monte Carlo of ClonalOrigin
- were executed with a total generation of each chain being 2,000,000.
+ were executed with a total generation of each chain being 11,000,000.
  The first 1,000,000 generations of each chain were discarded as burn-in.
- The remaining 1,000,000 generations were subsampled every 10,000-th generation,
- leaving a posterior sample of size 100.
+ The remaining 10,000,000 generations were subsampled every 100,000-th generatio
+n, leaving a posterior sample of size 101 including the first sample right
+ after the burn-in.
  Additionally, two independent chains of the second ClonalOrigin Markov
- chain Montel Carlo were executed with a total generation being 11,000,000.
- The first 1,000,000 generations of each chain were discarded as burn-in.
- The remaining 10,000,000 generations were subsampled every 100,000 generations,
- leaving a sample of size 100.
+ chain Montel Carlo were executed with a total generation being 110,000,000.
+ The first 10,000,000 generations of each chain were discarded as burn-in.
+ The remaining:w 100,000,000 generations were subsampled every 100,000 generatio
+ns, leaving a sample of size 1,001 including the first sample right after
+ the burn-in.
+\end_layout
+
+\begin_layout Standard
+[DESCRIBE THE RESULTS].
 \end_layout
 
 \begin_layout Subsection
@@ -3227,6 +3255,12 @@ key "Bessen2010"
 
 .
  
+\end_layout
+
+\begin_layout Standard
+Two more alignment blocks were excluded from a downstream analysis because
+ the first stage of Markov chain Monte Carlo (MCMC) with ClonalOrigin was
+ not finished within a month of computation.
 \end_layout
 
 \end_body

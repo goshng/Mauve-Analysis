@@ -75,9 +75,6 @@ function clonalorigin2-simulation3-analyze {
         echo "Skipping checking XML..."
       fi
 
-exit
-
-
       echo "Generating a table for plotting..."
       NUMBER_SAMPLE=$(echo `grep number $BASEDIR/1/run-clonalorigin/output2/1/core_co.phase3.xml.1|wc -l`)
 

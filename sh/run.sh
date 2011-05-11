@@ -2706,6 +2706,7 @@ source sh/clonalorigin2-simulation3.sh
 source sh/clonalorigin2-simulation3-prepare.sh
 source sh/clonalorigin2-simulation3-receive.sh
 source sh/clonalorigin2-simulation3-analyze.sh
+source sh/clonalorigin2-simulation3-each-block.sh
 
 #####################################################################
 # Main part of the script.
@@ -2735,6 +2736,7 @@ CHOICES=( init-file-system \
           clonalorigin2-simulation3-prepare \
           clonalorigin2-simulation3-receive \
           clonalorigin2-simulation3-analyze \
+          clonalorigin2-simulation3-each-block \
           --- SIMULATION2-4 ---\
           clonalorigin2-simulation4 \
           --- SIMULATION5 ---\
@@ -2884,6 +2886,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "clonalorigin2-simulation3-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "clonalorigin2-simulation3-each-block" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue
