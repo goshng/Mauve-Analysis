@@ -173,7 +173,8 @@ compute-heatmap-recedge
 ~~~~~~~~~~~~~~~~~~~~~~~
 Observed recombinant edges and the prior expected number of recombinant edges
 both are considered.
-
+Menu compute-prior-count-recedge must be called before the call of this menu.
+ 
 map-tree-topology
 ~~~~~~~~~~~~~~~~~
 A ClonalOrigin XML output file contains a list of recombinant trees. The number

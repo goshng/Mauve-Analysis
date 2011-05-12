@@ -2547,27 +2547,7 @@ function analyze-run-clonalorigin-simulation {
   done
 }
 
-# Computes lengths of blocks.
-# ---------------------------
-# The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
-function compute-block-length {
-  PS3="Choose the species to compute block lengths: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      set-more-global-variable $SPECIES $REPETITION
-      perl pl/compute-block-length.pl \
-        -base=$DATADIR/core_alignment.xmfa \
-        > simulation/$SPECIES-$REPETITION-in.block
-      break
-    fi
-  done
 
-}
 
 # Simulates data under ClonalOrigin model or ancestral recombination graph.
 # -------------------------------------------------------------------------
@@ -2707,7 +2687,9 @@ source sh/clonalorigin2-simulation3-prepare.sh
 source sh/clonalorigin2-simulation3-receive.sh
 source sh/clonalorigin2-simulation3-analyze.sh
 source sh/clonalorigin2-simulation3-each-block.sh
-
+source sh/extract-species-tree.sh
+source sh/compute-block-length.sh
+ 
 #####################################################################
 # Main part of the script.
 #####################################################################
@@ -2755,8 +2737,9 @@ CHOICES=( init-file-system \
           --- RECOMBINATION-COUNT ---\
           scatter-plot-parameter \
           plot-number-recombination-within-blocks \
-          compute-prior-count-recedge \
+          --- RECOMBINATION-COUNT ---\
           count-observed-recedge \
+          compute-prior-count-recedge \
           compute-heatmap-recedge \
           --- RECOMBINATION-COUNT ---\
           prepare-run-compute-heatmap-recedge \
@@ -2774,6 +2757,7 @@ CHOICES=( init-file-system \
           compute-block-length \
           compute-global-median \
           create-ingene \
+          extract-species-tree \
           prepare-run-clonalorigin-simulation )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
@@ -2887,6 +2871,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-each-block" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "extract-species-tree" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

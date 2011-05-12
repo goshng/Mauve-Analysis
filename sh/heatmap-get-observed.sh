@@ -22,7 +22,7 @@ function heatmap-get-observed {
       set-more-global-variable $SPECIES $REPETITION
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
-      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
       echo -e "The number of blocks is $NUMBER_BLOCK."
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
