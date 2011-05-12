@@ -1594,20 +1594,21 @@ n, leaving a posterior sample of size 101 including the first sample right
 \end_layout
 
 \begin_layout Subsection
-Recombinant edge count
+Number of recombinant edges
 \end_layout
 
 \begin_layout Standard
-A species tree in the ClonalOrigin framework can include recombinant edges,
- each of which exists only over a variable region of an alignment block.
- A recombinant edge departs at an older time of one of the species tree
- branches, and arrives at an earlier time of another branch.
- As a reference species tree starts from one side to another along the alignment
-, and meets a recombinant edge, the arrival branch of the species tree is
- detached and regrafted to the departure point of the departure branch.
- The species tree sequentially change along the alignment.
- The number of recombinant edges along all of the alignment blocks could
- indicate overall recombination event intensity.
+A recombinant tree is a species tree with recombinant edges attached to
+ the species tree.
+ Overall recombination intensity, or measure of gene flow from a donor to
+ a recipient can be captured by the observed number of recombination events
+ relative to the prior expected number of recombination events.
+ Regardless of the start and end positions of recombinant edges along the
+ genome alignment, the number of recombinant edges would indicate the degree
+ to which the clonal species tree is disrupted by bacterial recombination.
+ By counting recombinant edges based on their departing and arrival branches
+ of a species tree we can infer relative strengths of bacterial recombination
+ events.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1618,38 +1619,20 @@ key "Didelot2010"
  summarized the number of recombination events inferred relative to its
  expected number under the prior of the ClonalOrigin model given recombination
  rate for each pair of donor and recipient branches.
+ We applied the method to the five streptococcus genomes to infer which
+ types of bacterial recombination were more prevalent than which other types.
  Note that departure branches are donors, and arrival branches are recipients.
- The observed number of recombination events for a donor/recipient pair
- is equal to the inferred number of recombinant edges across all of the
- alignment blocks.
- The prior expected number of recombination events given a global recombination
- rate is approximated using Equation 7 in 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
-.
- Practically, the prior expected number of recombination events was computed
- per block using ClonalOrigin.
- The point estimate of the ratio was the average value of the ratio over
- all the posterior sample.
- The sample variable of the ratio was also computed over the posterior sample.
- We interpreted the ratio of recombination events for a given donor/recipient
- pair as a measure of gene flow from a donor to a recipient species tree
- branch.
+ Of more interest is if there are unbalanced recombination events between
+ two clades of SPY and SDE.
+ 
 \end_layout
 
 \begin_layout Subsection
-Recombination intensity
+Surrogate measure of recombination intensity
 \end_layout
 
 \begin_layout Standard
-Overall recombination intensity, or measure of gene flow from a donor to
- a recipient can be captured by the observed number of recombination events
- relative to the prior expected number of recombination events.
- Additionally, 
+Additionally, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1746,7 +1729,7 @@ S.
 \end_layout
 
 \begin_layout Subsection
-Recombination intensity2
+Map of local gene trees and its usage of surrogate recombination intensity
 \end_layout
 
 \begin_layout Standard
@@ -2179,6 +2162,27 @@ The median of mutation rate per site weighted over the lengths of blocks
  While the estimate of the recombinant tract length was twice the estimate
  from ClonalFrame, the estimtes of mutation and recombination rates were
  comparable to those from ClonalFrame.
+\end_layout
+
+\begin_layout Subsection
+Heatmap of numbers of recombination
+\end_layout
+
+\begin_layout Standard
+Figure XX shows the number of recombination events inferred relative to
+ its expectation under ClonalOrigin prior model given the recombination
+ rate, for each donor/recipient pair of species tree branches.
+ The cells in green are the ones for which the ratio would be meaningless
+ because there are less than three observed and expected events.
+ Notably, the ratios of observed and expected numbers of recombinant edges
+ from SPY1 and SPY2 to the three branches of SDE clades were almost twice
+ the ratios for the reverse directions (e.g., the ratio for the direction
+ from SPY1 to SDE1 was estimated to be 1.24, and the ratio for the reverse
+ direction was estimated tobe 0.67).
+\end_layout
+
+\begin_layout Standard
+[MENTION THE SIMULATION STUDY FOR POWER AND LIMITATION OF CLONALORIGIN]
 \end_layout
 
 \begin_layout Subsection
@@ -2848,11 +2852,39 @@ options "gberefs"
 \end_layout
 
 \begin_layout Section*
-Appendix
+Appendices
+\end_layout
+
+\begin_layout Subsection*
+Appendix 1.
+ Computing the ratio of observed and expected numbers of recombination
 \end_layout
 
 \begin_layout Standard
-Appendix 1.
+The observed number of recombination events for a donor/recipient pair is
+ equal to the inferred number of recombinant edges across all of the alignment
+ blocks.
+ The prior expected number of recombination events given a global recombination
+ rate is approximated using Equation 7 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Practically, the prior expected number of recombination events was computed
+ per block using ClonalOrigin.
+ The point estimate of the ratio was the average value of the ratio over
+ all the posterior sample.
+ The sample variable of the ratio was also computed over the posterior sample.
+ We interpreted the ratio of recombination events for a given donor/recipient
+ pair as a measure of gene flow from a donor to a recipient species tree
+ branch.
 \end_layout
 
 \begin_layout Section*
