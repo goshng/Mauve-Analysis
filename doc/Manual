@@ -11,6 +11,33 @@ Installation
 ------------
 Several software need to be installed.
 
+Mauve-Analysis configuration
+----------------------------
+A directory at the root of mauve-analysis is called +conf+. Users must configure
+mauve-analysis by editting +README.template+ and rename it as +README+. 
+Users are strongly encouraged to obtain a user ID at a cluster of computers
+because multiple jobs could be run in parallel to reduce the total amount of
+time. 
+
+.Configuration of mauve-analysis
+[options="header"]
+|=======================
+|Attribute |Explanation |Example
+|projectName |name of your project |streptococcus
+|clusterUsername |the user ID at the cluster |foo
+|clusterURL |URL or IP address of the cluster |cluster.domain.edu
+|clusterBase |Mirrored mauve directory in the cluster |Documents/Projects/m2
+|
+|x11Username |the user ID at x11 enabled computer |bar
+|x11URL |URL or IP address of the x11 computer |x11.domain.edu
+|x11Base |Mirrored mauve directory in the x11 computer |Documents/Projects/m2 
+|
+|email |your email address |your@email.domain.edu
+|access |batch access ID |abc
+|queue |queue name |queue
+|
+|core_alignment.xmfa |any name |core_alignment.xmfa
+|=======================
 Mauve
 ~~~~~
 Mauve is a genome alignment software.

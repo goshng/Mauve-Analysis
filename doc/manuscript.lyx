@@ -1522,8 +1522,8 @@ http://asap.ahabs.wisc.edu/mauve/download.php
  A program of the ClonalOrigin package, stripSubsetLCBs, was used to strip
  out variable regions from the alignment to leave 276 core alignment blocks
  longer than 1,500 base pairs.
- We excluded additional two alignment blocks because of too many gaps in
- their multiple alignments.
+ We excluded additional two alignment blocks because of too long consecutive
+ gaps in their multiple alignments.
  This filtered the alignment blocks to leave 274 core alignment blocks.
  ClonalFrame version 1.1 that was available at 
 \begin_inset Flex URL
@@ -1536,8 +1536,8 @@ http://www.xavierdidelot.xtreemhost.com/clonalframe.htm
 
 \end_inset
 
- was applied to the 274 alignment blocks to estimate a clonal frame, or
- a species tree of the five genomes 
+ was applied to the 274 alignment blocks to estimate the species tree of
+ the five genomes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2007"
@@ -1598,32 +1598,31 @@ Number of recombinant edges
 \end_layout
 
 \begin_layout Standard
-A recombinant tree is a species tree with recombinant edges attached to
- the species tree.
- Overall recombination intensity, or measure of gene flow from a donor to
+We call a recombinant tree a species tree with recombinant edges attached
+ to the species tree.
+ Aspects of overall recombination intensity between a donor species and
  a recipient can be captured by the observed number of recombination events
  relative to the prior expected number of recombination events.
  Regardless of the start and end positions of recombinant edges along the
  genome alignment, the number of recombinant edges would indicate the degree
  to which the clonal species tree is disrupted by bacterial recombination.
  By counting recombinant edges based on their departing and arrival branches
- of a species tree we can infer relative strengths of bacterial recombination
- events.
- 
+ of a species tree 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
 
 \end_inset
 
- summarized the number of recombination events inferred relative to its
- expected number under the prior of the ClonalOrigin model given recombination
- rate for each pair of donor and recipient branches.
+ inferred relative strengths of bacterial recombination events.
+ They summarized the number of recombination events inferred relative to
+ its expected number under the prior of the ClonalOrigin model given recombinati
+on rate for each pair of donor and recipient branches.
  We applied the method to the five streptococcus genomes to infer which
  types of bacterial recombination were more prevalent than which other types.
  Note that departure branches are donors, and arrival branches are recipients.
- Of more interest is if there are unbalanced recombination events between
- two clades of SPY and SDE.
+ Of more interest in our study is if there are unbalanced recombination
+ events between two clades of SPY and SDE.
  
 \end_layout
 
@@ -1644,8 +1643,8 @@ key "Didelot2010"
  locations we attempted to measure recombination intensity along genomic
  locations.
  Our surrogate measure of recombination intensity is not biologically meaningful.
- We hope that the measure can differentiate relative intensity of bacterial
- recombination along a genome.
+ Yet, we hope that the measure can discriminate between relative intensity
+ values of bacterial recombination along a genome.
  
 \end_layout
 
@@ -1663,8 +1662,8 @@ The first surrogate measure is to quantify how often a particular site along
  region so that we could study genes that underwent higher or lower recombinatio
 n.
  The number of recombinant edges per site for a gene could allow us to study
- functional category association of genes using Gene Ontology.
- 
+ functional category association of genes using Gene Ontology (see below
+ section Functional categories under recombination).
 \end_layout
 
 \begin_layout Subsection
@@ -1672,145 +1671,197 @@ Map of local gene trees and its usage of surrogate recombination intensity
 \end_layout
 
 \begin_layout Standard
-We exploited local gene tree topologies for all of the sites along alignment
+In addition to the first surrogate measure of recombination intensity, we
+ exploited local gene tree topologies for all of the sites along alignment
  blocks in order to compute a second surrogate measure of recombination
  intensity.
- A clonal frame and its attached recombinant edges with a multiple sequence
- alignment is equivalent to local gene trees for all of the sites of the
- alignment.
+ A species tree and its attached recombinant edges, or a recombinant tree,
+ along a multiple sequence alignment is equivalent to local gene trees derived
+ from the recombinant tree for all of the sites of the alignment.
  Changes to local gene trees along multiple sequence alignments can involve
  changes in gene tree topology where recombinant edges start and end in
  the alignment.
  Not all recombinant edges change local gene tree topologies.
  Recombinant edges that depart from a species tree branch and arrive at
- the direct descendent of the branch might change tree topologies.
- We summarized gene tree topologies along alignment blocks to have surrogate
+ the direct descendent of the branch may not change tree topologies.
+ We summarized gene tree topologies 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Rohlf1983"
+
+\end_inset
+
+ along alignment blocks to have following three surrogate recombination
+ intensity.
+\end_layout
+
+\begin_layout Standard
+The three different aspects of summarizing local gene tree topologies along
+ a genome were pursued: the number of tree topology changes along a multiple
+ alignment, the proportion of sites of a genic region where local gene tree
+ topologies are different from the reference species tree topology, and
+ the number of unique local gene tree topologies of a geneic region.
+ These can serve as a surrogate for recombination intensity on a genic region.
+ Counting tree topology changes on a subregion of a multiple alignment,
+ or a gene within the multiple alignment, can allow a surrogate quantification
+ of recombination intensity on a gene as the first surrogate measure of
  recombination intensity.
 \end_layout
 
-\begin_layout Standard
-The total number of rooted tree topologies with five taxa is 105.
- 
-\end_layout
-
-\begin_layout Standard
-The number of tree topology changes along a multiple alignment can be a
- surrogate for recombination intensity on the genomic region covered by
- the multiple alignment.
- Counting tree topology changes on a subregion of a multiple alignment,
- or a gene within the multiple alignment, can allow a surrogate quantification
- of recombination intensity on a gene.
-\end_layout
-
-\begin_layout Standard
-Recombinant edges in a clonal frame can change the tree topology.
- Recombinant edges that departs from a parent edge, and arrives at its daughter
- edge do not change the tree topology.
- 
-\end_layout
-
 \begin_layout Subsection
-Gene flow
+Recombination intensity per recombinant edge type and genes
 \end_layout
 
 \begin_layout Standard
-Among the 60 types of recombinant edges 32 pairs of branches are possible
+A site of a multiple alignment can be affected by a particular recombinant
+ edge.
+ Focusing on a particular type of recombinant edge we could calculate the
+ probability that a site experiences genetic movement by the recombinant
+ edge type by averaging over all the posterior sample of recombinant edges.
+ Furthremore, we could measure the average probability that a gene experiences
+ genetic movement by a recombinant edge type by average over all the sites
+ of a genic region.
+ Enrichment of functional categories using the average probability of genes
+ experiencing genetic movement was employed using Gene Ontology (
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "Ashburner2000"
+
+\end_inset
+
+; see also 
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "Suzuki2011"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Interpreting recombinant edges as genomic segment flow needs to be warned
+ because the departure and arrival do not happen at the same time.
+ Among the 60 types of recombinant edges 32 pairs of branches are possible
  in an ultrametric species tree with five taxa.
  Not all types of the recombinant edges can correspond to legitimate pairs
  of species tree branches for gene flow because some of branch pairs did
  not coexist at any past in time.
  A recombinant edge that departs from a root edge of a spcies tree and arrives
- at a leaf edge cannot be considered a channel that connect the two species
- tree branches.
- We are interested in gene flows between 
+ at a leaf edge cannot be considered a channel for gene flow that connects
+ the two species tree branches.
+ Here in our study we were interested in gene flows between 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  and 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
 .
- Since they are at extant nodes, pairs of species tree branches one from
+ Since they were at extant nodes, pairs of species tree branches one from
  
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
-, and another from 
+, and another pairs from 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
- can be considered as gene flow channels.
+ could be considered as gene flow channels.
  Four ordered pairs of species branches represent gene flow from 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  to 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
 .
  Another four ordered pairs represent gene flow from 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  to 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
 .
 \end_layout
 
 \begin_layout Subsection
-Recombinant edges and genes
+Gene gain, loss, duplication, horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-A site of a multiple alignment can be affected by a particular recombinant
- edge.
- Focusing on a particular type of recombinant edge I can measure a probability
- that a site experiences genetic movement by the recombinant edge type by
- averaging over all the posterior sample of recombinant edges.
- Furthremore, I can measure the average probability that a gene experiences
- genetic movement by a recombinant edge type by average over all the sites
- that are covered by the gene.
- Enrichment of functional categories using the average probability of genes
- experiencing genetic movement can be employed using gene ontology 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Ashburner2000"
-
-\end_inset
-
-.
+IMPORTANT: Matt is trying to find what we can do about gene gain, loss,
+ and duplication.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1852,21 +1903,17 @@ niome_Database/tab_delimited_omniome.
 \end_layout
 
 \begin_layout Subsection
-Gene gain, loss, duplication, horizontal gene transfer
-\end_layout
-
-\begin_layout Standard
-IMPORTANT: Matt is trying to find what we can do about gene gain, loss,
- and duplication.
- 
-\end_layout
-
-\begin_layout Subsection
-Something other topic
+Virulence genes and laternal transfer
 \end_layout
 
 \begin_layout Standard
 Virulence genes and lateral transfer of theirs.
+\end_layout
+
+\begin_layout Standard
+Melissa uses the virulence genes that were used Suzuki2011 to see if virulence
+ genes and non-virulence genes are different in their assigned values of
+ recombination intensity, and gene loss, duplication, transfer.
 \end_layout
 
 \begin_layout Standard
@@ -1875,15 +1922,18 @@ IMPORTANT: +I need to find an interesting topic in bacterial recombination
 \end_layout
 
 \begin_layout Subsection
-Simulation studies 
+Simulation studies for checking ClonalOrigin's estimates 
 \end_layout
 
 \begin_layout Standard
-IMPORTANT: I cannot believe the method under the biological scenario.
- The simulation approach may be kin to *Bayesian model checking* in which
- I would check if the model I am using is appropriate.
- What should I show? I need to show that ClonalOrigin implementation recovers
- the true ``values.'' What are the values? 
+We applied a statistical approach implemented in ClonalOrigin to the data
+ set of the five genomes.
+ The implementation of ClonalOrigin was stable for production use.
+ We checked how well ClonalOrigin could recover parameters of interest under
+ the parameter setup that were inferred using the five genomes of streptococcus
+ species.
+ We hoped that we could understand the power and limitations of ClonalOrigin
+ under the parameter setup that we inferred from our data set.
 \end_layout
 
 \begin_layout Subsubsection
