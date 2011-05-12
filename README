@@ -9,7 +9,6 @@ Jobs that were done are described for later reference.
 -> means I finished the job.
 ---> means I need to do something about it.
 
-
 Wed May 11 14:53:02 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -20,6 +19,13 @@ Cornellf/3
 ----
 output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
 ----
+
+.heatmap
+----
+http://enotacoes.wordpress.com/2007/11/16/easy-guide-to-drawing-heat-maps-to-pdf-with-r-with-color-key/
+----
+
+
 
 
 Tue May 10 08:34:26 EDT 2011
@@ -841,4 +847,11 @@ output/cornellf/3/run-clonalorigin/input/1/clonaltree.nwk
 ----
 output/cornellf/3/run-clonalorigin/summary/1/median.txt
 ----
+
+.Heatmap of number of recombination
+----
+output/cornellf/3/run-analysis/heatmap-recedge.R
+output/cornellf/3/run-analysis/strep/051211/heatmap-recedge.ps
+----
+
 
