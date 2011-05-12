@@ -1632,28 +1632,89 @@ Surrogate measure of recombination intensity
 \end_layout
 
 \begin_layout Standard
-Additionally, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
 
 \end_inset
 
- provided another summary of recombination events along a genome.
- The summary measures the effect of donor branches on a recipient species
- tree branch.
- Although the detailed procedure could be different from theirs, we used
- a similar approach to summarizing recombination intensity along a genome,
- which we describe as follows.
- We wish to measure how often a particular site along a genome is affected
- by bacterial recombination.
- A site of a block is affected by as potentially multiple types of recombinant
- edges.
+ summarized recombination events along a genome by measuring the effect
+ of donor branches on a recipient species tree branch.
+ By following their idea of summarizing recombination events along genomic
+ locations we attempted to measure recombination intensity along genomic
+ locations.
+ Our surrogate measure of recombination intensity is not biologically meaningful.
+ We hope that the measure can differentiate relative intensity of bacterial
+ recombination along a genome.
+ 
+\end_layout
+
+\begin_layout Standard
+The first surrogate measure is to quantify how often a particular site along
+ a genome is affected by bacterial recombination.
+ We count recombinant edges on a site of a genome.
  A type of recombinant edge is specified by its departure and arrival branches
- of the reference species tree.
+ of a reference species tree.
  Sixty different kinds of recombinant edges are possible in the species
  tree with five taxa.
- Among the 60 types of recombinant edges 32 pairs of branches are possible
+ The number of recombinant edges for a site could present relative intensity
+ of recombination along a genome.
+ We also computed the mean value of the first surrogate measure of a geneic
+ region so that we could study genes that underwent higher or lower recombinatio
+n.
+ The number of recombinant edges per site for a gene could allow us to study
+ functional category association of genes using Gene Ontology.
+ 
+\end_layout
+
+\begin_layout Subsection
+Map of local gene trees and its usage of surrogate recombination intensity
+\end_layout
+
+\begin_layout Standard
+We exploited local gene tree topologies for all of the sites along alignment
+ blocks in order to compute a second surrogate measure of recombination
+ intensity.
+ A clonal frame and its attached recombinant edges with a multiple sequence
+ alignment is equivalent to local gene trees for all of the sites of the
+ alignment.
+ Changes to local gene trees along multiple sequence alignments can involve
+ changes in gene tree topology where recombinant edges start and end in
+ the alignment.
+ Not all recombinant edges change local gene tree topologies.
+ Recombinant edges that depart from a species tree branch and arrive at
+ the direct descendent of the branch might change tree topologies.
+ We summarized gene tree topologies along alignment blocks to have surrogate
+ recombination intensity.
+\end_layout
+
+\begin_layout Standard
+The total number of rooted tree topologies with five taxa is 105.
+ 
+\end_layout
+
+\begin_layout Standard
+The number of tree topology changes along a multiple alignment can be a
+ surrogate for recombination intensity on the genomic region covered by
+ the multiple alignment.
+ Counting tree topology changes on a subregion of a multiple alignment,
+ or a gene within the multiple alignment, can allow a surrogate quantification
+ of recombination intensity on a gene.
+\end_layout
+
+\begin_layout Standard
+Recombinant edges in a clonal frame can change the tree topology.
+ Recombinant edges that departs from a parent edge, and arrives at its daughter
+ edge do not change the tree topology.
+ 
+\end_layout
+
+\begin_layout Subsection
+Gene flow
+\end_layout
+
+\begin_layout Standard
+Among the 60 types of recombinant edges 32 pairs of branches are possible
  in an ultrametric species tree with five taxa.
  Not all types of the recombinant edges can correspond to legitimate pairs
  of species tree branches for gene flow because some of branch pairs did
@@ -1726,32 +1787,6 @@ S.
  pyogenes
 \emph default
 .
-\end_layout
-
-\begin_layout Subsection
-Map of local gene trees and its usage of surrogate recombination intensity
-\end_layout
-
-\begin_layout Standard
-A clonal frame and its attached recombinant edges with a multiple sequence
- alignment can be decomposed of local gene trees.
- The nucleotides of a column of the multiple alignment are related by a
- local gene tree.
- Local gene trees can change along columns of a multiple alignment.
- Changes to local gene trees can involve changes in gene tree topology.
- The number of tree topology changes along a multiple alignment can be a
- surrogate for recombination intensity on the genomic region covered by
- the multiple alignment.
- Counting tree topology changes on a subregion of a multiple alignment,
- or a gene within the multiple alignment, can allow a surrogate quantification
- of recombination intensity on a gene.
-\end_layout
-
-\begin_layout Standard
-Recombinant edges in a clonal frame can change the tree topology.
- Recombinant edges that departs from a parent edge, and arrives at its daughter
- edge do not change the tree topology.
- 
 \end_layout
 
 \begin_layout Subsection
