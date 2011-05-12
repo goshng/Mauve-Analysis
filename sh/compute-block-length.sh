@@ -6,7 +6,7 @@
 # The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
 function compute-block-length {
   PS3="Choose the species to compute block lengths: "
-  select SPECIES in `ls species`; do 
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -16,7 +16,8 @@ function compute-block-length {
       set-more-global-variable $SPECIES $REPETITION
       perl pl/compute-block-length.pl \
         -base=$DATADIR/core_alignment.xmfa \
-        > simulation/$SPECIES-$REPETITION-in.block
+        > data/$SPECIES-$REPETITION-in.block
+      echo "Check data/$SPECIES-$REPETITION-in.block"
       break
     fi
   done

@@ -12,8 +12,13 @@ Jobs that were done are described for later reference.
 
 Thu May 12 08:40:54 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
+Why is s12 flawed? What is the difference between s12 and s14? Their species
+files are the same. 
+-> I think that s12 was a simulation using XML output from the real data. All of
+the recombinant trees are correlated samples from MCMC. I do not know what are
+wrong in this analysis. It is not obvious to figure it out. Anyway, I should not
+use s12. The simulation of s12 must have been done with menu
+simulate-data-clonalorigin2-from-xml.
 
 .s14's map topology simulation result
 ----
@@ -510,22 +515,32 @@ simulation
 ----------
 
 s1: 1 block of 10,000 base pairs (100 times) -> Okay!
-s2: Real data - 500 minimum block
 s3: 10 blocks of 10000 base pairs (5 times) -> Not okay
-s4: Real data - 4000 base pairs of minimum block (2 times)
-s5: 10 blocks of 10000 base pairs (50 times) -> Seems okay! s3's result is due
-to smaller repetitions.
+s5: 10 blocks of 10000 base pairs (50 times) -> Seems okay! 
+-> s3's result is due to smaller repetitions.
 s6: 100 blocks of 10000 base pairs (5 times) -> Seems okay, too!
-s8: 1 block - 10k base pairs (100 times)
-s9: 100 blocks - 10k base pairs (5 times)
-s10: 1 block with the same recombinant edges - 10k base pairs (100 times)
+
+s2: Real data - 500 minimum block
+s4: Real data - 4000 base pairs of minimum block (2 times)
+
+# s8: 1 block - 10k base pairs (100 times) -> wrong simulation
+# s9: 100 blocks - 10k base pairs (5 times) -> wrong simulation
+
+s10: 1 block with the same recombinant edges - 10k base pairs (100 replicates)
+s11: 100-block with a single recombinant tree - (10 replicates)
+# s12: what is flawed in s12? See above.
+# s13: s14 replaces s13 by increasing the number of repetition.
+s14: 71-block with 10 recombinant trees (10 replicates for each recombinant tree
+
+s15: The 1st stage of ClonalOrigin with block configuration of 274 blocks of
+cornellf/3, 10 REPETITION
 
 cornell5
 --------
 SEE is removed from the analysis of cornell6 because a whole genome may be
 enough to root the tree, and the outgroup of SEE may not be necessary.
 Two of three ClonalFrame runs seems concordant.  I proceed with the first stage
-of ClonalOrigin analysis. 
+of ClonalOrigin analysis.
 Several blocks need more computing time than many others.
 
 ClonalFrame's analyses 1 and 2 are similar.  Replicate 1 uses the 2nd one, and

@@ -1945,69 +1945,80 @@ The three main parameters can be checked: mutation rate, recombination rate,
  and recombinant tract length.
 \end_layout
 
+\begin_layout Paragraph
+A single block of 10,000 base pairs with 100 repetitions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\theta_{s}=0.0542$
+\end_inset
+
+, 
+\begin_inset Formula $\rho_{s}=0.00521$
+\end_inset
+
+, 
+\begin_inset Formula $\delta=1425$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+547.167 53.7653 1517.345 chimp:run-analysis goshng$ cat s1.2.out.R.out 536.24 54.92045
+ 1568.615 
+\end_layout
+
+\begin_layout Standard
+# REPETITON 3 # ThetaPerSite 0.0542 # RhoPerSite 0.00521 # Delta 1425 # BLOCK
+ 1 # 10,000 base pairs
+\end_layout
+
+\begin_layout Paragraph
+A set of 10 blocks of 10,000 base pairs with 50 repetitions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\theta_{s}=0.0542$
+\end_inset
+
+, 
+\begin_inset Formula $\rho_{s}=0.00521$
+\end_inset
+
+, 
+\begin_inset Formula $\delta=1425$
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
-Recombinant counts
+Number of recombinant edges: surrogate measure of recombination intensity
+\end_layout
+
+\begin_layout Paragraph
+s10
 \end_layout
 
 \begin_layout Standard
-Number of recombinant edges can be checked.
+xxx
+\end_layout
+
+\begin_layout Paragraph
+s11
 \end_layout
 
 \begin_layout Standard
-Recombinant
+xxx
+\end_layout
+
+\begin_layout Paragraph
+s14
 \end_layout
 
 \begin_layout Standard
-Recombination events should be checked although they are not just numerical
- values.
- There are two simulation programs that were developed by Xavier Didelot.
- One is SimMLST, and another is ClonalOrigin.
- SimMLST simulates data under the full ancestral recombination graph.
- ClonalOrigin does under its own model.
-\end_layout
-
-\begin_layout Standard
-.Parameters that I used for inferring recombination events
-\end_layout
-
-\begin_layout Standard
-----
-\end_layout
-
-\begin_layout Standard
--T s0.0542 -D 1425 -R s0.00521
-\end_layout
-
-\begin_layout Standard
-----
-\end_layout
-
-\begin_layout Standard
-.A simulation setup
-\end_layout
-
-\begin_layout Standard
-[options="header"]
-\end_layout
-
-\begin_layout Standard
-|=====================================================
-\end_layout
-
-\begin_layout Standard
-| Number of blocks | Total Length | mu | rho | delta
-\end_layout
-
-\begin_layout Standard
-| 1 | 10 kb | 542 | 52.1 | 1425
-\end_layout
-
-\begin_layout Standard
-| 411 | Real data | 542 | 52.1 | 1425
-\end_layout
-
-\begin_layout Standard
-|=====================================================
+xxx
 \end_layout
 
 \begin_layout Subsection

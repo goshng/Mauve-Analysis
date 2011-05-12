@@ -19,12 +19,16 @@ function read-species {
     eval "REPLICATES=({1..${HOW_MANY_REPLICATE}})"
   fi
 
+  echo -n "  Reading SPECIESTREE from $SPECIESFILE..."
+  SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
+  echo " $SPECIESTREE"
+
   echo -n "  Reading INBLOCK from $SPECIESFILE..."
   INBLOCK=$(grep InBlock $SPECIESFILE | cut -d":" -f2)
   echo " $INBLOCK"
  
   echo -n "  Counting blocks from $INBLOCK..."
-  NUMBER_BLOCK=$(echo `cat simulation/$INBLOCK | wc -l`)
+  NUMBER_BLOCK=$(echo `cat data/$INBLOCK | wc -l`)
   echo " $NUMBER_BLOCK"
 
   echo -n "  Reading NUMBER_SPECIES from $SPECIESFILE..."
@@ -38,4 +42,16 @@ function read-species {
   echo -n "  Reading WALLTIME from $SPECIESFILE..."
   WALLTIME=$(grep Walltime $SPECIESFILE | cut -d":" -f2)
   echo " $WALLTIME"
+
+  echo -n "  Reading from $SPECIESFILE..."
+  THETA_PER_SITE=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
+  echo " $THETA_PER_SITE"
+
+  echo -n "  Reading from $SPECIESFILE..."
+  RHO_PER_SITE=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
+  echo " $RHO_PER_SITE"
+
+  echo -n "  Reading from $SPECIESFILE..."
+  DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
+  echo " $DELTA"
 }

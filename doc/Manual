@@ -9,15 +9,49 @@ Here is a short quick start.
 
 .A procedure to do
 . Configure it by editting +conf/README.template+ and renaming it +README+
-. Execute the menu *init-file-system*
+. Execute the menu *init-file-system* by executing +sh/run.sh+
+
+.A procedure to do simulation for checking parameter estimation
+. Create a species file with a name starting with s at the directory of +species+
+. Execute the menu *choose-simulation*
+. Execute the menu *compute-block-length* if necessary 
+. Execute the menu *compute-block-length* if necessary 
+
+Species File
+------------
+
+
+.A sample of species file for simulation 
+----
+# This is a directory for a simulation study.
+# -------------------------------------------
+# Thu May 12 15:58:50 EDT 2011
+#
+# The 3 main parameters are checked with the parameter estimates from cornellf/3
+# analysis.
+#
+# Repetition:10
+# Replicate:2
+# ThetaPerSite:0.080814517322956
+# RhoPerSite:0.0118491287894766
+# Delta:743.702415841584
+# InBlock:cornellf-3-in.block
+# SpeicesTree:cornellf-3.tree
+# Burnin:1000000
+# ChainLength:1000000
+# Thin:10000
+# NumberSpecies:5
+# Walltime:168
+----
+
+.Executing the main run.sh
+----
+$ bash sh/run.sh
+----
 
 System requirements
 -------------------
 xxx
-
-Installation
-------------
-Several software need to be installed.
 
 Mauve-Analysis configuration
 ----------------------------
@@ -46,6 +80,11 @@ time.
 |||
 |core_alignment.xmfa |any name |core_alignment.xmfa
 |=======================
+
+Installation
+------------
+Several software need to be installed.
+
 Mauve
 ~~~~~
 Mauve is a genome alignment software.
@@ -57,6 +96,18 @@ ClonalFrame is ...
 ClonalOrigin
 ~~~~~~~~~~~~
 ClonalOrigin is the main program used in this analysis.
+
+ClonalOrigin Simulator
+~~~~~~~~~~~~~~~~~~~~~~
+
+.Steps to compile wargsim
+----
+cd mauve-analysis/src/clonalorigin
+mkdir b
+cd b
+cmake ..
+make
+----
 
 Menus
 -----

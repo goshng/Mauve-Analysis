@@ -201,28 +201,39 @@ sub endElement {
       my $f;
       open $f, ">$xmlFileBlock" 
         or die "Could not open $xmlFileBlock";
-      push @xmlFiles, $f;
+      # push @xmlFiles, $f;
       print $f "<?xml version = '1.0' encoding = 'UTF-8'?>\n";
       print $f "<outputFile>\n<Blocks>\n0,";
       my $d = $blocks[$i] - $blocks[$i-1];
       push @blockLength, $d;
       print $f $blockLength[$i-1];
       print $f "\n<\/Blocks>\n";
+      close $f;
     }
     $Lt = $blocks[$#blocks];
   }
 
   if ($elt eq "comment") {
-    foreach my $f (@xmlFiles)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<comment>$content<\/comment>\n";
+      close $f;
     }
   }
 
   if ($elt eq "nameMap") {
-    foreach my $f (@xmlFiles)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<nameMap>$content<\/nameMap>\n";
+      close $f;
     }
   }
 
@@ -230,18 +241,40 @@ sub endElement {
   if ($elt eq $eltname) {
     my @regions = split /,/, $content;
     my $i = 0;
-    foreach my $f (@xmlFiles)
+
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<$eltname>$regions[$i]<\/$eltname>\n";
       $i++;
+      close $f;
     }
   }
 
+################################# 7
+    for (my $i = 1; $i <= $#blocks; $i++)
+    {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
+      close $f;
+    }
+
+
   $eltname = "Tree";
   if ($elt eq $eltname) {
-    foreach my $f (@xmlFiles)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<$eltname>\n$content\n<\/$eltname>\n";
+      close $f;
     }
   }
 
@@ -251,12 +284,16 @@ sub endElement {
 
   $eltname = "theta";
   if ($elt eq $eltname) {
-    for (my $i = 0; $i < $#blocks; $i++)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
-      my $f = $xmlFiles[$i];
-      my $Lb = $blockLength[$i];
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
+      my $Lb = $blockLength[$i-1];
       my $thetaPerBlock = $content / $Lt * $Lb;
       print $f "<$eltname>$thetaPerBlock<\/$eltname>\n";
+      close $f;
     }
   }
 
@@ -270,13 +307,17 @@ sub endElement {
     $delta = $content;
 
     # Print rho's and delta.
-    for (my $i = 0; $i < $#blocks; $i++)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
-      my $f = $xmlFiles[$i];
-      my $Lb = $blockLength[$i];
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
+      my $Lb = $blockLength[$i-1];
       my $rhoPerBlock = $rho / ($Lt + $numberBlock*($delta - 1)) * ($Lb + $delta - 1);
       print $f "<rho>$rhoPerBlock<\/rho>\n";
       print $f "<$eltname>$delta<\/$eltname>\n";
+      close $f;
     }
   }
 
@@ -323,7 +364,13 @@ sub endElement {
     if ($startBlock == $endBlock) {
       my $start = $recedge{start} - $blocks[$startBlock-1];
       my $end = $recedge{end} - $blocks[$startBlock-1];
-      my $f = $xmlFiles[$startBlock-1];
+
+      # my $f = $xmlFiles[$startBlock-1];
+
+      my $xmlFileBlock = "$xmlFile.$startBlock";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<recedge>";
       print $f "<start>$start<\/start>";
       print $f "<end>$end<\/end>";
@@ -332,11 +379,19 @@ sub endElement {
       print $f "<afrom>$recedge{afrom}<\/afrom>";
       print $f "<ato>$recedge{ato}<\/ato>";
       print $f "<\/recedge>\n";
+      close $f;
     } else {
       die "$startBlock == $endBlock must be the same";
       my $start = $recedge{start} - $blocks[$startBlock-1];
       my $end = $blocks[$startBlock] - $blocks[$startBlock-1];
-      my $f = $xmlFiles[$startBlock-1];
+
+      # my $f = $xmlFiles[$startBlock-1];
+# STOPPED HERE
+
+      my $xmlFileBlock = "$xmlFile.$startBlock";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<recedge>";
       print $f "<start>$start<\/start>";
       print $f "<end>$end<\/end>";
@@ -345,6 +400,8 @@ sub endElement {
       print $f "<afrom>$recedge{afrom}<\/afrom>";
       print $f "<ato>$recedge{ato}<\/ato>";
       print $f "<\/recedge>\n";
+      close $f;
+
 
       for (my $i = 0; $i < $endBlock - $startBlock - 1; $i++)
       {

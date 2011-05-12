@@ -185,7 +185,9 @@ fi
 # s2: 411 blocks
 # s3: 10 blocks of 10,000 base pairs
 # s4: 4000 minimum
-SIMULATIONS=( s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 )
+
+SIMULATIONS=$(ls species|grep ^s)
+SPECIESS=$(ls species|grep -v ^s)
 
 ###############################################################################
 # Description of functions
@@ -288,75 +290,6 @@ function mkdir-species {
 # if 
 # BASEDIR=/Users/goshng/Documents/Projects/mauve/output/cornell
 # 
-
-# Creates a species directory in the output directory.
-# ----------------------------------------------------
-# The argument is the name of species or analysis. You can find them in the
-# subdirectory called species.
-function mkdir-simulation {
-  echo -n "  Creating a simulation $1 at $OUTPUTDIR ..."
-  echo -e " done"
-  mkdir $OUTPUTDIR/$1
-  mkdir $OUTPUTDIR/$1/run-analysis
-  echo -n "  Creating a simulation $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
-  ssh -x $CAC_USERHOST mkdir $CAC_OUTPUTDIR/$1
-  echo -e " done"
-  echo -n "  Creating a simulation $1 at $X11_OUTPUTDIR in $X11_USERHOST ..."
-  ssh -x $X11_USERHOST mkdir $X11_OUTPUTDIR/$1
-  echo -e " done"
-}
-
-# Creates directories in each repeat directory.
-# ---------------------------------------------
-# The first argument is the species name, and the second is the repeat number.
-# Both of them are required.
-function mkdir-simulation-repeat {
-  BASEDIR=$OUTPUTDIR/$1/$2
-  DATADIR=$BASEDIR/data
-  RUNMAUVE=$BASEDIR/run-mauve
-  RUNCLONALFRAME=$BASEDIR/run-clonalframe
-  RUNCLONALORIGIN=$BASEDIR/run-clonalorigin
-  RUNANALYSIS=$BASEDIR/run-analysis
-  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
-  echo -n "    run-analysis at $BASEDIR ..."
-  mkdir $BASEDIR \
-        $DATADIR \
-        $RUNMAUVE \
-        $RUNCLONALFRAME \
-        $RUNCLONALORIGIN \
-        $RUNANALYSIS
-  echo -e " done"
-  CAC_BASEDIR=$CAC_OUTPUTDIR/$1/$2
-  CAC_DATADIR=$CAC_BASEDIR/data
-  CAC_RUNMAUVE=$CAC_BASEDIR/run-mauve
-  CAC_RUNCLONALFRAME=$CAC_BASEDIR/run-clonalframe
-  CAC_RUNCLONALORIGIN=$CAC_BASEDIR/run-clonalorigin
-  CAC_RUNANALYSIS=$CAC_BASEDIR/run-analysis
-  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
-  echo -n "    run-analysis at $CAC_BASEDIR ... of $CAC_USERHOST ..."
-  ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
-                             $CAC_DATADIR \
-                             $CAC_RUNMAUVE \
-                             $CAC_RUNCLONALFRAME \
-                             $CAC_RUNCLONALORIGIN \
-                             $CAC_RUNANALYSIS
-  echo -e " done"
-  X11_BASEDIR=$X11_OUTPUTDIR/$1/$2
-  X11_DATADIR=$X11_BASEDIR/data
-  X11_RUNMAUVE=$X11_BASEDIR/run-mauve
-  X11_RUNCLONALFRAME=$X11_BASEDIR/run-clonalframe
-  X11_RUNCLONALORIGIN=$X11_BASEDIR/run-clonalorigin
-  X11_RUNANALYSIS=$X11_BASEDIR/run-analysis
-  echo -e "  Creating data, run-mauve, run-cloneframe, run-clonalorigin,"
-  echo -n "    run-analysis at $X11_BASEDIR ... of $X11_USERHOST ..."
-  ssh -x $X11_USERHOST mkdir $X11_BASEDIR \
-                             $X11_DATADIR \
-                             $X11_RUNMAUVE \
-                             $X11_RUNCLONALFRAME \
-                             $X11_RUNCLONALORIGIN \
-                             $X11_RUNANALYSIS
-  echo -e " done"
-}
 
 ###############################################################################
 # Function: reading species file
@@ -1352,33 +1285,6 @@ function run-bbfilter {
   bbFilter $ALIGNMENT/full_alignment.xmfa.backbone 50 my_feats.bin gp
 }
 
-# 0. For simulation I make directories in CAC and copy genomes files to the data
-# directory. 
-function choose-simulation {
-  PS3="Choose the simulation for clonalorigin: "
-  select SPECIES in ${SIMULATIONS[@]}; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -e "  Creating simulation directories output..."
-      mkdir-simulation $SPECIES
-      echo -e "done"
-
-      SPECIESFILE=species/$SPECIES
-      echo "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      
-      echo -e "  Creating directories of $HOW_MANY_REPETITION repetitions..."
-      for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
-        mkdir-simulation-repeat $SPECIES $REPETITION
-      done
-
-      echo -e "Execute simulate-data!"
-      break
-    fi
-  done
-}
 
 # 1. I make directories in CAC and copy genomes files to the data directory.
 # --------------------------------------------------------------------------
@@ -2530,113 +2436,6 @@ function analyze-run-clonalorigin-simulation {
 
 
 
-# Simulates data under ClonalOrigin model or ancestral recombination graph.
-# -------------------------------------------------------------------------
-# The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
-# Two kinds of data are generated. I could simulate the ClonalOrigin model to
-# generate a single-block data set or a multiple-block data set. It would be
-# better to use the same bash script structure as that of real data sets. I need
-# an additional analysis step of comparing simulated results and their true
-# values. I would use the same file structure as real data analysis. Is there a
-# problem with that? I remember that there were some issues about this. There
-# was a subtle issue of file structure of the main output directory. I would
-# have a REPETITION under the SPECIES directory. REPETITION and REPLICATE would
-# be confusing. I did not have REPETITON, but I used it: e.g., cornell5 and
-# cornell5-1. Both of them use the same data set. One of them uses 419 or 415
-# blocks, and another uses 411. Their filtering steps were different. From the
-# view point of ClonalOrigin their data sets are different. Replicates are the
-# same analyses but different in time or random seeds. Repetitions are similar
-# analyses with differnt data.
-# 
-# After thinking over REPETITION and REPLICATE I decide to use a different
-# output file structure. The main output directory still contains SPECIES
-# directories. A SPECIES directory would contain directories named as numbers:
-# i.e., 1, 2, 3 and so on. A numbered directory would contain directories such
-# as run-mauve, run-clonalframe, run-clonalorigin, etc. This could change many
-# parts of this main run.sh script. One issue that I was concerned about was how
-# I could run multiple repeated analyses in a single batch script.
-#
-# Each sub-directory of a species directory contains shell scripts, one of which
-# is called batch.sh. I used to execute it to submit jobs. Now, I wish to
-# control jobs in multiple repetitions. Shell scripts may well be placed at the
-# SPECIES directory. Doing so a batch script can let you submit jobs in REPETITON
-# directories. The SPECIES directory would contain numbered directories, a shell
-# script called run.sh, and a directory called sh that contains more scripts.
-# The run.sh is the main shell script that would select one of commands
-# available. The scripts in ``sh'' directory are for various specific scripts:
-# e.g., run-mauve, run-clonalframe, run-clonalorigin. I will keep the batch scripts
-# in these directories. I will have two levels of batch scripts: one at the
-# SPECIES directory level, and the other at each run-xxx level.
-# 
-# Let's start with simulated data.
-# 1. choose-species is the starting point of a real data analysis. For 
-# simulation studies I might have a similar one for setting up directories. How
-# about choose-simulation.
-# 
-# This function could be more generalized.
-#
-# REPLICATE in simulation might not make sense. I use it for copying a species
-# tree. I may need to pick a tree somewhere else. The s1 or s2 text file in
-# species directory might contain more specific information about their
-# simulation setup.
-#
-function simulate-data {
-  PS3="Choose a simulation (e.g., s1): "
-  select SPECIES in ${SIMULATIONS[@]}; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else
-      SPECIESFILE=species/$SPECIES
-
-      echo -e "Which replicate set of output files?"
-      echo -n "REPLICATE ID: " 
-      read REPLICATE
-
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-      
-      echo -n "  Reading SPECIESTREE from $SPECIESFILE..."
-      SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
-      echo " $SPECIESTREE"
-
-      echo -n "  Reading INBLOCK from $SPECIESFILE..."
-      INBLOCK=$(grep InBlock $SPECIESFILE | cut -d":" -f2)
-      echo " $INBLOCK"
-
-      echo -n "  Reading from $SPECIESFILE..."
-      THETA_PER_SITE=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
-      echo " $THETA_PER_SITE"
-
-      echo -n "  Reading from $SPECIESFILE..."
-      RHO_PER_SITE=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
-      echo " $RHO_PER_SITE"
-
-      echo -n "  Reading from $SPECIESFILE..."
-      DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
-      echo " $DELTA"
-
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-        BASEDIR=$OUTPUTDIR/$SPECIES
-        NUMBERDIR=$BASEDIR/$g
-        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-        DATADIR=$NUMBERDIR/data
-        mkdir -p $RUNCLONALORIGIN/input/$REPLICATE
-        cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
-        cp simulation/$INBLOCK $DATADIR
-        echo -n "  Simulating data under the ClonalOrigin model ..." 
-        $WARGSIM --tree-file $RUNCLONALORIGIN/input/$REPLICATE/$SPECIESTREE \
-          --block-file $DATADIR/$INBLOCK \
-          --out-file $DATADIR/${SPECIES}_${g}_core_alignment \
-          -T s$THETA_PER_SITE -D $DELTA -R s$RHO_PER_SITE
-        echo -e " done - repetition $g"
-      done
-      break
-    fi
-  done
-}
-
 source sh/init-file-system.sh
 source sh/scatter-plot-parameter.sh
 source sh/plot-number-recombination-within-blocks.sh
@@ -2671,17 +2470,17 @@ source sh/clonalorigin2-simulation3-analyze.sh
 source sh/clonalorigin2-simulation3-each-block.sh
 source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
+source sh/simulate-data-clonalorigin1.sh
+source sh/choose-simulation.sh 
  
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
-          --- SIMULATION ---\
+          --- SIMULATION1 ---\
           choose-simulation \
-          simulate-data \
-          divide-simulated-xml-data \
-          divide-simulated-xmfa-data \
+          simulate-data-clonalorigin1 \
           prepare-run-clonalorigin-simulation \
           receive-run-clonalorigin-simulation \
           analyze-run-clonalorigin-simulation \
@@ -2809,9 +2608,6 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "simulate-data" ];  then
     simulate-data
     break
-  elif [ "$CHOICE" == "simulate-data-clonalorigin2" ];  then
-    simulate-data-clonalorigin2
-    break
   elif [ "$CHOICE" == "simulate-data-clonalorigin2-from-xml" ]; then
     $CHOICE
     break
@@ -2852,6 +2648,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-each-block" ]; then $CHOICE; break
   elif [ "$CHOICE" == "extract-species-tree" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin2" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin1" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue
