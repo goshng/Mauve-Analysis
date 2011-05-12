@@ -226,26 +226,7 @@ function hms
 
 source sh/set-more-global-variable.sh
  
-###############################################################################
-# Functions: structuring file system (or creating directories)
-###############################################################################
-# Create initial directories
-# --------------------------
-# After checking out the source code from the repository output directories need
-# to be created in the local, remote cluster, remote X11 machines.
-# input: nothing
-# output: 3 output directories
-function init-file-system {
-  echo -n "Creating $MAUVEANALYSISDIR/output ..." 
-  mkdir $MAUVEANALYSISDIR/output 
-  echo -e " done"
-  echo -n "Creating $CAC_ROOT/output at $CAC_USERHOST ..."
-  ssh -x $CAC_USERHOST mkdir -p $CAC_ROOT/output
-  echo -e " done"
-  echo -n "Creating $X11_ROOT/output at $X11_USERHOST ..."
-  ssh -x $X11_USERHOST mkdir -p $X11_ROOT/output
-  echo -e " done"
-}
+
 
 # Create direcotires for storing analyses and their results.
 # ----------------------------------------------------------
@@ -2656,6 +2637,7 @@ function simulate-data {
   done
 }
 
+source sh/init-file-system.sh
 source sh/scatter-plot-parameter.sh
 source sh/plot-number-recombination-within-blocks.sh
 source sh/heatmap-compute.sh
@@ -2763,9 +2745,7 @@ select CHOICE in ${CHOICES[@]}; do
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
     continue
-  elif [ "$CHOICE" == "init-file-system" ];  then
-    init-file-system
-    break
+  elif [ "$CHOICE" == "init-file-system" ]; then $CHOICE; break
   elif [ "$CHOICE" == "choose-simulation" ];  then
     choose-simulation
     break

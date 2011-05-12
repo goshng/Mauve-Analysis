@@ -3,6 +3,14 @@ Manual of Mauve Analysis
 :Author: Sang_Chul_Choi
 :Author Initials: SCC
 
+Quick Start
+-----------
+Here is a short quick start.
+
+.A procedure to do
+. Configure it by editting +conf/README.template+ and renaming it +README+
+. Execute the menu *init-file-system*
+
 System requirements
 -------------------
 xxx
@@ -27,15 +35,15 @@ time.
 |clusterUsername |the user ID at the cluster |foo
 |clusterURL |URL or IP address of the cluster |cluster.domain.edu
 |clusterBase |Mirrored mauve directory in the cluster |Documents/Projects/m2
-|
+|||
 |x11Username |the user ID at x11 enabled computer |bar
 |x11URL |URL or IP address of the x11 computer |x11.domain.edu
 |x11Base |Mirrored mauve directory in the x11 computer |Documents/Projects/m2 
-|
+|||
 |email |your email address |your@email.domain.edu
 |access |batch access ID |abc
 |queue |queue name |queue
-|
+|||
 |core_alignment.xmfa |any name |core_alignment.xmfa
 |=======================
 Mauve
