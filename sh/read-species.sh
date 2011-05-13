@@ -54,4 +54,29 @@ function read-species {
   echo -n "  Reading from $SPECIESFILE..."
   DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
   echo " $DELTA"
+
+  echo -n "  Reading THETA per site from $SPECIESFILE..."
+  MEDIAN_THETA=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
+  echo " $MEDIAN_THETA"
+
+  echo -n "  Reading DELTA from $SPECIESFILE..."
+  MEDIAN_DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
+  echo " $MEDIAN_DELTA"
+
+  echo -n "  Reading RHO per site from $SPECIESFILE..."
+  MEDIAN_RHO=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
+  echo " $MEDIAN_RHO"
+
+  echo -n "  Reading BRUNIN from $SPECIESFILE..."
+  BURNIN=$(grep Burnin $SPECIESFILE | cut -d":" -f2)
+  echo " $BURNIN"
+
+  echo -n "  Reading CHAINLENGTH from $SPECIESFILE..."
+  CHAINLENGTH=$(grep ChainLength $SPECIESFILE | cut -d":" -f2)
+  echo " $CHAINLENGTH"
+
+  echo -n "  Reading THIN from $SPECIESFILE..."
+  THIN=$(grep Thin $SPECIESFILE | cut -d":" -f2)
+  echo " $THIN"
+
 }

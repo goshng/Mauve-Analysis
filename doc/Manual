@@ -15,7 +15,12 @@ Here is a short quick start.
 . Create a species file with a name starting with s at the directory of +species+
 . Execute the menu *choose-simulation*
 . Execute the menu *compute-block-length* if necessary 
-. Execute the menu *compute-block-length* if necessary 
+. Execute the menu *simulate-data-clonalorigin1*
+. Execute the menu *simulate-data-clonalorigin1-prepare* 
+. Go to the directory at the cluster to submit jobs
+. Wait for the jobs to be finished
+. Execute the menu *simulate-data-clonalorigin1-receive* 
+. Execute the menu *simulate-data-clonalorigin1-analyze* 
 
 Species File
 ------------

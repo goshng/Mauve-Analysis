@@ -20,7 +20,6 @@
 
 use strict;
 use warnings;
-use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
@@ -179,9 +178,15 @@ sub startElement {
   $content = "";
   if ($e eq "Iteration") {
     $itercount++;
-    foreach my $f (@xmlFiles)
+
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<Iteration>\n";
+      close $f;
     }
   }
   if ($e eq "outputFile") {
@@ -254,15 +259,15 @@ sub endElement {
     }
   }
 
-################################# 7
-    for (my $i = 1; $i <= $#blocks; $i++)
-    {
-      my $xmlFileBlock = "$xmlFile.$i";
-      my $f;
-      open $f, ">>$xmlFileBlock" 
-        or die "Could not open $xmlFileBlock";
-      close $f;
-    }
+################################# 8
+    #for (my $i = 1; $i <= $#blocks; $i++)
+    #{
+      #my $xmlFileBlock = "$xmlFile.$i";
+      #my $f;
+      #open $f, ">>$xmlFileBlock" 
+        #or die "Could not open $xmlFileBlock";
+      #close $f;
+    #}
 
 
   $eltname = "Tree";
@@ -386,7 +391,6 @@ sub endElement {
       my $end = $blocks[$startBlock] - $blocks[$startBlock-1];
 
       # my $f = $xmlFiles[$startBlock-1];
-# STOPPED HERE
 
       my $xmlFileBlock = "$xmlFile.$startBlock";
       my $f;
@@ -402,12 +406,16 @@ sub endElement {
       print $f "<\/recedge>\n";
       close $f;
 
-
       for (my $i = 0; $i < $endBlock - $startBlock - 1; $i++)
       {
         my $start = 0;
         my $end = $blocks[$startBlock + 1 + $i] - $blocks[$startBlock + $i];
-        my $f = $xmlFiles[$startBlock-1];
+
+        # my $f = $xmlFiles[$startBlock-1];
+        my $xmlFileBlock = "$xmlFile.$startBlock";
+        my $f;
+        open $f, ">>$xmlFileBlock" 
+          or die "Could not open $xmlFileBlock";
         print $f "<recedge>";
         print $f "<start>$start<\/start>";
         print $f "<end>$end<\/end>";
@@ -416,11 +424,16 @@ sub endElement {
         print $f "<afrom>$recedge{afrom}<\/afrom>";
         print $f "<ato>$recedge{ato}<\/ato>";
         print $f "<\/recedge>\n";
+        close $f;
       }
 
       $start = $blocks[$endBlock] - $blocks[$endBlock-1];
       $end = $recedge{end} - $blocks[$endBlock-1];
-      $f = $xmlFiles[$endBlock-1];
+      #$f = $xmlFiles[$endBlock-1];
+      $xmlFileBlock = "$xmlFile.$endBlock";
+      #my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<recedge>";
       print $f "<start>$start<\/start>";
       print $f "<end>$end<\/end>";
@@ -429,23 +442,33 @@ sub endElement {
       print $f "<afrom>$recedge{afrom}<\/afrom>";
       print $f "<ato>$recedge{ato}<\/ato>";
       print $f "<\/recedge>\n";
+      close $f;
     }
   }
 
   $eltname = "Iteration";
   if ($elt eq $eltname) {
-    foreach my $f (@xmlFiles)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<\/$eltname>\n";
+      close $f;
     }
   }
 
   $eltname = "outputFile";
   if ($elt eq $eltname) {
-    foreach my $f (@xmlFiles)
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<\/$eltname>\n";
-      close ($f);
+      close $f;
     }
   }
 
@@ -510,9 +533,15 @@ sub getLineNumber {
 sub print_xml_one_line ($$) {
   my ($eltname, $elt) = @_;
   if ($elt eq $eltname) {
-    foreach my $f (@xmlFiles)
+
+    for (my $i = 1; $i <= $#blocks; $i++)
     {
+      my $xmlFileBlock = "$xmlFile.$i";
+      my $f;
+      open $f, ">>$xmlFileBlock" 
+        or die "Could not open $xmlFileBlock";
       print $f "<$eltname>$content<\/$eltname>\n";
+      close $f;
     }
   }
 }

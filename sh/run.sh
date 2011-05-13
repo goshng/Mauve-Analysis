@@ -66,7 +66,7 @@
 # choose-simulation
 # simulate-data
 # prepare-run-clonalorigin
-# receive-run-clonalorigin-simulation
+# simulate-data-clonalorigin1-receive
 # ----
 # 
 # Menu: init-file-system
@@ -860,209 +860,7 @@ done
 EOF
 }
 
-# A script called run.sh is created at the SPECIES directory.
-# -----------------------------------------------------------
-# I create a text file from which each job can read a line. The line should
-# contain the input file for clonal origin.
-function copy-run-sh {
-  RUN_SH=$1/run.sh
-  RUN_BATCH_CLONALORIGIN_SH=$1/batch_clonalorigin.sh
-  RUN_BATCH_TASK_CLONALORIGIN_SH=$1/batch_clonalorigin_task.sh
-  RUN_BATCH_CLONALORIGIN2_SH=$1/batch_clonalorigin2.sh
-  SPECIES=$3
-  HOW_MANY_REPETITION=$4
-  SPECIESTREE=$5
-  CLONAL2ndPHASE=$6
-
-  cat>$RUN_BATCH_CLONALORIGIN_SH<<EOF
-#!/bin/bash
-#PBS -l walltime=$WALLTIME:00:00,nodes=1
-#PBS -A ${BATCHACCESS}
-#PBS -j oe
-#PBS -N Strep-${SPECIES}-ClonalOrigin
-#PBS -q v4
-#PBS -m e
-#PBS -M ${BATCHEMAIL}
-#PBS -t 1-PBSARRAYSIZE
-
-# -l: The wall time is the time duration during which 
-#     a job can run.  Use wall time enough to finish jobs.
-# -A: The ID for accessing the cluster.
-# -j: The standard and error output
-# -N: The name of the job
-# -q: The name of the queue
-# -m: When is the job's status reported?
-# -M: The email address to get the notification of the jobs
-# -t: The number of nodes to use.  I would replace 
-#     PBSARRAYSIZE with a positive number.
-
-HOW_MANY_REPETITION=$HOW_MANY_REPETITION
-HOW_MANY_REPLICATE=$HOW_MANY_REPLICATE
-REPLICATE=$REPLICATE
-CLONAL2ndPHASE=$CLONAL2ndPHASE
-# WORKDIR=\$PBS_O_WORKDIR
-
-# Sets the echo of the command line on.
-set -x
-# The full path of the clonal origin executable.
-WARG=\$HOME/usr/bin/warg
-# The input and output directories.
-OUTPUTDIR=\$TMPDIR/output
-INPUTDIR=\$TMPDIR/input
-
-# Create an input sub-directory in the tmp directory.
-# Copy the task shell script.
-# copy the warg program.
-function to-node {
-  mkdir \$INPUTDIR
-  mkdir \$OUTPUTDIR
-  cp \$PBS_O_WORKDIR/batch_clonalorigin_task.sh \$TMPDIR/  
-  cp \$WARG \$TMPDIR/
-}
-
-# Create output and status directories for each repeat.
-# Create an input directory for each repeat.
-# Copy all the data to the input for each repeat.
-# Copy the tree file to the input directory.
-function to-node-repeat {
-  mkdir \$INPUTDIR/\$1
-  cp \$PBS_O_WORKDIR/\$1/data/*.xmfa.* \$INPUTDIR/\$1
-  mkdir \$OUTPUTDIR/\$1
-  if [ "\$HOW_MANY_REPLICATE" == "1" ]; then
-    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
-    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
-    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status/\${REPLICATE}
-    mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status2/\${REPLICATE}
-    cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
-      \$INPUTDIR/\$1
-    mkdir \$OUTPUTDIR/\$1/\$REPLICATE
-  else
-    for REPLICATE in \$(eval echo {1..\$HOW_MANY_REPLICATE}); do 
-      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
-      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
-      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status/\${REPLICATE}
-      mkdir -p \$PBS_O_WORKDIR/\$1/run-clonalorigin/status2/\${REPLICATE}
-      cp \$PBS_O_WORKDIR/\$1/run-clonalorigin/input/\${REPLICATE}/$SPECIESTREE \\
-        \$INPUTDIR/\$1
-      mkdir \$OUTPUTDIR/\$1/\$REPLICATE
-    done 
-  fi
-}
-
-# Copy the results back to the working directory for each repeat.
-function from-node-repeat {
-  if [ "\$HOW_MANY_REPLICATE" == "1" ]; then
-    if [[ -z \$CLONAL2ndPHASE ]]; then
-      cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
-    else
-      cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
-    fi
-  else
-    for REPLICATE in \$(eval echo {1..\$HOW_MANY_REPLICATE}); do 
-      if [[ -z \$CLONAL2ndPHASE ]]; then
-        cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output/\${REPLICATE}
-      else
-        cp \$OUTPUTDIR/\$1/\${REPLICATE}/* \$PBS_O_WORKDIR/\$1/run-clonalorigin/output2/\${REPLICATE}
-      fi
-    done 
-  fi
-}
-
-# 
-function prepare-task {
-  JOBIDFILE=\$PBS_O_WORKDIR/jobidfile
-  LOCKFILE=\$PBS_O_WORKDIR/lockfile
-}
-
-# Execute as many jobs as CPUs in a computing node.
-function task {
-  cd \$TMPDIR
-  CORESPERNODE=8
-  for (( i=1; i<=CORESPERNODE; i++))
-  do
-    bash batch_clonalorigin_task.sh \\
-      \$i \$JOBIDFILE \$LOCKFILE \$PBS_O_WORKDIR \$TMPDIR&
-  done
-}
-
-if [[ "\$OSTYPE" =~ "linux" ]]; then
-  SEQ=seq
-elif [[ "\$OSTYPE" =~ "darwin" ]]; then
-  SEQ=jot
-fi
-
-echo -e "The job started ..."
-echo -n "Start at "
-date
-
-# Create the main 
-to-node
-
-# Copy all the input data files to the compute node.
-for g in \$(eval echo {1..\$HOW_MANY_REPETITION}); do 
-  to-node-repeat \$g
-done
-
-# What am I preparing?
-prepare-task
-
-# Run jobs in multiple nodes.
-task
-
-# Wait for all of the 8 processes to finish.
-wait
-
-for g in \$(eval echo {1..\$HOW_MANY_REPETITION}); do 
-  from-node-repeat \$g
-done
-
-echo -n "End at "
-date
-echo -e "The job is finished."
-EOF
-
-  create-batch-task-sh $RUN_BATCH_TASK_CLONALORIGIN_SH
-
-  cat>$RUN_SH<<EOF
-#!/bin/bash
-
-function submit-clonalorigin {
-  sed s/PBSARRAYSIZE/\$1/g < batch_clonalorigin.sh > tbatch.sh
-  nsub tbatch.sh 
-  rm tbatch.sh
-}
-
-echo -n "How many computing nodes do you wish to use? (e.g., 3) "
-read HOW_MANY_NODE
-echo -n "How many repetitions do you wish to run? (e.g., 10) "
-read HOW_MANY_REPETITION
-
-PS3="Select what jobs you want to submit: "
-CHOICES=( submit-clonalorigin \\
-          submit-clonalorigin2 ) 
-select CHOICE in \${CHOICES[@]}; do
-  if [ "\$CHOICE" == "" ];  then
-    echo -e "You need to enter something\n"
-    continue
-  elif [ "\$CHOICE" == "submit-clonalorigin" ];  then
-    REPETITON=\$HOW_MANY_REPETITION
-    submit-clonalorigin \$HOW_MANY_NODE \$HOW_MANY_REPETITION
-    break
-  elif [ "\$CHOICE" == "submit-clonalorigin2" ];  then
-    REPETITON=\$HOW_MANY_REPETITION
-    submit-clonalorigin \$HOW_MANY_NODE \$HOW_MANY_REPETITION
-    break
-  else
-    echo -e "You need to enter something\n"
-    continue
-  fi
-done
-EOF
-  chmod a+x $RUN_SH
-  scp -q $RUN_SH $2
-  scp -q $RUN_BATCH_CLONALORIGIN_SH $2
-  scp -q $RUN_BATCH_TASK_CLONALORIGIN_SH $2
-}
+source sh/copy-run-sh.sh
 
 function run-bbfilter {
   DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
@@ -2015,161 +1813,6 @@ function analysis-clonalorigin {
   done
 }
 
-# 11. Prepare the first stage of clonalorigin for simulation.
-# -----------------------------------------------------------
-# This may change depending on what simulation setup I would go with.
-# The first simulation set is called c1 at
-# /Users/goshng/Documents/Projects/mauve/noweb/output/c1
-# where there is an input directory. I want to have an output directory for
-# that. I am not following the directory structure in the real data analysis.
-# Instead, I will use the output directory. Replicates are stored in the output
-# directory. I am concerned about that some duplicates of code can be generated.
-# I think that that might be necessary. Why is this the case?
-#
-# mkdir-simulation: a run of a simulation study is stored in a directory,
-# BASEDIR=$MAUVEANALYSISDIR/noweb/output/$CHOICE/output/${REPLICATE}
-# The $CHOICE is c1, and $REPLICATE goes from 1 to as many replicates as you
-# want. The same directories are created at the output directory in the cluster.
-# 
-# At the directory of 
-# BASECHOICEDIR=$MAUVEANALYSISDIR/noweb/output/$CHOICE
-# there is an input directory. A file with extension of fa is the alignment
-# file: e.g., input/c1_1.fa 
-# A file with extension of tre is the clonal tree. I need these two files to run
-# ClonalOrigin. So, clonaltree.nwk is replaced by input/c1_1.tre 
-# and core_alignment.xmfa is replaced by input/c1_1.fa.
-# The core alignment needs to be split into blocks. Each block and the clonal
-# tree are the input of a ClonalOrigin run. I have an arbitrary number of
-# alignments. A batch script would read in the list to execute ClonalOrigin.
-#
-# I might have to simulate the setting of the real data set of the 5 genomes.
-# Not only mutation rate, recombination rate, and tract length but also the
-# number of blocks and their lengths. I might have to remove more blocks based
-# on the proportion of gaps in alignments. 
-#
-# How can I submit jobs in the repetitions?
-#
-# First copy data and script to the login node of the cluster.
-# Then, copy data and script to the computing node thereof.
-#
-# The cluster is not down now. I have to check the script.
-# Let's check the code from beginning to the end.
-#
-# s1 is the first simulation study. I simulate a single block of 10k base pairs
-# under ClonalOrigin model. I need multiple replicates to check convergence.
-# CHOICE and HOW_MANY_REPETITION could be determined using directories and file
-# in species, and output directories. 
-# Later I need a way to check convergence of replicates.
-# 
-# BASEDIR:
-# mauve/output/cornell
-# NUMBERDIR:
-# mauve/output/cornell/1/data
-# DATADIR:
-# mauve/output/cornell/1/data
-# RUNMAUVE:
-# mauve/output/cornell/1/run-mauve
-# 
-# For each repeat I do the following:
-# 1. Split the core alignment.
-# 2. Copy the split alignments to CAC cluster.
-# 3. Copy the species tree to CAC cluster.
-# 4. Make a list of jobs. A job is specified by command line
-#    options of warg.
-# 5. Create a batch file for each repeat.
-#
-# Finishing the above I make a list of jobs over all the repeats. I also create
-# the main batch script for the jobs of all the repeats.
-function prepare-run-clonalorigin-simulation {
-  PS3="Choose a menu of simulation with clonalorigin: "
-  select SPECIES in ${SIMULATIONS[@]}; do 
-    if [ "$SPECIES" == "" ]; then
-      echo -e "You need to enter something\n"
-      continue
-    # elif [ "$SPECIES" == "s1" ] || [ "$SPECIES" == "s2" ]; then
-    else
-      SPECIESFILE=species/$SPECIES
-      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
-      read REPLICATE
-
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-
-      echo -n "  Reading SPECIESTREE from $SPECIESFILE..."
-      SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
-      echo " $SPECIESTREE"
-
-      #for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-      # Note that seq and jot behave differently when users give two numbers.
-      # seq 4 10
-      # jot 7 4
-      #for g in `jot 7 4`; do 
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
-        NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
-        DATADIR=$NUMBERDIR/data
-        RUNCLONALFRAME=$NUMBERDIR/run-clonalframe
-        RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
-        mkdir -p $RUNCLONALORIGIN/output/${REPLICATE}
-        mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
-        mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
-        CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-        CAC_DATADIR=$CAC_NUMBERDIR/data
-        CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-        ssh -x $CAC_USERHOST \
-          mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
-
-        # I already have the tree.
-        cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
-
-        echo "  Splitting alignment into files per block..."
-        CORE_ALIGNMENT=${SPECIES}_${g}_core_alignment.xmfa
-        rm -f $DATADIR/$CORE_ALIGNMENT.*
-        perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
-
-        #send-clonalorigin-input-to-cac
-        echo "  Copying the split alignments..."
-        scp -q $DATADIR/$CORE_ALIGNMENT.* \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
-
-        echo "  Copying the input species tree..."
-        scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
-
-        echo "  Making command options for clonal origin..."
-        make-run-list-repeat $g \
-          $OUTPUTDIR/$SPECIES \
-          $REPLICATE \
-          $SPECIESTREE \
-          > $RUNCLONALORIGIN/jobidfile
-        scp -q $RUNCLONALORIGIN/jobidfile $CAC_USERHOST:$CAC_RUNCLONALORIGIN
-        copy-batch-sh-run-clonalorigin \
-          $g \
-          $OUTPUTDIR/$SPECIES \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-          $SPECIES \
-          $SPECIESTREE \
-          $REPLICATE
-      done
-
-      echo "  Make a script for submitting jobs for all the repetitions."
-      make-run-list $HOW_MANY_REPETITION \
-        $OUTPUTDIR/$SPECIES \
-        $REPLICATE \
-        $SPECIESTREE \
-        > $OUTPUTDIR/$SPECIES/jobidfile
-      scp -q $OUTPUTDIR/$SPECIES/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES
-      copy-run-sh $OUTPUTDIR/$SPECIES \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-        $SPECIES \
-        $HOW_MANY_REPETITION \
-        $SPECIESTREE
- 
-      break
-    fi
-  done
-}
-
 
 # Find the median of the median values of three parameters.
 # ---------------------------------------------------------
@@ -2443,7 +2086,7 @@ source sh/heatmap-compute.sh
 source sh/heatmap-get-observed.sh
 source sh/compute-global-median.sh
 source sh/prepare-run-clonalorigin2-simulation.sh 
-source sh/receive-run-clonalorigin-simulation.sh 
+source sh/simulate-data-clonalorigin1-receive.sh 
 source sh/analyze-run-clonalorigin2-simulation.sh 
 source sh/divide-simulated-xml-data.sh
 source sh/divide-simulated-xmfa-data.sh
@@ -2472,6 +2115,7 @@ source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
 source sh/simulate-data-clonalorigin1.sh
 source sh/choose-simulation.sh 
+source sh/simulate-data-clonalorigin1-prepare.sh
  
 #####################################################################
 # Main part of the script.
@@ -2481,8 +2125,8 @@ CHOICES=( init-file-system \
           --- SIMULATION1 ---\
           choose-simulation \
           simulate-data-clonalorigin1 \
-          prepare-run-clonalorigin-simulation \
-          receive-run-clonalorigin-simulation \
+          simulate-data-clonalorigin1-prepare \
+          simulate-data-clonalorigin1-receive \
           analyze-run-clonalorigin-simulation \
           --- SIMULATION2-1 ---\
           simulate-data-clonalorigin2 \
@@ -2539,7 +2183,7 @@ CHOICES=( init-file-system \
           compute-global-median \
           create-ingene \
           extract-species-tree \
-          prepare-run-clonalorigin-simulation )
+          simulate-data-clonalorigin1-prepare )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
@@ -2584,20 +2228,11 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "analysis-clonalorigin" ];  then
     analysis-clonalorigin
     break
-  elif [ "$CHOICE" == "prepare-run-clonalorigin-simulation" ];  then
-    prepare-run-clonalorigin-simulation
-    break
-  elif [ "$CHOICE" == "receive-run-clonalorigin-simulation" ];  then
-    receive-run-clonalorigin-simulation
-    break
-  elif [ "$CHOICE" == "analyze-run-clonalorigin-simulation" ];  then
-    analyze-run-clonalorigin-simulation
-    break
   elif [ "$CHOICE" == "prepare-run-clonalorigin2-simulation" ];  then
     prepare-run-clonalorigin2-simulation Clonal2ndPhase
     break
-  elif [ "$CHOICE" == "receive-run-clonalorigin2-simulation" ];  then
-    receive-run-clonalorigin-simulation Clonal2ndPhase
+  elif [ "$CHOICE" == "analyze-run-clonalorigin-simulation" ];  then
+    analyze-run-clonalorigin-simulation
     break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation" ];  then
     analyze-run-clonalorigin2-simulation
@@ -2650,6 +2285,11 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "extract-species-tree" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin2" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin1-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin1-receive" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "receive-run-clonalorigin2-simulation" ];  then
+    simulate-data-clonalorigin1-receive Clonal2ndPhase
+    break
   else
     echo -e "You need to enter something\n"
     continue

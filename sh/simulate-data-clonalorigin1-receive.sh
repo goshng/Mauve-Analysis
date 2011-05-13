@@ -4,7 +4,7 @@
 # Receives result of clonal origin runs for simulation 
 # ----------------------------------------------------
 # Let's just receive the results.
-function receive-run-clonalorigin-simulation {
+function simulate-data-clonalorigin1-receive {
   CLONAL2ndPHASE=$1 
   PS3="Choose the simulation result of clonalorigin: "
   select SPECIES in ${SIMULATIONS[@]}; do 
@@ -31,13 +31,9 @@ function receive-run-clonalorigin-simulation {
         echo " $HOW_MANY_REPLICATE"
         eval "REPLICATES=({1..${HOW_MANY_REPLICATE}})"
       fi
-      #for REPLICATE in ${REPLICATES[@]}; do
-        #echo $REPLICATE 
-      #done
-      #break
 
       echo -e "  Receiving clonal origin analysis..."
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+      for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin

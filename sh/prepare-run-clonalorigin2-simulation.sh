@@ -34,34 +34,6 @@ function prepare-run-clonalorigin2-simulation {
       SPECIESTREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
       echo " $SPECIESTREE"
 
-      echo -n "  Reading THETA per site from $SPECIESFILE..."
-      MEDIAN_THETA=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
-      echo " $MEDIAN_THETA"
-
-      echo -n "  Reading DELTA from $SPECIESFILE..."
-      MEDIAN_DELTA=$(grep Delta $SPECIESFILE | cut -d":" -f2)
-      echo " $MEDIAN_DELTA"
-
-      echo -n "  Reading RHO per site from $SPECIESFILE..."
-      MEDIAN_RHO=$(grep RhoPerSite $SPECIESFILE | cut -d":" -f2)
-      echo " $MEDIAN_RHO"
-
-      echo -n "  Reading BRUNIN from $SPECIESFILE..."
-      BURNIN=$(grep Burnin $SPECIESFILE | cut -d":" -f2)
-      echo " $BURNIN"
-
-      echo -n "  Reading CHAINLENGTH from $SPECIESFILE..."
-      CHAINLENGTH=$(grep ChainLength $SPECIESFILE | cut -d":" -f2)
-      echo " $CHAINLENGTH"
-
-      echo -n "  Reading THIN from $SPECIESFILE..."
-      THIN=$(grep Thin $SPECIESFILE | cut -d":" -f2)
-      echo " $THIN"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      WALLTIME=$(grep Walltime $SPECIESFILE | cut -d":" -f2)
-      echo " $WALLTIME"
-
       for g in $(eval echo {1..$HOW_MANY_REPETITION}); do 
         echo -n "$g "
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
@@ -81,7 +53,7 @@ function prepare-run-clonalorigin2-simulation {
             mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
 
           # I already have the tree.
-          cp simulation/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
+          cp data/$SPECIESTREE $RUNCLONALORIGIN/input/$REPLICATE
 
           #echo "  Splitting alignment into files per block... ($g)"
           CORE_ALIGNMENT=core_alignment.$REPLICATE.xmfa
