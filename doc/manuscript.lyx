@@ -2026,8 +2026,8 @@ ClonalOrigin with splitting time
 \end_layout
 
 \begin_layout Standard
-WARNING: I do not think that I have parameters that control directionality
- of gene flow due to bacterial recombinations.
+I do not think that I have parameters that control directionality of gene
+ flow due to bacterial recombinations.
  
 \end_layout
 
@@ -2043,14 +2043,6 @@ I did not pursue to make inference of the model, and yet I wished to test
 \end_layout
 
 \begin_layout Standard
-I have been reconsider the above idea, and have realized that something
- should be changed.
-\end_layout
-
-\begin_layout Standard
-WARNING: This is an old idea of having multiple recombination rates.
- I do think that multiple coalescent rates with the single recombination
- rate can better fit the ClonalOrigin model.
 \begin_inset Newpage clearpage
 \end_inset
 
