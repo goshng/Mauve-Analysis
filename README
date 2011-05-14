@@ -887,3 +887,10 @@ r3988
 http://compgen.bscb.cornell.edu/wiki/index.php/Subversion_repository
 
 
+.Simulation
+----
+perl pl/simulate-data-clonalorigin1-analyze.pl -in output/s15/run-analysis/out -numbersample 101 -out 1
+----
+
+
+

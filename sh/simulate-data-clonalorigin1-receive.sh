@@ -6,33 +6,15 @@
 # Let's just receive the results.
 function simulate-data-clonalorigin1-receive {
   CLONAL2ndPHASE=$1 
-  PS3="Choose the simulation result of clonalorigin: "
+  PS3="Choose the simulation to receive with $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
     else
-      SPECIESFILE=species/$SPECIES
+      read-species
 
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-
-      echo -n "  Reading REPLICATE from $SPECIESFILE..."
-      HOW_MANY_REPLICATE=$(grep Replicate $SPECIESFILE | cut -d":" -f2)
-      if [ "$HOW_MANY_REPLICATE" == "" ]; then
-        HOW_MANY_REPLICATE=0
-        echo " $HOW_MANY_REPLICATE"
-        echo "  No Replicate is specified at $SPECIESFILE!" 
-        echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
-        read REPLICATE
-        REPLICATES=($REPLICATE)
-      else
-        echo " $HOW_MANY_REPLICATE"
-        eval "REPLICATES=({1..${HOW_MANY_REPLICATE}})"
-      fi
-
-      echo -e "  Receiving clonal origin analysis..."
+      echo "  Receiving clonal origin analysis..."
       for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
         NUMBERDIR=$OUTPUTDIR/$SPECIES/$g
         DATADIR=$NUMBERDIR/data
@@ -53,7 +35,9 @@ function simulate-data-clonalorigin1-receive {
               $RUNCLONALORIGIN/output2/$REPLICATE
           fi
         done
+        echo -ne "REPETITION $g has been downloaded\r" 
       done
+      echo "$g REPETITION have been downloaded!"
       break
     fi
   done

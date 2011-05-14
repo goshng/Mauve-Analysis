@@ -11,6 +11,8 @@ function read-species {
     HOW_MANY_REPLICATE=0
     echo " $HOW_MANY_REPLICATE"
     echo "  No Replicate is specified at $SPECIESFILE!" 
+    HOW_MANY_REPLICATE=1
+    echo "  Replicate of 1 is set to \$SPECIESFILE!" 
     echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
     read REPLICATE
     REPLICATES=($REPLICATE)

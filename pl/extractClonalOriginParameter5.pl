@@ -3,16 +3,8 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: extractClonalOriginParameter5.pl
-#   Date: 21.04-13
+#   Date: Sat May 14 08:57:27 EDT 2011
 #   Version: 1.0
-#
-#   Usage:
-#      perl extractClonalOriginParameter5.pl [options]
-#
-#      Try 'perl extractClonalOriginParameter5.pl -h' for more information.
-#
-#   Purpose: extractClonalOriginParameter5.pl help you extract the 3 main
-#            parameters from the output XML file of ClonalOrigin.
 #===============================================================================
 
 use strict;
@@ -37,6 +29,7 @@ GetOptions( \%params,
             'append',
             'nonewline',
             'firsttab',
+            'withblocksize',
             'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -53,13 +46,13 @@ extractClonalOriginParameter5.pl 1.0
 =head1 SYNOPSIS
 
 perl extractClonalOriginParameter5.pl [-h] [-help] [-version] 
-  [-xml file] [-append] [-out file]
+  [-xml file] [-append] [-out file] [-withblocksize]
 
 =head1 DESCRIPTION
 
 The three scalar parameters include mutation rate, recombination rate, and
-average recombinant tract length.  These values are extracted from a
-ClonalOrigin XML output file.
+average recombinant tract length. These values are extracted from a
+ClonalOrigin XML output file. Block size can be prepended.
 
 =head1 OPTIONS
 
@@ -102,6 +95,10 @@ Numbers form a line. The line does not end in a newline.
 The first number is prefixed with a tab. The first line does not start with a
 tab in the default setting.
 
+=item B<-withblocksize>
+
+Block and its size are prepended.
+
 =back
 
 =head1 AUTHOR
@@ -119,19 +116,28 @@ Copyright (C) 2011  Sang Chul Choi
 
 =head1 LICENSE
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
+
+require "pl/sub-error.pl";
 
 my $xmlFile;
 my $basenameOutFile;
 my $isAppend = 0;
 my $isNoNewline = 0;
 my $isFirstTab = 0;
+my $withblocksize = 0;
 
 if (exists $params{xml})
 {
@@ -142,7 +148,7 @@ else
   &printError("you did not specify an XML file that contains Clonal Origin run results");
 }
 
-$xmlFile =~ /\.(\d+)\.xml/;
+$xmlFile =~ /\.xml\.(\d+)/;
 my $blockID = $1;
 
 if (exists $params{out})
@@ -169,6 +175,11 @@ if (exists $params{firsttab})
   $isFirstTab = 1;
 }
 
+if (exists $params{withblocksize})
+{
+  $withblocksize = 1;
+}
+
 #
 ################################################################################
 ## DATA PROCESSING
@@ -189,10 +200,12 @@ if ($isAppend == 0) {
   open OUTTHETA, ">$basenameOutFile.theta" or die $!;
   open OUTRHO, ">$basenameOutFile.rho" or die $!;
   open OUTDELTA, ">$basenameOutFile.delta" or die $!;
+  open OUT, ">$basenameOutFile" or die $!;
 } else {
   open OUTTHETA, ">>$basenameOutFile.theta" or die $!;
   open OUTRHO, ">>$basenameOutFile.rho" or die $!;
   open OUTDELTA, ">>$basenameOutFile.delta" or die $!;
+  open OUT, ">>$basenameOutFile" or die $!;
 }
 
 ##############################################################
@@ -212,11 +225,13 @@ if ($isNoNewline == 0) {
   print OUTTHETA "\n";
   print OUTRHO "\n";
   print OUTDELTA "\n";
+  print OUT "\n";
 }
 
 close OUTTHETA;
 close OUTRHO;
 close OUTDELTA;
+close OUT;
 
 exit;
 ##############################################################
@@ -250,18 +265,43 @@ sub startElement {
 sub endElement {
   my ($p, $elt) = @_;
   if($tag eq "theta"){
-    print OUTTHETA "\t" if $isFirstTab == 1 or $itercount > 1;
-    #print OUTTHETA "($blockID-$itercount)$content";
+    if ($isFirstTab == 1 or $itercount > 1)
+    {
+      print OUTTHETA "\t";
+      print OUT "\t"; 
+    }
     print OUTTHETA "$content";
+    print OUT "$content";
   }
   if($tag eq "rho"){
-    print OUTRHO "\t" if $isFirstTab == 1 or $itercount > 1;
+    if ($isFirstTab == 1 or $itercount > 1)
+    {
+      print OUTRHO "\t";
+    }
     print OUTRHO "$content";
+    print OUT "\t$content";
   }
   if($tag eq "delta"){
-    print OUTDELTA "\t" if $isFirstTab == 1 or $itercount > 1;
+    if ($isFirstTab == 1 or $itercount > 1)
+    {
+      print OUTDELTA "\t";
+    }
     print OUTDELTA "$content";
+    print OUT "\t$content";
   }
+
+  if ($withblocksize == 1)
+  {
+    if($tag eq "Blocks")
+    {
+      $content =~ s/.+\,//g;
+      print OUTTHETA "\tBlock$blockID\t$content\t";
+      print OUTRHO "\tBlock$blockID\t$content\t";
+      print OUTDELTA "\tBlock$blockID\t$content\t";
+      print OUT "\tBlock$blockID\t$content\t";
+    }
+  }
+
   $tag = "";
   $content = "";
 }
@@ -278,20 +318,11 @@ sub characterData {
   if($tag eq "delta"){
     $content .= $data;
   }
+  if($tag eq "Blocks"){
+    $content .= $data;
+  }
+
 }
 
 sub default {
-}
-
-
-##
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-##
-
-sub printError {
-  my $msg = shift;
-  print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter5.pl -h\' for more information.\nExit program.\n";
-  exit(0);
 }

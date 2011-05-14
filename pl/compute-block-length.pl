@@ -3,21 +3,13 @@
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: compute-block-length.pl
-#   Date: 2011-04-08
+#   Date: Sat May 14 07:54:44 EDT 2011
 #   Version: 1.0
-#
-#   Usage:
-#      perl compute-block-length.pl [basename]
-#
-#      Try 'perl compute-block-length.pl -h' for more information.
-#
-#   Purpose: compute-block-length.pl help you to count the lengths of blocks.
 #===============================================================================
 
 use strict;
 use warnings;
 
-#use Data::Dumper;
 use Getopt::Long;
 use Pod::Usage;
 
@@ -155,7 +147,7 @@ sub lengthBlock ($)
   my ($f) = @_;
   my $line;
   my $sequence = "";
-  open XMFA, $f or die $!;
+  open XMFA, $f or die "Could not open $f $!";
   while ($line = <XMFA>)
   {
     chomp $line;
