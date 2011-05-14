@@ -56,7 +56,10 @@ Streptococcus pyogenes
  and 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  subspecies 
 \emph on
@@ -70,16 +73,16 @@ Authors:
 \end_layout
 
 \begin_layout Standard
-Sang Chul Choi
-\begin_inset Formula $^{1}$
-\end_inset
-
-, Matt Rasmussen
-\begin_inset Formula $^{1}$
+Matt Rasmussen
+\begin_inset Formula $^{*1}$
 \end_inset
 
 , Melissa Jane Hubisz
-\begin_inset Formula $^{1}$
+\begin_inset Formula $^{*1}$
+\end_inset
+
+, Sang Chul Choi
+\begin_inset Formula $^{*1}$
 \end_inset
 
 , Michael J.
@@ -92,6 +95,13 @@ Sang Chul Choi
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $^{*}$
+\end_inset
+
+These authors contributed equally to this work.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -164,58 +174,50 @@ Keywords:
 gene gain/loss/duplication/transfer
 \end_layout
 
-\begin_layout Section*
-Abstract
+\begin_layout Subsubsection*
+Version: 0.1 (May 13, 2011) 
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Group A streptococci (GAS) and group C/G streptococci (GCS/GGS) cohabit
- the same ecological niche.
- We investigate exchange of genetic elements between GAS and GCS/GGS using
- their genomes.
- The study shows that the two groups exchange genetic segments across the
- entire genomes not just housekeeping genes.
- It shows that more genetic elements flowed overall from GAS to GCS/GGS
- than the other direction.
- We found no evidence that virulence genes were exchanged more than other
- regions of the genome.
- Three functional categories show higher recombination rates: biosynthesis
- in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
- phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
- in protein fate.
+\begin_layout Section*
+Abstract
 \end_layout
 
 \begin_layout Standard
 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  (SPY) is a pervasive human-specific pathogen which causes a wide variety
  of streptococcal diseases.
  The closely related species 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  ssp.
- 
 \emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  (SDE) has long been thought of as a veterinary pathogen, but recent evidence
  suggests that it can cause serious and life-threatening human diseases
- traditionally associated with SPY 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Brandt2009"
-
-\end_inset
-
-.
+ traditionally associated with SPY.
  Because these two species cohabit the same ecological niche, genetic exchanges
- between the two groups seem likely.
+ between the two groups are likely.
  In this study we explore patterns of recombination between these species,
  as well as rates of duplication, loss, and transfer.
  One question we are trying to address is whether these genetic exchanges
@@ -224,7 +226,62 @@ key "Brandt2009"
  Previous studies were limited to housekeeping genes partly because of a
  lack of methods for studying bacterial recombination on the genome scale,
  and partly due to unavailability of relevant bacterial genomes.
- We have utilized the ClonalOrigin software 
+ The results enable us to create a map of recombination rates across each
+ genome.
+ We observe high variation in recombination rates, including several loci
+ which seem to be hotspots for bacterial recombination.
+ We find that there appears to be more gene flow from SPY to SDE than in
+ the other direction.
+ We find that duplications are most often species-specific.
+  Many gene losses likely represent horizontal transfers that replace the
+ native gene sequence.
+ A gene ontology (GO) analysis suggests that categories having to do with
+ sugar phosphotransferase and fatty acid biosynthesis may be enriched for
+ high levels of recombination.
+ 
+\end_layout
+
+\begin_layout Standard
+[Did we find any evidence that virulence genes underwent some types of evolution
+ary events including gene duplcation, loss, transfer more often than non-virulen
+ce genes?]
+\end_layout
+
+\begin_layout Standard
+[Did we find that the SPY and SDE exchange genetic segments across the entire
+ genomes not just housekeeping genes?]
+\end_layout
+
+\begin_layout Standard
+[We investigate exchange of genetic elements between GAS and GCS/GGS using
+ their genomes.
+ Which one should we use for the abstract: GAS or SPY? GCS/GGS or SDE?]
+\end_layout
+
+\begin_layout Standard
+[Three functional categories show higher recombination rates: biosynthesis
+ in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
+ phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
+ in protein fate.
+ Do we need JCVI analysis?]
+\end_layout
+
+\begin_layout Standard
+[The relatively high number of transfers into SDE seems to support the findings
+ from the ClonalOrigin analysis.
+ Did we find this still after considering the 
+\begin_inset Quotes eld
+\end_inset
+
+tie
+\begin_inset Quotes erd
+\end_inset
+
+ problem in Mowgli analysis?]
+\end_layout
+
+\begin_layout Standard
+[We have utilized the ClonalOrigin software 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Didelot2010"
@@ -232,150 +289,10 @@ key "Didelot2010"
 \end_inset
 
  to study patterns of recombination between five Streptococcus genomes.
- ClonalOrigin takes a reference species tree and uses an MCMC framework
- to add recombinant edges to the tree, exploring a state space of possible
- ancestral recombination graphs (ARGs).
- Each recombinant edge represents transfer of genetic material from a donor
- genome to a recipient genome.
- We first used progressiveMauve 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Darling2004,Darling2010"
-
-\end_inset
-
- to align the genomes of the five species: 
-\emph on
-Streptococcus pyogenes
-\emph default
- MGAS315 (SPY1), 
-\emph on
-S.
- pyogenes
-\emph default
- MGAS10750 (SPY2), 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- ATCC 12394 (SDE1), 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- GGS_124 (SDE2), and 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-dysgalactiae
-\emph default
- (SDD).
- This resulted in 415 alignment blocks with lengths of at least 500 base
- pairs.
- The reference species tree was inferred by ClonalFrame 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2007"
-
-\end_inset
-
-, and was in agreement with the one used by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Suzuki2011"
-
-\end_inset
-
-.
- ClonalOrigin could then be applied to these alignment blocks and species
- tree.
- The results enable us to create a map of recombination rates across each
- genome (Figure 1).
- We observe high variation in recombination rates, including several loci
- which seem to be hotspots for bacterial recombination.
- A preliminary gene ontology (GO) analysis suggests that categories having
- to do with sugar phosphotransferase and fatty acid biosynthesis may be
- enriched for high levels of recombination.
- We are also able to look at the rates of genetic transfer between all branches
- of the species tree.
- Figure 2 shows the amount of gene flow to and from each species relative
- to the expectation under the prior.
- We find that there appears to be more gene flow from SPY1 and SPY2 to SDE1
- and SDE2 than in the other direction.
- 
+ How should I avoid mentioning this specific citation in the abstract?]
 \end_layout
 
 \begin_layout Standard
-We are also exploring gene duplication, loss, and horizontal gene transfer
- using a complementary approach.
- We used the clusters of gene families computed by OrthoMCL 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Li2003,Suzuki2011"
-
-\end_inset
-
-.
- These include the five species from ClonalOrigin analysis, and also the
- outgroup S.
- equi subsp.
- equi strain 4047.
- 
-\end_layout
-
-\begin_layout Standard
-For each family cluster, the corresponding peptide sequences were aligned
- using the MUSCLE program 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Edgar2004a"
-
-\end_inset
-
- and nucleotide alignments were constructed by mapping nucleotide sequences
- onto each peptide alignment.
- Gene trees were created for each nucleotide alignment using the RAxML program
- 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Stamatakis2006a"
-
-\end_inset
-
- and were rooted by minimizing duplications and losses.
- Each rooted gene tree was then reconciled using the Mowgli program 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Doyon2011"
-
-\end_inset
-
-, which inferred the most parsimonious gene duplication, loss, and transfer
- events for each family.
- Figure 3 shows the inferred gene counts for each extant and ancestral species.
- Overall, we find that duplications make up only a small fraction of the
- events within the clade (9.6%), while horizontal transfers and losses are
- significantly more frequent (37.5% and 52.9%, respectively).
-  We also find that duplications are most often species-specific.
-  Many gene losses likely represent horizontal transfers that replace the
- native gene sequence.
- The relatively high number of transfers into SDE1 and SDE2 seems to support
- the findings from the ClonalOrigin analysis, although our investigation
- is ongoing.
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -511,6 +428,11 @@ integration has driven bacterial evolution, methodological development has
  hardly been able to properly deal with the important evolutionary force
  in bacteria.
  
+\end_layout
+
+\begin_layout Standard
+[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
+TION,TRANSFER?]
 \end_layout
 
 \begin_layout Standard
@@ -746,583 +668,7 @@ We organize the remainder of the paper as follows.
  above, and end in Discussion.
 \end_layout
 
-\begin_layout Subsection*
-Recent studies
-\end_layout
-
 \begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Luo2011"
-
-\end_inset
-
-: Genome sequencing of 
-\emph on
-Escherichia coli
-\emph default
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Retchless2007"
-
-\end_inset
-
-: Fragmented Speciation Model.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Zhaxybayeva2006"
-
-\end_inset
-
-: embedded quartet decomposition analyses (EQDA), a method of detection
- of lateral gene transfer.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Abby2010"
-
-\end_inset
-
-: a method of detection of lateral gene transfer.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Alekseyev2008,Alekseyev2008a"
-
-\end_inset
-
-: a method of genome rearrangement.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Angiuoli2011"
-
-\end_inset
-
-: a method of genome alignment.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Anisimova2007"
-
-\end_inset
-
-: a study of Streptococcus.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Ane2011"
-
-\end_inset
-
-: a method of gene tree /species tree reconciliation.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Arnold2011"
-
-\end_inset
-
-: a recent study in a bacterial genome.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Beiko2007"
-
-\end_inset
-
-: a simulator of genome evolution.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Beiko2009"
-
-\end_inset
-
-: a study of HGT.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Bellanger2009"
-
-\end_inset
-
-: an example of HGT biological entity - Integrative and conjugative elements
- (ICE).
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Chen2010"
-
-\end_inset
-
-: a review of genome alignment.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Cohen2010"
-
-\end_inset
-
-: a study of HGT.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Csuros2009"
-
-\end_inset
-
-: a study of gene gain and loss, duplication, and transfer?
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Cunningham2000a"
-
-\end_inset
-
-: about streptococcal diseases.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Cutter2011"
-
-\end_inset
-
-: a study of recombination.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Darling2008"
-
-\end_inset
-
-: a study of genome rearrangement.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Darling2007"
-
-\end_inset
-
-: a tutorial of mauve in analyzing bacterial genomes.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Davies2005,Davies2009"
-
-\end_inset
-
-: studies on genetic flow of SDE.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Graham2005"
-
-\end_inset
-
-: a method of detection of recombination breakpoints.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Hamady2006"
-
-\end_inset
-
-: a study of HGT and recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Hanage2006"
-
-\end_inset
-
-: how to make this study more interesting? Tug of war between recombination
- and gene gain/duplication/loss/transfer.
- Tests of bacterial evolutionary models (fragmented speciation model).
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Hao2004,Hao2006,Hao2008"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Marri2006"
-
-\end_inset
-
-: Hao and Golding's methods in gene gain/loss/transfer.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Holden2009,Holden2009a"
-
-\end_inset
-
-: a study of virulence of Streptococcus suis.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Hondorp2007"
-
-\end_inset
-
-: a study of GAS, PTS ...
- may be interesting to read.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Husmeier2001,Husmeier2002"
-
-\end_inset
-
-: a study of recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Iwasaki2007"
-
-\end_inset
-
-: a study of gene content.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kedzierska2006"
-
-\end_inset
-
-: a study of recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kettler2007"
-
-\end_inset
-
-: a paper that may be worth reading.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "King2005a"
-
-\end_inset
-
-: a study of virulence gene and recombination.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Koonin2008"
-
-\end_inset
-
-: a review of bacterial genomes.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Lajoie2010"
-
-\end_inset
-
-: a study of genome rearrangement.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Lanie2007"
-
-\end_inset
-
-: a genome sequence of Streptococcus pneumoniae.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Larget2005"
-
-\end_inset
-
-: a study of genome rearrangement - it seems out of control to add genome
- arrangement.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Lee2008"
-
-\end_inset
-
-: a study of recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Li2009"
-
-\end_inset
-
-: a study of gene gain and loss.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Majewski2000"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Nielsen1998"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sorek2007"
-
-\end_inset
-
-: a maybe interesting mechanism of genetic barrier between bacterial species.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "McMillan2007,McMillan2010,McMillan2010b"
-
-\end_inset
-
-: studies on SDE and SPY.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "McShan2008"
-
-\end_inset
-
-: genome paper of SPY.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Miklos2003,Miklos2009"
-
-\end_inset
-
-: genome arragnement.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Minin2005"
-
-\end_inset
-
-: recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Musser2005,Musser2009"
-
-\end_inset
-
-: Musser's studies on GAS.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Neumann2010"
-
-\end_inset
-
-: tRNA aminoacylation ...
- experimential evolution.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Pepperell2011"
-
-\end_inset
-
-: bacteria and gene flow.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Pinho2010"
-
-\end_inset
-
-: a maybe interesting story.
- 
-\begin_inset Quotes eld
-\end_inset
-
-Quinolone resistance is an emerging problem in Streptococcus pyogenes, and
- recombination with Streptococcus dysgalactiae DNA has been implicated as
- a frequent mechanism leading to resistance.
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Perez-Losada2006"
-
-\end_inset
-
-: recombination and mutation rate ratio.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Roberts2010,Roberts2007"
-
-\end_inset
-
-: RMS database.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Robinson2003"
-
-\end_inset
-
-: chromosomal deletion in S.
- mutans.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Rosas-Magallanes2006"
-
-\end_inset
-
-: a study of virulence gene transfer in M.
- tuberculosis.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Simonson2005"
-
-\end_inset
-
-: HGT study.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sinsheimer2003"
-
-\end_inset
-
-: Recombination detection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Ward2009"
-
-\end_inset
-
-: a study of Streptococcus genome.
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -1384,6 +730,112 @@ http://www.atgc-montpellier.fr/Mowgli
 .
  We describe postprocessing procedures to summarize the results from analyses
  using ClonalOrigin and Mowgli to answer to our questions.
+ Functional category association with measure of evolutionary events are
+ also described.
+\end_layout
+
+\begin_layout Standard
+[THE FOLLOWING PARAGRAPH COME FROM SOMEWHERE ELSE]
+\end_layout
+
+\begin_layout Standard
+We have utilized the ClonalOrigin software 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2010"
+
+\end_inset
+
+ to study patterns of recombination between five Streptococcus genomes.
+ ClonalOrigin takes a reference species tree and uses an MCMC framework
+ to add recombinant edges to the tree, exploring a state space of possible
+ ancestral recombination graphs (ARGs).
+ Each recombinant edge represents transfer of genetic material from a donor
+ genome to a recipient genome.
+ We first used progressiveMauve 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Darling2004,Darling2010"
+
+\end_inset
+
+ to align the genomes of the five species: 
+\emph on
+Streptococcus pyogenes
+\emph default
+ MGAS315 (SPY1), 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
+\emph default
+ MGAS10750 (SPY2), 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+ 
+\emph on
+equisimilis
+\emph default
+ ATCC 12394 (SDE1), 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
+equisimilis
+\emph default
+ GGS_124 (SDE2), and 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ (SDD).
+ This resulted in 415 alignment blocks with lengths of at least 500 base
+ pairs.
+ The reference species tree was inferred by ClonalFrame 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2007"
+
+\end_inset
+
+, and was in agreement with the one used by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Suzuki2011"
+
+\end_inset
+
+.
+ ClonalOrigin could then be applied to these alignment blocks and species
+ tree.
  
 \end_layout
 
@@ -1859,13 +1311,60 @@ Gene gain, loss, duplication, horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-IMPORTANT: Matt is trying to find what we can do about gene gain, loss,
- and duplication.
+[MATT: COULD YOU EXPAND THIS SECTION?]
+\end_layout
+
+\begin_layout Standard
+We are also exploring gene duplication, loss, and horizontal gene transfer
+ using a complementary approach.
+ We used the clusters of gene families computed by OrthoMCL 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Li2003,Suzuki2011"
+
+\end_inset
+
+.
+ These include the five species from ClonalOrigin analysis, and also the
+ outgroup S.
+ equi subsp.
+ equi strain 4047.
+ For each family cluster, the corresponding peptide sequences were aligned
+ using the MUSCLE program 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Edgar2004a"
+
+\end_inset
+
+ and nucleotide alignments were constructed by mapping nucleotide sequences
+ onto each peptide alignment.
+ Gene trees were created for each nucleotide alignment using the RAxML program
  
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Stamatakis2006a"
+
+\end_inset
+
+ and were rooted by minimizing duplications and losses.
+ Each rooted gene tree was then reconciled using the Mowgli program 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Doyon2011"
+
+\end_inset
+
+, which inferred the most parsimonious gene duplication, loss, and transfer
+ events for each family.
 \end_layout
 
 \begin_layout Subsection
 Functional categories under recombination
+\end_layout
+
+\begin_layout Standard
+[MELISSA: COULD YOU EXPAND THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -1907,6 +1406,10 @@ Virulence genes and laternal transfer
 \end_layout
 
 \begin_layout Standard
+[MELISSA: COULD YOU EXPAND THIS SECTION?]
+\end_layout
+
+\begin_layout Standard
 Virulence genes and lateral transfer of theirs.
 \end_layout
 
@@ -1916,13 +1419,8 @@ Melissa uses the virulence genes that were used Suzuki2011 to see if virulence
  recombination intensity, and gene loss, duplication, transfer.
 \end_layout
 
-\begin_layout Standard
-IMPORTANT: +I need to find an interesting topic in bacterial recombination
- to have enough contents to draft a manuscript.+ 
-\end_layout
-
 \begin_layout Subsection
-Simulation studies for checking ClonalOrigin's estimates 
+Simulation studies for checking ClonalOrigin's estimates
 \end_layout
 
 \begin_layout Standard
@@ -2223,8 +1721,15 @@ Reference species tree
 \end_layout
 
 \begin_layout Standard
-Figure XX shows a 50% majority-rule consensus tree that was built from the
- species tree sampled by ClonalFrame.
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tree5"
+
+\end_inset
+
+ shows a 50% majority-rule consensus tree that was built from the species
+ tree sampled by ClonalFrame.
  The estimated species tree related the five streptococcal genomes: SPY1
  and SPY2 form a clade while SDE1 and SDE2 form a separate clade, and SDD
  is connected to the lineage to the clade of SDE1 and SDE2.
@@ -2253,13 +1758,20 @@ The median of mutation rate per site weighted over the lengths of blocks
 \end_layout
 
 \begin_layout Subsection
-Heatmap of numbers of recombination
+Heatmap of numbers of recombination events
 \end_layout
 
 \begin_layout Standard
-Figure XX shows the number of recombination events inferred relative to
- its expectation under ClonalOrigin prior model given the recombination
- rate, for each donor/recipient pair of species tree branches.
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-recombination"
+
+\end_inset
+
+ shows the number of recombination events inferred relative to its expectation
+ under ClonalOrigin prior model given the recombination rate, for each donor/rec
+ipient pair of species tree branches.
  The cells in green are the ones for which the ratio would be meaningless
  because there are less than three observed and expected events.
  Notably, the ratios of observed and expected numbers of recombinant edges
@@ -2271,6 +1783,19 @@ Figure XX shows the number of recombination events inferred relative to
 
 \begin_layout Standard
 [MENTION THE SIMULATION STUDY FOR POWER AND LIMITATION OF CLONALORIGIN]
+\end_layout
+
+\begin_layout Standard
+Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-recombination"
+
+\end_inset
+
+ shows the amount of gene flow to and from each species relative to the
+ expectation under the prior.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -2292,13 +1817,20 @@ n of the genome where local gene tree and global species tree are similar
 \end_layout
 
 \begin_layout Subsection
-Directional gene flow 
+Unbalanced gene flow between SPY and SDE
 \end_layout
 
 \begin_layout Standard
-Table 1 shows the observed number of recombinant edges relative to the prior
- expected number of recombinant edges for each donor/recipient pair in the
- species tree of the five genomes.
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-recombination"
+
+\end_inset
+
+ shows the observed number of recombinant edges relative to the prior expected
+ number of recombinant edges for each donor/recipient pair in the species
+ tree of the five genomes.
  The ratios for the ordered pair from either SPY1 or SPY2 to either SDE1
  or SDE2 were 2.46, 2.48, 2.5, and 2.58.
  The ratios for the reverse direction were 1.16, 1.25, 1.47, and 1.59.
@@ -2321,7 +1853,39 @@ Table 1 shows the observed number of recombinant edges relative to the prior
 \end_layout
 
 \begin_layout Subsection
+Gene gain, loss, duplication, and horizontal gene transfer
+\end_layout
+
+\begin_layout Standard
+[MATT: COULD YOU EXPAND THIS SECTION?]
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gene-duplication-loss"
+
+\end_inset
+
+ shows the inferred gene counts for each extant and ancestral species.
+ Overall, we find that duplications make up only a small fraction of the
+ events within the clade (9.6%), while horizontal transfers and losses are
+ significantly more frequent (37.5% and 52.9%, respectively).
+  We also find that duplications are most often species-specific.
+  Many gene losses likely represent horizontal transfers that replace the
+ native gene sequence.
+ The relatively high number of transfers into SDE1 and SDE2 seems to support
+ the findings from the ClonalOrigin analysis, although our investigation
+ is ongoing.
+\end_layout
+
+\begin_layout Subsection
 Function categories associated with higher recombination 
+\end_layout
+
+\begin_layout Standard
+[MELISSA: COULD YOU EXPAND THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -2349,14 +1913,6 @@ uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
 iae_ ssp.
  _equisimilis_ isolates recovered during human infections.
  
-\end_layout
-
-\begin_layout Subsection
-Gene gain, loss, duplication, and horizontal gene transfer
-\end_layout
-
-\begin_layout Standard
-xxx
 \end_layout
 
 \begin_layout Section
@@ -2984,27 +2540,75 @@ Table 1.
 \end_layout
 
 \begin_layout Section*
-Figure Legends
+Figures
 \end_layout
 
 \begin_layout Standard
-Figure 1.
- The number of recombination event boundaries per site for each block along
- the S.
- dysgalactiae subsp.
- equisimilis ATCC 12394 (Suzuki2011).
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/heatmap-recedge.ps
+	scale 40
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-Figure 2.
- Heat map representing the log2 of the number of recombination events inferred
- relative to its expectation under the prior, for each donor/recipient pair
- of branches.
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Heatmap-of-recombination"
+
+\end_inset
+
+Heatmap of recombination events.
+ Heat map representing the logarithm base 2 of the number of recombination
+ events inferred relative to its expectation under the prior, for each donor/rec
+ipient pair of branches.
  The donor is given by the y-axis; the recipient on the x.
 \end_layout
 
-\begin_layout Standard
-Figure 3.
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/strep.events.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gene-duplication-loss"
+
+\end_inset
+
+Gene duplication, loss, and transfer.
  Gene counts for each extant and ancestral species.
  The notation on each branch is DX LY TZ, where X is the number of duplications
  on that branch, Y is the number of losses, and Z is the number transfers
@@ -3013,8 +2617,767 @@ Figure 3.
  
 \end_layout
 
-\begin_layout Section*
-Figures
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/cornellf-3-tree.ps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:tree5"
+
+\end_inset
+
+Species Tree of 5 taxa for ClonalOrigin analysis.
+ SPY is the branch of a clade
+\emph on
+ of Streptococcus pyogenes
+\emph default
+, SDE is that for 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
+equisimilis
+\emph default
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.ps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recombination-boundaries"
+
+\end_inset
+
+Distribution of number of recombination events boundaries.
+ The number of recombination event boundaries per site for each block along
+ the 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
+equisimilis
+\emph default
+ ATCC 12394.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Figure 3.
+\end_layout
+
+\begin_layout Standard
+Odd ratios of posterior probability of import between SDE and SPY along
+ SDE1 genome.
+\end_layout
+
+\begin_layout Standard
+Odd ratios of posterior probability of import between SDE and SPY by locus
+ genes.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+.Odd ratios of posterior probability of import between SDE and SPY by locus
+ genes.
+\end_layout
+
+\begin_layout Standard
+image::figure3.png[Posterior probability]
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Figure 4.
+\end_layout
+
+\begin_layout Standard
+Import rates for JCVI role categories.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+.Functional categories and import rates.
+\end_layout
+
+\begin_layout Standard
+image::figure4.png[Functional categories]
+\end_layout
+
+\begin_layout Section
+Recent studies and other references
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Luo2011"
+
+\end_inset
+
+: Genome sequencing of 
+\emph on
+Escherichia coli
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Retchless2007"
+
+\end_inset
+
+: Fragmented Speciation Model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Zhaxybayeva2006"
+
+\end_inset
+
+: embedded quartet decomposition analyses (EQDA), a method of detection
+ of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Abby2010"
+
+\end_inset
+
+: a method of detection of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Alekseyev2008,Alekseyev2008a"
+
+\end_inset
+
+: a method of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Angiuoli2011"
+
+\end_inset
+
+: a method of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Anisimova2007"
+
+\end_inset
+
+: a study of Streptococcus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ane2011"
+
+\end_inset
+
+: a method of gene tree /species tree reconciliation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Arnold2011"
+
+\end_inset
+
+: a recent study in a bacterial genome.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2007"
+
+\end_inset
+
+: a simulator of genome evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2009"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bellanger2009"
+
+\end_inset
+
+: an example of HGT biological entity - Integrative and conjugative elements
+ (ICE).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Chen2010"
+
+\end_inset
+
+: a review of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cohen2010"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Csuros2009"
+
+\end_inset
+
+: a study of gene gain and loss, duplication, and transfer?
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cunningham2000a"
+
+\end_inset
+
+: about streptococcal diseases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cutter2011"
+
+\end_inset
+
+: a study of recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2008"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2007"
+
+\end_inset
+
+: a tutorial of mauve in analyzing bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2005,Davies2009"
+
+\end_inset
+
+: studies on genetic flow of SDE.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Graham2005"
+
+\end_inset
+
+: a method of detection of recombination breakpoints.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hamady2006"
+
+\end_inset
+
+: a study of HGT and recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hanage2006"
+
+\end_inset
+
+: how to make this study more interesting? Tug of war between recombination
+ and gene gain/duplication/loss/transfer.
+ Tests of bacterial evolutionary models (fragmented speciation model).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hao2004,Hao2006,Hao2008"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Marri2006"
+
+\end_inset
+
+: Hao and Golding's methods in gene gain/loss/transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Holden2009,Holden2009a"
+
+\end_inset
+
+: a study of virulence of Streptococcus suis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hondorp2007"
+
+\end_inset
+
+: a study of GAS, PTS ...
+ may be interesting to read.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Husmeier2001,Husmeier2002"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Iwasaki2007"
+
+\end_inset
+
+: a study of gene content.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kedzierska2006"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kettler2007"
+
+\end_inset
+
+: a paper that may be worth reading.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "King2005a"
+
+\end_inset
+
+: a study of virulence gene and recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Koonin2008"
+
+\end_inset
+
+: a review of bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lajoie2010"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lanie2007"
+
+\end_inset
+
+: a genome sequence of Streptococcus pneumoniae.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Larget2005"
+
+\end_inset
+
+: a study of genome rearrangement - it seems out of control to add genome
+ arrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lee2008"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Li2009"
+
+\end_inset
+
+: a study of gene gain and loss.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Majewski2000"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nielsen1998"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sorek2007"
+
+\end_inset
+
+: a maybe interesting mechanism of genetic barrier between bacterial species.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McMillan2007,McMillan2010,McMillan2010b"
+
+\end_inset
+
+: studies on SDE and SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McShan2008"
+
+\end_inset
+
+: genome paper of SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Miklos2003,Miklos2009"
+
+\end_inset
+
+: genome arragnement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Minin2005"
+
+\end_inset
+
+: recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Musser2005,Musser2009"
+
+\end_inset
+
+: Musser's studies on GAS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Neumann2010"
+
+\end_inset
+
+: tRNA aminoacylation ...
+ experimential evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pepperell2011"
+
+\end_inset
+
+: bacteria and gene flow.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pinho2010"
+
+\end_inset
+
+: a maybe interesting story.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Quinolone resistance is an emerging problem in Streptococcus pyogenes, and
+ recombination with Streptococcus dysgalactiae DNA has been implicated as
+ a frequent mechanism leading to resistance.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Perez-Losada2006"
+
+\end_inset
+
+: recombination and mutation rate ratio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Roberts2010,Roberts2007"
+
+\end_inset
+
+: RMS database.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Robinson2003"
+
+\end_inset
+
+: chromosomal deletion in S.
+ mutans.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Rosas-Magallanes2006"
+
+\end_inset
+
+: a study of virulence gene transfer in M.
+ tuberculosis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Simonson2005"
+
+\end_inset
+
+: HGT study.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sinsheimer2003"
+
+\end_inset
+
+: Recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ward2009"
+
+\end_inset
+
+: a study of Streptococcus genome.
 \end_layout
 
 \begin_layout Standard
@@ -3268,245 +3631,7 @@ transfer in the molecular evolution of mannose PTS transporters.
 \end_layout
 
 \begin_layout Standard
-Tables
-\end_layout
-
-\begin_layout Standard
-------
-\end_layout
-
-\begin_layout Standard
-///////
-\end_layout
-
-\begin_layout Standard
-Table 1
-\end_layout
-
-\begin_layout Standard
-///////
-\end_layout
-
-\begin_layout Standard
-.Number of recombination events inferred relative to its expected number
- under the prior model given recombination rate for each donor/recipient
- pairs of species branches.
- Species of rows are donors, and speices of columns are recipients.
-\end_layout
-
-\begin_layout Standard
-[format="dsv",separator="
-\backslash
-s",options="header"]
-\end_layout
-
-\begin_layout Standard
-|===================================================
-\end_layout
-
-\begin_layout Standard
-SDE1 SDE2 SDD SPY1 SPY2 SDE SPY SD R
-\end_layout
-
-\begin_layout Standard
-include::table1.txt[]
-\end_layout
-
-\begin_layout Standard
-|===================================================
-\end_layout
-
-\begin_layout Standard
-Figure Legends
-\end_layout
-
-\begin_layout Standard
---------------
-\end_layout
-
-\begin_layout Standard
-Figure 1.
- The reference species tree of the five streptococcal genomes.
- 
-\end_layout
-
-\begin_layout Standard
-SDE1 and SDE2 represent genomes for 
-\end_layout
-
-\begin_layout Standard
-_Streptococcus dysgalactiae_ ssp.
- _equisimilis_.
-\end_layout
-
-\begin_layout Standard
-SPY1 and SPY2 represent genomes for _S.
- pyogenes_.
-\end_layout
-
-\begin_layout Standard
-SDD is the genome for 
-\end_layout
-
-\begin_layout Standard
-_S.
- dysgalactiae_ ssp.
- _dysgalactiae_.
- The scale is proportional to the expected
-\end_layout
-
-\begin_layout Standard
-number of mutations in the branch given the inferred value of 
-\end_layout
-
-\begin_layout Standard
-$
-\backslash
-theta$ and $
-\backslash
-Tau$.
- Internal nodes including the root are labeled.
-\end_layout
-
-\begin_layout Standard
-Figure 2.
- 
-\end_layout
-
-\begin_layout Standard
-Figure 3.
-\end_layout
-
-\begin_layout Standard
-Figure 4.
-\end_layout
-
-\begin_layout Standard
-Figures
-\end_layout
-
-\begin_layout Standard
--------
-\end_layout
-
-\begin_layout Standard
-////////
-\end_layout
-
-\begin_layout Standard
-Figure 1
-\end_layout
-
-\begin_layout Standard
-////////
-\end_layout
-
-\begin_layout Standard
-.Phylogeny of the five genomes.
-\end_layout
-
-\begin_layout Standard
-image::figure1.png[Clonal frame]
-\end_layout
-
-\begin_layout Standard
-////////
-\end_layout
-
-\begin_layout Standard
-I describe the parameter values in the text:
-\end_layout
-
-\begin_layout Standard
-estimates of recombination rates, mutation rates, and recombinant tract
- lengths.
-\end_layout
-
-\begin_layout Standard
-////////
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Figure 2.
-\end_layout
-
-\begin_layout Standard
-Posterior probability of 60 different imports along SDE1 genomes.
-\end_layout
-
-\begin_layout Standard
-Posterior probability of import along SDE1 genome.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-.Posterior probability of 60 different imports along SDE1 genomes.
-\end_layout
-
-\begin_layout Standard
-image::figure2.png[Posterior probability]
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Figure 3.
-\end_layout
-
-\begin_layout Standard
-Odd ratios of posterior probability of import between SDE and SPY along
- SDE1 genome.
-\end_layout
-
-\begin_layout Standard
-Odd ratios of posterior probability of import between SDE and SPY by locus
- genes.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-.Odd ratios of posterior probability of import between SDE and SPY by locus
- genes.
-\end_layout
-
-\begin_layout Standard
-image::figure3.png[Posterior probability]
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Figure 4.
-\end_layout
-
-\begin_layout Standard
-Import rates for JCVI role categories.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-.Functional categories and import rates.
-\end_layout
-
-\begin_layout Standard
-image::figure4.png[Functional categories]
+[Some Notes]
 \end_layout
 
 \begin_layout Standard
