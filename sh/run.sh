@@ -1389,6 +1389,29 @@ function prepare-run-clonalorigin {
       read REPLICATE
       echo -e "Preparing clonal origin analysis..."
       set-more-global-variable $SPECIES $REPETITION
+
+      REFGENOME=$(grep REPETITION${REPETITION}-REFGENOME $SPECIESFILE | cut -d":" -f2)
+
+      echo -n "  Reading WALLTIME from $SPECIESFILE..."
+      WALLTIME=$(grep REPETITION${REPETITION}-Walltime $SPECIESFILE | cut -d":" -f2)
+      echo " $WALLTIME"
+
+      echo -n "  Reading WALLTIME from $SPECIESFILE..."
+      BURNIN=$(grep REPETITION${REPETITION}-Burnin $SPECIESFILE | cut -d":" -f2)
+      echo " $BURNIN"
+
+      echo -n "  Reading WALLTIME from $SPECIESFILE..."
+      CHAINLENGTH=$(grep REPETITION${REPETITION}-ChainLength $SPECIESFILE | cut -d":" -f2)
+      echo " $CHAINLENGTH"
+
+      echo -n "  Reading WALLTIME from $SPECIESFILE..."
+      THIN=$(grep REPETITION${REPETITION}-Thin $SPECIESFILE | cut -d":" -f2)
+      echo " $THIN"
+
+      echo -n "  Reading REPETITION from $SPECIESFILE..."
+      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
+      echo " $HOW_MANY_REPETITION"
+
       echo -e "  Creating an input directory for a species tree..."
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
       echo -e "  Creating an output directory for the 1st stage of ClonalOrigin..." 
@@ -1825,7 +1848,7 @@ source sh/plot-number-recombination-within-blocks.sh
 source sh/heatmap-compute.sh
 source sh/heatmap-get-observed.sh
 source sh/compute-global-median.sh
-source sh/prepare-run-clonalorigin2-simulation.sh 
+source sh/simulate-data-clonalorigin2-prepare.sh 
 source sh/analyze-run-clonalorigin2-simulation.sh 
 source sh/divide-simulated-xml-data.sh
 source sh/divide-simulated-xmfa-data.sh
@@ -1853,22 +1876,25 @@ source sh/clonalorigin2-simulation3-each-block.sh
 source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
 source sh/simulate-data-clonalorigin1.sh
-
+source sh/summarize-clonalorigin1.sh 
 
 #####################################################################
 # Main part of the script.
 #####################################################################
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
-          --- SIMULATION1 ---\
           choose-simulation \
+          --- SIMULATION1 ---\
           simulate-data-clonalorigin1 \
           simulate-data-clonalorigin1-prepare \
           simulate-data-clonalorigin1-receive \
           simulate-data-clonalorigin1-analyze \
           --- SIMULATION2-1 ---\
           simulate-data-clonalorigin2 \
-          prepare-run-clonalorigin2-simulation \
+          simulate-data-clonalorigin2-prepare \
+          simulate-data-clonalorigin2-receive \
+          simulate-data-clonalorigin2-analyze \
+          simulate-data-clonalorigin2-prepare \
           receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
           --- SIMULATION2-2 ---\
@@ -1893,8 +1919,12 @@ CHOICES=( init-file-system \
           filter-blocks \
           prepare-run-clonalframe \
           receive-run-clonalframe \
+          --- CLONALORIGIN1 ---\
           prepare-run-clonalorigin \
           receive-run-clonalorigin \
+          --- THREE-PARAMETERS ---\
+          summarize-clonalorigin1 \
+          --- CLONALORIGIN2 ---\
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
           --- RECOMBINATION-COUNT ---\
@@ -1948,14 +1978,9 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "compute-watterson-estimate-for-clonalframe" ];  then
     compute-watterson-estimate-for-clonalframe
     break
-  elif [ "$CHOICE" == "receive-run-clonalframe" ];  then
-    receive-run-clonalframe
-    break
-  elif [ "$CHOICE" == "prepare-run-clonalorigin" ];  then
-    prepare-run-clonalorigin
-    break
-  elif [ "$CHOICE" == "receive-run-clonalorigin" ];  then
-    receive-run-clonalorigin
+  elif [ "$CHOICE" == "receive-run-clonalframe" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "prepare-run-clonalorigin" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "receive-run-clonalorigin" ]; then $CHOICE; break
     break
   elif [ "$CHOICE" == "prepare-run-2nd-clonalorigin" ];  then
     prepare-run-2nd-clonalorigin
@@ -1965,9 +1990,6 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "analysis-clonalorigin" ];  then
     analysis-clonalorigin
-    break
-  elif [ "$CHOICE" == "prepare-run-clonalorigin2-simulation" ];  then
-    prepare-run-clonalorigin2-simulation Clonal2ndPhase
     break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation" ];  then
     analyze-run-clonalorigin2-simulation
@@ -2026,6 +2048,10 @@ select CHOICE in ${CHOICES[@]}; do
     simulate-data-clonalorigin1-receive Clonal2ndPhase
     break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1-analyze" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "simulate-data-clonalorigin2-prepare" ];  then
+    simulate-data-clonalorigin2-prepare Clonal2ndPhase
+    break
+  elif [ "$CHOICE" == "summarize-clonalorigin1" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

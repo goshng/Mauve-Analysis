@@ -22,9 +22,16 @@ Here is a short quick start.
 . Execute the menu *simulate-data-clonalorigin1-receive* 
 . Execute the menu *simulate-data-clonalorigin1-analyze* 
 
+.A procedure to do simulation for checking recombinant edges
+. Create a species file with a name starting with s at the directory of +species+
+. Execute the menu *choose-simulation*
+. Execute the menu *compute-block-length* if necessary 
+
+.A procedure to summarize the the first stage of ClonalOrigin MCMC
+. 
+
 Species File
 ------------
-
 
 .A sample of species file for simulation 
 ----

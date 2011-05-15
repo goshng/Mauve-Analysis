@@ -12,8 +12,8 @@
 # I would not wait for those to be finished. It is desirable to handle partial
 # output of Clonal Origin. 
 function receive-run-clonalorigin {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
+  PS3="Choose the species to analyze real data for clonalorigin1: "
+  select SPECIES in ${SPECIESS[@]}; do
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue

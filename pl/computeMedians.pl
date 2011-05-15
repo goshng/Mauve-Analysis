@@ -75,29 +75,94 @@ print "lensum is $lensum\n";
 my @tsort = sort{ $a <=> $b } @meantheta;
 my @dsort = sort{ $a <=> $b } @meandelta;
 my @rsort = sort{ $a <=> $b } @meanrho;
+
+# Find the weighted median of theta
 my $j=0;
 for(my $ttally=$thetalens{$tsort[$j]}; $ttally < $lensum/2; $ttally += $thetalens{$tsort[$j]})
 {
-	$j++;
+  $j++;
 }
-print "Median theta:".$tsort[$j]."\n";
+my $weightMedianTheta = $tsort[$j];
 
+# Find the weighted Q1 of theta
+$j=0;
+for(my $ttally=$thetalens{$tsort[$j]}; $ttally < $lensum/4; $ttally += $thetalens{$tsort[$j]})
+{
+  $j++;
+}
+my $weightQ1Theta = $tsort[$j];
+
+# Find the weighted Q3 of theta
+$j=0;
+for(my $ttally=$thetalens{$tsort[$j]}; $ttally < 3*$lensum/4; $ttally += $thetalens{$tsort[$j]})
+{
+  $j++;
+}
+my $weightQ3Theta = $tsort[$j];
+
+print "Median theta:$weightMedianTheta\n";
+print "Median Q1 theta:$weightQ1Theta\n";
+print "Median Q3 theta:$weightQ3Theta\n";
+
+# Find the weighted median of delta
 $j=0;
 for(my $dtally=$deltalens{$dsort[$j]}; $dtally < $lensum/2; $dtally += $deltalens{$dsort[$j]})
 {
-	$j++;
+  $j++;
 }
-print "Median delta:".$dsort[$j]."\n";
+my $weightMedianDelta = $dsort[$j];
 
+# Find the weighted Q1 of delta
+$j=0;
+for(my $dtally=$deltalens{$dsort[$j]}; $dtally < $lensum/4; $dtally += $deltalens{$dsort[$j]})
+{
+  $j++;
+}
+my $weightQ1Delta = $dsort[$j];
+
+# Find the weighted Q3 of delta
+$j=0;
+for(my $dtally=$deltalens{$dsort[$j]}; $dtally < 3 * $lensum/4; $dtally += $deltalens{$dsort[$j]})
+{
+  $j++;
+}
+my $weightQ3Delta = $dsort[$j];
+
+print "Median delta:$weightMedianDelta\n";
+print "Median Q1 delta:$weightQ1Delta\n";
+print "Median Q3 delta:$weightQ3Delta\n";
+
+# Find the weighted median of delta
 $j=0;
 for(my $rtally=$rholens{$rsort[$j]}; $rtally < $lensum/2; $rtally += $rholens{$rsort[$j]})
 {
-	$j++;
+  $j++;
 }
-print "Median rho:".$rsort[$j]."\n";
+my $weightMedianRho = $rsort[$j];
 
+# Find the weighted Q1 of delta
+$j=0;
+for(my $rtally=$rholens{$rsort[$j]}; $rtally < $lensum/4; $rtally += $rholens{$rsort[$j]})
+{
+  $j++;
+}
+my $weightQ1Rho = $rsort[$j];
+
+# Find the weighted median of delta
+$j=0;
+for(my $rtally=$rholens{$rsort[$j]}; $rtally < 3 * $lensum/4; $rtally += $rholens{$rsort[$j]})
+{
+  $j++;
+}
+my $weightQ3Rho = $rsort[$j];
+
+print "Median rho:$weightMedianRho\n";
+print "Median Q1 rho:$weightQ1Rho\n";
+print "Median Q3 rho:$weightQ3Rho\n";
 
 exit;
+
+#################################################################################
 
 sub startElement {
        my( $parseinst, $element, %attrs ) = @_;

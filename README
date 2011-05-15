@@ -9,6 +9,33 @@ Jobs that were done are described for later reference.
 -> means I finished the job.
 ---> means I need to do something about it.
 
+To Do
+~~~~~
+
+.Heatmap's ``p-value'' between simulation and real data runs
+.Plot the three main parameter estimates along SDE genomes
+.RI1(number of recombinant edges per site) and RI2(number of unquie topologies) for genes of SPY1
+.RI1(or RI1perRecEdge) for recombinant edges between SPY and SDE 
+.Simulation to show RI1perRecEdge.
+
+Sat May 14 14:12:44 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Gene ontology analysis with functional categories
+
+.The main parameter summary : Interquartile Range or IQR (using median)
+. Chanaged pl/computeMedians.pl
+
+.s16 is started
+. waiting for simulation of *wargsim*
+. (10 nodes) how many days? ---> See them in Tuesday (May 17th)
+
+.cornellf/3's 2nd runs started.
+. waiting for jobs in cac, or output/cornellf/3/run-clonalorigin/output2/2
+. (3 nodes) how many days? ---> See them at Monday (May 16th)
+
+.s15 is still in progress
+. 1 job remained to run jobs in 2 nodes ---> See them tomorrow (May 15th)
 
 Thu May 12 08:40:54 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -892,5 +919,18 @@ http://compgen.bscb.cornell.edu/wiki/index.php/Subversion_repository
 perl pl/simulate-data-clonalorigin1-analyze.pl -in output/s15/run-analysis/out -numbersample 101 -out 1
 ----
 
+
+.cornellf/3 summary of three parameters
+----
+Median theta:0.080814517322956
+Median Q1 theta:0.0674683150905946
+Median Q3 theta:0.0944751655370584
+Median delta:743.702415841584
+Median Q1 delta:345.770247524752
+Median Q3 delta:2848.03306930693
+Median rho:0.0118491287894766
+Median Q1 rho:0.00571541439036853
+Median Q3 rho:0.0193800640707135
+----
 
 
