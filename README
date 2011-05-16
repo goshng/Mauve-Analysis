@@ -22,6 +22,7 @@ Sat May 14 14:12:44 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .Gene ontology analysis with functional categories
+. I use cornellf/8/2 or repetition 8 and replicate 2.
 
 .The main parameter summary : Interquartile Range or IQR (using median)
 . Chanaged pl/computeMedians.pl

@@ -99,26 +99,10 @@
 ###############################################################################
 # Global variables.
 ###############################################################################
+MAUVEANALYSISDIR=`pwd`
 source sh/conf.sh
 source sh/read-species.sh
 conf
-
-CAC_USERHOST=$CAC_USERNAME@$CAC_LOGIN
-CAC_MAUVEANALYSISDIR=$CAC_USERHOST:$CAC_ROOT
-CAC_OUTPUTDIR=$CAC_ROOT/output
-CACBASE=$CAC_ROOT/output
-# X11 linux ID setup
-X11_USERHOST=$X11_USERNAME@$X11_LOGIN
-X11_MAUVEANALYSISDIR=$X11_USERHOST:$X11_ROOT
-X11_OUTPUTDIR=$CAC_ROOT/output
-X11BASE=$X11_ROOT/output
-# CAC cluster access to job submission
-BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
-BATCHCLONALFRAME=usr/bin/ClonalFrame
-
-# The main base directory contains all the subdirectories.
-MAUVEANALYSISDIR=`pwd`
-OUTPUTDIR=$MAUVEANALYSISDIR/output
 
 # Replicates and repetitions.
 # ---------------------------
@@ -157,437 +141,26 @@ PERLRECOMBINATIONINTENSITY=pl/recombination-intensity.pl
 PERLRECOMBINATIONINTENSITY2=pl/recombination-intensity2.pl
 PERLGUIPERL=pl/findBlocksWithInsufficientConvergence.pl
 
-# Binary files installed by progressiveMauve and ClonalOrigin
-# FIXME: Can I have source files of the binary just for inventory?
-# Note that I installed usr/bin of my home directory.
-AUI=$HOME/usr/bin/addUnalignedIntervals  # a part of Mauve.
-LCB=$HOME/usr/bin/stripSubsetLCBs        # a part of Mauve.
-GUI=$HOME/Documents/Projects/mauve/clonalorigin/gui/gui.app/Contents/MacOS/gui  # GUI program of ClonalOrigin
-WARGSIM=src/clonalorigin/b/wargsim
-
-# Genome Data Directory
-# ---------------------
-# Bacterial genomes can be downloaded into a directory. I used to download and
-# store them in a separate driver because total file sizes can be too large to
-# be stored in a local machine. 
-GENOMEDATADIR=/Volumes/Elements/Documents/Projects/mauve/bacteria
-
 # SEQUENCE Command can be different for Linux and MacOSX.
+# This will be deleted.
 if [[ "$OSTYPE" =~ "linux" ]]; then
   SEQ=seq
 elif [[ "$OSTYPE" =~ "darwin" ]]; then
   SEQ=jot
 fi
 
-# Simulations
-# -----------
-# s1: a single block of 10,000 base pairs
-# s2: 411 blocks
-# s3: 10 blocks of 10,000 base pairs
-# s4: 4000 minimum
-
 SIMULATIONS=$(ls species|grep ^s)
 SPECIESS=$(ls species|grep -v ^s)
 
-###############################################################################
-# Description of functions
-###############################################################################
-# hms: Converts seconds to a format of hours:minutes:seconds.
-# ---
-# init-file-system: Creates directories on the checked out directory.
-# ---
-# set-more-global-variable: Names more global variables. 
-# ---
-# mkdir-species: Makes directories for analyzing a data set.
-# mkdir-simulation: Makes directories for simulation.
-# mkdir-simulation-repeat: Makes directories for a repeat of a simulation.
-# ---
-# copy-batch-sh-run-mauve: Batch script for submitting a job for mauve
-# alignment.
-# ---
-# choose-species: Prepares genome data to align them by using mauve. 
-# simulate-data-clonalorigin1-analyze: Analyzes simulation results of clonal
-# origin.
-
-###############################################################################
-# Functions: utility
-###############################################################################
-# Format seconds into a time format
-# ---------------------------------
-# input: number in seconds
-# output: hours:minutes:seconds
-function hms
-{
-  s=$1
-  h=$((s/3600))
-  s=$((s-(h*3600)));
-  m=$((s/60));
-  s=$((s-(m*60)));
-  printf "%02d:%02d:%02d\n" $h $m $s
-}
-
+source sh/hms.sh
 source sh/set-more-global-variable.sh
+source sh/mkdir-species.sh
+source sh/read-species-file.sh 
  
-
-
-# Create direcotires for storing analyses and their results.
-# ----------------------------------------------------------
-# The species directory is created in output subdirectory. The cluster's file
-# system is almost the same as the local one. 
-# The followings are the directories to create:
-# 
-# /Users/goshng/Documents/Projects/mauve/output/cornell
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/data
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-mauve
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalframe
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalorigin
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-analysis
-# 
-# if 
-# BASEDIR=/Users/goshng/Documents/Projects/mauve/output/cornell
-# 
-# I use 
-function mkdir-species {
-  mkdir $BASEDIR/run-analysis
-  mkdir $BASEDIR \
-        $NUMBERDIR \
-        $DATADIR \
-        $RUNMAUVE \
-        $RUNCLONALFRAME \
-        $RUNCLONALORIGIN \
-        $RUNANALYSIS
-
-  ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
-                             $CAC_NUMBERDIR \
-                             $CAC_DATADIR \
-                             $CAC_RUNMAUVE \
-                             $CAC_RUNCLONALFRAME \
-                             $CAC_RUNCLONALORIGIN \
-                             $CAC_RUNANALYSIS
-
-  ssh -x $X11_USERHOST mkdir $X11_BASEDIR \
-                             $X11_NUMBERDIR \
-                             $X11_DATADIR \
-                             $X11_RUNMAUVE \
-                             $X11_RUNCLONALFRAME \
-                             $X11_RUNCLONALORIGIN \
-                             $X11_RUNANALYSIS
-}
-
-# Creates directories under the output directory.
-# ----------------------------------------------------------
-# The species directory is created in output subdirectory. The cluster's file
-# structure is almost the same as the local one. 
-# The followings are the directories to create:
-# 
-# /Users/goshng/Documents/Projects/mauve/output/cornell
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/data
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-mauve
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalframe
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-clonalorigin
-# /Users/goshng/Documents/Projects/mauve/output/cornell/1/run-analysis
-# 
-# if 
-# BASEDIR=/Users/goshng/Documents/Projects/mauve/output/cornell
-# 
-
-###############################################################################
-# Function: reading species file
-###############################################################################
-
-# Do something using species file.
-# --------------------------------
-# Species file contains list of Genbank genome files. I use the list of a
-# species file to do a few things: 1. batch file for alignment is genreated
-# using the list of a species file. Two bash functions can do this:
-# read-species-genbank-files and copy-batch-sh-run-mauve-called.
-# Similarly, mkdir-tmp-called can replace copy-batch-sh-run-mauve-called to copy
-# the Genbank genome files to somewhere using a species file.
-function mkdir-tmp-called {
-  line="$@" # get all args
-  cp $GENOMEDATADIR/$line $TMPINPUTDIR
-}
-
-function copy-batch-sh-run-mauve-called {
-  line=$1 # get all args
-  isLast=$2
-  filename_gbk=`basename $line`
-  if [ "$isLast" == "last" ]; then
-    echo "  \$INPUTDIR/$filename_gbk" >> $BATCH_SH_RUN_MAUVE 
-  else
-    echo "  \$INPUTDIR/$filename_gbk \\" >> $BATCH_SH_RUN_MAUVE 
-  fi
-}
-
-function copy-genomes-to-cac-called {
-  line="$@" # get all args
-  scp -q $GENOMEDATADIR/$line $CAC_USERHOST:$CAC_DATADIR
-}
-
-function processLine {
-  line="$@" # get all args
-  #  just echo them, but you may need to customize it according to your need
-  # for example, F1 will store first field of $line, see readline2 script
-  # for more examples
-  # F1=$(echo $line | awk '{ print $1 }')
-  echo $line
-  #cp $GENOMEDATADIR/$line $CACDATADIR
-}
- 
-########################################################################
-# I found a script at
-# http://bash.cyberciti.biz/file-management/read-a-file-line-by-line/ 
-# to read a file line by line. I use it to read a species file.
-# I could directly read the directory to find genbank files.
-# Let me try to use the script of reading line by line for the time being.
-########################################################################
-function read-species-genbank-files {
-  wfunction_called=$2
-  ### Main script stars here ###
-  # Store file name
-  FILE=""
-  numberLine=`grep ^\[^#\] $1 | wc | awk '{print $1'}`
-   
-  # Make sure we get file name as command line argument
-  # Else read it from standard input device
-  if [ "$1" == "" ]; then
-     FILE="/dev/stdin"
-  else
-     FILE="$1"
-     # make sure file exist and readable
-     if [ ! -f $FILE ]; then
-      echo "$FILE : does not exists"
-      exit 1
-     elif [ ! -r $FILE ]; then
-      echo "$FILE: can not read"
-      exit 2
-     fi
-  fi
-  # read $FILE using the file descriptors
-   
-  # Set loop separator to end of line
-  BAKIFS=$IFS
-  IFS=$(echo -en "\n\b")
-  exec 3<&0
-  exec 0<$FILE
-  countLine=0
-  isLast=""
-  while read line
-  do
-    if [[ "$line" =~ ^# ]]; then 
-      continue
-    fi
-    countLine=$((countLine + 1))
-    if [ $countLine == $numberLine ]; then
-      isLast="last"
-    else
-      isLast=""
-    fi
-    # use $line variable to process line in processLine() function
-    if [ $wfunction_called == "copy-genomes-to-cac" ]; then
-      copy-genomes-to-cac-called $line
-    elif [ $wfunction_called == "copy-batch-sh-run-mauve" ]; then
-      copy-batch-sh-run-mauve-called $line $isLast
-    elif [ $wfunction_called == "mkdir-tmp" ]; then
-      mkdir-tmp-called $line
-    fi
-  done
-  exec 0<&3
-   
-  # restore $IFS which was used to determine what the field separators are
-  BAKIFS=$ORIGIFS
-}
-
 ###############################################################################
 # Function: batch script
 ###############################################################################
 
-# A batch file for Mauve alignment.
-# ---------------------------------
-# The menu choose-species calls this bash function to create a batch file for
-# mauve genome alignment. The batch file is also copied to the cluster.
-# Note that ${BATCHACCESS}, ${BATCHEMAIL}, ${BATCHPROGRESSIVEMAUVE} should be
-# edited.
-# 
-function copy-batch-sh-run-mauve {
-  BATCH_SH_RUN_MAUVE=$1 
-cat>$BATCH_SH_RUN_MAUVE<<EOF
-#!/bin/bash
-#PBS -l walltime=24:00:00,nodes=1
-#PBS -A ${BATCHACCESS}
-#PBS -j oe
-#PBS -N Strep-${SPECIES}-Mauve
-#PBS -q v4
-#PBS -m e
-#PBS -M ${BATCHEMAIL}
-
-DATADIR=\$PBS_O_WORKDIR/../data
-MAUVE=\$HOME/${BATCHPROGRESSIVEMAUVE}
-
-OUTPUTDIR=\$TMPDIR/output
-INPUTDIR=\$TMPDIR/input
-mkdir \$INPUTDIR
-mkdir \$OUTPUTDIR
-cp \$MAUVE \$TMPDIR/
-cp \$DATADIR/* \$INPUTDIR/
-cd \$TMPDIR
-./progressiveMauve --output=\$OUTPUTDIR/full_alignment.xmfa \\
-  --output-guide-tree=\$OUTPUTDIR/guide.tree \\
-EOF
-
-  read-species-genbank-files $SPECIESFILE copy-batch-sh-run-mauve
-
-cat>>$BATCH_SH_RUN_MAUVE<<EOF
-cp -r \$OUTPUTDIR \$PBS_O_WORKDIR/
-cd
-rm -rf \$TMPDIR
-EOF
-  chmod a+x $BATCH_SH_RUN_MAUVE 
-  scp -q $BATCH_SH_RUN_MAUVE $2
-}
-
-function mkdir-tmp {
-  mkdir -p $TMPINPUTDIR
-  read-species-genbank-files $SPECIESFILE mkdir-tmp
-  #cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
-}
-
-function rmdir-tmp {
-  rm -rf $TMPDIR
-}
-
-function run-lcb {
-  MINIMUM_LENGTH=$1
-  DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  $LCB $RUNMAUVEOUTPUTDIR/full_alignment.xmfa \
-    $RUNMAUVEOUTPUTDIR/full_alignment.xmfa.bbcols \
-    $DATADIR/core_alignment.xmfa.org $MINIMUM_LENGTH
-}
-
-function run-core2smallercore {
-  perl $HOME/usr/bin/core2smallercore.pl \
-    $RUNLCBDIR/core_alignment.xmfa 0.1 12345
-}
-
-function run-blocksplit2fasta {
-  rm -f $DATADIR/core_alignment.xmfa.*
-  perl pl/blocksplit2fasta.pl $DATADIR/core_alignment.xmfa
-}
-
-# FIXME: C source code must be in src
-function compute-watterson-estimate {
-  FILES=$DATADIR/core_alignment.xmfa.*
-  for f in $FILES
-  do
-    # take action on each file. $f store current file name
-    DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-    /Users/goshng/Documents/Projects/biopp/bpp-test/compute_watterson_estimate \
-    $f
-  done
-}
-
-function sum-w {
-  RUNLOG=$RUNANALYSIS/run.log
-  RSCRIPTW=$RUNANALYSIS/w.R
-  cat>$RSCRIPTW<<EOF
-x <- read.table ("w.txt")
-print (paste("Number of blocks:", length(x\$V1)))
-print (paste("Length of the alignment:", sum(x\$V3)))
-print (paste("Averge length of a block:", sum(x\$V3)/length(x\$V1)))
-print (paste("Proportion of polymorphic sites:", sum(x\$V2)/sum(x\$V3)))
-print ("Number of Species:$NUMBER_SPECIES")
-print (paste("Finite-site version of Watterson's estimate:", sum (x\$V1)))
-nseg <- sum (x\$V2)
-s <- 0
-n <- $NUMBER_SPECIES - 1
-for (i in 1:n)
-{
-  s <- s + 1/i
-}
-print (paste("Infinite-site version of Watterson's estimate:", nseg/s))
-EOF
-  R --no-save < $RSCRIPTW > sum-w.txt
-  WATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Infinite-site version of Watterson's estimate:" | cut -d ':' -f 2)
-  FINITEWATTERSON_ESIMATE=$(sed s/\"//g sum-w.txt | grep "\[1\] Finite-site version of Watterson's estimate:" | cut -d ':' -f 2)
-  LEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Length of the alignment:" | cut -d ':' -f 2)
-  NUMBER_BLOCKS=$(sed s/\"//g sum-w.txt | grep "\[1\] Number of blocks:" | cut -d ':' -f 2)
-  AVERAGELEGNTH_SEQUENCE=$(sed s/\"//g sum-w.txt | grep "\[1\] Averge length of a block:" | cut -d ':' -f 2)
-  PROPORTION_POLYMORPHICSITES=$(sed s/\"//g sum-w.txt | grep "\[1\] Proportion of polymorphic sites:" | cut -d ':' -f 2)
-  #rm sum-w.txt
-  echo -e "Watterson estimate: $WATTERSON_ESIMATE"
-  echo -e "Finite-site version of Watterson estimate: $FINITEWATTERSON_ESIMATE"
-  echo -e "Length of sequences: $LEGNTH_SEQUENCE"
-  echo -e "Number of blocks: $NUMBER_BLOCKS"
-  echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE"
-  echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES"
-  rm -f $RUNLOG
-  echo -e "Watterson estimate: $WATTERSON_ESIMATE" >> $RUNLOG
-  echo -e "Finite-site version of Watterson estimate: $FINITEWATTERSON_ESIMATE" >> $RUNLOG
-  echo -e "Length of sequences: $LEGNTH_SEQUENCE" >> $RUNLOG
-  echo -e "Number of blocks: $NUMBER_BLOCKS" >> $RUNLOG
-  echo -e "Average length of sequences: $AVERAGELEGNTH_SEQUENCE" >> $RUNLOG
-  echo -e "Proportion of polymorphic sites: $PROPORTION_POLYMORPHICSITES" >> $RUNLOG
-}
-
-function send-clonalframe-input-to-cac {
-  scp -q $DATADIR/core_alignment.xmfa $CAC_USERHOST:$CAC_DATADIR
-}
-
-function copy-batch-sh-run-clonalframe {
-  cat>$BATCH_SH_RUN_CLONALFRAME<<EOF
-#!/bin/bash
-#PBS -l walltime=168:00:00,nodes=1
-#PBS -A ${BATCHACCESS}
-#PBS -j oe
-#PBS -N Strep-${SPECIES}-ClonalFrame
-#PBS -q v4
-#PBS -m e
-#PBS -M ${BATCHEMAIL}
-WORKDIR=\$PBS_O_WORKDIR
-DATADIR=\$WORKDIR/../data
-CLONALFRAME=\$HOME/${BATCHCLONALFRAME}
-
-OUTPUTDIR=\$TMPDIR/output
-INPUTDIR=\$TMPDIR/input
-mkdir \$INPUTDIR
-mkdir \$OUTPUTDIR
-cp \$CLONALFRAME \$TMPDIR/
-cp \$DATADIR/* \$INPUTDIR/
-cd \$TMPDIR
-
-x=( 10000 10000 10000 10000 10000 10000 10000 10000 )
-y=( 10000 10000 10000 10000 10000 10000 10000 10000 )
-z=(    10    10    10    10    10    10    10    10 )
-
-#-t 2 \\
-#-m 1506.71 -M \\
-
-for index in 0 1 2 3 4 5 6 7
-do
-LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/cac/contrib/gsl-1.12/lib \\
-./ClonalFrame -x \${x[\$index]} -y \${y[\$index]} -z \${z[\$index]} \\
--t 2 -m $WATTERSON_ESIMATE -M \\
-\$INPUTDIR/core_alignment.xmfa \\
-\$OUTPUTDIR/core_clonalframe.out.\$index \\
-> \$OUTPUTDIR/cf_stdout.\$index &
-sleep 5
-done
-date
-wait
-date
-cp -r \$OUTPUTDIR \$WORKDIR/
-cd
-rm -rf \$TMPDIR
-EOF
-  chmod a+x $BATCH_SH_RUN_CLONALFRAME
-  scp $BATCH_SH_RUN_CLONALFRAME $CAC_USERHOST:$CAC_RUNCLONALFRAME
-}
-
-function send-clonalorigin-input-to-cac {
-  scp $RUNLCBDIR/core_alignment.xmfa.* $CACRUNLCBDIR/
-}
-
-# 
 function copy-batch-sh-run-clonalorigin {
   REPETITION=$1
   RUNCLONALORIGIN=$2/$REPETITION/run-clonalorigin 
@@ -1078,225 +651,6 @@ EOF
   scp $BATCH_TASK_SH_RUN_CLONALORIGIN $CACBASEDIR/
 }
 
-function run-bbfilter {
-  DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-  bbFilter $ALIGNMENT/full_alignment.xmfa.backbone 50 my_feats.bin gp
-}
-
-
-# 1. I make directories in CAC and copy genomes files to the data directory.
-# --------------------------------------------------------------------------
-# Users need to download genome files to a local directory named $GENOMEDATADIR.
-# They also need to prepare a species file that contains the actual Genbank
-# files. 
-# The first job that a user would want to do is to align the genomes. This would
-# be done in the cluster CAC. The procedure is as follows:
-# 1. Almost all bash variables are set in set-more-global-variable. See the bash function
-# for detail. 
-# 2. mkdir-species creates main file systems.
-# 3. copy-genomes-to-cac copies Genkbank genomes files to CAC.
-# 4. copy-batch-sh-run-mauve creates the batch file for mauve alignment, and
-# copies it to CAC cluster.
-function choose-species {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -e "Wait for muave-analysis file system preparation...\n"
-      set-more-global-variable $SPECIES $REPETITION
-      mkdir-species
-      read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
-      copy-batch-sh-run-mauve \
-        $RUNMAUVE/batch.sh \
-        $CAC_USERHOST:$CAC_RUNMAUVE
-      echo -e "Go to CAC's $SPECIES run-mauve, and execute nsub batch.sh\n"
-      break
-    fi
-  done
-}
-
-
-
-# 2. Receive mauve-analysis.
-# --------------------------
-# I simply copy the alignment. 
-# I could copy alignment from other repetition.
-function receive-run-mauve {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -e "  Receiving mauve-output...\n"
-      set-more-global-variable $SPECIES $REPETITION
-      scp -r $CAC_USERHOST:$CAC_RUNMAUVE/output $RUNMAUVE/
-      echo -e "Now, find core blocks of the alignment.\n"
-      break
-    fi
-  done
-}
-
-function copy-mauve-alignment {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -n "From which repetition do you wish to copy? (e.g., 1) "
-      read SOURCE_REPETITION
-      echo -e "  Copying mauve-output..."
-      echo -e "    from $BASEDIR/$SOURCE_REPETITION/run-mauve"
-      echo -e "    to $RUNMAUVE/output"
-      set-more-global-variable $SPECIES $REPETITION
-      cp -r $BASEDIR/$SOURCE_REPETITION/run-mauve/output $RUNMAUVE
-      echo -e "Now, find core blocks of the alignment.\n"
-      break
-    fi
-  done
-}
-
-# 3. Find core alignment blocks.
-# ------------------------------
-# Core alignment blocks are generated from the mauve alignment. This is somewhat
-# iterative procedure. I often was faced with two difficulties. The program,
-# stripSubsetLCBs, is a part of progressiveMauve.  Core alignment blocks were
-# filtered. Often some allignments were a little bizarre: two many gaps are
-# still in some alignment. Another difficulty happens in ClonalOrigin analysis.
-# ClonalOrigin's runs with some alignment blocks did not finish within bearable
-# time, say a month. ClonalOrigin's run with some other alignment blocks were
-# finished relatively fast. It depends on the option of chain lengths. I
-# consider that runs are finished when multiple independent MCMC more or less
-# converged. Those blocks had to be excluded from the analysis. At the first run
-# of this whole procedure, I simply execute the stripSubsetLCBs to find core
-# alignment blocks. I manually check the core alignment blocks to remove any
-# weird alignments. I then proceed to ClonalFrame and the first stage of
-# ClonalOrigin. I find problematic alignment blocks with which ClonalOrigin runs
-# take too much computing time. Then, I come back to filter-blocks to remove
-# them. I had to be careful in ordering of alignment blocks because when I remove any
-# blocks that are not the last all the preceding block numbers have to change.
-#
-# Note that run-lcb alwasys use the output of Mauve alignment. In the 2nd stage
-# of filtering you need to consider proper numbering. Say, in the first
-# filtering of alignment with many gaps you removed the 3rd among 10 alignment
-# blocks. In the 2nd stage, you found 6th alignment needed too long computing
-# time. Then, you should remove 3rd and 7th, not 3rd and 6th because the 6th is
-# actually the 7th among the first 10 alignment blocks. The 6th alignment is 6th
-# among 9 alignment blocks that were from the 1st stage of filtering.
-function filter-blocks {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -e 'What is the temporary id of mauve-analysis?'
-      echo -e "You may find it in the following directory"
-      echo -e "`pwd`/output/$SPECIES/$REPETITION/run-mauve/output/full_alignment.xmfa"
-      echo -n "JOB ID: " 
-      read JOBID
-      echo -e "Preparing clonalframe analysis...\n"
-      set-more-global-variable $SPECIES $REPETITION
-      # Then, run LCB.
-      echo -e "  Finding core blocks of the alignment...\n"
-      echo -n "Minimum length of block: " 
-      read MINIMUM_LENGTH
-      mkdir-tmp 
-      run-lcb $MINIMUM_LENGTH
-      rmdir-tmp
-
-      #echo -e "  $RUNLCBDIR/core_alignment.xmfa is generated\n"
-      #mv $RUNLCBDIR/core_alignment.xmfa.org $RUNLCBDIR/core_alignment.xmfa
-      #run-blocksplit2fasta
-      #break
-
-      echo -n 'Do you want to filter? (y/n) '
-      read WANTFILTER
-      if [ "$WANTFILTER" == "y" ]; then
-        echo -e "Choose blocks to remove (e.g., 33,42,57): "
-        read BLOCKSREMOVED
-        perl pl/remove-blocks-from-core-alignment.pl \
-          -blocks $BLOCKSREMOVED -fasta $RUNLCBDIR/core_alignment.xmfa.org \
-          -outfile $RUNLCBDIR/core_alignment.xmfa
-        echo -e "  A new $RUNLCBDIR/core_alignment.xmfa is generated\n"
-        echo -e "Now, prepare clonalframe analysis.\n"
-      else
-        mv $DATADIR/core_alignment.xmfa.org $DATADIR/core_alignment.xmfa
-      fi
-       
-      echo -e "The core blocks might have weird alignment."
-      echo -e "Now, edit core blocks of the alignment."
-      echo -e "This is the core alignment: $DATADIR/core_alignment.xmfa"
-      break
-    fi
-  done
-}
-
-# 4. Prepare clonalframe analysis.
-# --------------------------------
-# FIXME: Read the code and document it.
-#
-# NOTE: full_alignment.xmfa has input genome files full paths.
-#       These are the paths that were used in CAC not local machine.
-#       I have to replace those paths to the genome files paths
-#       of this local machine.
-# We could edit the xmfa file, but instead
-# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
-# Also, change the backbone file name.
-# I make the same file system structure as the run-mauve.
-#
-# NOTE: One thing that I am not sure about is the mutation rate.
-#       Xavier said that I could fix the mutation rate to Watterson's estimate.
-#       I do not know how to do it with finite-sites data.
-#       McVean (2002) in Genetics.
-#       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
-#       Just remove gaps and use the alignment without gaps.
-#       I may have to find this value from the core genome
-#       alignment: core_alignment.xmfa.
-# NOTE: I run clonalframe for a very short time to find a NJ tree.
-#       I had to run clonalframe twice.
-# NOTE: some of the alignments are removed from the analysis.
-function prepare-run-clonalframe {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -e "  Preparing clonalframe analysis..."
-      set-more-global-variable $SPECIES $REPETITION
-      echo -e "  Computing Wattersons's estimates..."
-      echo -e "  Removing previous blocks..."
-      rm -f $DATADIR/core_alignment.xmfa.*
-      echo -e "  Splitting core_alignemnt to blocks..."
-      perl pl/blocksplit2fasta.pl $DATADIR/core_alignment.xmfa
-      compute-watterson-estimate > w.txt
-      # Use R to sum the values in w.txt.
-      sum-w
-      rm w.txt
-      echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
-      echo -e "Or, you may ignore.\n"
-      send-clonalframe-input-to-cac 
-      copy-batch-sh-run-clonalframe
-      echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
-      break
-    fi
-  done
-}
-
 function compute-watterson-estimate-for-clonalframe {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1306,10 +660,9 @@ function compute-watterson-estimate-for-clonalframe {
     else  
       set-more-global-variable 
       # Find all the blocks in FASTA format.
-      #run-blocksplit2fasta 
       echo -e "  Computing Wattersons's estimates...\n"
-      run-core2smallercore
-      run-blocksplit2fasta 
+      rm -f $DATADIR/core_alignment.xmfa.*
+      perl pl/blocksplit2fasta.pl $DATADIR/core_alignment.xmfa
       #run-blocksplit2smallerfasta 
       # Compute Watterson's estimate.
       compute-watterson-estimate > w.txt
@@ -1318,155 +671,6 @@ function compute-watterson-estimate-for-clonalframe {
       rm w.txt
       echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
       echo -e "Or, you may ignore.\n"
-      break
-    fi
-  done
-}
-
-# 5. Receive clonalframe-analysis.
-# --------------------------------
-# A few replicates of ClonalFrame could be created.
-function receive-run-clonalframe {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      echo -e "  Receiving clonalframe-output...\n"
-      set-more-global-variable $SPECIES $REPETITION
-      echo -e "Which replicate set of ClonalFrame output files?"
-      echo -n "ClonalFrame REPLICATE ID: " 
-      read CLONALFRAMEREPLICATE
-      mkdir -p $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-      scp $CAC_USERHOST:$CAC_RUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
-      echo -e "  Sending clonalframe-output to swiftgen...\n"
-      ssh -x $X11_USERHOST \
-        mkdir -p $CAC_RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-      scp $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/* \
-        $X11_USERHOST:$X11_RUNCLONALFRAME
-      echo -e "Now, prepare clonalorigin.\n"
-      break
-    fi
-  done
-}
-
-# 6. Prepare the first stage of clonalorigin.
-# -------------------------------------------
-# A few variables need explanation before describing the first stage of
-# ClonalOrigin.
-# CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.
-# RUNID: multiple runs in each replicate of clonal frame run are available.
-# Choose clonal frame replicate first, and then run identifier later. This
-# combination represents a species tree using the core alignment blocks.
-# REPLICATE: multiple replicates of clonal origin are avaiable. I also need to
-# check the convergence before proceeding with the second stage of clonal
-# origin. 
-# I used split core alignments into blocks. I did it for estimating Watterson's
-# estimate. Each block was in FASTA format. I modified the perl script,
-# blocksplit.pl, to generate FASTA formatted files. I just use blocksplit.pl to
-# split the core alignments into blocks that ClonalOrigin can read in. I delete
-# all the core alignment blocks that were generated before, and recreate them so
-# that I let ClonalOrigin read its expected formatted blocks.
-#
-function prepare-run-clonalorigin {
-  PS3="Choose the species to analyze with clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      g=$REPETITION
-      echo -e "Which replicate set of ClonalFrame output files?"
-      echo -n "ClonalFrame REPLICATE ID: " 
-      read CLONALFRAMEREPLICATE
-      echo -e "Which replicate set of ClonalOrigin output files?"
-      echo -n "ClonalOrigin REPLICATE ID: " 
-      read REPLICATE
-      echo -e "Preparing clonal origin analysis..."
-      set-more-global-variable $SPECIES $REPETITION
-
-      REFGENOME=$(grep REPETITION${REPETITION}-REFGENOME $SPECIESFILE | cut -d":" -f2)
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      WALLTIME=$(grep REPETITION${REPETITION}-Walltime $SPECIESFILE | cut -d":" -f2)
-      echo " $WALLTIME"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      BURNIN=$(grep REPETITION${REPETITION}-Burnin $SPECIESFILE | cut -d":" -f2)
-      echo " $BURNIN"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      CHAINLENGTH=$(grep REPETITION${REPETITION}-ChainLength $SPECIESFILE | cut -d":" -f2)
-      echo " $CHAINLENGTH"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      THIN=$(grep REPETITION${REPETITION}-Thin $SPECIESFILE | cut -d":" -f2)
-      echo " $THIN"
-
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-
-      echo -e "  Creating an input directory for a species tree..."
-      mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
-      echo -e "  Creating an output directory for the 1st stage of ClonalOrigin..." 
-      mkdir $RUNCLONALORIGIN/output
-      echo -e "  Creating an output directory for the 2nd stage of ClonalOrigin..." 
-      mkdir $RUNCLONALORIGIN/output2
-      echo -e "  Creating an input directory in the cluster..."
-      CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-      ssh -x $CAC_USERHOST \
-        mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
-
-      echo -n "Which clonal frame is used for a phylogeny? (e.g., 1) "
-      read RUNID
-      SPECIESTREE=clonaltree.nwk
-      perl pl/getClonalTree.pl \
-        $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/core_clonalframe.out.${RUNID} \
-        $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE
-      echo -e "  Splitting alignment into one file per block..."
-      CORE_ALIGNMENT=core_alignment.xmfa
-      rm $DATADIR/core_alignment.xmfa.*
-      perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
-
-      echo "  Copying the split alignments..."
-      scp -q $DATADIR/$CORE_ALIGNMENT.* \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
-
-      echo "  Copying the input species tree..."
-      scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
-
-      # Some script.
-      echo "  Creating job files..."
-      make-run-list-repeat $g \
-        $OUTPUTDIR/$SPECIES \
-        $REPLICATE \
-        $SPECIESTREE \
-        > $RUNCLONALORIGIN/jobidfile
-      scp -q $OUTPUTDIR/$SPECIES/$g/run-clonalorigin/jobidfile \
-        $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/$g/run-clonalorigin
-
-      copy-batch-sh-run-clonalorigin $g \
-        $OUTPUTDIR/$SPECIES \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-        $SPECIES \
-        $SPECIESTREE \
-        $REPLICATE
-      echo -e "Go to CAC's output/$SPECIES run-clonalorigin"
-      echo -e "Submit a job using a different command."
-      echo -e "$ bash batch.sh 3 to use three computing nodes"
-      echo -e "Check the output if there are jobs that take longer"
-      echo -e "tail -n 1 output/*> 1"
-      echo -e "Create a file named remain.txt with block IDs, and then run"
-      echo -e "$ bash batch_remain.sh 3"
-      echo -e "The number of computing nodes is larger than the number of"
-      echo -e "remaining jobs divided by 8"
       break
     fi
   done
@@ -1857,7 +1061,7 @@ source sh/receive-run-clonalorigin.sh
 source sh/prepare-run-2nd-clonalorigin.sh
 source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
-source sh/recombination-intensity.sh 
+source sh/recombination-intensity1-map.sh 
 source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
@@ -1877,6 +1081,12 @@ source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
 source sh/simulate-data-clonalorigin1.sh
 source sh/summarize-clonalorigin1.sh 
+source sh/recombination-intensity1-genes.sh 
+source sh/receive-mauve-alignment.sh
+source sh/prepare-run-clonalframe.sh
+source sh/receive-run-clonalframe.sh
+source sh/filter-blocks.sh
+source sh/prepare-run-clonalorigin.sh 
 
 #####################################################################
 # Main part of the script.
@@ -1912,10 +1122,11 @@ CHOICES=( init-file-system \
           clonalorigin2-simulation4 \
           --- SIMULATION5 ---\
           simulate-data-clonalorigin2-from-xml \
-          --- REAL-DATA ---\
-          choose-species \
+          --- REAL-DATA-ALIGNMENT ---\
+          prepare-mauve-alignment \
           copy-mauve-alignment \
-          receive-run-mauve \
+          receive-mauve-alignment \
+          --- REAL-DATA-CLONALFRAME ---\
           filter-blocks \
           prepare-run-clonalframe \
           receive-run-clonalframe \
@@ -1936,9 +1147,10 @@ CHOICES=( init-file-system \
           compute-heatmap-recedge \
           --- RECOMBINATION-COUNT ---\
           prepare-run-compute-heatmap-recedge \
-          --- RECOMBINATION-INTENSITY ---\
+          --- RECOMBINATION-INTENSITY1 ---\
           probability-recombination \
-          recombination-intensity \
+          recombination-intensity1-map \
+          recombination-intensity1-genes \
           --- RECOMBINATION-INTENSITY2 ---\
           map-tree-topology \
           --- GENE-ANNOTATION ---\
@@ -1960,18 +1172,10 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "choose-simulation" ];  then
     choose-simulation
     break
-  elif [ "$CHOICE" == "choose-species" ];  then
-    choose-species
-    break
-  elif [ "$CHOICE" == "copy-mauve-alignment" ];  then
-    copy-mauve-alignment
-    break
-  elif [ "$CHOICE" == "receive-run-mauve" ];  then
-    receive-run-mauve
-    break
-  elif [ "$CHOICE" == "filter-blocks" ];  then
-    filter-blocks
-    break
+  elif [ "$CHOICE" == "copy-mauve-alignment" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "prepare-mauve-alignment" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "receive-mauve-alignment" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "filter-blocks" ]; then $CHOICE; break
   elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
     prepare-run-clonalframe 
     break
@@ -2023,7 +1227,6 @@ select CHOICE in ${CHOICES[@]}; do
     divide-simulated-xmfa-data
     break
   elif [ "$CHOICE" == "probability-recombination" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "recombination-intensity" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
@@ -2052,6 +1255,8 @@ select CHOICE in ${CHOICES[@]}; do
     simulate-data-clonalorigin2-prepare Clonal2ndPhase
     break
   elif [ "$CHOICE" == "summarize-clonalorigin1" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "recombination-intensity1-genes" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

@@ -5,6 +5,9 @@
 # 3. Generate the output.
 # Usage: [command] <filename> <fraction> <seed>
 # <fraction> must be a real number between 0 and 1.
+# e.g.,
+#  perl $HOME/usr/bin/core2smallercore.pl \
+#    $RUNLCBDIR/core_alignment.xmfa 0.1 12345
 use strict;
 use File::Basename;
 

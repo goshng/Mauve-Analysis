@@ -2,16 +2,16 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: recombination-intensity4.pl
+#   File: recombination-intensity1-map.pl
 #   Date: Tue May  3 09:22:29 EDT 2011
 #   Version: 1.0
 #
 #   Usage:
-#      perl recombination-intensity4.pl [options]
+#      perl recombination-intensity1-map.pl [options]
 #
-#      Try 'perl recombination-intensity4.pl -h' for more information.
+#      Try 'perl recombination-intensity1-map.pl -h' for more information.
 #
-#   Purpose: recombination-intensity4.pl help you compute recombinant edge counts
+#   Purpose: recombination-intensity1-map.pl help you compute recombinant edge counts
 #            along a genome. I order all the alignment blocks with respect to
 #            one of genomes. I would use the first genome in the alignment. I
 #            need to use the species tree that is in the clonal origin output
@@ -49,7 +49,7 @@ use Pod::Usage;
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'recombination-intensity4.pl 1.0';
+my $VERSION = 'recombination-intensity1-map.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -59,41 +59,41 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
-            'd=s',
+            'xml=s',
             'xmfa=s',
-            'xmlbasename=s',
-            'speciesfile=s',
-            'genomedir=s',
-            'numberblock=i',
-            'r=i',
-            'check'
+            'refgenome=i',
+            'refgenomelength=i',
+            'numberblock=i'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-recombination-intensity4.pl - Compute recombination intensity along the genome.
+recombination-intensity1-map.pl - Compute recombination intensity1 along a genome
 
 =head1 VERSION
 
-recombination-intensity4.pl 1.0
+v1.0, Sun May 15 16:25:25 EDT 2011
 
 =head1 SYNOPSIS
 
-perl recombination-intensity4.pl [-h] [-help] [-version] 
-  [-d xml data directory] 
-  [-xmfa genome alignment] 
-  [-r reference genome ID] 
-  [-xmlbasename xml file base name] 
-  [-speciesfile file] 
-  [-genomedir file] 
-  [-endblockid]
+perl recombination-intensity1-map.pl [-h] [-help] [-version] [-verbose]
+  [-xml file base name] 
+  [-xmfa file base name] 
+  [-refgenome number] 
+  [-refgenomelength number] 
+  [-numberblock number] 
 
 =head1 DESCRIPTION
 
 The number of recombination edge types at a nucleotide site along all of the
 alignment blocks is computed.
+
+What we need includes:
+1. ClonalOrigin output2 (-xml)
+2. Genomes alignment (-xmfa)
+3. Reference genome ID (-refgenome)
 
 =head1 OPTIONS
 
@@ -115,40 +115,40 @@ Print program version; ignore other arguments.
 
 Prints status and info messages during processing.
 
-=item B<***** INPUT OPTIONS *****>
+=item B<-xml> <file base name>
 
-=item B<-d> <xml directory>
+A base name for ClonalOrigin XML files
+that contains the 2nd phase run result from Clonal Origin. A number of XML files
+for blocks are produced by appending dot and a block ID.
 
-A directory that contains the 2nd phase run result from Clonal Origin.
+  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml
 
-=item B<-xmfa> <alignment directory>
+The XML file for block ID of 1 is
 
-A directory that contains the input alignment.
+  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.1
 
-=item B<-r> <number>
+=item B<-xmfa> <file base name>
+
+A base name for xmfa formatted alignment blocks. Each block alignment is
+produced by appending a dot and block ID.
+
+  -xmfa $DATADIR/core_alignment.xmfa
+
+A XMFA block alignment for block ID of 1 is
+
+  -xmfa $DATADIR/core_alignment.xmfa.1
+
+=item B<-refgenome> <number>
 
 A reference genome ID.
 
-=item B<-speciesfile> <speices file>
+=item B<-refgenomelength> <number>
 
-=item B<-genomedir> <dir>
+The length of the reference genome.
 
-=item B<-endblockid>
+=item B<-numberblock> <number>
 
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-The block id can follow xml or precede it. Default is to precede it: i.e.,
-core_co.phase3.1.xml is the default.
-
-=item B<-xmlbasename> <name>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-Default base name is core_co.phase3.
+The number of blocks.
 
 =back
 
@@ -159,7 +159,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make recombination-intensity4.pl better.
+com repository so that I can make recombination-intensity1-map.pl better.
 
 =head1 COPYRIGHT
 
@@ -183,153 +183,99 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require "pl/sub-simple-parser.pl";
 require "pl/sub-newick-parser.pl";
+require "pl/sub-error.pl";
 require "pl/sub-array.pl";
-sub get_genome_file ($$);
-sub locate_block_in_genome ($$);
-sub locate_nucleotide_in_block ($$);
-
+require "pl/sub-xmfa.pl";
 
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
 ################################################################################
 
-my $xmlDir;
-my $xmfaBasename;
-my $check = 0;
-my $xmlBasename = "core_co.phase3";
-my $endblockid = 0;
-my $genomedir;
-my $speciesfile;
-my $refGenome;
-my $numberBlock; 
+my $xml;
+my $xmfa;
+my $refgenome; 
+my $refgenomelength;
+my $numberblock; 
 my $verbose = 0;
 
-if (exists $params{d})
+if (exists $params{xml})
 {
-  $xmlDir = $params{d};
+  $xml = $params{xml};
 }
 else
 {
-  &printError("you did not specify a directory that contains Clonal Origin 2nd run results");
-}
-
-if (exists $params{numberblock})
-{
-  $numberBlock = $params{numberblock};
-}
-else
-{
-  &printError("you did not specify the number of blocks");
-}
-
-if (exists $params{r})
-{
-  $refGenome = $params{r};
-}
-else
-{
-  &printError("you did not specify a reference genome");
+  &printError("you did not specify an xml directory that contains Clonal Origin 2nd run results");
 }
 
 if (exists $params{xmfa})
 {
-  $xmfaBasename = $params{xmfa};
+  $xmfa = $params{xmfa};
 }
 else
 {
   &printError("you did not specify a directory that contains genome alignments");
 }
 
-if (exists $params{speciesfile})
+if (exists $params{refgenome})
 {
-  $speciesfile = $params{speciesfile};
+  $refgenome = $params{refgenome};
 }
 else
 {
-  &printError("you did not specify a directory that contains genomes");
+  &printError("you did not specify a reference genome");
 }
 
-if (exists $params{genomedir})
+if (exists $params{refgenomelength})
 {
-  $genomedir = $params{genomedir};
+  $refgenomelength = $params{refgenomelength};
 }
 else
 {
-  &printError("you did not specify a directory that contains genomes");
+  &printError("you did not specify the length of a reference genome");
 }
 
+if (exists $params{numberblock})
+{
+  $numberblock = $params{numberblock};
+}
+else
+{
+  &printError("you did not specify the number of blocks");
+}
 if (exists $params{verbose})
 {
   $verbose = 1;
-}
-
-if (exists $params{check})
-{
-  $check = 1;
-}
-
-if (exists $params{xmlbasename})
-{
-  $xmlBasename = $params{xmlbasename};
-}
-
-if (exists $params{endblockid})
-{
-  $endblockid = 1;
 }
 
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
 
+my $progressbar = "Block: 0/$numberblock Not Yet Determined min to go";
 my $tag;
 my $content;
 my %recedge;
 my $itercount = 0;
 my $blockLength;
-my $speciesTree = get_species_tree ("$xmlDir/$xmlBasename.xml.1");
+my $blockidForProgress;
+my $speciesTree = get_species_tree ("$xml.1");
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
-my $genomefile = get_genome_file ($speciesfile, $refGenome);
-my $genomeLength = get_genome_length ("$genomedir/$genomefile");
-
-if ($check == 1)
-{
-  print "Genome: $genomedir/$genomefile\n";
-  print "  Length - $genomeLength\n";
-}
 
 ################################################################################
 # Find coordinates of the reference genome.
 ################################################################################
 
-my @blockLocationGenome;
-for (my $i = 1; $i <= $numberBlock; $i++)
-{
-  my $xmfaFile = "$xmfaBasename.$i";
-  open XMFA, $xmfaFile or die "Could not open $xmfaFile";
-  while (<XMFA>) 
-  {
-    if (/^>\s+$refGenome:(\d+)-(\d+)/)
-    {
-      my $startGenome = $1;
-      my $endGenome = $2;
-      my $rec = {};
-      $rec->{start} = $startGenome;
-      $rec->{end} = $endGenome;
-      push @blockLocationGenome, $rec;
-      last;
-    }
-  }
-  close XMFA;
-}
+sub getBlockConfiguration ($$);
 
-if ($check == 1)
+my @blockLocationGenome = getBlockConfiguration ($xmfa, $numberblock);
+
+if ($verbose == 1)
 {
-  for (my $i = 0; $i <= $#blockLocationGenome; $i++)
+  for my $i (0 .. $#blockLocationGenome)
   {
     my $href = $blockLocationGenome[$i];
-    print "$i:$href->{start} - $href->{end}\n"; 
+    print STDERR "$i:$href->{start} - $href->{end}\n"; 
   }
 }
 
@@ -339,36 +285,39 @@ if ($check == 1)
 # mapImport is created.
 my @blockImport;
 my @mapBlockImport;
+
 if ($verbose == 1)
 {
-  print STDERR "A new mapImport is being created...";
+  print STDERR "A new mapImport is being constructed ...";
 }
 my @mapImport = create3DMatrix ($numberLineage, 
                                 $numberLineage, 
-                                $genomeLength + 1);
+                                $refgenomelength + 1, -1);
 if ($verbose == 1)
 {
-  print STDERR " done.\n";
+  print STDERR " done!\n";
 }
 
 # mapImport is filled in.
 my $offsetPosition = 0;
 my $prevBlockLength = 1;
-for (my $blockID = 1; $blockID <= $numberBlock; $blockID++)
+my $processedTime = 0;
+for my $blockID (1 .. $numberblock)
 {
-  my $af = "$xmfaBasename.$blockID";
-  my $f = "$xmlDir/$xmlBasename.xml.$blockID";
+  #last if $blockID == 2;
+  my $startTime = time; 
+  $blockidForProgress = $blockID;
+  my $f = "$xml.$blockID";
   $blockLength = get_block_length ($f);
-  $offsetPosition += $prevBlockLength;
-  $prevBlockLength = $blockLength;
+
+  my $href = $blockLocationGenome[$blockID-1];
+  die "$href->{start} < $href->{end}" 
+    unless $href->{start} < $href->{end};
+  $offsetPosition = $href->{start};
 
   @mapBlockImport = create3DMatrix ($numberLineage, 
                                     $numberLineage, 
-                                    $blockLength);
-  if ($verbose == 1)
-  {
-    print STDERR "A new mapBlockImport for $blockID is created.\n";
-  }
+                                    $blockLength, 0);
   my $parser = new XML::Parser();
   $parser->setHandlers(Start => \&startElement,
                        End => \&endElement,
@@ -381,45 +330,47 @@ for (my $blockID = 1; $blockID <= $numberBlock; $blockID++)
   print "Unable to parse XML of $f, error $@\n" if $@;
   next if $@;
 
-  my @sites = locate_nucleotide_in_block ($af, $refGenome);
-  my ($b, $e, $strand) = locate_block_in_genome ($af, $refGenome);
+  my @sites = locateNucleotideBlock ("$xmfa.$blockID", $refgenome);
+  my ($b, $e, $strand) = locateBlockGenome ("$xmfa.$blockID", $refgenome);
+  die "$b < $e in $xmfa.$blockID" unless $b < $e;
+
+
+  if ($strand eq '-')
+  {
+    my @sites_reversed = reverse (@sites);
+    @sites = @sites_reversed;
+  }
+
   my $c = 0; 
-  for my $i ( 0 .. $#sites ) {
-    if ($sites[$i] eq '-')
+  for my $i ( 0 .. $#sites ) 
+  {
+    next if $sites[$i] eq '-';
+    my $pos = $b + $c;
+    for (my $j = 0; $j < $numberLineage; $j++)
     {
-      # No code.
+      for (my $k = 0; $k < $numberLineage; $k++)
+      {
+        $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$i];
+      }
     }
-    else
-    {
-      my $pos;
-      if ($strand eq '+') 
-      {
-        $pos = $b + $c;
-      }
-      else
-      {
-        $pos = $e - $c;
-      }
-      for (my $j = 0; $j < $numberLineage; $j++)
-      {
-        for (my $k = 0; $k < $numberLineage; $k++)
-        {
-          $mapImport[$j][$k][$pos] = $mapBlockImport[$j][$k][$i];
-        }
-      }
-      $c++;
-    }
+    $c++;
   }
   $c--;
   die "$e and $b + $c do not match" unless $e == $b + $c;
+
   if ($verbose == 1)
   {
-    print "Block: $blockID\r";
+    my $endTime = time; 
+    my $elapsedTime = $endTime - $startTime;
+    $processedTime += $elapsedTime;
+    my $remainedBlock= $numberblock - $blockID;
+    my $remainedTime = int(($processedTime/$blockID) * $remainedBlock / 60);
+    $progressbar = "Block: $blockID/$numberblock $remainedTime min to go";
   }
 }
 
 # mapImport is printed out.
-for (my $i = 1; $i <= $genomeLength; $i++)
+for (my $i = 1; $i <= $refgenomelength; $i++)
 {
   my $pos = $i;
   print "$pos";
@@ -452,7 +403,7 @@ sub startElement {
       $itercount++;
       @blockImport = create3DMatrix ($numberLineage, 
                                      $numberLineage, 
-                                     $blockLength);
+                                     $blockLength, 0);
       last SWITCH;
     }
   }
@@ -512,7 +463,7 @@ sub endElement {
     }
     if ($verbose == 1)
     {
-      print STDERR "Iteration: $itercount\r";
+      print STDERR "$progressbar - Iteration $itercount\r";
     }
   }
   $tag = "";
@@ -528,123 +479,33 @@ sub characterData {
 sub default {
 }
 
-sub get_genome_file ($$)
-{
-  my ($speciesfile, $refGenome) = @_;
-  my $r;
-  my $l;
-  my $c = 0;
-  open SPECIES, "$speciesfile" or die "$speciesfile could not be opened";
-  while ($l = <SPECIES>)
-  {
-    chomp $l;
-    unless ($l =~ /^#/)
-    {
-      $c++;
-      if ($c == $refGenome)
-      {
-        $r = $l;
-        last;
-      }
-    }
-  }
-  close SPECIES;
-  return $r;
-}
-##
 #################################################################################
 ### MISC FUNCTIONS
 #################################################################################
-##
 
-sub printError {
-    my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'recombination-intensity4.pl -h\' for more information.\nExit program.\n";
-    exit(0);
-}
-
-sub locate_block_in_genome ($$)
+sub getBlockConfiguration ($$)
 {
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
+  my ($xmfa, $numberblock) = @_;
+  my @blockLocationGenome;
+  for my $i (1 .. $numberblock)
   {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
+    my $xmfaFile = "$xmfa.$i";
+    open XMFA, $xmfaFile or die "Could not open $xmfaFile";
+    while (<XMFA>) 
     {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
+      if (/^>\s+$refgenome:(\d+)-(\d+)/)
+      {
+        my $startGenome = $1;
+        my $endGenome = $2;
+        my $rec = {};
+        $rec->{start} = $startGenome;
+        $rec->{end} = $endGenome;
+        push @blockLocationGenome, $rec;
+        last;
+      }
     }
+    close XMFA;
   }
-  close XMFA;
-  return ($startGenome, $endGenome, $strand);
-}
-
-sub locate_nucleotide_in_block ($$)
-{
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
-    {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
-    }
-  }
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>/)
-    {
-      last;
-    }
-    $sequence .= $line;
-  }
-  close XMFA;
-
-#print STDERR "\n$s-$e-$startGenome-$endGenome-$f\n";
-  #my $j = 0;
-  my @nucleotides = split //, $sequence;
-  return @nucleotides;
-
-  #for (my $i = 0; $i <= $#nucleotides; $i++)
-  #{
-    #if ($nucleotides[$i] eq 'a' 
-        #or $nucleotides[$i] eq 'c' 
-        #or $nucleotides[$i] eq 'g' 
-        #or $nucleotides[$i] eq 't') 
-    #{
-      #my $pos = $startGenome + $j;   
-      #if ($s <= $pos and $pos <= $e)
-      #{
-        #push @v, $i;
-        #$geneSequence .= $nucleotides[$i];
-      #}
-      #$j++;
-    #}
-  #}
-  #print "\n$geneSequence\n";
-
-  #return @v;
+  return @blockLocationGenome;
 }
 

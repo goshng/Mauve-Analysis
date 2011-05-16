@@ -10,4 +10,27 @@ function conf {
   BATCHEMAIL=$(grep BATCHEMAIL $CONFFILE | cut -d":" -f2)
   BATCHACCESS=$(grep BATCHACCESS $CONFFILE | cut -d":" -f2)
   QUEUENAME=$(grep QUEUENAME $CONFFILE | cut -d":" -f2)
+
+  BATCHPROGRESSIVEMAUVE=$(grep BATCHPROGRESSIVEMAUVE $CONFFILE | cut -d":" -f2)
+  BATCHCLONALFRAME=$(grep BATCHCLONALFRAME $CONFFILE | cut -d":" -f2)
+
+  GENOMEDATADIR=$(grep GENOMEDATADIR $CONFFILE | cut -d":" -f2)
+  LCB=$(grep LCB $CONFFILE | cut -d":" -f2)
+  AUI=$(grep AUI $CONFFILE | cut -d":" -f2)
+  GUI=$(grep GUI $CONFFILE | cut -d":" -f2)
+
+  # Other global variables
+  CAC_USERHOST=$CAC_USERNAME@$CAC_LOGIN
+  CAC_MAUVEANALYSISDIR=$CAC_USERHOST:$CAC_ROOT
+  CAC_OUTPUTDIR=$CAC_ROOT/output
+  CACBASE=$CAC_ROOT/output
+
+  # X11 linux ID setup
+  X11_USERHOST=$X11_USERNAME@$X11_LOGIN
+  X11_MAUVEANALYSISDIR=$X11_USERHOST:$X11_ROOT
+  X11_OUTPUTDIR=$CAC_ROOT/output
+  X11BASE=$X11_ROOT/output
+
+  # The main base directory contains all the subdirectories.
+  OUTPUTDIR=$MAUVEANALYSISDIR/output
 }

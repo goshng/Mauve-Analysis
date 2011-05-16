@@ -1,4 +1,4 @@
-sub createSquareMatrix {
+sub createSquareMatrix ($) {
   my ($n) = @_;
   my @m;
   for (my $i = 0; $i < $n; $i++)
@@ -9,7 +9,7 @@ sub createSquareMatrix {
   return @m;
 }
 
-sub printSquareMatrix {
+sub printSquareMatrix ($) {
   my ($m, $n) = @_;
   for (my $i = 0; $i < $n; $i++)
   {
@@ -22,8 +22,8 @@ sub printSquareMatrix {
   }
 }
 
-sub create3DMatrix {
-  my ($d1, $d2, $d3) = @_;
+sub create3DMatrix ($$$$) {
+  my ($d1, $d2, $d3, $initialValue) = @_;
 
   my @m;
   for (my $i = 0; $i < $d1; $i++)
@@ -31,7 +31,7 @@ sub create3DMatrix {
     my @mapPerLineage;
     for (my $j = 0; $j < $d2; $j++)
     {
-      my @asinglemap = (0) x ($d3);
+      my @asinglemap = ($initialValue) x ($d3);
       push @mapPerLineage, [ @asinglemap ];
     }
     push @m, [ @mapPerLineage ];

@@ -28,7 +28,44 @@ Here is a short quick start.
 . Execute the menu *compute-block-length* if necessary 
 
 .A procedure to summarize the the first stage of ClonalOrigin MCMC
-. 
+. Execute the menu *receive-run-clonalorigin* 
+
+.A procedure to compute recombination intensity of a genome
+. Execute the menu *recombination-intensity1-map* 
+
+.A procedure to compute recombination intensity of genes
+. Execute the menu *recombination-intensity1-map* if necessary
+. Execute the menu *recombination-intensity1-genes*
+
+Configuration File
+------------------
+
+GENOMEDATADIR
+~~~~~~~~~~~~~
+Genome Data Directory -
+Bacterial genomes can be downloaded into a directory. I used to download and
+store them in a separate driver because total file sizes can be too large to
+be stored in a local machine. 
+
+LCB
+~~~
+A program called stripSubsetLCBs was found at
+http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
+programs_ of a proper Operating System.
+
+AUI
+~~~
+A program called addUnalignedIntervals was found at
+http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
+programs_ of a proper Operating System.
+
+GUI
+~~~
+GUI is a part of ClonalOrigin program. It has a graphical user interface.
+
+WARGSIM
+~~~~~~~
+The main program of ClonalOrigin was modified for simulation purposes.
 
 Species File
 ------------
@@ -402,6 +439,12 @@ Among numerous simulations there are several cases of block alignments where
 this happens. In this case I have redo the simulation for those blocks. I need
 SPECIES, REPETITION, REPLICATE, BLOCK, and BLOCKSIZE. After this correction, I
 can proceed with clonalorigin2-simulation3-analyze.
+
+recombination-intensity1-genes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The number of recombinant edges per site is computed for all of the genes of a
+reference genome.
+recombination-intensity1-map must be called before the call of this menu.
 
 Terms
 -----
