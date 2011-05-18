@@ -343,10 +343,24 @@ Haemophilus influenzae
 Streptococcus pyogenes
 \emph default
  (SPY) belonging to group A streptococci (GAS) primarily infect humans in
- the throat and on the skin (CITE).
+ the throat and skin of humans 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Broyles2009"
+
+\end_inset
+
+.
  It has high prevalence throughout the world causing diseases ranging from
- mild illnesses such as pharyngitis and impetigo to severe invasive streptococca
-l diseases including necrotizing fasciitis and toxic shock syndrome (CITE).
+ mild illnesses such as pharyngitis to severe invasive streptococcal diseases
+ including necrotizing fasciitis and toxic shock syndrome 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cunningham2000a"
+
+\end_inset
+
+.
  A closely related species called
 \emph on
  S.
@@ -364,7 +378,14 @@ dysgalactiae
 equisimilis
 \emph default
  (SDE) belonging to group C or G streptococci (GCS/GGS) used to be generally
- regarded as veterinary pathogens (CITE).
+ regarded as veterinary pathogens 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Vandamme1996"
+
+\end_inset
+
+.
  Researchers have been confirming that GCS/GGS can cause serious and life-threat
 ening streptococcal diseases to humans traditionally associated with GAS
  
@@ -413,14 +434,23 @@ key "Thomas2005"
 
 .
  Horizontally transferred DNAs through the machanisms can replace their
- endogenous homologs, involving homologous recombination (CITE), or can
- be added to their recipient bacterial genomes (CITE).
+ endogenous homologs, involving homologous recombination, or can be added
+ to their recipient bacterial genomes 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lawrence2009"
+
+\end_inset
+
+.
  The former process involves bacterial recombination, and the latter 
 \emph on
 de novo 
 \emph default
-integration of DNA fragments.
- Although lateral gene transfer by homologous recombination and 
+horizontal transfer of DNA fragments.
+ [BE SPECIFIC IN DISTINGUISHING ONE FROM ANOTHER] Although lateral gene
+ transfer by homologous recombination and 
 \emph on
 de novo 
 \emph default
@@ -492,6 +522,21 @@ key "Kalia2001"
 
 .
  
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sachse2002"
+
+\end_inset
+
+ tended to show the gene transfer from SDE to SPY for the downstream of
+ the genomic region of 
+\emph on
+speG
+\emph default
+.
+ Despite the reports on direction of gene flow for several regions in the
+ genomes it remains to be elusive to determine the degrees to which genomic
+ segments flows between the two species and directions of thereof.
 \end_layout
 
 \begin_layout Standard
@@ -734,111 +779,6 @@ http://www.atgc-montpellier.fr/Mowgli
  also described.
 \end_layout
 
-\begin_layout Standard
-[THE FOLLOWING PARAGRAPH COME FROM SOMEWHERE ELSE]
-\end_layout
-
-\begin_layout Standard
-We have utilized the ClonalOrigin software 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2010"
-
-\end_inset
-
- to study patterns of recombination between five Streptococcus genomes.
- ClonalOrigin takes a reference species tree and uses an MCMC framework
- to add recombinant edges to the tree, exploring a state space of possible
- ancestral recombination graphs (ARGs).
- Each recombinant edge represents transfer of genetic material from a donor
- genome to a recipient genome.
- We first used progressiveMauve 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Darling2004,Darling2010"
-
-\end_inset
-
- to align the genomes of the five species: 
-\emph on
-Streptococcus pyogenes
-\emph default
- MGAS315 (SPY1), 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
- MGAS10750 (SPY2), 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- ATCC 12394 (SDE1), 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- GGS_124 (SDE2), and 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- (SDD).
- This resulted in 415 alignment blocks with lengths of at least 500 base
- pairs.
- The reference species tree was inferred by ClonalFrame 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2007"
-
-\end_inset
-
-, and was in agreement with the one used by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Suzuki2011"
-
-\end_inset
-
-.
- ClonalOrigin could then be applied to these alignment blocks and species
- tree.
- 
-\end_layout
-
 \begin_layout Subsection
 ClonalOrigin analysis
 \end_layout
@@ -1004,6 +944,34 @@ key "Didelot2007"
  species tree.
  We chose one of the eight estimates as the species tree of the five streptococc
 us genomes in ClonalOrigin analysis.
+ The reference species tree was inferred by ClonalFrame 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2007"
+
+\end_inset
+
+, and was in agreement with the one used by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Suzuki2011"
+
+\end_inset
+
+.
+ We have utilized the ClonalOrigin software 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Didelot2010"
+
+\end_inset
+
+ to study patterns of recombination between five Streptococcus genomes.
+ ClonalOrigin takes a reference species tree and uses an MCMC framework
+ to add recombinant edges to the tree, exploring a state space of possible
+ ancestral recombination graphs (ARGs).
+ Each recombinant edge represents transfer of genetic material from a donor
+ genome to a recipient genome.
  ClonalOrigin of subversion r19 released on October 1st 2010 was downloaded
  from 
 \begin_inset Flex URL
@@ -1056,7 +1024,7 @@ We call a recombinant tree a species tree with recombinant edges attached
  a recipient can be captured by the observed number of recombination events
  relative to the prior expected number of recombination events.
  Regardless of the start and end positions of recombinant edges along the
- genome alignment, the number of recombinant edges would indicate the degree
+ genome alignment, the number of recombinant edges indicates the degree
  to which the clonal species tree is disrupted by bacterial recombination.
  By counting recombinant edges based on their departing and arrival branches
  of a species tree 
@@ -1097,12 +1065,8 @@ key "Didelot2010"
  Our surrogate measure of recombination intensity is not biologically meaningful.
  Yet, we hope that the measure can discriminate between relative intensity
  values of bacterial recombination along a genome.
- 
-\end_layout
-
-\begin_layout Standard
-The first surrogate measure is to quantify how often a particular site along
- a genome is affected by bacterial recombination.
+ The first surrogate measure is to quantify how often a particular site
+ along a genome is affected by bacterial recombination.
  We count recombinant edges on a site of a genome.
  A type of recombinant edge is specified by its departure and arrival branches
  of a reference species tree.
@@ -1744,14 +1708,14 @@ Population parameter estimates
 
 \begin_layout Standard
 The median of mutation rate per site weighted over the lengths of blocks
- was estimated to be 0.081 with (XXX,XXX) of interquartile range.
+ was estimated to be 0.081 with (0.067,0.094) of interquartile range.
  The median value for the recombinant tract length 
 \begin_inset Formula $\delta$
 \end_inset
 
- was estimated to be 744 with (XXX,XXX) of interquartile range.
+ was estimated to be 744 with (346,2848) of interquartile range.
  The median of recombination rate per site was estimated to be 0.012 with
- (XXX,XXX) of interquartile range.
+ (0.006,0.019) of interquartile range.
  While the estimate of the recombinant tract length was twice the estimate
  from ClonalFrame, the estimtes of mutation and recombination rates were
  comparable to those from ClonalFrame.
@@ -1850,6 +1814,29 @@ reference "fig:Heatmap-of-recombination"
  _equisimilis_.
  It also indicates that the genes with unidirectional gene flow are uniformly
  distributed across the SPY1 genome.
+\end_layout
+
+\begin_layout Subsection
+Detailed view of genes for recombination, gene gain, loss, duplication,
+ and horizontal transfer
+\end_layout
+
+\begin_layout Standard
+[SOME OF THE GENES COULD BE INTEROGATED IN FURTHER DETAIL.
+ LET US LIST GENES OR GENOMIC POSITIONS THAT MIGHT BE INTERESTING TO STUDY
+ MORE]
+\end_layout
+
+\begin_layout Itemize
+Integrative conjugative element (ICE), conjugative transposons
+\end_layout
+
+\begin_layout Itemize
+Virulence genes
+\end_layout
+
+\begin_layout Itemize
+Phage 3396 from SDE
 \end_layout
 
 \begin_layout Subsection

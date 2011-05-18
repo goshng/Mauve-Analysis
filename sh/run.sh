@@ -1061,7 +1061,6 @@ source sh/receive-run-clonalorigin.sh
 source sh/prepare-run-2nd-clonalorigin.sh
 source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
-source sh/recombination-intensity1-map.sh 
 source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
@@ -1081,6 +1080,7 @@ source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
 source sh/simulate-data-clonalorigin1.sh
 source sh/summarize-clonalorigin1.sh 
+source sh/recombination-intensity1-map.sh 
 source sh/recombination-intensity1-genes.sh 
 source sh/receive-mauve-alignment.sh
 source sh/prepare-run-clonalframe.sh
@@ -1152,6 +1152,7 @@ CHOICES=( init-file-system \
           recombination-intensity1-map \
           recombination-intensity1-genes \
           --- RECOMBINATION-INTENSITY2 ---\
+          recombination-intensity2-map \
           map-tree-topology \
           --- GENE-ANNOTATION ---\
           convert-gff-ingene \

@@ -21,19 +21,25 @@ function recombination-intensity1-genes {
       NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output2/$REPLICATE/core_co.phase3.xml.1|wc -l`)
       echo -e "  The posterior sample size is $NUMBER_SAMPLE."
 
-      echo -n "  Reading INBLOCK from $SPECIESFILE..."
-      TREETOPOLOGY=$(grep REPETITION8-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
+      echo -n "  Reading TREETOPOLOGY of REPETITION$REPETITION from $SPECIESFILE..."
+      TREETOPOLOGY=$(grep REPETITION$REPETITION-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
       echo " $TREETOPOLOGY"
+
+      echo -n "  Reading of REFGENOME of REPETITION$REPETITION from $SPECIESFILE..."
+      REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
+      echo " $REFGENOME"
 
       echo -n "Do you wish to skip counting number of gene tree topology changes (y/n)? "
       read WANTSKIP
       if [ "$WANTSKIP" == "y" ]; then
         echo -e "  Skipping counting number of gene tree topology changes..." 
       else
-        perl pl/$FUNCNAME.pl \
-          -ri1map $RUNANALYSIS/recombination-intensity-2.txt \
-          -ingene $RUNANALYSIS/in.gene
-        echo "Check file $RUNANALYSIS/in.gene"
+        echo perl pl/$FUNCNAME.pl \
+          -ri1map $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt \
+          -ingene $RUNANALYSIS/in.gene \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map.gene
+        echo "Check file $RUNANALYSIS/ri1-refgenome$REFGENOME-map.gene"
       fi
       break
     fi

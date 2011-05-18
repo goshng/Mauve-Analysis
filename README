@@ -14,25 +14,94 @@ To Do
 
 .Heatmap's ``p-value'' between simulation and real data runs
 .Plot the three main parameter estimates along SDE genomes
-.RI1(number of recombinant edges per site) and RI2(number of unquie topologies) for genes of SPY1
-.RI1(or RI1perRecEdge) for recombinant edges between SPY and SDE 
-.Simulation to show RI1perRecEdge.
+
+.Map of RI1
+. RI1(number of recombinant edges per site) and RI2(number of unquie topologies) for genes of SPY1
+. RI1(or RI1perRecEdge) for recombinant edges between SPY and SDE 
+. Simulation to show RI1perRecEdge.
+
+.Map of RI2
+. RI2(number of unquie topologies) for genes of SPY1
+
+.s16
+. Done next analysis?
+
+.s15
+. Not perfect runs, I use a partial run.
+
+.cornellf/3/run-clonalorigin/output/2
+. is running
+
+.cornellf/3/run-clonalorigin/output2/2
+. Not yet started
+
+Tue May 17 09:00:56 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.RI1 and RI2 takes 3 days roughly (cornellf/3/1).
+. I am still waiting for them to finish.
+
+.RI1 for the reference genomes of SPY1
+----
+/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/ri1-refgenome4-map.txt
+----
+
+.RI2 for genes of SPY1, in.gene has columns of values:
+1: gene name
+2: gene start position in the reference genome
+3: gene end position in the reference genome
+4: gene strand
+5: block ID of the gene
+6: gene start position in the block
+7: gene end position in the block 
+8: gene length
+9: proportion of gaps of the gene in the alignment
+10: number of changes of gene tree topology
+11: number of trees that are different from the species tree
+12: number of unique gene tree topologies
+13: probability of experiencing gene tree topology change
+----
+/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/in.gene
+----
+
+Mon May 16 10:35:03 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.RI2(number of unique topologies) for genes of SPY1
+----
+output/cornellf/8/run-analysis/in.gene
+The 12th column is the number of unique topologies per site
+----
+Let's do the 
+menu map-tree-topology with cornellf/3/1.
+
+
+Sun May 15 18:30:12 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Heatmap's ``p-value'' between simulation and real data runs
+. This is a comparison between estimates from the real data sets (cornellf/8/2) and estimates
+from the simulated one (s14). 
+----
+output/s14/run-analysis/2.R
+----
 
 Sat May 14 14:12:44 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .Gene ontology analysis with functional categories
 . I use cornellf/8/2 or repetition 8 and replicate 2.
+. I use cornellf/3/1 or repetition 3 and replicate 1.
 
 .The main parameter summary : Interquartile Range or IQR (using median)
 . Chanaged pl/computeMedians.pl
 
 .s16 is started
 . waiting for simulation of *wargsim*
-. (10 nodes) how many days? ---> See them in Tuesday (May 17th)
+. (10 nodes) how many days? -> 3 days!
 
-.cornellf/3's 2nd runs started.
-. waiting for jobs in cac, or output/cornellf/3/run-clonalorigin/output2/2
+.cornellf/3's 2nd runs of ClonalOrigin's 1st stage MCMC started.
+. waiting for jobs in cac, or output/cornellf/3/run-clonalorigin/output/2
 . (3 nodes) how many days? ---> See them at Monday (May 16th)
 
 .s15 is still in progress
@@ -77,8 +146,11 @@ Tue May 10 08:34:26 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 s14's ri and mt are under analysis
+-> ri.txt
+Menu analyze-run-clonalorigin2-simulation2-analyze generates ri.txt.
 
---->
+Menu clonalorigin2-simulation3
+-> mt.txt
 
 Check this file:
 .s14's mt analysis result for genes:
@@ -921,7 +993,7 @@ perl pl/simulate-data-clonalorigin1-analyze.pl -in output/s15/run-analysis/out -
 ----
 
 
-.cornellf/3 summary of three parameters
+.cornellf/3 summary of three parameters (in manuscript)
 ----
 Median theta:0.080814517322956
 Median Q1 theta:0.0674683150905946
@@ -934,4 +1006,12 @@ Median Q1 rho:0.00571541439036853
 Median Q3 rho:0.0193800640707135
 ----
 
+.RI1 for the reference genomes of SPY1
+----
+output/cornellf/3/run-analysis/ri1-refgenome4-map.gene
+----
 
+.RI2
+----
+/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/in.gene
+----

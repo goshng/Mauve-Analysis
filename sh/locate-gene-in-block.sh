@@ -3,7 +3,7 @@
 
 function locate-gene-in-block {
   PS3="Choose the species for $FUNCNAME: "
-  select SPECIES in `ls species`; do 
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue

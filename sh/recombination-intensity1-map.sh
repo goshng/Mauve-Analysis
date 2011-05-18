@@ -25,15 +25,14 @@ function recombination-intensity1-map {
       echo -n "What is the length of the reference genome? " 
       read REFGENOMELENGTH
        
-      echo perl pl/$FUNCNAME.pl \
+      perl pl/$FUNCNAME.pl \
         -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
         -xmfa $DATADIR/core_alignment.xmfa \
         -refgenome $REFGENOME \
         -refgenomelength $REFGENOMELENGTH \
         -numberblock $NUMBER_BLOCK \
         -verbose \
-        $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt
-        #> $RUNANALYSIS/ri1-map.txt
+        > $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt
       break
     fi
   done

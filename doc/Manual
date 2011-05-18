@@ -33,9 +33,21 @@ Here is a short quick start.
 .A procedure to compute recombination intensity of a genome
 . Execute the menu *recombination-intensity1-map* 
 
-.A procedure to compute recombination intensity of genes
+.A procedure to compute recombination intensity1 of genes
 . Execute the menu *recombination-intensity1-map* if necessary
 . Execute the menu *recombination-intensity1-genes*
+
+.A procedure to compute recombination intensity2 of genes
+. Prepare the result of 2nd stage of ClonalOrigin MCMC
+. Edit the species file to add 
+REPETITION3-GFF,
+REPETITION3-REFGENOME, and
+REPETITION3-TREETOPOLOGY
+. Execute the menu *convert-gff-ingene*
+. Execute the menu *locate-gene-in-block*
+. Execute the menu *map-tree-topology*
+.. The procedure of *map-tree-topology* tends to be slow (1 day in a local
+computer)
 
 Configuration File
 ------------------

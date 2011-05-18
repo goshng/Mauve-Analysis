@@ -265,7 +265,7 @@ if ($verbose == 1)
 $blockLength = get_block_length ($xmlFile);
 my @mapImport = create3DMatrix ($numberLineage, 
                                 $numberLineage, 
-                                $blockLength + 1);
+                                $blockLength + 1, 0);
 if ($verbose == 1)
 {
   print STDERR " done.\n";
@@ -282,7 +282,7 @@ my $prevBlockLength = 1;
 
   @mapBlockImport = create3DMatrix ($numberLineage, 
                                     $numberLineage, 
-                                    $blockLength);
+                                    $blockLength, 0);
   my $parser = new XML::Parser();
   $parser->setHandlers(Start => \&startElement,
                        End => \&endElement,
@@ -396,7 +396,7 @@ sub startElement {
       $itercount++;
       @blockImport = create3DMatrix ($numberLineage, 
                                      $numberLineage, 
-                                     $blockLength);
+                                     $blockLength, 0);
       last SWITCH;
     }
   }

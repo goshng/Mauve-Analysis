@@ -3,7 +3,7 @@
 
 function map-tree-topology {
   PS3="Choose the species to do $FUNCNAME: "
-  select SPECIES in `ls species`; do 
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -21,31 +21,31 @@ function map-tree-topology {
       NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output2/$REPLICATE/core_co.phase3.xml.1|wc -l`)
       echo -e "  The posterior sample size is $NUMBER_SAMPLE."
 
-      echo -n "  Reading INBLOCK from $SPECIESFILE..."
-      TREETOPOLOGY=$(grep REPETITION8-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
+      echo -n "  Reading TREETOPOLOGY of REPETITION$REPETITION from $SPECIESFILE..."
+      TREETOPOLOGY=$(grep REPETITION$REPETITION-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
       echo " $TREETOPOLOGY"
 
-      echo -n "Do you want to skip splitting xml output (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo "  Skipping splitting ClonalOrigin xml output files..."
-      else
+      echo -n "Do you wish to split xml output (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         echo -n "  Splitting clonalorigin xml output files..."
         mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE
         perl pl/splitCOXMLPerIteration.pl \
           -d $RUNCLONALORIGIN/output2/$REPLICATE \
           -outdir $RUNCLONALORIGIN/output2/ri-$REPLICATE \
-          -numberblock $NUMBER_BLOCK 
+          -numberblock $NUMBER_BLOCK \
+          -endblockid
         echo " done."
+      else
+        echo "  Skipping splitting ClonalOrigin xml output files..."
       fi
+
 
       # Find the local gene trees along each of block alignments.
       # WARGSIM=src/clonalorigin/b/wargsim
-      echo -n "Do you want to skip generating local trees (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo -e "  Skipping generating local trees..." 
-      else
+      echo -n "Do you wish to generate local trees (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         echo -e "  Generating local trees..." 
         mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE-out
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
@@ -59,15 +59,15 @@ function map-tree-topology {
           done
           echo -ne "                                           \r"
         done
+      else
+        echo -e "  Skipping generating local trees..." 
       fi
       # Combine ri-2-out's files for a block.
       # Analyze those files with a perl script.
 
-      echo -n "Do you wish to skip checking topology map files (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo -e "  Skipping checking topology map files ..." 
-      else
+      echo -n "Do you wish to check topology map files (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
           for g in $(eval echo {1..$NUMBER_SAMPLE}); do
             BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g`) 
@@ -78,13 +78,13 @@ function map-tree-topology {
           done
           echo -en "Block $b\r"
         done
-      fi
- 
-      echo -n "Do you wish to skip combining topology map files (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo -e "  Skipping combining topology map files ..." 
       else
+        echo -e "  Skipping checking topology map files ..." 
+      fi 
+
+      echo -n "Do you wish to combine topology map files (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         echo -e "  Combining ri-$REPLICATE-out ..." 
         mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined
         RIBLOCKFILES="" 
@@ -92,11 +92,11 @@ function map-tree-topology {
           RIFILES=""
           RIBLOCKFILE="$RUNCLONALORIGIN/output2/ri-$REPLICATE-combined/$b"
           for g in $(eval echo {1..$NUMBER_SAMPLE}); do
-            if [ "$g" != "211" ] && [ "$g" != "212" ] && [ "$g" != "719" ] && [ "$g" != "720" ]; then
+            #if [ "$g" != "211" ] && [ "$g" != "212" ] && [ "$g" != "719" ] && [ "$g" != "720" ]; then
               RIFILES="$RIFILES $RUNCLONALORIGIN/output2/ri-$REPLICATE-out/core_co.phase3.xml.$b.$g"
-            else
-              echo -en "$b $g not used\r"
-            fi
+            #else
+              #echo -en "$b $g not used\r"
+            #fi
           done
           RIBLOCKFILES="$RIBLOCKFILES $RIBLOCKFILE"
           cat $RIFILES > $RIBLOCKFILE
@@ -104,20 +104,22 @@ function map-tree-topology {
         done
         #paste $RIBLOCKFILES > $RUNANALYSIS/$FUNCNAME-${REPLICATE}.txt
         echo "Check files in $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined"
+      else
+        echo -e "  Skipping combining topology map files ..." 
       fi
 
-      echo -n "Do you wish to skip counting number of gene tree topology changes (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo -e "  Skipping counting number of gene tree topology changes..." 
-      else
+      echo -n "Do you wish to count gene tree topology changes (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         perl pl/$FUNCNAME.pl \
           -ricombined $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined \
           -ingene $RUNANALYSIS/in.gene \
-          -treetopology $TREETOPOLOGY \
-          -verbose
+          -treetopology $TREETOPOLOGY 
         echo "Check file $RUNANALYSIS/in.gene"
+      else
+        echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
+
       break
     fi
   done

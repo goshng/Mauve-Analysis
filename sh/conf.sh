@@ -14,10 +14,12 @@ function conf {
   BATCHPROGRESSIVEMAUVE=$(grep BATCHPROGRESSIVEMAUVE $CONFFILE | cut -d":" -f2)
   BATCHCLONALFRAME=$(grep BATCHCLONALFRAME $CONFFILE | cut -d":" -f2)
 
+  COREALIGNMENT=$(grep COREALIGNMENT $CONFFILE | cut -d":" -f2)
   GENOMEDATADIR=$(grep GENOMEDATADIR $CONFFILE | cut -d":" -f2)
   LCB=$(grep LCB $CONFFILE | cut -d":" -f2)
   AUI=$(grep AUI $CONFFILE | cut -d":" -f2)
   GUI=$(grep GUI $CONFFILE | cut -d":" -f2)
+  WARGSIM=$(grep WARGSIM $CONFFILE | cut -d":" -f2)
 
   # Other global variables
   CAC_USERHOST=$CAC_USERNAME@$CAC_LOGIN
