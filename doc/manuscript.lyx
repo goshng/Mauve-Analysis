@@ -147,7 +147,10 @@ Streptococcus pyogenes
  (SPY), 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  subspecies 
 \emph on
@@ -156,7 +159,10 @@ dysgalactiae
  (SDD), 
 \emph on
 S.
- dysgalactiae
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  subspecies 
 \emph on
@@ -171,7 +177,7 @@ Keywords:
 \end_layout
 
 \begin_layout Standard
-gene gain/loss/duplication/transfer
+gene duplication and transfer, recombination, Clonal Origin
 \end_layout
 
 \begin_layout Subsubsection*
@@ -189,15 +195,11 @@ Abstract
 \begin_layout Standard
 
 \emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
+Streptococcus pyogenes
 \emph default
- (SPY) is a pervasive human-specific pathogen which causes a wide variety
- of streptococcal diseases.
- The closely related species 
+ (SPY) is a pervasive human-specific pathogen which causes streptococcal
+ diseases.
+ A closely related species 
 \emph on
 S.
 \begin_inset space \space{}
@@ -213,31 +215,29 @@ dysgalactiae
 
 equisimilis
 \emph default
- (SDE) has long been thought of as a veterinary pathogen, but recent evidence
- suggests that it can cause serious and life-threatening human diseases
- traditionally associated with SPY.
+ (SDE) has long been thought of as a veterinary pathogen, but evidence has
+ emerged that it can cause serious and life-threatening human diseases tradition
+ally associated with SPY.
  Because these two species cohabit the same ecological niche, genetic exchanges
  between the two groups are likely.
- In this study we explore patterns of recombination between these species,
- as well as rates of duplication, loss, and transfer.
- One question we are trying to address is whether these genetic exchanges
- from SPY to SDE could have played a role in the formation of pathogenicity
- of SDE.
- Previous studies were limited to housekeeping genes partly because of a
- lack of methods for studying bacterial recombination on the genome scale,
- and partly due to unavailability of relevant bacterial genomes.
- The results enable us to create a map of recombination rates across each
+ In this study we explore patterns of recombination in these species, as
+ well as duplication, loss, and transfer of their genes.
+ We attempt to address a question of whether genetic exchanges from SPY
+ to SDE could have played a role in the formation of pathogenicity of SDE.
+ Previous studies were limited to relatively small portion of a genome partly
+ because of lack of methods for studying bacterial recombination on the
+ genome scale, and partly due to unavailability of relevant bacterial genomes.
+ The results enabled us to create a map of recombination rates across each
  genome.
- We observe high variation in recombination rates, including several loci
+ We observed high variation in recombination rates, including several loci
  which seem to be hotspots for bacterial recombination.
- We find that there appears to be more gene flow from SPY to SDE than in
- the other direction.
- We find that duplications are most often species-specific.
+ We found that there appeared to be relatively more genomic flow from SPY
+ to SDE than in the other direction.
+ We found that duplications are most often species-specific.
   Many gene losses likely represent horizontal transfers that replace the
  native gene sequence.
- A gene ontology (GO) analysis suggests that categories having to do with
- sugar phosphotransferase and fatty acid biosynthesis may be enriched for
- high levels of recombination.
+ Gene ontology analyses suggested that sugar phosphotransferase and fatty
+ acid biosynthesis were enriched for higher levels of bacterial recombination.
  
 \end_layout
 
@@ -250,6 +250,10 @@ ce genes?]
 \begin_layout Standard
 [Did we find that the SPY and SDE exchange genetic segments across the entire
  genomes not just housekeeping genes?]
+\end_layout
+
+\begin_layout Standard
+[What are those genes that underwent transfer?]
 \end_layout
 
 \begin_layout Standard
@@ -337,13 +341,17 @@ Chlamydophila pneumoniae
 \emph on
 Haemophilus influenzae
 \emph default
-, to name a few (CITE).
+, to name a few.
  
 \emph on
-Streptococcus pyogenes
+S.
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  (SPY) belonging to group A streptococci (GAS) primarily infect humans in
- the throat and skin of humans 
+ the throat and skin 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Broyles2009"
@@ -355,7 +363,7 @@ key "Broyles2009"
  mild illnesses such as pharyngitis to severe invasive streptococcal diseases
  including necrotizing fasciitis and toxic shock syndrome 
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citep
 key "Cunningham2000a"
 
 \end_inset
@@ -414,7 +422,7 @@ key "Davies2007a"
 \end_layout
 
 \begin_layout Standard
-Lateral gene transfers in bacteria are so prevalent, and lack of gene exchanges
+As lateral gene transfers in bacteria are prevalent, lack of gene exchanges
  can be considered unusual in bacterial evolution 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -433,9 +441,8 @@ key "Thomas2005"
 \end_inset
 
 .
- Horizontally transferred DNAs through the machanisms can replace their
- endogenous homologs, involving homologous recombination, or can be added
- to their recipient bacterial genomes 
+ Transferred DNAs through the machanisms can either replace their endogenous
+ homologs, or be added to their recipient bacterial genomes 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -444,30 +451,24 @@ key "Lawrence2009"
 \end_inset
 
 .
- The former process involves bacterial recombination, and the latter 
+ The former process involves bacterial recombination, and the latter horizontal
+ transfer of DNA fragments.
+ Note that we discriminate between the two processes through out the manuscript.
+ Both of the processes result in transfer of DNAs from a donor to a recipient.
+ Genes are presumed to be regions of a genome.
+ Although gene transfer by homologous recombination and
 \emph on
-de novo 
+ 
 \emph default
-horizontal transfer of DNA fragments.
- [BE SPECIFIC IN DISTINGUISHING ONE FROM ANOTHER] Although lateral gene
- transfer by homologous recombination and 
-\emph on
-de novo 
-\emph default
-integration has driven bacterial evolution, methodological development has
- hardly been able to properly deal with the important evolutionary force
+horizontal transfer has driven bacterial evolution, methodological development
+ has hardly been able to properly deal with the important evolutionary force
  in bacteria.
  
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
-TION,TRANSFER?]
-\end_layout
-
-\begin_layout Standard
-Phylognetic approaches to understanding evolutionary forces of lateral gene
- transfer could allow analyses of bacterial genomes.
+Phylognetic approaches to understanding evolutionary forces of gene transfer
+ could allow analyses of bacterial genomes.
  Bacterial phylogenetic studies recognized early on that lateral gene transfer
  would complicate analyses of evolutionary relationships of the species
  
@@ -537,6 +538,11 @@ speG
  Despite the reports on direction of gene flow for several regions in the
  genomes it remains to be elusive to determine the degrees to which genomic
  segments flows between the two species and directions of thereof.
+\end_layout
+
+\begin_layout Standard
+[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
+TION,TRANSFER?]
 \end_layout
 
 \begin_layout Standard
