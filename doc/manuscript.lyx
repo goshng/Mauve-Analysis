@@ -222,16 +222,21 @@ ally associated with SPY.
  between the two groups are likely.
  In this study we explore patterns of recombination in these species, as
  well as duplication, loss, and transfer of their genes.
- We attempt to address a question of whether genetic exchanges from SPY
- to SDE could have played a role in the formation of pathogenicity of SDE.
+ We attempt to address a question of whether genetic exchanges between SPY
+ and SDE could have played a role in the formation of pathogenicity of SDE.
  Previous studies were limited to relatively small portion of a genome partly
  because of lack of methods for studying bacterial recombination on the
  genome scale, and partly due to unavailability of relevant bacterial genomes.
- The results enabled us to create a map of recombination rates across each
- genome.
- We observed high variation in recombination rates, including several loci
- which seem to be hotspots for bacterial recombination.
- We found that there appeared to be relatively more genomic flow from SPY
+ The results allowed us to create a map of relative recombination rates
+ across most of parts of the genomes of the two species.
+ We observed high variation in the recombination rates, including several
+ loci which seem to be hotspots for bacterial recombination.
+ [WE NEED TO SUMMARIZE WHAT WE FOUND IN SEVERAL SENTENCES.
+ GENE-WIDE ANALYSIS OF GENE FLOW COULD BE EMPHASIZED.]
+\end_layout
+
+\begin_layout Standard
+We found that there appeared to be relatively more genomic flow from SPY
  to SDE than in the other direction.
  We found that duplications are most often species-specific.
   Many gene losses likely represent horizontal transfers that replace the
@@ -414,61 +419,18 @@ key "Davies2007a"
 \end_inset
 
 .
- Pathogenicity of SDE may have been facilitated by genetic interaction between
- the two species.
- Understanding their genetic exchanges should enhance our knowledge of their
+ The close proximity may allow the two species to interact with each other
+ by exchanging parts of their genomes.
+ Pathogenicity of SDE may have been facilitated by the genetic interaction
+ between the two species.
+ Understanding their genetic exchanges would enhance our knowledge of their
  pathogenic effects on human health.
  
 \end_layout
 
 \begin_layout Standard
-As lateral gene transfers in bacteria are prevalent, lack of gene exchanges
- can be considered unusual in bacterial evolution 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2010b"
-
-\end_inset
-
-.
- Biological mechanisms that induce lateral gene transfer include conjugation
- by plasmid, transduction by bacteriophages, and transformation of naked
- DNA uptake 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Thomas2005"
-
-\end_inset
-
-.
- Transferred DNAs through the machanisms can either replace their endogenous
- homologs, or be added to their recipient bacterial genomes 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Lawrence2009"
-
-\end_inset
-
-.
- The former process involves bacterial recombination, and the latter horizontal
- transfer of DNA fragments.
- Note that we discriminate between the two processes through out the manuscript.
- Both of the processes result in transfer of DNAs from a donor to a recipient.
- Genes are presumed to be regions of a genome.
- Although gene transfer by homologous recombination and
-\emph on
- 
-\emph default
-horizontal transfer has driven bacterial evolution, methodological development
- has hardly been able to properly deal with the important evolutionary force
- in bacteria.
- 
-\end_layout
-
-\begin_layout Standard
-Phylognetic approaches to understanding evolutionary forces of gene transfer
- could allow analyses of bacterial genomes.
+Phylognetic approaches have allowed to better understand evolutionary forces
+ of gene exchange between contemporary species (CITE).
  Bacterial phylogenetic studies recognized early on that lateral gene transfer
  would complicate analyses of evolutionary relationships of the species
  
@@ -489,12 +451,11 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 
 \end_inset
 
-, most of the methods use relatively small portion of bacterial genomes,
- which is unfortunate.
- Because of the difficulty of developing methods and limited resources of
- bacterial genome sequences available, previous experimental researches
+, most of the methods use relatively small portion of bacterial genomes.
+ Likewise, because of the difficulty of developing methods and limited resources
+ of bacterial genome sequences available, previous experimental researches
  in gene exchange between the two pyogeneic species were limited to relatively
- smaller portion of the bacterial genome, mostly focusing on virulence genes
+ small portion of the bacterial genome, mostly focusing on several genes
  
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -503,50 +464,111 @@ key "Kalia2004,Towers2004,Bessen2005"
 \end_inset
 
 .
+ Notably, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007"
+
+\end_inset
+
+ investigated phage 3396 from SDE as a vehicle of gene transfer between
+ SPY and SDE.
  
 \begin_inset CommandInset citation
 LatexCommand citet
-key "Davies2007a"
+key "Davies2009"
 
 \end_inset
 
- tackled a genome-wide profiling of virulence genes of the two species using
- microarrays.
- An earlier attempt at resolving the direction of gene flow between the
- two species unfortunately appeared to be premature 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "see"
-key "Kalia2001"
-
-\end_inset
-
-.
+ also demonstrated that an integrative conjugative element of SDE allowed
+ gene transfer from SDE to other streptococci.
  
 \begin_inset CommandInset citation
-LatexCommand cite
+LatexCommand citet
 key "Sachse2002"
 
 \end_inset
 
- tended to show the gene transfer from SDE to SPY for the downstream of
- the genomic region of 
+ tended to show gene transfer from SDE to SPY for the downstream of the
+ genomic region of 
 \emph on
 speG
 \emph default
 .
- Despite the reports on direction of gene flow for several regions in the
- genomes it remains to be elusive to determine the degrees to which genomic
- segments flows between the two species and directions of thereof.
+ On the contrary, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ attempted to show that the direction of gene transfer from SPY to SDE was
+ more dominant than the other direction, albeit unfortunately appeared to
+ be premature.
+ Because of the previous reports on direction of gene flow for small portion
+ of regions in the genomes it remains to be elusive to determine the genome-wide
+ degrees to which genomic segments flows between the two species and directions
+ of thereof.
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
-TION,TRANSFER?]
+Bacteria evolve vertically and horizontally.
+ Vertically, bacteria evolve clonally: parents pass their genetic contents
+ down to their daughter cells.
+ Mutations during the vertical evolution accumulate, which allows bacterial
+ species to diverge in their genomic contents.
+ Horizontally, bacteria obtain parts of genomes from others via conjugation
+ by plasmid, transduction by bacteriophages, and transformation of naked
+ DNA uptake 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Thomas2005"
+
+\end_inset
+
+.
+ Acquired DNAs can either replace their indigenous homologs, or be added
+ to their recipient bacterial genomes 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lawrence2009"
+
+\end_inset
+
+.
+ The former process involves bacterial recombination, and the latter horizontal
+ transfer of DNA fragments.
+ New functions of bacteria appear to emerge more easily in horizontal way
+ than in vertical way.
+ When one species of bacteria thrives in its environment and another relatively
+ close species starts to cohabit with the indigenous species, some genetic
+ elements in one of the two species would benefit another species.
+ If the two species do not compete with each other, then the increased genetic
+ variation from multiple species would eventually bring advantage to both
+ of the species.
+ Pathogenicity of bacteria should be no exception.
 \end_layout
 
 \begin_layout Standard
-As sequencing costs plummet 
+[DETAILED STUDY OF PATHOGENICITY OF SDE AND SPY] Studying pathogenic gene
+ flow should shed light on the etiology of the bacterial pathogens.
+ Note that we discriminate between the two processes throughout the manuscript.
+ Both of the processes result in gene transfer from a donor to a recipient.
+ Genes are presumed to be parts of regions of a genome not necessarily protein-c
+oding DNAs.
+ 
+\end_layout
+
+\begin_layout Standard
+Although gene transfer by homologous recombination and
+\emph on
+ 
+\emph default
+horizontal transfer has driven bacterial evolution, methodological development
+ has hardly been able to properly deal with the important evolutionary force
+ in bacteria.
+ As sequencing costs plummet 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Mardis2011"
@@ -562,13 +584,9 @@ key "Tettelin2009a"
 \end_inset
 
 .
- With high prevalence of lateral gene transfer via homologous recombination
- and 
-\emph on
-de novo 
-\emph default
-integration in bacteria, values of complete bacterial genomes must not be
- understated 
+ With high prevalence of gene transfer via homologous recombination and
+ horizontal transfer in bacteria, values of complete bacterial genomes must
+ not be understated 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Fraser2002"
@@ -604,13 +622,9 @@ key "Doyon2011"
 \end_inset
 
 .
- The first approach can be used to infer lateral transfer of genomic segments
- due to bacterial recombination, and the second can do similarly due to
- non-recombining 
-\emph on
-de novo
-\emph default
- integration of genic segments.
+ The first approach can be used to infer transfer of genomic segments due
+ to bacterial recombination, and the second can do similarly due to non-recombin
+ing addition of genic segments via horizontal transfer.
 \end_layout
 
 \begin_layout Standard
@@ -667,6 +681,8 @@ Bacillus cereus
 \end_layout
 
 \begin_layout Standard
+[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
+TION,TRANSFER?] 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Doyon2011"
@@ -677,18 +693,11 @@ key "Doyon2011"
  species tree.
  Their implementation, called Mowgli, can infer the most parsimonious gene
  duplication, loss, and transfer events for gene families.
- Laterally transferred genes in Mowgli can replace endogenous homologous
- copies in the recipient bacteria, or can 
-\emph on
-de novo
-\emph default
- integrate into the recipient bacterial genome.
- Mowgli allows study of gene flow events due to nonrecombining 
-\emph on
-de novo
-\emph default
- integration of gene segments, which is fortunate becasue it complement
- ClonalOrigin's capability of inferring gene flow due to bacterial recombination.
+ Transferred genes in Mowgli can replace indigenous homologous copies in
+ the recipient bacteria, or can integrate into the recipient bacterial genome.
+ Mowgli allows study of gene flow events due to non-recombining horizontal
+ transfer of gene segments, which is fortunate becasue it complement ClonalOrigi
+n's capability of inferring gene flow due to bacterial recombination.
  
 \end_layout
 
@@ -701,15 +710,11 @@ The development of methods of analyzing DNA sequences together with recent
  Specifically, we wish to answer to three questions: Firstly, did two species
  exchange genetic segments across the entire genome or parts of the genome?
  What proportion of the genome underwent higher transfer of genes due to
- bacterial recombination and 
-\emph on
-de novo
-\emph default
- integration? Secondly, was the lateral transfer of genes balanced or unbalanced
- if the two pyogenic species exchanged genetic segments? Thirdly, what functiona
-l categories of genes were exchanged more often than others if they exchanged
- genetic material? Were virulence genes exchanged more often than non-virulence
- genes?
+ bacterial recombination or horizontal transfer? Secondly, was the transfer
+ of genes balanced or unbalanced if the two pyogenic species exchanged genetic
+ segments? Thirdly, what functional categories of genes were exchanged more
+ often than others if they exchanged genetic material? Were virulence genes
+ exchanged more often than non-virulence genes?
 \end_layout
 
 \begin_layout Standard
@@ -731,7 +736,7 @@ Methods and Materials
 \end_layout
 
 \begin_layout Standard
-Briefly, a genome data set is described, which was analyzed by 
+A genome data set is described, which was analyzed by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Suzuki2011"
@@ -780,7 +785,7 @@ http://www.atgc-montpellier.fr/Mowgli
 
 .
  We describe postprocessing procedures to summarize the results from analyses
- using ClonalOrigin and Mowgli to answer to our questions.
+ using ClonalOrigin and Mowgli in order to answer to our questions.
  Functional category association with measure of evolutionary events are
  also described.
 \end_layout
@@ -798,7 +803,7 @@ S.
 
 pyogenes
 \emph default
-, and one of 
+ (SPY), and two of 
 \emph on
 S.
 \begin_inset space \space{}
@@ -814,7 +819,7 @@ dysgalactiae
 
 equisimilis
 \emph default
- were downloaded from GenBank with accessions: NC_004070 
+ (SDE) were downloaded from NCBI with accessions: NC_004070 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Beres2002"
@@ -828,31 +833,22 @@ key "Beres2006"
 
 \end_inset
 
-, and NC_012891 
+, NC_012891 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Shimomura2011"
 
 \end_inset
 
+, and CP002215 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Suzuki2011"
+
+\end_inset
+
 .
- Additional two genomes, each of 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- and 
+ One genome of 
 \emph on
 S.
 \begin_inset space \space{}
@@ -868,14 +864,14 @@ dysgalactiae
 
 dysgalactiae
 \emph default
- were provided by 
+ was provided by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Suzuki2011"
 
 \end_inset
 
- with accession identifiers of CP002215 and SddyATCC27957, respectively.
+ with accession identifiers of SddyATCC27957.
  We refer the two genomes of NC_004070 and NC_008024 as SPY1 and SPY2, respectiv
 ely.
  The two genomes of CP002215 and NC_012891 are referred to as SDE1 and SDE2,
@@ -946,18 +942,8 @@ key "Didelot2007"
  Eight independent runs of ClonalFrame's Markov chain Monte Carlo (MCMC)
  were executed with a total generation of chains being 20,000.
  The first 10,000 generations were discarded as burn-in.
- The results of the eight different runs produced similar estimates of the
- species tree.
- We chose one of the eight estimates as the species tree of the five streptococc
-us genomes in ClonalOrigin analysis.
- The reference species tree was inferred by ClonalFrame 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2007"
-
-\end_inset
-
-, and was in agreement with the one used by 
+ The results of the eight different runs produced comparable estimates of
+ the species tree, each of which was in agreement with the one used by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Suzuki2011"
@@ -965,19 +951,8 @@ key "Suzuki2011"
 \end_inset
 
 .
- We have utilized the ClonalOrigin software 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2010"
-
-\end_inset
-
- to study patterns of recombination between five Streptococcus genomes.
- ClonalOrigin takes a reference species tree and uses an MCMC framework
- to add recombinant edges to the tree, exploring a state space of possible
- ancestral recombination graphs (ARGs).
- Each recombinant edge represents transfer of genetic material from a donor
- genome to a recipient genome.
+ We chose one of the eight estimates as the species tree of the five streptococc
+us genomes in a subsequent ClonalOrigin analysis.
  ClonalOrigin of subversion r19 released on October 1st 2010 was downloaded
  from 
 \begin_inset Flex URL
@@ -991,6 +966,9 @@ http://clonalorigin.googlecode.com/svn/trunk
 \end_inset
 
 .
+ ClonalOrigin takes a reference species tree and uses an MCMC framework
+ to add recombinant edges to the tree, exploring a state space of possible
+ ancestral recombination graphs (ARGs).
  Two stages of MCMC with ClonalOrigin were employed as described in 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1024,36 +1002,20 @@ Number of recombinant edges
 \end_layout
 
 \begin_layout Standard
-We call a recombinant tree a species tree with recombinant edges attached
+The result of the second stage of ClonalOrigin MCMC was a posterior sample
+ of sets of recombinant edges.
+ We call a recombinant tree a species tree with recombinant edges attached
  to the species tree.
- Aspects of overall recombination intensity between a donor species and
- a recipient can be captured by the observed number of recombination events
- relative to the prior expected number of recombination events.
- Regardless of the start and end positions of recombinant edges along the
- genome alignment, the number of recombinant edges indicates the degree
- to which the clonal species tree is disrupted by bacterial recombination.
- By counting recombinant edges based on their departing and arrival branches
- of a species tree 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- inferred relative strengths of bacterial recombination events.
- They summarized the number of recombination events inferred relative to
- its expected number under the prior of the ClonalOrigin model given recombinati
-on rate for each pair of donor and recipient branches.
- We applied the method to the five streptococcus genomes to infer which
- types of bacterial recombination were more prevalent than which other types.
- Note that departure branches are donors, and arrival branches are recipients.
- Of more interest in our study is if there are unbalanced recombination
- events between two clades of SPY and SDE.
- 
-\end_layout
-
-\begin_layout Subsection
-Surrogate measure of recombination intensity
+ We summarize the posterior sample to examine aspects of recombinant trees.
+ First, we counted recombinant edges regardless of the start and end positions
+ of the corresponding bacterial recombinations.
+ Number of recombination events were calculated for each of pairs of donor
+ and recipient branches of the reference species tree.
+ The number of recombinant edges would indicate the degree to which the
+ clonal species tree was disrupted by bacterial recombination.
+ We could compare number of recombination events from different pairs of
+ donor and recipient.
+ This would give us insight into relative strength of genome-wide gene flow.
 \end_layout
 
 \begin_layout Standard
@@ -1063,11 +1025,39 @@ key "Didelot2010"
 
 \end_inset
 
+ inferred this relative strengths of bacterial recombination events.
+ They summarized the number of recombination events inferred relative to
+ its expected number under the prior of the ClonalOrigin model given recombinati
+on rate for each pair of donor and recipient branches.
+ We applied the method to the five streptococcus genomes to infer which
+ types of bacterial recombination were more prevalent than which other types.
+ Note that departure branches are donors, and arrival branches are recipients.
+ Of more interest in here our study is if there are unbalanced recombination
+ events between two clades of SPY and SDE.
+\end_layout
+
+\begin_layout Subsection
+Surrogate measure of recombination intensity
+\end_layout
+
+\begin_layout Standard
+Counting number of recombinant edges ignored the genomic locations affected
+ by recombinations.
+ The number of recombinant edges would vary along a genome.
+ We considered genomic locations that were affect by particular recombinations
+ in order to quantify variation of recominations along a genome.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
  summarized recombination events along a genome by measuring the effect
  of donor branches on a recipient species tree branch.
  By following their idea of summarizing recombination events along genomic
- locations we attempted to measure recombination intensity along genomic
- locations.
+ locations we attempted to measure surrogate recombination intensity along
+ genomic locations.
  Our surrogate measure of recombination intensity is not biologically meaningful.
  Yet, we hope that the measure can discriminate between relative intensity
  values of bacterial recombination along a genome.
@@ -3653,6 +3643,17 @@ key "Bessen2010"
 Two more alignment blocks were excluded from a downstream analysis because
  the first stage of Markov chain Monte Carlo (MCMC) with ClonalOrigin was
  not finished within a month of computation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007a"
+
+\end_inset
+
+ tackled a genome-wide profiling of virulence genes of the two species using
+ microarrays.
 \end_layout
 
 \end_body
