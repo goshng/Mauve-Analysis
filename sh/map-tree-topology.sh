@@ -114,7 +114,8 @@ function map-tree-topology {
         perl pl/$FUNCNAME.pl \
           -ricombined $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined \
           -ingene $RUNANALYSIS/in.gene \
-          -treetopology $TREETOPOLOGY 
+          -treetopology $TREETOPOLOGY \
+          -verbose
         echo "Check file $RUNANALYSIS/in.gene"
       else
         echo -e "  Skipping counting number of gene tree topology changes..." 

@@ -11,7 +11,7 @@
 # the replicates.
 function prepare-run-2nd-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -22,6 +22,9 @@ function prepare-run-2nd-clonalorigin {
       echo -e "Which replicate set of ClonalOrigin output files?"
       echo -n "ClonalOrigin REPLICATE ID: " 
       read REPLICATE
+      echo -e "Which replicate set of ClonalOrigin's 1st stage output files?"
+      echo -n "ClonalOrigin1 REPLICATE ID: " 
+      read REPLICATECLONALORIGIN1
       echo -n "Brunin: "
       read BURNIN 
       echo -n "ChainLength: "
@@ -29,10 +32,10 @@ function prepare-run-2nd-clonalorigin {
       echo -n "Thin: "
       read THIN
       set-more-global-variable $SPECIES $REPETITION
-      if [ -f "$RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" ]; then
-        MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-        MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
-        MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      if [ -f "$RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt" ]; then
+        MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt | cut -d ":" -f 2)
+        MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt | cut -d ":" -f 2)
+        MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt | cut -d ":" -f 2)
         echo -e "  Preparing 2nd clonalorigin ... "
 
         SPECIESTREE=clonaltree.nwk
@@ -56,7 +59,7 @@ function prepare-run-2nd-clonalorigin {
         echo -e "$ bash batch.sh 3"
         echo -e "to use three computing nodes!"
       else
-        echo "No summary file called $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt" 1>&2
+        echo "No summary file called $RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt" 1>&2
       fi
       break
     fi

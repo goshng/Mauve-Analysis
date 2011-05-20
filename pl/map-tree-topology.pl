@@ -218,12 +218,17 @@ sub get_number_topology_change ($$$$)
   {
     chomp;
     my @e = split /\t/;
+    my @eGene = @e[$start .. $end]; 
+    my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @eGene;
+    my $numberUniqueTopology = scalar (@uniquE);
+    $vCountTopology += $numberUniqueTopology;
     my $anyTopologyChange = 0;
+    my $numberChangeTopology = 0;
     for (my $i = $start; $i < $end; $i++)
     {
       if ($e[$i] != $e[$i+1])
       {
-        $v++;
+        $numberChangeTopology++; 
         $anyTopologyChange++; 
       }
       if ($e[$i] != $treetopoogy)
@@ -231,18 +236,21 @@ sub get_number_topology_change ($$$$)
         $vTopology++;
       }
     }
+    die "$numberUniqueTopology must be less than $numberChangeTopology by 2"
+      unless $numberChangeTopology + 2 > $numberUniqueTopology;
+    $v += $numberChangeTopology; 
+
     if ($e[$end] != $treetopoogy)
     {
       $vTopology++;
     }
-    my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @e;
-    $vCountTopology += scalar (@uniquE);
     if ($anyTopologyChange > 0)
     {
       $vTopologyChange++; 
     }
     $sampleSize++;
   } 
+  # $v $vCountTopology
   close RI;
   $v /= ($end - $start);
   $v /= $sampleSize;

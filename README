@@ -24,16 +24,28 @@ To Do
 . RI2(number of unquie topologies) for genes of SPY1
 
 .s16
-. Done next analysis?
+. Do next analysis? - all things that were done with s14?
 
 .s15
 . Not perfect runs, I use a partial run.
 
 .cornellf/3/run-clonalorigin/output/2
-. is running
+. is running (87 and 225 were not finished)
 
 .cornellf/3/run-clonalorigin/output2/2
-. Not yet started
+. is running
+
+.Genes with high values of recombination and each of them.
+. Colocalization of genes?
+
+Thu May 19 20:46:00 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cornellf/3 2nd stage of CO (or ClonalOrigin) runs started or submitted to CAC
+cluster, and the jobs are waiting in the queue.
+----
+cornellf/3/run-clonalorigin/output2/2
+----
 
 Tue May 17 09:00:56 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
