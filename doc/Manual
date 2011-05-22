@@ -7,7 +7,7 @@ Quick Start
 -----------
 Here is a short quick start.
 
-.A procedure to do
+.A procedure to initialize *mauve-analysis*
 . Configure it by editting +conf/README.template+ and renaming it +README+
 . Execute the menu *init-file-system* by executing +sh/run.sh+
 
@@ -48,6 +48,9 @@ REPETITION3-TREETOPOLOGY
 . Execute the menu *map-tree-topology*
 .. The procedure of *map-tree-topology* tends to be slow (1 day in a local
 computer)
+
+.A procedure to check the first surrogate mesure of recombination intensity
+. Execute the menu *sim2-receive* 
 
 Configuration File
 ------------------

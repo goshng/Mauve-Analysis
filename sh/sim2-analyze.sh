@@ -8,7 +8,7 @@
 # 3. The recombination intensity.
 # I need to come back here because I need to change wargsim to simulate data
 # given recombinant edges.
-function analyze-run-clonalorigin2-simulation {
+function sim2-analyze {
   PS3="Choose the simulation result of clonalorigin: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -19,37 +19,9 @@ function analyze-run-clonalorigin2-simulation {
          || [ "$SPECIES" == "s12" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
-      SPECIESFILE=species/$SPECIES
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-
-      echo -n "  Reading REPLICATE from $SPECIESFILE..."
-      HOW_MANY_REPLICATE=$(grep Replicate $SPECIESFILE | cut -d":" -f2)
-      if [ "$HOW_MANY_REPLICATE" == "" ]; then
-        HOW_MANY_REPLICATE=0
-        echo " $HOW_MANY_REPLICATE"
-        echo "  No Replicate is specified at $SPECIESFILE!" 
-        echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) "
-        read REPLICATE
-        REPLICATES=($REPLICATE)
-      else
-        echo " $HOW_MANY_REPLICATE"
-        eval "REPLICATES=({1..${HOW_MANY_REPLICATE}})"
-      fi
-
-      echo -n "  Reading INBLOCK from $SPECIESFILE..."
-      INBLOCK=$(grep InBlock $SPECIESFILE | cut -d":" -f2)
-      echo " $INBLOCK"
-     
-      echo -n "  Counting blocks from $INBLOCK..."
-      NUMBER_BLOCK=$(echo `cat simulation/$INBLOCK | wc -l`)
-      echo " $NUMBER_BLOCK"
-
-      echo -n "  Reading NUMBER_SPECIES from $SPECIESFILE..."
-      NUMBER_SPECIES=$(grep NumberSpecies $SPECIESFILE | cut -d":" -f2)
-      echo " $NUMBER_SPECIES"
+      read-species
 
       BASEDIR=$OUTPUTDIR/$SPECIES
       BASERUNANALYSIS=$BASEDIR/run-analysis
@@ -79,7 +51,7 @@ function analyze-run-clonalorigin2-simulation {
                 -s $NUMBER_SPECIES \
                 -obsonly \
                 -endblockid \
-                > $BASERUNANALYSIS/$SPECIES-heatmap.txt
+                > $BASERUNANALYSIS/$SPECIES-heatmap.txt # obsonly?
               echo "Creating $BASERUNANALYSIS/$SPECIES-heatmap.txt"
             else
               perl pl/compute-heatmap-recedge.pl \
@@ -88,7 +60,7 @@ function analyze-run-clonalorigin2-simulation {
                 -s $NUMBER_SPECIES \
                 -obsonly \
                 -endblockid \
-                >> $BASERUNANALYSIS/$SPECIES-heatmap.txt
+                >> $BASERUNANALYSIS/$SPECIES-heatmap.txt # obsonly?
               echo "Appending $BASERUNANALYSIS/$SPECIES-heatmap.txt"
             fi
             echo "Repeition $g - $REPLICATE"

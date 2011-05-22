@@ -2795,5 +2795,877 @@ Import rates for JCVI role categories.
 image::figure4.png[Functional categories]
 \end_layout
 
+\begin_layout Section
+Recent studies and other references
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Luo2011"
+
+\end_inset
+
+: Genome sequencing of 
+\emph on
+Escherichia coli
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Retchless2007"
+
+\end_inset
+
+: Fragmented Speciation Model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Zhaxybayeva2006"
+
+\end_inset
+
+: embedded quartet decomposition analyses (EQDA), a method of detection
+ of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Abby2010"
+
+\end_inset
+
+: a method of detection of lateral gene transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Alekseyev2008,Alekseyev2008a"
+
+\end_inset
+
+: a method of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Angiuoli2011"
+
+\end_inset
+
+: a method of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Anisimova2007"
+
+\end_inset
+
+: a study of Streptococcus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ane2011"
+
+\end_inset
+
+: a method of gene tree /species tree reconciliation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Arnold2011"
+
+\end_inset
+
+: a recent study in a bacterial genome.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2007"
+
+\end_inset
+
+: a simulator of genome evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Beiko2009"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bellanger2009"
+
+\end_inset
+
+: an example of HGT biological entity - Integrative and conjugative elements
+ (ICE).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Chen2010"
+
+\end_inset
+
+: a review of genome alignment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cohen2010"
+
+\end_inset
+
+: a study of HGT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Csuros2009"
+
+\end_inset
+
+: a study of gene gain and loss, duplication, and transfer?
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cunningham2000a"
+
+\end_inset
+
+: about streptococcal diseases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cutter2011"
+
+\end_inset
+
+: a study of recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2008"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Darling2007"
+
+\end_inset
+
+: a tutorial of mauve in analyzing bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2005,Davies2009"
+
+\end_inset
+
+: studies on genetic flow of SDE.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Graham2005"
+
+\end_inset
+
+: a method of detection of recombination breakpoints.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hamady2006"
+
+\end_inset
+
+: a study of HGT and recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hanage2006"
+
+\end_inset
+
+: how to make this study more interesting? Tug of war between recombination
+ and gene gain/duplication/loss/transfer.
+ Tests of bacterial evolutionary models (fragmented speciation model).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hao2004,Hao2006,Hao2008"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Marri2006"
+
+\end_inset
+
+: Hao and Golding's methods in gene gain/loss/transfer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Holden2009,Holden2009a"
+
+\end_inset
+
+: a study of virulence of Streptococcus suis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hondorp2007"
+
+\end_inset
+
+: a study of GAS, PTS ...
+ may be interesting to read.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Husmeier2001,Husmeier2002"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Iwasaki2007"
+
+\end_inset
+
+: a study of gene content.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kedzierska2006"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kettler2007"
+
+\end_inset
+
+: a paper that may be worth reading.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "King2005a"
+
+\end_inset
+
+: a study of virulence gene and recombination.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Koonin2008"
+
+\end_inset
+
+: a review of bacterial genomes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lajoie2010"
+
+\end_inset
+
+: a study of genome rearrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lanie2007"
+
+\end_inset
+
+: a genome sequence of Streptococcus pneumoniae.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Larget2005"
+
+\end_inset
+
+: a study of genome rearrangement - it seems out of control to add genome
+ arrangement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lee2008"
+
+\end_inset
+
+: a study of recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Li2009"
+
+\end_inset
+
+: a study of gene gain and loss.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Majewski2000"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nielsen1998"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sorek2007"
+
+\end_inset
+
+: a maybe interesting mechanism of genetic barrier between bacterial species.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McMillan2007,McMillan2010,McMillan2010b"
+
+\end_inset
+
+: studies on SDE and SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "McShan2008"
+
+\end_inset
+
+: genome paper of SPY.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Miklos2003,Miklos2009"
+
+\end_inset
+
+: genome arragnement.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Minin2005"
+
+\end_inset
+
+: recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Musser2005,Musser2009"
+
+\end_inset
+
+: Musser's studies on GAS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Neumann2010"
+
+\end_inset
+
+: tRNA aminoacylation ...
+ experimential evolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pepperell2011"
+
+\end_inset
+
+: bacteria and gene flow.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Pinho2010"
+
+\end_inset
+
+: a maybe interesting story.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Quinolone resistance is an emerging problem in Streptococcus pyogenes, and
+ recombination with Streptococcus dysgalactiae DNA has been implicated as
+ a frequent mechanism leading to resistance.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Perez-Losada2006"
+
+\end_inset
+
+: recombination and mutation rate ratio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Roberts2010,Roberts2007"
+
+\end_inset
+
+: RMS database.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Robinson2003"
+
+\end_inset
+
+: chromosomal deletion in S.
+ mutans.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Rosas-Magallanes2006"
+
+\end_inset
+
+: a study of virulence gene transfer in M.
+ tuberculosis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Simonson2005"
+
+\end_inset
+
+: HGT study.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sinsheimer2003"
+
+\end_inset
+
+: Recombination detection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ward2009"
+
+\end_inset
+
+: a study of Streptococcus genome.
+\end_layout
+
+\begin_layout Standard
+----------
+\end_layout
+
+\begin_layout Standard
+.
+ Ahmad et al.
+ 2009.
+ J Clin Microbiol.
+ 2009 July; 47(7): 2046–2054.
+ Published online 2009 April 22.
+ doi: 10.1128/JCM.00246-09.
+\end_layout
+
+\begin_layout Standard
+.
+ Cohan, F.
+ M.
+ 2001.
+ Bacterial species and speciation.
+ Syst.
+ Biol.
+ 50:513–524.
+\end_layout
+
+\begin_layout Standard
+.
+ Enright, R.
+ Goldstein, D.
+ Hood, A.
+ Kalia, C.
+ E.
+ Moore, J.
+ Zhou, and B.
+ G.
+\end_layout
+
+\begin_layout Standard
+Spratt.
+ 2001.
+ Recombination within natural populations of pathogenic bacteria:
+\end_layout
+
+\begin_layout Standard
+short-term empirical estimates and long-term phylogenetic consequences.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+ USA 98:182–187.
+ [NOT YET READ]
+\end_layout
+
+\begin_layout Standard
+.
+ Feil, E.
+ J., E.
+ C.
+ Holmes, D.
+ E.
+ Bessen, M.-S.
+ Chan, N.
+ P.
+ J.
+ Day, M.
+ C.
+ Enright, R.
+ Goldstein, D.
+ Hood, A.
+ Kalia, C.
+ E.
+ Moore, J.
+ Zhou, and B.
+ G.
+ Spratt.
+ 2001.
+ Recombination within natural populations of pathogenic bac- teria: short-term
+ empirical estimates and long-term phylogenetic conse- quences.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+ 98:182–187.
+\end_layout
+
+\begin_layout Standard
+.
+ Nigel Goldenfeld, and Carl Woese.
+ Biology's next revolution.
+ Nature 445, 369 (25 January 2007)
+\end_layout
+
+\begin_layout Standard
+.
+ Jeffrey G.
+ Lawrence.
+ Gene Transfer in Bacteria: Speciation without Species? 
+\end_layout
+
+\begin_layout Standard
+Theoretical Population Biology 61, 449–460 (2002) doi:10.1006/tpbi.2002.1587
+\end_layout
+
+\begin_layout Standard
+.
+ Johnson PLF, Slatkin M (2009) Inference of Microbial Recombination Rates
+ from
+\end_layout
+
+\begin_layout Standard
+Metagenomic Data.
+ PLoS Genet 5(10): e1000674.
+ doi:10.1371/ journal.pgen.1000674
+\end_layout
+
+\begin_layout Standard
+.
+ Kalia, A., B.
+ G.
+ Spratt, M.
+ C.
+ Enright, and D.
+ E.
+ Bessen.
+ 2002.
+ Influence of
+\end_layout
+
+\begin_layout Standard
+recombination and niche separation on the population genetic structure of
+ the
+\end_layout
+
+\begin_layout Standard
+pathogen Streptococcus pyogenes.
+ Infect.
+ Immun.
+ 70:1971–1983 [NOT YET READ]
+\end_layout
+
+\begin_layout Standard
+.
+ Bethany N.
+ Kent, Leonidas Salichos, John G.
+ Gibbons, Antonis Rokas, Irene L.G.
+\end_layout
+
+\begin_layout Standard
+Newton, Michael E.
+ Clark, and Seth R.
+ Bordenstein
+\end_layout
+
+\begin_layout Standard
+Complete Bacteriophage Transfer in a Bacterial Endosymbiont (Wolbachia)
+\end_layout
+
+\begin_layout Standard
+Determined by Targeted Genome Capture
+\end_layout
+
+\begin_layout Standard
+Genome Biol Evol first published online February 2, 2011 doi:10.1093/gbe/evr007
+\end_layout
+
+\begin_layout Standard
+.
+ Kilian M, Poulsen K, Blomqvist T, Håvarstein LS, Bek-Thomsen M, et al.
+ (2008) Evolution of Streptococcus pneumoniae and Its Close Commensal Relatives.
+ PLoS ONE 3(7): e2683.
+ doi:10.1371/journal.pone.0002683
+\end_layout
+
+\begin_layout Standard
+.
+ Maiden, M.
+ C.
+ J., J.
+ A.
+ Bygraves, E.
+ Feil, G.
+ Morelli, J.
+ E.
+ Russell et al.,
+\end_layout
+
+\begin_layout Standard
+1998 Multilocus sequence typing: a portable approach to the identification
+ of
+\end_layout
+
+\begin_layout Standard
+clones within populations of pathogenic mi- croorganisms.
+ Proc.
+ Natl.
+ Acad.
+ Sci.
+\end_layout
+
+\begin_layout Standard
+USA 95: 3140–3145.
+\end_layout
+
+\begin_layout Standard
+.
+ The Gene Ontology.
+\end_layout
+
+\begin_layout Standard
+Consortium Gene Ontology: tool for the unification of biology.
+ (2000) Nature Genet.
+ 25: 25-29 
+\end_layout
+
+\begin_layout Standard
+.
+ Feil, E.
+ J., E.
+ C.
+ Holmes, D.
+ E.
+ Bessen, M.-S.
+ Chan, N.
+ P.
+ J.
+ Day, M.
+ C.
+\end_layout
+
+\begin_layout Standard
+.
+ Zúñiga, M.; Comas, I.; Linaje, R.; Monedero, V.; Yebra, M.
+ J.; Esteban, C.
+ D.;
+\end_layout
+
+\begin_layout Standard
+Deutscher, J.; Pérez-Martínez, G.
+ & González-Candelas, F., 2005 Horizontal gene
+\end_layout
+
+\begin_layout Standard
+transfer in the molecular evolution of mannose PTS transporters.
+ Mol Biol Evol
+\end_layout
+
+\begin_layout Standard
+22: 1673-1685.
+\end_layout
+
+\begin_layout Standard
+[Some Notes]
+\end_layout
+
+\begin_layout Standard
+Bacterial recombination could be beneficial to bacteria that acquire genetic
+ material that could be selectively advantageous 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Vos2009"
+
+\end_inset
+
+.
+ Yet, certain virulence genes appear to have originated from one to another,
+ and vice versa 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bessen2010"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Two more alignment blocks were excluded from a downstream analysis because
+ the first stage of Markov chain Monte Carlo (MCMC) with ClonalOrigin was
+ not finished within a month of computation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007a"
+
+\end_inset
+
+ tackled a genome-wide profiling of virulence genes of the two species using
+ microarrays.
+\end_layout
+
 \end_body
 \end_document

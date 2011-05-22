@@ -4,7 +4,7 @@
 # Analyzes the 2nd stage of clonal origin simulation
 # --------------------------------------------------
 #
-function analyze-run-clonalorigin2-simulation2-analyze {
+function sim3-analyze {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -14,6 +14,7 @@ function analyze-run-clonalorigin2-simulation2-analyze {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -25,6 +26,10 @@ function analyze-run-clonalorigin2-simulation2-analyze {
       read WANT
       if [ "$WANT" == "y" ]; then
         echo "Generating true XML..."
+
+        PROCESSEDTIME=0
+        TOTALITEM=$(( $HOW_MANY_REPETITION * $NUMBER_BLOCK ));
+        ITEM=0
         for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
           RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
           mkdir -p $RITRUE
@@ -34,7 +39,13 @@ function analyze-run-clonalorigin2-simulation2-analyze {
               -ingene $BASERUNANALYSIS/in.gene \
               -blockid $BLOCKID \
               -out $RITRUE/$BLOCKID
-            echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK\r"
+            ENDTIME=$(date +%s)
+            ITEM=$(( $ITEM + 1 ))
+            ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+            PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+            REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+            REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+            echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK - more $REMAINEDTIME min to go\r"
           done
         done
         echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes"
@@ -61,25 +72,7 @@ function analyze-run-clonalorigin2-simulation2-analyze {
         done
       done
       echo "Check $OUTFILE"
-      
-exit 
-
-      for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-        RIFILES="" 
-        RTFILE=$BASEDIR/$REPETITION/run-clonalorigin/output2/$REPETITION.rt
-        for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
-          RIS="" 
-          RIFILE=$BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE.ri
-          for i in $(eval echo {1..$NUMBER_BLOCK}); do
-            RIS="$RIS $BASEDIR/$REPETITION/run-clonalorigin/output2/ri-$REPLICATE/$i" 
-          done
-          paste $RIS > $RIFILE
-          RIFILES="$RIFILES $RIFILE"
-        done
-        cat $RIFILES > $RTFILE
-      done
     fi
     break
   done
 }
-

@@ -1053,7 +1053,7 @@ source sh/heatmap-compute.sh
 source sh/heatmap-get-observed.sh
 source sh/compute-global-median.sh
 source sh/simulate-data-clonalorigin2-prepare.sh 
-source sh/analyze-run-clonalorigin2-simulation.sh 
+source sh/sim2-analyze.sh 
 source sh/divide-simulated-xml-data.sh
 source sh/divide-simulated-xmfa-data.sh
 source sh/simulate-data-clonalorigin2.sh
@@ -1065,14 +1065,14 @@ source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
 source sh/prepare-run-compute-heatmap-recedge.sh
 source sh/analyze-run-clonalorigin2-simulation2.sh 
-source sh/analyze-run-clonalorigin2-simulation2-prepare.sh 
-source sh/analyze-run-clonalorigin2-simulation2-receive.sh 
-source sh/analyze-run-clonalorigin2-simulation2-analyze.sh 
+source sh/sim3-prepare.sh 
+source sh/sim3-receive.sh 
+source sh/sim3-analyze.sh 
 source sh/create-ingene.sh
 source sh/convert-gff-ingene.sh 
 source sh/locate-gene-in-block.sh
 source sh/clonalorigin2-simulation3.sh
-source sh/clonalorigin2-simulation3-prepare.sh
+source sh/sim4-prepare.sh
 source sh/clonalorigin2-simulation3-receive.sh
 source sh/clonalorigin2-simulation3-analyze.sh
 source sh/clonalorigin2-simulation3-each-block.sh
@@ -1099,22 +1099,21 @@ CHOICES=( init-file-system \
           simulate-data-clonalorigin1-prepare \
           simulate-data-clonalorigin1-receive \
           simulate-data-clonalorigin1-analyze \
-          --- SIMULATION2-1 ---\
+          --- SIMULATION2 ---\
           simulate-data-clonalorigin2 \
           simulate-data-clonalorigin2-prepare \
-          simulate-data-clonalorigin2-receive \
+          sim2-receive \
+          sim2-analyze \
           simulate-data-clonalorigin2-analyze \
-          simulate-data-clonalorigin2-prepare \
-          receive-run-clonalorigin2-simulation \
           analyze-run-clonalorigin2-simulation \
-          --- SIMULATION2-2 ---\
+          --- SIMULATION3 ---\
           analyze-run-clonalorigin2-simulation2 \
-          analyze-run-clonalorigin2-simulation2-prepare \
-          analyze-run-clonalorigin2-simulation2-receive \
-          analyze-run-clonalorigin2-simulation2-analyze \
+          sim3-prepare \
+          sim3-receive \
+          sim3-analyze \
           --- SIMULATION2-3 ---\
           clonalorigin2-simulation3 \
-          clonalorigin2-simulation3-prepare \
+          sim4-prepare \
           clonalorigin2-simulation3-receive \
           clonalorigin2-simulation3-analyze \
           clonalorigin2-simulation3-each-block \
@@ -1196,9 +1195,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "analysis-clonalorigin" ];  then
     analysis-clonalorigin
     break
-  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation" ];  then
-    analyze-run-clonalorigin2-simulation
-    break
+  elif [ "$CHOICE" == "sim2-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-block-length" ];  then
     compute-block-length
     break
@@ -1232,14 +1229,14 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "prepare-run-compute-heatmap-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "map-tree-topology" ]; then $CHOICE; break
   elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-prepare" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-receive" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "analyze-run-clonalorigin2-simulation2-analyze" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim3-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim3-receive" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim3-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "convert-gff-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "locate-gene-in-block" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "clonalorigin2-simulation3-prepare" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim4-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3-each-block" ]; then $CHOICE; break
@@ -1248,7 +1245,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "simulate-data-clonalorigin1" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1-receive" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "receive-run-clonalorigin2-simulation" ]; then
+  elif [ "$CHOICE" == "sim2-receive" ]; then
     simulate-data-clonalorigin1-receive Clonal2ndPhase
     break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1-analyze" ]; then $CHOICE; break

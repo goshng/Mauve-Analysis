@@ -2,7 +2,7 @@
 # Date  : Fri May  6 00:47:41 EDT 2011
 
 # Receives simulation2
-function analyze-run-clonalorigin2-simulation2-receive {
+function sim3-receive {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -12,6 +12,7 @@ function analyze-run-clonalorigin2-simulation2-receive {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 

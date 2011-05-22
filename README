@@ -46,6 +46,11 @@ cluster, and the jobs are waiting in the queue.
 ----
 cornellf/3/run-clonalorigin/output2/2
 ----
+--->
+
+s16's ri or sim3-prepare is submitted to CAC
+---> (2 nodes)
+
 
 Tue May 17 09:00:56 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1027,3 +1032,9 @@ output/cornellf/3/run-analysis/ri1-refgenome4-map.gene
 ----
 /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/in.gene
 ----
+
+.RI1 simulation result
+----
+output/s16/run-analysis/ri.R.ps
+----
+

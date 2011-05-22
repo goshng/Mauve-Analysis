@@ -1,7 +1,7 @@
 # Author: Sang Chul Choi
 # Date  : Sat May  7 23:44:03 EDT 2011
 
-function clonalorigin2-simulation3-prepare {
+function sim4-prepare {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -11,6 +11,7 @@ function clonalorigin2-simulation3-prepare {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -32,11 +33,40 @@ function clonalorigin2-simulation3-prepare {
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
       scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
-      scp -q simulation/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+      scp -q data/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+
+      echo -n "Do you wish to generate mt? (e.g., y/n)"
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        sim4-prepare-mt
+      fi
+
+      echo -n "Do you wish to send mt? (e.g., y/n)"
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        PROCESSEDTIME=0
+        TOTALITEM=$(( $HOW_MANY_REPETITION * $HOW_MANY_REPLICATE ));
+        ITEM=0
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            STARTTIME=$(date +%s)
+            scp -qr $BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE \
+              $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/output2
+            ENDTIME=$(date +%s)
+            ITEM=$(( $ITEM + 1 ))
+            ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+            PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+            REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+            REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+            echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - more $REMAINEDTIME min to go\r"
+          done
+        done
+      fi
 
       echo "  Creating job files..."
-      #$FUNCNAME-jobidfile > $BASEDIR/jobidfile
-      #scp -q $BASEDIR/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/
+      rm -f $BASEDIR/jobidfile
+      clonalorigin2-simulation3-prepare-jobidfile
+      scp -q $BASEDIR/jobidfile $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/
 
       break
     else
@@ -226,20 +256,40 @@ EOF
   scp -q $TASK_SH $CAC_MAUVEANALYSISDIR/output/$SPECIES
 }
 
-function clonalorigin2-simulation3-prepare-jobidfile {
+function sim4-prepare-mt {
+  PROCESSEDTIME=0
+  TOTALITEM=$(( $HOW_MANY_REPETITION * $HOW_MANY_REPLICATE ));
+  ITEM=0
   for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
     for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+      STARTTIME=$(date +%s)
+      mkdir -p $BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE
       for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-        LINE="perl pl/clonalorigin2-simulation3-prepare.pl \
-              -xml $REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID \
-              -out $REPETITION/run-clonalorigin/output2/mt-$REPLICATE/core_co.phase3.xml.$BLOCKID"
-        #echo $LINE
+        LINE="perl pl/sim4-prepare.pl \
+              -xml $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID \
+              -out $BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE/core_co.phase3.xml.$BLOCKID"
+        #echo $LINE >> $BASEDIR/jobidfile
+        $LINE
       done
+      ENDTIME=$(date +%s)
+      ITEM=$(( $ITEM + 1 ))
+      ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+      PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+      REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+      REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+      echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - more $REMAINEDTIME min to go\r"
     done
   done
+}
 
+
+function clonalorigin2-simulation3-prepare-jobidfile {
+  PROCESSEDTIME=0
+  TOTALITEM=$(( $HOW_MANY_REPETITION * $HOW_MANY_REPLICATE ));
+  ITEM=0
   for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
     for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+      STARTTIME=$(date +%s)
       for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
         BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID`)
         NUMBER_SAMPLE=$(echo `grep number $BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID|wc -l`)
@@ -249,9 +299,16 @@ function clonalorigin2-simulation3-prepare-jobidfile {
                 --gene-tree \
                 --out-file $REPETITION/run-clonalorigin/output2/mt-$REPLICATE-out/core_co.phase3.xml.$BLOCKID.$g \
                 --block-length $BLOCKSIZE"
-          echo $LINE
+          echo $LINE >> $BASEDIR/jobidfile
         done
       done
+      ENDTIME=$(date +%s)
+      ITEM=$(( $ITEM + 1 ))
+      ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+      PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+      REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+      REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+      echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - more $REMAINEDTIME min to go\r"
     done
   done
 }

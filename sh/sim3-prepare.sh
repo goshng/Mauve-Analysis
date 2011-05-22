@@ -4,7 +4,7 @@
 # Analyzes the 2nd stage of clonal origin simulation
 # --------------------------------------------------
 #
-function analyze-run-clonalorigin2-simulation2-prepare {
+function sim3-prepare  {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -14,6 +14,7 @@ function analyze-run-clonalorigin2-simulation2-prepare {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -31,13 +32,13 @@ function analyze-run-clonalorigin2-simulation2-prepare {
       analyze-run-clonalorigin2-simulation2-prepare-copy-run-sh
       ssh -x $CAC_USERHOST mkdir -p $CAC_BASEDIR/pl
       ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
-      scp -q pl/$FUNCNAME.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
+      scp -q pl/analyze-run-clonalorigin2-simulation2-prepare.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
-      #scp -q $BASERUNANALYSIS/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+      scp -q data/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/in.block
 
       echo "  Creating job files..."
-      $FUNCNAME-jobidfile \
+      analyze-run-clonalorigin2-simulation2-prepare-jobidfile \
       make-run-list-repeat $g \
         $OUTPUTDIR/$SPECIES \
         $REPLICATE \
@@ -338,7 +339,6 @@ function analyze-run-clonalorigin2-simulation2-prepare-jobidfile {
       for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
         LINE="perl pl/analyze-run-clonalorigin2-simulation2-prepare.pl \
               -xml $REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID \
-              -inblock run-analysis/in.block \
               -ingene run-analysis/in.gene \
               -blockid $BLOCKID \
               -out $REPETITION/run-clonalorigin/output2/ri-$REPLICATE/$BLOCKID"
