@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function clonalorigin2-simulation3-each-block {
+function sim4-each-block {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -10,8 +10,11 @@ function clonalorigin2-simulation3-each-block {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
+      read-species
       SPECIESFILE=species/$SPECIES
+
       echo -n "What is REPETITION? "
       read REPETITION
       echo -n "What is REPLICATE? "
@@ -22,7 +25,7 @@ function clonalorigin2-simulation3-each-block {
       read BLOCKSIZE
 
       BASEDIR=output/$SPECIES
-      TREE=$BASEDIR/$REPETITION/run-clonalorigin/input/$REPLICATE/cornellf-8.tree
+      TREE=$BASEDIR/$REPETITION/run-clonalorigin/input/$REPLICATE/$SPECIESTREE
       XMFA=$BASEDIR/$REPETITION/data/core_alignment.$REPLICATE.xmfa.$BLOCK
       XML=$BASEDIR/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCK
       XMLMTDIR=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE
@@ -31,12 +34,12 @@ function clonalorigin2-simulation3-each-block {
       NUMBER_SAMPLE=$(echo `grep number $XML|wc -l`)
 
       warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
-        -x 1000000 -y 1000000 -z 10000 \
-        -T s0.0749323036174269 -D 614.149554455445 \
-        -R s0.0137842770601471 $TREE $XMFA $XML
+        -x $BURNIN -y $CHAINLENGTH -z $THIN \
+        -T s$THETA_PER_SITE -D $DELTA \
+        -R s$RHO_PER_SITE $TREE $XMFA $XML
 
       mkdir $XMLMTDIR
-      perl pl/clonalorigin2-simulation3-prepare.pl -xml $XML -out $XMLMT
+      perl pl/sim4-prepare.pl -xml $XML -out $XMLMT
 
       for g in $(eval echo {1..$NUMBER_SAMPLE}); do
         $WARGSIM --xml-file $XMLMT.$g --gene-tree --out-file $XMLMTOUT.$g --block-length $BLOCKSIZE

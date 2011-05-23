@@ -1,7 +1,7 @@
 # Author: Sang Chul Choi
 # Date  : Tue May 10 11:12:48 EDT 2011
 
-function clonalorigin2-simulation3-analyze {
+function sim4-analyze {
   PS3="Choose the species to do $FUNCNAME: "
   select SPECIES in ${SIMULATIONS[@]}; do 
     if [ "$SPECIES" == "" ];  then
@@ -11,6 +11,7 @@ function clonalorigin2-simulation3-analyze {
          || [ "$SPECIES" == "s11" ] \
          || [ "$SPECIES" == "s13" ] \
          || [ "$SPECIES" == "s14" ] \
+         || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
@@ -28,7 +29,7 @@ function clonalorigin2-simulation3-analyze {
           mkdir -p $MTTRUE
           mkdir -p $MTOUTTRUE
           for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-            perl pl/clonalorigin2-simulation3-prepare.pl \
+            perl pl/sim4-prepare.pl \
               -xml $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID \
               -out $MTTRUE/core_alignment.xml.$BLOCKID 
 
@@ -88,7 +89,7 @@ function clonalorigin2-simulation3-analyze {
 
           BLOCKSIZE=$(echo `perl pl/get-block-length.pl $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID`)
 
-          PERLCOMMAND="perl pl/clonalorigin2-simulation3-analyze.pl \
+          PERLCOMMAND="perl pl/sim4-analyze.pl \
             -true $MTOUTTRUE/core_alignment.xml.$BLOCKID \
             -estimate $BASEDIR/$REPETITION/run-clonalorigin/output2/mt \
             -numberreplicate $HOW_MANY_REPLICATE \

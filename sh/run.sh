@@ -683,65 +683,6 @@ function compute-watterson-estimate-for-clonalframe {
 # convergence.
 # FIXME: we need a bash function.
 
-# 9. Receive 2nd clonalorigin-analysis.
-# -------------------------------------
-# Instead of checking the convergence of the 2nd stage of ClonalOrigin I check
-# if all of my results are consistent between independent runs.
-function receive-run-2nd-clonalorigin {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
-      echo -e 'What is the temporary id of mauve-analysis?'
-      echo -e "You may find it in the $SPECIES/run-mauve/output/full_alignment.xmfa"
-      echo -n "JOB ID: " 
-      read JOBID
-      set-more-global-variable $SPECIES $REPETITION
-      echo -e "  Making temporary data files...."
-      mkdir-tmp 
-
-
-      echo -n 'Have you already downloaded and do you want to skip the downloading? (y/n) '
-      read WANTSKIPDOWNLOAD
-      if [ "$WANTSKIPDOWNLOAD" == "y" ]; then
-        echo "  Skipping copy of the output files because I've already copied them ..."
-      else
-        echo -e "  Receiving 2nd stage of clonalorigin-output..."
-        mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
-        scp -q $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output2/${REPLICATE}/* \
-          $RUNCLONALORIGIN/output2/${REPLICATE}/
-      fi
-      echo -e "  Zipping output2"
-      for f in $RUNCLONALORIGIN/output2/${REPLICATE}/*phase*; do
-        bzip2 $f
-      done
-
-      # Directory is needed: /tmp/1074429.scheduler.v4linux/input/SdeqATCC12394.gbk
-      echo -n "  Doing AUI ..."
-      DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-        $AUI $DATADIR/core_alignment.xmfa $DATADIR/core_alignment_mauveable.xmfa
-      echo -e " done!" 
-      echo -n "  Doing MWF ..."
-      perl pl/makeMauveWargFile.pl $RUNCLONALORIGIN/output2/${REPLICATE}/*phase3*.bz2
-      echo -e " done!"
-      rmdir-tmp
-      echo -e "  Unzipping output2"
-      for f in $RUNCLONALORIGIN/output2/${REPLICATE}/*phase*; do
-        bunzip2 $f
-      done
-      echo -e "Now, do more analysis with mauve.\n"
-      break
-    fi
-  done
-}
-
 function recombination-intensity3 {
   cat>$RUNANALYSIS/recombination-intensity3.R<<EOF
 x <- read.table ("$RUNANALYSIS/recombination-intensity.txt.sgr")
@@ -1040,11 +981,13 @@ function analysis-clonalorigin {
   done
 }
 
+source sh/progressbar.sh
 source sh/init-file-system.sh
 source sh/choose-simulation.sh 
 source sh/simulate-data-clonalorigin1-prepare.sh
 source sh/simulate-data-clonalorigin1-receive.sh 
 source sh/simulate-data-clonalorigin1-analyze.sh
+source sh/receive-run-2nd-clonalorigin.sh
  
 
 source sh/scatter-plot-parameter.sh
@@ -1073,9 +1016,9 @@ source sh/convert-gff-ingene.sh
 source sh/locate-gene-in-block.sh
 source sh/clonalorigin2-simulation3.sh
 source sh/sim4-prepare.sh
-source sh/clonalorigin2-simulation3-receive.sh
-source sh/clonalorigin2-simulation3-analyze.sh
-source sh/clonalorigin2-simulation3-each-block.sh
+source sh/sim4-receive.sh
+source sh/sim4-analyze.sh
+source sh/sim4-each-block.sh
 source sh/extract-species-tree.sh
 source sh/compute-block-length.sh
 source sh/simulate-data-clonalorigin1.sh
@@ -1111,13 +1054,13 @@ CHOICES=( init-file-system \
           sim3-prepare \
           sim3-receive \
           sim3-analyze \
-          --- SIMULATION2-3 ---\
+          --- SIMULATION4 ---\
           clonalorigin2-simulation3 \
           sim4-prepare \
-          clonalorigin2-simulation3-receive \
-          clonalorigin2-simulation3-analyze \
-          clonalorigin2-simulation3-each-block \
-          --- SIMULATION2-4 ---\
+          sim4-receive \
+          sim4-analyze \
+          sim4-each-block \
+          --- SIMULATION5 ---\
           clonalorigin2-simulation4 \
           --- SIMULATION5 ---\
           simulate-data-clonalorigin2-from-xml \
@@ -1237,9 +1180,9 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "locate-gene-in-block" ]; then $CHOICE; break
   elif [ "$CHOICE" == "clonalorigin2-simulation3" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim4-prepare" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "clonalorigin2-simulation3-receive" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "clonalorigin2-simulation3-analyze" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "clonalorigin2-simulation3-each-block" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim4-receive" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim4-analyze" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim4-each-block" ]; then $CHOICE; break
   elif [ "$CHOICE" == "extract-species-tree" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin2" ]; then $CHOICE; break
   elif [ "$CHOICE" == "simulate-data-clonalorigin1" ]; then $CHOICE; break
