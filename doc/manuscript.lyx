@@ -1418,84 +1418,123 @@ The three main parameters
 \end_layout
 
 \begin_layout Standard
-The three main parameters can be checked: mutation rate, recombination rate,
- and recombinant tract length.
-\end_layout
+Data sets were simulated under the ClonalOrigin model.
+ The three main parameters were set to the values that had been estimated
+ using the five genomes of streptococcus species: the mutation rate per
+ site was 0.080814517322956, the recombination rate per site was 0.011849128789476
+6, and the average recombinant tract length was set to 743.702415841584.
+ There were 274 blocks, lengths of which were the same as those of the real
+ data set.
+ Using the recombination rate and the average recombinant track length we
+ simulated 10 recombinant trees along all of the blocks given the species
+ tree that had been also estimated with ClonalFrame.
+ The mutation rate and each of the recombinant trees were used to simulate
+ 274 alignment blocks with Jukes-Cantor model 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Jukes1969"
 
-\begin_layout Paragraph
-A single block of 10,000 base pairs with 100 repetitions
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\theta_{s}=0.0542$
 \end_inset
 
-, 
-\begin_inset Formula $\rho_{s}=0.00521$
+ of DNA sequence evolution.
+ Note that we employed no insertion-deletion models although there were
+ several approaches available 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Sipos2011"
+
 \end_inset
 
-, 
-\begin_inset Formula $\delta=1425$
+.
+ All of the 10 estimates of the mutation rate and the recombination rate
+ were close to the true parameter value: the mean of the 10 estimates of
+ the mutation rate was 0.08088 (SD 1.106735e-03), and those for the recombination
+ rate was 0.01095 (SD 2.555159e-04).
+ The mean of the 10 estimates of the recombinant tract length was 918.5(SD
+ 28.19219), which was larger than the true value by 175 base pairs.
+ This was not surprising because 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
 \end_inset
 
+ already noted that recombinant tract lengths were difficult to estimate
+ due to relatively short lengths of alignment blocks.
+ As alignment block lengths were increased (e.g., 10,000 base pairs long)
+ with 100 blocks, we could estimate the average recombinant tract length
+ accurately using ClonalOrigin [USE SIMULATION 6].
  
-\end_layout
-
-\begin_layout Standard
-547.167 53.7653 1517.345 chimp:run-analysis goshng$ cat s1.2.out.R.out 536.24 54.92045
- 1568.615 
-\end_layout
-
-\begin_layout Standard
-# REPETITON 3 # ThetaPerSite 0.0542 # RhoPerSite 0.00521 # Delta 1425 # BLOCK
- 1 # 10,000 base pairs
-\end_layout
-
-\begin_layout Paragraph
-A set of 10 blocks of 10,000 base pairs with 50 repetitions
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\theta_{s}=0.0542$
-\end_inset
-
-, 
-\begin_inset Formula $\rho_{s}=0.00521$
-\end_inset
-
-, 
-\begin_inset Formula $\delta=1425$
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
 Number of recombinant edges: surrogate measure of recombination intensity
 \end_layout
 
-\begin_layout Paragraph
-s10
+\begin_layout Standard
+Because of the two stages of MCMC in ClonalOrigin we simulated more data
+ sets to check how well ClonalOrigin inferred recombination events inaddition
+ to the three main parameters.
+ We used the same parameters in the first simulation.
+ We further simulated 10 recombinant trees instead of a single recombinant
+ tree.
+ Each of the recombinant trees was used to simulate 10 sets of 274 alignment
+ blocks with the same DNA sequence evolution model, or Jukes-Cantor model.
+ Because we were not aware of a way to compare two recombinant trees, we
+ could not compare the true recombinant tree with a posterior sample of
+ recombinant trees.
+ We instead compared the three aspects of recombinant trees in the ClonalOrigin
+ model.
+ The three aspects were already exploited in this study: the number of recombina
+tion events between a donor and a recipient, and the two surrogate measures
+ of recombination intensity.
 \end_layout
 
 \begin_layout Standard
-xxx
-\end_layout
-
-\begin_layout Paragraph
-s11
+Comparison between true and estimates of recombination count?
 \end_layout
 
 \begin_layout Standard
-xxx
-\end_layout
 
-\begin_layout Paragraph
-s14
 \end_layout
 
 \begin_layout Standard
-xxx
+Comparsion between estimates from the simulated and the real data sets?
+\end_layout
+
+\begin_layout Standard
+Comparison between true and estimate of RI1 using genes in the blocks?
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ri1"
+
+\end_inset
+
+ shows a scatter plot of genes with their estimated values of the first
+ surrogate measure of recombination intensity against the corresponding
+ true values.
+ Lower values tended to be over-estimated, and higher values tended to be
+ under-estimated.
+ The Pearson's correlation coefficient between true values and estimates
+ was 0.6332794.
+ 
+\end_layout
+
+\begin_layout Standard
+Comparsion between true and estimate of RI2 using genes in the blocks?
+\end_layout
+
+\begin_layout Standard
+Figure fig:ri2 shows a scatter plot of genes with their estimated values
+ of the second surrogate measure of recombination intensity against the
+ corresponding true values.
+ The Pearson's correlation coefficient between true values and estimates
+ was 0.XXX.
 \end_layout
 
 \begin_layout Subsection
@@ -1508,7 +1547,7 @@ ClonalOrigin with splitting time
  I CONSIDER A SIMULATION STUDY WHERE TWO POPULATIONS SHARE A COMMON ANCESTRAL
  POPULATION.
  I DID NOT PURSUE TO MAKE INFERENCE OF THE MODEL, AND YET I WISHED TO TEST
- CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NEW MODEL.]
+ CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NE1W MODEL.]
 \end_layout
 
 \begin_layout Standard
@@ -2626,7 +2665,7 @@ Gene duplication, loss, and transfer.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2732,6 +2771,45 @@ equisimilis
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/ri1.ps
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ri1"
+
+\end_inset
+
+The first surrogate measure of recombination intensity of genes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
