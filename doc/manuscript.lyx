@@ -218,38 +218,44 @@ equisimilis
  (SDE) has long been thought of as a veterinary pathogen, but evidence has
  emerged that it can cause serious and life-threatening human diseases tradition
 ally associated with SPY.
- Because these two species cohabit the same ecological niche, genetic exchanges
- between the two groups are likely.
- In this study we explore patterns of recombination in these species, as
+ Because they cohabit the same ecological niche, genetic exchanges between
+ SPY and SDE are likely.
+ In this study we explored patterns of recombination in these species, as
  well as duplication, loss, and transfer of their genes.
- We attempt to address a question of whether genetic exchanges between SPY
- and SDE could have played a role in the formation of pathogenicity of SDE.
+ We attempted to address a question of whether genetic exchanges between
+ SPY and SDE could have played a role in the formation of pathogenicity
+ of SDE.
  Previous studies were limited to relatively small portion of a genome partly
  because of lack of methods for studying bacterial recombination on the
  genome scale, and partly due to unavailability of relevant bacterial genomes.
  The results allowed us to create a map of relative recombination rates
- across most of parts of the genomes of the two species.
+ across most of parts of the genomes of the species.
  We observed high variation in the recombination rates, including several
- loci which seem to be hotspots for bacterial recombination.
- [WE NEED TO SUMMARIZE WHAT WE FOUND IN SEVERAL SENTENCES.
+ loci which appeared to be hotspots for bacterial recombination.
+ We found marginally supporting evidence that there appeared to be relatively
+ more genomic flow from SPY to SDE than in the other direction based on
+ bacterial recombination as surrogate measure of genomic flow.
+ Reconciliation of species tree and gene trees based on gene fragments provided
+ evidence that virulence genes appeared to undergo horizontal gene transfer
+ than non-virulence genes.
+ On the contrary, genomic flow due to bacterial recombination was not found
+ to be associated with virulence genes.
+ This might indicate that additional genes obtained via horizontal gene
+ transfer were more effective than gene fragments transfer via bacterial
+ recombination for pathogenic bacteria to acquire biological functions that
+ were critical to their survival in the environment in which their close
+ relatives thrived.
+\end_layout
+
+\begin_layout Standard
+[WE NEED TO SUMMARIZE WHAT WE FOUND IN SEVERAL SENTENCES.
  GENE-LEVEL ANALYSIS OF GENE FLOW COULD BE EMPHASIZED.]
 \end_layout
 
 \begin_layout Standard
-We found that there appeared to be relatively more genomic flow from SPY
- to SDE than in the other direction.
- We found that duplications are most often species-specific.
-  Many gene losses likely represent horizontal transfers that replace the
- native gene sequence.
- Gene ontology analyses suggested that sugar phosphotransferase and fatty
+Gene ontology analyses suggested that sugar phosphotransferase and fatty
  acid biosynthesis were enriched for higher levels of bacterial recombination.
  
-\end_layout
-
-\begin_layout Standard
-[Did we find any evidence that virulence genes underwent some types of evolution
-ary events including gene duplcation, loss, transfer more often than non-virulen
-ce genes?]
 \end_layout
 
 \begin_layout Standard
@@ -262,43 +268,10 @@ ce genes?]
 \end_layout
 
 \begin_layout Standard
-[We investigate exchange of genetic elements between GAS and GCS/GGS using
- their genomes.
- Which one should we use for the abstract: GAS or SPY? GCS/GGS or SDE?]
-\end_layout
-
-\begin_layout Standard
 [Three functional categories show higher recombination rates: biosynthesis
  in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
  phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
- in protein fate.
- Do we need JCVI analysis?]
-\end_layout
-
-\begin_layout Standard
-[The relatively high number of transfers into SDE seems to support the findings
- from the ClonalOrigin analysis.
- Did we find this still after considering the 
-\begin_inset Quotes eld
-\end_inset
-
-tie
-\begin_inset Quotes erd
-\end_inset
-
- problem in Mowgli analysis?]
-\end_layout
-
-\begin_layout Standard
-[We have utilized the ClonalOrigin software 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Didelot2010"
-
-\end_inset
-
- to study patterns of recombination between five Streptococcus genomes.
- How should I avoid mentioning this specific citation in the abstract?]
+ in protein fate.]
 \end_layout
 
 \begin_layout Standard
@@ -2620,7 +2593,7 @@ ipient pair of branches.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2652,10 +2625,6 @@ Gene duplication, loss, and transfer.
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
