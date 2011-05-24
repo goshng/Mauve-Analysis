@@ -177,7 +177,7 @@ Keywords:
 \end_layout
 
 \begin_layout Standard
-gene duplication and transfer, recombination, Clonal Origin
+bacterial recombination, gene duplication and transfer, Clonal Origin, Mowgli
 \end_layout
 
 \begin_layout Subsubsection*
@@ -249,13 +249,17 @@ ally associated with SPY.
 
 \begin_layout Standard
 [WE NEED TO SUMMARIZE WHAT WE FOUND IN SEVERAL SENTENCES.
- GENE-LEVEL ANALYSIS OF GENE FLOW COULD BE EMPHASIZED.]
+ GENE-LEVEL ANALYSIS OF GENE FLOW COULD BE EMPHASIZED.] [What are those genes
+ that underwent transfer?]
 \end_layout
 
 \begin_layout Standard
 Gene ontology analyses suggested that sugar phosphotransferase and fatty
  acid biosynthesis were enriched for higher levels of bacterial recombination.
- 
+ [Three functional categories show higher recombination rates: biosynthesis
+ in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
+ phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
+ in protein fate.]
 \end_layout
 
 \begin_layout Standard
@@ -264,14 +268,13 @@ Gene ontology analyses suggested that sugar phosphotransferase and fatty
 \end_layout
 
 \begin_layout Standard
-[What are those genes that underwent transfer?]
+[1.
+ COMPREHESIVE AND DETAILED ANALYSIS OF CLOSELY RELATED BACTERIAL GENOMES]
 \end_layout
 
 \begin_layout Standard
-[Three functional categories show higher recombination rates: biosynthesis
- in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
- phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
- in protein fate.]
+[2.
+ BIOLOGICALLY INTERESTING GENES DISCOVERED BY THE ANALYSIS]
 \end_layout
 
 \begin_layout Standard
@@ -402,7 +405,7 @@ key "Davies2007a"
 \end_layout
 
 \begin_layout Standard
-Phylognetic approaches have allowed to better understand evolutionary forces
+Phylognetic approaches can allow to better understand evolutionary forces
  of gene exchange between contemporary species (CITE).
  Bacterial phylogenetic studies recognized early on that lateral gene transfer
  would complicate analyses of evolutionary relationships of the species
@@ -415,8 +418,8 @@ key "Woese1987"
 \end_inset
 
 .
- While methods of inferring phylogenies in the presence of laternal gene
- transfer have been proposed 
+ While methods of inferring phylogenies in the presence of gene transfer
+ have been proposed 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -444,8 +447,8 @@ key "Davies2007"
 
 \end_inset
 
- investigated phage 3396 from SDE as a vehicle of gene transfer between
- SPY and SDE.
+ investigated phage 3396 from SDE as a vehicle of gene transfer from SDE
+ to SPY.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -478,10 +481,10 @@ key "Kalia2001"
  attempted to show that the direction of gene transfer from SPY to SDE was
  more dominant than the other direction, albeit unfortunately appeared to
  be premature.
- Because of the previous reports on direction of gene flow for small portion
- of regions in the genomes it remains to be elusive to determine the genome-wide
- degrees to which genomic segments flows between the two species and directions
- of thereof.
+ Because of the previous reports on direction of gene flow for only small
+ portion of regions in the genomes it remains to be elusive to determine
+ the genome-wide degrees to which genomic segments flow between the two
+ species and directions of thereof.
 \end_layout
 
 \begin_layout Standard
@@ -491,7 +494,7 @@ Bacteria evolve vertically and horizontally.
  Mutations during the vertical evolution accumulate, which allows bacterial
  species to diverge in their genomic contents.
  Horizontally, bacteria obtain parts of genomes from others via conjugation
- by plasmid, transduction by bacteriophages, and transformation of naked
+ by plasmid, transduction by bacteriophages, or transformation of naked
  DNA uptake 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -512,6 +515,13 @@ key "Lawrence2009"
 .
  The former process involves bacterial recombination, and the latter horizontal
  transfer of DNA fragments.
+ We wish to ditinguish gene transfer due to bacterial homologous recombination
+ from additional gene fragments to a recipient bacterium due to horizontal
+ gene transfer.
+ Note that we discriminate between the two processes throughout the manuscript.
+ Both of the processes result in gene transfer from a donor to a recipient.
+ Genes are presumed to be parts of regions of a genome not necessarily protein-c
+oding DNAs.
  New functions of bacteria appear to emerge more easily in horizontal way
  than in vertical way.
  When one species of bacteria thrives in its environment and another relatively
@@ -521,15 +531,8 @@ key "Lawrence2009"
  variation from multiple species would eventually bring advantage to both
  of the species.
  Pathogenicity of bacteria should be no exception.
-\end_layout
-
-\begin_layout Standard
-[DETAILED STUDY OF PATHOGENICITY OF SDE AND SPY] Studying pathogenic gene
- flow should shed light on the etiology of the bacterial pathogens.
- Note that we discriminate between the two processes throughout the manuscript.
- Both of the processes result in gene transfer from a donor to a recipient.
- Genes are presumed to be parts of regions of a genome not necessarily protein-c
-oding DNAs.
+ Studying pathogenic gene flow should shed light on the etiology of the
+ bacterial pathogens.
  
 \end_layout
 
@@ -671,23 +674,30 @@ key "Doyon2011"
  Mowgli allows study of gene flow events due to non-recombining horizontal
  transfer of gene segments, which is fortunate becasue it complement ClonalOrigi
 n's capability of inferring gene flow due to bacterial recombination.
- 
+ Yet, both of the methods of ClonalOrgin and Mowgli take advantage of incompatib
+ility of gene trees with a reference species tree.
+ The very incompatibility allows these methods to detect gene transfer between
+ species.
+ While ClonalOrigin was able to handle core genomes, Mowgli was able to
+ hand pan genomes.
+ [DESCRIPTION OF PARTS WHERE EACH OF THE TWO METHODS IS STRONGER THAN THE
+ OTHER!]
 \end_layout
 
 \begin_layout Standard
 The development of methods of analyzing DNA sequences together with recent
- release of bacterial genomes of SPY and SDE provides us with opportunity
+ release of bacterial genomes of SPY and SDE provided us with opportunity
  of studying lateral gene transfer using whole bacterial genomes.
- We hope that this study could further step towards the understanding of
+ We hoped that this study could further step towards the understanding of
  interaction between the two closely related human pathogens.
- Specifically, we wish to answer to three questions: Firstly, did two species
- exchange genetic segments across the entire genome or parts of the genome?
- What proportion of the genome underwent higher transfer of genes due to
- bacterial recombination or horizontal transfer? Secondly, was the transfer
- of genes balanced or unbalanced if the two pyogenic species exchanged genetic
- segments? Thirdly, what functional categories of genes were exchanged more
- often than others if they exchanged genetic material? Were virulence genes
- exchanged more often than non-virulence genes?
+ Specifically, we wished to answer to three questions: Firstly, did two
+ species exchange genetic segments across the entire genome or parts of
+ the genome? What proportion of the genome underwent higher transfer of
+ genes due to bacterial recombination or horizontal transfer? Secondly,
+ was the transfer of genes balanced or unbalanced if the two pyogenic species
+ exchanged genetic segments? Thirdly, what functional categories of genes
+ were exchanged more often than others if they exchanged genetic material?
+ Were virulence genes exchanged more often than non-virulence genes?
 \end_layout
 
 \begin_layout Standard
@@ -745,7 +755,7 @@ key "Didelot2010"
 \end_inset
 
  for further details.
- The procedure of using Mowgli shoud be reached at 
+ The procedure of using Mowgli should be reached at 
 \begin_inset Flex URL
 status collapsed
 
@@ -979,7 +989,7 @@ The result of the second stage of ClonalOrigin MCMC was a posterior sample
  of sets of recombinant edges.
  A recombinant tree is referred to a species tree with recombinant edges
  attached to the species tree.
- We summarize the posterior sample to examine aspects of recombinant trees.
+ We summarized the posterior sample to examine aspects of recombinant trees.
  First, we counted recombinant edges regardless of the start and end positions
  of the corresponding bacterial recombinations.
  Number of recombination events were calculated for each of pairs of donor
@@ -988,10 +998,8 @@ The result of the second stage of ClonalOrigin MCMC was a posterior sample
  recombination.
  We could compare number of recombination events from different pairs of
  donor and recipient.
- This would give us insight into relative strength of genome-wide gene flow.
-\end_layout
-
-\begin_layout Standard
+ This gave us insight into relative strength of genome-wide gene flow.
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1002,8 +1010,8 @@ key "Didelot2010"
  They summarized the number of recombination events inferred relative to
  its expected number under the prior of the ClonalOrigin model given recombinati
 on rate for each pair of donor and recipient branches.
- We applied the method to the five streptococcus genomes to infer which
- types of bacterial recombination were more prevalent than which other types.
+ We aplied the method to the five streptococcus genomes to infer which types
+ of bacterial recombination were more prevalent than which other types.
  Note that departure branches are donors, and arrival branches are recipients.
  Of more interest in here our study is if there are unbalanced recombination
  events between two clades of SPY and SDE.
@@ -1031,8 +1039,9 @@ key "Didelot2010"
  By following their idea of summarizing recombination events along genomic
  locations we attempted to measure surrogate recombination intensity along
  genomic locations.
- Our surrogate measure of recombination intensity is not biologically meaningful.
- Yet, we hope that the measure can discriminate between relative intensity
+ Our surrogate measure of recombination intensity was not biologically meaningfu
+l.
+ Yet, we hoped that the measure could discriminate between relative intensity
  values of bacterial recombination along a genome.
  The first surrogate measure is to quantify how often a particular site
  along a genome is affected by bacterial recombination.
@@ -1047,8 +1056,8 @@ key "Didelot2010"
  region so that we could study genes that could undergo higher or lower
  recombination.
  The number of recombinant edges per site for a gene allowed us to study
- functional category association of genes using Gene Ontology (see below
- section Functional categories under recombination).
+ functional category association of genes using Gene Ontology (see section
+ Functional categories under recombination).
 \end_layout
 
 \begin_layout Subsection
@@ -1083,23 +1092,30 @@ key "Rohlf1983"
  gene tree topologies of a geneic region.
  These can serve as a surrogate for recombination intensity on a genic region.
  Counting tree topology changes on a subregion of a multiple alignment,
- or a gene within the multiple alignment, can allow surrogate quantification
- of recombination intensity on a gene as the first surrogate measure of
+ or a gene within the multiple alignment, can allow for a surrogate quantificati
+on of recombination intensity on a gene as the first surrogate measure of
  recombination intensity.
  We studied functional category association of genes using unique number
  of gene tree topologies as a second surrogate measure of recombination
- intensity (see below section Functional categories under recombination).
- Because certain recedges does not change gene tree topologies, the second
- surrogate measure of recombination using gene tree topologies could be
- more conservative thant that of the first measure of number of recombinant
- edges per site.
- A simulation study showed that the second measure of recombination behaves
- better than the first one (FIGURE).
+ intensity (see section Functional categories under recombination).
+ 
 \end_layout
 
 \begin_layout Standard
-[REASONS WHY WE KEEP THE FIRST MEASURE] The first measure can be used to
- measure gene flows between a particular pairs of species branches.
+Because the two aspects of recombinant edges could be correlated with bacterial
+ recombination, we used both of the surrogate measures of recombination
+ intensity.
+ The first measure was used to measure gene flows between a particular pairs
+ of species branches in addition to quantification of overall recombination
+ intensity.
+ The second surrogate measure of recombination using gene tree topologies
+ could be more conservative than that of the first measure of number of
+ recombinant edges per site.
+ This can be because certain recedges does not change gene tree topologies
+ and the first measure still counts recombinant edges.
+ A simulation study showed that the second measure of recombination behaved
+ better than the first one, or better correlation with true value (FIGURE).
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1107,34 +1123,16 @@ Recombination intensity per recombinant edge type and genes
 \end_layout
 
 \begin_layout Standard
-A site of a multiple alignment can be affected by a particular recombinant
- edge.
+As we mentioned earlier, the first surrogate measure of recombination could
+ be extended to a posterior probability of a site being affected by a particular
+ ordered pairs of two branches of a reference species tree.
  Focusing on a specific type of recombinant edge we could calculate the
  posterior probability that a site experiences genetic movement by the recombina
 nt edge type by averaging over all the posterior sample of recombinant edges.
- Furthremore, we could measure the average probability that a gene experiences
- genetic movement by a recombinant edge type by average over all the sites
- of a genic region.
- Enrichment of functional categories using the average probability of genes
- experiencing genetic movement was employed using Gene Ontology (
-\begin_inset CommandInset citation
-LatexCommand citealp
-key "Ashburner2000"
-
-\end_inset
-
-; see also 
-\begin_inset CommandInset citation
-LatexCommand citealp
-key "Suzuki2011"
-
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Standard
-Interpreting recombinant edges as genomic segment flow needs to be warned
+ This could be interpreted as a posterior probability of the site having
+ undergone transfer from one to another specified by the ordered pair of
+ two branches.
+ Interpreting recombinant edges as genomic segment flow needs to be warned
  because the departure and arrival do not happen at the same time.
  Among the 60 types of recombinant edges 32 pairs of branches are possible
  in an ultrametric species tree with five taxa.
@@ -1169,8 +1167,8 @@ dysgalactiae
 equisimilis
 \emph default
 .
- Since they were at extant nodes, pairs of species tree branches one from
- 
+ Since they were at extant nodes, we considered a channel with pairs of
+ species tree branches one from 
 \emph on
 S.
 \begin_inset space \space{}
@@ -1194,7 +1192,7 @@ dysgalactiae
 
 equisimilis
 \emph default
- could be considered as gene flow channels.
+ as gene flow channels.
  Four ordered pairs of species branches represent gene flow from 
 \emph on
 S.
@@ -1245,8 +1243,26 @@ S.
 pyogenes
 \emph default
 .
- We also interogate differential functional category association between
- the directions between SPY and SDE using Gene Ontology analysis.
+ Furthremore, we could measure the average probability that a gene experiences
+ genetic movement by a recombinant edge type by averaging over all the sites
+ of a genic region.
+ Enrichment of functional categories using the average probability of genes
+ experiencing genetic movement was also employed using Gene Ontology (see
+ section Functional categories under recombination; 
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "Ashburner2000"
+
+\end_inset
+
+; see also 
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "Suzuki2011"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Subsection
@@ -1254,7 +1270,7 @@ Gene gain, loss, duplication, horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU EXPAND THIS SECTION?]
+[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -1307,7 +1323,7 @@ Functional categories under recombination
 \end_layout
 
 \begin_layout Standard
-[MELISSA: COULD YOU EXPAND THIS SECTION?]
+[MELISSA: COULD YOU EXPAND OR REPLACE THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -1465,23 +1481,32 @@ tion events between a donor and a recipient, and the two surrogate measures
 \end_layout
 
 \begin_layout Standard
-Comparison between true and estimates of recombination count?
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
-Comparsion between estimates from the simulated and the real data sets?
-\end_layout
-
-\begin_layout Standard
-Comparison between true and estimate of RI1 using genes in the blocks?
-\end_layout
-
-\begin_layout Standard
 Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:h1"
+
+\end_inset
+
+ shows a plot of true numbers of recombination events against their estimates
+ for all of the possible ordered pairs of branches of the reference species
+ tree.
+ The estimated values were quite close to the true values.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:h2"
+
+\end_inset
+
+ shows a plot of numbers of recombination events from the real data against
+ those from the simulated data sets.
+ Note that the numbers of recombination events from simulated data sets
+ appear to deviate from the line of slope being 1 and intercept being 0.
+ Note that the numbers of recombination events for the recombinant edges
+ from SPY to SDE increase by more than 2.5 fold whereas those for the recombinant
+ edges from SDE to SPY increase by about 1.7 fold.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:ri1"
@@ -1496,10 +1521,6 @@ reference "fig:ri1"
  The Pearson's correlation coefficient between true values and estimates
  was 0.6332794.
  
-\end_layout
-
-\begin_layout Standard
-Comparsion between true and estimate of RI2 using genes in the blocks?
 \end_layout
 
 \begin_layout Standard
@@ -1863,7 +1884,7 @@ Gene gain, loss, duplication, and horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU EXPAND THIS SECTION?]
+[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -1891,7 +1912,7 @@ Function categories associated with higher recombination
 \end_layout
 
 \begin_layout Standard
-[MELISSA: COULD YOU EXPAND THIS SECTION?]
+[MELISSA: COULD YOU EXPAND OR REPLACE THIS SECTION?]
 \end_layout
 
 \begin_layout Standard
@@ -1919,6 +1940,13 @@ uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
 iae_ ssp.
  _equisimilis_ isolates recovered during human infections.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -2501,6 +2529,13 @@ options "gberefs"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Appendices
 \end_layout
@@ -2537,16 +2572,1063 @@ Practically, the prior expected number of recombination events was computed
  branch.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Tables
 \end_layout
 
 \begin_layout Standard
-Table 1.
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="34" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p-value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+count
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+# Number of unique tree topologies 
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.575e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+42
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+structural constituent of ribosome
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.724e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+39
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribonucleoprotein complex
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.206e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+72
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribosome
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.174e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rRNA binding
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.130e-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+38
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphoenolpyruvate-dependent sugar phosphotransferase system
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+# total number of rec edges
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.994e-07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rRNA binding
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.447e-06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 42
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+structural constituent of ribosome
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.694e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 39
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribonucleoprotein complex
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.048e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fatty acid biosynthetic process
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.664e-05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 72
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribosome
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.018e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 86
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+translation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.733e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lipid biosynthetic process
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.792e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+108
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RNA binding
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.164e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 47
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+carbohydrate transport
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.303e-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 38
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphoenolpyruvate-dependent sugar phosphotransferase system
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.345e-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pentose-phosphate shunt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.819e-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+# SDE->SPY rec edges
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0001236
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rRNA binding
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0001284
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+86
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+translation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0001711
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+39
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribonucleoprotein complex
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0002230
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pentose-phosphate shunt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0003412
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+38
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphoenolpyruvate-dependent sugar phosphotransferase system
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0004498
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+42
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+structural constituent of ribosome
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0007789
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+47
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+carbohydrate transport
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0008152
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+# SPY->SDE rec edges
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.025e-06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+47
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+carbohydrate transport
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.875e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+38
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphoenolpyruvate-dependent sugar phosphotransferase system
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.843e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sodium ion transport
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.248e-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Functional categories asscoiated with higher recombination
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
 Figures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2749,6 +3831,256 @@ equisimilis
 \begin_inset Float figure
 wide false
 sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h1-R.ps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h1-R-inset.ps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:h1"
+
+\end_inset
+
+Numer of recombination events.
+ The diagonal dashed lines are a line with slope of 1 and intercept of 0.
+ For each order pairs of branches of a reference species tree the true number
+ of recombination events is computed as the mean of the 10 replicates of
+ recombinant trees from the simulation.
+ With ten estimates of each replicate total number of 100 estimats are shown
+ as intervals of 90% of quantile range, or the lower value of the interval
+ is the 5% quantile, and the upper one is the 95% quantile.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R.ps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R-inset.ps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R-inset2.ps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:h2"
+
+\end_inset
+
+Comparison of number of recombinations between real and simulated data sets.
+ The diagonal dashed lines are a line with slope of 1 and intercept of 0.
+ For each order pairs of branches of a reference species tree the number
+ of recombination events is estimated from the real data set.
+ Total number of 100 estimats from a simulated data set are shown as intervals
+ of 90% of quantile range, or the lower value of the interval is the 5%
+ quantile, and the upper one is the 95% quantile.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
 status collapsed
 
 \begin_layout Plain Layout
@@ -2785,61 +4117,6 @@ The first surrogate measure of recombination intensity of genes
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Figure 3.
-\end_layout
-
-\begin_layout Standard
-Odd ratios of posterior probability of import between SDE and SPY along
- SDE1 genome.
-\end_layout
-
-\begin_layout Standard
-Odd ratios of posterior probability of import between SDE and SPY by locus
- genes.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-.Odd ratios of posterior probability of import between SDE and SPY by locus
- genes.
-\end_layout
-
-\begin_layout Standard
-image::figure3.png[Posterior probability]
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Figure 4.
-\end_layout
-
-\begin_layout Standard
-Import rates for JCVI role categories.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-.Functional categories and import rates.
-\end_layout
-
-\begin_layout Standard
-image::figure4.png[Functional categories]
 \end_layout
 
 \end_body

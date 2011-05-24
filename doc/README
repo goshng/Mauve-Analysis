@@ -855,3 +855,7 @@ image::figure4.png[Functional categories]
 END OF MANUSCRIPT
 -----------------
 
+.Conversion of text to lyx for a table of GO analysis
+----
+perl text2lyx-table.pl < significant.txt > significant.txt.lyx
+----

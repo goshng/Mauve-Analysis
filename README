@@ -1039,3 +1039,17 @@ output/cornellf/3/run-analysis/ri1-refgenome4-map.gene
 output/s16/run-analysis/ri.R.ps
 ----
 
+.Heatmap simulation between true and simulated
+----
+h1-R-inset.ps
+h1-R.ps
+----
+
+.Heatmap simulation between real and simulated
+----
+h2-R-inset.ps
+h2-R-inset2.ps
+h2-R.ps
+----
+
+ri-R.ps
