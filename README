@@ -1053,3 +1053,90 @@ h2-R.ps
 ----
 
 ri-R.ps
+----
+http://strep-genome.bscb.cornell.edu/cgi-bin/hgTracks?db=SmuUA159&position=chr1&hgt.customText=http://compgen.bscb.cornell.edu/~choi/SRR031130.pm.wig
+----
+
+Gene-level analysis
+. ABC Transporter
+. tRNA synthetase
+. myosin-cross-reactive antigen (SpyM3_0332) rheumatic fever
+. acetyl coenzyme A acetyltransferase
+. putative signal recognition particle-docking protein FtsY
+. protease
+. PTS system N-acetylgalactosamine-specific transporter subunit IID (SpyM3_0443)
+. 2-dehydro-3-deoxygluconokinase
+. dipeptidase
+. phenylalanyl-tRNA synthetase subunit beta
+. glutathione reductase
+. bifunctional pyrimidine regulatory protein PyrR uracil phosphoribosyltransferase
+. uracil permease
+. carbamoyl phosphate synthase large subunit
+. PTS system fructose-specific transporter subunit IIABC
+. peptidoglycan hydrolase
+. uracil-DNA glycosylase
+. ribosomal protein
+. tRNA-Arg
+. lipoate-protein ligase
+. GTP-binding protein LepA
+. PTS system mannose/fructose family transporter subunit IID
+. two-component sensor histidine kinase
+. guanosine 5'-monophosphate oxidoreductase
+. xanthine phosphoribosyltransferase
+. ribosomal biogenesis GTPase
+. tRNA (uracil-5-)-methyltransferase Gid
+. oxaloacetate decarboxylase - Converts oxaloacetate to phosphoenolpyruvate using ATP as an energy source
+. methylmalonyl-CoA decarboxylase beta-subunit
+. acetyl-CoA carboxylase biotin carboxyl carrier protein subunit (fatty acid metabolism)
+. citrate lyase beta and alpha subunit
+. GTPase ObgE
+. ATP-dependent RNA helicase
+. putative heavy metal/cadmium-transporting ATPase
+. DNA repair and genetic recombination protein
+. two-component sensor histidine kinase
+. two-component response regulator
+. valyl-tRNA synthetase
+. sugar hydrolase
+. primosome assembly protein PriA
+. LysR family transcriptional regulator
+. acetyl-CoA:acetyltransferase
+. S-adenosyl-methyltransferase MraW
+. transketolase
+. translaldolase
+. alpha-glycerophosphate oxidase
+. PTS system galactose-specific transporter subunit IIC
+. PTS system galactose-specific transporter subunit IIB
+. negative regulator of copper transport operon (promoter)
+. PTS system mannose-specific transporter subunit IIC
+. PTS system mannose-specific transporter subunit IID
+. acetyl-CoA carboxylase subunit alpha and beta
+. aspartyl/glutamyl-tRNA amidotransferase subunit A and B and C
+. PTS system sucrose-specific transporter subunit IIABC
+. excinuclease ABC subunit A
+. divalent cation transport protein magnesium transporter
+. cysteinyl-tRNA synthetase
+. PTS system ascorbate-specific transporter subunit IIC
+. DNA polymerase III PolC
+. pullulanase
+. dextran glucosidase
+. leucine-rich protein
+. (p)ppGpp synthetase
+. PTS system glucose-specific transporter subunit IIABC
+. 16S ribosomal RNA methyltransferase RsmE
+. ribosomal protein L11 methyltransferase
+. anthranilate synthase component II
+. recombination factor protein RarA
+. pyruvate formate-lyase
+. fructose-6-phosphate aldolase
+. PTS system cellobiose-specific transporter subunit IIC and IIB and IIA
+. transcriptional regulator
+. chaperonin GroEL
+. urocanate hydratase and six more genes (this set of genes are reverse in their
+strands, and they could have been transferred)
+. putative PTS system transporter protein II
+. arginyl-tRNA synthetase
+. histidyl-tRNA synthetase
+. serine protease
+. chromosome segregation protein 
+
+

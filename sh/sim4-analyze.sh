@@ -54,8 +54,10 @@ function sim4-analyze {
       read WANT
       if [ "$WANT" == "y" ]; then
         echo "Checking XML..."
+        progressbar-initialize $(( $HOW_MANY_REPETITION * $HOW_MANY_REPLICATE ))
         for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
           for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            progressbar-move
             # MTTRUE=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE
             MTOUTTRUE=$BASEDIR/$REPETITION/run-clonalorigin/output2/mt-$REPLICATE-out
             for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
@@ -67,9 +69,10 @@ function sim4-analyze {
                   echo "Problem in $MTOUTTRUE/core_co.phase3.xml.$BLOCKID.$g blocksize must be $BLOCKSIZE $NUMBERSITE"
                 fi
 
-                echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - $BLOCKID/$NUMBER_BLOCK - $g/$NUMBER_SAMPLE\r"
               done
             done
+            progressbar-show
+            echo -ne "$REPETITION/$HOW_MANY_REPETITION - $REPLICATE/$HOW_MANY_REPLICATE - $REMAINEDTIME min to go!\r"
           done
         done
       else

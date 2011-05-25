@@ -25,14 +25,32 @@ function recombination-intensity1-map {
       echo -n "What is the length of the reference genome? " 
       read REFGENOMELENGTH
        
-      perl pl/$FUNCNAME.pl \
-        -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
-        -xmfa $DATADIR/core_alignment.xmfa \
-        -refgenome $REFGENOME \
-        -refgenomelength $REFGENOMELENGTH \
-        -numberblock $NUMBER_BLOCK \
-        -verbose \
-        > $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt
+      echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.txt? (e.g., y/n) "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        perl pl/$FUNCNAME.pl \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -refgenomelength $REFGENOMELENGTH \
+          -numberblock $NUMBER_BLOCK \
+          -verbose \
+          > $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt
+      else
+        echo "  Skipping generating $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt"
+      fi
+
+      echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.wig? (e.g., y/n) "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        perl pl/$FUNCNAME-wiggle.pl \
+          -map $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt \
+          -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map.wig
+        echo "  Generating $RUNANALYSIS/ri1-refgenome$REFGENOME.wig"
+      else
+        echo "  Skipping generating $RUNANALYSIS/ri1-refgenome$REFGENOME.wig"
+      fi
+      
       break
     fi
   done
