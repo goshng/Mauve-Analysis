@@ -503,6 +503,19 @@ key "Thomas2005"
 \end_inset
 
 .
+ Marine bacteria was reported to acquire foreign genes via gene transfer
+ agents, i.e., viral-like particles produced by 
+\begin_inset Formula $\alpha$
+\end_inset
+
+-Proteobacteria 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "McDaniel2010"
+
+\end_inset
+
+.
  Acquired DNAs can either replace their indigenous homologs, or be added
  to their recipient bacterial genomes 
 \begin_inset CommandInset citation
@@ -2594,7 +2607,7 @@ Tables
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular

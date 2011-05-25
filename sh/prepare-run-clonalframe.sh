@@ -23,7 +23,7 @@
 #       I had to run clonalframe twice.
 # NOTE: some of the alignments are removed from the analysis.
 function prepare-run-clonalframe {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"

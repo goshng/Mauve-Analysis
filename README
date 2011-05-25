@@ -1054,6 +1054,7 @@ h2-R.ps
 
 ri-R.ps
 ----
+http://strep-genome.bscb.cornell.edu/cgi-bin/hgTracks?db=SpyMGAS315&position=chr1&hgt.customText=http://compgen.bscb.cornell.edu/~choi/ri1-refgenome4-map.wig
 http://strep-genome.bscb.cornell.edu/cgi-bin/hgTracks?db=SmuUA159&position=chr1&hgt.customText=http://compgen.bscb.cornell.edu/~choi/SRR031130.pm.wig
 ----
 
@@ -1138,5 +1139,25 @@ strands, and they could have been transferred)
 . histidyl-tRNA synthetase
 . serine protease
 . chromosome segregation protein 
+
+.Overall
+. ribosomal protein
+. tRNA synthetase
+. ABC transporter
+. PTS system
+. fatty acid biosynthesis
+
+.Vehicles of gene transfer
+. intervening sequences 
+. transposase
+. bacteriophage
+. tRNA
+
+Genes could be likely to be transferred whether they were connected with other
+genes or not. Genes with low complexity could be transferred, and they could
+be lost quickly if they were not necessary. Genes with high complexity might be
+transferred and able to establish their biological functions in the recipient.
+Over long period of time they might build more connections. They could lose
+their original connections. (Gophna and Ofran, 2011).
 
 

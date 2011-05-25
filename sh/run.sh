@@ -988,6 +988,7 @@ source sh/simulate-data-clonalorigin1-prepare.sh
 source sh/simulate-data-clonalorigin1-receive.sh 
 source sh/simulate-data-clonalorigin1-analyze.sh
 source sh/receive-run-2nd-clonalorigin.sh
+source sh/prepare-mauve-alignment.sh
  
 
 source sh/scatter-plot-parameter.sh
@@ -1112,16 +1113,12 @@ select CHOICE in ${CHOICES[@]}; do
     echo -e "You need to enter something\n"
     continue
   elif [ "$CHOICE" == "init-file-system" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "choose-simulation" ];  then
-    choose-simulation
-    break
+  elif [ "$CHOICE" == "choose-simulation" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copy-mauve-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "prepare-mauve-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "receive-mauve-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "filter-blocks" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "prepare-run-clonalframe" ];  then
-    prepare-run-clonalframe 
-    break
+  elif [ "$CHOICE" == "prepare-run-clonalframe" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-watterson-estimate-for-clonalframe" ];  then
     compute-watterson-estimate-for-clonalframe
     break

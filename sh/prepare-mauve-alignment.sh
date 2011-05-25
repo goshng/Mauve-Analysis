@@ -12,8 +12,8 @@
 # 3. copy-genomes-to-cac copies Genkbank genomes files to CAC.
 # 4. copy-batch-sh-run-mauve creates the batch file for mauve alignment, and
 # copies it to CAC cluster.
-function choose-species {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+function prepare-mauve-alignment {
+  PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
@@ -23,8 +23,10 @@ function choose-species {
       read REPETITION
       echo -e "Wait for muave-analysis file system preparation...\n"
       set-more-global-variable $SPECIES $REPETITION
+
+      WALLTIME=$(grep REPETITION${REPETITION}-MAUVE-Walltime species/$SPECIES | cut -d":" -f2)
       mkdir-species
-      read-species-genbank-files $SPECIESFILE copy-genomes-to-cac
+      read-species-genbank-files data/$SPECIES copy-genomes-to-cac
       copy-batch-sh-run-mauve \
         $RUNMAUVE/batch.sh \
         $CAC_USERHOST:$CAC_RUNMAUVE
@@ -46,7 +48,7 @@ function copy-batch-sh-run-mauve {
   BATCH_SH_RUN_MAUVE=$1 
 cat>$BATCH_SH_RUN_MAUVE<<EOF
 #!/bin/bash
-#PBS -l walltime=24:00:00,nodes=1
+#PBS -l walltime=${WALLTIME}:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N ${PROJECTNAME}-${SPECIES}-Mauve
@@ -68,7 +70,7 @@ cd \$TMPDIR
   --output-guide-tree=\$OUTPUTDIR/guide.tree \\
 EOF
 
-  read-species-genbank-files $SPECIESFILE copy-batch-sh-run-mauve
+  read-species-genbank-files data/$SPECIES copy-batch-sh-run-mauve
 
 cat>>$BATCH_SH_RUN_MAUVE<<EOF
 cp -r \$OUTPUTDIR \$PBS_O_WORKDIR/

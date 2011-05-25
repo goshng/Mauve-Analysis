@@ -27,7 +27,7 @@
 # actually the 7th among the first 10 alignment blocks. The 6th alignment is 6th
 # among 9 alignment blocks that were from the 1st stage of filtering.
 function filter-blocks {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
+  PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
@@ -87,8 +87,7 @@ function run-lcb {
 
 function mkdir-tmp {
   mkdir -p $TMPINPUTDIR
-  read-species-genbank-files $SPECIESFILE mkdir-tmp
-  #cp $GENOMEDATADIR/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk $TMPINPUTDIR
+  read-species-genbank-files data/$SPECIES mkdir-tmp
 }
 
 function rmdir-tmp {
