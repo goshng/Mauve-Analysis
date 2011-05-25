@@ -346,6 +346,9 @@ sub mt_get_value_gene ($$$)
   my $line = <FILE>;
   chomp $line;
   my @e = split /\t/, $line;
+  my @eGene = @e[$start .. $end]; 
+  my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @eGene;
+  my $numberUniqueTopology = scalar (@uniquE);
   die "\$\#e and \$blocklength are different at $f"
     unless ($#e + 1) == $blocklength;
 
@@ -367,10 +370,8 @@ sub mt_get_value_gene ($$$)
   {
     $vTopology++;
   }
-  my %seen = (); my @uniquE = grep { ! $seen{$_} ++ } @e;
-  $vCountTopology += scalar (@uniquE);
 
   close FILE;
-  return ($v, $vTopology, $vCountTopology);
+  return ($v, $vTopology, $numberUniqueTopology);
 }
 
