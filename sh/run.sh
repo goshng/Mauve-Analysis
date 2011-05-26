@@ -1026,6 +1026,7 @@ source sh/simulate-data-clonalorigin1.sh
 source sh/summarize-clonalorigin1.sh 
 source sh/recombination-intensity1-map.sh 
 source sh/recombination-intensity1-genes.sh 
+source sh/recombination-intensity1-probability.sh 
 source sh/receive-mauve-alignment.sh
 source sh/prepare-run-clonalframe.sh
 source sh/receive-run-clonalframe.sh
@@ -1094,6 +1095,7 @@ CHOICES=( init-file-system \
           probability-recombination \
           recombination-intensity1-map \
           recombination-intensity1-genes \
+          recombination-intensity1-probability \
           --- RECOMBINATION-INTENSITY2 ---\
           recombination-intensity2-map \
           map-tree-topology \
@@ -1194,6 +1196,7 @@ select CHOICE in ${CHOICES[@]}; do
     break
   elif [ "$CHOICE" == "summarize-clonalorigin1" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity1-genes" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "recombination-intensity1-probability" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
