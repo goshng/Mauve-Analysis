@@ -168,8 +168,8 @@ dysgalactiae
 \emph on
 equisimilis
 \emph default
- (SDE), restriction-modification system (RMS), phosphoenolpyruvate:carbohydrate
- phosphotransferase system (PTS).
+ (SDE), restriction-modification system (RMS), phosphotransferase system
+ (PTS), ATP-binding cassette (ABC), Aminoacyl tRNA synthetase (aaRS).
 \end_layout
 
 \begin_layout Subsubsection*
@@ -245,21 +245,14 @@ ally associated with SPY.
  recombination for pathogenic bacteria to acquire biological functions that
  were critical to their survival in the environment in which their close
  relatives thrived.
-\end_layout
-
-\begin_layout Standard
-[WE NEED TO SUMMARIZE WHAT WE FOUND IN SEVERAL SENTENCES.
- GENE-LEVEL ANALYSIS OF GENE FLOW COULD BE EMPHASIZED.] [What are those genes
- that underwent transfer?]
-\end_layout
-
-\begin_layout Standard
-Gene ontology analyses suggested that sugar phosphotransferase and fatty
- acid biosynthesis were enriched for higher levels of bacterial recombination.
- [Three functional categories show higher recombination rates: biosynthesis
- in fatty acid and phospholipid metabolism, phosphoenolpyruvate:carbohydrate
- phosphotransferasesystem (PTS) in signal transduction, and tRNA aminoacylation
- in protein fate.]
+ Protein coding genes that were found to undergo gene transfer due to bacterial
+ recombination beloned to several kinds of aminoacyl tRNA synthetases, phosphotr
+ansferase systems specific to each of several sugars, and ATP-binding cassette
+ transporters.
+ We confirmed that aminoacyl tRNA synthetases were associated with gene
+ transfer.
+ ABC transporters could be related with pathogenicity.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -269,12 +262,14 @@ Gene ontology analyses suggested that sugar phosphotransferase and fatty
 
 \begin_layout Standard
 [1.
- COMPREHESIVE AND DETAILED ANALYSIS OF CLOSELY RELATED BACTERIAL GENOMES]
+ COMPREHESIVE AND DETAILED ANALYSIS OF CLOSELY RELATED BACTERIAL GENOMES
+ -> This may be hard to say.]
 \end_layout
 
 \begin_layout Standard
 [2.
- BIOLOGICALLY INTERESTING GENES DISCOVERED BY THE ANALYSIS]
+ BIOLOGICALLY INTERESTING GENES DISCOVERED BY THE ANALYSIS -> We may pursue
+ this direction.]
 \end_layout
 
 \begin_layout Standard
@@ -1398,6 +1393,117 @@ Gene-level studies
 \begin_layout Standard
 [GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
  IN DETAIL]
+\end_layout
+
+\begin_layout Subsubsection
+Aminoacyl tRNA synthetase
+\end_layout
+
+\begin_layout Standard
+Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
+ peptides.
+ Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
+ Aminoacyl tRNA synthetases have been a target of studies for horizontal
+ gene transfer 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lamour1994"
+
+\end_inset
+
+.
+ In our analysis of the five genomes of streptococcus we inferred gene transfer
+ in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
+ synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
+ synthetase, and histidyl-tRNA synthetase.
+\end_layout
+
+\begin_layout Subsubsection
+Phosphotransferase system
+\end_layout
+
+\begin_layout Standard
+The phosphotransferase system (PTS) in bacteria transports sugars such as
+ glucose into the cell.
+ Several phosphotransferase systems exist in the five genomes.
+ The following gene products were found to be associated with bacterial
+ recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
+uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
+pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
+fic transporter, and PTS system glucose-specific IIABC component.
+\end_layout
+
+\begin_layout Subsubsection
+ATP-binding cassette transporter
+\end_layout
+
+\begin_layout Standard
+ATP-binding cassette transporters import or export solutes such as ions
+ across cells using ATP hydrolysis.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Noll2009"
+
+\end_inset
+
+ studied horizontal gene transfer of archeal ABC transporter genes into
+ bacteria via bacterial recombination.
+ We found that ATP-binding cassette (ABC) transporters were associated with
+ bacterial recombination.
+\end_layout
+
+\begin_layout Subsubsection
+Other genes
+\end_layout
+
+\begin_layout Standard
+putative transcription-repair coupling factor
+\end_layout
+
+\begin_layout Standard
+putative ferric uptake regulator 
+\end_layout
+
+\begin_layout Standard
+putative biotin synthase 
+\end_layout
+
+\begin_layout Standard
+putative calcium transporter
+\end_layout
+
+\begin_layout Standard
+putative dipeptidase
+\end_layout
+
+\begin_layout Standard
+putative adhesion protein
+\end_layout
+
+\begin_layout Standard
+putative folyl-polyglutamate synthetase
+\end_layout
+
+\begin_layout Standard
+putative uracil permease
+\end_layout
+
+\begin_layout Standard
+putative peptidoglycan hydrolase
+\end_layout
+
+\begin_layout Standard
+nucleotidase
+\end_layout
+
+\begin_layout Standard
+phosphopentomutase
+\end_layout
+
+\begin_layout Standard
+DNA topoisomerase I
 \end_layout
 
 \begin_layout Subsection
