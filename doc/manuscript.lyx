@@ -1392,7 +1392,7 @@ Bacterial evolution is characterized by horizontal transfer as well as vertical
  transmission.
  While we used ClonalFrame to estimate a species tree, we obtained information
  of relative strengths of these two evolutionary forces: the ratio of probabilit
-ies that a given site is altered through recombination and mutation 
+ies that a site is altered through recombination and mutation 
 \begin_inset Formula $r/m$
 \end_inset
 
@@ -1446,72 +1446,60 @@ ies that a given site is altered through recombination and mutation
 \noun default
 \color inherit
  with (0.096,0.105) of 95% credibility interval.
- These two contrasted values
-\end_layout
+ These two contrasted values implied that mutation events occured more often,
+ and replacement of nucleotides along sites was attributed more to recombination.
+ Because of large population of bacteria natural selection should be more
+ effective than random genetic drift.
+ Accordingly, nucleotide substitutions due to recombination events might
+ not be selectively neutral.
+ Genes that were likely to be under positive selection tended to be under
+ higher recombination 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lefebure2007"
 
-\begin_layout Standard
-\begin_inset Quotes eld
 \end_inset
 
-This is a measure of how important the effect of recombination was in the
- diversification of the sample relative to mutation.
-\begin_inset Quotes erd
-\end_inset
-
- The ratio of rates at which recombination and mutation occur 
-\begin_inset Formula $\rho/\theta$
-\end_inset
-
- was to be estimated to be 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-0.10
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
- with (0.096,0.105) of 95% credibility interval.
- 
-\begin_inset Quotes eld
-\end_inset
-
-It is a measure of how often recombination events happen relative to mutations.
-\begin_inset Quotes erd
-\end_inset
-
- 
-\begin_inset Quotes eld
-\end_inset
-
-The two statistics of 
-\begin_inset Formula $r/m$
-\end_inset
-
- and 
-\begin_inset Formula $\rho/\theta$
-\end_inset
-
- can be used to assess the relative contribution of recombination and mutation
- in the creation of the sample from a common ancestor.
-\begin_inset Quotes erd
-\end_inset
-
+.
+ We suspected that there were functional categories associated higher recombinat
+ion, and recombining gene transfer between species.
  
 \end_layout
 
 \begin_layout Standard
-[GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
- IN DETAIL]
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:functional"
+
+\end_inset
+
+ shows functional categories that appeared to be significantly associated
+ with the number of site-wise recombinant edges.
+ Several of functional categories were related with ribosomes.
+ There was a functional category related with phosphotransferase systems
+ and ATP-binding cassette (ABC) transporters, i.e., carbohydrate transport
+ (GO:0008643).
+ Translation (GO:0006412) included aminoacyl tRNA synthetase.
+ There were fatty acid biosynthetic process (GO:0006633) and lipid biosynthetic
+ process (GO:0008610).
+ The number of recombinant edges only for the direction from SDE and SPY
+ showed smaller number of functional catgories that appeared to be significant
+ by leaving the two biosynthetic processes out.
+ For the direction from SPY to SDE only transport related functional categories
+ appeared to be significant.
+ Ribosom related functional categories and translation did not appear to
+ be associated with bacterial recombination.
+ Having been stimulated by the functional category association study we
+ elected to examine posterior probability of sites experiencing influx from
+ donor species branches across the alignment blocks.
+ Here, we focused more on gene transfer between SPY and SDE.
+ Although we scan through the alignment blocks for potentially interesting
+ regions, we by no means intended to comprehensively examine all of the
+ genes.
+ We rather chose arbitrarily three functional categories for gene-level
+ detailed examination of gene transfer due to bacterial recombination.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1519,9 +1507,9 @@ Aminoacyl tRNA synthetase
 \end_layout
 
 \begin_layout Standard
-Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
- peptides.
- Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
+Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
+ amino acids are concatenated from charged tRNA onto a growing peptides
+ through translation.
  Aminoacyl tRNA synthetases have been a target of studies for horizontal
  gene transfer 
 \begin_inset CommandInset citation
@@ -1531,11 +1519,57 @@ key "Lamour1994"
 
 \end_inset
 
-.
- In our analysis of the five genomes of streptococcus we inferred gene transfer
- in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
- synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
- synthetase, and histidyl-tRNA synthetase.
+, which lends itself to a classic example of gene transfer in bacteria.
+ We also inferred gene transfer in several aminoacyl tRNA synthetases in
+ our analysis of the five genomes of streptococcus.
+ The aaRS's are characterized by an amino acid that they charge tRNA with.
+ Not all kinds of aaRS's were associated with bacterial recombination.
+ Note that we use the labels for branches depicted by Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tree5"
+
+\end_inset
+
+: e.g., SDE represents the ancestral branch of SDE1 and SDE2, not the species.
+ SDE1 appeared to recieve leucyl-tRNA synthetase from SPY (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:leucyl-trna"
+
+\end_inset
+
+).
+ SDE2 appeared to receive lysyl-tRNA synthetase from (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:lysyl-trna"
+
+\end_inset
+
+).
+ SPY1 seemed to receive isoleucyl-tRNA synthetase more often from SDE2 than
+ from SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:isoleucyl-trna"
+
+\end_inset
+
+).
+ SDE1 and SDE2 appeared to receive aspartyl-tRNA synthetase and histidyl-tRNA
+ synthetase, respectively, from SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:yl-trna"
+
+\end_inset
+
+).
+ We also inferred bacterial recombination in phenylalanyl-tRNA synthetase
+ and valyl-tRNA synthetase.
+ There were very relatively low posterior probability that methionyl-tRNA
+ synthetase transferred from SDE to SPY1.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4002,6 +4036,12 @@ protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:functional"
+
+\end_inset
+
 Functional categories asscoiated with higher recombination
 \end_layout
 
@@ -4077,7 +4117,7 @@ ipient pair of branches.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4233,7 +4273,7 @@ equisimilis
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -4338,7 +4378,7 @@ Numer of recombination events.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -4522,7 +4562,7 @@ The first surrogate measure of recombination intensity of genes
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4566,7 +4606,7 @@ gki
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4606,7 +4646,7 @@ gtr
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4646,7 +4686,7 @@ murI
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4686,7 +4726,7 @@ mutS
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4793,6 +4833,150 @@ Recombinant edges on DNA topoisomerase IV subunit A (
 parC
 \emph default
 )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/leucyl-trna.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:leucyl-trna"
+
+\end_inset
+
+Recombinant edges on leucyl-tRNA synthetase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/lysyl-trna.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:lysyl-trna"
+
+\end_inset
+
+Recombinant edges on lysyl-tRNA synthetase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/isoleucyl-trna.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:isoleucyl-trna"
+
+\end_inset
+
+Recombinant edges on isoleucyl-tRNA synthetase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/yl-trna.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:yl-trna"
+
+\end_inset
+
+Recombinant edges on aspartyl-tRNA and histidyl-tRNA synthetases
 \end_layout
 
 \end_inset
