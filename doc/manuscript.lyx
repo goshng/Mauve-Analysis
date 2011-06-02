@@ -1384,6 +1384,288 @@ Results
 \end_layout
 
 \begin_layout Subsection
+Functional categories associated with bacterial recombination
+\end_layout
+
+\begin_layout Standard
+Bacterial evolution is characterized by horizontal transfer as well as vertical
+ transmission.
+ While we used ClonalFrame to estimate a species tree, we obtained information
+ of relative strengths of these two evolutionary forces: the ratio of probabilit
+ies that a given site is altered through recombination and mutation 
+\begin_inset Formula $r/m$
+\end_inset
+
+, and the ratio of rates at which recombination and mutation occur 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+.
+ While 
+\begin_inset Formula $r/m$
+\end_inset
+
+ was estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+4.66
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (4.45,4.87) of 95% credibility interval, 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ was to be estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+0.10
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (0.096,0.105) of 95% credibility interval.
+ These two contrasted values
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+This is a measure of how important the effect of recombination was in the
+ diversification of the sample relative to mutation.
+\begin_inset Quotes erd
+\end_inset
+
+ The ratio of rates at which recombination and mutation occur 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ was to be estimated to be 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+0.10
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+ with (0.096,0.105) of 95% credibility interval.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+It is a measure of how often recombination events happen relative to mutations.
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The two statistics of 
+\begin_inset Formula $r/m$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ can be used to assess the relative contribution of recombination and mutation
+ in the creation of the sample from a common ancestor.
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+[GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
+ IN DETAIL]
+\end_layout
+
+\begin_layout Subsubsection
+Aminoacyl tRNA synthetase
+\end_layout
+
+\begin_layout Standard
+Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
+ peptides.
+ Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
+ Aminoacyl tRNA synthetases have been a target of studies for horizontal
+ gene transfer 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lamour1994"
+
+\end_inset
+
+.
+ In our analysis of the five genomes of streptococcus we inferred gene transfer
+ in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
+ synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
+ synthetase, and histidyl-tRNA synthetase.
+\end_layout
+
+\begin_layout Subsubsection
+Phosphotransferase system
+\end_layout
+
+\begin_layout Standard
+The phosphotransferase system (PTS) in bacteria transports sugars such as
+ glucose into the cell.
+ Several phosphotransferase systems exist in the five genomes.
+ The following gene products were found to be associated with bacterial
+ recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
+uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
+pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
+fic transporter, and PTS system glucose-specific IIABC component.
+\end_layout
+
+\begin_layout Subsubsection
+ATP-binding cassette transporter
+\end_layout
+
+\begin_layout Standard
+ATP-binding cassette transporters import or export solutes such as ions
+ across cells using ATP hydrolysis.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Noll2009"
+
+\end_inset
+
+ studied horizontal gene transfer of archeal ABC transporter genes into
+ bacteria via bacterial recombination.
+ We found that ATP-binding cassette (ABC) transporters were associated with
+ bacterial recombination.
+\end_layout
+
+\begin_layout Subsubsection
+Other genes
+\end_layout
+
+\begin_layout Standard
+putative transcription-repair coupling factor
+\end_layout
+
+\begin_layout Standard
+putative ferric uptake regulator 
+\end_layout
+
+\begin_layout Standard
+putative biotin synthase 
+\end_layout
+
+\begin_layout Standard
+putative calcium transporter
+\end_layout
+
+\begin_layout Standard
+putative dipeptidase
+\end_layout
+
+\begin_layout Standard
+putative adhesion protein
+\end_layout
+
+\begin_layout Standard
+putative folyl-polyglutamate synthetase
+\end_layout
+
+\begin_layout Standard
+putative uracil permease
+\end_layout
+
+\begin_layout Standard
+putative peptidoglycan hydrolase
+\end_layout
+
+\begin_layout Standard
+nucleotidase
+\end_layout
+
+\begin_layout Standard
+phosphopentomutase
+\end_layout
+
+\begin_layout Standard
+DNA topoisomerase I
+\end_layout
+
+\begin_layout Subsection
+Functional categories associated with non-recombining horizontal gene transfer
+\end_layout
+
+\begin_layout Standard
+b
+\end_layout
+
+\begin_layout Subsection
+Virulence genes associated with non-recombining horizontal gene transfer
+\end_layout
+
+\begin_layout Standard
+c
+\end_layout
+
+\begin_layout Subsection
+Marginal evidence for unbalaned gene flow from SPY to SDE
+\end_layout
+
+\begin_layout Standard
+d
+\end_layout
+
+\begin_layout Subsection
+Gene tree topologies vary along the genome of streptococcus
+\end_layout
+
+\begin_layout Standard
+e
+\end_layout
+
+\begin_layout Subsection
+Population parameters vary along the genome of streptococcus
+\end_layout
+
+\begin_layout Standard
+f
+\end_layout
+
+\begin_layout Subsection
 Multiple alignment using Mauve
 \end_layout
 
@@ -1456,87 +1738,6 @@ The rate of nucleotide differences in the recombined stretches
 \end_inset
 
  was estimated to be 362 with (347,376) of 95% credibility interval.
- The ratio of probabilities that a given site is altered through recombination
- and mutation 
-\begin_inset Formula $r/m$
-\end_inset
-
- was estimated to be 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-4.66
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
- with (4.45,4.87) of 95% credibility interval.
- 
-\begin_inset Quotes eld
-\end_inset
-
-This is a measure of how important the effect of recombination was in the
- diversification of the sample relative to mutation.
-\begin_inset Quotes erd
-\end_inset
-
- The ratio of rates at which recombination and mutation occur 
-\begin_inset Formula $\rho/\theta$
-\end_inset
-
- was to be estimated to be 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-0.10
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
- with (0.096,0.105) of 95% credibility interval.
- 
-\begin_inset Quotes eld
-\end_inset
-
-It is a measure of how often recombination events happen relative to mutations.
-\begin_inset Quotes erd
-\end_inset
-
- 
-\begin_inset Quotes eld
-\end_inset
-
-The two statistics of 
-\begin_inset Formula $r/m$
-\end_inset
-
- and 
-\begin_inset Formula $\rho/\theta$
-\end_inset
-
- can be used to assess the relative contribution of recombination and mutation
- in the creation of the sample from a common ancestor.
-\begin_inset Quotes erd
-\end_inset
-
  
 \end_layout
 
@@ -1697,126 +1898,6 @@ Virulence genes
 
 \begin_layout Itemize
 Phage 3396 from SDE
-\end_layout
-
-\begin_layout Subsection
-Gene-level studies
-\end_layout
-
-\begin_layout Standard
-[GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
- IN DETAIL]
-\end_layout
-
-\begin_layout Subsubsection
-Aminoacyl tRNA synthetase
-\end_layout
-
-\begin_layout Standard
-Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
- peptides.
- Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
- Aminoacyl tRNA synthetases have been a target of studies for horizontal
- gene transfer 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Lamour1994"
-
-\end_inset
-
-.
- In our analysis of the five genomes of streptococcus we inferred gene transfer
- in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
- synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
- synthetase, and histidyl-tRNA synthetase.
-\end_layout
-
-\begin_layout Subsubsection
-Phosphotransferase system
-\end_layout
-
-\begin_layout Standard
-The phosphotransferase system (PTS) in bacteria transports sugars such as
- glucose into the cell.
- Several phosphotransferase systems exist in the five genomes.
- The following gene products were found to be associated with bacterial
- recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
-uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
-pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
-fic transporter, and PTS system glucose-specific IIABC component.
-\end_layout
-
-\begin_layout Subsubsection
-ATP-binding cassette transporter
-\end_layout
-
-\begin_layout Standard
-ATP-binding cassette transporters import or export solutes such as ions
- across cells using ATP hydrolysis.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Noll2009"
-
-\end_inset
-
- studied horizontal gene transfer of archeal ABC transporter genes into
- bacteria via bacterial recombination.
- We found that ATP-binding cassette (ABC) transporters were associated with
- bacterial recombination.
-\end_layout
-
-\begin_layout Subsubsection
-Other genes
-\end_layout
-
-\begin_layout Standard
-putative transcription-repair coupling factor
-\end_layout
-
-\begin_layout Standard
-putative ferric uptake regulator 
-\end_layout
-
-\begin_layout Standard
-putative biotin synthase 
-\end_layout
-
-\begin_layout Standard
-putative calcium transporter
-\end_layout
-
-\begin_layout Standard
-putative dipeptidase
-\end_layout
-
-\begin_layout Standard
-putative adhesion protein
-\end_layout
-
-\begin_layout Standard
-putative folyl-polyglutamate synthetase
-\end_layout
-
-\begin_layout Standard
-putative uracil permease
-\end_layout
-
-\begin_layout Standard
-putative peptidoglycan hydrolase
-\end_layout
-
-\begin_layout Standard
-nucleotidase
-\end_layout
-
-\begin_layout Standard
-phosphopentomutase
-\end_layout
-
-\begin_layout Standard
-DNA topoisomerase I
 \end_layout
 
 \begin_layout Subsection
