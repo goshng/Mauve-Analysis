@@ -125,7 +125,7 @@ Department of Population Medicine and Diagnostic Sciences, College of Veterinary
 \end_layout
 
 \begin_layout Subsubsection*
-Authors for Correspondence:
+Author for Correspondence:
 \end_layout
 
 \begin_layout Standard
@@ -139,8 +139,9 @@ Abbreviations:
 \end_layout
 
 \begin_layout Standard
-ancestral recombination graph (ARG), group A streptococci (GAS), group C
- streptococci (GCS), group G streptococci (GGS), 
+phosphotransferase system (PTS), ATP-binding cassette (ABC), Aminoacyl tRNA
+ synthetase (aaRS), ancestral recombination graph (ARG), group A streptococci
+ (GAS), group C streptococci (GCS), group G streptococci (GGS), 
 \emph on
 Streptococcus pyogenes
 \emph default
@@ -168,8 +169,7 @@ dysgalactiae
 \emph on
 equisimilis
 \emph default
- (SDE), restriction-modification system (RMS), phosphotransferase system
- (PTS), ATP-binding cassette (ABC), Aminoacyl tRNA synthetase (aaRS).
+ (SDE).
 \end_layout
 
 \begin_layout Subsubsection*
@@ -181,7 +181,7 @@ bacterial recombination, gene duplication and transfer, Clonal Origin, Mowgli
 \end_layout
 
 \begin_layout Subsubsection*
-Version: 0.1 (May 13, 2011) 
+Version: 0.2 (June 3, 2011) 
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -193,13 +193,11 @@ Abstract
 \end_layout
 
 \begin_layout Standard
-
+Gene duplications and tranfser between 
 \emph on
 Streptococcus pyogenes
 \emph default
- (SPY) is a pervasive human-specific pathogen which causes streptococcal
- diseases.
- A closely related species 
+ (SPY) and its closely related species 
 \emph on
 S.
 \begin_inset space \space{}
@@ -215,61 +213,51 @@ dysgalactiae
 
 equisimilis
 \emph default
- (SDE) has long been thought of as a veterinary pathogen, but evidence has
- emerged that it can cause serious and life-threatening human diseases tradition
-ally associated with SPY.
- Because they cohabit the same ecological niche, genetic exchanges between
- SPY and SDE are likely.
- In this study we explored patterns of recombination in these species, as
- well as duplication, loss, and transfer of their genes.
- We attempted to address a question of whether genetic exchanges between
- SPY and SDE could have played a role in the formation of pathogenicity
+ (SDE) were interrogated using two recently developed methods that used
+ whole genomes of the two species.
+ One of the methods used core genomes of multiple DNA sequence alignments
+ with few gaps, and the other used pan genomes of alignments where multiple
+ paralogs could also be aligned and some of species did not have DNA sequences
+ aligned.
+ The two combined methods allowed to examine what kinds of genes or their
+ fragments were exchanges between SPY and SDE in order to find their roles
+ in the formation of pathogenicity of SDE.
+ SPY is a pervasive human-specific pathogen which causes streptococcal diseases.
+ A closely related species SDE has long been thought of as a veterinary
+ pathogen, but evidence has emerged that it can cause serious and life-threateni
+ng human diseases traditionally associated with SPY.
+ Previous studies were limited to relatively small portion of SPY and SDE
+ genomes partly because of lack of methods for studying gene transfer due
+ to bacterial recombination and 
+\emph on
+de novo
+\emph default
+ integration on the genome scale, and partly due to unavailability of relevant
+ bacterial genomes.
+ Using the core genomes we revisited a problem of the overall directionality
+ of gene transfer between SPY and SDE, and found marginally supporting evidence
+ for relative genomic flow from SPY to SDE based on bacterial recombination
+ as surrogate measure of genomic flow.
+ Protein coding genes that appeared to undergo gene transfer due to bacterial
+ recombination were found to be in several kinds of aminoacyl tRNA synthetase
+ (aaRS), phosphotransferase systems (PTS) specific to each of several sugars,
+ and ATP-binding cassette (ABC) transporters.
+ The association of aaRS with gene transfer was relatively well known, which
+ confirmed the power of the method of using the core genomes.
+ The PTS and ABC transporters could be essential for the successful adaptation
+ of the bacteria in new environments, which could be related with pathogenicity
  of SDE.
- Previous studies were limited to relatively small portion of a genome partly
- because of lack of methods for studying bacterial recombination on the
- genome scale, and partly due to unavailability of relevant bacterial genomes.
- The results allowed us to create a map of relative recombination rates
- across most of parts of the genomes of the species.
- We observed high variation in the recombination rates, including several
- loci which appeared to be hotspots for bacterial recombination.
- We found marginally supporting evidence that there appeared to be relatively
- more genomic flow from SPY to SDE than in the other direction based on
- bacterial recombination as surrogate measure of genomic flow.
- Reconciliation of species tree and gene trees based on gene fragments provided
- evidence that virulence genes appeared to undergo horizontal gene transfer
- than non-virulence genes.
- On the contrary, genomic flow due to bacterial recombination was not found
- to be associated with virulence genes.
+ Using the pan genomes the second method of reconciliation of species tree
+ and gene trees based on gene fragments provided evidence that virulence
+ genes appeared to undergo horizontal gene transfer than non-virulence genes.
+ On the contrary, the first method of using the core genomes did not find
+ association with virulence genes.
  This might indicate that additional genes obtained via horizontal gene
  transfer were more effective than gene fragments transfer via bacterial
- recombination for pathogenic bacteria to acquire biological functions that
- were critical to their survival in the environment in which their close
- relatives thrived.
- Protein coding genes that were found to undergo gene transfer due to bacterial
- recombination beloned to several kinds of aminoacyl tRNA synthetases, phosphotr
-ansferase systems specific to each of several sugars, and ATP-binding cassette
- transporters.
- We confirmed that aminoacyl tRNA synthetases were associated with gene
- transfer.
- ABC transporters could be related with pathogenicity.
+ recombination for pathogenic bacteria or SDE to acquire biological functions
+ that were critical to their survival in the environment in which their
+ close relatives or SPY thrived.
  
-\end_layout
-
-\begin_layout Standard
-[Did we find that the SPY and SDE exchange genetic segments across the entire
- genomes not just housekeeping genes?]
-\end_layout
-
-\begin_layout Standard
-[1.
- COMPREHESIVE AND DETAILED ANALYSIS OF CLOSELY RELATED BACTERIAL GENOMES
- -> This may be hard to say.]
-\end_layout
-
-\begin_layout Standard
-[2.
- BIOLOGICALLY INTERESTING GENES DISCOVERED BY THE ANALYSIS -> We may pursue
- this direction.]
 \end_layout
 
 \begin_layout Standard
@@ -284,7 +272,11 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Bacteria can infect humans with a variety of diseases: e.g., food poisoning
+
+\series bold
+Importance of gene transfer between SPY and SDE:
+\series default
+ Bacteria can infect humans with a variety of diseases: e.g., food poisoning
  by 
 \emph on
 Eschericha Coli
@@ -394,15 +386,19 @@ key "Davies2007a"
  by exchanging parts of their genomes.
  Pathogenicity of SDE may have been facilitated by the genetic interaction
  between the two species.
- Understanding their genetic exchanges would enhance our knowledge of their
- pathogenic effects on human health.
+ Understanding their genetic exchanges would enhance our knowledge of mechanisms
+ of their pathogenicity on human health.
  
 \end_layout
 
 \begin_layout Standard
-Phylognetic approaches can allow to better understand evolutionary forces
- of gene exchange between contemporary species (CITE).
- Bacterial phylogenetic studies recognized early on that lateral gene transfer
+
+\series bold
+Previous studies on gene transfer between SPY and SDE:
+\series default
+ Phylognetic approaches can allow to better understand evolutionary forces
+ of gene exchange between species.
+ Yet, bacterial phylogenetic studies recognized early on that gene transfer
  would complicate analyses of evolutionary relationships of the species
  
 \begin_inset CommandInset citation
@@ -424,8 +420,8 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 
 , most of the methods use relatively small portion of bacterial genomes.
  Likewise, because of the difficulty of developing methods and limited resources
- of bacterial genome sequences available, previous experimental researches
- in gene exchange between the two pyogeneic species were limited to relatively
+ of bacterial genome sequences available, previous researches in gene transfer
+ between the two pyogeneic species of SPY and SDE were limited to relatively
  small portion of the bacterial genome, mostly focusing on several genes
  
 \begin_inset CommandInset citation
@@ -460,8 +456,8 @@ key "Sachse2002"
 
 \end_inset
 
- tended to show gene transfer from SDE to SPY for the downstream of the
- genomic region of 
+ showed gene transfer from SDE to SPY for the downstream of the genomic
+ region of 
 \emph on
 speG
 \emph default
@@ -483,7 +479,103 @@ key "Kalia2001"
 \end_layout
 
 \begin_layout Standard
-Bacteria evolve vertically and horizontally.
+
+\series bold
+Previous methods on bacterial gene transfer in general:
+\series default
+ There have been new studies using genomes for studying bacterial gene transfer.
+ Notably, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Liu2009"
+
+\end_inset
+
+ studied gene transfer events in 
+\emph on
+Lactobacillus bulgaricus
+\emph default
+ and 
+\emph on
+Streptococcus thermophilus
+\emph default
+ using compositional approach developed by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Karlin2001"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Luo2011"
+
+\end_inset
+
+ studied gene transfer events in 
+\emph on
+Eschericha Coli
+\emph default
+ using embedded quartet decomposition analysis developed by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zhaxybayeva2006"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hamady2006"
+
+\end_inset
+
+ combined phylogenetic and compositional approaches to detecting horizontal
+ gene transfer.
+ [EXPAND THESE METHODS AND THEIR APPROACHES.]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Transfer targers of genes in bacteria:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chan2009a"
+
+\end_inset
+
+ showed that protein domains were not gene transfer units.
+ In another paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chan2009"
+
+\end_inset
+
+ studied gene with and without breakpoints, and found that more often entire
+ genes transfer in pathogens than in non-pathogens.
+ They found more genes with breakpoints than genes without breakpoints.
+ [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
+ ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
+ THEM.
+ GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
+ tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
+ (ABC) transporters.
+ IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Two distinguished mechanisms of bacterial gene transfer:
+\series default
+ Bacteria evolve vertically and horizontally.
  Vertically, bacteria evolve clonally: parents pass their genetic contents
  down to their daughter cells.
  Mutations during the vertical evolution accumulate, which allows bacterial
@@ -524,28 +616,20 @@ key "Lawrence2009"
  The former process involves bacterial recombination, and the latter horizontal
  transfer of DNA fragments.
  We wish to ditinguish gene transfer due to bacterial homologous recombination
- from additional gene fragments to a recipient bacterium due to horizontal
+ from integration of gene fragments to a recipient bacterium due to horizontal
  gene transfer.
- Note that we discriminate between the two processes throughout the manuscript.
- Both of the processes result in gene transfer from a donor to a recipient.
- Genes are presumed to be parts of regions of a genome not necessarily protein-c
-oding DNAs.
- New functions of bacteria appear to emerge more easily in horizontal way
- than in vertical way.
- When one species of bacteria thrives in its environment and another relatively
- close species starts to cohabit with the indigenous species, some genetic
- elements in one of the two species would benefit another species.
- If the two species do not compete with each other, then the increased genetic
- variation from multiple species would eventually bring advantage to both
- of the species.
- Pathogenicity of bacteria should be no exception.
- Studying pathogenic gene flow should shed light on the etiology of the
- bacterial pathogens.
+ Note that we discriminate between the two processes throughout the manuscript
+ although both of the processes result in gene transfer from a donor to
+ a recipient.
  
 \end_layout
 
 \begin_layout Standard
-Although gene transfer by homologous recombination and
+
+\series bold
+Two methods of studying gene transfer:
+\series default
+ Although gene transfer by homologous recombination and
 \emph on
  
 \emph default
@@ -612,6 +696,11 @@ ing addition of genic segments via horizontal transfer.
 \end_layout
 
 \begin_layout Standard
+
+\series bold
+ClonalOrigin:
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -665,8 +754,13 @@ Bacillus cereus
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLICA
-TION,TRANSFER?] 
+
+\series bold
+Mowgli:
+\series default
+ [MATT: COULD YOU ADD A PARAGRAPH OF REVIEW OF METHODS FOR GENE GAIN,LOSS,DUPLIC
+ATION,TRANSFER? THE FOLLOWING TEXT MAY NOT MAKE SENSE AT ALL.
+ YOU COULD REPLACE IT WITH NEW ONES.] 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Doyon2011"
@@ -693,9 +787,13 @@ ility of gene trees with a reference species tree.
 \end_layout
 
 \begin_layout Standard
-The development of methods of analyzing DNA sequences together with recent
+
+\series bold
+Last paragraph before methods:
+\series default
+ The development of methods of analyzing DNA sequences together with recent
  release of bacterial genomes of SPY and SDE provided us with opportunity
- of studying lateral gene transfer using whole bacterial genomes.
+ of studying gene transfer using whole bacterial genomes.
  We hoped that this study could further step towards the understanding of
  interaction between the two closely related human pathogens.
  Specifically, we wished to answer to three questions: Firstly, did two
@@ -705,11 +803,8 @@ The development of methods of analyzing DNA sequences together with recent
  was the transfer of genes balanced or unbalanced if the two pyogenic species
  exchanged genetic segments? Thirdly, what functional categories of genes
  were exchanged more often than others if they exchanged genetic material?
- Were virulence genes exchanged more often than non-virulence genes?
-\end_layout
-
-\begin_layout Standard
-We organize the remainder of the paper as follows.
+ Were virulence genes exchanged more often than non-virulence genes? We
+ organize the remainder of the paper as follows.
  We describe the data set and its analysis in Methods and Materials.
  In Results, we provide evidence supporting our answers to the questions
  above, and end in Discussion.
@@ -995,18 +1090,17 @@ Number of recombinant edges
 \begin_layout Standard
 The result of the second stage of ClonalOrigin MCMC was a posterior sample
  of sets of recombinant edges.
- A recombinant tree is referred to a species tree with recombinant edges
+ Note that we call a recombinant tree a species tree with recombinant edges
  attached to the species tree.
  We summarized the posterior sample to examine aspects of recombinant trees.
- First, we counted recombinant edges regardless of the start and end positions
- of the corresponding bacterial recombinations.
+ First, we counted recombinant edges regardless of their start and end positions.
  Number of recombination events were calculated for each of pairs of donor
  and recipient branches of the reference species tree, which would indicate
  the degree to which the clonal species tree was disrupted by bacterial
  recombination.
- We could compare number of recombination events from different pairs of
- donor and recipient.
- This gave us insight into relative strength of genome-wide gene flow.
+ Comparison of numbers of recombination events from different pairs of donor
+ and recipient gave us insight into relative strengths of genome-wide gene
+ flow.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1014,14 +1108,13 @@ key "Didelot2010"
 
 \end_inset
 
- inferred this relative strengths of bacterial recombination events.
+ inferred these relative strengths of bacterial recombination events.
  They summarized the number of recombination events inferred relative to
  its expected number under the prior of the ClonalOrigin model given recombinati
 on rate for each pair of donor and recipient branches.
- We aplied the method to the five streptococcus genomes to infer which types
- of bacterial recombination were more prevalent than which other types.
- Note that departure branches are donors, and arrival branches are recipients.
- Of more interest in here our study is if there are unbalanced recombination
+ We applied the method to the five streptococcus genomes to infer which
+ types of bacterial recombination were more prevalent than which other types.
+ Of interest in here our study is if there are unbalanced recombination
  events between two clades of SPY and SDE.
 \end_layout
 
@@ -1030,12 +1123,8 @@ Surrogate measure of recombination intensity
 \end_layout
 
 \begin_layout Standard
-Counting number of recombinant edges ignored the genomic locations affected
- by the recombinations.
- The number of recombinant edges would vary along a genome.
- We considered genomic locations that were affect by recombinations in order
- to quantify variation of recominations along a genome.
- 
+To consider genomic locations that were affect by recombinations in order
+ to quantify variation of recominations along a genome 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1045,85 +1134,21 @@ key "Didelot2010"
  summarized recombination events along a genome by measuring the effect
  of donor branches on a recipient species tree branch.
  By following their idea of summarizing recombination events along genomic
- locations we attempted to measure surrogate recombination intensity along
- genomic locations.
- Our surrogate measure of recombination intensity was not biologically meaningfu
-l.
+ locations we measured surrogate recombination intensity along genomic locations.
+ The surrogate measure of recombination intensity might not be biologically
+ meaningful.
  Yet, we hoped that the measure could discriminate between relative intensity
  values of bacterial recombination along a genome.
- The first surrogate measure is to quantify how often a particular site
- along a genome is affected by bacterial recombination.
- We count recombinant edges on a site of a genome.
+ We quantified how many types of recombinant edges affected each site along
+ a genome.
  A type of recombinant edge is specified by its departure and arrival branches
  of a reference species tree.
- Sixty different kinds of recombinant edges are possible in the species
- tree with five taxa under the ClonalOrigin model.
- The number of recombinant edges for a site could present relative intensity
- of recombination along a genome.
- We also computed the mean value of the first surrogate measure of a geneic
- region so that we could study genes that could undergo higher or lower
- recombination.
- The number of recombinant edges per site for a gene allowed us to study
- functional category association of genes using Gene Ontology (see section
- Functional categories under recombination).
-\end_layout
-
-\begin_layout Subsection
-Map of local gene trees and its usage of surrogate recombination intensity
-\end_layout
-
-\begin_layout Standard
-In addition to the first surrogate measure of recombination intensity, we
- exploited local gene tree topologies for all of the sites along alignment
- blocks in order to compute a second surrogate measure of recombination
- intensity.
- Local gene trees can be derived from a recombinant tree, or a species tree
- and its attached recombinant edges, for all of the sites of the alignment.
- Changes to local gene trees along multiple sequence alignments can involve
- changes in gene tree topology where recombinant edges start and end in
- the alignment.
- Not all recombinant edges change local gene tree topologies.
- Recombinant edges that depart from a species tree branch and arrive at
- the direct descendent of the branch may not change tree topologies.
- We summarized gene tree topologies 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Rohlf1983"
-
-\end_inset
-
- along alignment blocks to have three surrogate recombination intensity:
- the number of tree topology changes along a multiple alignment, the proportion
- of sites of a genic region where local gene tree topologies are different
- from the reference species tree topology, and the number of unique local
- gene tree topologies of a geneic region.
- These can serve as a surrogate for recombination intensity on a genic region.
- Counting tree topology changes on a subregion of a multiple alignment,
- or a gene within the multiple alignment, can allow for a surrogate quantificati
-on of recombination intensity on a gene as the first surrogate measure of
- recombination intensity.
- We studied functional category association of genes using unique number
- of gene tree topologies as a second surrogate measure of recombination
- intensity (see section Functional categories under recombination).
- 
-\end_layout
-
-\begin_layout Standard
-Because the two aspects of recombinant edges could be correlated with bacterial
- recombination, we used both of the surrogate measures of recombination
- intensity.
- The first measure was used to measure gene flows between a particular pairs
- of species branches in addition to quantification of overall recombination
- intensity.
- The second surrogate measure of recombination using gene tree topologies
- could be more conservative than that of the first measure of number of
- recombinant edges per site.
- This can be because certain recedges does not change gene tree topologies
- and the first measure still counts recombinant edges.
- A simulation study showed that the second measure of recombination behaved
- better than the first one, or better correlation with true value (FIGURE).
- 
+ Note that departure branches are donors, and arrival branches are recipients.
+ Using site-wise numbers of recombinant edge types we computed the mean
+ value of the first surrogate measure of recombinantion for a geneic region.
+ Then, we could study genes that could undergo higher recombination by finding
+ functional categories enriched with genes with higher measures of recombination
+ using Gene Ontology.
 \end_layout
 
 \begin_layout Subsection
@@ -1131,26 +1156,36 @@ Recombination intensity per recombinant edge type and genes
 \end_layout
 
 \begin_layout Standard
-As we mentioned earlier, the first surrogate measure of recombination could
- be extended to a posterior probability of a site being affected by a particular
- ordered pairs of two branches of a reference species tree.
- Focusing on a specific type of recombinant edge we could calculate the
- posterior probability that a site experiences genetic movement by the recombina
-nt edge type by averaging over all the posterior sample of recombinant edges.
- This could be interpreted as a posterior probability of the site having
- undergone transfer from one to another specified by the ordered pair of
- two branches.
+A recombinant tree with an alignment block tells what types of recombinant
+ edges affect a column of the block.
+ Because we would have a number recombinant edges sampled from the posterior
+ distribution of recombinant trees, we could calculate the posterior probability
+ that a site was affected by a recombinant edge type specified by the ordered
+ pair of two branches.
  Interpreting recombinant edges as genomic segment flow needs to be warned
- because the departure and arrival do not happen at the same time.
- Among the 60 types of recombinant edges 32 pairs of branches are possible
- in an ultrametric species tree with five taxa.
+ because the departure and arrival points of a recombinant edge do not happen
+ at the same time.
  Not all types of the recombinant edges can correspond to legitimate pairs
  of species tree branches for gene flow because some of branch pairs did
  not coexist at any past in time.
  A recombinant edge that departs from a root edge of a spcies tree and arrives
  at a leaf edge cannot be considered a channel for gene flow that connects
  the two species tree branches.
- Here in our study we were interested in gene flows between 
+ Among the 60 types of recombinant edges 32 pairs of branches are those
+ for recombinant edge types that can be considered as gene flow channels
+ in an ultrametric species tree with five taxa.
+ The posterior probability of a site experiencing gene flow due to a recombinant
+ edge type was plotted along genomes of the five species as well as their
+ ancestors.
+ We refer readers to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ for detailed description of the plot.
+ Because we were interested in gene flows between 
 \emph on
 S.
 \begin_inset space \space{}
@@ -1174,103 +1209,54 @@ dysgalactiae
 
 equisimilis
 \emph default
-.
- Since they were at extant nodes, we considered a channel with pairs of
- species tree branches one from 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
+ that were at extant nodes, we considered pairs of species tree branches
+ one from SPY, and another pairs from SDE as gene flow channels.
+ Four ordered pairs of species branches represented gene flow from SPY to
+ SDE.
+ Another four ordered pairs represented gene flow from SDE to SPY.
+ Averaging the posterior probabilities over the four possible recombinant
+ edge types and lengths of genic regions we measured the probability that
+ a gene experiences genetic movement by one direction from SDE to SPY or
+ the reverse direction.
+ This allowed us to examine gene categories that experience one direction
+ of gene flow more often than the other.
+\end_layout
 
-pyogenes
-\emph default
-, and another pairs from 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
+\begin_layout Subsection
+Gene tree topologies vary along the genome
+\end_layout
 
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- as gene flow channels.
- Four ordered pairs of species branches represent gene flow from 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
- to 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
-.
- Another four ordered pairs represent gene flow from 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- to 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
-.
- Furthremore, we could measure the average probability that a gene experiences
- genetic movement by a recombinant edge type by averaging over all the sites
- of a genic region.
- Enrichment of functional categories using the average probability of genes
- experiencing genetic movement was also employed using Gene Ontology (see
- section Functional categories under recombination; 
+\begin_layout Standard
+[I NEED TO DESCRIBE REASONS WHY CHANGES OF LOCAL GENE TREE TOPOLOGIES ARE
+ INTERESTING.] Local gene trees can be derived from a recombinant tree, or
+ a species tree and its attached recombinant edges, for all of the sites
+ of the alignment.
+ Changes to local gene trees along multiple sequence alignments can involve
+ changes in gene tree topology where recombinant edges start and end in
+ the alignment.
+ Not all recombinant edges change local gene tree topologies.
+ Recombinant edges that depart from a species tree branch and arrive at
+ the direct descendent of the branch may not change tree topologies.
+ We have a posterior sample of gene tree topologies along alignment blocks
+ by numbering gene tree topologies 
 \begin_inset CommandInset citation
-LatexCommand citealp
-key "Ashburner2000"
+LatexCommand citep
+before "e.g.,"
+key "Rohlf1983"
 
 \end_inset
 
-; see also 
-\begin_inset CommandInset citation
-LatexCommand citealp
-key "Suzuki2011"
-
-\end_inset
-
-).
+.
+ For a genic region of an alignment block we can measure a few different
+ aspects of gene tree topologies: the number of tree topology changes, the
+ proportion of sites where local gene tree topologies are different from
+ the reference species tree topology, and the number of unique local gene
+ tree topologies.
+ Each of these aspects can be correlated with bacterial recombination.
+ Because a simulation study showed that the number of unique gene tree topologie
+s of a geneic region could be correlated with true values (FIGURE), we tried
+ to associate the number of unique gene tree topologies with functional
+ categories.
 \end_layout
 
 \begin_layout Subsection
@@ -1386,283 +1372,6 @@ Melissa uses the virulence genes that were used Suzuki2011 to see if virulence
  recombination intensity, and gene loss, duplication, transfer.
 \end_layout
 
-\begin_layout Subsection
-Gene-level studies
-\end_layout
-
-\begin_layout Standard
-[GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
- IN DETAIL]
-\end_layout
-
-\begin_layout Subsubsection
-Aminoacyl tRNA synthetase
-\end_layout
-
-\begin_layout Standard
-Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
- peptides.
- Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
- Aminoacyl tRNA synthetases have been a target of studies for horizontal
- gene transfer 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Lamour1994"
-
-\end_inset
-
-.
- In our analysis of the five genomes of streptococcus we inferred gene transfer
- in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
- synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
- synthetase, and histidyl-tRNA synthetase.
-\end_layout
-
-\begin_layout Subsubsection
-Phosphotransferase system
-\end_layout
-
-\begin_layout Standard
-The phosphotransferase system (PTS) in bacteria transports sugars such as
- glucose into the cell.
- Several phosphotransferase systems exist in the five genomes.
- The following gene products were found to be associated with bacterial
- recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
-uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
-pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
-fic transporter, and PTS system glucose-specific IIABC component.
-\end_layout
-
-\begin_layout Subsubsection
-ATP-binding cassette transporter
-\end_layout
-
-\begin_layout Standard
-ATP-binding cassette transporters import or export solutes such as ions
- across cells using ATP hydrolysis.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Noll2009"
-
-\end_inset
-
- studied horizontal gene transfer of archeal ABC transporter genes into
- bacteria via bacterial recombination.
- We found that ATP-binding cassette (ABC) transporters were associated with
- bacterial recombination.
-\end_layout
-
-\begin_layout Subsubsection
-Other genes
-\end_layout
-
-\begin_layout Standard
-putative transcription-repair coupling factor
-\end_layout
-
-\begin_layout Standard
-putative ferric uptake regulator 
-\end_layout
-
-\begin_layout Standard
-putative biotin synthase 
-\end_layout
-
-\begin_layout Standard
-putative calcium transporter
-\end_layout
-
-\begin_layout Standard
-putative dipeptidase
-\end_layout
-
-\begin_layout Standard
-putative adhesion protein
-\end_layout
-
-\begin_layout Standard
-putative folyl-polyglutamate synthetase
-\end_layout
-
-\begin_layout Standard
-putative uracil permease
-\end_layout
-
-\begin_layout Standard
-putative peptidoglycan hydrolase
-\end_layout
-
-\begin_layout Standard
-nucleotidase
-\end_layout
-
-\begin_layout Standard
-phosphopentomutase
-\end_layout
-
-\begin_layout Standard
-DNA topoisomerase I
-\end_layout
-
-\begin_layout Subsection
-Simulation studies for checking ClonalOrigin's estimates
-\end_layout
-
-\begin_layout Standard
-We applied a statistical approach implemented in ClonalOrigin to the data
- set of the five genomes.
- The implementation of ClonalOrigin was stable for production use.
- We checked how well ClonalOrigin could recover parameters of interest under
- the parameter setup that were inferred using the five genomes of streptococcus
- species.
- We hoped that we could understand the power and limitations of ClonalOrigin
- under the parameter setup that we inferred from our data set.
-\end_layout
-
-\begin_layout Subsubsection
-The three main parameters
-\end_layout
-
-\begin_layout Standard
-Data sets were simulated under the ClonalOrigin model.
- The three main parameters were set to the values that had been estimated
- using the five genomes of streptococcus species: the mutation rate per
- site was 0.080814517322956, the recombination rate per site was 0.011849128789476
-6, and the average recombinant tract length was set to 743.702415841584.
- There were 274 blocks, lengths of which were the same as those of the real
- data set.
- Using the recombination rate and the average recombinant track length we
- simulated 10 recombinant trees along all of the blocks given the species
- tree that had been also estimated with ClonalFrame.
- The mutation rate and each of the recombinant trees were used to simulate
- 274 alignment blocks with Jukes-Cantor model 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Jukes1969"
-
-\end_inset
-
- of DNA sequence evolution.
- Note that we employed no insertion-deletion models although there were
- several approaches available 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Sipos2011"
-
-\end_inset
-
-.
- All of the 10 estimates of the mutation rate and the recombination rate
- were close to the true parameter value: the mean of the 10 estimates of
- the mutation rate was 0.08088 (SD 1.106735e-03), and those for the recombination
- rate was 0.01095 (SD 2.555159e-04).
- The mean of the 10 estimates of the recombinant tract length was 918.5(SD
- 28.19219), which was larger than the true value by 175 base pairs.
- This was not surprising because 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- already noted that recombinant tract lengths were difficult to estimate
- due to relatively short lengths of alignment blocks.
- As alignment block lengths were increased (e.g., 10,000 base pairs long)
- with 100 blocks, we could estimate the average recombinant tract length
- accurately using ClonalOrigin [USE SIMULATION 6].
- 
-\end_layout
-
-\begin_layout Subsubsection
-Number of recombinant edges: surrogate measure of recombination intensity
-\end_layout
-
-\begin_layout Standard
-Because of the two stages of MCMC in ClonalOrigin we simulated more data
- sets to check how well ClonalOrigin inferred recombination events inaddition
- to the three main parameters.
- We used the same parameters in the first simulation.
- We further simulated 10 recombinant trees instead of a single recombinant
- tree.
- Each of the recombinant trees was used to simulate 10 sets of 274 alignment
- blocks with the same DNA sequence evolution model, or Jukes-Cantor model.
- Because we were not aware of a way to compare two recombinant trees, we
- could not compare the true recombinant tree with a posterior sample of
- recombinant trees.
- We instead compared the three aspects of recombinant trees in the ClonalOrigin
- model.
- The three aspects were already exploited in this study: the number of recombina
-tion events between a donor and a recipient, and the two surrogate measures
- of recombination intensity.
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:h1"
-
-\end_inset
-
- shows a plot of true numbers of recombination events against their estimates
- for all of the possible ordered pairs of branches of the reference species
- tree.
- The estimated values were quite close to the true values.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:h2"
-
-\end_inset
-
- shows a plot of numbers of recombination events from the real data against
- those from the simulated data sets.
- Note that the numbers of recombination events from simulated data sets
- appear to deviate from the line of slope being 1 and intercept being 0.
- Note that the numbers of recombination events for the recombinant edges
- from SPY to SDE increase by more than 2.5 fold whereas those for the recombinant
- edges from SDE to SPY increase by about 1.7 fold.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ri1"
-
-\end_inset
-
- shows a scatter plot of genes with their estimated values of the first
- surrogate measure of recombination intensity against the corresponding
- true values.
- Lower values tended to be over-estimated, and higher values tended to be
- under-estimated.
- The Pearson's correlation coefficient between true values and estimates
- was 0.6332794.
- 
-\end_layout
-
-\begin_layout Standard
-Figure fig:ri2 shows a scatter plot of genes with their estimated values
- of the second surrogate measure of recombination intensity against the
- corresponding true values.
- The Pearson's correlation coefficient between true values and estimates
- was 0.XXX.
-\end_layout
-
-\begin_layout Subsection
-ClonalOrigin with splitting time
-\end_layout
-
-\begin_layout Standard
-[I DO NOT THINK THAT I HAVE PARAMETERS THAT CONTROL DIRECTIONALITY OF GENE
- FLOW DUE TO BACTERIAL RECOMBINATIONS.
- I CONSIDER A SIMULATION STUDY WHERE TWO POPULATIONS SHARE A COMMON ANCESTRAL
- POPULATION.
- I DID NOT PURSUE TO MAKE INFERENCE OF THE MODEL, AND YET I WISHED TO TEST
- CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NE1W MODEL.]
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
@@ -1672,14 +1381,6 @@ ClonalOrigin with splitting time
 
 \begin_layout Section
 Results
-\end_layout
-
-\begin_layout Subsection
-Core- and pan-genome 
-\end_layout
-
-\begin_layout Standard
-IMPORTANT: +Follow Darling2010 in the analysis of core- and pan-genome.+
 \end_layout
 
 \begin_layout Subsection
@@ -1999,6 +1700,283 @@ Phage 3396 from SDE
 \end_layout
 
 \begin_layout Subsection
+Gene-level studies
+\end_layout
+
+\begin_layout Standard
+[GENES IN THE FUNCTIONAL CATEGORY WITH HIGHER RECOMBINATION ARE INVESTIGATED
+ IN DETAIL]
+\end_layout
+
+\begin_layout Subsubsection
+Aminoacyl tRNA synthetase
+\end_layout
+
+\begin_layout Standard
+Amino acids are transferred from charged transfer RNA (tRNA) onto a growing
+ peptides.
+ Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid.
+ Aminoacyl tRNA synthetases have been a target of studies for horizontal
+ gene transfer 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Lamour1994"
+
+\end_inset
+
+.
+ In our analysis of the five genomes of streptococcus we inferred gene transfer
+ in several aminoacyl tRNA synthetases: lysyl-tRNA synthetase, phenylalanyl-tRNA
+ synthetase, isoleucyl-tRNA synthetase, valyl-tRNA synthetase, aspartyl-tRNA
+ synthetase, and histidyl-tRNA synthetase.
+\end_layout
+
+\begin_layout Subsubsection
+Phosphotransferase system
+\end_layout
+
+\begin_layout Standard
+The phosphotransferase system (PTS) in bacteria transports sugars such as
+ glucose into the cell.
+ Several phosphotransferase systems exist in the five genomes.
+ The following gene products were found to be associated with bacterial
+ recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
+uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
+pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
+fic transporter, and PTS system glucose-specific IIABC component.
+\end_layout
+
+\begin_layout Subsubsection
+ATP-binding cassette transporter
+\end_layout
+
+\begin_layout Standard
+ATP-binding cassette transporters import or export solutes such as ions
+ across cells using ATP hydrolysis.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Noll2009"
+
+\end_inset
+
+ studied horizontal gene transfer of archeal ABC transporter genes into
+ bacteria via bacterial recombination.
+ We found that ATP-binding cassette (ABC) transporters were associated with
+ bacterial recombination.
+\end_layout
+
+\begin_layout Subsubsection
+Other genes
+\end_layout
+
+\begin_layout Standard
+putative transcription-repair coupling factor
+\end_layout
+
+\begin_layout Standard
+putative ferric uptake regulator 
+\end_layout
+
+\begin_layout Standard
+putative biotin synthase 
+\end_layout
+
+\begin_layout Standard
+putative calcium transporter
+\end_layout
+
+\begin_layout Standard
+putative dipeptidase
+\end_layout
+
+\begin_layout Standard
+putative adhesion protein
+\end_layout
+
+\begin_layout Standard
+putative folyl-polyglutamate synthetase
+\end_layout
+
+\begin_layout Standard
+putative uracil permease
+\end_layout
+
+\begin_layout Standard
+putative peptidoglycan hydrolase
+\end_layout
+
+\begin_layout Standard
+nucleotidase
+\end_layout
+
+\begin_layout Standard
+phosphopentomutase
+\end_layout
+
+\begin_layout Standard
+DNA topoisomerase I
+\end_layout
+
+\begin_layout Subsection
+Simulation studies for checking ClonalOrigin's estimates
+\end_layout
+
+\begin_layout Standard
+We applied a statistical approach implemented in ClonalOrigin to the data
+ set of the five genomes.
+ The implementation of ClonalOrigin was stable for production use.
+ We checked how well ClonalOrigin could recover parameters of interest under
+ the parameter setup that were inferred using the five genomes of streptococcus
+ species.
+ We hoped that we could understand the power and limitations of ClonalOrigin
+ under the parameter setup that we inferred from our data set.
+\end_layout
+
+\begin_layout Subsubsection
+The three main parameters
+\end_layout
+
+\begin_layout Standard
+Data sets were simulated under the ClonalOrigin model.
+ The three main parameters were set to the values that had been estimated
+ using the five genomes of streptococcus species: the mutation rate per
+ site was 0.080814517322956, the recombination rate per site was 0.011849128789476
+6, and the average recombinant tract length was set to 743.702415841584.
+ There were 274 blocks, lengths of which were the same as those of the real
+ data set.
+ Using the recombination rate and the average recombinant track length we
+ simulated 10 recombinant trees along all of the blocks given the species
+ tree that had been also estimated with ClonalFrame.
+ The mutation rate and each of the recombinant trees were used to simulate
+ 274 alignment blocks with Jukes-Cantor model 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Jukes1969"
+
+\end_inset
+
+ of DNA sequence evolution.
+ Note that we employed no insertion-deletion models although there were
+ several approaches available 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Sipos2011"
+
+\end_inset
+
+.
+ All of the 10 estimates of the mutation rate and the recombination rate
+ were close to the true parameter value: the mean of the 10 estimates of
+ the mutation rate was 0.08088 (SD 1.106735e-03), and those for the recombination
+ rate was 0.01095 (SD 2.555159e-04).
+ The mean of the 10 estimates of the recombinant tract length was 918.5(SD
+ 28.19219), which was larger than the true value by 175 base pairs.
+ This was not surprising because 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ already noted that recombinant tract lengths were difficult to estimate
+ due to relatively short lengths of alignment blocks.
+ As alignment block lengths were increased (e.g., 10,000 base pairs long)
+ with 100 blocks, we could estimate the average recombinant tract length
+ accurately using ClonalOrigin [USE SIMULATION 6].
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Number of recombinant edges: surrogate measure of recombination intensity
+\end_layout
+
+\begin_layout Standard
+Because of the two stages of MCMC in ClonalOrigin we simulated more data
+ sets to check how well ClonalOrigin inferred recombination events inaddition
+ to the three main parameters.
+ We used the same parameters in the first simulation.
+ We further simulated 10 recombinant trees instead of a single recombinant
+ tree.
+ Each of the recombinant trees was used to simulate 10 sets of 274 alignment
+ blocks with the same DNA sequence evolution model, or Jukes-Cantor model.
+ Because we were not aware of a way to compare two recombinant trees, we
+ could not compare the true recombinant tree with a posterior sample of
+ recombinant trees.
+ We instead compared the three aspects of recombinant trees in the ClonalOrigin
+ model.
+ The three aspects were already exploited in this study: the number of recombina
+tion events between a donor and a recipient, and the two surrogate measures
+ of recombination intensity.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:h1"
+
+\end_inset
+
+ shows a plot of true numbers of recombination events against their estimates
+ for all of the possible ordered pairs of branches of the reference species
+ tree.
+ The estimated values were quite close to the true values.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:h2"
+
+\end_inset
+
+ shows a plot of numbers of recombination events from the real data against
+ those from the simulated data sets.
+ Note that the numbers of recombination events from simulated data sets
+ appear to deviate from the line of slope being 1 and intercept being 0.
+ Note that the numbers of recombination events for the recombinant edges
+ from SPY to SDE increase by more than 2.5 fold whereas those for the recombinant
+ edges from SDE to SPY increase by about 1.7 fold.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ri1"
+
+\end_inset
+
+ shows a scatter plot of genes with their estimated values of the first
+ surrogate measure of recombination intensity against the corresponding
+ true values.
+ Lower values tended to be over-estimated, and higher values tended to be
+ under-estimated.
+ The Pearson's correlation coefficient between true values and estimates
+ was 0.6332794.
+ 
+\end_layout
+
+\begin_layout Standard
+Figure fig:ri2 shows a scatter plot of genes with their estimated values
+ of the second surrogate measure of recombination intensity against the
+ corresponding true values.
+ The Pearson's correlation coefficient between true values and estimates
+ was 0.XXX.
+\end_layout
+
+\begin_layout Subsection
+ClonalOrigin with splitting time
+\end_layout
+
+\begin_layout Standard
+[I DO NOT THINK THAT I HAVE PARAMETERS THAT CONTROL DIRECTIONALITY OF GENE
+ FLOW DUE TO BACTERIAL RECOMBINATIONS.
+ I CONSIDER A SIMULATION STUDY WHERE TWO POPULATIONS SHARE A COMMON ANCESTRAL
+ POPULATION.
+ I DID NOT PURSUE TO MAKE INFERENCE OF THE MODEL, AND YET I WISHED TO TEST
+ CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NE1W MODEL.]
+\end_layout
+
+\begin_layout Subsection
 Gene gain, loss, duplication, and horizontal gene transfer
 \end_layout
 
@@ -2059,6 +2037,196 @@ uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
 iae_ ssp.
  _equisimilis_ isolates recovered during human infections.
  
+\end_layout
+
+\begin_layout Subsection
+Gene transfer in MLST genes studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "McMillan2010"
+
+\end_inset
+
+ showed that there were high recombination and gene transfer in the seven
+ housekeeping genes.
+ We examined the seven genes that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ had studied for directionality of gene transfer between SPY and SDE.
+ Internal fragments of the seven housekeeping genes, encoding putative glucose
+ kinase (
+\emph on
+gki
+\emph default
+), glutamine transport protein (
+\emph on
+gtr
+\emph default
+), glutamate racemase (
+\emph on
+murI
+\emph default
+), mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+), transketolase (
+\emph on
+recP
+\emph default
+), xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+), and acetylcoenzyme A acetyltransferase (
+\emph on
+yqiL
+\emph default
+) were located in SPY1 genome to examine recombination edge types.
+ Except 
+\emph on
+yqiL 
+\emph default
+gene all of the six genes were in the alignment blocks: 
+\emph on
+gki
+\emph default
+ (SpyM3_1180), 
+\emph on
+gtr
+\emph default
+ (SpyM3_1161), 
+\emph on
+muri
+\emph default
+ (SpyM3_0262), 
+\emph on
+muts
+\emph default
+ (SpyM3_1806), 
+\emph on
+recP
+\emph default
+ (SpyM3_1462), 
+\emph on
+xpt
+\emph default
+ (SpyM3_0794), and 
+\emph on
+yqiL
+\emph default
+ (SpyM3_0108).
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gki"
+
+\end_inset
+
+ shows recombinant edges on the putative glucose kinase where there appears
+ to be very weak recombination from SPY1 to SDE1.
+ Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gtr"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muri"
+
+\end_inset
+
+ show recombinant edges on glutamine transport protein and glutamate racemase,
+ respectively, where no gene flows were detected between SPY and SDE.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muts"
+
+\end_inset
+
+ shows recombinant edges on mismatch repair enzyme.
+ There appears to be gene flow from SPY2 to SDE.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-recp"
+
+\end_inset
+
+ shows recombinant edges on transketolase.
+ There appears to be gene flow from SPY1 to SDE2.
+ Interestingly, recombinant edges from SDE1 to SPY1 seem to be also strong.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-xpt"
+
+\end_inset
+
+ shows recombinant edges on xanthine phosphoribosyltransferase where there
+ seem to be gene flow from SPY2 to SDE1, and from SPY1 to SDE2.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+: gene parC and some recombination
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+ studied fluoroquinolone resistance in SDE.
+ They reported that there were recombination in gene 
+\emph on
+parC
+\emph default
+ that we observed as shown Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-parc"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kinsella2003"
+
+\end_inset
+
+ and fatty acid biosynthesis - implication of gene transfer and bacterial
+ recombination.
 \end_layout
 
 \begin_layout Standard
@@ -2619,6 +2787,40 @@ key "Luo2011"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Further studies
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Holden2009"
+
+\end_inset
+
+ studied Streptococcus equi subspecies equi (S.
+ equi), Streptococcus equi subspecies zooepidemicus (S.
+ zooepidemicus), and S.
+ pyogenes.
+ They were said to share 80% DNA sequence similarity, which indicated that
+ they may be another subject of study using ClonalOrigin.
+\end_layout
+
+\begin_layout Standard
+New functions of bacteria appear to emerge more easily in horizontal way
+ than in vertical way.
+ When one species of bacteria thrives in its environment and another relatively
+ close species starts to cohabit with the indigenous species, some genetic
+ elements in one of the two species would benefit another species.
+ If the two species do not compete with each other, then the increased genetic
+ variation from multiple species would eventually bring advantage to both
+ of the species.
+ Pathogenicity of bacteria should be no exception.
+ Studying pathogenic gene flow should shed light on the etiology of the
+ bacterial pathogens.
+ 
 \end_layout
 
 \begin_layout Section*
@@ -4230,6 +4432,290 @@ The first surrogate measure of recombination intensity of genes
 \end_layout
 
 \begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/ri1-refgenome4-map-01204579.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-gki"
+
+\end_inset
+
+Recombinant edges on putative glucose kinase (
+\emph on
+gki
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01185931.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-gtr"
+
+\end_inset
+
+Recombinant edges on glutamine transport protein (
+\emph on
+gtr
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00302483.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-muri"
+
+\end_inset
+
+Recombinant edges on glutamate racemase (
+\emph on
+murI
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01836292.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-muts"
+
+\end_inset
+
+Recombinant edges on mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01450555.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-recp"
+
+\end_inset
+
+Recombinant edges on transketolase (
+\emph on
+recP
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00844027.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-xpt"
+
+\end_inset
+
+Recombinant edges on xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00685684.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-parc"
+
+\end_inset
+
+Recombinant edges on DNA topoisomerase IV subunit A (
+\emph on
+parC
+\emph default
+)
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
