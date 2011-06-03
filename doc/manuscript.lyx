@@ -1313,63 +1313,54 @@ key "Doyon2011"
 \end_layout
 
 \begin_layout Subsection
-Functional categories under recombination
+Functional categories association
 \end_layout
 
 \begin_layout Standard
-[MELISSA: COULD YOU EXPAND OR REPLACE THIS SECTION?]
+[MELISSA: COULD YOU EDIT THE FOLLOWING PARAGRAPH? I TRIED TO WRITE DOWN
+ FROM WHAT I UNDERSTOOD.
+ AS SUCH THEY MAY BE WRONG.]
 \end_layout
 
 \begin_layout Standard
-I used SPY1 genome for annotations.
- The genbank formatted genome annotation was downloaded from NCBI.
- I downloaded JCVI role annotations of all JCVI annotated genes at ftp://ftp.jcvi.
-org.
- I downloaded JCVI loci information of SPY1 genome at http://cmr.jcvi.org.
- I searched the JCVI CMV website for SPY1 genome to list JCVI loci.
- I compared JCVI loci and NCBI locus_tag to find one-to-one association
- between JCVI locus and NCCI locus_tag.
- I downloaded bcp_go_role_link and bcp_role_link at ftp://ftp.jcvi.org/pub/data/Om
-niome_Database/tab_delimited_omniome.
- I used bcp_go_role_link to find gene ontology annotations for the JCVI
- loci.
- The one-to-one associations were used to assign NCBI loci with their gene
- ontology annotations and JCVI role annotations.
- I listed roles at http://cmr.jcvi.org/cgi-bin/CMR/shared/RoleList.cgi and
- parsed the HTML source to find role categories and their identifiers.
- For JCVI roles I can group locus tags by main roles or submain roles using
- the numbers.
- I measured recombination intensity of a gene.
- Recombination intensity of a gene is an average weighted over the length
- of the gene in nucleotide.
- For each functional category of JCVI roles I divided genes into two groups
- where one consists of genes with the corresponding functional category
- and another of genes not annotated with the category.
- Two-sample Kolmogorov-Smirnov tests were performed for each functional
- category.
- I also used the category of virulence genes from Davies2007 to test if
- virulence genes were under higher or lower recombination.
- IMPORTANT: Mellisa has setup gene ontology analysis.
- I need to add gene ontology analysis.
- 
-\end_layout
+We performed functional category analysis with site-wise numbers of recombinant
+ edge types.
+ We used our previous approach of functional category enrichment test developed
+ by
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suzuki2011"
 
-\begin_layout Subsection
-Virulence genes and laternal transfer
-\end_layout
+\end_inset
 
-\begin_layout Standard
-[MELISSA: COULD YOU EXPAND THIS SECTION?]
-\end_layout
+.
+ All of the genes in SPY1 or strain MGAS315 were BLASTED against Uniref90
+ database.
+ The uniProt GOA database was used to assign SPY1 genes with Gene Ontology
+ terms 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ashburner2000"
 
-\begin_layout Standard
-Virulence genes and lateral transfer of theirs.
-\end_layout
+\end_inset
 
-\begin_layout Standard
-Melissa uses the virulence genes that were used Suzuki2011 to see if virulence
- genes and non-virulence genes are different in their assigned values of
- recombination intensity, and gene loss, duplication, transfer.
+ and all of the parents thereof in the Gene Ontology hierarchy.
+ We also tried to test for an excess of virulence genes as well using the
+ site-wise numbers of recombinant edge types.
+ We also performed the same functional cateogry analysis with number of
+ duplication, loss, non-recombining horizontal transfer, or recombining
+ gene transfer events that we obtained in Mowgli analysis.
+ The functional categories were listed in order of significancy using 5%
+ false discovery rate (FDR) (CITE).
+ We also took advantage of the virulence gene profiles from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suzuki2011"
+
+\end_inset
+
+ to test if there were excess of duplication, loss, non-recombining horizontal
+ transfer, or recombining gene transfer events in virulence genes.
 \end_layout
 
 \begin_layout Standard
@@ -1577,14 +1568,70 @@ Phosphotransferase system
 \end_layout
 
 \begin_layout Standard
-The phosphotransferase system (PTS) in bacteria transports sugars such as
- glucose into the cell.
- Several phosphotransferase systems exist in the five genomes.
- The following gene products were found to be associated with bacterial
- recombination: PTS system N-acetylgalactosamine-specific, PTS system mannose/fr
-uctose family, PTS system galactose-specific IIC component, PTS system mannose-s
-pecific, PTS system sucrose-specific IIABC component, PTS system ascorbate-speci
-fic transporter, and PTS system glucose-specific IIABC component.
+Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
+ group translation, transports sugars such as glucose into the cell where
+ phosphorylation of the sugar happens.
+ There have been studies of gene transfer of PTS in bacteria 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Barabote2005,Zuniga2005"
+
+\end_inset
+
+.
+ As the main source of energy for bacteria, sugars in the bacterial niches
+ must have been acting as important selective pressure.
+ It is not surprising that PTS sugars differ among bacterial groups.
+ Several phosphotransferase systems exist in the five genomes depending
+ on different kinds of sugars.
+ SDE1 appeared to receive PTS system mannose/fructose transporter from SPY
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-mannose"
+
+\end_inset
+
+).
+ SPY1 appeared to receive PTS system galactose-specific IIC component from
+ SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-galactose"
+
+\end_inset
+
+).
+ SDE1 appeared to receive PTS system mannose-specific from SPY2 (Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-mannose2"
+
+\end_inset
+
+).
+ SDE1 and SPY1 appeared to receive PTS system sucrose-specific IIABC component
+ from SPY and SDE, respectively (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-sucrose"
+
+\end_inset
+
+).
+ SPY1 appeared to receive PTS system glucose-specific IIABC component from
+ SDE (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-glucose"
+
+\end_inset
+
+).
+ We also inferred bacterial recombination in PTS system N-acetylgalactosamine-sp
+ecific and PTS system ascorbate-specific transporter.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1604,7 +1651,28 @@ key "Noll2009"
  studied horizontal gene transfer of archeal ABC transporter genes into
  bacteria via bacterial recombination.
  We found that ATP-binding cassette (ABC) transporters were associated with
- bacterial recombination.
+ bacterial recombination (Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc2"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc3"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Subsubsection
@@ -1612,51 +1680,64 @@ Other genes
 \end_layout
 
 \begin_layout Standard
-putative transcription-repair coupling factor
-\end_layout
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cadmium"
 
-\begin_layout Standard
-putative ferric uptake regulator 
-\end_layout
+\end_inset
 
-\begin_layout Standard
-putative biotin synthase 
-\end_layout
+ shows that SDE1 appeared to receive putative heavy metal/cadmium transporting
+ ATPase from SPY2.
+ SDE1 appeared to receive putative penicillin-binding protein 1b from SPY2
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:penicillin"
 
-\begin_layout Standard
-putative calcium transporter
-\end_layout
+\end_inset
 
-\begin_layout Standard
-putative dipeptidase
-\end_layout
+).
+ SDE2 seemed to receive proteases from SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:protease"
 
-\begin_layout Standard
-putative adhesion protein
-\end_layout
+\end_inset
 
-\begin_layout Standard
-putative folyl-polyglutamate synthetase
-\end_layout
+).
+ SDE1 appeared to receive putative peptidoglycan hydrolase from SPY1 (Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hydrolase"
 
-\begin_layout Standard
-putative uracil permease
-\end_layout
+\end_inset
 
-\begin_layout Standard
-putative peptidoglycan hydrolase
-\end_layout
+).
+ SDE2 appeared to receive putative ATP-dependent RNA helicase from SPY2
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:helicase"
 
-\begin_layout Standard
-nucleotidase
-\end_layout
+\end_inset
 
-\begin_layout Standard
-phosphopentomutase
-\end_layout
+).
+ Hemolysin seemed to be transferred from SPY2 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hemolysin"
 
-\begin_layout Standard
-DNA topoisomerase I
+\end_inset
+
+).
+ There are more genes that might have been experiencing gene transfer due
+ to recombination: putative transcription-repair coupling factor, putative
+ ferric uptake regulator, putative biotin synthase, putative calcium transporter
+, putative dipeptidase, putative adhesion protein, putative folyl-polyglutamate
+ synthetase, putative uracil permease, nucleotidase, phosphopentomutase,
+ DNA topoisomerase I, and DNA polymerase III PolC.
 \end_layout
 
 \begin_layout Subsection
@@ -1664,7 +1745,28 @@ Functional categories associated with non-recombining horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-b
+[MATT: COULD YOU FIND SOME EXAMPLES OF GENE FAMILIES OF NON-RECOMBINING
+ HORIZONTAL GENE TRANSFER? IT WOULD BE INTERESTING TO SEE THOSE EVENTS IN
+ VIRULENCE GENES.
+ BECAUSE WE FOUND THAT VIRULENCE GENE FAMILIES TENDED TO UNDERGO NON-RECOMBINING
+ HORIZONTAL TRANSFER, WE MIGHT BE ABLE TO FIND EXAMPLES OF THOSE.
+ WE COULD SHOW THEIR POSSIBLE OR PARSIMONIOUS PATHS OF EVOULATIONARY EVENTS
+ USING GENE TREE AND SPECIES TREE.
+ WE MIGHT CHOOSE WELL-KNOWN VIRULENCE FACTORS IF WE COULD.
+ HOW MANY GENE FAMILIES HAD NON-RECOMBINING HORIZONTAL GENE TRANSFER? WHEN
+ YOU USED STRICTER CRITERIA OF NON-RECOMBINING GENE TRANSFER, THE NUMBER
+ OF GENE FAMILIES APPEARED TO DECREASE DRAMATICALLY.
+ IF THERE ARE NOT SO MANY, THEN WE MIGHT PLOT TRANSFER EVENTS USING GENE
+ TREE AND SPECIES TREE FOR THOSE VIRULENCE GENES.] 
+\end_layout
+
+\begin_layout Standard
+There were functional categories that appeared to be significant in both
+ ClonalOrigin and Mowgli analyses: e.g., ribonucleoprotein complex, rRNA binding,
+ and translation.
+ Because both methods were based on a similar criterion of comparison between
+ gene trees and a species tree, we would find same functional categories
+ associated with higher discordance of gene tree and species tree.
 \end_layout
 
 \begin_layout Subsection
@@ -1672,7 +1774,61 @@ Virulence genes associated with non-recombining horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-c
+There were 207 loci identified as virulent compared to 2,453 not virulent.
+ By virulent we meant that at least one of the genes in the gene family
+ was identified as virulent using the virulence profile from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suzuki2011"
+
+\end_inset
+
+.
+ Virulence category enrichment for duplication, loss, non-recombining horizontal
+ transfer, and recombining gene transfer showed that there were differences
+ in non-recombining horizontal transfer (P-Value of 1.329719e-11) between
+ virulence gene families and non-virulence ones.
+ Testing for an excess of duplication events in the virulent category was
+ fairly significant with P-Value of 7.138439e-4.
+ We did not find evidence of excess of loss or recombining gene transfer
+ events in virulence genes.
+ This might indicate that 
+\emph on
+de novo 
+\emph default
+integration of genes horizontally transferred might have been more effective
+ for SDE or SPY to acquire virulence genes than recombining gene transfer.
+ This seemed to be consistent with the result of ClonalOrigin where we did
+ not find excess of recombination events in viruence genes.
+ We found elevation of recombination rates in non-virulent genes with P-Value
+ of 0.027 using site-wise numbers of recombinant edge types.
+\end_layout
+
+\begin_layout Subsection
+Gene gain, loss, duplication, and non-recombining horizontal gene transfer
+\end_layout
+
+\begin_layout Standard
+[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gene-duplication-loss"
+
+\end_inset
+
+ shows the inferred gene counts for each extant and ancestral species.
+ We found that duplications made up only a small fraction of the events
+ within the clade (9.6%), while horizontal transfers and losses were significantl
+y more frequent (37.5% and 52.9%, respectively).
+  We found that duplications were most often species-specific.
+  Many gene losses likely represented horizontal transfers that replaced
+ the native gene sequence.
+ The relatively high number of transfers into SDE1 and SDE2 seemed to support
+ the findings from the ClonalOrigin analysis.
 \end_layout
 
 \begin_layout Subsection
@@ -1680,7 +1836,258 @@ Marginal evidence for unbalaned gene flow from SPY to SDE
 \end_layout
 
 \begin_layout Standard
-d
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tree5"
+
+\end_inset
+
+ shows a 50% majority-rule consensus tree that was an estimate of the species
+ tree using ClonalFrame.
+ The estimated species tree related the five streptococcal genomes: SPY1
+ and SPY2 form a clade while SDE1 and SDE2 form a separate clade, and SDD
+ is connected to the lineage to the clade of SDE1 and SDE2.
+ Because the lengths of SPY1 and SPY2 were larger than those of SDE1 and
+ SDE2, recombinant edges could more often depart from one of SPY1 and SPY2
+ lineages and arrive at one of SDE1 and SDE2 lineages than those for the
+ reverse direction 
+\emph on
+a priori
+\emph default
+.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Heatmap-of-recombination"
+
+\end_inset
+
+ shows the number of recombination events inferred relative to its expectation
+ under ClonalOrigin prior model given the recombination rate, for each donor/rec
+ipient pair of species tree branches.
+ The green cells were the ones for which the ratios were meaningless because
+ the recipient species tree branch of the cells was older than the donor
+ species branch.
+ Two clades were noticeable: SD and SPY.
+ Note that the ratios of observed and expected numbers of recombinant edges
+ from SPY1 and SPY2 to the three branches of SDE clades were almost twice
+ the ratios for the reverse directions.
+ We already took into account of the prior expected number of recombinant
+ edges.
+ The ratios for the ordered pair from either SPY1 or SPY2 to either SDE1
+ or SDE2 were 2.46, 2.48, 2.5, and 2.58.
+ The ratios for the reverse direction were 1.16, 1.25, 1.47, and 1.59.
+ The result appeared to indicate that gene flow from SPY to SDE was stronger
+ than that for the reverse direction.
+ We also performed a simulation study to examine how powerful ClonalOrigin's
+ inference of numbers of recombinant edges.
+ Numbers of recombinant edges were inferred quite accurately (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:h1"
+
+\end_inset
+
+).
+ Because the simulated data were generated with no directionality, we wished
+ to subtract the numbers of recombinant edges inferred from the simulated
+ data from those inferred from the real data to account for any potential
+ biases hidden in ClonalOrigin.
+ Since inferrence of number of recombinant edges was accurate, subtraction
+ of number of recombinant edges inferred from simulated data and subtraction
+ of the prior expected number of recombinant edges worked almost effectively
+ similarly.
+\end_layout
+
+\begin_layout Standard
+Gene transfer in MLST genes studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "McMillan2010"
+
+\end_inset
+
+ showed that there were high recombination and gene transfer in the seven
+ housekeeping genes.
+ We examined the seven genes that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ had studied for directionality of gene transfer between SPY and SDE.
+ Internal fragments of the seven housekeeping genes, encoding putative glucose
+ kinase (
+\emph on
+gki
+\emph default
+), glutamine transport protein (
+\emph on
+gtr
+\emph default
+), glutamate racemase (
+\emph on
+murI
+\emph default
+), mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+), transketolase (
+\emph on
+recP
+\emph default
+), xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+), and acetylcoenzyme A acetyltransferase (
+\emph on
+yqiL
+\emph default
+) were located in SPY1 genome to examine recombination edge types.
+ Except 
+\emph on
+yqiL 
+\emph default
+gene all of the six genes were in the alignment blocks: 
+\emph on
+gki
+\emph default
+ (SpyM3_1180), 
+\emph on
+gtr
+\emph default
+ (SpyM3_1161), 
+\emph on
+muri
+\emph default
+ (SpyM3_0262), 
+\emph on
+muts
+\emph default
+ (SpyM3_1806), 
+\emph on
+recP
+\emph default
+ (SpyM3_1462), 
+\emph on
+xpt
+\emph default
+ (SpyM3_0794), and 
+\emph on
+yqiL
+\emph default
+ (SpyM3_0108).
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gki"
+
+\end_inset
+
+ shows recombinant edges on the putative glucose kinase where there appears
+ to be very weak recombination from SPY1 to SDE1.
+ Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gtr"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muri"
+
+\end_inset
+
+ show recombinant edges on glutamine transport protein and glutamate racemase,
+ respectively, where no gene flows were detected between SPY and SDE.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muts"
+
+\end_inset
+
+ shows recombinant edges on mismatch repair enzyme.
+ There appears to be gene flow from SPY2 to SDE.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-recp"
+
+\end_inset
+
+ shows recombinant edges on transketolase.
+ There appears to be gene flow from SPY1 to SDE2.
+ Interestingly, recombinant edges from SDE1 to SPY1 seem to be also strong.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-xpt"
+
+\end_inset
+
+ shows recombinant edges on xanthine phosphoribosyltransferase where there
+ seem to be gene flow from SPY2 to SDE1, and from SPY1 to SDE2.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+: gene parC and some recombination
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+ studied fluoroquinolone resistance in SDE.
+ They reported that there were recombination in gene 
+\emph on
+parC
+\emph default
+ that we observed as shown Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-parc"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kinsella2003"
+
+\end_inset
+
+ and fatty acid biosynthesis - implication of gene transfer and bacterial
+ recombination.
 \end_layout
 
 \begin_layout Subsection
@@ -1688,28 +2095,36 @@ Gene tree topologies vary along the genome of streptococcus
 \end_layout
 
 \begin_layout Standard
-e
+In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
+ of sites agreed with that of the reference species tree (Figure HISTOGRAM
+ OF TREE TOPOLOGIES).
+ The second most probable gene tree topology was a tree where SDD was the
+ outgroup, and SPY and SDE formed a sister clade to each other.
+ [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
+ I NEED TO CONSIDER THIE MORE DEEPLY.
+ THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
+ UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
 \end_layout
 
 \begin_layout Subsection
-Population parameters vary along the genome of streptococcus
+Recombination events vary along the genome of streptococcus
 \end_layout
 
 \begin_layout Standard
-f
-\end_layout
+Population parameters were estimated from the first stage of MCMC in ClonalOrigi
+n.
+ The median of mutation rate per site weighted over the lengths of blocks
+ was estimated to be 0.081 with (0.067,0.094) of interquartile range.
+ The median of recombination rate per site was estimated to be 0.012 with
+ (0.006,0.019) of interquartile range.
+ The median value for the recombinant tract length 
+\begin_inset Formula $\delta$
+\end_inset
 
-\begin_layout Subsection
-Multiple alignment using Mauve
-\end_layout
-
-\begin_layout Standard
-The total number of blocks we used was 274.
- The total length of all of the block alignments was 1,147,632.
- The average length of the blocks was 4,188, and the median was [MEDIAN
- OF BLOCK LENGTH].
- The proportion of polymorphic sites was 0.169.
- Figure XX shows the distribution of lengths of the 274 blocks.
+ was estimated to be 744 with (346,2848) of interquartile range.
+ While the estimate of the recombinant tract length was twice the estimate
+ from ClonalFrame, the estimtes of mutation and recombination rates were
+ comparable to those from ClonalFrame.
  Because the rate of mutation on the branches of the genealogy and branch
  lengths of the species tree 
 \begin_inset Formula $\mathcal{T}$
@@ -1738,7 +2153,58 @@ The total number of blocks we used was 274.
 \bar default
 \noun default
 \color inherit
-The rate of nucleotide differences in the recombined stretches 
+The rate of recombination on the branches of the genealogy 
+\begin_inset Formula $R$
+\end_inset
+
+ was estimated to be 9371 with (8953,9778) of 95% credibility interval.
+ The mean of the exponential distribution modeling the length of recombinant
+ segments 
+\begin_inset Formula $\delta$
+\end_inset
+
+ was estimated to be 362 with (347,376) of 95% credibility interval.
+ Numbers of recombination events that begin and end within an alignment
+ block are plotted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recombination-boundaries"
+
+\end_inset
+
+.
+ These recombination events must be those that the block experienced recombinati
+on directly.
+ [LIST OF ALIGNMENT BLOCKS BY THE NUMBER OF RECOMBINANT EDGES.
+ DO WE SEE ANY ENRICHMENT OF VIRULENCE GENES IN CERTAIN ALIGNMENT BLOCKS?
+ CAN WE DIVIDE SITES INTO TWO REGIONS WITH WEAK RECOMBINATION AND STRONG
+ RECOMBINATION? WE COULD FIND A MEDIAN OF SITE-WISE NUMBER OF RECOMBINANT
+ EDGE TYPES OR 404.
+ THIS NUMBER COULD BE A THRESHOULD FOR THE DIVISION OF SITES.]
+\end_layout
+
+\begin_layout Subsection
+Symmetry of translocation of genes centered around the orgin of replication
+\end_layout
+
+\begin_layout Standard
+[MATT OBSERVED THIS IN OUR GENOME DATA SET.
+ WE WISH TO MENTION IT USING DOT PLOTS.
+ MATT: COULD YOU DESCRIBE YOUR RESULTS HERE?]
+\end_layout
+
+\begin_layout Subsection
+Multiple alignment using Mauve
+\end_layout
+
+\begin_layout Standard
+The total number of blocks we used was 274.
+ The total length of all of the block alignments was 1,147,632.
+ The average length of the blocks was 4,188, and the median was [MEDIAN
+ OF BLOCK LENGTH].
+ The proportion of polymorphic sites was 0.169.
+ Figure XX shows the distribution of lengths of the 274 blocks.
+ The rate of nucleotide differences in the recombined stretches 
 \begin_inset Formula $\nu$
 \end_inset
 
@@ -1761,177 +2227,7 @@ The rate of nucleotide differences in the recombined stretches
 \noun default
 \color inherit
  with (0.132,0.135) of 95% credibility interval.
- The rate of recombination on the branches of the genealogy 
-\begin_inset Formula $R$
-\end_inset
-
- was estimated to be 9371 with (8953,9778) of 95% credibility interval.
- The mean of the exponential distribution modeling the length of recombinant
- segments 
-\begin_inset Formula $\delta$
-\end_inset
-
- was estimated to be 362 with (347,376) of 95% credibility interval.
  
-\end_layout
-
-\begin_layout Subsection
-Reference species tree
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:tree5"
-
-\end_inset
-
- shows a 50% majority-rule consensus tree that was built from the species
- tree sampled by ClonalFrame.
- The estimated species tree related the five streptococcal genomes: SPY1
- and SPY2 form a clade while SDE1 and SDE2 form a separate clade, and SDD
- is connected to the lineage to the clade of SDE1 and SDE2.
- The sum of all of the branch lengths of the spcies tree was 1.02.
- [I EXPECT THAT HALF OF THE WATTERSON'S ESTIMATE WOULD LEAD TO 2].
- 
-\end_layout
-
-\begin_layout Subsection
-Population parameter estimates
-\end_layout
-
-\begin_layout Standard
-The median of mutation rate per site weighted over the lengths of blocks
- was estimated to be 0.081 with (0.067,0.094) of interquartile range.
- The median value for the recombinant tract length 
-\begin_inset Formula $\delta$
-\end_inset
-
- was estimated to be 744 with (346,2848) of interquartile range.
- The median of recombination rate per site was estimated to be 0.012 with
- (0.006,0.019) of interquartile range.
- While the estimate of the recombinant tract length was twice the estimate
- from ClonalFrame, the estimtes of mutation and recombination rates were
- comparable to those from ClonalFrame.
-\end_layout
-
-\begin_layout Subsection
-Heatmap of numbers of recombination events
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Heatmap-of-recombination"
-
-\end_inset
-
- shows the number of recombination events inferred relative to its expectation
- under ClonalOrigin prior model given the recombination rate, for each donor/rec
-ipient pair of species tree branches.
- The cells in green are the ones for which the ratio would be meaningless
- because there are less than three observed and expected events.
- Notably, the ratios of observed and expected numbers of recombinant edges
- from SPY1 and SPY2 to the three branches of SDE clades were almost twice
- the ratios for the reverse directions (e.g., the ratio for the direction
- from SPY1 to SDE1 was estimated to be 1.24, and the ratio for the reverse
- direction was estimated tobe 0.67).
-\end_layout
-
-\begin_layout Standard
-[MENTION THE SIMULATION STUDY FOR POWER AND LIMITATION OF CLONALORIGIN]
-\end_layout
-
-\begin_layout Standard
-Figure
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Heatmap-of-recombination"
-
-\end_inset
-
- shows the amount of gene flow to and from each species relative to the
- expectation under the prior.
- 
-\end_layout
-
-\begin_layout Subsection
-Genomic proportion under recombination 
-\end_layout
-
-\begin_layout Standard
-Distribution of number of recombinant edge along the genome and its histogram.
- I just concatenate alignment blocks to make a genome.
- IMPORTANT: +Compute the proportion of sites along all of the alignment
- blocks where the average number of recombinant edges per site is less than
- 1.+ IMPORTANT: +Recombination intensity per site is used to quantify proportion
- of the genome alignment under weak recombination or strong recombination.+
- Proportion of sites with recombinant edges less than 1 could indicate proportio
-n of the genome where local gene tree and global species tree are similar
- to each other.
- This threshold 1 is arbitrary.
- 
-\end_layout
-
-\begin_layout Subsection
-Unbalanced gene flow between SPY and SDE
-\end_layout
-
-\begin_layout Standard
-Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Heatmap-of-recombination"
-
-\end_inset
-
- shows the observed number of recombinant edges relative to the prior expected
- number of recombinant edges for each donor/recipient pair in the species
- tree of the five genomes.
- The ratios for the ordered pair from either SPY1 or SPY2 to either SDE1
- or SDE2 were 2.46, 2.48, 2.5, and 2.58.
- The ratios for the reverse direction were 1.16, 1.25, 1.47, and 1.59.
- The result appears to indicate that gene flow from _Streptococcus pyogenes_
- to _S.
- dysgalactiae_ ssp.
- _equisimilis_ was larger than that for the reverse direction.
- IMPORTANT: +COMPUTE THE VARIANCE.+ I compared recombination intensity for
- the direction from _Streptococcus pyogenes_ to _S.
- dysgalactiae_ ssp.
- _equisimilis_, and recombination intensity for the reverse direction.
- Figure 3 shows the logarithm base 10 of the ratios for the genes along
- SPY1 genome.
- It indicates the overall unidirectional gene flow from _Streptococcus pyogenes_
- to _S.
- dysgalactiae_ ssp.
- _equisimilis_.
- It also indicates that the genes with unidirectional gene flow are uniformly
- distributed across the SPY1 genome.
-\end_layout
-
-\begin_layout Subsection
-Detailed view of genes for recombination, gene gain, loss, duplication,
- and horizontal transfer
-\end_layout
-
-\begin_layout Standard
-[SOME OF THE GENES COULD BE INTEROGATED IN FURTHER DETAIL.
- LET US LIST GENES OR GENOMIC POSITIONS THAT MIGHT BE INTERESTING TO STUDY
- MORE]
-\end_layout
-
-\begin_layout Itemize
-Integrative conjugative element (ICE), conjugative transposons
-\end_layout
-
-\begin_layout Itemize
-Virulence genes
-\end_layout
-
-\begin_layout Itemize
-Phage 3396 from SDE
 \end_layout
 
 \begin_layout Subsection
@@ -2089,259 +2385,6 @@ ClonalOrigin with splitting time
  POPULATION.
  I DID NOT PURSUE TO MAKE INFERENCE OF THE MODEL, AND YET I WISHED TO TEST
  CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NE1W MODEL.]
-\end_layout
-
-\begin_layout Subsection
-Gene gain, loss, duplication, and horizontal gene transfer
-\end_layout
-
-\begin_layout Standard
-[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Gene-duplication-loss"
-
-\end_inset
-
- shows the inferred gene counts for each extant and ancestral species.
- Overall, we find that duplications make up only a small fraction of the
- events within the clade (9.6%), while horizontal transfers and losses are
- significantly more frequent (37.5% and 52.9%, respectively).
-  We also find that duplications are most often species-specific.
-  Many gene losses likely represent horizontal transfers that replace the
- native gene sequence.
- The relatively high number of transfers into SDE1 and SDE2 seems to support
- the findings from the ClonalOrigin analysis, although our investigation
- is ongoing.
-\end_layout
-
-\begin_layout Subsection
-Function categories associated with higher recombination 
-\end_layout
-
-\begin_layout Standard
-[MELISSA: COULD YOU EXPAND OR REPLACE THIS SECTION?]
-\end_layout
-
-\begin_layout Standard
-IMPORTANT: +Draw the boxplots of recombination intensity for the functional
- categories.+ Function categories show higher recombination rates: biosynthesis
- in fatty acid and phospholipid metabolism, (p-value of 0.0001642) phosphoenolpyr
-uvate:carbohydrate phosphotransferase system (PTS) in signal transduction,
- (p-value of 0.0002365) tRNA aminoacylation in protein fate.
- (p-value of 0.003271).
- Divide the p-value by the number of functional categories in JCVI roles.
- 1.
- Total counts of events on average between species branches.
- 2.
- Import rate of a particular ordered pair of species branches along SPY1
- genome.
- 3.
- Import rate of all ordered pairs of species branches along SPY1 genome.
- 4.
- Odd ratio of import rates to compare gene-flow-to-SDE and gene-flow-to-SPY
- along SPY1 genome or SDE genome.
- IMPORTANT: +Functional categories and polarized direction.
- I think that I did not find any association.+ IMPORTANT: +What virulence
- factors?+ Davies2007 studied 216 GAS virulence genes, not other genes to
- profile the virulence gene repertoires of many (or 58) _Streptococcus dysgalact
-iae_ ssp.
- _equisimilis_ isolates recovered during human infections.
- 
-\end_layout
-
-\begin_layout Subsection
-Gene transfer in MLST genes studied by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand cite
-key "McMillan2010"
-
-\end_inset
-
- showed that there were high recombination and gene transfer in the seven
- housekeeping genes.
- We examined the seven genes that 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
- had studied for directionality of gene transfer between SPY and SDE.
- Internal fragments of the seven housekeeping genes, encoding putative glucose
- kinase (
-\emph on
-gki
-\emph default
-), glutamine transport protein (
-\emph on
-gtr
-\emph default
-), glutamate racemase (
-\emph on
-murI
-\emph default
-), mismatch repair enzyme (
-\emph on
-mutS
-\emph default
-), transketolase (
-\emph on
-recP
-\emph default
-), xanthine phosphoribosyltransferase (
-\emph on
-xpt
-\emph default
-), and acetylcoenzyme A acetyltransferase (
-\emph on
-yqiL
-\emph default
-) were located in SPY1 genome to examine recombination edge types.
- Except 
-\emph on
-yqiL 
-\emph default
-gene all of the six genes were in the alignment blocks: 
-\emph on
-gki
-\emph default
- (SpyM3_1180), 
-\emph on
-gtr
-\emph default
- (SpyM3_1161), 
-\emph on
-muri
-\emph default
- (SpyM3_0262), 
-\emph on
-muts
-\emph default
- (SpyM3_1806), 
-\emph on
-recP
-\emph default
- (SpyM3_1462), 
-\emph on
-xpt
-\emph default
- (SpyM3_0794), and 
-\emph on
-yqiL
-\emph default
- (SpyM3_0108).
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-gki"
-
-\end_inset
-
- shows recombinant edges on the putative glucose kinase where there appears
- to be very weak recombination from SPY1 to SDE1.
- Figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-gtr"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muri"
-
-\end_inset
-
- show recombinant edges on glutamine transport protein and glutamate racemase,
- respectively, where no gene flows were detected between SPY and SDE.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muts"
-
-\end_inset
-
- shows recombinant edges on mismatch repair enzyme.
- There appears to be gene flow from SPY2 to SDE.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-recp"
-
-\end_inset
-
- shows recombinant edges on transketolase.
- There appears to be gene flow from SPY1 to SDE2.
- Interestingly, recombinant edges from SDE1 to SPY1 seem to be also strong.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-xpt"
-
-\end_inset
-
- shows recombinant edges on xanthine phosphoribosyltransferase where there
- seem to be gene flow from SPY2 to SDE1, and from SPY1 to SDE2.
-\end_layout
-
-\begin_layout Subsection
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
-: gene parC and some recombination
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
- studied fluoroquinolone resistance in SDE.
- They reported that there were recombination in gene 
-\emph on
-parC
-\emph default
- that we observed as shown Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-parc"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kinsella2003"
-
-\end_inset
-
- and fatty acid biosynthesis - implication of gene transfer and bacterial
- recombination.
 \end_layout
 
 \begin_layout Standard
@@ -4977,6 +5020,510 @@ name "fig:yl-trna"
 \end_inset
 
 Recombinant edges on aspartyl-tRNA and histidyl-tRNA synthetases
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-mannose.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pts-mannose"
+
+\end_inset
+
+Recombinant edges on PTS system mannose/fructose transporter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-galactose.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pts-galactose"
+
+\end_inset
+
+Recombinant edges on PTS system galactose-specific IIC component
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-mannose2.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pts-mannose2"
+
+\end_inset
+
+Recombinant edges on PTS system mannose-specific
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-sucrose.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pts-sucrose"
+
+\end_inset
+
+Recombinant edges on PTS system sucrose-specific IIABC component
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-glucose.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pts-glucose"
+
+\end_inset
+
+Recombinant edges on PTS system glucose-specific IIABC component
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc1.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:abc1"
+
+\end_inset
+
+Recombinant edges on ABC transporters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc2.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:abc2"
+
+\end_inset
+
+Recombinant edges on ABC transporters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc3.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:abc3"
+
+\end_inset
+
+Recombinant edges on ABC transporters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/cadmium.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cadmium"
+
+\end_inset
+
+Recombinant edges on putative heavy metal/cadmium transporting ATPase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/penicillin.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:penicillin"
+
+\end_inset
+
+Recombinant edges on putative penicillin-binding protein 1b
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/protease.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:protease"
+
+\end_inset
+
+Recombinant edges on proteases
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/hydrolase.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:hydrolase"
+
+\end_inset
+
+Recombinant edges on putative peptidoglycan hydrolase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/helicase.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:helicase"
+
+\end_inset
+
+Recombinant edges on putative ATP-dependent RNA helicase
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/hemolysin.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:hemolysin"
+
+\end_inset
+
+Recombinant edges on putative hemolysin
 \end_layout
 
 \end_inset
