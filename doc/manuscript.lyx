@@ -541,7 +541,7 @@ key "Hamady2006"
 \begin_layout Standard
 
 \series bold
-Transfer targers of genes in bacteria:
+Transfer targets of genes in bacteria:
 \series default
  
 \begin_inset CommandInset citation
@@ -1506,11 +1506,19 @@ Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
-key "Lamour1994"
+key "Lamour1994,Woese2000"
 
 \end_inset
 
 , which lends itself to a classic example of gene transfer in bacteria.
+ There are recent reports about tRNA aminoacylation 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Andam2010,Wang2011"
+
+\end_inset
+
+.
  We also inferred gene transfer in several aminoacyl tRNA synthetases in
  our analysis of the five genomes of streptococcus.
  The aaRS's are characterized by an amino acid that they charge tRNA with.
@@ -1738,6 +1746,16 @@ reference "fig:hemolysin"
 , putative dipeptidase, putative adhesion protein, putative folyl-polyglutamate
  synthetase, putative uracil permease, nucleotidase, phosphopentomutase,
  DNA topoisomerase I, and DNA polymerase III PolC.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kinsella2003"
+
+\end_inset
+
+ studied lateral gene transfer of fatty acid metabolism.
+ Function category of biosynthesis in fatty acid and phospholipid metabolism
+ was also found to be associated with higher recombination.
 \end_layout
 
 \begin_layout Subsection
@@ -1901,17 +1919,15 @@ reference "fig:h1"
 \end_layout
 
 \begin_layout Standard
-Gene transfer in MLST genes studied by 
+We revisited the problem of gene transfer in MLST genes studied by 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kalia2001"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
+.
+ Recently, 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "McMillan2010"
@@ -2047,16 +2063,15 @@ reference "fig:recomb-xpt"
 \end_layout
 
 \begin_layout Standard
+We also revisited recombination in gene parC studied by 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Pinho2010"
 
 \end_inset
 
-: gene parC and some recombination
-\end_layout
-
-\begin_layout Standard
+.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Pinho2010"
@@ -2076,10 +2091,8 @@ reference "fig:recomb-parc"
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
+ [I MIGHT WANT TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE
+ TRANSFER AND COMPARE THEM WITH WHAT WE HAVE.] 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kinsella2003"
@@ -2399,20 +2412,56 @@ Discussions
 \end_layout
 
 \begin_layout Standard
-Direction of gene flow between 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
+[POINTS THAT WE COULD FOCUS ON: Gene Transfer And Functional Categories
+ (Gene-Wise Analyses And Stories, Mobile Elements, GAS-like prophages and
+ Mowgli analysis, many interesting virulence genes are missing in the core
+ genomes), Unbalanced Gene Flow Between SPY And SDE (Facts And Hypotheses
+ About Possible Mechanisms), Evolutionary Hypotheses About The Ancestor
+ Of SPY And SDE, Recombining And Non-Recombining Gene Transfer In Bacteria,
+ Overlap Of Genes Under Positive Selection And Higher Recombination, Better
+ Models Of Bacterial Evolution To Handle Full Data Sets]
+\end_layout
+
+\begin_layout Standard
+We investigated bacterial gene flow between SPY and SDE using their genome
+ sequences by comparing gene tree and species tree.
+\end_layout
+
+\begin_layout Standard
+Gene Transfer And Functional Categories: This might indicate that SDE became
+ human pathogenic via influx of genes from SPY.
+ We did not support that idea because virulences genes and recombining gene
+ transfer were not found to be associated.
+ Yet, we advocated the idea because virulences genes and non-recombining
+ horizontal transfer were found to be associated.
+ 
+\end_layout
+
+\begin_layout Standard
+Unbalanced Gene Flow Between SPY And SDE: Direction of gene flow between
  
 \emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
+\emph default
+ ssp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
 equisimilis
 \emph default
  and 
 \emph on
 S.
- pyogenes
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
 \emph default
  has been questioned and challenged 
 \begin_inset CommandInset citation
@@ -2422,111 +2471,26 @@ key "Kalia2001,Kalia2004,Towers2004,Bessen2005,Davies2007,Davies2007a,Bessen2010
 \end_inset
 
 .
- Until recently it was not possible because of lack of genome data and methods
- that can handle them 
-\family typewriter
-[I want to rephrase this sentence]
-\family default
-.
- Here we showcase a study that polarized direction of gene flow seems broadly
- distributed across the entire genome.
- Additionally, we found functional categories that were under higher recombinati
-on, and consequently targets of lateral gene transfer.
- Separate studies of association of those functional categories with lateral
- gene transfer had been done.
- These fortified our finding of association of those functional categories
- with higher recombination.
- We asked and answer to three questions.
- How did SDE evolve? Did it evolve from an ancestral form of pathogenic
- bateria? Did it evolve from a commensal bacteria? Did genetic elements
- transfer from SPY's lineage to SDE's? Or, were there cases of the opposite
- direction of gene flow? In this study, we wish to catalogue genetic elements
- according to their pattern of flow in the evolutionary history that relates
- SPY and SDE.
- 
+ We showed in this study that the amount of gene flows from SPY to SDE was
+ larger than that from SDE to SPY using about half of the genome sequences.
+ Our analysis using Mowgli did not show unbalanced gene flow with the full
+ genome sequences.
+ We supported marginally that there were unbalanced gene flows more from
+ SPY to SDE.
+ What are barriers 
 \begin_inset CommandInset citation
-LatexCommand citet
-key "Kalia2001"
+LatexCommand citep
+key "Thomas2005"
 
 \end_inset
 
- conjectured two hypothetical scenarios of the evolution of the two species:
- The first one is that the most recent common ancestor of SPY and SDE is
- a GAS-like pathogen.
- SDE was losing virulence factors since the divergence of the ancestor.
- SDE regains virulence factors from SPY because of the same niche.
- The second one is that the most recent common ancestor of SPY and SDE is
- a GGS/GCS-like commensal.
- SPY evolves virulence factors since the divergence of the ancestor.
- SDE gains virulence factors from SPY.
-\end_layout
-
-\begin_layout Subsection
-Directional gene flow
-\end_layout
-
-\begin_layout Standard
-Flow of genomic regions between 
-\emph on
-Streptococcus pyogenes
-\emph default
- and 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- is investigated using five genomes including 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-dysgalactiae
-\emph default
-.
- Unidirectional flow 
-\family typewriter
-[This is a too strong word.
- Differential or partical directional flow?]
-\family default
- of genomic regions from 
-\emph on
-S.
- pyogenes
-\emph default
- to 
-\emph on
-S.
- dysgalactiae
-\emph default
-_ ssp.
- 
-\emph on
-equisimilis
-\emph default
- is more prevalent than the other direction.
- Two competing hypotheses on the evolution of the two species are tested.
- We provide more evidence for hypothesis 1 with detailed view of evolutionary
- history of the two Streptococci species.
- Gene exchange via recombination among bacteria has been a driving force
- of bacterial evoltuion.
- Bacterial recombinations happen more freely within the same species.
+ to gene transfer in bacteria? Bacterial recombinations happen more freely
+ within the same species.
  Barriers to bacterial recombination can include geographic isolation.
  Geographic isolation cannot be the only reason.
  Genetic isolation can prevent recombination between coinhating bacteria.
- 
-\end_layout
-
-\begin_layout Standard
-Restriction-modification system is a biological self-defense mechanism of
- bacteria.
+ Restriction-modification system is a biological self-defense mechanism
+ of bacteria.
  It is diverse in prokaryote world.
  Relatively unidirectional gene flow between 
 \emph on
@@ -2603,8 +2567,8 @@ key "Kalia2001"
  mentioned potential roles of RMS in the polarized gene flow.
  
 \begin_inset CommandInset citation
-LatexCommand citet
-key "Budroni2011"
+LatexCommand cite
+key "Budroni2011a"
 
 \end_inset
 
@@ -2615,8 +2579,8 @@ Neisseria meningitidis
  phylogenetic clades were associated with RMS.
  
 \begin_inset CommandInset citation
-LatexCommand citet
-key "Budroni2011"
+LatexCommand cite
+key "Budroni2011a"
 
 \end_inset
 
@@ -2636,70 +2600,27 @@ key "Jeltsch2003"
 \end_inset
 
 .
- Considering the observation that recombination events happen across the
- entire genome, we did not expect that some genes could be associated with
- higher recombination.
- We did find that ClonalOrigin's framework could help discover functional
- categories of genes with higher recombination.
- Some of functional categories are a classical example where genes with
- the corresponding function were under higher recombination, consequently
- leading to be under the force of lateral gene transfer.
- A functional category of tRNA aminoacylation were reportedly associated
- with higher lateral gene transfer by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Woese2000"
-
-\end_inset
-
-.
- There are recent reports about tRNA aminoacylation 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Andam2010,Wang2011"
-
-\end_inset
-
-.
- We found that PTS in signal transduction was associated with higher recombinati
-on.
- Zuniga2005 also found that PTS genes were more easily transferred between
- bacteria.
- Function category of biosynthesis in fatty acid and phospholipid metabolism
- was also found to be associated with higher recombination.
  
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kinsella2003"
-
-\end_inset
-
- studied lateral gene transfer of fatty acid metabolism.
- Although I did not show that proof of concept, I do think that higher recombina
-tion in 
-\emph on
-S.
- pyogenes
-\emph default
- has been known to be apparent in other studies 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Hanage2006,Perez-Losada2006,Vos2009a"
-
-\end_inset
-
-.
- Other corroborating studies seems to support that the three function categories
- were under relatively higher recombination.
- 
-\end_layout
-
-\begin_layout Subsection
-Evoultion from commensal to pathogenic
 \end_layout
 
 \begin_layout Standard
-Commensal bacteria could evolve by aquiring virulence genes from its closely
+Evolutionary Hypotheses About The Ancestor Of SPY And SDE: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ conjectured two scenarios of the evolution of the two species: The first
+ one is that the most recent common ancestor of SPY and SDE is a GAS-like
+ pathogen.
+ SDE was losing virulence factors since the divergence of the ancestor.
+ SDE regains virulence factors from SPY because of the same niche.
+ The second one is that the most recent common ancestor of SPY and SDE is
+ a GGS/GCS-like commensal.
+ SPY evolves virulence factors since the divergence of the ancestor.
+ SDE gains virulence factors from SPY.
+ Commensal bacteria could evolve by aquiring virulence genes from its closely
  related bacteria that are pathogenic.
  We expected that virulence genes of 
 \emph on
@@ -2793,22 +2714,6 @@ S.
 .
  Further studies should be pursued to resolve this issue of lateral gene
  transfer of virulence genes.
- 
-\end_layout
-
-\begin_layout Subsection
-What did we learn from the analysis of ClonalOrigin? 
-\end_layout
-
-\begin_layout Standard
-Without account of recombination it seems to hard to study bacterial evolution
- with a few exceptions.
- Our study is just a showcase of using a recently developed statistical
- software of ClonalOrigin to apply it to two groups of genomes to answer
- three questions.
- Although the analysis using ClonalOrigin requires a series of analyses,
- the approach is based on a sound statistical model of coalescent with recombina
-tion.
  
 \end_layout
 
@@ -2927,27 +2832,6 @@ Kalia2001 suggested the divergence time of _S.
 \end_layout
 
 \begin_layout Subsection
-Fragmented Speciation Model
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Retchless2007"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Luo2011"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
 Further studies
 \end_layout
 
@@ -2981,20 +2865,62 @@ New functions of bacteria appear to emerge more easily in horizontal way
  
 \end_layout
 
+\begin_layout Subsection
+What I could delete
+\end_layout
+
+\begin_layout Standard
+Although I did not show that proof of concept, I do think that higher recombinat
+ion in 
+\emph on
+S.
+ pyogenes
+\emph default
+ has been known to be apparent in other studies 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hanage2006,Perez-Losada2006,Vos2009a"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Other corroborating studies seems to support that the three function categories
+ were under relatively higher recombination.
+ 
+\end_layout
+
+\begin_layout Section*
+Supplementary Material
+\end_layout
+
+\begin_layout Standard
+Supplementaryfigure S1–S8 and tables S1–S3 are available at Genome Biology
+ and Evolution online (http://www .gbe.oxfordjournals.org/).
+\end_layout
+
 \begin_layout Section*
 Acknowledgments
 \end_layout
 
 \begin_layout Standard
-Ilan Gronau,
+We are indebted to Xavier Didelot for his help in setting up ClonalOrigin
+ analysis.
+ We are grateful to Ilan Gronau for his advice on understanding the ClonalOrigin
+ model.
+ We also are thankful to Haruo Suzuki for his help in using their data and
+ results.
+ 
 \end_layout
 
 \begin_layout Standard
-Xavier Didelot,
-\end_layout
-
-\begin_layout Standard
-Grant information
+This work was supported by the National Institute of Allergy and Infectious
+ Disease, US National Institutes of Health, under grant number AI073368-01A2
+ awarded to A.S.
+ and M.J.S.
 \end_layout
 
 \begin_layout Standard
@@ -4120,7 +4046,7 @@ Figures
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4157,10 +4083,13 @@ ipient pair of branches.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4198,10 +4127,13 @@ Gene duplication, loss, and transfer.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4259,10 +4191,13 @@ equisimilis
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4313,10 +4248,13 @@ equisimilis
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -4418,10 +4356,13 @@ Numer of recombination events.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -4563,10 +4504,13 @@ Comparison of number of recombinations between real and simulated data sets.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4602,10 +4546,13 @@ The first surrogate measure of recombination intensity of genes
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4646,10 +4593,13 @@ gki
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4686,10 +4636,13 @@ gtr
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4726,10 +4679,13 @@ murI
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4766,10 +4722,13 @@ mutS
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4806,10 +4765,13 @@ recP
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4846,10 +4808,13 @@ xpt
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4886,10 +4851,13 @@ parC
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4922,10 +4890,13 @@ Recombinant edges on leucyl-tRNA synthetase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4958,10 +4929,13 @@ Recombinant edges on lysyl-tRNA synthetase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -4994,6 +4968,9 @@ Recombinant edges on isoleucyl-tRNA synthetase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5030,6 +5007,13 @@ Recombinant edges on aspartyl-tRNA and histidyl-tRNA synthetases
 \end_inset
 
 
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5066,6 +5050,16 @@ Recombinant edges on PTS system mannose/fructose transporter
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5102,6 +5096,16 @@ Recombinant edges on PTS system galactose-specific IIC component
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5138,6 +5142,16 @@ Recombinant edges on PTS system mannose-specific
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5174,6 +5188,16 @@ Recombinant edges on PTS system sucrose-specific IIABC component
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5210,6 +5234,16 @@ Recombinant edges on PTS system glucose-specific IIABC component
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5246,10 +5280,20 @@ Recombinant edges on ABC transporters
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -5282,6 +5326,16 @@ Recombinant edges on ABC transporters
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5318,6 +5372,16 @@ Recombinant edges on ABC transporters
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5354,6 +5418,16 @@ Recombinant edges on putative heavy metal/cadmium transporting ATPase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5390,6 +5464,16 @@ Recombinant edges on putative penicillin-binding protein 1b
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5426,6 +5510,16 @@ Recombinant edges on proteases
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5462,6 +5556,16 @@ Recombinant edges on putative peptidoglycan hydrolase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5498,6 +5602,16 @@ Recombinant edges on putative ATP-dependent RNA helicase
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
