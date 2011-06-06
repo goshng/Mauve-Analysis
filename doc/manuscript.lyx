@@ -49,23 +49,19 @@ Title:
 \end_layout
 
 \begin_layout Standard
-Inferring genomic flow between 
+Infering two types of gene transfer using whole genomes of 
 \emph on
 Streptococcus pyogenes
 \emph default
- and 
+ and
 \emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
+ dysgalactiae
 \emph default
  subspecies 
 \emph on
 equisimilis
 \emph default
- using whole genomes
+ 
 \end_layout
 
 \begin_layout Subsubsection*
@@ -193,11 +189,12 @@ Abstract
 \end_layout
 
 \begin_layout Standard
-Gene duplications and tranfser between 
+Two types of gene transfer in bacteria were investigated using closely related
+ species of 
 \emph on
 Streptococcus pyogenes
 \emph default
- (SPY) and its closely related species 
+ (SPY) that is a pervasive human-specific pathogen, and 
 \emph on
 S.
 \begin_inset space \space{}
@@ -213,51 +210,40 @@ dysgalactiae
 
 equisimilis
 \emph default
- (SDE) were interrogated using two recently developed methods that used
- whole genomes of the two species.
- One of the methods used core genomes of multiple DNA sequence alignments
- with few gaps, and the other used pan genomes of alignments where multiple
- paralogs could also be aligned and some of species did not have DNA sequences
- aligned.
- The two combined methods allowed to examine what kinds of genes or their
- fragments were exchanges between SPY and SDE in order to find their roles
- in the formation of pathogenicity of SDE.
- SPY is a pervasive human-specific pathogen which causes streptococcal diseases.
- A closely related species SDE has long been thought of as a veterinary
- pathogen, but evidence has emerged that it can cause serious and life-threateni
-ng human diseases traditionally associated with SPY.
- Previous studies were limited to relatively small portion of SPY and SDE
- genomes partly because of lack of methods for studying gene transfer due
- to bacterial recombination and 
+ (SDE) that is its closely related species and a opportunistic houman pathogen:
+ homologous recombining gene transfer and non-homologous integrative gene
+ transfer.
+ The former lateral process was studied with the core genomes of five individual
+s of the 
 \emph on
-de novo
+Streptococci
 \emph default
- integration on the genome scale, and partly due to unavailability of relevant
- bacterial genomes.
- Using the core genomes we revisited a problem of the overall directionality
- of gene transfer between SPY and SDE, and found marginally supporting evidence
- for relative genomic flow from SPY to SDE based on bacterial recombination
- as surrogate measure of genomic flow.
+, and the latter process with the pan genomes as well as the core genomes.
+ Two separate methods recently developed were employed to examine genes
+ or their fragments that could have been exchanged between SPY and SDE as
+ efforts of finding their roles in the formation of pathogenicity of SDE.
+ We revisited the problem of directionality of gene transfer between SPY
+ and SDE, and found marginally supporting evidence for recombining homologous
+ gene flow from SPY to SDE based on the core genomes.
+ We did not find the evidence for directional non-homologous integrative
+ gene transfer using the full data by including the pan genomes.
+ On the contraray, we found evidence that virulence genes appeared to undergo
+ non-homologous integrative gene transfer than non-virulence genes.
+ We did not find evidence for the excess of virulence genes in homologous
+ recombining gene transfer.
+ This might indicate that additional genes obtained via non-homologous integrati
+ve gene transfer were more effective than gene fragments transfer via bacterial
+ recombination for SDE to acquire biological functions that were critical
+ to their survival in the environment in which their close relatives or
+ SPY thrived.
  Protein coding genes that appeared to undergo gene transfer due to bacterial
  recombination were found to be in several kinds of aminoacyl tRNA synthetase
  (aaRS), phosphotransferase systems (PTS) specific to each of several sugars,
  and ATP-binding cassette (ABC) transporters.
- The association of aaRS with gene transfer was relatively well known, which
- confirmed the power of the method of using the core genomes.
- The PTS and ABC transporters could be essential for the successful adaptation
- of the bacteria in new environments, which could be related with pathogenicity
- of SDE.
- Using the pan genomes the second method of reconciliation of species tree
- and gene trees based on gene fragments provided evidence that virulence
- genes appeared to undergo horizontal gene transfer than non-virulence genes.
- On the contrary, the first method of using the core genomes did not find
- association with virulence genes.
- This might indicate that additional genes obtained via horizontal gene
- transfer were more effective than gene fragments transfer via bacterial
- recombination for pathogenic bacteria or SDE to acquire biological functions
- that were critical to their survival in the environment in which their
- close relatives or SPY thrived.
- 
+ Whereas the association of aaRS with recombining homologous gene transfer
+ was relatively well known, the PTS and ABC transporters could be essential
+ for the successful adaptation of the bacteria in new environments, which
+ could be related with pathogenicity of SDE.
 \end_layout
 
 \begin_layout Standard
@@ -274,7 +260,64 @@ Introduction
 \begin_layout Standard
 
 \series bold
-Importance of gene transfer between SPY and SDE:
+Two lateral processes:
+\series default
+ Foreign bacterial genes can be laterally brought into a bacterial genome
+ by two different processes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ochman2001,Lawrence2009"
+
+\end_inset
+
+: homologous recombining transfer and non-homologous integrative transfer.
+ The mechanisms of horizontal gene transfer include conjugation by plasmid,
+ transduction by bacteriophages, or transformation of naked DNA uptake 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Thomas2005"
+
+\end_inset
+
+.
+ Additionally, marine bacteria was reported to acquire foreign genes via
+ gene transfer agents, i.e., viral-like particles produced by 
+\begin_inset Formula $\alpha$
+\end_inset
+
+-Proteobacteria 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "McDaniel2010"
+
+\end_inset
+
+.
+ Although the discrimination between the two lateral processes was noted,
+ methods of detecting horizontal gene transfer did not properly take the
+ differences into account.
+ The failure of proper discrimination of the two processes could lead to
+ misunderstanding of biological properties of transferred genes.
+ For example, because ribosomal RNA genes are contitutively expressed genes
+ and considered as housekeeping genes, they are expected to less susceptible
+ to horizontal gene transfer.
+ Yet, bacterial recombinations on ribosomal RNA genes were noted before
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Sneath1993,Yap1999"
+
+\end_inset
+
+.
+ We wish to discriminate these two processes of lateral gene transfer throughout
+ the manuscript.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gene transfer between SPY and SDE:
 \series default
  Bacteria can infect humans with a variety of diseases: e.g., food poisoning
  by 
@@ -374,18 +417,17 @@ key "Brandt2009"
 
 .
  Because SDE cohabits with SPY at the same ecological niche of tissue sites,
- they may as well exhibit overlap in the disease profile 
+ and they may as well exhibit overlap in the disease profile 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Davies2007a"
 
 \end_inset
 
-.
- The close proximity may allow the two species to interact with each other
+, the close proximity may allow the two species to interact with each other
  by exchanging parts of their genomes.
- Pathogenicity of SDE may have been facilitated by the genetic interaction
- between the two species.
+ Opportunistic pathogenicity of SDE may have been facilitated by the genetic
+ interaction between the two species.
  Understanding their genetic exchanges would enhance our knowledge of mechanisms
  of their pathogenicity on human health.
  
@@ -394,97 +436,10 @@ key "Davies2007a"
 \begin_layout Standard
 
 \series bold
-Previous studies on gene transfer between SPY and SDE:
-\series default
- Phylognetic approaches can allow to better understand evolutionary forces
- of gene exchange between species.
- Yet, bacterial phylogenetic studies recognized early on that gene transfer
- would complicate analyses of evolutionary relationships of the species
- 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Woese1987"
-
-\end_inset
-
-.
- While methods of inferring phylogenies in the presence of gene transfer
- have been proposed 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Bapteste2004,Simonson2005,Beiko2009"
-
-\end_inset
-
-, most of the methods use relatively small portion of bacterial genomes.
- Likewise, because of the difficulty of developing methods and limited resources
- of bacterial genome sequences available, previous researches in gene transfer
- between the two pyogeneic species of SPY and SDE were limited to relatively
- small portion of the bacterial genome, mostly focusing on several genes
- 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Kalia2004,Towers2004,Bessen2005"
-
-\end_inset
-
-.
- Notably, 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Davies2007"
-
-\end_inset
-
- investigated phage 3396 from SDE as a vehicle of gene transfer from SDE
- to SPY.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Davies2009"
-
-\end_inset
-
- also demonstrated that an integrative conjugative element of SDE allowed
- gene transfer from SDE to other streptococci.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sachse2002"
-
-\end_inset
-
- showed gene transfer from SDE to SPY for the downstream of the genomic
- region of 
-\emph on
-speG
-\emph default
-.
- On the contrary, 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kalia2001"
-
-\end_inset
-
- attempted to show that the direction of gene transfer from SPY to SDE was
- more dominant than the other direction, albeit unfortunately appeared to
- be premature.
- Because of the previous reports on direction of gene flow for only small
- portion of regions in the genomes it remains to be elusive to determine
- the genome-wide degrees to which genomic segments flow between the two
- species and directions of thereof.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
 Previous methods on bacterial gene transfer in general:
 \series default
  There have been new studies using genomes for studying bacterial gene transfer.
- Notably, 
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Liu2009"
@@ -535,7 +490,106 @@ key "Hamady2006"
 
  combined phylogenetic and compositional approaches to detecting horizontal
  gene transfer.
- [EXPAND THESE METHODS AND THEIR APPROACHES.]
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Caro-Quintero2011"
+
+\end_inset
+
+ studied a number of 
+\emph on
+Shewanella baltica
+\emph default
+ genomes to identify the genetic elements that enable the species to adapt
+ to redox gradients.
+ Phylognetic approaches can allow to better understand evolutionary forces
+ of gene exchange between species.
+ Yet, bacterial phylogenetic studies recognized early on that gene transfer
+ would complicate analyses of evolutionary relationships of the species
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Woese1987"
+
+\end_inset
+
+.
+ While methods of inferring phylogenies in the presence of gene transfer
+ have been proposed 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Bapteste2004,Simonson2005,Beiko2009"
+
+\end_inset
+
+, most of the methods use relatively small portion of bacterial genomes.
+ [SURVEY OF THE PREVIOUS METHODS OF DETECTING HGT NEEDS TO BE REVISITED.]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Previous studies on gene transfer and its directionality between SPY and
+ SDE:
+\series default
+ Previous researches in gene transfer between the two pyogeneic species
+ of SPY and SDE were limited to relatively small portion of the bacterial
+ genome, mostly focusing on several genes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kalia2004,Towers2004,Bessen2005"
+
+\end_inset
+
+.
+ For example, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2007"
+
+\end_inset
+
+ investigated phage 3396 from SDE as a vehicle of gene transfer from SDE
+ to SPY.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Davies2009"
+
+\end_inset
+
+ demonstrated that an integrative conjugative element of SDE allowed gene
+ transfer from SDE to other streptococci.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sachse2002"
+
+\end_inset
+
+ showed gene transfer from SDE to SPY for the downstream of the genomic
+ region of 
+\emph on
+speG
+\emph default
+.
+ On the contrary, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ attempted to show that the direction of gene transfer from SPY to SDE was
+ more dominant than the other direction, albeit unfortunately appeared to
+ be premature.
+ Because their researches on on direction of gene flow were limited to only
+ small portion of regions in the genomes, it remains to be elusive to determine
+ the genome-wide degrees to which genomic segments flow between the two
+ species and directions of thereof.
 \end_layout
 
 \begin_layout Standard
@@ -543,7 +597,13 @@ key "Hamady2006"
 \series bold
 Transfer targets of genes in bacteria:
 \series default
- 
+ [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
+ ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
+ THEM.
+ GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
+ tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
+ (ABC) transporters.
+ IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.] 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Chan2009a"
@@ -561,66 +621,6 @@ key "Chan2009"
  studied gene with and without breakpoints, and found that more often entire
  genes transfer in pathogens than in non-pathogens.
  They found more genes with breakpoints than genes without breakpoints.
- [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
- ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
- THEM.
- GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
- tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
- (ABC) transporters.
- IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Two distinguished mechanisms of bacterial gene transfer:
-\series default
- Bacteria evolve vertically and horizontally.
- Vertically, bacteria evolve clonally: parents pass their genetic contents
- down to their daughter cells.
- Mutations during the vertical evolution accumulate, which allows bacterial
- species to diverge in their genomic contents.
- Horizontally, bacteria obtain parts of genomes from others via conjugation
- by plasmid, transduction by bacteriophages, or transformation of naked
- DNA uptake 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Thomas2005"
-
-\end_inset
-
-.
- Marine bacteria was reported to acquire foreign genes via gene transfer
- agents, i.e., viral-like particles produced by 
-\begin_inset Formula $\alpha$
-\end_inset
-
--Proteobacteria 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "McDaniel2010"
-
-\end_inset
-
-.
- Acquired DNAs can either replace their indigenous homologs, or be added
- to their recipient bacterial genomes 
-\begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
-key "Lawrence2009"
-
-\end_inset
-
-.
- The former process involves bacterial recombination, and the latter horizontal
- transfer of DNA fragments.
- We wish to ditinguish gene transfer due to bacterial homologous recombination
- from integration of gene fragments to a recipient bacterium due to horizontal
- gene transfer.
- Note that we discriminate between the two processes throughout the manuscript
- although both of the processes result in gene transfer from a donor to
- a recipient.
  
 \end_layout
 
@@ -871,7 +871,7 @@ http://www.atgc-montpellier.fr/Mowgli
 
 .
  We describe postprocessing procedures to summarize the results from analyses
- using ClonalOrigin and Mowgli in order to answer to our questions.
+ using ClonalOrigin and Mowgli to infer gene transfer between SPY and SDE.
  Functional category association with measure of evolutionary events are
  also described.
 \end_layout
@@ -1083,12 +1083,12 @@ n, leaving a posterior sample of size 101 including the first sample right
  right after the burn-in.
 \end_layout
 
-\begin_layout Subsection
-Number of recombinant edges
-\end_layout
-
 \begin_layout Standard
-The result of the second stage of ClonalOrigin MCMC was a posterior sample
+
+\series bold
+Number of recombinant edges:
+\series default
+ The result of the second stage of ClonalOrigin MCMC was a posterior sample
  of sets of recombinant edges.
  Note that we call a recombinant tree a species tree with recombinant edges
  attached to the species tree.
@@ -1118,13 +1118,13 @@ on rate for each pair of donor and recipient branches.
  events between two clades of SPY and SDE.
 \end_layout
 
-\begin_layout Subsection
-Surrogate measure of recombination intensity
-\end_layout
-
 \begin_layout Standard
-To consider genomic locations that were affect by recombinations in order
- to quantify variation of recominations along a genome 
+
+\series bold
+Measure of recombination intensity:
+\series default
+ To consider genomic locations that were affect by recombinations for quantifyin
+g variation of recominations along a genome 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1139,45 +1139,51 @@ key "Didelot2010"
  meaningful.
  Yet, we hoped that the measure could discriminate between relative intensity
  values of bacterial recombination along a genome.
- We quantified how many types of recombinant edges affected each site along
- a genome.
+ For doing so, we quantified how many types of recombinant edges affected
+ each site along a genome.
  A type of recombinant edge is specified by its departure and arrival branches
- of a reference species tree.
+ of a reference species tree in the ClonalOrigin model.
  Note that departure branches are donors, and arrival branches are recipients.
  Using site-wise numbers of recombinant edge types we computed the mean
- value of the first surrogate measure of recombinantion for a geneic region.
- Then, we could study genes that could undergo higher recombination by finding
+ value of the surrogate measure of recombinantion for a geneic region, which
+ allowed to study genes that could undergo higher recombination by finding
  functional categories enriched with genes with higher measures of recombination
- using Gene Ontology.
-\end_layout
+ using Gene Ontology
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ashburner2000"
 
-\begin_layout Subsection
-Recombination intensity per recombinant edge type and genes
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-A recombinant tree with an alignment block tells what types of recombinant
+
+\series bold
+Posterior probability of genes experiencing gene transfer:
+\series default
+ A recombinant tree with an alignment block tells what types of recombinant
  edges affect a column of the block.
  Because we would have a number recombinant edges sampled from the posterior
  distribution of recombinant trees, we could calculate the posterior probability
  that a site was affected by a recombinant edge type specified by the ordered
- pair of two branches.
+ pair of two branches of a reference species tree.
  Interpreting recombinant edges as genomic segment flow needs to be warned
  because the departure and arrival points of a recombinant edge do not happen
  at the same time.
- Not all types of the recombinant edges can correspond to legitimate pairs
- of species tree branches for gene flow because some of branch pairs did
- not coexist at any past in time.
- A recombinant edge that departs from a root edge of a spcies tree and arrives
- at a leaf edge cannot be considered a channel for gene flow that connects
- the two species tree branches.
+ Therefore, not all types of the recombinant edges can correspond to legitimate
+ pairs of species tree branches for gene flow.
+ For example, a recombinant edge that departs from a root edge of a spcies
+ tree and arrives at a leaf edge cannot be considered a channel for gene
+ flow that connects the two species tree branches.
  Among the 60 types of recombinant edges 32 pairs of branches are those
  for recombinant edge types that can be considered as gene flow channels
  in an ultrametric species tree with five taxa.
  The posterior probability of a site experiencing gene flow due to a recombinant
  edge type was plotted along genomes of the five species as well as their
  ancestors.
- We refer readers to 
+ We refer readers to Figure 2 of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
@@ -1185,32 +1191,9 @@ key "Didelot2010"
 \end_inset
 
  for detailed description of the plot.
- Because we were interested in gene flows between 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
- and 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- that were at extant nodes, we considered pairs of species tree branches
- one from SPY, and another pairs from SDE as gene flow channels.
+ Because we were interested in gene flows between SPY and SDE that were
+ at extant nodes, we considered pairs of species tree branches one from
+ SPY, and another pairs from SDE as gene flow channels.
  Four ordered pairs of species branches represented gene flow from SPY to
  SDE.
  Another four ordered pairs represented gene flow from SDE to SPY.
@@ -1222,22 +1205,23 @@ equisimilis
  of gene flow more often than the other.
 \end_layout
 
-\begin_layout Subsection
-Gene tree topologies vary along the genome
-\end_layout
-
 \begin_layout Standard
-[I NEED TO DESCRIBE REASONS WHY CHANGES OF LOCAL GENE TREE TOPOLOGIES ARE
- INTERESTING.] Local gene trees can be derived from a recombinant tree, or
- a species tree and its attached recombinant edges, for all of the sites
- of the alignment.
+
+\series bold
+Gene tree topologies along the genome:
+\series default
+ The relatively small number of five taxa of the reference species tree
+ allowed to obtain the distribution of gene tree topologies over all of
+ the sites in the alignment blocks.
+ Local gene trees can be derived from a recombinant tree, or a species tree
+ and its attached recombinant edges, for all of the sites of the alignment.
  Changes to local gene trees along multiple sequence alignments can involve
  changes in gene tree topology where recombinant edges start and end in
  the alignment.
  Not all recombinant edges change local gene tree topologies.
  Recombinant edges that depart from a species tree branch and arrive at
  the direct descendent of the branch may not change tree topologies.
- We have a posterior sample of gene tree topologies along alignment blocks
+ A posterior sample of gene tree topologies along alignment blocks was obtained
  by numbering gene tree topologies 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1247,29 +1231,16 @@ key "Rohlf1983"
 \end_inset
 
 .
- For a genic region of an alignment block we can measure a few different
- aspects of gene tree topologies: the number of tree topology changes, the
- proportion of sites where local gene tree topologies are different from
- the reference species tree topology, and the number of unique local gene
- tree topologies.
- Each of these aspects can be correlated with bacterial recombination.
- Because a simulation study showed that the number of unique gene tree topologie
-s of a geneic region could be correlated with true values (FIGURE), we tried
- to associate the number of unique gene tree topologies with functional
- categories.
+ 
 \end_layout
 
 \begin_layout Subsection
-Gene gain, loss, duplication, horizontal gene transfer
+Mowgli analysis
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
-\end_layout
-
-\begin_layout Standard
-We are also exploring gene duplication, loss, and horizontal gene transfer
- using a complementary approach.
+We explored gene duplication, loss, and horizontal gene transfer using a
+ complementary approach.
  We used the clusters of gene families computed by OrthoMCL 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1278,11 +1249,25 @@ key "Li2003,Suzuki2011"
 \end_inset
 
 .
- These include the five species from ClonalOrigin analysis, and also the
- outgroup S.
- equi subsp.
- equi strain 4047.
- For each family cluster, the corresponding peptide sequences were aligned
+ These included the five species from ClonalOrigin analysis, and also the
+ outgroup 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+equi
+\emph default
+ subsp.
+\emph on
+
+\begin_inset space \space{}
+\end_inset
+
+equi
+\emph default
+ strain 4047 (SEE).
+ For each family cluster, the corresponding protein sequences were aligned
  using the MUSCLE program 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1317,12 +1302,6 @@ Functional categories association
 \end_layout
 
 \begin_layout Standard
-[MELISSA: COULD YOU EDIT THE FOLLOWING PARAGRAPH? I TRIED TO WRITE DOWN
- FROM WHAT I UNDERSTOOD.
- AS SUCH THEY MAY BE WRONG.]
-\end_layout
-
-\begin_layout Standard
 We performed functional category analysis with site-wise numbers of recombinant
  edge types.
  We used our previous approach of functional category enrichment test developed
@@ -1351,7 +1330,14 @@ key "Ashburner2000"
  duplication, loss, non-recombining horizontal transfer, or recombining
  gene transfer events that we obtained in Mowgli analysis.
  The functional categories were listed in order of significancy using 5%
- false discovery rate (FDR) (CITE).
+ false discovery rate (FDR) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Benjamini1995"
+
+\end_inset
+
+.
  We also took advantage of the virulence gene profiles from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1383,11 +1369,11 @@ Bacterial evolution is characterized by horizontal transfer as well as vertical
  transmission.
  While we used ClonalFrame to estimate a species tree, we obtained information
  of relative strengths of these two evolutionary forces: the ratio of probabilit
-ies that a site is altered through recombination and mutation 
+ies that a site was altered through recombination and mutation 
 \begin_inset Formula $r/m$
 \end_inset
 
-, and the ratio of rates at which recombination and mutation occur 
+, and the ratio of rates at which recombination and mutation occurred 
 \begin_inset Formula $\rho/\theta$
 \end_inset
 
@@ -1437,24 +1423,23 @@ ies that a site is altered through recombination and mutation
 \noun default
 \color inherit
  with (0.096,0.105) of 95% credibility interval.
- These two contrasted values implied that mutation events occured more often,
+ The two contrasted values implied that mutation events occured more often,
  and replacement of nucleotides along sites was attributed more to recombination.
- Because of large population of bacteria natural selection should be more
- effective than random genetic drift.
- Accordingly, nucleotide substitutions due to recombination events might
- not be selectively neutral.
- Genes that were likely to be under positive selection tended to be under
- higher recombination 
+ The nucleotide substitutions due to recombination events might not be selective
+ly neutral because of large population of bacteria natural selection and
+ accordingly more effectiveness of the natural selection than random genetic
+ drift.
+ Reflecting on the report of 
 \begin_inset CommandInset citation
-LatexCommand citep
-before "e.g.,"
+LatexCommand citet
 key "Lefebure2007"
 
 \end_inset
 
-.
- We suspected that there were functional categories associated higher recombinat
-ion, and recombining gene transfer between species.
+ that genes that were likely to be under positive selection tended to be
+ under higher recombination, we suspected that there were functional categories
+ associated higher recombination, and recombining gene transfer between
+ species.
  
 \end_layout
 
@@ -1481,11 +1466,12 @@ reference "tab:functional"
  For the direction from SPY to SDE only transport related functional categories
  appeared to be significant.
  Ribosom related functional categories and translation did not appear to
- be associated with bacterial recombination.
+ be associated with the bacterial recombination associated with gene transfer
+ from SPY to SDE.
  Having been stimulated by the functional category association study we
  elected to examine posterior probability of sites experiencing influx from
  donor species branches across the alignment blocks.
- Here, we focused more on gene transfer between SPY and SDE.
+ We here focused more on gene transfer between SPY and SDE.
  Although we scan through the alignment blocks for potentially interesting
  regions, we by no means intended to comprehensively examine all of the
  genes.
@@ -1493,12 +1479,43 @@ reference "tab:functional"
  detailed examination of gene transfer due to bacterial recombination.
 \end_layout
 
-\begin_layout Subsubsection
-Aminoacyl tRNA synthetase
+\begin_layout Standard
+
+\series bold
+Ribosome RNA genes:
+\series default
+ Several functional categories were found to be associated with ribosome
+ RNA genes.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sneath1993"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wang2000"
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Yap1999"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
+
+\series bold
+Aminoacyl tRNA synthetase:
+\series default
+ Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
  amino acids are concatenated from charged tRNA onto a growing peptides
  through translation.
  Aminoacyl tRNA synthetases have been a target of studies for horizontal
@@ -1571,12 +1588,12 @@ reference "fig:yl-trna"
  synthetase transferred from SDE to SPY1.
 \end_layout
 
-\begin_layout Subsubsection
-Phosphotransferase system
-\end_layout
-
 \begin_layout Standard
-Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
+
+\series bold
+Phosphotransferase system:
+\series default
+ Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
  group translation, transports sugars such as glucose into the cell where
  phosphorylation of the sugar happens.
  There have been studies of gene transfer of PTS in bacteria 
@@ -1642,12 +1659,12 @@ reference "fig:pts-glucose"
 ecific and PTS system ascorbate-specific transporter.
 \end_layout
 
-\begin_layout Subsubsection
-ATP-binding cassette transporter
-\end_layout
-
 \begin_layout Standard
-ATP-binding cassette transporters import or export solutes such as ions
+
+\series bold
+ATP-binding cassette transporter:
+\series default
+ ATP-binding cassette transporters import or export solutes such as ions
  across cells using ATP hydrolysis.
  
 \begin_inset CommandInset citation
@@ -1683,12 +1700,12 @@ reference "fig:abc3"
 ).
 \end_layout
 
-\begin_layout Subsubsection
-Other genes
-\end_layout
-
 \begin_layout Standard
-Figure 
+
+\series bold
+Other genes:
+\series default
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:cadmium"
