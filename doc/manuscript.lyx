@@ -2018,12 +2018,12 @@ We applied a statistical approach implemented in ClonalOrigin to the data
  under the parameter setup that we inferred from our data set.
 \end_layout
 
-\begin_layout Subsubsection
-The three main parameters
-\end_layout
-
 \begin_layout Standard
-Data sets were simulated under the ClonalOrigin model.
+
+\series bold
+The three main parameters:
+\series default
+ Data sets were simulated under the ClonalOrigin model.
  The three main parameters were set to the values that had been estimated
  using the five genomes of streptococcus species: the mutation rate per
  site was 0.080814517322956, the recombination rate per site was 0.011849128789476
@@ -2073,12 +2073,12 @@ key "Didelot2010"
  
 \end_layout
 
-\begin_layout Subsubsection
-Number of recombinant edges: surrogate measure of recombination intensity
-\end_layout
-
 \begin_layout Standard
-Because of the two stages of MCMC in ClonalOrigin we simulated more data
+
+\series bold
+Number of recombinant edges with surrogate measure of recombination intensity:
+\series default
+ Because of the two stages of MCMC in ClonalOrigin we simulated more data
  sets to check how well ClonalOrigin inferred recombination events inaddition
  to the three main parameters.
  We used the same parameters in the first simulation.
@@ -2172,11 +2172,18 @@ Discussions
 \begin_layout Standard
 We investigated bacterial gene flow between SPY and SDE using their genome
  sequences by comparing gene tree and species tree.
+ We considered both core and pan genomes for detecting homologous recombining
+ gene transfer and non-recombining integrative gene transfer.
+ 
 \end_layout
 
 \begin_layout Standard
-Gene Transfer And Functional Categories: This might indicate that SDE became
- human pathogenic via influx of genes from SPY.
+
+\series bold
+Gene Transfer And Functional Categories:
+\series default
+ This might indicate that SDE became human pathogenic via influx of genes
+ from SPY.
  We did not support that idea because virulences genes and recombining gene
  transfer were not found to be associated.
  Yet, we advocated the idea because virulences genes and non-recombining
@@ -2185,8 +2192,11 @@ Gene Transfer And Functional Categories: This might indicate that SDE became
 \end_layout
 
 \begin_layout Standard
-Unbalanced Gene Flow Between SPY And SDE: Direction of gene flow between
- 
+
+\series bold
+Unbalanced Gene Flow Between SPY And SDE:
+\series default
+ Direction of gene flow between 
 \emph on
 S.
 \begin_inset space \space{}
@@ -2351,7 +2361,11 @@ key "Jeltsch2003"
 \end_layout
 
 \begin_layout Standard
-Evolutionary Hypotheses About The Ancestor Of SPY And SDE: 
+
+\series bold
+Evolutionary Hypotheses About The Ancestor Of SPY And SDE:
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Kalia2001"
@@ -2464,12 +2478,12 @@ S.
  
 \end_layout
 
-\begin_layout Subsection
-Lack of analyses and Limitations of the method
-\end_layout
-
 \begin_layout Standard
-We used only two genomes of 
+
+\series bold
+Lack of analyses and Limitations of the method:
+\series default
+ We used only two genomes of 
 \emph on
 S.
  pyogenes
@@ -2563,12 +2577,12 @@ S.
  
 \end_layout
 
-\begin_layout Subsection
-Divergence time estimation
-\end_layout
-
 \begin_layout Standard
-Kalia2001 suggested the divergence time of _S.
+
+\series bold
+Divergence time estimation:
+\series default
+ Kalia2001 suggested the divergence time of _S.
  dysgalactiae_ ssp.
  _dysgalactiae_ (SDD) to be around the time when human started to domesticate
  wildlife animals around 10,000 years ago.
@@ -2578,11 +2592,12 @@ Kalia2001 suggested the divergence time of _S.
  tree.
 \end_layout
 
-\begin_layout Subsection
-Further studies
-\end_layout
-
 \begin_layout Standard
+
+\series bold
+Further studies:
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Holden2009"
@@ -2612,7 +2627,7 @@ New functions of bacteria appear to emerge more easily in horizontal way
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 What I could delete
 \end_layout
 
@@ -2645,7 +2660,7 @@ Supplementary Material
 \end_layout
 
 \begin_layout Standard
-Supplementaryfigure S1–S8 and tables S1–S3 are available at Genome Biology
+Supplementary figure S1–S8 and tables S1–S3 are available at Genome Biology
  and Evolution online (http://www .gbe.oxfordjournals.org/).
 \end_layout
 
@@ -2660,11 +2675,7 @@ We are indebted to Xavier Didelot for his help in setting up ClonalOrigin
  model.
  We also are thankful to Haruo Suzuki for his help in using their data and
  results.
- 
-\end_layout
-
-\begin_layout Standard
-This work was supported by the National Institute of Allergy and Infectious
+ This work was supported by the National Institute of Allergy and Infectious
  Disease, US National Institutes of Health, under grant number AI073368-01A2
  awarded to A.S.
  and M.J.S.
