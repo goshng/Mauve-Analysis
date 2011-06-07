@@ -2165,12 +2165,15 @@ Discussions
  genomes), Unbalanced Gene Flow Between SPY And SDE (Facts And Hypotheses
  About Possible Mechanisms), Evolutionary Hypotheses About The Ancestor
  Of SPY And SDE, Recombining And Non-Recombining Gene Transfer In Bacteria,
- Overlap Of Genes Under Positive Selection And Higher Recombination, Better
- Models Of Bacterial Evolution To Handle Full Data Sets]
+ , ]
 \end_layout
 
 \begin_layout Standard
-We investigated bacterial gene transfer between SPY and SDE using the genome
+
+\series bold
+Two processes of gene transfer and affected genes:
+\series default
+ We investigated bacterial gene transfer between SPY and SDE using the genome
  sequences by comparing gene tree and species tree.
  We considered both core and pan genomes for detecting homologous recombining
  gene transfer and non-recombining integrative gene transfer.
@@ -2205,17 +2208,6 @@ key "Ochman2001"
 \end_layout
 
 \begin_layout Standard
-The method of detecting homologous recombination gene transfer, or the ClonalOri
-gin, is more model-based approach as opposed to the other method for non-homolog
-ous integrative gene transfer, or the Mowgli.
- Evolutionary models for insertion and deletion of parts of sequences appeared
- to be too difficult to obtain.
- More sophisticated models for both of the two processes of gene transfer
- would be important advances.
- Considering nucleotides as the level of gene duplication, loss, and transfer
-\end_layout
-
-\begin_layout Standard
 
 \series bold
 Gene Transfer And Functional Categories:
@@ -2226,7 +2218,23 @@ Gene Transfer And Functional Categories:
  transfer were not found to be associated.
  Yet, we advocated the idea because virulences genes and non-recombining
  horizontal transfer were found to be associated.
- 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Overlap Of Genes Under Positive Selection And Higher Recombination:
+\series default
+ As the uncertainty in gene tree topologies becomes larger, false positive
+ rates of detecting sites under positive selection would be high (CITE).
+ Genes could be divided into parts where we hoped no multiple gene tree
+ topologies exist.
+ Dividing genes into those fragments might be a way to avoid potentially
+ high false positive rates of positively selected sites.
+ Nucleotide substitutions seemed to be affected more by recombinations than
+ by mutations.
+ Considering this fact we might suspect that fragmenting genes might not
+ be helpful.
 \end_layout
 
 \begin_layout Standard
@@ -2618,12 +2626,39 @@ S.
 \begin_layout Standard
 
 \series bold
+Better Models Of Bacterial Evolution To Handle Full Data Sets:
+\series default
+ The method of detecting homologous recombination gene transfer, or the
+ ClonalOrigin, is more model-based approach as opposed to the other method
+ for non-homologous integrative gene transfer, or the Mowgli.
+ Evolutionary models for insertion and deletion of parts of sequences appeared
+ to be too difficult to obtain.
+ More sophisticated models for both of the two processes of gene transfer
+ would be important advances.
+ Considering nucleotides as the level of gene duplication, loss, and transfer
+ towards the efforts could be fruitless.
+ The research into learning the units of gene transfer is underway 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Chan2009a"
+
+\end_inset
+
+.
+ Discriminating the mode of gene transfer and using the units of each mode
+ of gene transfer towards the efforts of developing model-based approaches
+ to detecting gene transfer could be plausible.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
 Divergence time estimation:
 \series default
- Kalia2001 suggested the divergence time of _S.
- dysgalactiae_ ssp.
- _dysgalactiae_ (SDD) to be around the time when human started to domesticate
- wildlife animals around 10,000 years ago.
+ Kalia2001 suggested the divergence time of SDD to be around the time when
+ human started to domesticate wildlife animals around 10,000 years ago.
  A demographic model could be made with two species to study the divergence
  time quantitatively.
  This would require ancestral recombination graphs embedded in a species
@@ -2665,32 +2700,20 @@ New functions of bacteria appear to emerge more easily in horizontal way
  
 \end_layout
 
-\begin_layout Subsection*
-What I could delete
-\end_layout
-
 \begin_layout Standard
-Although I did not show that proof of concept, I do think that higher recombinat
-ion in 
+Higher recombination in 
 \emph on
 S.
  pyogenes
 \emph default
- has been known to be apparent in other studies 
+ has been known to be apparent 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "Hanage2006,Perez-Losada2006,Vos2009a"
 
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
-Other corroborating studies seems to support that the three function categories
- were under relatively higher recombination.
- 
 \end_layout
 
 \begin_layout Section*
