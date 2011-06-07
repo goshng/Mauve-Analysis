@@ -1005,6 +1005,10 @@ http://asap.ahabs.wisc.edu/mauve/download.php
  We excluded additional two alignment blocks because of too long consecutive
  gaps in their multiple alignments.
  This filtered the alignment blocks to leave 274 core alignment blocks.
+ The total length of all of the block alignments was 1,147,632.
+ The average length of the blocks was 4,188, and the median was [MEDIAN
+ OF BLOCK LENGTH].
+ The proportion of polymorphic sites was 0.169.
  ClonalFrame version 1.1 that was available at 
 \begin_inset Flex URL
 status collapsed
@@ -1361,12 +1365,16 @@ Results
 \end_layout
 
 \begin_layout Subsection
-Functional categories associated with bacterial recombination
+Functional categories associated with gene transfer
 \end_layout
 
 \begin_layout Standard
-Bacterial evolution is characterized by horizontal transfer as well as vertical
- transmission.
+
+\series bold
+Functional categories associated with homologous recombination gene transfer:
+\series default
+ Bacterial evolution is characterized by horizontal transfer as well as
+ vertical transmission.
  While we used ClonalFrame to estimate a species tree, we obtained information
  of relative strengths of these two evolutionary forces: the ratio of probabilit
 ies that a site was altered through recombination and mutation 
@@ -1493,21 +1501,18 @@ key "Sneath1993"
 
 \end_inset
 
-
+ was the first to suggest that ribosomal RNA genes experienced bacterial
+ recombination that allowed transfer of smaller segments of the genes.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Wang2000"
 
 \end_inset
 
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Yap1999"
-
-\end_inset
-
-
+ proposed the 'simplified complexity hypothesis' that gene transfer occurs
+ to ribosomal RNA genes through replacement of gene segments.
+ [WE NEED TO DESCRIBE WHAT WE FOUND IN DETAIL.]
 \end_layout
 
 \begin_layout Standard
@@ -1518,8 +1523,8 @@ Aminoacyl tRNA synthetase:
  Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
  amino acids are concatenated from charged tRNA onto a growing peptides
  through translation.
- Aminoacyl tRNA synthetases have been a target of studies for horizontal
- gene transfer 
+ The aaRS's are characterized by an amino acid that they charge tRNA with.
+ This gene family has been a target for horizontal gene transfer 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -1536,56 +1541,16 @@ key "Andam2010,Wang2011"
 \end_inset
 
 .
- We also inferred gene transfer in several aminoacyl tRNA synthetases in
- our analysis of the five genomes of streptococcus.
- The aaRS's are characterized by an amino acid that they charge tRNA with.
- Not all kinds of aaRS's were associated with bacterial recombination.
- Note that we use the labels for branches depicted by Figure 
+ We inferred gene transfer in several aminoacyl tRNA synthetases in our
+ analysis of the five genomes of streptococcus (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:tree5"
-
-\end_inset
-
-: e.g., SDE represents the ancestral branch of SDE1 and SDE2, not the species.
- SDE1 appeared to recieve leucyl-tRNA synthetase from SPY (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:leucyl-trna"
+reference "tab:aaRS"
 
 \end_inset
 
 ).
- SDE2 appeared to receive lysyl-tRNA synthetase from (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:lysyl-trna"
-
-\end_inset
-
-).
- SPY1 seemed to receive isoleucyl-tRNA synthetase more often from SDE2 than
- from SDE1 (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:isoleucyl-trna"
-
-\end_inset
-
-).
- SDE1 and SDE2 appeared to receive aspartyl-tRNA synthetase and histidyl-tRNA
- synthetase, respectively, from SPY1 (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:yl-trna"
-
-\end_inset
-
-).
- We also inferred bacterial recombination in phenylalanyl-tRNA synthetase
- and valyl-tRNA synthetase.
- There were very relatively low posterior probability that methionyl-tRNA
- synthetase transferred from SDE to SPY1.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1609,54 +1574,15 @@ key "Barabote2005,Zuniga2005"
  must have been acting as important selective pressure.
  It is not surprising that PTS sugars differ among bacterial groups.
  Several phosphotransferase systems exist in the five genomes depending
- on different kinds of sugars.
- SDE1 appeared to receive PTS system mannose/fructose transporter from SPY
- (Figure 
+ on different kinds of sugars (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:pts-mannose"
+reference "tab:pts"
 
 \end_inset
 
 ).
- SPY1 appeared to receive PTS system galactose-specific IIC component from
- SDE1 (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-galactose"
-
-\end_inset
-
-).
- SDE1 appeared to receive PTS system mannose-specific from SPY2 (Figure
  
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-mannose2"
-
-\end_inset
-
-).
- SDE1 and SPY1 appeared to receive PTS system sucrose-specific IIABC component
- from SPY and SDE, respectively (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-sucrose"
-
-\end_inset
-
-).
- SPY1 appeared to receive PTS system glucose-specific IIABC component from
- SDE (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-glucose"
-
-\end_inset
-
-).
- We also inferred bacterial recombination in PTS system N-acetylgalactosamine-sp
-ecific and PTS system ascorbate-specific transporter.
 \end_layout
 
 \begin_layout Standard
@@ -1676,24 +1602,10 @@ key "Noll2009"
  studied horizontal gene transfer of archeal ABC transporter genes into
  bacteria via bacterial recombination.
  We found that ATP-binding cassette (ABC) transporters were associated with
- bacterial recombination (Figures 
+ bacterial recombination (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:abc1"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:abc2"
-
-\end_inset
-
-, and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:abc3"
+reference "tab:abc"
 
 \end_inset
 
@@ -1703,66 +1615,19 @@ reference "fig:abc3"
 \begin_layout Standard
 
 \series bold
-Other genes:
+Miscellaneous genes:
 \series default
- Figure 
+ There were many other genes associated with gene transfer due to bacterial
+ recombination (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:cadmium"
-
-\end_inset
-
- shows that SDE1 appeared to receive putative heavy metal/cadmium transporting
- ATPase from SPY2.
- SDE1 appeared to receive putative penicillin-binding protein 1b from SPY2
- (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:penicillin"
+reference "tab:miscellaneous"
 
 \end_inset
 
 ).
- SDE2 seemed to receive proteases from SPY1 (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:protease"
-
-\end_inset
-
-).
- SDE1 appeared to receive putative peptidoglycan hydrolase from SPY1 (Figure
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:hydrolase"
-
-\end_inset
-
-).
- SDE2 appeared to receive putative ATP-dependent RNA helicase from SPY2
- (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:helicase"
-
-\end_inset
-
-).
- Hemolysin seemed to be transferred from SPY2 to SDE1 (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:hemolysin"
-
-\end_inset
-
-).
- There are more genes that might have been experiencing gene transfer due
- to recombination: putative transcription-repair coupling factor, putative
- ferric uptake regulator, putative biotin synthase, putative calcium transporter
-, putative dipeptidase, putative adhesion protein, putative folyl-polyglutamate
- synthetase, putative uracil permease, nucleotidase, phosphopentomutase,
- DNA topoisomerase I, and DNA polymerase III PolC.
+ Function category of biosynthesis in fatty acid and phospholipid metabolism
+ was also found to be associated with higher recombination.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1771,16 +1636,14 @@ key "Kinsella2003"
 \end_inset
 
  studied lateral gene transfer of fatty acid metabolism.
- Function category of biosynthesis in fatty acid and phospholipid metabolism
- was also found to be associated with higher recombination.
-\end_layout
-
-\begin_layout Subsection
-Functional categories associated with non-recombining horizontal gene transfer
 \end_layout
 
 \begin_layout Standard
-[MATT: COULD YOU FIND SOME EXAMPLES OF GENE FAMILIES OF NON-RECOMBINING
+
+\series bold
+Functional categories associated with non-recombining integrative gene transfer:
+\series default
+ [MATT: COULD YOU FIND SOME EXAMPLES OF GENE FAMILIES OF NON-RECOMBINING
  HORIZONTAL GENE TRANSFER? IT WOULD BE INTERESTING TO SEE THOSE EVENTS IN
  VIRULENCE GENES.
  BECAUSE WE FOUND THAT VIRULENCE GENE FAMILIES TENDED TO UNDERGO NON-RECOMBINING
@@ -1804,12 +1667,12 @@ There were functional categories that appeared to be significant in both
  associated with higher discordance of gene tree and species tree.
 \end_layout
 
-\begin_layout Subsection
-Virulence genes associated with non-recombining horizontal gene transfer
-\end_layout
-
 \begin_layout Standard
-There were 207 loci identified as virulent compared to 2,453 not virulent.
+
+\series bold
+Virulence genes associated with non-recombining horizontal gene transfer:
+\series default
+ There were 207 loci identified as virulent compared to 2,453 not virulent.
  By virulent we meant that at least one of the genes in the gene family
  was identified as virulent using the virulence profile from 
 \begin_inset CommandInset citation
@@ -1839,16 +1702,12 @@ integration of genes horizontally transferred might have been more effective
  of 0.027 using site-wise numbers of recombinant edge types.
 \end_layout
 
-\begin_layout Subsection
-Gene gain, loss, duplication, and non-recombining horizontal gene transfer
-\end_layout
-
 \begin_layout Standard
-[MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?]
-\end_layout
 
-\begin_layout Standard
-Figure 
+\series bold
+Gene gain, loss, duplication, and non-recombining horizontal gene transfer:
+\series default
+ [MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?] Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Gene-duplication-loss"
@@ -1862,8 +1721,6 @@ y more frequent (37.5% and 52.9%, respectively).
   We found that duplications were most often species-specific.
   Many gene losses likely represented horizontal transfers that replaced
  the native gene sequence.
- The relatively high number of transfers into SDE1 and SDE2 seemed to support
- the findings from the ClonalOrigin analysis.
 \end_layout
 
 \begin_layout Subsection
@@ -1990,97 +1847,16 @@ xpt
 \emph on
 yqiL
 \emph default
-) were located in SPY1 genome to examine recombination edge types.
- Except 
-\emph on
-yqiL 
-\emph default
-gene all of the six genes were in the alignment blocks: 
-\emph on
-gki
-\emph default
- (SpyM3_1180), 
-\emph on
-gtr
-\emph default
- (SpyM3_1161), 
-\emph on
-muri
-\emph default
- (SpyM3_0262), 
-\emph on
-muts
-\emph default
- (SpyM3_1806), 
-\emph on
-recP
-\emph default
- (SpyM3_1462), 
-\emph on
-xpt
-\emph default
- (SpyM3_0794), and 
-\emph on
-yqiL
-\emph default
- (SpyM3_0108).
- Figure 
+) were located in SPY1 genome to examine recombination edge types (Table
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:recomb-gki"
+reference "tab:kalia"
 
 \end_inset
 
- shows recombinant edges on the putative glucose kinase where there appears
- to be very weak recombination from SPY1 to SDE1.
- Figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-gtr"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muri"
-
-\end_inset
-
- show recombinant edges on glutamine transport protein and glutamate racemase,
- respectively, where no gene flows were detected between SPY and SDE.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muts"
-
-\end_inset
-
- shows recombinant edges on mismatch repair enzyme.
- There appears to be gene flow from SPY2 to SDE.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-recp"
-
-\end_inset
-
- shows recombinant edges on transketolase.
- There appears to be gene flow from SPY1 to SDE2.
- Interestingly, recombinant edges from SDE1 to SPY1 seem to be also strong.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-xpt"
-
-\end_inset
-
- shows recombinant edges on xanthine phosphoribosyltransferase where there
- seem to be gene flow from SPY2 to SDE1, and from SPY1 to SDE2.
-\end_layout
-
-\begin_layout Standard
-We also revisited recombination in gene parC studied by 
+).
+ We also revisited recombination in gene parC studied by 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Pinho2010"
@@ -2108,8 +1884,12 @@ reference "fig:recomb-parc"
 \end_inset
 
 .
- [I MIGHT WANT TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE
- TRANSFER AND COMPARE THEM WITH WHAT WE HAVE.] 
+ 
+\end_layout
+
+\begin_layout Standard
+[I MIGHT HAVE TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE TRANSFER
+ AND COMPARE THEM WITH WHAT WE HAVE.] 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kinsella2003"
@@ -2121,7 +1901,7 @@ key "Kinsella2003"
 \end_layout
 
 \begin_layout Subsection
-Gene tree topologies vary along the genome of streptococcus
+Gene tree topologies along the genome of streptococcus
 \end_layout
 
 \begin_layout Standard
@@ -2221,43 +2001,6 @@ Symmetry of translocation of genes centered around the orgin of replication
 [MATT OBSERVED THIS IN OUR GENOME DATA SET.
  WE WISH TO MENTION IT USING DOT PLOTS.
  MATT: COULD YOU DESCRIBE YOUR RESULTS HERE?]
-\end_layout
-
-\begin_layout Subsection
-Multiple alignment using Mauve
-\end_layout
-
-\begin_layout Standard
-The total number of blocks we used was 274.
- The total length of all of the block alignments was 1,147,632.
- The average length of the blocks was 4,188, and the median was [MEDIAN
- OF BLOCK LENGTH].
- The proportion of polymorphic sites was 0.169.
- Figure XX shows the distribution of lengths of the 274 blocks.
- The rate of nucleotide differences in the recombined stretches 
-\begin_inset Formula $\nu$
-\end_inset
-
- was estimated to be 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-0.134
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
- with (0.132,0.135) of 95% credibility interval.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -2402,19 +2145,6 @@ Figure fig:ri2 shows a scatter plot of genes with their estimated values
  corresponding true values.
  The Pearson's correlation coefficient between true values and estimates
  was 0.XXX.
-\end_layout
-
-\begin_layout Subsection
-ClonalOrigin with splitting time
-\end_layout
-
-\begin_layout Standard
-[I DO NOT THINK THAT I HAVE PARAMETERS THAT CONTROL DIRECTIONALITY OF GENE
- FLOW DUE TO BACTERIAL RECOMBINATIONS.
- I CONSIDER A SIMULATION STUDY WHERE TWO POPULATIONS SHARE A COMMON ANCESTRAL
- POPULATION.
- I DID NOT PURSUE TO MAKE INFERENCE OF THE MODEL, AND YET I WISHED TO TEST
- CLONALORIGIN'S FRAMEWORK WITH SIMULATED DATA SETS UNDER THE NE1W MODEL.]
 \end_layout
 
 \begin_layout Standard
@@ -4043,6 +3773,1870 @@ Functional categories asscoiated with higher recombination
 
 \begin_layout Standard
 \begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction of gene transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+leucyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:leucyl-trna"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lysyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE2 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:lysyl-trna"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+isoleucyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SDE1 or SDE2 to SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:isoleucyl-trna"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+aspartyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:yl-trna"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+histidyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE2 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:yl-trna"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phenylalanyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+valyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+methionyl-tRNA synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SDE to SPY1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:aaRS"
+
+\end_inset
+
+Gene transfer of aminocyl tRNA synthetases
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction of gene transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system mannose/fructose transporter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-mannose"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system galactose-specific IIC component
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SDE1 to SPY1(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-galactose"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system mannose-specific
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-mannose2"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system sucrose-specific IIABC component
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY and SDE to SDE1 and SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-sucrose"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system glucose-specific IIABC component
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SDE to SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pts-glucose"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system N-acetylgalactosamine-specific transporter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system ascorbate-specific transporter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:pts"
+
+\end_inset
+
+Lateral transfer of phosphtransferase system
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction of gene transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc1"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc2"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:abc3"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:abc"
+
+\end_inset
+
+ATP-binding casette transporter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="19" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction of gene transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative heavy metal/cadmium transporting ATPase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cadmium"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative penicillin-binding protein 1b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:penicillin"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+proteases
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE2 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:protease"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative peptidoglycan hydrolase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hydrolase"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative ATP-dependent RNA helicase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE2 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:helicase"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Hemolysin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hemolysin"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative transcription-repair coupling factor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative ferric uptake regulator
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative biotin synthase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative calcium transporter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative dipeptidase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative adhesion protein
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative folyl-polyglutamate synthetase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative uracil permease
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nucleotidase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphopentomutase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DNA topoisomerase I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DNA polymerase III PolC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:miscellaneous"
+
+\end_inset
+
+Gene transfer of Miscellaneous genes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction of gene transfer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+gki
+\emph default
+ putative glucose kinase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1180
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gki"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+gtr
+\emph default
+ glutamine transport protein
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1161
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N/A (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-gtr"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+murI
+\emph default
+ glutamate racemase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N/A (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muri"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+mutS
+\emph default
+ mismatch repair enzyme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1806
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-muts"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+recP
+\emph default
+ transketolase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1462
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY1 to SDE2, and SDE1 to SPY1 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-recp"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+xpt
+\emph default
+ xanthine phosphoribosyltransferase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0794
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SPY2 to SDE1, and SPY1 to SDE2 (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-xpt"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+yqiL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0108
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:kalia"
+
+\end_inset
+
+Gene transfer the housekeeping genes studied by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
