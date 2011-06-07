@@ -2170,11 +2170,49 @@ Discussions
 \end_layout
 
 \begin_layout Standard
-We investigated bacterial gene flow between SPY and SDE using their genome
+We investigated bacterial gene transfer between SPY and SDE using the genome
  sequences by comparing gene tree and species tree.
  We considered both core and pan genomes for detecting homologous recombining
  gene transfer and non-recombining integrative gene transfer.
+ This distinction of the two processes of gene transfer was envisioned a
+ decade ago 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ochman2001"
+
+\end_inset
+
+, and the methods of gene transfer detection by distinguishing the processes
+ were not yet employed even if some of the methods were already available.
+ We by no means provided any solutions to the problem of detecting gene
+ transfer here.
+ We hoped that we should be able to discriminate the two processes because
+ each of the processes of gene transfer could affect biological functions
+ that were different in nature.
+ While homologous recombination gene transfer would happen in the genes
+ whose donor and recipient species were rather closely related, non-homologous
+ integrative gene transfer could happen virtually in any genes of donor
+ and recipient species as long as the species shared their habitats.
+ The extent to which genes were transferred would be affected by this mode
+ of gene transfer.
+ In other words, genes transferred via non-recombining integrative gene
+ transfer could be parts of functional units such as protein domains, and
+ secondary structures of ribosomal RNAs.
+ Genes transferred via homologous recombining gene transfer could be small
+ fragments of genes as long as the flanking sequences of the fragments were
+ more or less homologous.
  
+\end_layout
+
+\begin_layout Standard
+The method of detecting homologous recombination gene transfer, or the ClonalOri
+gin, is more model-based approach as opposed to the other method for non-homolog
+ous integrative gene transfer, or the Mowgli.
+ Evolutionary models for insertion and deletion of parts of sequences appeared
+ to be too difficult to obtain.
+ More sophisticated models for both of the two processes of gene transfer
+ would be important advances.
+ Considering nucleotides as the level of gene duplication, loss, and transfer
 \end_layout
 
 \begin_layout Standard
@@ -2673,8 +2711,7 @@ We are indebted to Xavier Didelot for his help in setting up ClonalOrigin
  analysis.
  We are grateful to Ilan Gronau for his advice on understanding the ClonalOrigin
  model.
- We also are thankful to Haruo Suzuki for his help in using their data and
- results.
+ We are thankful to Haruo Suzuki for his help in using their data and results.
  This work was supported by the National Institute of Allergy and Infectious
  Disease, US National Institutes of Health, under grant number AI073368-01A2
  awarded to A.S.
