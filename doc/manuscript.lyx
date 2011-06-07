@@ -44,6 +44,22 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+raggedright 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection*
 Title: 
 \end_layout
@@ -55,7 +71,11 @@ Streptococcus pyogenes
 \emph default
  and
 \emph on
- dysgalactiae
+ S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
  subspecies 
 \emph on
@@ -177,7 +197,7 @@ bacterial recombination, gene duplication and transfer, Clonal Origin, Mowgli
 \end_layout
 
 \begin_layout Subsubsection*
-Version: 0.2 (June 3, 2011) 
+Version: 0.3 (June 10, 2011) 
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -210,7 +230,7 @@ dysgalactiae
 
 equisimilis
 \emph default
- (SDE) that is its closely related species and a opportunistic houman pathogen:
+ (SDE) that is its closely related species and an opportunistic human pathogen:
  homologous recombining gene transfer and non-homologous integrative gene
  transfer.
  The former lateral process was studied with the core genomes of five individual
@@ -221,7 +241,8 @@ Streptococci
 , and the latter process with the pan genomes as well as the core genomes.
  Two separate methods recently developed were employed to examine genes
  or their fragments that could have been exchanged between SPY and SDE as
- efforts of finding their roles in the formation of pathogenicity of SDE.
+ efforts of finding their roles in the formation of pathogenicity of the
+ bacteria.
  We revisited the problem of directionality of gene transfer between SPY
  and SDE, and found marginally supporting evidence for recombining homologous
  gene flow from SPY to SDE based on the core genomes.
@@ -233,9 +254,9 @@ Streptococci
  recombining gene transfer.
  This might indicate that additional genes obtained via non-homologous integrati
 ve gene transfer were more effective than gene fragments transfer via bacterial
- recombination for SDE to acquire biological functions that were critical
- to their survival in the environment in which their close relatives or
- SPY thrived.
+ recombination for SDE in the acquisition of biological functions that were
+ critical to their survival in the environment in which their close relatives
+ or SPY thrived.
  Protein coding genes that appeared to undergo gene transfer due to bacterial
  recombination were found to be in several kinds of aminoacyl tRNA synthetase
  (aaRS), phosphotransferase systems (PTS) specific to each of several sugars,
@@ -294,10 +315,11 @@ key "McDaniel2010"
 
 .
  Although the discrimination between the two lateral processes was noted,
- methods of detecting horizontal gene transfer did not properly take the
- differences into account.
+ methods of detecting horizontal gene transfer did not appear to properly
+ take the differences into account.
  The failure of proper discrimination of the two processes could lead to
- misunderstanding of biological properties of transferred genes.
+ misunderstanding and confusions of biological properties of transferred
+ genes.
  For example, because ribosomal RNA genes are contitutively expressed genes
  and considered as housekeeping genes, they are expected to less susceptible
  to horizontal gene transfer.
@@ -503,8 +525,9 @@ Shewanella baltica
 \emph default
  genomes to identify the genetic elements that enable the species to adapt
  to redox gradients.
- Phylognetic approaches can allow to better understand evolutionary forces
- of gene exchange between species.
+ [THESE ARE NOT COMPREHENSIVE REVIEWS] Among the approaches used phylognetic
+ approaches seem to allow to understand evolutionary forces of gene exchange
+ between species.
  Yet, bacterial phylogenetic studies recognized early on that gene transfer
  would complicate analyses of evolutionary relationships of the species
  
@@ -571,7 +594,7 @@ key "Sachse2002"
 \end_inset
 
  showed gene transfer from SDE to SPY for the downstream of the genomic
- region of 
+ region of streptococcal pyrogenic exotoxins 
 \emph on
 speG
 \emph default
@@ -586,7 +609,7 @@ key "Kalia2001"
  attempted to show that the direction of gene transfer from SPY to SDE was
  more dominant than the other direction, albeit unfortunately appeared to
  be premature.
- Because their researches on on direction of gene flow were limited to only
+ Because their researches on direction of gene flow were limited to only
  small portion of regions in the genomes, it remains to be elusive to determine
  the genome-wide degrees to which genomic segments flow between the two
  species and directions of thereof.
@@ -620,7 +643,8 @@ key "Chan2009"
 
  studied gene with and without breakpoints, and found that more often entire
  genes transfer in pathogens than in non-pathogens.
- They found more genes with breakpoints than genes without breakpoints.
+ In pathogenic bacteria they found more genes with breakpoints than genes
+ without breakpoints.
  
 \end_layout
 
@@ -629,13 +653,9 @@ key "Chan2009"
 \series bold
 Two methods of studying gene transfer:
 \series default
- Although gene transfer by homologous recombination and
-\emph on
- 
-\emph default
-horizontal transfer has driven bacterial evolution, methodological development
- has hardly been able to properly deal with the important evolutionary force
- in bacteria.
+ Although lateral gene transfer has driven bacterial evolution, methodological
+ development has hardly been able to properly deal with the important evolutiona
+ry force in bacteria.
  As sequencing costs plummet 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -652,9 +672,8 @@ key "Tettelin2009a"
 \end_inset
 
 .
- With high prevalence of gene transfer via homologous recombination and
- horizontal transfer in bacteria, values of complete bacterial genomes must
- not be understated 
+ With high prevalence of gene transfer in bacteria, values of complete bacterial
+ genomes must not be understated 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Fraser2002"
@@ -692,7 +711,7 @@ key "Doyon2011"
 .
  The first approach can be used to infer transfer of genomic segments due
  to bacterial recombination, and the second can do similarly due to non-recombin
-ing addition of genic segments via horizontal transfer.
+ing addition of genic segments.
 \end_layout
 
 \begin_layout Standard
@@ -751,6 +770,8 @@ key "Didelot2010"
 Bacillus cereus
 \emph default
  species.
+ This model-based approach to detecting homologous recombining gene transfer
+ was used to the core genomes of closely related species.
 \end_layout
 
 \begin_layout Standard
@@ -773,17 +794,20 @@ key "Doyon2011"
  duplication, loss, and transfer events for gene families.
  Transferred genes in Mowgli can replace indigenous homologous copies in
  the recipient bacteria, or can integrate into the recipient bacterial genome.
- Mowgli allows study of gene flow events due to non-recombining horizontal
- transfer of gene segments, which is fortunate becasue it complement ClonalOrigi
-n's capability of inferring gene flow due to bacterial recombination.
+ Mowgli allows study of gene flow events due to not only homologous recombining
+ process but also non-recombining integrative transfer process of gene segments,
+ which is fortunate becasue it would complement ClonalOrigin's capability
+ of inferring gene flow due to bacterial recombination.
  Yet, both of the methods of ClonalOrgin and Mowgli take advantage of incompatib
 ility of gene trees with a reference species tree.
  The very incompatibility allows these methods to detect gene transfer between
  species.
  While ClonalOrigin was able to handle core genomes, Mowgli was able to
- hand pan genomes.
- [DESCRIPTION OF PARTS WHERE EACH OF THE TWO METHODS IS STRONGER THAN THE
- OTHER!]
+ hand core and pan genomes.
+ One drawback of Mowgli approach is its parsimony criterion.
+ The model-based approach of ClonalOrigin can be more powerful in using
+ full sequence data while Mowgli's parsimony approach can only infer specific
+ events for given genes in a gene family.
 \end_layout
 
 \begin_layout Standard
@@ -796,15 +820,15 @@ Last paragraph before methods:
  of studying gene transfer using whole bacterial genomes.
  We hoped that this study could further step towards the understanding of
  interaction between the two closely related human pathogens.
- Specifically, we wished to answer to three questions: Firstly, did two
- species exchange genetic segments across the entire genome or parts of
- the genome? What proportion of the genome underwent higher transfer of
- genes due to bacterial recombination or horizontal transfer? Secondly,
- was the transfer of genes balanced or unbalanced if the two pyogenic species
- exchanged genetic segments? Thirdly, what functional categories of genes
- were exchanged more often than others if they exchanged genetic material?
- Were virulence genes exchanged more often than non-virulence genes? We
- organize the remainder of the paper as follows.
+ Specifically, we wished to answer to these questions in this paper: Firstly,
+ did two species exchange genetic segments across the entire genome or parts
+ of the genome? What proportion of the genome underwent higher transfer
+ of genes due to bacterial recombination or non-recombining integrative
+ gene transfer? Secondly, was the transfer of genes balanced or unbalanced
+ if the two pyogenic species exchanged genetic segments? Thirdly, what functiona
+l categories of genes were exchanged more often than others if they exchanged
+ genetic material? Were virulence genes exchanged more often than non-virulence
+ genes? We organize the remainder of the paper as follows.
  We describe the data set and its analysis in Methods and Materials.
  In Results, we provide evidence supporting our answers to the questions
  above, and end in Discussion.
@@ -1097,11 +1121,10 @@ Number of recombinant edges:
  Note that we call a recombinant tree a species tree with recombinant edges
  attached to the species tree.
  We summarized the posterior sample to examine aspects of recombinant trees.
- First, we counted recombinant edges regardless of their start and end positions.
- Number of recombination events were calculated for each of pairs of donor
- and recipient branches of the reference species tree, which would indicate
- the degree to which the clonal species tree was disrupted by bacterial
- recombination.
+ Number of recombination events were calculated regardless of their start
+ and end positions for each of pairs of donor and recipient branches of
+ the reference species tree, which would indicate the degree to which the
+ clonal species tree was disrupted by bacterial recombination.
  Comparison of numbers of recombination events from different pairs of donor
  and recipient gave us insight into relative strengths of genome-wide gene
  flow.
@@ -1112,10 +1135,10 @@ key "Didelot2010"
 
 \end_inset
 
- inferred these relative strengths of bacterial recombination events.
- They summarized the number of recombination events inferred relative to
- its expected number under the prior of the ClonalOrigin model given recombinati
-on rate for each pair of donor and recipient branches.
+ inferred these relative strengths of bacterial recombination events by
+ computing the number of recombination events inferred relative to its expected
+ number under the prior of the ClonalOrigin model given recombination rate
+ for each pair of donor and recipient branches.
  We applied the method to the five streptococcus genomes to infer which
  types of bacterial recombination were more prevalent than which other types.
  Of interest in here our study is if there are unbalanced recombination
@@ -1152,7 +1175,7 @@ key "Didelot2010"
  value of the surrogate measure of recombinantion for a geneic region, which
  allowed to study genes that could undergo higher recombination by finding
  functional categories enriched with genes with higher measures of recombination
- using Gene Ontology
+ using Gene Ontology 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ashburner2000"
@@ -1169,9 +1192,9 @@ Posterior probability of genes experiencing gene transfer:
 \series default
  A recombinant tree with an alignment block tells what types of recombinant
  edges affect a column of the block.
- Because we would have a number recombinant edges sampled from the posterior
- distribution of recombinant trees, we could calculate the posterior probability
- that a site was affected by a recombinant edge type specified by the ordered
+ Because we would have a number of recombinant edges sampled from the posterior
+ distribution of a recombinant tree, we could calculate the posterior probabilit
+y that a site was affected by a recombinant edge type specified by the ordered
  pair of two branches of a reference species tree.
  Interpreting recombinant edges as genomic segment flow needs to be warned
  because the departure and arrival points of a recombinant edge do not happen
@@ -1198,9 +1221,9 @@ key "Didelot2010"
  Because we were interested in gene flows between SPY and SDE that were
  at extant nodes, we considered pairs of species tree branches one from
  SPY, and another pairs from SDE as gene flow channels.
- Four ordered pairs of species branches represented gene flow from SPY to
- SDE.
- Another four ordered pairs represented gene flow from SDE to SPY.
+ Four ordered pairs of species branches represented gene flows from SPY
+ to SDE.
+ Another four ordered pairs represented gene flows from SDE to SPY.
  Averaging the posterior probabilities over the four possible recombinant
  edge types and lengths of genic regions we measured the probability that
  a gene experiences genetic movement by one direction from SDE to SPY or
@@ -1479,18 +1502,18 @@ reference "tab:functional"
  Having been stimulated by the functional category association study we
  elected to examine posterior probability of sites experiencing influx from
  donor species branches across the alignment blocks.
- We here focused more on gene transfer between SPY and SDE.
- Although we scan through the alignment blocks for potentially interesting
+ We here focused our attentions on gene transfer between SPY and SDE.
+ Although we scaned through the alignment blocks for potentially interesting
  regions, we by no means intended to comprehensively examine all of the
  genes.
- We rather chose arbitrarily three functional categories for gene-level
+ We rather chose arbitrarily three functional categories for the gene-level
  detailed examination of gene transfer due to bacterial recombination.
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Ribosome RNA genes:
+Ribosomal RNA genes:
 \series default
  Several functional categories were found to be associated with ribosome
  RNA genes.
@@ -1510,8 +1533,16 @@ key "Wang2000"
 
 \end_inset
 
- proposed the 'simplified complexity hypothesis' that gene transfer occurs
- to ribosomal RNA genes through replacement of gene segments.
+ proposed the 
+\begin_inset Quotes eld
+\end_inset
+
+simplified complexity hypothesis
+\begin_inset Quotes erd
+\end_inset
+
+ that gene transfer occurs to ribosomal RNA genes through replacement of
+ gene segments.
  [WE NEED TO DESCRIBE WHAT WE FOUND IN DETAIL.]
 \end_layout
 
@@ -1524,7 +1555,7 @@ Aminoacyl tRNA synthetase:
  amino acids are concatenated from charged tRNA onto a growing peptides
  through translation.
  The aaRS's are characterized by an amino acid that they charge tRNA with.
- This gene family has been a target for horizontal gene transfer 
+ This gene family had been a target for horizontal gene transfer 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -1532,8 +1563,8 @@ key "Lamour1994,Woese2000"
 
 \end_inset
 
-, which lends itself to a classic example of gene transfer in bacteria.
- There are recent reports about tRNA aminoacylation 
+, which lent itself to a classic example of gene transfer in bacteria.
+ There were recent reports of gene transfer in tRNA aminoacylation 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Andam2010,Wang2011"
@@ -1550,7 +1581,7 @@ reference "tab:aaRS"
 \end_inset
 
 ).
- 
+ [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
 \end_layout
 
 \begin_layout Standard
@@ -1559,8 +1590,8 @@ reference "tab:aaRS"
 Phosphotransferase system:
 \series default
  Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
- group translation, transports sugars such as glucose into the cell where
- phosphorylation of the sugar happens.
+ (PEP) group translocation, transports sugars such as glucose into the cell
+ where phosphorylation of the sugar happens.
  There have been studies of gene transfer of PTS in bacteria 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1572,7 +1603,9 @@ key "Barabote2005,Zuniga2005"
 .
  As the main source of energy for bacteria, sugars in the bacterial niches
  must have been acting as important selective pressure.
- It is not surprising that PTS sugars differ among bacterial groups.
+ It is not surprising that PTS sugars differ among bacterial groups because
+ bacterial species are correlated with their environment and energy sources
+ theirof.
  Several phosphotransferase systems exist in the five genomes depending
  on different kinds of sugars (Table 
 \begin_inset CommandInset ref
@@ -1582,7 +1615,7 @@ reference "tab:pts"
 \end_inset
 
 ).
- 
+ [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
 \end_layout
 
 \begin_layout Standard
@@ -1610,6 +1643,7 @@ reference "tab:abc"
 \end_inset
 
 ).
+ [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
 \end_layout
 
 \begin_layout Standard
@@ -1626,8 +1660,8 @@ reference "tab:miscellaneous"
 \end_inset
 
 ).
- Function category of biosynthesis in fatty acid and phospholipid metabolism
- was also found to be associated with higher recombination.
+ The functional category of biosynthesis in fatty acid and phospholipid
+ metabolism was also found to be associated with higher recombination.
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1636,6 +1670,20 @@ key "Kinsella2003"
 \end_inset
 
  studied lateral gene transfer of fatty acid metabolism.
+ [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
+\end_layout
+
+\begin_layout Standard
+[I MIGHT HAVE TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE TRANSFER
+ AND COMPARE THEM WITH WHAT WE HAVE.] 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kinsella2003"
+
+\end_inset
+
+ and fatty acid biosynthesis - implication of gene transfer and bacterial
+ recombination.
 \end_layout
 
 \begin_layout Standard
@@ -1673,8 +1721,8 @@ There were functional categories that appeared to be significant in both
 Virulence genes associated with non-recombining horizontal gene transfer:
 \series default
  There were 207 loci identified as virulent compared to 2,453 not virulent.
- By virulent we meant that at least one of the genes in the gene family
- was identified as virulent using the virulence profile from 
+ By virulence genes we meant that at least one of the genes in the gene
+ family was identified as virulent using the virulence profile from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Suzuki2011"
@@ -1682,24 +1730,20 @@ key "Suzuki2011"
 \end_inset
 
 .
- Virulence category enrichment for duplication, loss, non-recombining horizontal
- transfer, and recombining gene transfer showed that there were differences
- in non-recombining horizontal transfer (P-Value of 1.329719e-11) between
- virulence gene families and non-virulence ones.
+ Virulence gene category enrichment for duplication, loss, non-recombining
+ horizontal transfer, and recombining gene transfer showed that there were
+ differences in non-recombining horizontal transfer (P-Value of 1.329719e-11)
+ between virulence gene families and non-virulence ones.
  Testing for an excess of duplication events in the virulent category was
  fairly significant with P-Value of 7.138439e-4.
  We did not find evidence of excess of loss or recombining gene transfer
  events in virulence genes.
- This might indicate that 
-\emph on
-de novo 
-\emph default
-integration of genes horizontally transferred might have been more effective
- for SDE or SPY to acquire virulence genes than recombining gene transfer.
+ This might indicate that genes horizontally transferred via non-recombining
+ integrative gene transfer might have been more effective for SDE or SPY
+ to acquire virulence genes than recombining gene transfer.
  This seemed to be consistent with the result of ClonalOrigin where we did
- not find excess of recombination events in viruence genes.
- We found elevation of recombination rates in non-virulent genes with P-Value
- of 0.027 using site-wise numbers of recombinant edge types.
+ not find excess of bacterial recombination events in viruence genes.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1885,19 +1929,6 @@ reference "fig:recomb-parc"
 
 .
  
-\end_layout
-
-\begin_layout Standard
-[I MIGHT HAVE TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE TRANSFER
- AND COMPARE THEM WITH WHAT WE HAVE.] 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kinsella2003"
-
-\end_inset
-
- and fatty acid biosynthesis - implication of gene transfer and bacterial
- recombination.
 \end_layout
 
 \begin_layout Subsection
@@ -2159,13 +2190,17 @@ Discussions
 \end_layout
 
 \begin_layout Standard
-[POINTS THAT WE COULD FOCUS ON: Gene Transfer And Functional Categories
- (Gene-Wise Analyses And Stories, Mobile Elements, GAS-like prophages and
- Mowgli analysis, many interesting virulence genes are missing in the core
- genomes), Unbalanced Gene Flow Between SPY And SDE (Facts And Hypotheses
- About Possible Mechanisms), Evolutionary Hypotheses About The Ancestor
- Of SPY And SDE, Recombining And Non-Recombining Gene Transfer In Bacteria,
- , ]
+New biological functions of bacteria appear to emerge more easily in horizontal
+ way than in vertical way.
+ When one species of bacteria thrives in its environment and another relatively
+ close species starts to cohabit with the indigenous species, some genetic
+ elements in one of the two species would benefit another species.
+ If the two species do not compete with each other, then the increased genetic
+ variation from multiple species would eventually bring advantage to both
+ of the species.
+ Pathogenicity of bacteria should be no exception.
+ Studying pathogenic gene flow should shed light on the etiology of the
+ bacterial pathogens.
 \end_layout
 
 \begin_layout Standard
@@ -2189,9 +2224,9 @@ key "Ochman2001"
  were not yet employed even if some of the methods were already available.
  We by no means provided any solutions to the problem of detecting gene
  transfer here.
- We hoped that we should be able to discriminate the two processes because
- each of the processes of gene transfer could affect biological functions
- that were different in nature.
+ Yet, we hoped that we should be able to discriminate the two processes
+ because each of the processes of gene transfer could affect biological
+ functions that were different in nature.
  While homologous recombination gene transfer would happen in the genes
  whose donor and recipient species were rather closely related, non-homologous
  integrative gene transfer could happen virtually in any genes of donor
@@ -2210,20 +2245,61 @@ key "Ochman2001"
 \begin_layout Standard
 
 \series bold
-Gene Transfer And Functional Categories:
+Gene transfer and functional categories:
 \series default
- This might indicate that SDE became human pathogenic via influx of genes
- from SPY.
- We did not support that idea because virulences genes and recombining gene
- transfer were not found to be associated.
- Yet, we advocated the idea because virulences genes and non-recombining
- horizontal transfer were found to be associated.
+ Several functional categories were found to be associated with the measure
+ of recombination: ribosomal RNA genes, aminoacyl tRNA synthetases, phosphtransf
+erase system, ATP-binding cassette transporter, and other miscellaneous
+ genes.
+ The association of ribosomal RNA genes with bacterial recombination could
+ be considered false positive because they belong to complex genes that
+ might not be targets of gene transfer (CITE the complexity hypothesis).
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wang2000"
+
+\end_inset
+
+ reported that small segments of rRNA genes encoding parts of domain of
+ secondary structures could be targets of gene transfer in ribosomal RNAs.
+ [IT MAY BE WORTHWHILE TO SHOW RECOMBINANT EDGES ON rRNA GENES AS OTHER
+ GENES] Detailed examination of secondary structures of the rRNA genes could
+ reveal higher recombination on parts of rRNA domains.
+ We did not pursue that direction because the number of taxa was too small
+ to see the correlated changes of gene tree topologies.
+ Figure XXX shows an example of recombinant edges along rRNA genes.
+ Most of recombinant edges were connecting a lineage and its direct daughter
+ one, which lead to changes to coalescent event time without changing gene
+ tree topologies.
+ We showed much clearer examples of lateral transfer of gene fragments in
+ other classes of functional categories.
+ Modular structures of aaRS genes made them easy targets of gene transfer
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Woese2000"
+
+\end_inset
+
+.
+ The two transporter genes might have been under selective pressure from
+ environment.
+ Although we observed different kinds of genes that were associated with
+ homologous recombining gene transfer, we did not find an excess of virulence
+ genes associated this process of gene transfer.
+ Actually, many important virulence genes were missing in the core genomes.
+ We found an association of virulence genes with nonrecombining integrative
+ gene transfer.
+ We suspected that the pathogenicity of SDE and SPY might be more attributed
+ to the nonrecombining integrative gene transfer process than the homologous
+ recombining gene transfer.
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Overlap Of Genes Under Positive Selection And Higher Recombination:
+Overlap of genes under positive selection and higher recombination:
 \series default
  As the uncertainty in gene tree topologies becomes larger, false positive
  rates of detecting sites under positive selection would be high (CITE).
@@ -2231,42 +2307,18 @@ Overlap Of Genes Under Positive Selection And Higher Recombination:
  topologies exist.
  Dividing genes into those fragments might be a way to avoid potentially
  high false positive rates of positively selected sites.
- Nucleotide substitutions seemed to be affected more by recombinations than
- by mutations.
- Considering this fact we might suspect that fragmenting genes might not
- be helpful.
+ Considering the fact that nucleotide substitutions seemed to be affected
+ more by recombinations than by mutations we might suspect that fragmenting
+ genes might not be helpful.
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Unbalanced Gene Flow Between SPY And SDE:
+Unbalanced gene flow between SPY and SDE:
 \series default
- Direction of gene flow between 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- and 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-pyogenes
-\emph default
- has been questioned and challenged 
+ Direction of gene flow between SDE and SPY has been questioned and challenged
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kalia2001,Kalia2004,Towers2004,Bessen2005,Davies2007,Davies2007a,Bessen2010"
@@ -2275,100 +2327,44 @@ key "Kalia2001,Kalia2004,Towers2004,Bessen2005,Davies2007,Davies2007a,Bessen2010
 
 .
  We showed in this study that the amount of gene flows from SPY to SDE was
- larger than that from SDE to SPY using about half of the genome sequences.
- Our analysis using Mowgli did not show unbalanced gene flow with the full
- genome sequences.
- We supported marginally that there were unbalanced gene flows more from
- SPY to SDE.
- What are barriers 
+ larger than that of the reverse directoin using only the core genome sequences.
+ Our analysis using Mowgli did not find unbalanced gene flow with the full
+ data set of genome sequences.
+ We therefore concluded marginally that there were unbalanced gene flows
+ more from SPY to SDE.
+ If there were unbalaned gene transfer between the two species, what were
+ the barriers 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Thomas2005"
 
 \end_inset
 
- to gene transfer in bacteria? Bacterial recombinations happen more freely
- within the same species.
- Barriers to bacterial recombination can include geographic isolation.
- Geographic isolation cannot be the only reason.
- Genetic isolation can prevent recombination between coinhating bacteria.
+ to gene transfer in the bacteria? Although barriers to bacterial recombination
+ would include geographic isolation, genetic isolation could prevent recombinati
+on between coinhabiting bacteria.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kalia2001"
+
+\end_inset
+
+ discussed possible mechanisms of the unbalanced gene flow by mentioning
+ potential roles of restriction-modification system (RMS) in the unbalanced
+ gene flow.
  Restriction-modification system is a biological self-defense mechanism
- of bacteria.
- It is diverse in prokaryote world.
- Relatively unidirectional gene flow between 
-\emph on
-S.
- pyogenes
-\emph default
- and 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
+ of bacteria, which is diverse in prokaryote world.
+ Biological roles of RMS might be to maintain and control species identity
  
-\emph on
-equisimilis
-\emph default
- might be associated with different restriction-modification system in the
- two species.
- Most of 
-\emph on
-S.
- pyogenes
-\emph default
- genomes contain restriction-modification type I system as well as type
- II system.
- The two genomes of 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- contain only type II system.
- We conjecture that more tight self-defense system of 
-\emph on
-S.
- pyogenes
-\emph default
- might make the species less capable of aquiring foreign genetic material
- from 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Jeltsch2003"
+
+\end_inset
+
 .
- We did not find evidence against the hypothesis that functional categories
- of genes were independent of polarization of gene flow between the two
- species.
- Genes associated with polarized gene flow seem to be more or less randomly
- distributed across the genome.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kalia2001"
-
-\end_inset
-
- discussed possible mechanisms of the polarized gene flow.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kalia2001"
-
-\end_inset
-
- mentioned potential roles of RMS in the polarized gene flow.
- 
+ Recently, 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Budroni2011a"
@@ -2379,37 +2375,38 @@ key "Budroni2011a"
 \emph on
 Neisseria meningitidis
 \emph default
- phylogenetic clades were associated with RMS.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Budroni2011a"
-
-\end_inset
-
- mentioned that RM systems modulate homologous recombination in the bacteria
- of 
+ phylogenetic clades were associated with RMS, claiming that RMS modulated
+ homologous recombination in the bacteria of 
 \emph on
 N.
- meningitidis
-\emph default
-.
- Biological roles of RM systems might be to maintain and control species
- identity 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Jeltsch2003"
-
+\begin_inset space \space{}
 \end_inset
 
+meningitidis
+\emph default
 .
- 
+ Most of 
+\emph on
+S.
+\begin_inset space \space{}
+\end_inset
+
+pyogenes
+\emph default
+ genomes contain restriction-modification type I system as well as type
+ II system.
+ The two genomes of SDE contained only type II system.
+ We conjecture that more tight self-defense system of SPY may have made
+ the species less capable of aquiring foreign genetic material from SDE,
+ and accordingly relatively unbalanced gene flow between SPY and SDE may
+ have been associated with different restriction-modification systems in
+ the two species.
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Evolutionary Hypotheses About The Ancestor Of SPY And SDE:
+Evolutionary hypotheses about the ancestor of SPY and SDE:
 \series default
  
 \begin_inset CommandInset citation
@@ -2418,219 +2415,34 @@ key "Kalia2001"
 
 \end_inset
 
- conjectured two scenarios of the evolution of the two species: The first
- one is that the most recent common ancestor of SPY and SDE is a GAS-like
- pathogen.
- SDE was losing virulence factors since the divergence of the ancestor.
- SDE regains virulence factors from SPY because of the same niche.
- The second one is that the most recent common ancestor of SPY and SDE is
- a GGS/GCS-like commensal.
- SPY evolves virulence factors since the divergence of the ancestor.
- SDE gains virulence factors from SPY.
+ proposed two scenarios of the evolution of the two species: The first one
+ was that the most recent common ancestor of SPY and SDE was a GAS-like
+ pathogen, SDE was losing virulence factors since the divergence of the
+ ancestor, and SDE regained virulence factors from SPY because of the same
+ niche.
+ The second scenario was that the most recent common ancestor of SPY and
+ SDE was a GGS/GCS-like commensal, SPY evolved virulence factors since the
+ divergence of the ancestor, and SDE gained virulence factors from SPY.
  Commensal bacteria could evolve by aquiring virulence genes from its closely
- related bacteria that are pathogenic.
- We expected that virulence genes of 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- might have been transferred from 
-\emph on
-S.
- pyogenes
-\emph default
-.
- We could not find evidence to support the lateral gene transfer of virulence
- genes from 
-\emph on
-S.
- pyogenes
-\emph default
- to 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
-.
- This marginally appears to support that virulence genes might have existed
- in the common ancester of the two species.
- We could not rule out that virulence genes were transferred to 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
-.
- The reports that 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- were human-pathogens seem to be retropective.
- 
-\emph on
-Streptococcus dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- had been known to infect domesticated animals (CITEs).
- Recently, reports that 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- (SDE) were recovered as human pathogens just like 
-\emph on
-S.
- pyogenes
-\emph default
- (SPY) are increasing (CITEs).
- The species might have been human-pathogenic, and they were not reported
- to be so much as 
-\emph on
-S.
- pyogenes
-\emph default
-.
- Further studies should be pursued to resolve this issue of lateral gene
- transfer of virulence genes.
- 
+ related pathogenic bacteria.
+ We expected that virulence genes of SDE might have been transferred from
+ SPY.
+ [WHAT I AM TRYING TO SAY IN THIS PART?]
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Lack of analyses and Limitations of the method:
-\series default
- We used only two genomes of 
-\emph on
-S.
- pyogenes
-\emph default
-, and two genomes of 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-equisimilis
-\emph default
- with additional genome from 
-\emph on
-S.
- dysgalactiae
-\emph default
- ssp.
- 
-\emph on
-dysgalactiae
-\emph default
-.
- In additional to the five genomes analyses with more genomes from closely
- related species could increase the power of detecting recombination.
- Analyses with more isolates could potentially reveal congruent relationships
- between virulence profiles and GCS/GGS disease propensity.
- We also used only core genomes where not so much gaps were allowed 
-\family typewriter
-[Matt's analysis may complement ClonalOrigin's analysis]
-\family default
-.
- Relatively short alignment blocks were excluded from the analysis.
- Alignment blocks with many gaps were excluded.
- With this inherent filtering of the input data preparation we did not account
- for gene gain and loss in the analysis.
- Only well aligned regions were used in the analysis.
- More complicated evolutionary models could have been considered: genome
- rearrangement, gene segment gain and loss, and gene duplications.
- Without these evolutionary events in their model 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- still used the two stages of Bayesian approach where the second stage uses
- the result from the first stage as a prior.
- If this compromise seems to be necessary due to smaller uncertainty of
- some parameters and computational cost, using whole genomes intact with
- all alignment blocks seems to be impracticable.
- Incorporating the other evolutionary events in the ClonalOrigin's framework
- seems to be out of the question.
- It seems to be natural to consider some of evolutionary models such as
- gene segment gain and loss becasue bacterial genomes are the ultimate resources
- for resolving many biological questions such as species tree of them.
- We are wondering if species tree can be studied using gene tree model that
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- developed in ClonalOrigin.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Delorme2007"
-
-\end_inset
-
- indicated that 
-\emph on
-S.
- salivarius
-\emph default
- and 
-\emph on
-S.
- vestibularis
-\emph default
- may have evolutionary history that is parallel to SDE and 
-\emph on
-S.
- pyogenes
-\emph default
-.
- 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Better Models Of Bacterial Evolution To Handle Full Data Sets:
+Better models of bacterial evolution to handle full data sets:
 \series default
  The method of detecting homologous recombination gene transfer, or the
  ClonalOrigin, is more model-based approach as opposed to the other method
  for non-homologous integrative gene transfer, or the Mowgli.
+ The core genomes consist of relatively long (i.e., 1,500 base pairs long)
+ sequence alignments with almost no gaps.
+ With this inherent filtering of the input data preparation ClonalOrigin
+ did not account for gene gain and loss in its core genome analysis.
+ On the contrary, Mowgli used the pan genomes as well as the core genomes.
  Evolutionary models for insertion and deletion of parts of sequences appeared
  to be too difficult to obtain.
  More sophisticated models for both of the two processes of gene transfer
@@ -2648,7 +2460,9 @@ key "Chan2009a"
 .
  Discriminating the mode of gene transfer and using the units of each mode
  of gene transfer towards the efforts of developing model-based approaches
- to detecting gene transfer could be plausible.
+ to detecting gene transfer might be plausible.
+ In doing so, more complicated evolutionary models could have been considered:
+ genome rearrangement, gene segment gain and loss, and gene duplications.
  
 \end_layout
 
@@ -2657,63 +2471,21 @@ key "Chan2009a"
 \series bold
 Divergence time estimation:
 \series default
- Kalia2001 suggested the divergence time of SDD to be around the time when
- human started to domesticate wildlife animals around 10,000 years ago.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ suggested the divergence time of SDD to be around the time when human started
+ to domesticate wildlife animals around 10,000 years ago.
  A demographic model could be made with two species to study the divergence
  time quantitatively.
  This would require ancestral recombination graphs embedded in a species
  tree.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Further studies:
-\series default
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Holden2009"
-
-\end_inset
-
- studied Streptococcus equi subspecies equi (S.
- equi), Streptococcus equi subspecies zooepidemicus (S.
- zooepidemicus), and S.
- pyogenes.
- They were said to share 80% DNA sequence similarity, which indicated that
- they may be another subject of study using ClonalOrigin.
-\end_layout
-
-\begin_layout Standard
-New functions of bacteria appear to emerge more easily in horizontal way
- than in vertical way.
- When one species of bacteria thrives in its environment and another relatively
- close species starts to cohabit with the indigenous species, some genetic
- elements in one of the two species would benefit another species.
- If the two species do not compete with each other, then the increased genetic
- variation from multiple species would eventually bring advantage to both
- of the species.
- Pathogenicity of bacteria should be no exception.
- Studying pathogenic gene flow should shed light on the etiology of the
- bacterial pathogens.
- 
-\end_layout
-
-\begin_layout Standard
-Higher recombination in 
-\emph on
-S.
- pyogenes
-\emph default
- has been known to be apparent 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Hanage2006,Perez-Losada2006,Vos2009a"
-
-\end_inset
-
-.
+ [EXPAND THIS WITH A NEW IDEA ABOUT HAVING SPLITTING EVENT IN CLONALORIGIN
+ MODEL]
 \end_layout
 
 \begin_layout Section*
@@ -2721,8 +2493,19 @@ Supplementary Material
 \end_layout
 
 \begin_layout Standard
-Supplementary figure S1–S8 and tables S1–S3 are available at Genome Biology
- and Evolution online (http://www .gbe.oxfordjournals.org/).
+Supplementary figure S1–S25 are available at Genome Biology and Evolution
+ online (
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.gbe.oxfordjournals.org/
+\end_layout
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section*
@@ -3914,7 +3697,7 @@ leucyl-tRNA synthetase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY to SDE1 (Figure 
+SPY to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:leucyl-trna"
@@ -3950,7 +3733,7 @@ lysyl-tRNA synthetase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE2 (Figure 
+SPY2 to SDE2 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:lysyl-trna"
@@ -3986,7 +3769,7 @@ isoleucyl-tRNA synthetase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SDE1 or SDE2 to SPY1 (Figure 
+SDE1 or SDE2 to SPY1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:isoleucyl-trna"
@@ -4022,7 +3805,7 @@ aspartyl-tRNA synthetase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE1 (Figure 
+SPY1 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:yl-trna"
@@ -4058,7 +3841,7 @@ histidyl-tRNA synthetase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE2 (Figure 
+SPY1 to SDE2 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:yl-trna"
@@ -4254,7 +4037,7 @@ PTS system mannose/fructose transporter
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY to SDE1 (Figure 
+SPY to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:pts-mannose"
@@ -4290,7 +4073,7 @@ PTS system galactose-specific IIC component
 \begin_inset Text
 
 \begin_layout Plain Layout
-SDE1 to SPY1(Figure 
+SDE1 to SPY1(Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:pts-galactose"
@@ -4326,7 +4109,7 @@ PTS system mannose-specific
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE1 (Figure 
+SPY2 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:pts-mannose2"
@@ -4362,7 +4145,7 @@ PTS system sucrose-specific IIABC component
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY and SDE to SDE1 and SPY1 (Figure 
+SPY and SDE to SDE1 and SPY1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:pts-sucrose"
@@ -4398,7 +4181,7 @@ PTS system glucose-specific IIABC component
 \begin_inset Text
 
 \begin_layout Plain Layout
-SDE to SPY1 (Figure 
+SDE to SPY1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:pts-glucose"
@@ -4572,7 +4355,7 @@ Direction of gene transfer
 \begin_inset Text
 
 \begin_layout Plain Layout
-(Figure 
+(Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:abc1"
@@ -4608,7 +4391,7 @@ reference "fig:abc1"
 \begin_inset Text
 
 \begin_layout Plain Layout
-(Figure 
+(Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:abc2"
@@ -4644,7 +4427,7 @@ reference "fig:abc2"
 \begin_inset Text
 
 \begin_layout Plain Layout
-(Figure 
+(Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:abc3"
@@ -4785,7 +4568,7 @@ putative heavy metal/cadmium transporting ATPase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE1 (Figure 
+SPY2 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:cadmium"
@@ -4821,7 +4604,7 @@ putative penicillin-binding protein 1b
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE1 (Figure 
+SPY2 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:penicillin"
@@ -4857,7 +4640,7 @@ proteases
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE2 (Figure 
+SPY1 to SDE2 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:protease"
@@ -4893,7 +4676,7 @@ putative peptidoglycan hydrolase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE1 (Figure 
+SPY1 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:hydrolase"
@@ -4929,7 +4712,7 @@ putative ATP-dependent RNA helicase
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE2 (Figure 
+SPY2 to SDE2 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:helicase"
@@ -4965,7 +4748,7 @@ Hemolysin
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE1 (Figure 
+SPY2 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:hemolysin"
@@ -5432,7 +5215,7 @@ SpyM3_1180
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE1 (Figure 
+SPY1 to SDE1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-gki"
@@ -5472,7 +5255,7 @@ SpyM3_1161
 \begin_inset Text
 
 \begin_layout Plain Layout
-N/A (Figure 
+N/A (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-gtr"
@@ -5512,7 +5295,7 @@ SpyM3_0262
 \begin_inset Text
 
 \begin_layout Plain Layout
-N/A (Figure 
+N/A (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-muri"
@@ -5552,7 +5335,7 @@ SpyM3_1806
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE (Figure 
+SPY2 to SDE (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-muts"
@@ -5592,7 +5375,7 @@ SpyM3_1462
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY1 to SDE2, and SDE1 to SPY1 (Figure 
+SPY1 to SDE2, and SDE1 to SPY1 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-recp"
@@ -5632,7 +5415,7 @@ SpyM3_0794
 \begin_inset Text
 
 \begin_layout Plain Layout
-SPY2 to SDE1, and SPY1 to SDE2 (Figure 
+SPY2 to SDE1, and SPY1 to SDE2 (Figure S
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:recomb-xpt"
@@ -5713,6 +5496,13 @@ key "Kalia2001"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Figures
 \end_layout
@@ -5728,50 +5518,7 @@ Figures
 \begin_inset Float figure
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename figures/heatmap-recedge.ps
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Heatmap-of-recombination"
-
-\end_inset
-
-Heatmap of recombination events.
- Heat map representing the logarithm base 2 of the number of recombination
- events inferred relative to its expectation under the prior, for each donor/rec
-ipient pair of branches.
- The donor is given by the y-axis; the recipient on the x.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -5812,10 +5559,17 @@ Gene duplication, loss, and transfer.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -5876,15 +5630,22 @@ equisimilis
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.ps
-	scale 70
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/heatmap-recedge.ps
+	scale 40
 
 \end_inset
 
@@ -5897,29 +5658,15 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:recombination-boundaries"
+name "fig:Heatmap-of-recombination"
 
 \end_inset
 
-Distribution of number of recombination events boundaries.
- The number of recombination event boundaries per site for each block along
- the 
-\emph on
-S.
-\begin_inset space \space{}
-\end_inset
-
-dysgalactiae
-\emph default
- ssp.
-\emph on
-
-\begin_inset space \space{}
-\end_inset
-
-equisimilis
-\emph default
- ATCC 12394.
+Heatmap of recombination events.
+ Heat map representing the logarithm base 2 of the number of recombination
+ events inferred relative to its expectation under the prior, for each donor/rec
+ipient pair of branches.
+ The donor is given by the y-axis; the recipient on the x.
 \end_layout
 
 \end_inset
@@ -5933,10 +5680,17 @@ equisimilis
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -6041,10 +5795,17 @@ Numer of recombination events.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -6189,14 +5950,21 @@ Comparison of number of recombinations between real and simulated data sets.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/ri1.ps
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1.ps
 
 \end_inset
 
@@ -6221,10 +5989,13 @@ The first surrogate measure of recombination intensity of genes
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -6234,11 +6005,11 @@ The first surrogate measure of recombination intensity of genes
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/ri1-refgenome4-map-01204579.pdf
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.ps
 	scale 70
 
 \end_inset
@@ -6252,62 +6023,29 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:recomb-gki"
+name "fig:recombination-boundaries"
 
 \end_inset
 
-Recombinant edges on putative glucose kinase (
+Distribution of number of recombination events boundaries.
+ The number of recombination event boundaries per site for each block along
+ the 
 \emph on
-gki
+S.
+\begin_inset space \space{}
+\end_inset
+
+dysgalactiae
 \emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01185931.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-gtr"
-
-\end_inset
-
-Recombinant edges on glutamine transport protein (
+ ssp.
 \emph on
-gtr
+
+\begin_inset space \space{}
+\end_inset
+
+equisimilis
 \emph default
-)
+ ATCC 12394.
 \end_layout
 
 \end_inset
@@ -6321,36 +6059,43 @@ gtr
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00302483.pdf
-	scale 70
-
-\end_inset
 
 
+\backslash
+setcounter{figure}{0}
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+
+
+\backslash
+setcounter{table}{0}
+\end_layout
 
 \begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-muri"
 
-\end_inset
 
-Recombinant edges on glutamate racemase (
-\emph on
-murI
-\emph default
-)
+\backslash
+renewcommand{
+\backslash
+figurename}{Supplementary Figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+tablename}{Supplementary Table}
 \end_layout
 
 \end_inset
@@ -6358,6 +6103,9 @@ murI
 
 \end_layout
 
+\begin_layout Section*
+Supplementary Figures
+\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -6367,179 +6115,7 @@ murI
 \begin_inset Float figure
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01836292.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-muts"
-
-\end_inset
-
-Recombinant edges on mismatch repair enzyme (
-\emph on
-mutS
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01450555.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-recp"
-
-\end_inset
-
-Recombinant edges on transketolase (
-\emph on
-recP
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00844027.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-xpt"
-
-\end_inset
-
-Recombinant edges on xanthine phosphoribosyltransferase (
-\emph on
-xpt
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00685684.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-parc"
-
-\end_inset
-
-Recombinant edges on DNA topoisomerase IV subunit A (
-\emph on
-parC
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6575,10 +6151,17 @@ Recombinant edges on leucyl-tRNA synthetase
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6614,10 +6197,17 @@ Recombinant edges on lysyl-tRNA synthetase
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6647,6 +6237,13 @@ Recombinant edges on isoleucyl-tRNA synthetase
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -7320,6 +6917,356 @@ name "fig:hemolysin"
 \end_inset
 
 Recombinant edges on putative hemolysin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01204579.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-gki"
+
+\end_inset
+
+Recombinant edges on putative glucose kinase (
+\emph on
+gki
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01185931.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-gtr"
+
+\end_inset
+
+Recombinant edges on glutamine transport protein (
+\emph on
+gtr
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00302483.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-muri"
+
+\end_inset
+
+Recombinant edges on glutamate racemase (
+\emph on
+murI
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01836292.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-muts"
+
+\end_inset
+
+Recombinant edges on mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01450555.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-recp"
+
+\end_inset
+
+Recombinant edges on transketolase (
+\emph on
+recP
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00844027.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-xpt"
+
+\end_inset
+
+Recombinant edges on xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00685684.pdf
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recomb-parc"
+
+\end_inset
+
+Recombinant edges on DNA topoisomerase IV subunit A (
+\emph on
+parC
+\emph default
+)
 \end_layout
 
 \end_inset
