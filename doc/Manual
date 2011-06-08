@@ -461,6 +461,20 @@ The number of recombinant edges per site is computed for all of the genes of a
 reference genome.
 recombination-intensity1-map must be called before the call of this menu.
 
+list-gene-go
+~~~~~~~~~~~~
+Melissa provided a file of gene ontology terms and their descriptions,
+SpyMGAS315_go_category_names.txt,
+and a file of gene names and their association with multiple gene ontology
+terms,
+SpyMGAS315_go_bacteria.txt. Using these files we list genes and their product
+names for a given gene ontology term.
+
+probability-recedge-gene
+~~~~~~~~~~~~~~~~~~~~~~~~
+Posterior probability of recombination is computed for each gene and each
+recombinant edge type.
+
 Terms
 -----
 block: a multiple alignment.
