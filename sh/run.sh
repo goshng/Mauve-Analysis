@@ -1152,9 +1152,7 @@ select CHOICE in ${CHOICES[@]}; do
     $CHOICE
     break
   elif [ "$CHOICE" == "scatter-plot-parameter" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ];  then
-    plot-number-recombination-within-blocks
-    break
+  elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-prior-count-recedge" ];  then
     heatmap-compute
     break

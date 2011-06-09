@@ -148,6 +148,10 @@ Author for Correspondence:
 Adam Siepel, Department of Biological Statistics and Computational Biology,
  Cornell University, Ithaca, NY 14853, USA, Phone: 607-254-1157, Fax: 607-255-46
 98, Email: acs4@cornell.edu
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -209,8 +213,7 @@ Abstract
 \end_layout
 
 \begin_layout Standard
-Two types of gene transfer in bacteria were investigated using closely related
- species of 
+Using two closely related species of 
 \emph on
 Streptococcus pyogenes
 \emph default
@@ -230,22 +233,23 @@ dysgalactiae
 
 equisimilis
 \emph default
- (SDE) that is its closely related species and an opportunistic human pathogen:
- homologous recombining gene transfer and non-homologous integrative gene
- transfer.
- The former lateral process was studied with the core genomes of five individual
-s of the 
+ (SDE) that is its closely related species and an opportunistic human pathogen
+ we investigated two types of gene transfer: homologous recombining gene
+ transfer and non-homologous integrative gene transfer.
+ The former lateral process was studied with the core genomes of 
 \emph on
-Streptococci
+Streptococcus
 \emph default
-, and the latter process with the pan genomes as well as the core genomes.
- Two separate methods recently developed were employed to examine genes
+ genomes, and the latter process with the pan genomes as well as the core
+ genomes.
+ Two complementary methods recently developed were employed to examine genes
  or their fragments that could have been exchanged between SPY and SDE as
  efforts of finding their roles in the formation of pathogenicity of the
  bacteria.
  We revisited the problem of directionality of gene transfer between SPY
- and SDE, and found marginally supporting evidence for recombining homologous
- gene flow from SPY to SDE based on the core genomes.
+ and SDE, and found marginally supporting evidence that homologous recombining
+ gene flows was polarized to be relatively from SPY to SDE based on the
+ core genomes.
  We did not find the evidence for directional non-homologous integrative
  gene transfer using the full data by including the pan genomes.
  On the contraray, we found evidence that virulence genes appeared to undergo
@@ -256,15 +260,15 @@ Streptococci
 ve gene transfer were more effective than gene fragments transfer via bacterial
  recombination for SDE in the acquisition of biological functions that were
  critical to their survival in the environment in which their close relatives
- or SPY thrived.
+ of SPY thrived.
  Protein coding genes that appeared to undergo gene transfer due to bacterial
  recombination were found to be in several kinds of aminoacyl tRNA synthetase
- (aaRS), phosphotransferase systems (PTS) specific to each of several sugars,
- and ATP-binding cassette (ABC) transporters.
+ (aaRS), and phosphotransferase systems (PTS) specific to each of several
+ sugars.
  Whereas the association of aaRS with recombining homologous gene transfer
- was relatively well known, the PTS and ABC transporters could be essential
- for the successful adaptation of the bacteria in new environments, which
- could be related with pathogenicity of SDE.
+ was relatively well known, the PTS could be essential for the successful
+ adaptation of the bacteria in new environments, which could be related
+ with pathogenicity of SDE.
 \end_layout
 
 \begin_layout Standard
@@ -292,6 +296,10 @@ key "Ochman2001,Lawrence2009"
 \end_inset
 
 : homologous recombining transfer and non-recombining integrative transfer.
+ In the former process donor genes that are homologous to those in a recipient
+ species replace the indigenous genes.
+ In the latter process donor genes are integrated into a recipient species
+ without replacement of genes in the species.
  The mechanisms of horizontal gene transfer include conjugation by plasmid,
  transduction by bacteriophages, or transformation of naked DNA uptake 
 \begin_inset CommandInset citation
@@ -323,8 +331,8 @@ key "McDaniel2010"
  For example, because ribosomal RNA genes are contitutively expressed genes
  and considered as housekeeping genes, they are expected to less susceptible
  to horizontal gene transfer.
- Yet, bacterial recombinations on ribosomal RNA genes were noted before
- 
+ Yet, bacterial recombinations on ribosomal RNA genes, accordingly small
+ fragment transfers, were noted before 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Sneath1993,Yap1999"
@@ -332,8 +340,11 @@ key "Sneath1993,Yap1999"
 \end_inset
 
 .
- The process of rRNA genes transfer was attributed to not non-recombining
- integrative gene transfer but homologous recombining gene transfer.
+ It could be overlooked that the process of rRNA genes transfer was attributed
+ to not non-recombining integrative gene transfer but homologous recombining
+ gene transfer because horizontal gene transfers often meant non-recombining
+ integrative gene transfer.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -438,8 +449,8 @@ key "Brandt2009"
 \end_inset
 
 .
- Because SDE cohabits with SPY at the same ecological niche of tissue sites,
- and both may as well exhibit overlap in the disease profile 
+ Because SDE can cohabit with SPY at the same ecological niche of tissue
+ sites, and both may exhibit overlap in the disease profile 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Davies2007a"
@@ -448,10 +459,10 @@ key "Davies2007a"
 
 , the close proximity may allow the two species to interact with each other
  by exchanging parts of their genomes.
- Opportunistic pathogenicity of SDE may have been facilitated by the very
- genetic interaction between the two species.
- Understanding their genetic exchanges would enhance our knowledge of mechanisms
- of their pathogenicity on human health.
+ It has been suspected that opportunistic pathogenicity of SDE may have
+ been facilitated by the very genetic interaction between the two species.
+ Therefore, understanding their genetic exchanges would enhance our knowledge
+ of mechanisms of their pathogenicity on human health.
  
 \end_layout
 
@@ -523,9 +534,9 @@ key "Caro-Quintero2011"
 \emph on
 Shewanella baltica
 \emph default
- genomes to identify the genetic elements that enable the species to adapt
+ genomes to identify the genetic elements that enabled the species to adapt
  to redox gradients.
- Of the approaches used phylognetic approaches seem to allow to understand
+ Of the approaches used phylognetic approaches have allowed to understand
  evolutionary forces of gene exchange between species.
  While methods of inferring phylogenies in the presence of gene transfer
  have been proposed 
@@ -546,11 +557,9 @@ key "Bapteste2004,Simonson2005,Beiko2009"
 Previous studies on gene transfer and its directionality between SPY and
  SDE:
 \series default
- Because SPY is a human-specific pathogen, and SDE is an opportunistic human
- pathogen, virulence genes might have been transferred from SPY to SDE.
- Previous researches in gene transfer between the two pyogeneic species
- of SPY and SDE were limited to small portion of the bacterial genome, mostly
- focusing on several genes 
+ Similarly, previous researches in gene transfer between the two pyogeneic
+ species of SPY and SDE were limited to small portion of the bacterial genome,
+ mostly focusing on several genes 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kalia2004,Towers2004,Bessen2005"
@@ -559,6 +568,19 @@ key "Kalia2004,Towers2004,Bessen2005"
 
 .
  For example, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Sachse2002"
+
+\end_inset
+
+ showed gene transfer from SDE to SPY for the downstream of the genomic
+ region of streptococcal pyrogenic exotoxins 
+\emph on
+speG
+\emph default
+.
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Davies2007"
@@ -576,19 +598,6 @@ key "Davies2009"
 
  demonstrated that an integrative conjugative element of SDE allowed gene
  transfer from SDE to other streptococci.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Sachse2002"
-
-\end_inset
-
- showed gene transfer from SDE to SPY for the downstream of the genomic
- region of streptococcal pyrogenic exotoxins 
-\emph on
-speG
-\emph default
-.
  On the contrary, 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -608,44 +617,8 @@ key "Kalia2001"
 \begin_layout Standard
 
 \series bold
-Transfer targets of genes in bacteria:
-\series default
- [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
- ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
- THEM.
- GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
- tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
- (ABC) transporters.
- IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.] 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Chan2009a"
-
-\end_inset
-
- showed that protein domains were not gene transfer units.
- In another paper 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Chan2009"
-
-\end_inset
-
- studied gene with and without breakpoints, and found that more often entire
- genes transfer in pathogens than in non-pathogens.
- In pathogenic bacteria they found more genes with breakpoints than genes
- without breakpoints.
- 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
 Two methods of studying gene transfer:
 \series default
- Although lateral gene transfer has driven bacterial evolution, methodological
- development has hardly been able to properly deal with the important evolutiona
-ry force in bacteria.
  As sequencing costs plummet 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -699,11 +672,13 @@ key "Doyon2011"
 \end_inset
 
 .
- The first approach can be used to infer transfer of genomic segments due
- to bacterial recombination, and the second can do similarly due to non-recombin
-ing integrative gene transfer.
- With these two kinds of methods for detecting gene transfer we hoped to
- interrogate gene flows between SPY and SDE.
+ We noted that the first approach could be used to infer transfer of genomic
+ segments due to bacterial recombination, and the second could do similarly
+ due to non-recombining integrative gene transfer.
+ With these two kinds of methods for detecting gene transfer we interrogated
+ gene flows between SPY and SDE in the hope of measuring the relative impact
+ of two different process of gene transfer on the pathogenicity of SPY and
+ SDE.
 \end_layout
 
 \begin_layout Standard
@@ -726,13 +701,11 @@ key "Didelot2010"
  tree branches.
  A recombinant edge connects two branches of the reference tree.
  The authors describe that a recombinant edge ``departs'' from an older
- time point at a species branch, and ``arrives'' at a more recent time point
- of another species branch.
+ time point at a species branch, and ``arrives'' at a more recent time point.
  The arrival point corresponds to a recombination event in an ancestral
- recombination graph (ARG).
- As the reference tree traverses a genome alignment to meet a recombinant
- edge, its sister branch of the arrival point is erased and the recombinant
- edge replaces it.
+ recombination graph (ARG): As the reference tree traverses a genome alignment
+ to meet a recombinant edge, its sister branch of the arrival point is erased
+ and the recombinant edge replaces it.
  Consequently, gene trees change sequentially along a genome.
  This reminisces about gene conversion modeling by 
 \begin_inset CommandInset citation
@@ -757,13 +730,17 @@ key "Didelot2010"
 
 \end_inset
 
- exploited their method to infer flow of genetic segment between 
+ exploited their method to infer flows of genetic segment between 
 \emph on
 Bacillus cereus
 \emph default
  species.
  This model-based approach to detecting homologous recombining gene transfer
- was used to the core genomes of closely related streptococcus species.
+ was used to the core genomes of closely related 
+\emph on
+Streptococcus
+\emph default
+ species.
 \end_layout
 
 \begin_layout Standard
@@ -784,23 +761,29 @@ key "Doyon2011"
  species tree.
  Their implementation, called Mowgli, can infer the most parsimonious gene
  duplication, loss, and transfer events for gene families.
- Transferred genes in Mowgli can replace indigenous homologous copies in
- the recipient bacteria, or can be augmented to the recipient bacterial
- genome.
- Mowgli allows study of gene flow events due to not only homologous recombining
- process but also non-recombining integrative transfer process of gene segments,
- which is fortunate becasue it would complement ClonalOrigin's capability
- of inferring gene flow due to bacterial recombination.
- Yet, both ClonalOrgin and Mowgli take advantage of incompatibility of gene
- trees with a reference species tree.
- The very incompatibility allows these methods to detect gene transfer between
- species.
+ Transferred genes in Mowgli could replace homologous copies in the recipient
+ bacteria via homologous recombining gene transfer, or can be augmented
+ to the recipient bacterial genome via non-recombining integrative gene
+ transfer.
  While ClonalOrigin was able to handle core genomes, Mowgli was able to
  deal with both core and pan genomes.
+ This was fortunate becasue it would complement ClonalOrigin's capability
+ of inferring gene flow due to bacterial recombination.
+ Both ClonalOrgin and Mowgli take advantage of incompatibility of gene trees
+ with a reference species tree.
+ The very incompatibility allows these methods to detect gene transfer between
+ species.
  One drawback of Mowgli approach is its parsimony criterion.
  The model-based approach of ClonalOrigin can be more powerful in using
  full sequence data while Mowgli's parsimony approach can only infer specific
  events for given genes in a gene family.
+ Because we were not aware of other model-based approaches of handling both
+ gene transfer processes, we elected to employ Mowgli to study gene flows
+ in the 
+\emph on
+Streptococcus
+\emph default
+ species.
 \end_layout
 
 \begin_layout Standard
@@ -996,6 +979,21 @@ dysgalactiae
 dysgalactiae
 \emph default
  is referred to as SDD.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tree5"
+
+\end_inset
+
+ shows the five 
+\emph on
+Streptococcus
+\emph default
+ individuals that are related by a species tree.
+ Note that the ancestral lineages are also specified: the direct ancestor
+ of SDE1 and SDE2 as SDE, the direct ancestor of SPY1 and SPY2 as SPY, and
+ the common ancestor of SDE1, SDE2, and SDD as SD.
  The five genomes were aligned using progressiveMauve 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1023,8 +1021,7 @@ http://asap.ahabs.wisc.edu/mauve/download.php
  gaps in their multiple alignments.
  This filtered the alignment blocks to leave 274 core alignment blocks.
  The total length of all of the block alignments was 1,147,632.
- The average length of the blocks was 4,188, and the median was [MEDIAN
- OF BLOCK LENGTH].
+ The average length of the blocks was 4,188.
  The proportion of polymorphic sites was 0.169.
  ClonalFrame version 1.1 that was available at 
 \begin_inset Flex URL
@@ -1050,7 +1047,14 @@ key "Didelot2007"
  were executed with a total generation of chains being 20,000.
  The first 10,000 generations were discarded as burn-in.
  The results of the eight different runs produced comparable estimates of
- the species tree, each of which was in agreement with the one used by 
+ the species tree (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tree5"
+
+\end_inset
+
+), each of which was in agreement with the one used by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Suzuki2011"
@@ -1109,11 +1113,10 @@ n, leaving a posterior sample of size 101 including the first sample right
 \series bold
 Number of recombinant edges:
 \series default
- The result of the second stage of ClonalOrigin MCMC was a posterior sample
- of sets of recombinant edges.
+ We describe the method of summarizing the posterior sample to examine aspects
+ of recombinant trees from ClonalOrigin.
  Note that we call a recombinant tree a species tree with recombinant edges
  attached to the species tree.
- We summarized the posterior sample to examine aspects of recombinant trees.
  Number of recombination events were calculated regardless of their start
  and end positions for each of pairs of donor and recipient branches of
  the reference species tree, which would indicate the degree to which the
@@ -1132,10 +1135,11 @@ key "Didelot2010"
  computing the number of recombination events inferred relative to its expected
  number under the prior of the ClonalOrigin model given recombination rate
  for each pair of donor and recipient branches.
- We applied the method to the five streptococcus genomes to infer which
- types of bacterial recombination were more prevalent than which other types.
- Of interest in here our study is if there are unbalanced recombination
- events between two clades of SPY and SDE.
+ We used the method to infer which types of bacterial recombination were
+ more prevalent than which other types in the lineages of the tree relating
+ five streptococcus genomes.
+ Of interest here our study was if there were unbalanced recombination events
+ between two clades of SPY and SDE.
 \end_layout
 
 \begin_layout Standard
@@ -1144,15 +1148,17 @@ key "Didelot2010"
 Measure of recombination intensity:
 \series default
  To consider genomic locations that were affect by recombinations for quantifyin
-g variation of recominations along a genome 
+g variation of recominations along a genome the authors of ClonalOrigin
+ summarized recombination events along a genome by measuring the effect
+ of donor branches on a recipient species tree branch as shown Figure 2
+ of 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Didelot2010"
 
 \end_inset
 
- summarized recombination events along a genome by measuring the effect
- of donor branches on a recipient species tree branch.
+.
  By following their idea of summarizing recombination events along genomic
  locations we measured surrogate recombination intensity along genomic locations.
  The surrogate measure of recombination intensity might not be biologically
@@ -1164,18 +1170,18 @@ key "Didelot2010"
  A type of recombinant edge is specified by its departure and arrival branches
  of a reference species tree in the ClonalOrigin model.
  Note that departure branches are donors, and arrival branches are recipients.
- Using site-wise numbers of recombinant edge types we computed the mean
+ Using the site-wise numbers of recombinant edge types we computed the mean
  value of the surrogate measure of recombinantion for a geneic region, which
  allowed to study genes that could undergo higher recombination by finding
- functional categories enriched with genes with higher measures of recombination
- using Gene Ontology 
+ functional categories of Gene Ontology 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ashburner2000"
 
 \end_inset
 
-.
+ enriched with genes with higher values of the surrogate measure of recombinatio
+n.
 \end_layout
 
 \begin_layout Standard
@@ -1183,12 +1189,27 @@ key "Ashburner2000"
 \series bold
 Posterior probability of genes experiencing gene transfer:
 \series default
- A recombinant tree with an alignment block tells what types of recombinant
- edges affect a column of the block.
- Because we would have a number of recombinant edges sampled from the posterior
- distribution of a recombinant tree, we could calculate the posterior probabilit
-y that a site was affected by a recombinant edge type specified by the ordered
- pair of two branches of a reference species tree.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ also computed the posterior probability that a site was affected by a recombina
+nt edge type specified by the ordered pair of two branches of a reference
+ species tree.
+ The posterior probability of a site experiencing gene flow due to a recombinant
+ edge type was plotted along genomes of the five species as well as their
+ ancestors.
+ We refer readers to Figure 2 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Didelot2010"
+
+\end_inset
+
+ for detailed description of that kind of plot.
  Interpreting recombinant edges as genomic segment flow needs to be warned
  because the departure and arrival points of a recombinant edge do not happen
  at the same time.
@@ -1200,17 +1221,6 @@ y that a site was affected by a recombinant edge type specified by the ordered
  Among the 60 types of recombinant edges 32 pairs of branches are those
  for recombinant edge types that can be considered as gene flow channels
  in an ultrametric species tree with five taxa.
- The posterior probability of a site experiencing gene flow due to a recombinant
- edge type was plotted along genomes of the five species as well as their
- ancestors.
- We refer readers to Figure 2 of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- for detailed description of the plot.
  Because we were interested in gene flows between SPY and SDE that were
  at extant nodes, we considered pairs of species tree branches one from
  SPY, and another pairs from SDE as gene flow channels.
@@ -1233,14 +1243,8 @@ Gene tree topologies along the genome:
  The relatively small number of five taxa of the reference species tree
  allowed to obtain the distribution of gene tree topologies over all of
  the sites in the alignment blocks.
- Local gene trees can be derived from a recombinant tree, or a species tree
- and its attached recombinant edges, for all of the sites of the alignment.
- Changes to local gene trees along multiple sequence alignments can involve
- changes in gene tree topology where recombinant edges start and end in
- the alignment.
- Not all recombinant edges change local gene tree topologies.
- Recombinant edges that depart from a species tree branch and arrive at
- the direct descendent of the branch may not change tree topologies.
+ Local gene trees were be derived from a recombinant tree, or a species
+ tree and its attached recombinant edges, for all of the sites of the alignment.
  A posterior sample of gene tree topologies along alignment blocks was obtained
  by numbering gene tree topologies 
 \begin_inset CommandInset citation
@@ -1259,8 +1263,15 @@ Mowgli analysis
 \end_layout
 
 \begin_layout Standard
-We explored gene duplication, loss, and horizontal gene transfer using a
- complementary approach.
+We explored gene duplication, loss, and horizontal gene transfer using the
+ complementary approach Mowgli implemented by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Doyon2011"
+
+\end_inset
+
+.
  We used the clusters of gene families computed by OrthoMCL 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1306,15 +1317,9 @@ key "Stamatakis2006a"
 \end_inset
 
  and were rooted by minimizing duplications and losses.
- Each rooted gene tree was then reconciled using the Mowgli program 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Doyon2011"
-
-\end_inset
-
-, which inferred the most parsimonious gene duplication, loss, and transfer
- events for each family.
+ Each rooted gene tree was then reconciled using the Mowgli program, which
+ inferred the most parsimonious gene duplication, loss, and transfer events
+ for each family.
 \end_layout
 
 \begin_layout Subsection
@@ -1323,9 +1328,11 @@ Functional categories association
 
 \begin_layout Standard
 We performed functional category analysis with site-wise numbers of recombinant
- edge types.
+ edge types, and with number of duplication, loss, non-recombining integrative
+ gene transfer, or homologous recombining gene transfer events that we obtained
+ in Mowgli analysis.
  We used our previous approach of functional category enrichment test developed
- by
+ by 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Suzuki2011"
@@ -1344,11 +1351,6 @@ key "Ashburner2000"
 \end_inset
 
  and all of the parents thereof in the Gene Ontology hierarchy.
- We also tried to test for an excess of virulence genes as well using the
- site-wise numbers of recombinant edge types.
- We also performed the same functional cateogry analysis with number of
- duplication, loss, non-recombining horizontal transfer, or recombining
- gene transfer events that we obtained in Mowgli analysis.
  The functional categories were listed in order of significancy using 5%
  false discovery rate (FDR) 
 \begin_inset CommandInset citation
@@ -1391,9 +1393,9 @@ Functional categories associated with homologous recombination gene transfer:
 \series default
  Bacterial evolution is characterized by horizontal transfer as well as
  vertical transmission.
- While we used ClonalFrame to estimate a species tree, we obtained information
- of relative strengths of these two evolutionary forces: the ratio of probabilit
-ies that a site was altered through recombination and mutation 
+ While we used ClonalFrame to estimate a species tree, we obtained relative
+ strengths of these two evolutionary forces: the ratio of probabilities
+ that a site was altered through recombination and mutation 
 \begin_inset Formula $r/m$
 \end_inset
 
@@ -1461,8 +1463,8 @@ key "Lefebure2007"
 
  that genes that were likely to be under positive selection tended to be
  under higher recombination, we suspected that functional categories would
- be associated with higher recombination, and homologous recombining gene
- transfer between species.
+ be associated with higher recombination, and consequently homologous recombinin
+g gene transfer between species.
  
 \end_layout
 
@@ -1491,7 +1493,11 @@ reference "tab:functional"
  Ribosome related functional categories and translation did not appear to
  be associated with the bacterial recombination associated with gene transfer
  from SPY to SDE.
- Having found these functional categories we elected to examine posterior
+ 
+\end_layout
+
+\begin_layout Standard
+Having found these functional categories we elected to examine posterior
  probability of sites experiencing influx from donor species branches across
  the alignment blocks.
  We here focused our attentions on gene transfer between SPY and SDE.
@@ -1500,10 +1506,7 @@ reference "tab:functional"
  genes.
  We rather chose arbitrarily functional categories for the gene-level detailed
  examination of gene transfer due to bacterial recombination.
-\end_layout
-
-\begin_layout Standard
-Gene transfer processes do not necessarily move whole genes from one species
+ Gene transfer processes do not necessarily move whole genes from one species
  to another 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1514,7 +1517,8 @@ key "Chan2009"
 
 .
  Despite that fact the units of gene transfer have been whole genes.
- Parts of genes could be targets of gene transfer.
+ Parts of genes could be targets of gene transfer especially in homologous
+ recombining gene transfer process.
  Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1530,11 +1534,19 @@ reference "tab:genes-transfer"
  to investigate potential effects of the value.
  Yet, it served as a threshold to list genes and their parts that almost
  certaintly were transferred from one species to another.
- 
+ For example, 29% of arginyl-tRNA synthetase gene was inferred to be transferred
+ from SPY1 to SDE1 in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:muts"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Among the genes in Table 
+Of the genes in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:genes-transfer"
@@ -1658,6 +1670,20 @@ PTS system, fructose-specific IIABC component.
 
  Whereas almost half of the former gene was inferred to be affected, only
  3% of the latter gene appeared to be affected by recombinant edges.
+ Not only parts of genes could be transferred via recombination, but a group
+ of genes could also be moved together.
+ Of the genes listed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:genes-transfer"
+
+\end_inset
+
+ there were 12 groups of genes that were consecutive.
+ While transfer fragments of genes often covered two genes, there were transfer
+ fragments that covered eight genes together.
+ Loci from SpyM3_1512 to SpyM3_1525 were inferred to be transferred from
+ SDE2 to SDD.
 \end_layout
 
 \begin_layout Standard
@@ -1692,16 +1718,6 @@ There were functional categories that appeared to be significant in both
 \begin_layout Standard
 
 \series bold
-Symmetry of translocation of genes centered around the orgin of replication:
-\series default
- [MATT OBSERVED THIS IN OUR GENOME DATA SET.
- WE WISH TO MENTION IT USING DOT PLOTS.
- MATT: COULD YOU DESCRIBE YOUR RESULTS HERE?]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
 Virulence genes associated with non-recombining horizontal gene transfer:
 \series default
  There were 207 loci identified as virulent compared to 2,453 not virulent.
@@ -1728,43 +1744,6 @@ key "Suzuki2011"
  This seemed to be consistent with the result of ClonalOrigin where we did
  not find excess of bacterial recombination events in viruence genes.
  
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Gene gain, loss, duplication, and non-recombining horizontal gene transfer:
-\series default
- [MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?] Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Gene-duplication-loss"
-
-\end_inset
-
- shows the inferred gene counts for each extant and ancestral species.
- We found that duplications made up only a small fraction of the events
- within the clade (9.6%), while horizontal transfers and losses were significantl
-y more frequent (37.5% and 52.9%, respectively).
-  We found that duplications were most often species-specific.
-  Many gene losses likely represented horizontal transfers that replaced
- the native gene sequence.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Gene tree topologies along the genome of streptococcus:
-\series default
- In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
- of sites agreed with that of the reference species tree (Figure HISTOGRAM
- OF TREE TOPOLOGIES).
- The second most probable gene tree topology was a tree where SDD was the
- outgroup, and SPY and SDE formed a sister clade to each other.
- [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
- I NEED TO CONSIDER THIE MORE DEEPLY.
- THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
- UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
 \end_layout
 
 \begin_layout Subsection
@@ -1834,105 +1813,44 @@ reference "fig:h1"
  of number of recombinant edges inferred from simulated data and subtraction
  of the prior expected number of recombinant edges worked almost effectively
  similarly.
-\end_layout
-
-\begin_layout Standard
-We revisited the problem of gene transfer in MLST genes studied by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
-.
- Recently, 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "McMillan2010"
-
-\end_inset
-
- showed that there were high recombination and gene transfer in the seven
- housekeeping genes.
- We examined the seven genes that 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
- had studied for directionality of gene transfer between SPY and SDE.
- Internal fragments of the seven housekeeping genes, encoding putative glucose
- kinase (
-\emph on
-gki
-\emph default
-), glutamine transport protein (
-\emph on
-gtr
-\emph default
-), glutamate racemase (
-\emph on
-murI
-\emph default
-), mismatch repair enzyme (
-\emph on
-mutS
-\emph default
-), transketolase (
-\emph on
-recP
-\emph default
-), xanthine phosphoribosyltransferase (
-\emph on
-xpt
-\emph default
-), and acetylcoenzyme A acetyltransferase (
-\emph on
-yqiL
-\emph default
-) were located in SPY1 genome to examine recombination edge types (Table
- 
+ Consistent with the number of recombinant edges were that gene transfer
+ fragments with high posterior probability shown in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:kalia"
+reference "tab:genes-transfer"
 
 \end_inset
 
-).
- We also revisited recombination in gene parC studied by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
-.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
- studied fluoroquinolone resistance in SDE.
- They reported that there were recombination in gene 
-\emph on
-parC
-\emph default
- that we observed as shown Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-parc"
-
-\end_inset
-
-.
+ often appeared to be from SPY to SDE.
+ While four genes were inferred to be transferred to SPY1, there were more
+ genes transferred to SDE1 or SDE2.
  
 \end_layout
 
 \begin_layout Subsection
-Recombination events vary along the genome of streptococcus
+Variation of recombination events along the genome of streptococcus
+\end_layout
+
+\begin_layout Standard
+FIGURE XXX.
+ SCATTER PLOTS FOR ALL BLOCKS OF THE FIRST CLONALORIGIN ANALYSIS OF THE
+ FIVE GENOMES.
+ IT SHOWS INFERRED VALUES OF THE LOG-AVERAGE TRACT LENGTH (
+\begin_inset Formula $\log(\delta)$
+\end_inset
+
+), THE MUTATION RATE PER SITE (
+\begin_inset Formula $\theta_{s}/2$
+\end_inset
+
+), AND RECOMBINATION RATE PER SITE (
+\begin_inset Formula $\rho_{s}/2$
+\end_inset
+
+).
+ A DENSITY PLOT OF THE SCATTERPLOT IS SHOWN USING GRAY SHADING.
+ THE MEDIAN FOR ALL BLOCKS IS SHOWN IN RED.
+ [WE NEED THIS FIGURE.
 \end_layout
 
 \begin_layout Standard
@@ -1942,12 +1860,22 @@ n.
  was estimated to be 0.081 with (0.067,0.094) of interquartile range.
  The median of recombination rate per site was estimated to be 0.012 with
  (0.006,0.019) of interquartile range.
+ [DID WE FIND ANY BLOCKS WITH HIGH RECOMBINATION RATES?] The median value
+ of 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ was 0.15, which was larger than the estimate of 0.10 from ClonalFrame.
  The median value for the recombinant tract length 
 \begin_inset Formula $\delta$
 \end_inset
 
- was estimated to be 744 with (346,2848) of interquartile range.
- While the estimate of the recombinant tract length was twice the estimate
+ was estimated to be 744 base pairs with (346,2848) of interquartile range.
+ 
+\end_layout
+
+\begin_layout Standard
+While the estimate of the recombinant tract length was twice the estimate
  from ClonalFrame, the estimtes of mutation and recombination rates were
  comparable to those from ClonalFrame.
  Because the rate of mutation on the branches of the genealogy and branch
@@ -2000,12 +1928,77 @@ reference "fig:recombination-boundaries"
 .
  These recombination events must be those that the block experienced recombinati
 on directly.
- [LIST OF ALIGNMENT BLOCKS BY THE NUMBER OF RECOMBINANT EDGES.
- DO WE SEE ANY ENRICHMENT OF VIRULENCE GENES IN CERTAIN ALIGNMENT BLOCKS?
- CAN WE DIVIDE SITES INTO TWO REGIONS WITH WEAK RECOMBINATION AND STRONG
- RECOMBINATION? WE COULD FIND A MEDIAN OF SITE-WISE NUMBER OF RECOMBINANT
- EDGE TYPES OR 404.
- THIS NUMBER COULD BE A THRESHOULD FOR THE DIVISION OF SITES.]
+ [LIST OF ALIGNMENT BLOCKS BY THE NUMBER OF RECOMBINANT EDGES.]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gene tree topologies along the genome of streptococcus:
+\series default
+ In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
+ of sites agreed with that of the reference species tree (Figure HISTOGRAM
+ OF TREE TOPOLOGIES).
+ The second most probable gene tree topology was a tree where SDD was the
+ outgroup, and SPY and SDE formed a sister clade to each other.
+ [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
+ I NEED TO CONSIDER THIE MORE DEEPLY.
+ THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
+ UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Transfer targets of genes in bacteria:
+\series default
+ [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
+ ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
+ THEM.
+ GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
+ tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
+ (ABC) transporters.
+ IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.] 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chan2009a"
+
+\end_inset
+
+ showed that protein domains were not gene transfer units.
+ In another paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chan2009"
+
+\end_inset
+
+ studied gene with and without breakpoints, and found that more often entire
+ genes transfer in pathogens than in non-pathogens.
+ In pathogenic bacteria they found more genes with breakpoints than genes
+ without breakpoints.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gene gain, loss, duplication, and non-recombining horizontal gene transfer:
+\series default
+ [MATT: COULD YOU EXPAND OR REPLACE THIS SECTION?] Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gene-duplication-loss"
+
+\end_inset
+
+ shows the inferred gene counts for each extant and ancestral species.
+ We found that duplications made up only a small fraction of the events
+ within the clade (9.6%), while horizontal transfers and losses were significantl
+y more frequent (37.5% and 52.9%, respectively).
+  We found that duplications were most often species-specific.
+  Many gene losses likely represented horizontal transfers that replaced
+ the native gene sequence.
 \end_layout
 
 \begin_layout Subsection
@@ -2175,6 +2168,106 @@ New biological functions of bacteria appear to emerge more easily in horizontal
  Pathogenicity of bacteria should be no exception.
  Studying pathogenic gene flow should shed light on the etiology of the
  bacterial pathogens.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Revisit to Kalia et al.
+ (2001):
+\series default
+ We revisited the problem of gene transfer in MLST genes studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+.
+ Recently, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "McMillan2010"
+
+\end_inset
+
+ showed that there were high recombination and gene transfer in the seven
+ housekeeping genes.
+ We examined the seven genes that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ had studied for directionality of gene transfer between SPY and SDE.
+ Internal fragments of the seven housekeeping genes, encoding putative glucose
+ kinase (
+\emph on
+gki
+\emph default
+), glutamine transport protein (
+\emph on
+gtr
+\emph default
+), glutamate racemase (
+\emph on
+murI
+\emph default
+), mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+), transketolase (
+\emph on
+recP
+\emph default
+), xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+), and acetylcoenzyme A acetyltransferase (
+\emph on
+yqiL
+\emph default
+) were located in SPY1 genome to examine recombination edge types (Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kalia"
+
+\end_inset
+
+).
+ We also revisited recombination in gene parC studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+ studied fluoroquinolone resistance in SDE.
+ They reported that there were recombination in gene 
+\emph on
+parC
+\emph default
+ that we observed as shown Figure S
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recomb-parc"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -3606,18 +3699,31 @@ Functional categories asscoiated with higher recombination
 
 \begin_inset Float table
 wide false
-sideways false
+sideways true
 status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="3">
+<lyxtabular version="3" rows="58" columns="7">
 <features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Locus 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3626,27 +3732,63 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+source 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+destination 
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fragment (%) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+coverage (%) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+gene product
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0074 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3655,27 +3797,63 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+0 
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative penicillin-binding protein 1b 
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0134 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3684,27 +3862,63 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+0 
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43, 0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+79 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+leucyl-tRNA synthetase 
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0156 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3713,7 +3927,63 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+77 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+glucose-6-phosphate isomerase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0186 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3722,11 +3992,3493 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+83 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+94 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative glucose kinase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0192 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14, 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribulose-phosphate 3-epimerase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0193 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0197 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative surface exclusion protein
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0204 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+45 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0215 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5, 26
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oligopeptide permease 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0238 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0292 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+27 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative tetrapyrrole methylase family protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0429 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,22 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative oligoendopeptidase F
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0465 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative dipeptidase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0466 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative adhesion protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0506 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+52 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phenylalanyl-tRNA synthetase subunit alpha 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0580 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system, fructose-specific IIABC component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0581 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative peptidoglycan hydrolase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0581 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative peptidoglycan hydrolase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0745 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative two-component sensor histidine kinase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0746 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+55 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative two-component response regulator 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0785 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+78 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+92 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inorganic polyphosphate/ATP-NAD kinase
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0786 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative ribosomal large subunit pseudouridine synthase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_0787 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+phosphotransacetylase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1078 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative cation/potassium uptake protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1079 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative ATP-dependent RNA helicase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1093 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative heavy metal/cadmium-transporting ATPase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1151 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative DNA repair and genetic recombination protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1153 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+57 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative hemolysin
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1154 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative geranyltranstransferase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1201 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative two-component sensor histidine kinase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1267 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bifunctional methionine sulfoxide reductase A/B protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1268 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1365 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative Cof family protein/peptidyl-prolyl cis-trans isomerase, cyclophilin
+ type
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1380 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+98 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative Acetyl-CoA:acetoacetyl-CoA transferase b subunit 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1381 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative oxidoreductase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1382 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+38 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3-hydroxybutyrate dehydrogenase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1512 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+59 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTS system, mannose-specific IIC component 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1518 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+63 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+acetyl-CoA carboxylase subunit beta
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1519 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+acetyl-CoA carboxylase biotin carboxylase subunit 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1520 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(3R)-hydroxymyristoyl-ACP dehydratase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1521 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+acetyl-CoA carboxylase biotin carboxyl carrier protein subunit
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1522 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3-oxoacyl-(acyl carrier protein) synthase II 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1523 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3-ketoacyl-(acyl-carrier-protein) reductase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1524 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+acyl-carrier-protein S-malonyltransferase
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1525 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative trans-2-enoyl-ACP reductase II 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1561 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+97 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1577 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excinuclease ABC subunit A 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1579 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1591 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ribonuclease HIII 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1753 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+98 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative transcriptional regulator 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1753 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+53 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative transcriptional regulator 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1754 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+54 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative transcriptional regulator 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1754 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative transcriptional regulator 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1778 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+putative cationic amino acid transporter protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1809 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+arginyl-tRNA synthetase 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1813 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hypothetical protein 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SpyM3_1814 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+29 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+aspartyl-tRNA synthetase
 \end_layout
 
 \end_inset
@@ -3767,654 +7519,8 @@ Genes and their parts transferred via homologous recombining gene transfer.
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="19" columns="3">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Genes
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Locus ID
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Direction of gene transfer
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative heavy metal/cadmium transporting ATPase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:cadmium"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative penicillin-binding protein 1b
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:penicillin"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-proteases
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:protease"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative peptidoglycan hydrolase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:hydrolase"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative ATP-dependent RNA helicase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:helicase"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Hemolysin
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:hemolysin"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative transcription-repair coupling factor
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative ferric uptake regulator
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative biotin synthase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative calcium transporter
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative dipeptidase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative adhesion protein
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative folyl-polyglutamate synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-putative uracil permease
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-nucleotidase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-phosphopentomutase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-DNA topoisomerase I
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-DNA polymerase III PolC
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:miscellaneous"
-
-\end_inset
-
-Gene transfer of Miscellaneous genes
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section*
 Figures
-\end_layout
-
-\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -4429,58 +7535,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/strep.events.pdf
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Gene-duplication-loss"
-
-\end_inset
-
-Gene duplication, loss, and transfer.
- Gene counts for each extant and ancestral species.
- The notation on each branch is DX LY TZ, where X is the number of duplications
- on that branch, Y is the number of losses, and Z is the number transfers
- INTO the branch.
- Transfers out of a branch are not indicated in this figure.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename figures/cornellf-3-tree.ps
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/cornellf-3-tree.pdf
 	scale 70
 
 \end_inset
@@ -4518,7 +7573,90 @@ dysgalactiae
 \end_inset
 
 equisimilis
-\emph default
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/yl-trna.pdf
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:muts"
+
+\end_inset
+
+Posterior probability of recombinant edges on aspartyl-tRNA synthetase.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/strep.events.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gene-duplication-loss"
+
+\end_inset
+
+Gene duplication, loss, and transfer.
+ Gene counts for each extant and ancestral species.
+ The notation on each branch is DX LY TZ, where X is the number of duplications
+ on that branch, Y is the number of losses, and Z is the number transfers
+ INTO the branch.
+ Transfers out of a branch are not indicated in this figure.
  
 \end_layout
 
@@ -4527,32 +7665,22 @@ equisimilis
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/heatmap-recedge.ps
-	scale 40
+	filename figures/heatmap-recedge.pdf
+	scale 50
 
 \end_inset
 
@@ -4581,19 +7709,17 @@ ipient pair of branches.
 
 \end_layout
 
-\end_inset
-
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
 \begin_inset Newpage clearpage
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -4627,10 +7753,6 @@ status collapsed
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -4658,10 +7780,6 @@ status collapsed
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -4696,19 +7814,17 @@ Numer of recombination events.
 
 \end_layout
 
-\end_inset
-
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
 \begin_inset Newpage clearpage
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -4742,10 +7858,6 @@ status collapsed
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -4773,10 +7885,6 @@ status collapsed
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -4810,10 +7918,6 @@ status collapsed
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -4854,16 +7958,10 @@ Comparison of number of recombinations between real and simulated data sets.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -4871,7 +7969,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1.ps
+	filename figures/ri1.ps
 
 \end_inset
 
@@ -4896,27 +7994,25 @@ The first surrogate measure of recombination intensity of genes
 
 \end_layout
 
-\end_inset
-
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
 \begin_inset Newpage clearpage
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.ps
+	filename figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.pdf
 	scale 70
 
 \end_inset
@@ -4960,12 +8056,13 @@ equisimilis
 
 \end_layout
 
-\end_inset
-
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -5016,287 +8113,6 @@ Supplementary Figures
 
 \begin_layout Standard
 \begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-mannose2.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pts-mannose2"
-
-\end_inset
-
-Recombinant edges on PTS system mannose-specific
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/cadmium.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:cadmium"
-
-\end_inset
-
-Recombinant edges on putative heavy metal/cadmium transporting ATPase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/penicillin.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:penicillin"
-
-\end_inset
-
-Recombinant edges on putative penicillin-binding protein 1b
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01836292.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-muts"
-
-\end_inset
-
-Recombinant edges on mismatch repair enzyme (
-\emph on
-mutS
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01450555.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-recp"
-
-\end_inset
-
-Recombinant edges on transketolase (
-\emph on
-recP
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00844027.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-xpt"
-
-\end_inset
-
-Recombinant edges on xanthine phosphoribosyltransferase (
-\emph on
-xpt
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \end_inset
 
 

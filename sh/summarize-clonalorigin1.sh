@@ -29,6 +29,7 @@ function summarize-clonalorigin1 {
         | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       echo -e "This is the summary of the first stage of clonal origin run:"
       cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
       break
     fi

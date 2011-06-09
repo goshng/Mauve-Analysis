@@ -52,6 +52,10 @@ computer)
 .A procedure to check the first surrogate mesure of recombination intensity
 . Execute the menu *sim2-receive* 
 
+.A procedure to draw scatter plots for the blocks of the first stage of
+ClonalOrigin.
+. Execute the menu *plot-number-recombination-within-blocks*
+
 Configuration File
 ------------------
 

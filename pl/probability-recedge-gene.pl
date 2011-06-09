@@ -26,7 +26,8 @@ GetOptions( \%params,
             'ri1map=s',
             'genbank=s',
             'clonaloriginsamplesize=i',
-            'out=s'
+            'out=s',
+            'latex'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -46,6 +47,7 @@ perl probability-recedge-gene.pl [-h] [-help] [-version] [-verbose]
   [-ingene file] 
   [-genbank file] 
   [-out file] 
+  [-latex] 
 
 =head1 DESCRIPTION
 
@@ -93,6 +95,11 @@ An ingene file.
 =item B<-out> <file>
 
 An output file.
+
+=item B<-latex>
+
+The output file in LaTeX.
+
 
 =item B<-pairs> <string>
 
@@ -150,6 +157,7 @@ my $out;
 my $clonaloriginsamplesize;
 my $pairs;
 my $verbose = 0;
+my $latex = 0;
 
 if (exists $params{ri1map})
 {
@@ -192,6 +200,11 @@ if (exists $params{verbose})
   $verbose = 1;
 }
 
+if (exists $params{latex})
+{
+  $latex = 1;
+}
+
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
@@ -210,6 +223,15 @@ sub genbankNext ($);
 sub genbankClose ($);
 sub riOpen ($);
 sub riCompute ($$$$);
+
+if ($latex == 1)
+{
+  print "\\documentclass{article}\n\\begin{document}\n";
+  print "\\begin{tabular}{ | l l l l l l l l l l | }\n";
+  print "\\hline\n";
+  print "Locus & srceI & destI & fragPortion & fragStart & fragEnd & coverage & gene start & gene end & gene product\\\\\n";
+  print "\\hline\n";
+}
 
 my @notProcessedGene;
 open (my $riFile, $ri1map) or die $!;
@@ -234,7 +256,16 @@ while ($gene{locus} ne "")
       my $fragStart = $h->{start};
       my $fragEnd = $h->{end};
       my $fragPortion = int(($fragEnd - $fragStart) / ($gene{end} - $gene{start}) * 100);
-      print "$gene{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$gene{start}\t$gene{end}\t$gene{product}\n";
+      if ($latex == 0)
+      {
+        print "$gene{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$gene{start}\t$gene{end}\t$gene{product}\n";
+      }
+      else
+      {
+        my $locusname = $gene{locus};
+        $locusname =~ s/_/\\_/g; 
+        print "$locusname & $srceI & $destI & $fragPortion & $fragStart & $fragEnd & $coverage & $gene{start} & $gene{end} & $gene{product} \\\\\n";
+      }
     }
   }
   else
@@ -264,28 +295,28 @@ for my $g ( @notProcessedGene ) {
     my $fragStart = $h->{start};
     my $fragEnd = $h->{end};
     my $fragPortion = int(($fragEnd - $fragStart) / ($g->{end} - $g->{start}) * 100);
-    print "$g->{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$g->{start}\t$g->{end}\t$g->{product}\n";
+    if ($latex == 0)
+    {
+      print "$g->{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$g->{start}\t$g->{end}\t$g->{product}\n";
+    }
+    else
+    {
+      my $locusname = $g->{locus};
+      $locusname =~ s/_/\\_/g; 
+      print "$locusname & $srceI & $destI & $fragPortion & $fragStart & $fragEnd & $coverage & $g->{start} & $g->{end} & $g->{product}\\\\\n";
+    }
   }
-
-
-
 }
 close ($riFile);
 
-sub drawRI1BlockGenes ($$);
-sub getRI1Gene ($$$$$);
-sub getPairs ($);
+if ($latex == 1)
+{
+  print "\\end{tabular}\n";
+  print "\\end{document}\n";
+}
 
-# my @pairSourceDestination = getPairs ($pairs);
-#for my $i ( 0 .. $#pairSourceDestination) {
-  #print "\t [ @{$pairSourceDestination[$i]} ],\n";
-#}
-
-#test (\@genes, $ri1map, \@pairSourceDestination);
-my $lengthGenome = 1000;
+my $lengthGenome = 0;
 my @genes;
-# my $lengthGenome = getLengthMap ($ri1map);
-#drawRI1BlockGenes (\@genes, $ri1map);
 
 exit;
 
@@ -824,15 +855,3 @@ sub drawRI1Block ($$$)
   close OUT;
 }
 
-sub getLengthMap ($)
-{
-  my ($f) = @_;
-  my $i = 0;
-  open MAPLENGTH, $f or die "could not open $f $!";
-  while (<MAPLENGTH>)
-  {
-    $i++;
-  }
-  close MAPLENGTH;
-  return $i;
-}
