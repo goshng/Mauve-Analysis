@@ -222,9 +222,20 @@ while ($gene{locus} ne "")
   # print "$gene{locus}\t$gene{start}\t$gene{end}\t$gene{product}\n";
   if ($pos <= $gene{start})
   {
-    my ($srceI, $destI, $max, $coverage);
-    ($pos, $srceI, $destI, $max, $coverage) = riCompute ($riFile, $pos, $gene{start}, $gene{end});
-    print "$gene{locus}\t$srceI\t$destI\t$max\t$coverage\t$gene{start}\t$gene{end}\t$gene{product}\n";
+    # my ($srceI, $destI, $max, $coverage);
+    # ($pos, $srceI, $destI, $max, $coverage) = riCompute ($riFile, $pos, $gene{start}, $gene{end});
+    my ($coverage, $reTransfer);
+    ($pos, $coverage, $reTransfer) = riCompute ($riFile, $pos, $gene{start}, $gene{end});
+    for my $h (@{ $reTransfer })
+    {
+      my $index = $h->{index};
+      my $srceI = int($index / 9);
+      my $destI = $index % 9;
+      my $fragStart = $h->{start};
+      my $fragEnd = $h->{end};
+      my $fragPortion = int(($fragEnd - $fragStart) / ($gene{end} - $gene{start}) * 100);
+      print "$gene{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$gene{start}\t$gene{end}\t$gene{product}\n";
+    }
   }
   else
   {
@@ -242,10 +253,22 @@ close ($riFile);
 # Compute posterior probability for the unprocessed genes. 
 open ($riFile, $ri1map) or die $!;
 $pos = 1;
-for my $h ( @notProcessedGene ) {
-  my ($srceI, $destI, $max, $coverage);
-  ($pos, $srceI, $destI, $max, $coverage) = riCompute ($riFile, $pos, $h->{start}, $h->{end});
-  print "$h->{locus}\t$srceI\t$destI\t$max\t$coverage\t$h->{start}\t$h->{end}\t$h->{product}\n";
+for my $g ( @notProcessedGene ) {
+  my ($coverage, $reTransfer);
+  ($pos, $coverage, $reTransfer) = riCompute ($riFile, $pos, $g->{start}, $g->{end});
+  for my $h (@{ $reTransfer })
+  {
+    my $index = $h->{index};
+    my $srceI = int($index / 9);
+    my $destI = $index % 9;
+    my $fragStart = $h->{start};
+    my $fragEnd = $h->{end};
+    my $fragPortion = int(($fragEnd - $fragStart) / ($g->{end} - $g->{start}) * 100);
+    print "$g->{locus}\t$srceI\t$destI\t$fragPortion\t$fragStart\t$fragEnd\t$coverage\t$g->{start}\t$g->{end}\t$g->{product}\n";
+  }
+
+
+
 }
 close ($riFile);
 
@@ -276,6 +299,8 @@ exit;
 sub riCompute ($$$$)
 {
   my ($f, $pos, $start, $end) = @_;
+  my $threshould = 0.9 * $clonaloriginsamplesize;
+  my @reTransfer;
   my $line;
 
   die "$pos is greater than $start" if $pos > $start;
@@ -298,20 +323,43 @@ sub riCompute ($$$$)
     else
     {
       $numberOfSitesOfNonzero++; 
-      for (my $i = 0; $i < 81; $i++)
+      for (my $i = 0; $i < 72; $i++)
       {
         die "negative values $pos $i" if $e[$i+1] < 0;
         $m[$i] += $e[$i+1];
+        if ($e[$i+1] > $threshould)
+        {
+          my $found = 0;
+          for my $h (@reTransfer) 
+          {
+            if ($h->{index} == $i and $h->{end} == $pos - 1)
+            {
+              $h->{end} = $pos;
+              $found = 1;
+              last;
+            }
+          }
+          if ($found == 0)
+          {
+            my $rec = {};
+            $rec->{index} = $i;
+            $rec->{start} = $pos;
+            $rec->{end} = $pos;
+            push @reTransfer, $rec;
+          }
+        }
       }
     }
     die "Incorrect position" unless $e[0] == $pos;
     $pos++;
   }
 
-  my $coverage = $numberOfSitesOfNonzero / ($end - $start + 1);
+  my $coverage = int($numberOfSitesOfNonzero / ($end - $start + 1) * 100);
+
   my $srceI = -1;
   my $destI = -1;
   my $max = -1;
+
   if ($numberOfSitesOfNonzero > 0)
   {
     for (my $i = 0; $i < 81; $i++)
@@ -332,27 +380,13 @@ sub riCompute ($$$$)
     $srceI = int($maxIndex / 9);
     $destI = $maxIndex % 9;
 
-    if ($srceI == 8)
-    {
-      $max = -1;
-      $maxIndex = -1;
-      for (my $i = 0; $i < 72; $i++)
-      {
-        if ($m[$i] > $max)
-        {
-          $max = $m[$i];
-          $maxIndex = $i;
-        }
-      }
-      $srceI = int($maxIndex / 9);
-      $destI = $maxIndex % 9;
-    }
   }
   else
   {
     # No map.
   }
-  return ($pos, $srceI, $destI, $max, $coverage);
+
+  return ($pos, $coverage, \@reTransfer);
 }
 
 sub genbankOpen ($)
