@@ -1503,54 +1503,66 @@ reference "tab:functional"
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-[I NEED TO LIST GENES OR LOCUS TAGS WITH THEIR POSTERIOR PROBABILITY OF
- HAVING RECOMBINANT EDGES AVERAGED OVER THEIR LENGTHS.
- FIGURES WERE GREAT TO VISUALIZE THEM.
- THEY ARE A BAD WAY TO DESCRIBE WHAT RECOMBINANT EDGES AFFECT GENES.]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Ribosomal proteins:
-\series default
- Although several functional categories related with ribosomal RNA genes
- were found to be significant in enrichment test of bacterial recombination,
- many of them included ribosomal proteins that tended to cluster together
- in the genome and they did not appeared to be transferred between SPY and
- SDE (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:rprotein1"
+Gene transfer processes do not necessarily move whole genes from one species
+ to another 
+\begin_inset CommandInset citation
+LatexCommand citep
+before "e.g.,"
+key "Chan2009"
 
 \end_inset
 
-).
- Figure S
+.
+ Despite that fact the units of gene transfer have been whole genes.
+ Parts of genes could be targets of gene transfer.
+ Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:rprotein2"
+reference "tab:genes-transfer"
 
 \end_inset
 
- shows that recombination on ribosomal protein genes appeared to happen
- within SDE or SPY.
+ shows a list of genes and their parts that were inferred to be transferred
+ via homologous recombining gene transfer.
+ We scanned all of the alignment blocks to locate parts of genes that had
+ recombinant edges with at least 0.9 of posterior probability.
+ We chose arbitrarily the cut-off probability of 0.9, and did not pursue
+ to investigate potential effects of the value.
+ Yet, it served as a threshold to list genes and their parts that almost
+ certaintly were transferred from one species to another.
+ 
 \end_layout
 
 \begin_layout Standard
+Among the genes in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:genes-transfer"
 
-\series bold
-Aminoacyl tRNA synthetase:
-\series default
+\end_inset
+
+ we did not find ribosomal proteins that were heavily enriched in the gene
+ ontology term, 
+\begin_inset Quotes eld
+\end_inset
+
+rRNA binding.
+\begin_inset Quotes erd
+\end_inset
+
+ Ribosomal proteins tended to cluster together in the genome, and they appeared
+ to be affected by the recombinant edges whose departures were on the root
+ branch.
+ Recombinant edges that connect the root branch are hard to be considered
+ as gene flow.
+ We ruled out those recombinant edges in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:genes-transfer"
+
+\end_inset
+
+.
  Aminoacyl tRNA synthetases (aaRS) charge tRNA with an amino acid so that
  amino acids are concatenated from charged tRNA onto a growing peptides
  through translation.
@@ -1572,15 +1584,6 @@ key "Andam2010,Wang2011"
 \end_inset
 
 .
- We inferred gene transfer in several aminoacyl tRNA synthetases in our
- analysis of the five genomes of streptococcus (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:aaRS"
-
-\end_inset
-
-).
  Some of them appeared to be transferred from 
 \emph on
 Streptococcus pyogenes
@@ -1608,21 +1611,19 @@ equisimilis
 \bar no
 \noun off
 \color none
-: leucyl-tRNA synthetase, lysyl-tRNA synthetase, aspartyl-tRNA synthetase,
- histidyl-tRNA synthetase, and phenylalanyl-tRNA synthetase.
- The isoleucyl-tRNA synthetase appeared to be flowed in the reverse direction.
- [I NEED TO LIST GENES OR LOCUS TAGS WITH THEIR POSTERIOR PROBABILITY OF
- HAVING RECOMBINANT EDGES AVERAGED OVER THEIR LENGTHS.
- FIGURES WERE GREAT TO VISUALIZE THEM.
- THEY ARE A BAD WAY TO DESCRIBE WHAT RECOMBINANT EDGES AFFECT GENES.]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Phosphotransferase system:
+: leucyl-tRNA synthetase, aspartyl-tRNA synthetase, and arginyl-tRNA synthetase.
+ Half of phenylalanyl-tRNA synthetase gene appeared to be transferred in
+ the reverse direction.
+ 
+\family default
 \series default
- Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+Bacterial phosphotransferase system (PTS), also known as phosphoenolpyruvate
  (PEP) group translocation, transports sugars such as glucose into the cell
  where phosphorylation of the sugar happens.
  There have been studies of gene transfer of PTS in bacteria 
@@ -1639,85 +1640,24 @@ key "Barabote2005,Zuniga2005"
  It is not surprising that PTS sugars differ among bacterial groups because
  bacterial species are correlated with their environment and energy sources
  theirof.
- Several phosphotransferase systems exist in the five genomes depending
- on different kinds of sugars (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:pts"
-
+ Two parts of PTS genes appeared to be transferred from SPY to SDE: 
+\begin_inset Quotes eld
 \end_inset
 
-).
- [THIS TABLE WILL BE REPLACED BY TABLES OF PORSTERIOR PROBABILITY OF HAVING
- RECOMBINANT EDGES FOR GENES.]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-ATP-binding cassette transporter:
-\series default
- ATP-binding cassette transporters import or export solutes such as ions
- across cells using ATP hydrolysis.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Noll2009"
-
+PTS system, mannose-specific IIC component
+\begin_inset Quotes erd
 \end_inset
 
- studied horizontal gene transfer of archeal ABC transporter genes into
- bacteria via bacterial recombination.
- We found that ATP-binding cassette (ABC) transporters were associated with
- bacterial recombination (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:abc"
-
+ and 
+\begin_inset Quotes eld
 \end_inset
 
-).
- [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Miscellaneous genes:
-\series default
- There were many other genes associated with gene transfer due to bacterial
- recombination (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:miscellaneous"
-
+PTS system, fructose-specific IIABC component.
+\begin_inset Quotes erd
 \end_inset
 
-).
- The functional category of biosynthesis in fatty acid and phospholipid
- metabolism was also found to be associated with higher recombination.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kinsella2003"
-
-\end_inset
-
- studied lateral gene transfer of fatty acid metabolism.
- [DESCRIPTION OF THE GENE TRANSFER IS NEEDED]
-\end_layout
-
-\begin_layout Standard
-[I MIGHT HAVE TO FIND MORE PREVIOUS EXAMPLES OF RECOMBINATION AND GENE TRANSFER
- AND COMPARE THEM WITH WHAT WE HAVE.] 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kinsella2003"
-
-\end_inset
-
- and fatty acid biosynthesis - implication of gene transfer and bacterial
- recombination.
+ Whereas almost half of the former gene was inferred to be affected, only
+ 3% of the latter gene appeared to be affected by recombinant edges.
 \end_layout
 
 \begin_layout Standard
@@ -1809,6 +1749,22 @@ y more frequent (37.5% and 52.9%, respectively).
   We found that duplications were most often species-specific.
   Many gene losses likely represented horizontal transfers that replaced
  the native gene sequence.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gene tree topologies along the genome of streptococcus:
+\series default
+ In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
+ of sites agreed with that of the reference species tree (Figure HISTOGRAM
+ OF TREE TOPOLOGIES).
+ The second most probable gene tree topology was a tree where SDD was the
+ outgroup, and SPY and SDE formed a sister clade to each other.
+ [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
+ I NEED TO CONSIDER THIE MORE DEEPLY.
+ THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
+ UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
 \end_layout
 
 \begin_layout Subsection
@@ -1973,22 +1929,6 @@ reference "fig:recomb-parc"
 
 .
  
-\end_layout
-
-\begin_layout Subsection
-Gene tree topologies along the genome of streptococcus
-\end_layout
-
-\begin_layout Standard
-In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
- of sites agreed with that of the reference species tree (Figure HISTOGRAM
- OF TREE TOPOLOGIES).
- The second most probable gene tree topology was a tree where SDD was the
- outgroup, and SPY and SDE formed a sister clade to each other.
- [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
- I NEED TO CONSIDER THIE MORE DEEPLY.
- THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
- UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
 \end_layout
 
 \begin_layout Subsection
@@ -3664,9 +3604,6 @@ Functional categories asscoiated with higher recombination
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
@@ -3674,7 +3611,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="3">
+<lyxtabular version="3" rows="4" columns="3">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -3684,599 +3621,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-Genes
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Locus ID
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Direction of gene transfer
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-leucyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0134
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:leucyl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lysyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0420
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:lysyl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-isoleucyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1166
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SDE1 or SDE2 to SPY1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:isoleucyl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-aspartyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1814
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:yl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-histidyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1815
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:yl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-phenylalanyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0506, SpyM3_0507
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:phenylalanyl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-valyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1273
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Some (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:valyl-trna"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-methionyl-tRNA synthetase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0300
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Very weak of SDE to SPY1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:aaRS"
-
-\end_inset
-
-Gene transfer of aminocyl tRNA synthetases
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Genes
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Locus ID
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Direction of gene transfer
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system mannose/fructose transporter
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-mannose"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system galactose-specific IIC component
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SDE1 to SPY1(Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-galactose"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system mannose-specific
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-mannose2"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system sucrose-specific IIABC component
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY and SDE to SDE1 and SPY1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-sucrose"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system glucose-specific IIABC component
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SDE to SPY1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:pts-glucose"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system N-acetylgalactosamine-specific transporter
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-PTS system ascorbate-specific transporter
 \end_layout
 
 \end_inset
@@ -4300,77 +3645,30 @@ PTS system ascorbate-specific transporter
 \end_inset
 </cell>
 </row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:pts"
-
-\end_inset
-
-Lateral transfer of phosphtransferase system
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Genes
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Locus ID
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Direction of gene transfer
+
 \end_layout
 
 \end_inset
@@ -4399,86 +3697,7 @@ Direction of gene transfer
 \begin_inset Text
 
 \begin_layout Plain Layout
-(Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:abc1"
 
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-(Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:abc2"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-(Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:abc3"
-
-\end_inset
-
-)
 \end_layout
 
 \end_inset
@@ -4526,11 +3745,12 @@ reference "fig:abc3"
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:abc"
+name "tab:genes-transfer"
 
 \end_inset
 
-ATP-binding casette transporter
+Genes and their parts transferred via homologous recombining gene transfer.
+ 
 \end_layout
 
 \end_inset
@@ -5190,363 +4410,6 @@ Gene transfer of Miscellaneous genes
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Genes
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Locus ID
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Direction of gene transfer
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-gki
-\emph default
- putative glucose kinase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1180
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-gki"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-gtr
-\emph default
- glutamine transport protein
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1161
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-N/A (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-gtr"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-murI
-\emph default
- glutamate racemase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0262
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-N/A (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muri"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-mutS
-\emph default
- mismatch repair enzyme
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1806
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-muts"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-recP
-\emph default
- transketolase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_1462
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY1 to SDE2, and SDE1 to SPY1 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-recp"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-xpt
-\emph default
- xanthine phosphoribosyltransferase
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0794
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SPY2 to SDE1, and SPY1 to SDE2 (Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-xpt"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\emph on
-yqiL
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SpyM3_0108
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:kalia"
-
-\end_inset
-
-Gene transfer the housekeeping genes studied by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Kalia2001"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section*
 Figures
 \end_layout
@@ -6149,338 +5012,9 @@ tablename}{Supplementary Table}
 
 \begin_layout Section*
 Supplementary Figures
-\begin_inset Newpage clearpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/rprotein1.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:rprotein1"
-
-\end_inset
-
-Recombinant edges on ribosomal proteins
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/rprotein2.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:rprotein2"
-
-\end_inset
-
-Recombinant edges on ribosomal proteins
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/leucyl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:leucyl-trna"
-
-\end_inset
-
-Recombinant edges on leucyl-tRNA synthetase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/lysyl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:lysyl-trna"
-
-\end_inset
-
-Recombinant edges on lysyl-tRNA synthetase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/isoleucyl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:isoleucyl-trna"
-
-\end_inset
-
-Recombinant edges on isoleucyl-tRNA synthetase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/yl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:yl-trna"
-
-\end_inset
-
-Recombinant edges on aspartyl-tRNA and histidyl-tRNA synthetases
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/phenylalanyl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:phenylalanyl-trna"
-
-\end_inset
-
-Recombinant edges on phenylalanyl-tRNA synthetases
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/valyl-trna.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:valyl-trna"
-
-\end_inset
-
-Recombinant edges on valyl-tRNA synthetases
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -6492,98 +5026,6 @@ Recombinant edges on valyl-tRNA synthetases
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-mannose.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pts-mannose"
-
-\end_inset
-
-Recombinant edges on PTS system mannose/fructose transporter
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-galactose.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pts-galactose"
-
-\end_inset
-
-Recombinant edges on PTS system galactose-specific IIC component
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6629,237 +5071,7 @@ Recombinant edges on PTS system mannose-specific
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-sucrose.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pts-sucrose"
-
-\end_inset
-
-Recombinant edges on PTS system sucrose-specific IIABC component
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/pts-glucose.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pts-glucose"
-
-\end_inset
-
-Recombinant edges on PTS system glucose-specific IIABC component
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc1.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:abc1"
-
-\end_inset
-
-Recombinant edges on ABC transporters
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc2.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:abc2"
-
-\end_inset
-
-Recombinant edges on ABC transporters
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/abc3.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:abc3"
-
-\end_inset
-
-Recombinant edges on ABC transporters
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6905,7 +5117,7 @@ Recombinant edges on putative heavy metal/cadmium transporting ATPase
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -6951,341 +5163,7 @@ Recombinant edges on putative penicillin-binding protein 1b
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/protease.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:protease"
-
-\end_inset
-
-Recombinant edges on proteases
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/hydrolase.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:hydrolase"
-
-\end_inset
-
-Recombinant edges on putative peptidoglycan hydrolase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/helicase.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:helicase"
-
-\end_inset
-
-Recombinant edges on putative ATP-dependent RNA helicase
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/hemolysin.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:hemolysin"
-
-\end_inset
-
-Recombinant edges on putative hemolysin
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01204579.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-gki"
-
-\end_inset
-
-Recombinant edges on putative glucose kinase (
-\emph on
-gki
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-01185931.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-gtr"
-
-\end_inset
-
-Recombinant edges on glutamine transport protein (
-\emph on
-gtr
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00302483.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-muri"
-
-\end_inset
-
-Recombinant edges on glutamate racemase (
-\emph on
-murI
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -7335,7 +5213,7 @@ mutS
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -7385,7 +5263,7 @@ recP
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -7410,56 +5288,6 @@ name "fig:recomb-xpt"
 Recombinant edges on xanthine phosphoribosyltransferase (
 \emph on
 xpt
-\emph default
-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/ri1-refgenome4-map-00685684.pdf
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:recomb-parc"
-
-\end_inset
-
-Recombinant edges on DNA topoisomerase IV subunit A (
-\emph on
-parC
 \emph default
 )
 \end_layout
