@@ -45,6 +45,11 @@ I am wonderig if there are ways of making scatter plots with density.
 
 http://addictedtor.free.fr/graphiques/RGraphGallery.php?graph=139
 
+Run the following in R to install geneplotter library.
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("geneplotter")
+
 Thu May 19 20:46:00 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

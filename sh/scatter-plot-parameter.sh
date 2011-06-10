@@ -8,8 +8,8 @@
 # legnth. I parse XML output files of clonal origin to find values of the
 # parameters. The values are plotted for all blocks.
 function scatter-plot-parameter {
-  PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
-  select SPECIES in `ls species`; do 
+  PS3="Choose the species for $FUNCNAME: "
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
@@ -21,22 +21,25 @@ function scatter-plot-parameter {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
-      perl pl/extractClonalOriginParameter6.pl \
+      perl pl/$FUNCNAME.pl \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
-        -out $RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out
-      echo "$RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out"
+        -xmfabase $DATADIR/core_alignment.xmfa \
+        -out $RUNANALYSIS/$FUNCNAME-$REPLICATE.out
+      echo "$RUNANALYSIS/$FUNCNAME-$REPLICATE.out"
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
       NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
-      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml|wc -l`)
+      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml.1|wc -l`)
       echo -e "  The number of blocks is $NUMBER_BLOCK."
       echo -e "  The sample size per block is $NUMBER_SAMPLE."
       echo -e "  The number of species is $NUMBER_SPECIES."
 
+      MEDIAN_THETA=$(grep "Median theta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      MEDIAN_DELTA=$(grep "Median delta" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+      MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
+
       analyze-run-clonalorigin-scatter-plot-parameter-rscript \
-        $RUNANALYSIS/scatter-plot-parameter-$SPECIES-$REPLICATE.out \
-        $NUMBER_BLOCK \
-        $NUMBER_SAMPLE 
+        $RUNANALYSIS/$FUNCNAME-$REPLICATE.out 
  
       #cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
@@ -48,27 +51,36 @@ function scatter-plot-parameter {
 function analyze-run-clonalorigin-scatter-plot-parameter-rscript {
   S2OUT=$1
   BATCH_R=$1.R
-  NUMBER_BLOCK=$2
-  NUMBER_SAMPLE=$3
-  NUMBER_NUMBER=$(( NUMBER_BLOCK * NUMBER_SAMPLE ))
 cat>$BATCH_R<<EOF
+library("geneplotter")  ## from BioConductor
+require("RColorBrewer") ## from CRAN
+
 plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
   x.filename <- paste (f, ".ps", sep="")
   x <- read.table (f);
 
-  postscript(file=x.filename)
+  pos.median <- c() 
+  pos <- unique (x\$V1)
+  for (i in pos)
+  {
+    pos.median <- c(pos.median, median(x\$V2[x\$V1 == i]))
+  }
+
+  postscript (file=x.filename, width=10, height=5, horizontal = FALSE, onefile = FALSE, paper = "special")
   if (logscale == TRUE) {
-    plot(x\$V1, log(x\$V2), cex=.2, xlab=xlab, ylab=ylab, bty="n")
+    smoothScatter(x\$V1, log(x\$V2), nrpoints=0, colramp = colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab)
+    points (pos, log(pos.median), pch=43)
     abline (h=log(m), col="red", lty="dashed")
   } else {
-    plot(x\$V1, x\$V2, cex=.2, xlab=xlab, ylab=ylab, bty="n")
+    smoothScatter(x\$V1, x\$V2, nrpoints=0, colramp = colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab)
+    points (pos, pos.median, pch=43)
     abline (h=m, col="red", lty="dashed")
   }
   dev.off()
 }
-plotThreeParameter ("$S2OUT.theta", "", "Mutation rate per site", 0.0749323036174269, FALSE)
-plotThreeParameter ("$S2OUT.rho", "", "Recombination rate per site", 0.0137842770601471, FALSE)
-plotThreeParameter ("$S2OUT.delta", "", "Log average tract length", 614.149554455445, TRUE)
+plotThreeParameter ("$S2OUT.theta", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
+plotThreeParameter ("$S2OUT.rho", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
+plotThreeParameter ("$S2OUT.delta", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
 EOF
   Rscript $BATCH_R > $BATCH_R.out 
 }

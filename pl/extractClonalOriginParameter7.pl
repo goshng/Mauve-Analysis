@@ -6,11 +6,6 @@
 #   Date: Tue Apr 19 15:02:27 EDT 2011
 #   Version: 1.0
 #
-#   Usage:
-#      perl extractClonalOriginParameter7.pl [options]
-#
-#      Try 'perl extractClonalOriginParameter7.pl -h' for more information.
-#
 #   Purpose: extractClonalOriginParameter7.pl help you extract the number of
 #            recombination events that happen within blocks
 #            using the output XML files of ClonalOrigin. 
@@ -123,7 +118,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
 
-sub getMidPosition ($);
+require "pl/sub-xmfa.pl";
 
 my $xmlFilebase;
 my $xmfaFilebase;
@@ -192,7 +187,7 @@ my $curR;
 my @lens;
 my @meanR;
 
-my @xmlFiles = <$xmlFilebase.*.xml>;
+my @xmlFiles = <$xmlFilebase.xml.*>;
 foreach my $xmlFile (@xmlFiles) {
   $xmlFile =~ /\.(\d+)\.xml/;
   $blockID = $1;
@@ -334,19 +329,3 @@ sub printError {
   exit(0);
 }
 
-
-sub getMidPosition ($)
-{
-  my ($f) = @_;
-  my $v;
-  open XMFA, $f or die $!;
-  while (<XMFA>) {
-    if (/^>\s+(\d+):(\d+)-(\d+)/) {
-      die "$1 is not 1" unless $1 == 1;
-      $v = ($2 + $3)/2;
-      last;
-    }
-  }
-  close XMFA;
-  return $v;
-}

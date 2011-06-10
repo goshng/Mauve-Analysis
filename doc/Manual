@@ -54,6 +54,7 @@ computer)
 
 .A procedure to draw scatter plots for the blocks of the first stage of
 ClonalOrigin.
+. Execute the menu *scatter-plot-parameter*
 . Execute the menu *plot-number-recombination-within-blocks*
 
 Configuration File
@@ -176,6 +177,23 @@ cd b
 cmake ..
 make
 ----
+
+R packages
+~~~~~~~~~~
+
+geneplotter
+^^^^^^^^^^^
+Menu scatter-plot-parameter needs a geneplotter library of R package.
+
+I found a nice way to make a scatter plot with density.
+http://addictedtor.free.fr/graphiques/RGraphGallery.php?graph=139
+
+Run the following in R to install geneplotter library.
+----
+source("http://bioconductor.org/biocLite.R")
+biocLite("geneplotter")
+----
+
 
 Menus
 -----

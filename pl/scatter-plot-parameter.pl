@@ -2,16 +2,16 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: extractClonalOriginParameter6.pl
+#   File: scatter-plot-parameter.pl
 #   Date: Tue Apr 19 15:02:27 EDT 2011
 #   Version: 1.0
 #
 #   Usage:
-#      perl extractClonalOriginParameter6.pl [options]
+#      perl scatter-plot-parameter.pl [options]
 #
-#      Try 'perl extractClonalOriginParameter6.pl -h' for more information.
+#      Try 'perl scatter-plot-parameter.pl -h' for more information.
 #
-#   Purpose: extractClonalOriginParameter6.pl help you extract the 3 main
+#   Purpose: scatter-plot-parameter.pl help you extract the 3 main
 #            parameters from the output XML file of ClonalOrigin. 
 #===============================================================================
 
@@ -24,7 +24,7 @@ use File::Temp qw(tempfile);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'extractClonalOriginParameter6.pl 1.0';
+my $VERSION = 'scatter-plot-parameter.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -34,6 +34,7 @@ GetOptions( \%params,
             'man',
             'version' => sub { print $VERSION."\n"; exit; },
             'xmlbase=s',
+            'xmfabase=s',
             'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -41,15 +42,15 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter6.pl - Build a heat map of recombination.
+scatter-plot-parameter.pl - Build a heat map of recombination.
 
 =head1 VERSION
 
-extractClonalOriginParameter6.pl 1.0
+scatter-plot-parameter.pl 1.0
 
 =head1 SYNOPSIS
 
-perl extractClonalOriginParameter6.pl [-h] [-help] [-version] 
+perl scatter-plot-parameter.pl [-h] [-help] [-version] 
   [-xmlbase filename] [-out file]
 
 =head1 DESCRIPTION
@@ -94,7 +95,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make extractClonalOriginParameter6.pl better.
+com repository so that I can make scatter-plot-parameter.pl better.
 
 =head1 COPYRIGHT
 
@@ -102,20 +103,38 @@ Copyright (C) 2011  Sang Chul Choi
 
 =head1 LICENSE
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut
 
+require "pl/sub-xmfa.pl";
+
 my $xmlFilebase;
+my $xmfaFilebase;
 my $basenameOutFile;
 
 if (exists $params{xmlbase})
 {
   $xmlFilebase = $params{xmlbase};
+}
+else
+{
+  &printError("you did not specify an XML file that contains Clonal Origin run results");
+}
+
+if (exists $params{xmfabase})
+{
+  $xmfaFilebase = $params{xmfabase};
 }
 else
 {
@@ -143,6 +162,8 @@ else
 my $tag;
 my $content;
 my $itercount=0;
+my $rhoPerBlock; 
+my $position;
 
 ##############################################################
 # Open the three output files.
@@ -157,11 +178,12 @@ open OUTDELTA, ">$basenameOutFile.delta" or die $!;
 my $blockID;
 my $blockLength;
 
-my @xmlFiles = <$xmlFilebase.*.xml>;
+my @xmlFiles = <$xmlFilebase.xml.*>;
 foreach my $xmlFile (@xmlFiles) {
 
-  $xmlFile =~ /\.(\d+)\.xml/;
+  $xmlFile =~ /\.xml\.(\d+)/;
   $blockID = $1;
+  $position = getMidPosition ("$xmfaFilebase.$blockID");
   my $parser = new XML::Parser();
   $parser->setHandlers(Start => \&startElement,
                        End => \&endElement,
@@ -211,14 +233,16 @@ sub endElement {
   my ($p, $elt) = @_;
   if($tag eq "theta"){
     my $thetaPerSite = $content / $blockLength;
-    print OUTTHETA "$blockID\t$thetaPerSite\n";
+    # print OUTTHETA "$blockID\t$thetaPerSite\n";
+    print OUTTHETA "$position\t$thetaPerSite\n";
   }
   if($tag eq "rho"){
-    my $rhoPerSite = $content / $blockLength;
-    print OUTRHO "$blockID\t$rhoPerSite\n";
+    $rhoPerBlock = $content;
   }
   if($tag eq "delta"){
-    print OUTDELTA "$blockID\t$content\n";
+    print OUTDELTA "$position\t$content\n";
+    my $rhoPerSite = $rhoPerBlock / ($blockLength + $content - 1);
+    print OUTRHO "$position\t$rhoPerSite\n";
   }
   $tag = "";
   $content = "";
@@ -259,6 +283,6 @@ sub default {
 
 sub printError {
   my $msg = shift;
-  print STDERR "ERROR: ".$msg.".\n\nTry \'extractClonalOriginParameter6.pl -h\' for more information.\nExit program.\n";
+  print STDERR "ERROR: ".$msg.".\n\nTry \'scatter-plot-parameter.pl -h\' for more information.\nExit program.\n";
   exit(0);
 }

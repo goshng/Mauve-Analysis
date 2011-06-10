@@ -80,6 +80,22 @@ sub locateBlockGenome ($$)
   return ($startGenome, $endGenome, $strand);
 }
 
+sub getMidPosition ($)
+{
+  my ($f) = @_;
+  my $v;
+  open XMFA, $f or die $!;
+  while (<XMFA>) {
+    if (/^>\s+(\d+):(\d+)-(\d+)/) {
+      die "$1 is not 1" unless $1 == 1;
+      $v = ($2 + $3)/2;
+      last;
+    }
+  }
+  close XMFA;
+  return $v;
+}
+
 sub locateNucleotideBlock ($$)
 {
   my ($f, $r) = @_;
