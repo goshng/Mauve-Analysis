@@ -1020,8 +1020,8 @@ http://asap.ahabs.wisc.edu/mauve/download.php
  We excluded additional two alignment blocks because of too long consecutive
  gaps in their multiple alignments.
  This filtered the alignment blocks to leave 274 core alignment blocks.
- The total length of all of the block alignments was 1,147,632.
- The average length of the blocks was 4,188.
+ The total length of all of the block alignments was 1147632.
+ The average length of the blocks was 4188.
  The proportion of polymorphic sites was 0.169.
  ClonalFrame version 1.1 that was available at 
 \begin_inset Flex URL
@@ -1043,9 +1043,42 @@ key "Didelot2007"
 \end_inset
 
 .
- Eight independent runs of ClonalFrame's Markov chain Monte Carlo (MCMC)
+ Because the rate of mutation on the branches of the genealogy and branch
+ lengths of the species tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ are reciprocally proportional, we set the rate of mutation 
+\begin_inset Formula $\theta$
+\end_inset
+
+ on the branches of the species tree to Watterson's estimate, or 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+92871.84.
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+Eight independent runs of ClonalFrame's Markov chain Monte Carlo (MCMC)
  were executed with a total generation of chains being 20,000.
  The first 10,000 generations were discarded as burn-in.
+ The rate of recombination on the branches of the genealogy 
+\begin_inset Formula $R$
+\end_inset
+
+ was estimated to be 9371 with (8953,9778) of 95% credibility interval.
  The results of the eight different runs produced comparable estimates of
  the species tree (Figure 
 \begin_inset CommandInset ref
@@ -1832,91 +1865,38 @@ Variation of recombination events along the genome of streptococcus
 \end_layout
 
 \begin_layout Standard
-FIGURE XXX.
- SCATTER PLOTS FOR ALL BLOCKS OF THE FIRST CLONALORIGIN ANALYSIS OF THE
- FIVE GENOMES.
- IT SHOWS INFERRED VALUES OF THE LOG-AVERAGE TRACT LENGTH (
-\begin_inset Formula $\log(\delta)$
-\end_inset
+Population parameters were estimated from the first stage of MCMC in ClonalOrigi
+n (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatter3"
 
-), THE MUTATION RATE PER SITE (
-\begin_inset Formula $\theta_{s}/2$
-\end_inset
-
-), AND RECOMBINATION RATE PER SITE (
-\begin_inset Formula $\rho_{s}/2$
 \end_inset
 
 ).
- A DENSITY PLOT OF THE SCATTERPLOT IS SHOWN USING GRAY SHADING.
- THE MEDIAN FOR ALL BLOCKS IS SHOWN IN RED.
- [WE NEED THIS FIGURE.
-\end_layout
-
-\begin_layout Standard
-Population parameters were estimated from the first stage of MCMC in ClonalOrigi
-n.
  The median of mutation rate per site weighted over the lengths of blocks
  was estimated to be 0.081 with (0.067,0.094) of interquartile range.
+ Mutation rates per site for many alignment blocks were almost centered
+ around the gobal median.
  The median of recombination rate per site was estimated to be 0.012 with
  (0.006,0.019) of interquartile range.
- [DID WE FIND ANY BLOCKS WITH HIGH RECOMBINATION RATES?] The median value
- of 
-\begin_inset Formula $\rho/\theta$
-\end_inset
-
- was 0.15, which was larger than the estimate of 0.10 from ClonalFrame.
+ There were five genomic locations of relatively high rates of recombination.
  The median value for the recombinant tract length 
 \begin_inset Formula $\delta$
 \end_inset
 
  was estimated to be 744 base pairs with (346,2848) of interquartile range.
- 
-\end_layout
-
-\begin_layout Standard
-While the estimate of the recombinant tract length was twice the estimate
- from ClonalFrame, the estimtes of mutation and recombination rates were
- comparable to those from ClonalFrame.
- Because the rate of mutation on the branches of the genealogy and branch
- lengths of the species tree 
-\begin_inset Formula $\mathcal{T}$
-\end_inset
-
- are reciprocally proportional, we set the rate of mutation 
-\begin_inset Formula $\theta$
-\end_inset
-
- on the branches of the species tree to Watterson's estimate, or 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-92871.84.
- 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
-The rate of recombination on the branches of the genealogy 
-\begin_inset Formula $R$
-\end_inset
-
- was estimated to be 9371 with (8953,9778) of 95% credibility interval.
- The mean of the exponential distribution modeling the length of recombinant
- segments 
+ ClonalFrame's estimate of the length of recombinant segments 
 \begin_inset Formula $\delta$
 \end_inset
 
- was estimated to be 362 with (347,376) of 95% credibility interval.
+ was 362 base pairs with (347,376) of 95% credibility interval, which was
+ half of the ClonalOrigin estimate of the recombinant tract length.
+ The median value of 
+\begin_inset Formula $\rho/\theta$
+\end_inset
+
+ was 0.15, which was larger than the estimate of 0.10 from ClonalFrame.
  Numbers of recombination events that begin and end within an alignment
  block are plotted in Figure 
 \begin_inset CommandInset ref
@@ -1928,7 +1908,6 @@ reference "fig:recombination-boundaries"
 .
  These recombination events must be those that the block experienced recombinati
 on directly.
- [LIST OF ALIGNMENT BLOCKS BY THE NUMBER OF RECOMBINANT EDGES.]
 \end_layout
 
 \begin_layout Standard
@@ -7729,7 +7708,7 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -8012,7 +7991,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/plot-number-recombination-within-blocks-cornell5-1.out.recomb.pdf
+	filename figures/plot-number-recombination-within-blocks-1.out.recomb.ps
 	scale 70
 
 \end_inset
@@ -8113,6 +8092,152 @@ Supplementary Figures
 
 \begin_layout Standard
 \begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/scatter-plot-parameter-1.out.theta.ps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/scatter-plot-parameter-1.out.rho.ps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/scatter-plot-parameter-1.out.delta.ps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:scatter3"
+
+\end_inset
+
+Scatter plots of mutation rate, recombination rate, and average tract length
+ for the 274 blocks.
+ The red dashed line is the global median of all the blocks.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
