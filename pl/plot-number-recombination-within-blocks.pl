@@ -32,7 +32,7 @@ GetOptions( \%params,
             'xmlbase=s',
             'xmfabase=s',
             'out=s',
-            'thin=d'
+            'thin=i'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -186,12 +186,13 @@ my $numberRecEdge;
 my $curR;
 my @lens;
 my @meanR;
+my $position;
 
 my @xmlFiles = <$xmlFilebase.xml.*>;
 foreach my $xmlFile (@xmlFiles) {
-  $xmlFile =~ /\.(\d+)\.xml/;
+  $xmlFile =~ /\.xml\.(\d+)/;
   $blockID = $1;
-  my $position = getMidPosition ("$xmfaFilebase.$blockID");
+  $position = getMidPosition ("$xmfaFilebase.$blockID");
   my $parser = new XML::Parser();
   $parser->setHandlers(Start => \&startElement,
                        End => \&endElement,
@@ -203,7 +204,7 @@ foreach my $xmlFile (@xmlFiles) {
   $curR = 0;
   eval{ $doc = $parser->parsefile($xmlFile)};
   print "Unable to parse XML of $xmlFile, error $@\n" if $@;
-  print OUTRECOMB "\t$blockLength\t$blockID\t$position\n";
+  # print OUTRECOMB "\t$blockLength\t$blockID\t$position\n";
   $curR /= $itercount;
   push @meanR, $curR;
   print "$blockID: $itercount\n";
@@ -283,8 +284,9 @@ sub endElement {
   }
   if ($elt eq "Iteration") {
     if ($itercount % $thinSize == 0) {
-      print OUTRECOMB "\t" if $itercount > 1;
-      print OUTRECOMB $numberRecEdge;
+      # print OUTRECOMB "\t" if $itercount > 1;
+      my $numberRecEdgePerSite = $numberRecEdge / $blockLength;
+      print OUTRECOMB "$position\t$numberRecEdgePerSite\n";
     }
     $curR += $numberRecEdge;
   }

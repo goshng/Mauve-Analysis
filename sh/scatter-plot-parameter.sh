@@ -78,9 +78,9 @@ plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
   }
   dev.off()
 }
-plotThreeParameter ("$S2OUT.theta", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
-plotThreeParameter ("$S2OUT.rho", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
-plotThreeParameter ("$S2OUT.delta", "position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
+plotThreeParameter ("$S2OUT.theta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
+plotThreeParameter ("$S2OUT.rho", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
+plotThreeParameter ("$S2OUT.delta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
 EOF
   Rscript $BATCH_R > $BATCH_R.out 
 }
