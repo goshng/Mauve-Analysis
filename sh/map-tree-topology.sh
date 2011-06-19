@@ -121,8 +121,47 @@ function map-tree-topology {
         echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
 
+      echo -n "Do you wish to summarize gene tree topologies (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        rm -f $RUNANALYSIS/ri-$REPLICATE-combined.all
+        for ricombined in `ls $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined/*`; do 
+          awk '0 == NR % 100' $ricombined >> $RUNANALYSIS/ri-$REPLICATE-combined.all
+        done
+
+        map-tree-topology-rscript $RUNANALYSIS/ri-$REPLICATE-combined.all
+        echo "Check file $RUNANALYSIS/ri-$REPLICATE-combined.all"
+      else
+        echo -e "  Skipping counting number of gene tree topology changes..." 
+      fi
+
       break
     fi
   done
 }
 
+function map-tree-topology-rscript {
+  S2OUT=$1
+  BATCH_R=$1.R
+cat>$BATCH_R<<EOF
+
+x <- scan ("$S2OUT")
+
+y <- unlist(lapply(split(x,f=x),length)) 
+
+y.sorted <- sort(y, decreasing=T)
+
+print(y.sorted)
+
+y.sum <- sum(y)
+
+y.sorted[1]/y.sum*100
+
+y.sorted[2]/y.sum*100
+
+y.sorted[3]/y.sum*100
+
+EOF
+  Rscript $BATCH_R > $BATCH_R.out 
+  echo "Check file $BATCH_R.out"
+}

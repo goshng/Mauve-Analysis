@@ -133,4 +133,113 @@ sub locateNucleotideBlock ($$)
   return @nucleotides;
 }
 
+sub xmfaLengthBlock ($)
+{
+  my ($f) = @_;
+  my $line;
+  my $sequence = "";
+  open XMFA, $f or die "Could not open $f $!";
+  while ($line = <XMFA>)
+  {
+    chomp $line;
+    next if $line =~ /^#/;
+    last if $line =~ /^>/;
+  }
+  while ($line = <XMFA>)
+  {
+    chomp $line;
+    if ($line =~ /^>/)
+    {
+      last;
+    }
+    $sequence .= $line; 
+  }
+  close (XMFA);
+  return length($sequence);
+}
+
+sub xmfaLengthAllBlock ($)
+{
+  my ($f) = @_;
+  my $line;
+  my $sequence = "";
+  open XMFA, $f or die "Could not open $f $!";
+  while ($line = <XMFA>)
+  {
+    chomp $line;
+    next if $line =~ /^#/;
+    if ($line =~ /^>/)
+    {
+      while ($line = <XMFA>)
+      {
+        chomp $line;
+        if ($line =~ /^>/)
+        {
+          last;
+        }
+        $sequence .= $line; 
+      }
+
+      while ($line = <XMFA>)
+      {
+        chomp $line;
+        last if $line =~ /^=/;
+      }
+    }
+  }
+  close (XMFA);
+  return length($sequence);
+}
+
+sub xmfaNumberBlock ($)
+{
+  my ($f) = @_;
+  my $line;
+  my $c = 0;
+  open XMFA, $f or die "Could not open $f $!";
+  while ($line = <XMFA>)
+  {
+    if ($line =~ /^=/)
+    {
+      $c++;
+    }
+  }
+  return $c;
+}
+
+sub xmfaBlockSize ($)
+{
+  my ($f) = @_;
+  my $line;
+  my $blockSize = "";
+  my $sequence = "";
+  open XMFA, $f or die "Could not open $f $!";
+  while ($line = <XMFA>)
+  {
+    chomp $line;
+    next if $line =~ /^#/;
+    if ($line =~ /^>/)
+    {
+      while ($line = <XMFA>)
+      {
+        chomp $line;
+        if ($line =~ /^>/)
+        {
+          last;
+        }
+        $sequence .= $line; 
+      }
+      $blockSize = sprintf ("%s %d", $blockSize, length($sequence));
+      $sequence = "";
+
+      while ($line = <XMFA>)
+      {
+        chomp $line;
+        last if $line =~ /^=/;
+      }
+    }
+  }
+  close (XMFA);
+  return $blockSize;
+}
 1;

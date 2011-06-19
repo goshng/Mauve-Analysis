@@ -1034,6 +1034,8 @@ source sh/prepare-run-clonalframe.sh
 source sh/receive-run-clonalframe.sh
 source sh/filter-blocks.sh
 source sh/prepare-run-clonalorigin.sh 
+source sh/manuscript.sh
+source sh/summary-core-alignment.sh
 
 #####################################################################
 # Main part of the script.
@@ -1074,6 +1076,7 @@ CHOICES=( init-file-system \
           receive-mauve-alignment \
           --- REAL-DATA-CLONALFRAME ---\
           filter-blocks \
+          summary-core-alignment \
           prepare-run-clonalframe \
           receive-run-clonalframe \
           --- CLONALORIGIN1 ---\
@@ -1113,7 +1116,9 @@ CHOICES=( init-file-system \
           compute-global-median \
           create-ingene \
           extract-species-tree \
-          simulate-data-clonalorigin1-prepare )
+          --- MANUSCRIPT-Figure1 ---\
+          manuscript \
+          xxx )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
@@ -1202,6 +1207,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "recombination-intensity1-probability" ]; then $CHOICE; break
   elif [ "$CHOICE" == "probability-recedge-gene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "manuscript" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

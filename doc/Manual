@@ -57,6 +57,9 @@ ClonalOrigin.
 . Execute the menu *scatter-plot-parameter*
 . Execute the menu *plot-number-recombination-within-blocks*
 
+.A procedure to summarize gene tree topologies.
+. Execute the menu *map-tree-topology*
+
 Configuration File
 ------------------
 

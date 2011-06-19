@@ -52,6 +52,24 @@ status open
 
 
 \backslash
+renewcommand
+\backslash
+refname{Literature Cited}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
 raggedright 
 \end_layout
 
@@ -201,7 +219,7 @@ bacterial recombination, gene duplication and transfer, Clonal Origin, Mowgli
 \end_layout
 
 \begin_layout Subsubsection*
-Version: 0.3 (June 10, 2011) 
+Version: 0.4 (June 17, 2011) 
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -1908,36 +1926,32 @@ reference "fig:recombination-boundaries"
 .
  These recombination events must be those that the block experienced recombinati
 on directly.
+ In most of regions, i.e., 2/3 of all of columns of the alignment blocks,
+ across the genome gene tree topologies of sites agreed with that of the
+ reference species tree (Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Gene-tree-topologies"
+
+\end_inset
+
+).
+ The second most probable, i.e., 9.3% out of all of columns of the alignment
+ blocks, gene tree topology was a tree where SDD was the outgroup, and SPY
+ and SDE formed a sister clade to each other.
+ 
+\end_layout
+
+\begin_layout Standard
+[WHERE SHOULD I PUT THESE UNIT OF GENE TRANSFER?]
 \end_layout
 
 \begin_layout Standard
 
 \series bold
-Gene tree topologies along the genome of streptococcus:
+Units of gene transfer:
 \series default
- In most (PERCENTAGE OF SITES) of regions across the genome gene tree topologies
- of sites agreed with that of the reference species tree (Figure HISTOGRAM
- OF TREE TOPOLOGIES).
- The second most probable gene tree topology was a tree where SDD was the
- outgroup, and SPY and SDE formed a sister clade to each other.
- [IT DOES NOT SEEM TO BE EASY TO DESCRIBE ASPECTS OF GENE TREE TOPOLOGIES.
- I NEED TO CONSIDER THIE MORE DEEPLY.
- THIS KIND OF ANALYSIS SEEMS TO BE NEW, WHICH MAY BE WHY I COULD NOT COME
- UP WITH A GOOD DESCRIPTION ABOUT GENE TREE TOPOLOGIES ALONG THE GENOME.]
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Transfer targets of genes in bacteria:
-\series default
- [FIND GENES OR GENE CATEGORIES THAT MIGHT UNDERWENT HORIZONTAL GENE TRANSFER.
- ARE THERE GENE CATEGORIES IN BACTERIA IN GENERAL SO THAT I CAN OVERVIEW
- THEM.
- GENE CATEGORIES OF HIGHER TRANSFER THAT I FOUND IN THIS STUDY INCLUDE Aminoacyl
- tRNA synthetase (aaRS), Phosphotransferase systems (PTS), ATP-binding cassette
- (ABC) transporters.
- IT WOULD BE BETTER TO FIND OTHER CATEGORIES AS WELL.] 
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Chan2009a"
@@ -1985,10 +1999,7 @@ Simulation studies for checking ClonalOrigin's estimates
 \end_layout
 
 \begin_layout Standard
-We applied a statistical approach implemented in ClonalOrigin to the data
- set of the five genomes.
- The implementation of ClonalOrigin was stable for production use.
- We checked how well ClonalOrigin could recover parameters of interest under
+We checked how well ClonalOrigin could recover parameters of interest under
  the parameter setup that were inferred using the five genomes of streptococcus
  species.
  We hoped that we could understand the power and limitations of ClonalOrigin
@@ -2019,8 +2030,8 @@ key "Jukes1969"
 \end_inset
 
  of DNA sequence evolution.
- Note that we employed no insertion-deletion models although there were
- several approaches available 
+ We employed no insertion-deletion models although there were several approaches
+ available 
 \begin_inset CommandInset citation
 LatexCommand citep
 before "e.g.,"
@@ -2035,18 +2046,11 @@ key "Sipos2011"
  rate was 0.01095 (SD 2.555159e-04).
  The mean of the 10 estimates of the recombinant tract length was 918.5(SD
  28.19219), which was larger than the true value by 175 base pairs.
- This was not surprising because 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
- already noted that recombinant tract lengths were difficult to estimate
- due to relatively short lengths of alignment blocks.
+ This was not surprising because recombinant tract lengths were difficult
+ to estimate due to relatively short lengths of alignment blocks.
  As alignment block lengths were increased (e.g., 10,000 base pairs long)
  with 100 blocks, we could estimate the average recombinant tract length
- accurately using ClonalOrigin [USE SIMULATION 6].
+ accurately using ClonalOrigin (Data not shown).
  
 \end_layout
 
@@ -2056,8 +2060,12 @@ key "Didelot2010"
 Number of recombinant edges with surrogate measure of recombination intensity:
 \series default
  Because of the two stages of MCMC in ClonalOrigin we simulated more data
- sets to check how well ClonalOrigin inferred recombination events inaddition
- to the three main parameters.
+ sets to check how well ClonalOrigin inferred recombination events under
+ the parameter inferred with the five 
+\emph on
+Streptococcus
+\emph default
+ genomes.
  We used the same parameters in the first simulation.
  We further simulated 10 recombinant trees instead of a single recombinant
  tree.
@@ -2066,11 +2074,9 @@ Number of recombinant edges with surrogate measure of recombination intensity:
  Because we were not aware of a way to compare two recombinant trees, we
  could not compare the true recombinant tree with a posterior sample of
  recombinant trees.
- We instead compared the three aspects of recombinant trees in the ClonalOrigin
- model.
- The three aspects were already exploited in this study: the number of recombina
-tion events between a donor and a recipient, and the two surrogate measures
- of recombination intensity.
+ We instead compared the two aspects of recombinant trees in the ClonalOrigin
+ model: the number of recombination events between a donor and a recipient,
+ and the surrogate measures of recombination intensity.
 \end_layout
 
 \begin_layout Standard
@@ -2096,8 +2102,8 @@ reference "fig:h2"
  those from the simulated data sets.
  Note that the numbers of recombination events from simulated data sets
  appear to deviate from the line of slope being 1 and intercept being 0.
- Note that the numbers of recombination events for the recombinant edges
- from SPY to SDE increase by more than 2.5 fold whereas those for the recombinant
+ The numbers of recombination events for the recombinant edges from SPY
+ to SDE increase by more than 2.5 fold whereas those for the recombinant
  edges from SDE to SPY increase by about 1.7 fold.
  Figure 
 \begin_inset CommandInset ref
@@ -2117,11 +2123,21 @@ reference "fig:ri1"
 \end_layout
 
 \begin_layout Standard
-Figure fig:ri2 shows a scatter plot of genes with their estimated values
- of the second surrogate measure of recombination intensity against the
- corresponding true values.
- The Pearson's correlation coefficient between true values and estimates
- was 0.XXX.
+ClonalOrigin appeared to be accurate in estimating numbers of recombination
+ events under the parameter setup that were inferred from the five 
+\emph on
+Streptococcus
+\emph default
+ genomes.
+ The surrogate measure of recombination intensity did not much correlate
+ with the true values, which might indicate that the surrogate measure of
+ recombination intensity might not have very good power of measuring recombinati
+on of different parts of genomes.
+ Yet, the relative linear relationship between simulated and true would
+ indicate that ClonalOrigin could discriminate relative strengths of recombinati
+on of different parts of genomes.
+ We considered that the functional category association test might not suffer
+ from this lack of power of the surrogate meaure.
 \end_layout
 
 \begin_layout Standard
@@ -2136,124 +2152,19 @@ Discussions
 \end_layout
 
 \begin_layout Standard
-New biological functions of bacteria appear to emerge more easily in horizontal
- way than in vertical way.
- When one species of bacteria thrives in its environment and another relatively
- close species starts to cohabit with the indigenous species, some genetic
- elements in one of the two species would benefit another species.
- If the two species do not compete with each other, then the increased genetic
- variation from multiple species would eventually bring advantage to both
- of the species.
- Pathogenicity of bacteria should be no exception.
- Studying pathogenic gene flow should shed light on the etiology of the
- bacterial pathogens.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Revisit to Kalia et al.
- (2001):
-\series default
- We revisited the problem of gene transfer in MLST genes studied by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
-.
- Recently, 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "McMillan2010"
-
-\end_inset
-
- showed that there were high recombination and gene transfer in the seven
- housekeeping genes.
- We examined the seven genes that 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
- had studied for directionality of gene transfer between SPY and SDE.
- Internal fragments of the seven housekeeping genes, encoding putative glucose
- kinase (
-\emph on
-gki
-\emph default
-), glutamine transport protein (
-\emph on
-gtr
-\emph default
-), glutamate racemase (
-\emph on
-murI
-\emph default
-), mismatch repair enzyme (
-\emph on
-mutS
-\emph default
-), transketolase (
-\emph on
-recP
-\emph default
-), xanthine phosphoribosyltransferase (
-\emph on
-xpt
-\emph default
-), and acetylcoenzyme A acetyltransferase (
-\emph on
-yqiL
-\emph default
-) were located in SPY1 genome to examine recombination edge types (Table
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:kalia"
-
-\end_inset
-
-).
- We also revisited recombination in gene parC studied by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
-.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Pinho2010"
-
-\end_inset
-
- studied fluoroquinolone resistance in SDE.
- They reported that there were recombination in gene 
-\emph on
-parC
-\emph default
- that we observed as shown Figure S
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:recomb-parc"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
 
 \series bold
 Two processes of gene transfer and affected genes:
 \series default
+ New biological functions of bacteria appear to emerge more easily in horizontal
+ process than in vertical one.
+ When one species of bacteria thrives in its environment and another relatively
+ close species starts to cohabit with the indigenous species, genetic elements
+ in one of the two species could benefit another species.
+ If the two species do not compete with each other, then the increased genetic
+ variation from multiple species would eventually bring advantage to both
+ of the species.
+ Pathogenicity of bacteria should be no exception.
  We investigated bacterial gene transfer between SPY and SDE using the genome
  sequences by comparing gene tree and species tree.
  We considered both core and pan genomes for detecting homologous recombining
@@ -2262,6 +2173,7 @@ Two processes of gene transfer and affected genes:
  decade ago 
 \begin_inset CommandInset citation
 LatexCommand citep
+before "e.g.,"
 key "Ochman2001"
 
 \end_inset
@@ -2279,9 +2191,9 @@ key "Ochman2001"
  and recipient species as long as the species shared their habitats.
  The extent to which genes were transferred would be affected by this mode
  of gene transfer.
- In other words, genes transferred via non-recombining integrative gene
- transfer could be parts of functional units such as protein domains, and
- secondary structures of ribosomal RNAs.
+ For example, genes transferred via non-recombining integrative gene transfer
+ could be parts of functional units such as protein domains, and secondary
+ structures of ribosomal RNAs.
  Genes transferred via homologous recombining gene transfer could be small
  fragments of genes as long as the flanking sequences of the fragments were
  more or less homologous.
@@ -2293,31 +2205,6 @@ key "Ochman2001"
 \series bold
 Gene transfer and functional categories:
 \series default
- Several functional categories were found to be associated with the measure
- of recombination: ribosomal RNA genes, aminoacyl tRNA synthetases, phosphtransf
-erase system, ATP-binding cassette transporter, and other miscellaneous
- genes.
- The association of ribosomal RNA genes with bacterial recombination could
- be considered false positive because they belong to complex genes that
- might not be targets of gene transfer (CITE the complexity hypothesis).
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Wang2000"
-
-\end_inset
-
- reported that small segments of rRNA genes encoding parts of domain of
- secondary structures could be targets of gene transfer in ribosomal RNAs.
- [IT MAY BE WORTHWHILE TO SHOW RECOMBINANT EDGES ON rRNA GENES AS OTHER
- GENES] Detailed examination of secondary structures of the rRNA genes could
- reveal higher recombination on parts of rRNA domains.
- We did not pursue that direction because the number of taxa was too small
- to see the correlated changes of gene tree topologies.
- Figure XXX shows an example of recombinant edges along rRNA genes.
- Most of recombinant edges were connecting a lineage and its direct daughter
- one, which lead to changes to coalescent event time without changing gene
- tree topologies.
  We showed much clearer examples of lateral transfer of gene fragments in
  other classes of functional categories.
  Modular structures of aaRS genes made them easy targets of gene transfer
@@ -2354,8 +2241,8 @@ Overlap of genes under positive selection and higher recombination:
  Dividing genes into those fragments might be a way to avoid potentially
  high false positive rates of positively selected sites.
  Considering the fact that nucleotide substitutions seemed to be affected
- more by recombinations than by mutations we might suspect that fragmenting
- genes might not be helpful.
+ more by recombinations than by mutations we suspect that fragmenting genes
+ might not be helpful.
 \end_layout
 
 \begin_layout Standard
@@ -2452,6 +2339,116 @@ pyogenes
 \begin_layout Standard
 
 \series bold
+Revisit to Kalia et al.
+ (2001):
+\series default
+ We revisited the problem of gene transfer in MLST genes studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+.
+ We examined the seven genes that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ had studied for directionality of gene transfer between SPY and SDE.
+ Internal fragments of the seven housekeeping genes, encoding putative glucose
+ kinase (
+\emph on
+gki
+\emph default
+), glutamine transport protein (
+\emph on
+gtr
+\emph default
+), glutamate racemase (
+\emph on
+murI
+\emph default
+), mismatch repair enzyme (
+\emph on
+mutS
+\emph default
+), transketolase (
+\emph on
+recP
+\emph default
+), xanthine phosphoribosyltransferase (
+\emph on
+xpt
+\emph default
+), and acetylcoenzyme A acetyltransferase (
+\emph on
+yqiL
+\emph default
+) were located in SPY1 genome to examine recombination edge types.
+ Six of the seven genes except 
+\emph on
+yqiL 
+\emph default
+gene were in the core genomes ClonalOrigin analyzed.
+ Genes 
+\emph on
+mutS
+\emph default
+, 
+\emph on
+recP
+\emph default
+, and 
+\emph on
+xpt
+\emph default
+ had fragments of gene transfer with moderate posterior probability of recombina
+tion.
+ The other genes did not have noticeable recombination.
+ Except for 
+\emph on
+mutS
+\emph default
+ where 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ did not find recombination, the result was compatible with that of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+.
+ We also revisited recombination in gene 
+\emph on
+parC
+\emph default
+ studied by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Pinho2010"
+
+\end_inset
+
+, where they studied fluoroquinolone resistance in SDE and reported recombinatio
+n in the gene.
+ We also observed moderate recombination in the gene.
+ These results suggested that using relatively small number of genomes we
+ could detect homologous recombining gene transfer that were possible using
+ many samples for a few genes.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
 Evolutionary hypotheses about the ancestor of SPY and SDE:
 \series default
  
@@ -2471,9 +2468,19 @@ key "Kalia2001"
  divergence of the ancestor, and SDE gained virulence factors from SPY.
  Commensal bacteria could evolve by aquiring virulence genes from its closely
  related pathogenic bacteria.
- We expected that virulence genes of SDE might have been transferred from
- SPY.
- [WHAT I AM TRYING TO SAY IN THIS PART?]
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kalia2001"
+
+\end_inset
+
+ suggested the divergence time of SDD to be around the time when human started
+ to domesticate wildlife animals around 10,000 years ago.
+ A demographic model could be made with two species to study the divergence
+ time quantitatively.
+ This would require ancestral recombination graphs embedded in a species
+ tree.
 \end_layout
 
 \begin_layout Standard
@@ -2482,9 +2489,9 @@ key "Kalia2001"
 Better models of bacterial evolution to handle full data sets:
 \series default
  The method of detecting homologous recombination gene transfer, or the
- ClonalOrigin, is more model-based approach as opposed to the other method
- for non-homologous integrative gene transfer, or the Mowgli.
- The core genomes consist of relatively long (i.e., 1,500 base pairs long)
+ ClonalOrigin, is model-based approach as opposed to the other method for
+ non-homologous integrative gene transfer, or the Mowgli.
+ The core genomes consisted of relatively long (i.e., 1,500 base pairs long)
  sequence alignments with almost no gaps.
  With this inherent filtering of the input data preparation ClonalOrigin
  did not account for gene gain and loss in its core genome analysis.
@@ -2512,34 +2519,12 @@ key "Chan2009a"
  
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-Divergence time estimation:
-\series default
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kalia2001"
-
-\end_inset
-
- suggested the divergence time of SDD to be around the time when human started
- to domesticate wildlife animals around 10,000 years ago.
- A demographic model could be made with two species to study the divergence
- time quantitatively.
- This would require ancestral recombination graphs embedded in a species
- tree.
- [EXPAND THIS WITH A NEW IDEA ABOUT HAVING SPLITTING EVENT IN CLONALORIGIN
- MODEL]
-\end_layout
-
 \begin_layout Section*
 Supplementary Material
 \end_layout
 
 \begin_layout Standard
-Supplementary figure S1–S25 are available at Genome Biology and Evolution
+Supplementary figure S1–S2 are available at Genome Biology and Evolution
  online (
 \begin_inset Flex URL
 status collapsed
@@ -2579,49 +2564,6 @@ options "gberefs"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Appendices
-\end_layout
-
-\begin_layout Subsection*
-Appendix 1.
- Computing the ratio of observed and expected numbers of recombination
-\end_layout
-
-\begin_layout Standard
-The observed number of recombination events for a donor/recipient pair is
- equal to the inferred number of recombinant edges across all of the alignment
- blocks.
- The prior expected number of recombination events given a global recombination
- rate is approximated using Equation 7 in 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Didelot2010"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Practically, the prior expected number of recombination events was computed
- per block using ClonalOrigin.
- The point estimate of the ratio was the average value of the ratio over
- all the posterior sample.
- The sample variable of the ratio was also computed over the posterior sample.
- We interpreted the ratio of recombination events for a given donor/recipient
- pair as a measure of gene flow from a donor to a recipient species tree
- branch.
 \end_layout
 
 \begin_layout Standard
@@ -3678,7 +3620,7 @@ Functional categories asscoiated with higher recombination
 
 \begin_inset Float table
 wide false
-sideways true
+sideways false
 status open
 
 \begin_layout Plain Layout
@@ -7498,6 +7440,236 @@ Genes and their parts transferred via homologous recombining gene transfer.
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gene tree topologies
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Posterior probability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(((SDE1,SDE2),SDD),(SPY1,SPY2))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+66.7%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(((SDE1,SDE2),(SPY1,SPY2)),SDD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9.3%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+((SDE1,SDE2),(SDD,(SPY1,SPY2)))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.5%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(((SDE1,(SDE2,SDD)),(SPY1,SPY2))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.5%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(((SDE1,SDD),SDE2),(SPY1,SPY2))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.3%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+((SDE1,SDD),(SDE2,(SPY1,SPY2)))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.2%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+((((SDE1,SDE2),SPY1),SPY2),SDD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+((SDE2,SDD),(SDE1,(SPY1,SPY2)))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Gene-tree-topologies"
+
+\end_inset
+
+Posterior probability of gene tree topologies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Figures
 \begin_inset Newpage clearpage
@@ -7510,11 +7682,11 @@ Figures
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/cornellf-3-tree.pdf
+	filename figures/cornellf-3-tree.pdf
 	scale 70
 
 \end_inset
@@ -7613,7 +7785,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/strep.events.pdf
+	filename figures/strep.events.pdf
 
 \end_inset
 
@@ -7702,7 +7874,7 @@ ipient pair of branches.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -7712,7 +7884,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h1-R.ps
+	filename figures/h1-R.pdf
 	scale 50
 
 \end_inset
@@ -7738,11 +7910,11 @@ status open
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h1-R-inset.ps
+	filename figures/h1-R-inset.pdf
 	scale 50
 
 \end_inset
@@ -7807,17 +7979,17 @@ Numer of recombination events.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R.ps
+	filename figures/h2-R.pdf
 	scale 50
 
 \end_inset
@@ -7843,11 +8015,11 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R-inset.ps
+	filename figures/h2-R-inset.pdf
 	scale 50
 
 \end_inset
@@ -7876,11 +8048,11 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve-analysis/doc/figures/h2-R-inset2.ps
+	filename figures/h2-R-inset2.pdf
 	scale 50
 
 \end_inset
@@ -7944,11 +8116,11 @@ Comparison of number of recombinations between real and simulated data sets.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/ri1.ps
+	filename figures/ri1.pdf
 
 \end_inset
 
@@ -7991,7 +8163,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/plot-number-recombination-within-blocks-1.out.recomb.ps
+	filename figures/plot-number-recombination-within-blocks-1.out.recomb.pdf
 	scale 70
 
 \end_inset
@@ -8101,18 +8273,18 @@ Supplementary Figures
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/scatter-plot-parameter-1.out.theta.ps
-	scale 70
+	filename figures/scatter-plot-parameter-1.out.theta.pdf
+	scale 50
 
 \end_inset
 
@@ -8144,12 +8316,12 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/scatter-plot-parameter-1.out.rho.ps
-	scale 70
+	filename figures/scatter-plot-parameter-1.out.rho.pdf
+	scale 50
 
 \end_inset
 
@@ -8181,12 +8353,12 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/scatter-plot-parameter-1.out.delta.ps
-	scale 70
+	filename figures/scatter-plot-parameter-1.out.delta.pdf
+	scale 50
 
 \end_inset
 
