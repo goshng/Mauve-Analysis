@@ -152,6 +152,7 @@ fi
 SIMULATIONS=$(ls species|grep ^s)
 SPECIESS=$(ls species|grep -v ^s)
 
+source sh/utility.sh
 source sh/hms.sh
 source sh/set-more-global-variable.sh
 source sh/mkdir-species.sh
@@ -1116,9 +1117,8 @@ CHOICES=( init-file-system \
           compute-global-median \
           create-ingene \
           extract-species-tree \
-          --- MANUSCRIPT-Figure1 ---\
-          manuscript \
-          xxx )
+          --- MANUSCRIPT ---\
+          manuscript )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"

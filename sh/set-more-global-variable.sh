@@ -99,8 +99,7 @@ function set-more-global-variable {
   # submitted in the cluster in CAC cluster, the job creates a temporary
   # directory where it can save the input and output files. JOBID is the CAC job
   # id for run-mauve. This job ID should be found in the Mauve alignment file.
-  TMPDIR=/tmp/$JOBID.scheduler.v4linux
-  TMPINPUTDIR=$TMPDIR/input
-
+  TEMPDIR=/tmp/$JOBID.scheduler.v4linux
+  TEMPINPUTDIR=$TEMPDIR/input
 }
 

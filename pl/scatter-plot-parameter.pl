@@ -84,7 +84,7 @@ A prefix of ClonalOrigin output files in XML format is required.
 =item B<-out> <base name of output file>
 
 Three files are generated for the three parameters. The option string of out is
-used as a base name of them: i.e., out.theta, out.rho, and out.delta.
+used as a base name of them: i.e., out-theta, out-rho, and out-delta.
 
 =back
 
@@ -168,9 +168,9 @@ my $position;
 ##############################################################
 # Open the three output files.
 ##############################################################
-open OUTTHETA, ">$basenameOutFile.theta" or die $!;
-open OUTRHO, ">$basenameOutFile.rho" or die $!;
-open OUTDELTA, ">$basenameOutFile.delta" or die $!;
+open OUTTHETA, ">$basenameOutFile-theta" or die $!;
+open OUTRHO, ">$basenameOutFile-rho" or die $!;
+open OUTDELTA, ">$basenameOutFile-delta" or die $!;
 
 ##############################################################
 # Start to parse the XML file.

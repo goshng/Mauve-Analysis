@@ -86,10 +86,10 @@ function run-lcb {
 }
 
 function mkdir-tmp {
-  mkdir -p $TMPINPUTDIR
+  mkdir -p $TEMPINPUTDIR
   read-species-genbank-files data/$SPECIES mkdir-tmp
 }
 
 function rmdir-tmp {
-  rm -rf $TMPDIR
+  rm -rf $TEMPDIR
 }

@@ -17,6 +17,10 @@ function summary-core-alignment {
         -in $DATADIR/core_alignment.xmfa \
         -out $RUNANALYSIS/$FUNCNAME.txt
   
+      echo "Check $RUNANALYSIS/$FUNCNAME.txt"
+      echo "----"
+      cat $RUNANALYSIS/$FUNCNAME.txt
+      echo "----"
       break
     fi
   done

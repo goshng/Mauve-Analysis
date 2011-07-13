@@ -24,7 +24,7 @@ function scatter-plot-parameter {
       perl pl/$FUNCNAME.pl \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
         -xmfabase $DATADIR/core_alignment.xmfa \
-        -out $RUNANALYSIS/$FUNCNAME-$REPLICATE.out
+        -out $RUNANALYSIS/$FUNCNAME-$REPLICATE-out
       echo "$RUNANALYSIS/$FUNCNAME-$REPLICATE.out"
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
@@ -39,7 +39,7 @@ function scatter-plot-parameter {
       MEDIAN_RHO=$(grep "Median rho" $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt | cut -d ":" -f 2)
 
       analyze-run-clonalorigin-scatter-plot-parameter-rscript \
-        $RUNANALYSIS/$FUNCNAME-$REPLICATE.out 
+        $RUNANALYSIS/$FUNCNAME-$REPLICATE-out 
  
       #cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
@@ -56,7 +56,7 @@ library("geneplotter")  ## from BioConductor
 require("RColorBrewer") ## from CRAN
 
 plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
-  x.filename <- paste (f, ".ps", sep="")
+  x.filename <- paste (f, ".eps", sep="")
   x <- read.table (f);
 
   pos.median <- c() 
@@ -78,9 +78,9 @@ plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
   }
   dev.off()
 }
-plotThreeParameter ("$S2OUT.theta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
-plotThreeParameter ("$S2OUT.rho", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
-plotThreeParameter ("$S2OUT.delta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
+plotThreeParameter ("$S2OUT-theta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
+plotThreeParameter ("$S2OUT-rho", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
+plotThreeParameter ("$S2OUT-delta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
 EOF
   Rscript $BATCH_R > $BATCH_R.out 
 }

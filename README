@@ -12,6 +12,8 @@ Jobs that were done are described for later reference.
 To Do
 ~~~~~
 
+.Finish works in the directory +manuscript+.
+
 .Heatmap's ``p-value'' between simulation and real data runs
 .Plot the three main parameter estimates along SDE genomes
 
@@ -38,6 +40,11 @@ To Do
 .Genes with high values of recombination and each of them.
 . Colocalization of genes?
 
+
+Tue Jun 28 15:26:38 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ilan suggested me to find the raw data of the figures for the heatmap simulation
+analysis. This could be +s14+ simulation. It was +s16+ simulation.
 
 Thu Jun  9 18:10:53 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

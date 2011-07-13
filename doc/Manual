@@ -1,10 +1,194 @@
 Manual of Mauve Analysis
 ========================
-:Author: Sang_Chul_Choi
-:Author Initials: SCC
+Sang_Chul_Choi <goshng@yahoo.co.kr>
 
-Quick Start
------------
+Introduction
+------------
+This manual introduces a how-to of *Mauve Analysis* of closely related bacterial
+genomes using ClonalOrigin. The analysis can be performed with help of other
+software packages. See the section <<Installation>> for details. 
+*Mauve Analysis* is a package of scripts including BASH shell scripts, PERL
+scripts, and sometimes in C. Users are not supposed to directly run those
+scripts. Instead, they should execute the script +run+ at the base directory.
+Note that directories are referred with respect to the base directory of 
+*Mauve Analysis* package. 
+
+.Executing the main menu
+----
+$ ./run
+----
+It shows a list of menus, among which users can select by typing in the number
+of a menu. Follow the instruction in each menu to execute the menu. When you
+unziped *Mauve Analysis* package, you need to <<Configuration,configure>> 
+the analysis and <<Installation,install>> other necessary software packages. 
+After the installation of helper software packages and the configuration of the
+analysis, a <<species,species file>> is needed to start to analyze bacterial
+genomes. Impatient users can see the section <<Kickstart>> to start to analyze
+their selected bacterial genomes.
+
+Execute the menu *init-file-system* after the configuration of the analysis and
+the installation of the analysis were done. This will create +output+ directory
+in the base directory, and base directories in the cluster and X11-enabled linux
+machine. The first step of ClonalOrigin analysis is to align bacterial genomes.
+Use menu *prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The
+first menu creates a shell script and moves it to the cluster with the bacterial
+genomes specified in the species file. When the job of bacterial genome
+alignment is finished, users can use the second menu to receive the full alignment. 
+A bacterial genome alignment consists of blocks of multiple alignments. Users
+might want to use parts of the blocks.  Menu *filter-blocks* should be used to
+remove blocks that are not large so that a core alignment is prepared.  Users
+have to specify the limit of block size for this. The menu calls a program
++stripSubsetLCBs+, which is a part of ClonalOrigin package. At the end of the
+menu *filter-blocks* users might want to skim the core alignment to remove
+blocks with many gaps.  Users are recommended to remove blocks manually because
+all of the downstream analyses depend on this alignment. There are no
+recommendation for the choice of block size limit to filter the full alignment
+to have a core alignment. A simulation approach can be helpful in deciding the
+block size limit. I will come back to this issue in a separate section.
+
+Congratulations! You are now ready to analyze the core alignment using
+ClonalOrigin and ClonalFrame developed by Xavier Didelot. Although there are other
+coauthors of the package, I want to thank him for his help in my initial
+analysis. Let's go back to work. Use menu *summary-core-alignment* to summarize
+the core alignment for basic statistics of the core alignment: total length of
+the core alignment, number of blocks, and block sizes. Use menu
+*prepare-run-clonalframe* to prepare a shell
+script to submit a job of ClonalFrame, and send it to the cluster along with the
+core alignment. Use menu *receive-run-clonalframe* to receive the result of the
+ClonalFrame job. ClonalOrigin's analysis is multi-staged MCMC, which means that
+a procedure of a Bayesian stistical inference depends on its previous one.
+ClonalFrame is one of the precedures, and ClonalOrigin is used twice. Users have
+to make sure convergence of each step. Menu *prepare-run-clonalframe* runs
+multiple executions of ClonalFrame. Users should check the convergence of those
+chains by inspecting the result files of ClonalFrame runs. If the convergence is
+not obtained, users might increase the block size limit or change the run
+options of ClonalFrame.
+
+The second MCMC procedure is done using menu *prepare-run-clonalorigin*, which
+prepares a shell script to submit a job of the first stage of ClonalOrigin.
+Users use menu *receive-run-clonalorigin* to receive all of the result files of
+the first ClonalOrigin. 
+
+
+summarize-clonalorigin1
+
+prepare-run-2nd-clonalorigin
+receive-run-2nd-clonalorigin
+
+
+
+
+
+
+[[Configuration]]
+Configuration
+-------------
+A directory at the root of mauve-analysis is called +conf+. Users must configure
+mauve-analysis by editting +README.template+ and rename it as +README+. 
+Users are strongly encouraged to obtain a user ID at a cluster of computers
+because multiple jobs could be run in parallel to reduce the total amount of
+time. 
+
+.A sample configuration file
+----
+PROJECTNAME:projectName
+CAC_USERNAME:clusterUserID
+CAC_LOGIN:clusterAddress
+CAC_ROOT:clusterAnalysisDirectory
+X11_USERNAME:linuxUserID
+X11_LOGIN:linuxAddress
+X11_ROOT:linuxAnalysisDirectory
+BATCHEMAIL:yourEmailAddress
+BATCHACCESS:batchAccessID
+QUEUENAME:batchQueue
+BATCHPROGRESSIVEMAUVE:usr/bin/progressiveMauve
+BATCHCLONALFRAME:usr/bin/ClonalFrame
+COREALIGNMENT:core_alignment.xmfa
+GENOMEDATADIR:/Volumes/Elements/Documents/Projects/mauve/bacteria
+LCB:/Users/localUserID/usr/bin/stripSubsetLCBs
+AUI:/Users/localUserID/usr/bin/addUnalignedIntervals
+GUI:/Users/localUserID/clonalorigin/gui/gui.app/Contents/MacOS/gui
+WARGSIM:src/clonalorigin/b/wargsim
+----
+
+GENOMEDATADIR
+~~~~~~~~~~~~~
+Genome Data Directory -
+Bacterial genomes can be downloaded into a directory. I used to download and
+store them in a separate driver because total file sizes can be too large to
+be stored in a local machine. 
+
+LCB
+~~~
+A program called stripSubsetLCBs was found at
+http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
+programs_ of a proper Operating System.
+
+AUI
+~~~
+A program called addUnalignedIntervals was found at
+http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
+programs_ of a proper Operating System.
+
+GUI
+~~~
+GUI is a part of ClonalOrigin program. It has a graphical user interface.
+
+WARGSIM
+~~~~~~~
+The main program of ClonalOrigin was modified for simulation purposes.
+
+
+[[Installation]]
+Installation
+------------
+Several software need to be installed.
+
+Mauve
+~~~~~
+Mauve is a genome alignment software.
+
+ClonalFrame
+~~~~~~~~~~~
+ClonalFrame was found 
+http://www.xavierdidelot.xtreemhost.com/clonalframe.htm[here].
+
+ClonalOrigin
+~~~~~~~~~~~~
+ClonalOrigin is the main program used in this analysis, and it was found
+http://code.google.com/p/clonalorigin/[here].
+
+ClonalOrigin Simulator
+~~~~~~~~~~~~~~~~~~~~~~
+
+.Steps to compile wargsim
+----
+cd mauve-analysis/src/clonalorigin
+mkdir b
+cd b
+cmake ..
+make
+----
+
+R packages
+~~~~~~~~~~
+
+geneplotter
+^^^^^^^^^^^
+Menu scatter-plot-parameter needs a geneplotter library of R package.
+
+I found a nice way to make a scatter plot with density.
+http://addictedtor.free.fr/graphiques/RGraphGallery.php?graph=139
+
+Run the following in R to install geneplotter library.
+----
+source("http://bioconductor.org/biocLite.R")
+biocLite("geneplotter")
+----
+
+[[Kickstart]]
+Kickstart
+---------
 Here is a short quick start.
 
 .A procedure to initialize *mauve-analysis*
@@ -60,36 +244,18 @@ ClonalOrigin.
 .A procedure to summarize gene tree topologies.
 . Execute the menu *map-tree-topology*
 
-Configuration File
-------------------
+.To summarize results for publication.
+. Execute menu *summary-core-alignment*
+. Execute menu *count-observed-recedge*
+. Execute menu *compute-prior-count-recedge* and then
+*compute-heatmap-recedge*
+. Execute menu *summarize-clonalorigin1*
+. Execute menu *scatter-plot-parameter*
+. Execute menu *probability-recedge-gene*
+. Execute menu *recombination-intensity1-probability*
+. Execute menu *manuscript*
 
-GENOMEDATADIR
-~~~~~~~~~~~~~
-Genome Data Directory -
-Bacterial genomes can be downloaded into a directory. I used to download and
-store them in a separate driver because total file sizes can be too large to
-be stored in a local machine. 
-
-LCB
-~~~
-A program called stripSubsetLCBs was found at
-http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
-programs_ of a proper Operating System.
-
-AUI
-~~~
-A program called addUnalignedIntervals was found at
-http://gel.ahabs.wisc.edu/mauve/snapshots. Download it by clicking _All other
-programs_ of a proper Operating System.
-
-GUI
-~~~
-GUI is a part of ClonalOrigin program. It has a graphical user interface.
-
-WARGSIM
-~~~~~~~
-The main program of ClonalOrigin was modified for simulation purposes.
-
+[[species]]
 Species File
 ------------
 
@@ -119,82 +285,6 @@ Species File
 .Executing the main run.sh
 ----
 $ bash sh/run.sh
-----
-
-System requirements
--------------------
-xxx
-
-Mauve-Analysis configuration
-----------------------------
-A directory at the root of mauve-analysis is called +conf+. Users must configure
-mauve-analysis by editting +README.template+ and rename it as +README+. 
-Users are strongly encouraged to obtain a user ID at a cluster of computers
-because multiple jobs could be run in parallel to reduce the total amount of
-time. 
-
-.Configuration of mauve-analysis
-[options="header"]
-|=======================
-|Attribute |Explanation |Example
-|projectName |name of your project |streptococcus
-|clusterUsername |the user ID at the cluster |foo
-|clusterURL |URL or IP address of the cluster |cluster.domain.edu
-|clusterBase |Mirrored mauve directory in the cluster |Documents/Projects/m2
-|||
-|x11Username |the user ID at x11 enabled computer |bar
-|x11URL |URL or IP address of the x11 computer |x11.domain.edu
-|x11Base |Mirrored mauve directory in the x11 computer |Documents/Projects/m2 
-|||
-|email |your email address |your@email.domain.edu
-|access |batch access ID |abc
-|queue |queue name |queue
-|||
-|core_alignment.xmfa |any name |core_alignment.xmfa
-|=======================
-
-Installation
-------------
-Several software need to be installed.
-
-Mauve
-~~~~~
-Mauve is a genome alignment software.
-
-ClonalFrame
-~~~~~~~~~~~
-ClonalFrame is ...
-
-ClonalOrigin
-~~~~~~~~~~~~
-ClonalOrigin is the main program used in this analysis.
-
-ClonalOrigin Simulator
-~~~~~~~~~~~~~~~~~~~~~~
-
-.Steps to compile wargsim
-----
-cd mauve-analysis/src/clonalorigin
-mkdir b
-cd b
-cmake ..
-make
-----
-
-R packages
-~~~~~~~~~~
-
-geneplotter
-^^^^^^^^^^^
-Menu scatter-plot-parameter needs a geneplotter library of R package.
-
-I found a nice way to make a scatter plot with density.
-http://addictedtor.free.fr/graphiques/RGraphGallery.php?graph=139
-
-Run the following in R to install geneplotter library.
-----
-source("http://bioconductor.org/biocLite.R")
-biocLite("geneplotter")
 ----
 
 
