@@ -31,6 +31,17 @@ an exmaple.
   Argument 2: Index of a sequence
   Return: the sequence in PERL array
 
+=item sub getBlockConfiguration ($$$)
+
+  Argument 1: Reference genome ID
+  Argument 2: XMFA file base name with .[number].
+  Argument 3: Number of blocks
+
+=item sub getBlockSizeConfiguration ($$)
+
+  Argument 1: XMFA file base name with .[number].
+  Argument 2: Number of blocks
+
 =back
 
 =head1 AUTHOR
@@ -241,5 +252,54 @@ sub xmfaBlockSize ($)
   }
   close (XMFA);
   return $blockSize;
+}
+
+# 
+sub getBlockConfiguration ($$$)
+{
+  my ($refgenome, $xmfa, $numberblock) = @_;
+  my @blockLocationGenome;
+  for my $i (1 .. $numberblock)
+  {
+    my $xmfaFile = "$xmfa.$i";
+    open XMFA, $xmfaFile or die "Could not open $xmfaFile";
+    while (<XMFA>) 
+    {
+      if (/^>\s+$refgenome:(\d+)-(\d+)/)
+      {
+        my $startGenome = $1;
+        my $endGenome = $2;
+        my $rec = {};
+        $rec->{start} = $startGenome;
+        $rec->{end} = $endGenome;
+        push @blockLocationGenome, $rec;
+        last;
+      }
+    }
+    close XMFA;
+  }
+  return @blockLocationGenome;
+}
+
+sub getBlockSizeConfiguration ($$)
+{
+  my ($xmfa, $numberblock) = @_;
+  my @blockLocationGenome;
+  my $currentPosition = 1; # Points to the first base of the DNA sequence 
+  for my $i (1 .. $numberblock)
+  {
+    my $xmfaFile = "$xmfa.$i";
+    my $blockSize = xmfaBlockSize ($xmfaFile);
+
+    my $startGenome = $currentPosition;
+    $currentPosition += $blockSize;
+    my $endGenome = $currentPosition - 1;
+    my $rec = {};
+    $rec->{start} = $startGenome;
+    $rec->{end} = $endGenome;
+    push @blockLocationGenome, $rec;
+  }
+  # The end of the last block is equal to the size of the total blocks.
+  return @blockLocationGenome;
 }
 1;

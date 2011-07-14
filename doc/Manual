@@ -81,23 +81,91 @@ created using three menus of *count-observed-recedge*,
 Menu *prepare-run-compute-heatmap-recedge* might be useful if 
 menu *compute-heatmap-recedge* is slow.  
 
-STOPPED
-Menu *probability-recombination* may not be used.
+Menu *probability-recombination* may not be used. I could delete this menu.
 
-*recombination-intensity1-map*
+Users can use menu *recombination-intensity1-map* to summarize recombinant edges
+along the alignment blocks. This information can be combined with gene
+annotations to measure how much genes are under recombination. A list of genes
+can be created using menu *create-ingene*. The recombination intensity map
+created by menu *recombination-intensity1-map* and the gene annotations can be
+used to find gene-wise recombination intensity using menu 
+*recombination-intensity1-genes*. This gene-wise intensity can be used to do
+functional category analysis. _I need to find the functional category analysis
+that Mellisa developed._ Menu *recombination-intensity1-probability* can be use
+to create figures that are similar to Figures 2 and 7 of Didelot2010. 
+Functional category analysis with the result from
+*recombination-intensity1-genes* and figures from 
+*recombination-intensity1-probability* could be helpful in overview of genes
+with high recombination. It is not obvious which genes are interesting enough to
+be under high recombination. Menu *probability-recedge-gene* searches for genes
+with high recombination probability with edge types.
 
-*create-ingene*
-*recombination-intensity1-genes*
+Menu *create-ingene* creates a file with genes. I need to find columns in the
+alignment blocks that corresponds to those genes. There are two ways of mapping
+genes in the alignment blocks. One is that we first find a recombination
+intensity along the blocks, and find genes in the block to compute recombination
+intensity of the genes. Another is that we can have a recombination intensity
+on one of reference genome, and find genes in the reference genome to compute
+recombination intensity. Either way should give the same result. I used the
+latter approach because I thought that finding genes in blocks can be easily
+done if recombination intensity is mapped on a reference genome. This
+complicates the recombination intensity computation, and I would have to have
+duplicates of recombination intensity map for multiple reference genomes. I will
+try to use the former approach. It seems more intuitive. Then, I need to work on
+menu *create-ingene* more because genes should be mapped on blocks. I need to
+map each site of a gene to its corresponding site in a block. After having one
+with *create-ingene* I can do something in menus
+*recombination-intensity1-genes* and *recombination-intensity1-probability*.
 
-*recombination-intensity1-probability*
-*probability-recedge-gene*
+These two should be used to list genes and locate them in blocks.
+*convert-gff-ingene*
+*locate-gene-in-block*
 
+_Do we need a menu for checking convergence of the ClonalOrigin's 1st stage?_
 
+.Some post-processing procedures follow clonal origin runs.
+. recombination-intensity: A recombinant edge is classifed by its departure and
+arrival species tree branches. The number of types of recombinant edges could
+have been equal to the sqaure of the number of species tree branches including
+the rooting edge. Let the number of species tree branches L. A nucleotide site
+is affected by only a single recombinant edge type.  I can have a matrix of
+size L-by-L, each element of which is a binary value that represents that the
+corresponding site is affected by the recombinant edge with departure of the
+row index of the element, and arrival of the column index of it. Note that
+some of elements must be always 0 because their recombinant edge types are
+impossible.
 
+. recombination-intensity2: This uses the output file from
+recombination-intensity menu; it must be called after the call of
+recombination-intensity. The output of recombination-intensity is a series of
+matrices.  Each line starts with a position number that represents a site in a
+genome. The position is followed by a L*L many integers. These numbers are
+elements of a matrix of size L-by-L. Numbers in the elements can be larger
+than 1 because each element is the sum of binary values over the MCMC
+iterations of ClonalOrigin. The number ranges from 0 to the size of
+iterations. I have to divide numbers in the elements by the number of
+iterations to obtain average values. I want to consider the number of
+recombinant edge types that affect a site as a measure of recombination
+intensity. The total number of recombination edge types that affect a
+nucleotide site is just the sum of all of the elements of the matrix of size
+L-by-L.
 
+recombination-intensity3: This uses the output file from
+recombination-intensity2 menu. It draws the distribution of numbers of
+recombinant edge types over sites of all of the alignment blocks.
+recombination-intensity.eps shows the distribution.
 
+More literature search for studies of bacterial recombination.
 
-
+convergence: This should go to a separate menu.
+heatmap:
+import-ratio-locus-tag: 
+summary: 
+recedge: 
+recmap: 
+traceplot: 
+parse-jcvi-role: 
+combine-import-ratio-jcvi-role:
 
 [[Configuration]]
 Configuration
@@ -280,25 +348,25 @@ Species File
 
 .A sample of species file for simulation 
 ----
-# This is a directory for a simulation study.
-# -------------------------------------------
-# Thu May 12 15:58:50 EDT 2011
+This is a directory for a simulation study.
+-------------------------------------------
+Thu May 12 15:58:50 EDT 2011
 #
-# The 3 main parameters are checked with the parameter estimates from cornellf/3
-# analysis.
+The 3 main parameters are checked with the parameter estimates from cornellf/3
+analysis.
 #
-# Repetition:10
-# Replicate:2
-# ThetaPerSite:0.080814517322956
-# RhoPerSite:0.0118491287894766
-# Delta:743.702415841584
-# InBlock:cornellf-3-in.block
-# SpeicesTree:cornellf-3.tree
-# Burnin:1000000
-# ChainLength:1000000
-# Thin:10000
-# NumberSpecies:5
-# Walltime:168
+Repetition:10
+Replicate:2
+ThetaPerSite:0.080814517322956
+RhoPerSite:0.0118491287894766
+Delta:743.702415841584
+InBlock:cornellf-3-in.block
+SpeicesTree:cornellf-3.tree
+Burnin:1000000
+ChainLength:1000000
+Thin:10000
+NumberSpecies:5
+Walltime:168
 ----
 
 .Executing the main run.sh
@@ -472,7 +540,7 @@ divided to multiple XML files, each of which contains a single recombinant tree.
 output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
 ----
 
-Splitted ClonalOrigin XML files are stored in ri-# directory where # represents
+Splitted ClonalOrigin XML files are stored in ri-directory where represents
 REPLICATE.
 
 .A ClonalOrigin XML output file with a single recombinant tree: REPETITION=8,
@@ -482,7 +550,7 @@ output/cornellf/8/run-clonalorigin/output2/ri-2/core_co.phase3.xml.1.1
 ----
 
 To each splitted ClonalOrigin XML file is wargsim applied. Each output file is
-saved in ri-#-out directory where # represents REPLICATE.
+saved in ri-#-out directory where represents REPLICATE.
 
 .A gene tree topology file from a single recombinant tree: REPETITION=8,
 REPLICATE=2, BLOCK=1, ITERATION=1
@@ -608,6 +676,265 @@ probability-recedge-gene
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Posterior probability of recombination is computed for each gene and each
 recombinant edge type.
+
+Files
+-----
+
+sh/run.sh
+~~~~~~~~~
+This is the key run file to analyze bacterial genome data sets using
+ClonalOrigin. A menu is displayed so that a user can choose an operation that
+she or he wants to execute. Some commands do their job on their own right, and
+others require users to go to a cluster to submit a job. Each menu is executed
+by its corresponding bash function. Locate the bash function to see
+what it does. 
+
+Menus:
+  - choose-species: makes file system for a species, and make it ready to run
+  mauve.
+  - receive-run-mauve: gets the result of mauve alignment from the cluster
+  - prepare-run-clonalframe: finds blocks and makes a script to run
+  clonalframe.
+  - compute-watterson-estimate-for-clonalframe: (optional)
+  - receive-run-clonalframe: receives the result of clonal frame analysis.
+  - prepare-run-clonalorigin: makes a script for clonal origin analysis.
+  - receive-run-clonalorigin: receives the result of the first stage of clonal
+  origin analysis. 
+  - receive-run-2nd-clonalorigin: receives the result of the second stage of
+  clonal analysis.
+
+Prerequisites
+-------------
+. You need a user ID in a linux cluster: edit $CACUSERNAME, and $CACLOGIN.
+. You need a user ID in a linux machine with X Window: edit $X11USERNAME,
+and $X11LOGIN.
+. Create a directory in the linux cluster, and put the name in $CACBASE: edit
+$CACBASE.
+. Create a directory in the linux machine with X Window, and put the name
+X11BASE: edit $X11BASE.
+. Prepare automatic ssh login for the two machines.
+. Edit BATCHEMAIL to your email address to which you will be notified fo jobs
+status.
+. Edit BATCHACCESS to your access queue. Note that should different cluster batch
+system be used you have to change much part of this script.
+. Download unix version of progressiveMauve and install it in the cluster:
+edit BATCHPROGRESSIVEMAUVE. In the example, I installed it usr/bin of my home
+directory of my cluster account. The BATCHPROGRESSIVEMAUVE looks like this:
+BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
+. Install stripSubsetLCBs at $HOME/usr/bin/stripSubsetLCBs of the local
+computer. It must be a part of progressiveMauve.
+. Download unix version of ClonalFrame and install it into the cluster:
+edit BATCHCLONALFRAME. In the example, I installed it usr/bin of my home
+directory of my cluster account. The BATCHCLONALFRAME looks like this:
+BATCHCLONALFRAME=usr/bin/ClonalFrame
+
+User Manual
+-----------
+You should be able to download the source code from codaset repository called
+mauve-analysis. 
+#
+.To pull the source code 
+----
+$ git clone git@codaset.com:goshng/mauve-analysis.git
+$ cd mauve-analysis
+----
+#
+.Execution of menus for simulation study s1
+----
+init-file-system
+choose-simulation
+simulate-data
+prepare-run-clonalorigin
+simulate-data-clonalorigin1-receive
+----
+
+Menu: init-file-system
+~~~~~~~~~~~~~~~~~~~~~
+Choose the menu for the first time only.
+
+Menu: choose-simulation
+~~~~~~~~~~~~~~~~~~~~~~~
+This must be executed before selecting simulate-data.
+
+Menu: simulate-data
+~~~~~~~~~~~~~~~~~~~
+The directory src/clonalorigin contains the source code of ClonalOrigin that
+was modified. Compile it before simulating data. Refer to README in the
+directory to build it.
+
+The output directory
+~~~~~~~~~~~~~~~~~~~~
+Use the menu init-file-system to create output 
+
+Dependency of menus
+~~~~~~~~~~~~~~~~~~~
+
+Replicates and repetitions.
+---------------------------
+The output directory contains different analyses. They can be different in
+their raw data or their purposes of analyses. For example, the output
+directory can contain cornell5 for the 5 genomes of Streptococcus. It can
+contain bacillus for the genomes that Didelot et al. (2010) used. It can also
+contain a directory called s1 that includes analyses of one of simulation
+studies. REPETITION macro is mainly used for the purpose of simulation
+studies. A number of repetitons in a simulation study can performed. One
+repetition can be different from another. For real data analyses repetitions
+can be done at different time points. They can also be different in some of
+their filtering steps, which could result in different temporary data.
+
+In simulation for second stage of Clonal Origin a clonal frame and recombinant
+edges are fixed to generate a number of DNA sequence alignments. A number of
+replicates are generated with a given clonal frame and its recombinant edges
+fixed. A number of repetitions are performed and each repetition would have
+a different set of recombinant edges. I am not sure what this kind of two
+levels of repeated experiments can do for me. I could generate data with a
+clonal frame with its recombinant edges where a set of recombinant edges can
+come from one iteration of ClonalOrigin output.
+
+
+README
+analyze-run-clonalorigin2-simulation2-analyze.pl
+analyze-run-clonalorigin2-simulation2-prepare.pl
+analyze-run-clonalorigin2-simulation2.pl
+blocksplit.pl
+blocksplit2fasta.pl
+blocksplit2smallerfasta.pl
+cac.pl
+combine-import-ratio-jcvi-role.pl
+compute-block-length.pl
+compute-heatmap-recedge.pl
+computeMedians.pl
+convert-gff-ingene.pl
+core2smallercore.pl
+create-ingene.pl
+extract-species-tree.pl
+extractClonalOriginParameter.pl
+extractClonalOriginParameter10.pl
+extractClonalOriginParameter11.pl
+extractClonalOriginParameter12.pl
+extractClonalOriginParameter2.pl
+extractClonalOriginParameter3.pl
+extractClonalOriginParameter4.pl
+extractClonalOriginParameter5.pl
+extractClonalOriginParameter8.pl
+extractClonalOriginParameter9.pl
+findBlocksWithInsufficientConvergence.pl
+get-block-length.pl
+get-primary-jcvi-loci.pl
+getClonalTree.pl
+list-gene-go.pl
+list-locus-tag-go-jcvi-role.pl
+listgenegff.pl
+locate-gene-in-block.pl
+makeMauveWargFile.pl
+map-tree-topology.pl
+parse-jcvi-role.pl
+parse-m3-locus.pl
+plot-import-ratio-jcvi-role.pl
+plot-number-recombination-within-blocks.pl
+probability-recedge-gene.pl
+probability-recombination.pl
+recombination-intensity.pl
+recombination-intensity1-genes.pl
+recombination-intensity1-map-wiggle.pl
+recombination-intensity1-map.pl
+recombination-intensity1-probability.pl
+recombination-intensity2.pl
+recombination-intensity4.pl
+recombinationmap.pl
+remove-blocks-from-core-alignment.pl
+report-clonalorigin-job.pl
+scatter-plot-parameter.pl
+sim4-analyze.pl
+sim4-prepare.pl
+simulate-data-clonalorigin1-analyze.pl
+sort.pl
+splitCOXMLPerIteration.pl
+sub-array.pl
+sub-error.pl
+sub-heatmap.pl
+sub-ingene.pl
+sub-newick-parser.pl
+sub-simple-parser.pl
+sub-xmfa.pl
+summary-core-alignment.pl
+test-sub-array.pl
+test-sub-simple-parser.pl
+
+
+README
+analyze-run-clonalorigin2-simulation2.sh
+choose-simulation.sh
+clonalorigin2-simulation3.sh
+compute-block-length.sh
+compute-global-median.sh
+compute-heatmap-recedge.sh
+conf.sh
+convert-gff-ingene.sh
+copy-mauve-alignment.sh
+copy-run-sh.sh
+create-ingene.sh
+divide-simulated-xmfa-data.sh
+divide-simulated-xml-data.sh
+extract-species-tree.sh
+filter-blocks.sh
+heatmap-compute.sh
+heatmap-get-observed.sh
+hms.sh
+init-file-system.sh
+list-gene-go.sh
+locate-gene-in-block.sh
+manuscript.sh
+map-tree-topology.sh
+mkdir-species.sh
+noweb.sh
+plot-number-recombination-within-blocks.sh
+prepare-mauve-alignment.sh
+prepare-run-2nd-clonalorigin.sh
+prepare-run-clonalframe.sh
+prepare-run-clonalorigin.sh
+prepare-run-compute-heatmap-recedge.sh
+probability-recedge-gene.sh
+probability-recombination.sh
+progressbar.sh
+read-species-file.sh
+read-species.sh
+receive-mauve-alignment.sh
+receive-run-2nd-clonalorigin.sh
+receive-run-clonalframe.sh
+receive-run-clonalorigin.sh
+recombination-intensity1-genes.sh
+recombination-intensity1-map.sh
+recombination-intensity1-probability.sh
+reverse-blockid-xml.sh
+run.sh
+scatter-plot-parameter.sh
+set-more-global-variable.sh
+sim2-analyze.sh
+sim3-analyze.sh
+sim3-prepare.sh
+sim3-receive.sh
+sim4-analyze.sh
+sim4-each-block.sh
+sim4-prepare.sh
+sim4-receive.sh
+simulate-data-clonalorigin1-analyze.sh
+simulate-data-clonalorigin1-prepare.sh
+simulate-data-clonalorigin1-receive.sh
+simulate-data-clonalorigin1.sh
+simulate-data-clonalorigin2-from-xml.sh
+simulate-data-clonalorigin2-prepare.sh
+simulate-data-clonalorigin2.sh
+summarize-clonalorigin1.sh
+summary-core-alignment.sh
+test-progress.sh
+utility.sh
+weighted-median-rscript.sh
+
+
+Copyright
+---------
+Copyright (C) 2011 Sang Chul Choi
 
 Terms
 -----

@@ -24,7 +24,22 @@ function recombination-intensity1-map {
       read REFGENOME
       echo -n "What is the length of the reference genome? " 
       read REFGENOMELENGTH
-       
+
+      echo -n "Do you wish to generate ri-map.txt? (e.g., y/n) "
+      RIMAP=$RUNANALYSIS/rimap.txt
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo perl pl/$FUNCNAME.pl \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -numberblock $NUMBER_BLOCK \
+          -verbose \
+          -out $RIMAP
+      else
+        echo "  Skipping generating $RIMAP"
+      fi
+      exit
+      
       echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then

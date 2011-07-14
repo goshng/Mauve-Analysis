@@ -1,15 +1,29 @@
 #!/opt/local/bin/perl -w
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
 #   File: recombination-intensity1-map.pl
 #   Date: Tue May  3 09:22:29 EDT 2011
 #   Version: 1.0
-#
-#   Usage:
-#      perl recombination-intensity1-map.pl [options]
-#
-#      Try 'perl recombination-intensity1-map.pl -h' for more information.
 #
 #   Purpose: recombination-intensity1-map.pl help you compute recombinant edge counts
 #            along a genome. I order all the alignment blocks with respect to
@@ -27,8 +41,7 @@
 #            have a matrix where element is a binary character. A site is
 #            affected by multiple recombinant edges. It is possible that
 #            recombinant edges with the same arrival and departure affect a
-#            single site. This should not be possible under ClonalOrigin's
-#            model. It happened in the ClonalOrigin output file. If you simply
+#            single site. It happened in the ClonalOrigin output file. If you simply
 #            count recombinant edges, you could count some recombinant edge type
 #            two or more times. To avoid the multiple count we use a matrix with
 #            binary values. Then, we sum the binary matrices across all the
@@ -36,10 +49,6 @@
 #            Note that the source and destination edges could be reversed. Be
 #            careful not to reverse it. I used to use to -> from not from -> to.
 #            Now, I use from -> to for each position.
-#
-#   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
-#   Computational Science Research Center @ SDSU, CA as a template. Some of
-#   words are his not mine, and credit should be given to him. 
 #===============================================================================
 use strict;
 use warnings;
@@ -63,7 +72,8 @@ GetOptions( \%params,
             'xmfa=s',
             'refgenome=i',
             'refgenomelength=i',
-            'numberblock=i'
+            'numberblock=i',
+            'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -84,6 +94,7 @@ perl recombination-intensity1-map.pl [-h] [-help] [-version] [-verbose]
   [-refgenome number] 
   [-refgenomelength number] 
   [-numberblock number] 
+  [-out file] 
 
 =head1 DESCRIPTION
 
@@ -140,15 +151,22 @@ A XMFA block alignment for block ID of 1 is
 
 =item B<-refgenome> <number>
 
-A reference genome ID.
+A reference genome ID. If no reference genome is given by users, I use only
+blocks to compute maps.
 
 =item B<-refgenomelength> <number>
 
-The length of the reference genome.
+The length of the reference genome. If refgenome is given, its length must be
+given.
 
 =item B<-numberblock> <number>
 
 The number of blocks.
+
+=item B<-out> <file>
+
+If this is given, all of the output is written to the file. Otherwise, standard
+output is used.
 
 =back
 
@@ -197,6 +215,18 @@ my $refgenome;
 my $refgenomelength;
 my $numberblock; 
 my $verbose = 0;
+my $out;
+my $outfile;
+
+if (exists $params{out})
+{
+  $out = $params{out};
+  open ($outfile, ">", $out) or die "cannot open > $out: $!";
+}
+else
+{
+  $outfile = *STDOUT;   
+}
 
 if (exists $params{xml})
 {
@@ -213,25 +243,29 @@ if (exists $params{xmfa})
 }
 else
 {
-  &printError("you did not specify a directory that contains genome alignments");
+  &printError("you did not specify a core genome alignment");
 }
 
+# Use refgenome being -1 for finding whether I use a reference genome or not.
 if (exists $params{refgenome})
 {
   $refgenome = $params{refgenome};
 }
 else
 {
-  &printError("you did not specify a reference genome");
+  $refgenome = -1;
 }
 
-if (exists $params{refgenomelength})
+unless ($refgenome == -1)
 {
-  $refgenomelength = $params{refgenomelength};
-}
-else
-{
-  &printError("you did not specify the length of a reference genome");
+  if (exists $params{refgenomelength})
+  {
+    $refgenomelength = $params{refgenomelength};
+  }
+  else
+  {
+    &printError("you did not specify the length of $refgenome-th reference genome");
+  }
 }
 
 if (exists $params{numberblock})
@@ -242,6 +276,7 @@ else
 {
   &printError("you did not specify the number of blocks");
 }
+
 if (exists $params{verbose})
 {
   $verbose = 1;
@@ -266,9 +301,16 @@ my $numberLineage = 2 * $numberTaxa - 1;
 # Find coordinates of the reference genome.
 ################################################################################
 
-sub getBlockConfiguration ($$);
-
-my @blockLocationGenome = getBlockConfiguration ($xmfa, $numberblock);
+my @blockLocationGenome;
+if ($refgenome == -1)
+{
+  @blockLocationGenome = getBlockSizeConfiguration ($xmfa, $numberblock);
+  $refgenomelength = $blockLocationGenome[$#blockLocationGenome]->{end};
+}
+else
+{
+  @blockLocationGenome = getBlockConfiguration ($refgenome, $xmfa, $numberblock);
+}
 
 if ($verbose == 1)
 {
@@ -277,6 +319,7 @@ if ($verbose == 1)
     my $href = $blockLocationGenome[$i];
     print STDERR "$i:$href->{start} - $href->{end}\n"; 
   }
+  print STDERR "Total Length: $refgenomelength\n";
 }
 
 # mapImport index is 1-based, and blockImmport index is 0-based.
@@ -288,14 +331,14 @@ my @mapBlockImport;
 
 if ($verbose == 1)
 {
-  print STDERR "A new mapImport is being constructed ...";
+  print STDERR "A new mapImport is being constructed ... ";
 }
 my @mapImport = create3DMatrix ($numberLineage, 
                                 $numberLineage, 
                                 $refgenomelength + 1, -1);
 if ($verbose == 1)
 {
-  print STDERR " done!\n";
+  print STDERR "done!\n";
 }
 
 # mapImport is filled in.
@@ -304,12 +347,14 @@ my $prevBlockLength = 1;
 my $processedTime = 0;
 for my $blockID (1 .. $numberblock)
 {
-  #last if $blockID == 2;
+  # last if $blockID == 2;
   my $startTime = time; 
   $blockidForProgress = $blockID;
   my $f = "$xml.$blockID";
   $blockLength = get_block_length ($f);
-
+  my $blockSize = xmfaBlockSize ("$xmfa.$blockID");
+  die "$blockLength and $blockSize are different" 
+    unless $blockLength == $blockSize;
   my $href = $blockLocationGenome[$blockID-1];
   die "$href->{start} < $href->{end}" 
     unless $href->{start} < $href->{end};
@@ -327,13 +372,24 @@ for my $blockID (1 .. $numberblock)
   $itercount = 0;
   my $doc;
   eval{ $doc = $parser->parsefile($f)};
-  print "Unable to parse XML of $f, error $@\n" if $@;
-  next if $@;
+  die "Unable to parse XML of $f, error $@\n" if $@;
 
-  my @sites = locateNucleotideBlock ("$xmfa.$blockID", $refgenome);
-  my ($b, $e, $strand) = locateBlockGenome ("$xmfa.$blockID", $refgenome);
+  # Put the block map to the output.
+  my @sites;
+  my ($b, $e, $strand);
+  if ($refgenome == -1)
+  {
+    @sites = ('a') x $blockSize;
+    $b = $href->{start};
+    $e = $href->{end};
+    $strand = '+';
+  }
+  else
+  {
+    @sites = locateNucleotideBlock ("$xmfa.$blockID", $refgenome);
+    ($b, $e, $strand) = locateBlockGenome ("$xmfa.$blockID", $refgenome);
+  }
   die "$b < $e in $xmfa.$blockID" unless $b < $e;
-
 
   if ($strand eq '-')
   {
@@ -373,17 +429,17 @@ for my $blockID (1 .. $numberblock)
 for (my $i = 1; $i <= $refgenomelength; $i++)
 {
   my $pos = $i;
-  print "$pos";
+  print $outfile "$pos";
   for (my $j = 0; $j < $numberLineage; $j++)
   {
     for (my $k = 0; $k < $numberLineage; $k++)
     {
-      print "\t", $mapImport[$j][$k][$pos];
+      print $outfile "\t", $mapImport[$j][$k][$pos];
     }
   }
-  print "\n";
+  print $outfile "\n";
 }
-
+close $outfile;
 exit;
 
 ################################################################################
@@ -479,33 +535,4 @@ sub characterData {
 sub default {
 }
 
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-
-sub getBlockConfiguration ($$)
-{
-  my ($xmfa, $numberblock) = @_;
-  my @blockLocationGenome;
-  for my $i (1 .. $numberblock)
-  {
-    my $xmfaFile = "$xmfa.$i";
-    open XMFA, $xmfaFile or die "Could not open $xmfaFile";
-    while (<XMFA>) 
-    {
-      if (/^>\s+$refgenome:(\d+)-(\d+)/)
-      {
-        my $startGenome = $1;
-        my $endGenome = $2;
-        my $rec = {};
-        $rec->{start} = $startGenome;
-        $rec->{end} = $endGenome;
-        push @blockLocationGenome, $rec;
-        last;
-      }
-    }
-    close XMFA;
-  }
-  return @blockLocationGenome;
-}
 

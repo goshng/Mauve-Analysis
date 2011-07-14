@@ -1,131 +1,36 @@
 #!/bin/bash
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 # File  : run.sh
 # Author: Sang Chul Choi
 # Date  : Wed Mar 16 16:59:42 EDT 2011
-
-# This is the key run file to analyze bacterial genome data sets using
-# ClonalOrigin. A menu is displayed so that a user can choose an operation that
-# she or he wants to execute. Some commands do their job on their own right, and
-# others require users to go to a cluster to submit a job. Each menu is executed
-# by its corresponding bash function. Locate the bash function to see
-# what it does. 
-
-# Menus:
-#   - choose-species: makes file system for a species, and make it ready to run
-#   mauve.
-#   - receive-run-mauve: gets the result of mauve alignment from the cluster
-#   - prepare-run-clonalframe: finds blocks and makes a script to run
-#   clonalframe.
-#   - compute-watterson-estimate-for-clonalframe: (optional)
-#   - receive-run-clonalframe: receives the result of clonal frame analysis.
-#   - prepare-run-clonalorigin: makes a script for clonal origin analysis.
-#   - receive-run-clonalorigin: receives the result of the first stage of clonal
-#   origin analysis. 
-#   - receive-run-2nd-clonalorigin: receives the result of the second stage of
-#   clonal analysis.
-
-# Prerequisites
-# -------------
-# . You need a user ID in a linux cluster: edit $CACUSERNAME, and $CACLOGIN.
-# . You need a user ID in a linux machine with X Window: edit $X11USERNAME,
-# and $X11LOGIN.
-# . Create a directory in the linux cluster, and put the name in $CACBASE: edit
-# $CACBASE.
-# . Create a directory in the linux machine with X Window, and put the name
-# X11BASE: edit $X11BASE.
-# . Prepare automatic ssh login for the two machines.
-# . Edit BATCHEMAIL to your email address to which you will be notified fo jobs
-# status.
-# . Edit BATCHACCESS to your access queue. Note that should different cluster batch
-# system be used you have to change much part of this script.
-# . Download unix version of progressiveMauve and install it in the cluster:
-# edit BATCHPROGRESSIVEMAUVE. In the example, I installed it usr/bin of my home
-# directory of my cluster account. The BATCHPROGRESSIVEMAUVE looks like this:
-# BATCHPROGRESSIVEMAUVE=usr/bin/progressiveMauve
-# . Install stripSubsetLCBs at $HOME/usr/bin/stripSubsetLCBs of the local
-# computer. It must be a part of progressiveMauve.
-# . Download unix version of ClonalFrame and install it into the cluster:
-# edit BATCHCLONALFRAME. In the example, I installed it usr/bin of my home
-# directory of my cluster account. The BATCHCLONALFRAME looks like this:
-# BATCHCLONALFRAME=usr/bin/ClonalFrame
-
-# User Manual
-# -----------
-# You should be able to download the source code from codaset repository called
-# mauve-analysis. 
-#
-# .To pull the source code 
-# ----
-# $ git clone git@codaset.com:goshng/mauve-analysis.git
-# $ cd mauve-analysis
-# ----
-#
-# .Execution of menus for simulation study s1
-# ----
-# init-file-system
-# choose-simulation
-# simulate-data
-# prepare-run-clonalorigin
-# simulate-data-clonalorigin1-receive
-# ----
-# 
-# Menu: init-file-system
-# ~~~~~~~~~~~~~~~~~~~~~
-# Choose the menu for the first time only.
-#
-# Menu: choose-simulation
-# ~~~~~~~~~~~~~~~~~~~~~~~
-# This must be executed before selecting simulate-data.
-#
-# Menu: simulate-data
-# ~~~~~~~~~~~~~~~~~~~
-# The directory src/clonalorigin contains the source code of ClonalOrigin that
-# was modified. Compile it before simulating data. Refer to README in the
-# directory to build it.
-#
-# Simulation s1
-# ^^^^^^^^^^^^^
-# 
-# 
-# 
-# The output directory
-# ~~~~~~~~~~~~~~~~~~~~
-# Use the menu init-file-system to create output 
-#
-# Dependency of menus
-# ~~~~~~~~~~~~~~~~~~~
-# 
 
 ###############################################################################
 # Global variables.
 ###############################################################################
 MAUVEANALYSISDIR=`pwd`
+source sh/copyright.sh
 source sh/conf.sh
 source sh/read-species.sh
 conf
 
-# Replicates and repetitions.
-# ---------------------------
-# The output directory contains different analyses. They can be different in
-# their raw data or their purposes of analyses. For example, the output
-# directory can contain cornell5 for the 5 genomes of Streptococcus. It can
-# contain bacillus for the genomes that Didelot et al. (2010) used. It can also
-# contain a directory called s1 that includes analyses of one of simulation
-# studies. REPETITION macro is mainly used for the purpose of simulation
-# studies. A number of repetitons in a simulation study can performed. One
-# repetition can be different from another. For real data analyses repetitions
-# can be done at different time points. They can also be different in some of
-# their filtering steps, which could result in different temporary data.
-#
-# In simulation for second stage of Clonal Origin a clonal frame and recombinant
-# edges are fixed to generate a number of DNA sequence alignments. A number of
-# replicates are generated with a given clonal frame and its recombinant edges
-# fixed. A number of repetitions are performed and each repetition would have
-# a different set of recombinant edges. I am not sure what this kind of two
-# levels of repeated experiments can do for me. I could generate data with a
-# clonal frame with its recombinant edges where a set of recombinant edges can
-# come from one iteration of ClonalOrigin output.
-#
 CLONALFRAMEREPLICATE=1
 REPLICATE=1
 REPETITION=1
@@ -678,12 +583,6 @@ function compute-watterson-estimate-for-clonalframe {
 }
 
 
-# 8. Check the convergence
-# ------------------------
-# A multiple runs of the first stage of ClonalOrigin are checked for their
-# convergence.
-# FIXME: we need a bash function.
-
 function recombination-intensity3 {
   cat>$RUNANALYSIS/recombination-intensity3.R<<EOF
 x <- read.table ("$RUNANALYSIS/recombination-intensity.txt.sgr")
@@ -697,56 +596,6 @@ EOF
 }
 
 
-
-# 10. Some post-processing procedures follow clonal origin runs.
-# --------------------------------------------------------------
-# Several analyses were performed using output of ClonalOrigin. Let's list
-# those.
-#
-# recombination-intensity: A recombinant edge is classifed by its departure and
-# arrival species tree branches. The number of types of recombinant edges could
-# have been equal to the sqaure of the number of species tree branches including
-# the rooting edge. Let the number of species tree branches L. A nucleotide site
-# is affected by only a single recombinant edge type.  I can have a matrix of
-# size L-by-L, each element of which is a binary value that represents that the
-# corresponding site is affected by the recombinant edge with departure of the
-# row index of the element, and arrival of the column index of it. Note that
-# some of elements must be always 0 because their recombinant edge types are
-# impossible.
-#
-# recombination-intensity2: This uses the output file from
-# recombination-intensity menu; it must be called after the call of
-# recombination-intensity. The output of recombination-intensity is a series of
-# matrices.  Each line starts with a position number that represents a site in a
-# genome. The position is followed by a L*L many integers. These numbers are
-# elements of a matrix of size L-by-L. Numbers in the elements can be larger
-# than 1 because each element is the sum of binary values over the MCMC
-# iterations of ClonalOrigin. The number ranges from 0 to the size of
-# iterations. I have to divide numbers in the elements by the number of
-# iterations to obtain average values. I want to consider the number of
-# recombinant edge types that affect a site as a measure of recombination
-# intensity. The total number of recombination edge types that affect a
-# nucleotide site is just the sum of all of the elements of the matrix of size
-# L-by-L.
-#
-# recombination-intensity3: This uses the output file from
-# recombination-intensity2 menu. It draws the distribution of numbers of
-# recombinant edge types over sites of all of the alignment blocks.
-# recombination-intensity.eps shows the distribution.
-# 
-#
-# More literature search for studies of bacterial recombination.
-#
-# convergence: This should go to a separate menu.
-# heatmap:
-# import-ratio-locus-tag: 
-# summary: 
-# recedge: 
-# recmap: 
-# traceplot: 
-# parse-jcvi-role: 
-# combine-import-ratio-jcvi-role:
-#
 function analysis-clonalorigin {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "
   select SPECIES in `ls species`; do 
@@ -1041,82 +890,86 @@ source sh/summary-core-alignment.sh
 #####################################################################
 # Main part of the script.
 #####################################################################
+short-notice
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
           choose-simulation \
-          --- SIMULATION1 ---\
+          ---SIMULATION1---\
           simulate-data-clonalorigin1 \
           simulate-data-clonalorigin1-prepare \
           simulate-data-clonalorigin1-receive \
           simulate-data-clonalorigin1-analyze \
-          --- SIMULATION2 ---\
+          ---SIMULATION2---\
           simulate-data-clonalorigin2 \
           simulate-data-clonalorigin2-prepare \
           sim2-receive \
           sim2-analyze \
           simulate-data-clonalorigin2-analyze \
           analyze-run-clonalorigin2-simulation \
-          --- SIMULATION3 ---\
+          ---SIMULATION3---\
           analyze-run-clonalorigin2-simulation2 \
           sim3-prepare \
           sim3-receive \
           sim3-analyze \
-          --- SIMULATION4 ---\
+          ---SIMULATION4---\
           clonalorigin2-simulation3 \
           sim4-prepare \
           sim4-receive \
           sim4-analyze \
           sim4-each-block \
-          --- SIMULATION5 ---\
+          ---SIMULATION5---\
           clonalorigin2-simulation4 \
-          --- SIMULATION5 ---\
+          ---SIMULATION5---\
           simulate-data-clonalorigin2-from-xml \
-          --- REAL-DATA-ALIGNMENT ---\
+          ---REAL-DATA-ALIGNMENT---\
           prepare-mauve-alignment \
           copy-mauve-alignment \
           receive-mauve-alignment \
-          --- REAL-DATA-CLONALFRAME ---\
+          ---REAL-DATA-CLONALFRAME---\
           filter-blocks \
           summary-core-alignment \
           prepare-run-clonalframe \
           receive-run-clonalframe \
-          --- CLONALORIGIN1 ---\
+          ---CLONALORIGIN1---\
           prepare-run-clonalorigin \
           receive-run-clonalorigin \
-          --- THREE-PARAMETERS ---\
+          ---THREE-PARAMETERS---\
           summarize-clonalorigin1 \
           scatter-plot-parameter \
           plot-number-recombination-within-blocks \
-          --- CLONALORIGIN2 ---\
+          ---CLONALORIGIN2---\
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
-          --- RECOMBINATION-COUNT ---\
+          ---RECOMBINATION-COUNT---\
           count-observed-recedge \
           compute-prior-count-recedge \
           compute-heatmap-recedge \
           prepare-run-compute-heatmap-recedge \
-          --- RECOMBINATION-INTENSITY ---\
+          ---RECOMBINATION-INTENSITY---\
           recombination-intensity1-map \
-          create-ingene \
+          convert-gff-ingene \
+          locate-gene-in-block \
           recombination-intensity1-genes \
           recombination-intensity1-probability \
           probability-recedge-gene \
-          --- TREE-TOPOLOGY ---\
+          ---TREE-TOPOLOGY---\
           recombination-intensity2-map \
           map-tree-topology \
-          --- GENE-ANNOTATION ---\
-          convert-gff-ingene \
-          locate-gene-in-block \
+          ---GENE-ANNOTATION---\
           list-gene-go \
-          ----------\
+          ---DELETE-THESE-MENU---\
+          create-ingene \
           probability-recombination \
+          ---UTILITIES---\
           analysis-clonalorigin \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
           compute-global-median \
           extract-species-tree \
-          --- MANUSCRIPT ---\
-          manuscript )
+          ---MANUSCRIPT---\
+          manuscript \
+          warranty \
+          copyright )
 select CHOICE in ${CHOICES[@]}; do 
   if [ "$CHOICE" == "" ];  then
     echo -e "You need to enter something\n"
@@ -1207,6 +1060,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
   elif [ "$CHOICE" == "manuscript" ]; then $CHOICE; break
   elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue

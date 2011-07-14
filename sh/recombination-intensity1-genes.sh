@@ -19,6 +19,23 @@ function recombination-intensity1-genes {
       REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
       NUMBERSPECIES=$(grep REPETITION$REPETITION-NumberSpecies $SPECIESFILE | cut -d":" -f2)
 
+      echo -n "Do you wish to compute recombination intensity on genes with (y/n)? "
+      RIMAPGENE=$RUNANALYSIS/rimap.gene
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo perl pl/$FUNCNAME.pl \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RIMAPGENE
+        echo "Check file $RIMAPGENE"
+      else
+        echo -e "  Skipping counting number of gene tree topology changes..." 
+      fi
+
       echo -n "Do you wish to compute recombination intensity on genes (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then

@@ -33,7 +33,7 @@ function probability-recedge-gene {
       GENBANK=$(grep REPETITION$REPETITION-GENBANK $SPECIESFILE | cut -d":" -f2)
       echo " $GENBANK"
 
-      echo -n "Do you wish to compute recombination probability for all of the genes (y/n)? "
+      echo -n "Do you wish to search for genes with high recombination probability (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo perl pl/$FUNCNAME.pl \
@@ -43,7 +43,7 @@ function probability-recedge-gene {
           -out $RUNANALYSIS/$FUNCNAME.txt
         echo "Check file $RUNANALYSIS/$FUNCNAME.txt"
       else
-        echo -e "  Skipping counting number of gene tree topology changes..." 
+        echo -e "  Nothing is done with $FUNCNAME ..." 
       fi
       break
     fi

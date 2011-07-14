@@ -9,7 +9,7 @@ sub createSquareMatrix ($) {
   return @m;
 }
 
-sub printSquareMatrix ($) {
+sub printSquareMatrix ($$) {
   my ($m, $n) = @_;
   for (my $i = 0; $i < $n; $i++)
   {

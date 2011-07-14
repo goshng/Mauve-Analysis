@@ -23,6 +23,9 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
+            'xml=s',
+            'xmfa=s',
+            'refgenome=i',
             'ri1map=s',
             'ingene=s',
             'clonaloriginsamplesize=i',
@@ -138,11 +141,11 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 require "pl/sub-ingene.pl";
 require "pl/sub-error.pl";
 require "pl/sub-array.pl";
+require "pl/sub-newick-parser.pl";
+require "pl/sub-xmfa.pl";
 
 # Delete these if not needed.
 require "pl/sub-simple-parser.pl";
-require "pl/sub-newick-parser.pl";
-require "pl/sub-xmfa.pl";
 
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
@@ -154,6 +157,27 @@ my $out;
 my $clonaloriginsamplesize;
 my $pairs;
 my $verbose = 0;
+my $xml;
+my $xmfa;
+my $refgenome; 
+
+if (exists $params{xml})
+{
+  $xml = $params{xml};
+}
+else
+{
+  &printError("you did not specify an xml directory that contains Clonal Origin 2nd run results");
+}
+
+if (exists $params{xmfa})
+{
+  $xmfa = $params{xmfa};
+}
+else
+{
+  &printError("you did not specify a core genome alignment");
+}
 
 if (exists $params{ri1map})
 {
@@ -191,13 +215,13 @@ else
   &printError("you did not specify an clonaloriginsamplesize");
 }
 
-if (exists $params{numberSpecies})
+if (exists $params{refgenome})
 {
-  $numberSpecies = $params{numberSpecies};
+  $refgenome = $params{refgenome};
 }
 else
 {
-  &printError("you did not specify a number of species");
+  $refgenome = -1;
 }
 
 if (exists $params{pairs})
@@ -222,8 +246,34 @@ my %recedge;
 my $itercount = 0;
 my $blockLength;
 my $blockidForProgress;
-my $numberTaxa = $numberSpecies;
+my $speciesTree = get_species_tree ("$xml.1");
+my $numberTaxa = get_number_leave ($speciesTree);
+my $tree = maNewickParseTree ($speciesTree);
+# maNewickPrintTree ($tree);
 my $numberLineage = 2 * $numberTaxa - 1;
+
+################################################################################
+# Select pairs of recombinant edges
+################################################################################
+
+# A few matrices are prepared. pairM contains all possible pairs of recombinant
+# edges. pairM2 has pairs that do change tree topology. pairM3 has pairs that do
+# not change tree topology. pairM4 has only particular pairs.
+# my $pairM = maNewicktFindRedEdge ($tree);
+# printSquareMatrix ($pairM, $numberLineage);
+# print "-------\n-------\n";
+# my $pairM2 = maNewicktFindRedEdgeChangeTopology ($tree);
+# printSquareMatrix ($pairM2, $numberLineage);
+# print "-------\n-------\n";
+# my $pairM3 = maNewicktFindRedEdgeNotChangeTopology ($tree);
+# printSquareMatrix ($pairM3, $numberLineage);
+# print "-------\n-------\n";
+# my $pairM4 = maNewicktFindRedEdgePair ($tree, "0,3:0,4:1,3:1,4");
+# printSquareMatrix ($pairM4, $numberLineage);
+# exit;
+# Now, I have pairM. I need to use only those pairs to compute recombination
+# intensity. 
+# STOPPED HERE.
 
 ################################################################################
 # Find coordinates of the reference genome.
@@ -304,6 +354,7 @@ sub getRI1Genes ($$$)
   close OUT;
 }
 
+# 
 sub getRI1Gene ($$$$$)
 {
   my ($ri1map, $genes, $start, $end, $pairSourceDestination) = @_;
