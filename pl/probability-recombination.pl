@@ -2,16 +2,16 @@
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: recombination-intensity3.pl
+#   File: probability-recombination.pl
 #   Date: 2011-04-27
 #   Version: 1.0
 #
 #   Usage:
-#      perl recombination-intensity3.pl [options]
+#      perl probability-recombination.pl [options]
 #
-#      Try 'perl recombination-intensity3.pl -h' for more information.
+#      Try 'perl probability-recombination.pl -h' for more information.
 #
-#   Purpose: recombination-intensity3.pl help you compute recombinant edge counts
+#   Purpose: probability-recombination.pl help you compute recombinant edge counts
 #            along a genome. This was based on recombination-intensity.pl.
 #            Use one of genomes as a reference for genomic positions. For each
 #            site I test if it is affected by any recombinant edge.
@@ -27,10 +27,6 @@
 #            check the gene is correctly identified.
 #            3. Use the located sites to check how often the gene experienced
 #            recombinant edges.
-#
-#   Note that I started to code this based on PRINSEQ by Robert SCHMIEDER at
-#   Computational Science Research Center @ SDSU, CA as a template. Some of
-#   words are his not mine, and credit should be given to him. 
 #===============================================================================
 use strict;
 use warnings;
@@ -40,7 +36,7 @@ use Pod::Usage;
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'recombination-intensity3.pl 1.0';
+my $VERSION = 'probability-recombination.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -61,16 +57,16 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-recombination-intensity3.pl - Compute probability of recombination along a
+probability-recombination.pl - Compute probability of recombination along a
 reference genome.
 
 =head1 VERSION
 
-recombination-intensity3.pl 1.0
+probability-recombination.pl 1.0
 
 =head1 SYNOPSIS
 
-perl recombination-intensity3.pl [-h] [-help] [-version] 
+perl probability-recombination.pl [-h] [-help] [-version] 
   [-d xmlfile basename] [-r reference genome]
 
 =head1 DESCRIPTION
@@ -141,7 +137,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make recombination-intensity3.pl better.
+com repository so that I can make probability-recombination.pl better.
 
 =head1 COPYRIGHT
 
@@ -174,6 +170,13 @@ sub locate_gene_in_block ($$$$);
 ## COMMANDLINE OPTION PROCESSING
 ################################################################################
 #
+
+# perl pl/probability-recombination.pl -d
+# /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-clonalorigin/output2/1/core_co.phase3.xml
+# -xmfa
+# /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/data/core_alignment.xmfa
+# -r 1 -coords simulation/sde1.coords.txt
+# /Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/probability-recombination.txt
 
 my $xmlDir;
 my $xmfaBasename;
@@ -437,7 +440,7 @@ sub default {
 
 sub printError {
     my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'recombination-intensity3.pl -h\' for more information.\nExit program.\n";
+    print STDERR "ERROR: ".$msg.".\n\nTry \'probability-recombination.pl -h\' for more information.\nExit program.\n";
     exit(0);
 }
 

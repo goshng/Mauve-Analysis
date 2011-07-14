@@ -1085,25 +1085,23 @@ CHOICES=( init-file-system \
           receive-run-clonalorigin \
           --- THREE-PARAMETERS ---\
           summarize-clonalorigin1 \
+          scatter-plot-parameter \
+          plot-number-recombination-within-blocks \
           --- CLONALORIGIN2 ---\
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
           --- RECOMBINATION-COUNT ---\
-          scatter-plot-parameter \
-          plot-number-recombination-within-blocks \
-          --- RECOMBINATION-COUNT ---\
           count-observed-recedge \
           compute-prior-count-recedge \
           compute-heatmap-recedge \
-          --- RECOMBINATION-COUNT ---\
           prepare-run-compute-heatmap-recedge \
-          --- RECOMBINATION-INTENSITY1 ---\
-          probability-recombination \
+          --- RECOMBINATION-INTENSITY ---\
           recombination-intensity1-map \
+          create-ingene \
           recombination-intensity1-genes \
           recombination-intensity1-probability \
           probability-recedge-gene \
-          --- RECOMBINATION-INTENSITY2 ---\
+          --- TREE-TOPOLOGY ---\
           recombination-intensity2-map \
           map-tree-topology \
           --- GENE-ANNOTATION ---\
@@ -1111,11 +1109,11 @@ CHOICES=( init-file-system \
           locate-gene-in-block \
           list-gene-go \
           ----------\
+          probability-recombination \
           analysis-clonalorigin \
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
           compute-global-median \
-          create-ingene \
           extract-species-tree \
           --- MANUSCRIPT ---\
           manuscript )

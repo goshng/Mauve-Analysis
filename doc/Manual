@@ -67,13 +67,32 @@ options of ClonalFrame.
 The second MCMC procedure is done using menu *prepare-run-clonalorigin*, which
 prepares a shell script to submit a job of the first stage of ClonalOrigin.
 Users use menu *receive-run-clonalorigin* to receive all of the result files of
-the first ClonalOrigin. 
+the first ClonalOrigin. Users can use menu *summarize-clonalorigin1* and
+*scatter-plot-parameter* to summarize the first stage of ClonalOrigin MCMC.
+Menu *summarize-clonalorigin1* creates two files: +unfinished+ and +median.txt+. 
+Menu *scatter-plot-parameter* creates a figure like Figure 4 of Didelot2010.
+Menu *plot-number-recombination-within-blocks* can be also used to create a
+figure like Figure 6 of Didelot2010.
+
+The third MCMC procedure is performed using menu *prepare-run-2nd-clonalorigin*
+and *receive-run-2nd-clonalorigin*. A figure like Figure 5 of Didelot2010 can be
+created using three menus of *count-observed-recedge*,
+*compute-prior-count-recedge*, and *compute-heatmap-recedge*. 
+Menu *prepare-run-compute-heatmap-recedge* might be useful if 
+menu *compute-heatmap-recedge* is slow.  
+
+STOPPED
+Menu *probability-recombination* may not be used.
+
+*recombination-intensity1-map*
+
+*create-ingene*
+*recombination-intensity1-genes*
+
+*recombination-intensity1-probability*
+*probability-recedge-gene*
 
 
-summarize-clonalorigin1
-
-prepare-run-2nd-clonalorigin
-receive-run-2nd-clonalorigin
 
 
 

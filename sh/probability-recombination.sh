@@ -15,12 +15,12 @@ function probability-recombination {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
-      echo perl pl/recombination-intensity3.pl \
+      echo perl pl/$FUNCNAME.pl \
         -d $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
         -xmfa $DATADIR/core_alignment.xmfa \
         -r 1 \
         -coords simulation/sde1.coords.txt \
-        $RUNANALYSIS/recombination-intensity.txt
+        $RUNANALYSIS/$FUNCNAME.txt
         #> $RUNANALYSIS/recombination-intensity.txt
       break
     fi

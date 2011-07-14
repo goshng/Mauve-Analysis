@@ -15,31 +15,22 @@ function recombination-intensity1-genes {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
-      NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)  
-      echo -e "  The number of blocks is $NUMBER_BLOCK."
-
-      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output2/$REPLICATE/core_co.phase3.xml.1|wc -l`)
-      echo -e "  The posterior sample size is $NUMBER_SAMPLE."
-
-      echo -n "  Reading TREETOPOLOGY of REPETITION$REPETITION from $SPECIESFILE..."
-      TREETOPOLOGY=$(grep REPETITION$REPETITION-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
-      echo " $TREETOPOLOGY"
-
-      echo -n "  Reading of REFGENOME of REPETITION$REPETITION from $SPECIESFILE..."
+      NUMBER_SAMPLE=$(trim $(echo `grep number $RUNCLONALORIGIN/output2/$REPLICATE/core_co.phase3.xml.1|wc -l`))
       REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
-      echo " $REFGENOME"
+      NUMBERSPECIES=$(grep REPETITION$REPETITION-NumberSpecies $SPECIESFILE | cut -d":" -f2)
 
-      echo -n "Do you wish to skip counting number of gene tree topology changes (y/n)? "
-      read WANTSKIP
-      if [ "$WANTSKIP" == "y" ]; then
-        echo -e "  Skipping counting number of gene tree topology changes..." 
-      else
+      echo -n "Do you wish to compute recombination intensity on genes (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         echo perl pl/$FUNCNAME.pl \
           -ri1map $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt \
           -ingene $RUNANALYSIS/in.gene \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -NUMBERSPECIES=$(grep REPETITION$REPETITION-NumberSpecies $SPECIESFILE | cut -d":" -f2)
           -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map.gene
         echo "Check file $RUNANALYSIS/ri1-refgenome$REFGENOME-map.gene"
+      else
+        echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
       break
     fi

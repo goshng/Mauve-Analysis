@@ -15,7 +15,7 @@ function recombination-intensity1-map {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
-      NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)  
+      NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`))
       echo -e "  The number of blocks is $NUMBER_BLOCK."
       echo "-------------------------------------"
       cat data/$SPECIES

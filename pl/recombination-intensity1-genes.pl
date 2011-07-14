@@ -27,6 +27,7 @@ GetOptions( \%params,
             'ingene=s',
             'clonaloriginsamplesize=i',
             'pairs=s',
+            'numberSpecies=i',
             'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -34,7 +35,7 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-recombination-intensity1-genes.pl - Compute recombination intensity1 along a genome
+recombination-intensity1-genes.pl - Compute recombination intensity on genes
 
 =head1 VERSION
 
@@ -45,6 +46,9 @@ v1.0, Sun May 15 16:25:25 EDT 2011
 perl recombination-intensity1-genes.pl [-h] [-help] [-version] [-verbose]
   [-ri1map file] 
   [-ingene file] 
+  [-clonaloriginsamplesize number]
+  [-pairs string] 
+  [-numberSpecies number]
   [-out file] 
 
 =head1 DESCRIPTION
@@ -57,6 +61,8 @@ What we need includes:
 1. recombination-intensity1-map file (-ri1map)
 2. ingene file (-ingene)
 3. out file (-out)
+4. sample size (-clonaloriginsamplesize) 
+5. number of species (-numberSpecies number)
 
 =head1 OPTIONS
 
@@ -65,10 +71,6 @@ What we need includes:
 =item B<-help> | B<-h>
 
 Print the help message; ignore other arguments.
-
-=item B<-man>
-
-Print the full documentation; ignore other arguments.
 
 =item B<-version>
 
@@ -89,6 +91,14 @@ An ingene file.
 =item B<-out> <file>
 
 An output file.
+
+=item B<-clonaloriginsamplesize> <number>
+
+The sample size of recombinant trees.
+
+=item B<-numberSpecies> <number>
+
+The number of species.
 
 =item B<-pairs> <string>
 
@@ -163,15 +173,6 @@ else
   &printError("you did not specify an output file");
 }
 
-if (exists $params{pairs})
-{
-  $pairs = $params{pairs};
-}
-else
-{
-  &printError("you did not specify an pairs file");
-}
-
 if (exists $params{ingene})
 {
   $ingene = $params{ingene};
@@ -188,6 +189,20 @@ if (exists $params{clonaloriginsamplesize})
 else
 {
   &printError("you did not specify an clonaloriginsamplesize");
+}
+
+if (exists $params{numberSpecies})
+{
+  $numberSpecies = $params{numberSpecies};
+}
+else
+{
+  &printError("you did not specify a number of species");
+}
+
+if (exists $params{pairs})
+{
+  $pairs = $params{pairs};
 }
 
 if (exists $params{verbose})
@@ -207,8 +222,7 @@ my %recedge;
 my $itercount = 0;
 my $blockLength;
 my $blockidForProgress;
-# my $speciesTree = get_species_tree ("$xml.1");
-my $numberTaxa = 5;
+my $numberTaxa = $numberSpecies;
 my $numberLineage = 2 * $numberTaxa - 1;
 
 ################################################################################

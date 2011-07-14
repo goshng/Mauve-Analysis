@@ -18,17 +18,26 @@ function summarize-clonalorigin1 {
       mkdir -p $RUNCLONALORIGIN/summary/${REPLICATE}
 
       echo "  Reporting status of jobs ..."
+      UNFINISHED=$RUNCLONALORIGIN/summary/${REPLICATE}/unfinished
       perl pl/report-clonalorigin-job.pl \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml \
         -database $DATADIR/core_alignment.xmfa \
-        > $RUNCLONALORIGIN/summary/${REPLICATE}/unfinished
+        > $UNFINISHED
+      echo "The following $UNFINISHED is"
+      echo "----"
+      cat $UNFINISHED
+      echo "----"
 
       echo -e "  Computing the global medians of theta, rho, and delta ..."
+      MEDIAN=$RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
       perl pl/computeMedians.pl \
         $RUNCLONALORIGIN/output/${REPLICATE}/core_co.phase2.xml.* \
-        | grep ^Median > $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+        | grep ^Median > $MEDIAN
       echo -e "This is the summary of the first stage of clonal origin run:"
-      cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+      echo "The following $MEDIAN is"
+      echo "----"
+      cat $MEDIAN
+      echo "----"
 
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
       break
