@@ -381,13 +381,102 @@ Users can perform jobs by selecting menus by running a bash script called
 sh/run.sh. 
 .Executing the main bash script
 ----
-bash sh/run.sh
+$ bash sh/run.sh
+$ ./run
 ----
+
+init-file-system
+~~~~~~~~~~~~~~~~
+Call this menu first. 
 
 choose-simulation
 ~~~~~~~~~~~~~~~~~
 Users have to setup simulation configuration including mostly creating
 directories.
+
+choose-species
+~~~~~~~~~~~~~~
+Users should call this menu before any analysis.
+
+choose-simulation \
+          ---SIMULATION1---\
+          simulate-data-clonalorigin1 \
+          simulate-data-clonalorigin1-prepare \
+          simulate-data-clonalorigin1-receive \
+          simulate-data-clonalorigin1-analyze \
+          ---SIMULATION2---\
+          simulate-data-clonalorigin2 \
+          simulate-data-clonalorigin2-prepare \
+          sim2-receive \
+          sim2-analyze \
+          simulate-data-clonalorigin2-analyze \
+          analyze-run-clonalorigin2-simulation \
+          ---SIMULATION3---\
+          analyze-run-clonalorigin2-simulation2 \
+          sim3-prepare \
+          sim3-receive \
+          sim3-analyze \
+          ---SIMULATION4---\
+          clonalorigin2-simulation3 \
+          sim4-prepare \
+          sim4-receive \
+          sim4-analyze \
+          sim4-each-block \
+          ---SIMULATION5---\
+          clonalorigin2-simulation4 \
+          ---SIMULATION5---\
+          simulate-data-clonalorigin2-from-xml \
+          ---REAL-DATA-ALIGNMENT---\
+          choose-species \
+          prepare-mauve-alignment \
+          copy-mauve-alignment \
+          receive-mauve-alignment \
+          ---REAL-DATA-CLONALFRAME---\
+          filter-blocks \
+          summary-core-alignment \
+          prepare-run-clonalframe \
+          receive-run-clonalframe \
+          ---CLONALORIGIN1---\
+          prepare-run-clonalorigin \
+          receive-run-clonalorigin \
+          ---THREE-PARAMETERS---\
+          summarize-clonalorigin1 \
+          scatter-plot-parameter \
+          plot-number-recombination-within-blocks \
+          ---CLONALORIGIN2---\
+          prepare-run-2nd-clonalorigin \
+          receive-run-2nd-clonalorigin \
+          ---RECOMBINATION-COUNT---\
+          count-observed-recedge \
+          compute-prior-count-recedge \
+          compute-heatmap-recedge \
+          prepare-run-compute-heatmap-recedge \
+          ---RECOMBINATION-INTENSITY---\
+          recombination-intensity1-map \
+          convert-gff-ingene \
+          locate-gene-in-block \
+          recombination-intensity1-genes \
+          recombination-intensity1-probability \
+          probability-recedge-gene \
+          ---TREE-TOPOLOGY---\
+          recombination-intensity2-map \
+          map-tree-topology \
+          ---GENE-ANNOTATION---\
+          list-gene-go \
+          ---DELETE-THESE-MENU---\
+          create-ingene \
+          probability-recombination \
+          ---UTILITIES---\
+          analysis-clonalorigin \
+          compute-watterson-estimate-for-clonalframe \
+          compute-block-length \
+          compute-global-median \
+          extract-species-tree \
+          ---MANUSCRIPT---\
+          manuscript \
+          warranty \
+          copyright )
+
 
 simulate-data-clonalorigin2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -602,7 +691,7 @@ I use a gene annotation file that accompanies the genbank bacterial genome file.
 NCBI's ftp directory called bacteria contains complete genomes of bacteria and
 archiea. A genbank file could be used to locate genes in the genome of the
 genbank file. I instead use a companion file called gff file to extract gene
-locations.
+locations. An example of 
 
 .A genome annotation gff file
 ----
@@ -620,14 +709,15 @@ output/cornellf/8/run-analysis/in.gene
 
 locate-gene-in-block
 ~~~~~~~~~~~~~~~~~~~~
-All of the gene in an ingene file are mapped to block alignments that are used
-in ClonalOrigin inference. Five more columns are appended to the ingene file:
-block ID, start and end position of a gene in the block, gene length, and
-proportions of gaps in the gene.
+Genes in an +ingene+ file are mapped to block alignments that are used
+in ClonalOrigin inference. The following information is written to
++ingene.referenceGenomeID.block+ file:
+gene start end strand blockidGene blockStart blockEnd geneStartInBlock
+geneEndInBlock lenSeq gap. Genes with larger than 50 are considered. 
 
-.An ingene file is appended
+.An ingene block file is created.
 ----
-output/cornellf/8/run-analysis/in.gene
+output/cornellf/8/run-analysis/in.gene.4.block
 ----
 
 clonalorigin2-simulation3

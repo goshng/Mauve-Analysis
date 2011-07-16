@@ -1,28 +1,33 @@
 # Main Configuration File
 # =======================
 #
-# PROJECTNAME:projectName
+PROJECTNAME:projectName
 #
 # Cluster ID setup
 # ----------------
-# CAC_USERNAME:clusterUsername
-# CAC_LOGIN:clusterURL
-# CAC_ROOT:clusterBase
+CAC_USERNAME:clusterUsername
+CAC_LOGIN:clusterURL
+CAC_ROOT:clusterBase
 #
 # X11 linux ID setup
 # ------------------
-# X11_USERNAME:x11Username
-# X11_LOGIN:x11URL
-# X11_ROOT:x11Base
+X11_USERNAME:x11Username
+X11_LOGIN:x11URL
+X11_ROOT:x11Base
 #
 # Cluster access to job submission
 # --------------------------------
-# BATCHEMAIL:email
-# BATCHACCESS:access
-# QUEUENAME:queue
+BATCHEMAIL:email
+BATCHACCESS:access
+QUEUENAME:queue
 #
 # Global setup
 # ------------
-# COREALIGNMENT:core_alignment.xmfa
+COREALIGNMENT:core_alignment.xmfa
+GENOMEDATADIR:genome
+LCB:/Users/goshng/usr/bin/stripSubsetLCBs
+AUI:/Users/goshng/usr/bin/addUnalignedIntervals
+GUI:/Users/goshng/Documents/Projects/mauve/clonalorigin/gui/gui.app/Contents/MacOS/gui
+WARGSIM:src/clonalorigin/b/wargsim
 
 

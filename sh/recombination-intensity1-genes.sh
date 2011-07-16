@@ -28,9 +28,9 @@ function recombination-intensity1-genes {
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
           -ri1map $RUNANALYSIS/rimap.txt \
-          -ingene $RUNANALYSIS/in.gene \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
-          -out $RIMAPGENE
+          -out $RIMAPGENE > now
         echo "Check file $RIMAPGENE"
       else
         echo -e "  Skipping counting number of gene tree topology changes..." 

@@ -834,6 +834,7 @@ function analysis-clonalorigin {
 source sh/progressbar.sh
 source sh/init-file-system.sh
 source sh/choose-simulation.sh 
+source sh/choose-species.sh 
 source sh/simulate-data-clonalorigin1-prepare.sh
 source sh/simulate-data-clonalorigin1-receive.sh 
 source sh/simulate-data-clonalorigin1-analyze.sh
@@ -922,6 +923,7 @@ CHOICES=( init-file-system \
           ---SIMULATION5---\
           simulate-data-clonalorigin2-from-xml \
           ---REAL-DATA-ALIGNMENT---\
+          choose-species \
           prepare-mauve-alignment \
           copy-mauve-alignment \
           receive-mauve-alignment \
@@ -1062,6 +1064,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "choose-species" ]; then $CHOICE; break
   else
     echo -e "You need to enter something\n"
     continue
