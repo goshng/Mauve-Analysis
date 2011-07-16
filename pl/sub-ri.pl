@@ -16,8 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
+use strict;
+use warnings;
 
 require "pl/sub-array.pl";
+
+my $verbose = 1;
 
 sub maRiParse ($)
 {
@@ -28,14 +32,16 @@ sub maRiParse ($)
   $line = <RI>;
   $n1++;
   my @e = split /\t/, $line;
-  my $n2 = $#e; # Matrix size
+  my $n2 = sqrt($#e); # Matrix size
   while (<RI>)
   {
     $n1++;
   }
   close RI;
 
+  # print STDERR "Creating rimap ..." if $verbose == 1;
   my @rimap = create3DMatrix ($n1, $n2, $n2, -1); 
+  # print STDERR " done\n" if $verbose == 1;
   my $i = 0;
   open RI, $f or die "cannot open < $f: $!";
   while ($line = <RI>)
@@ -51,7 +57,7 @@ sub maRiParse ($)
     $i++;
   }
   close RI;
-  return @rimap;
+  return \@rimap;
 }
 
 sub maRiPrint ($)
@@ -62,10 +68,16 @@ sub maRiPrint ($)
 sub maRiGetGenes ($$$$$)
 {
   my ($genes, $rimap, $blockStart, $pairM, $pairMSize) = @_;
-  my @riM = maRiParse ($rimap);
-  for (my $i = 0; $i <= $#genes; $i++)
+  my $verbose = 1;
+  # print STDERR "Parsing $rimap..." if $verbose == 1;
+  my $riM = maRiParse ($rimap);
+  # print STDERR "done" if $verbose == 1;
+
+  for (my $i = 0; $i <= $#$genes; $i++)
   {
+    # print STDERR "Gene $i/$#$genes\r" if $verbose == 1;
     my $g = $genes->[$i];
+    my $blockidGene = $g->{blockidGene};
 # gene start end strand blockidGene blockStart blockEnd 
 # geneStartInBlock geneEndInBlock lenSeq gap
 
@@ -78,7 +90,7 @@ sub maRiGetGenes ($$$$$)
       {
         for (my $l = 0; $l < $pairMSize; $l++)
         {
-          if ($m->[$k][$l] == 1)
+          if ($pairM->[$k][$l] == 1)
           {
             $valuePerSite += $riM->[$blockStartInAllBlock+$j][$k][$l];
           }

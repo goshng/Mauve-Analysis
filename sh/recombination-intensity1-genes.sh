@@ -24,6 +24,7 @@ function recombination-intensity1-genes {
       read WISH
       if [ "$WISH" == "y" ]; then
         echo perl pl/$FUNCNAME.pl \
+          rimap \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
