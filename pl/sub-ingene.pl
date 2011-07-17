@@ -105,24 +105,22 @@ sub maIngenePrintBlockRi ($$)
 {
   my ($ingene, $genes) = @_;
   
-  open INGENE, ">", $ingene or die "cannot open > $ingene";
   for (my $i = 0; $i < scalar @{ $genes }; $i++)
   {
     my $g = $genes->[$i];
-    print INGENE "$g->{gene}\t";
-    print INGENE "$g->{start}\t";
-    print INGENE "$g->{end}\t";
-    print INGENE "$g->{strand}\t";
-    print INGENE "$g->{blockidGene}\t";
-    print INGENE "$g->{blockStart}\t";
-    print INGENE "$g->{blockEnd}\t";
-    print INGENE "$g->{geneStartInBlock}\t";
-    print INGENE "$g->{geneEndInBlock}\t";
-    print INGENE "$g->{lenSeq}\t";
-    print INGENE "$g->{gap}\t";
-    print INGENE "$g->{ri}\n";
+    print $ingene "$g->{gene}\t";
+    print $ingene "$g->{start}\t";
+    print $ingene "$g->{end}\t";
+    print $ingene "$g->{strand}\t";
+    print $ingene "$g->{blockidGene}\t";
+    print $ingene "$g->{blockStart}\t";
+    print $ingene "$g->{blockEnd}\t";
+    print $ingene "$g->{geneStartInBlock}\t";
+    print $ingene "$g->{geneEndInBlock}\t";
+    print $ingene "$g->{lenSeq}\t";
+    print $ingene "$g->{gap}\t";
+    print $ingene "$g->{ri}\n";
   }
-  close INGENE;
 }
 
 sub parse_in_gene ($) {

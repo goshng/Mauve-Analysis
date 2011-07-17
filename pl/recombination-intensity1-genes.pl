@@ -253,7 +253,7 @@ if ($cmd eq 'rimap')
   }
   my @blockStart = maXmfaGetBlockStart ($xmfa);
   maRiGetGenes (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage);
-  maIngenePrintBlockRi ("a", \@genes); # FIXME
+  maIngenePrintBlockRi ($outfile, \@genes);
 }
 else
 {

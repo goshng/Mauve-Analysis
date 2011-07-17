@@ -31,11 +31,58 @@ function recombination-intensity1-genes {
           -ri1map $RUNANALYSIS/rimap.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
-          -out $RIMAPGENE > now
-        echo "Check file $RIMAPGENE"
+          -out $RIMAPGENE.all
+        echo "Check file $RIMAPGENE.all"
+        echo perl pl/$FUNCNAME.pl \
+          rimap \
+          -pairm topology \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RIMAPGENE.topology
+        echo "Check file $RIMAPGENE.topology"
+        echo perl pl/$FUNCNAME.pl \
+          rimap \
+          -pairm notopology \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RIMAPGENE.notopology
+        echo "Check file $RIMAPGENE.notopology"
+        echo perl pl/$FUNCNAME.pl \
+          rimap \
+          -pairm pair \
+          -pairs 0,3:0,4:1,3:1,4 \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RIMAPGENE.sde2spy
+        echo "Check file $RIMAPGENE.sde2spy"
+        echo perl pl/$FUNCNAME.pl \
+          rimap \
+          -pairm pair \
+          -pairs 3,0:4,0:3,1:4,1 \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RIMAPGENE.spy2sde
+        echo "Check file $RIMAPGENE.spy2sde"
       else
         echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
+      break
 
       echo -n "Do you wish to compute recombination intensity on genes (y/n)? "
       read WISH
