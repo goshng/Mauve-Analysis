@@ -471,6 +471,7 @@ sub maXmfaGetBlockStart ($)
     my $blockSize = xmfaBlockSize ($xmfaFile);
     $currentPosition += $blockSize;
   }
+  push @blockStart, $currentPosition;
   return @blockStart;
 }
 
@@ -550,6 +551,11 @@ an exmaple.
   Argument 1: XMFA.# file
   Argument 2: Reference genome index
   Return: Sequence
+
+=item sub xmfaNumberBlock ($)
+
+  Argument 1: XMFA file name
+  Return: Number of blocks
 
 =back
 

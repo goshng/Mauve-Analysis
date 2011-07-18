@@ -33,117 +33,6 @@ GetOptions( \%params,
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
-=head1 NAME
-
-analyze-run-clonalorigin2-simulation2-analyze.pl - Generate a table for menu
-analyze-run-clonalorigin2-simulation2-analyze
-
-=head1 VERSION
-
-analyze-run-clonalorigin2-simulation2-analyze.pl 1.0
-
-=head1 SYNOPSIS
-
-perl analyze-run-clonalorigin2-simulation2-analyze.pl 
-  [-h] [-help] [-version] 
-  [-true file] 
-  [-estimate file base name] 
-  [-numberreplicate number] 
-  [-block number] 
-  [-out file] 
-  [-append] 
-
-=head1 DESCRIPTION
-
-Menus analyze-run-clonalorigin2-simulation2-prepare,
-analyze-run-clonalorigin2-simulation2-receive,
-analyze-run-clonalorigin2-simulation2-analyze are used to validate the first
-surrogate measure of recombination intensity. 
-True values of this measure can be found at
-output/s14/1/run-analysis/ri-true/2
-for REPETITION=1, BLOCK=2. A number of replicates are found at
-output/s14/1/run-clonalorigin/output2/ri-3/2
-for REPETITION=1, BLOCK=2, REPLICATE=3. Each file is tab-delimited with gene
-name and its value. I make a table for each replicate with columns: gene, true,
-estimate. This table would be used to plot.
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<-help> | B<-h>
-
-Print the help message; ignore other arguments.
-
-=item B<-man>
-
-Print the full documentation; ignore other arguments.
-
-=item B<-version>
-
-Print program version; ignore other arguments.
-
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
-=item B<***** INPUT OPTIONS *****>
-
-=item B<-true> <file>
-
-A file that contains genes and their values.
-
-=item B<-estimate> <file base name>
-
-A base name of files that contains genes and their values.
-
-=item B<-numberreplicate> <number>
-
-Number of replicates.
-
-=item B<-block> <number>
-
-The block ID.
-
-=item B<-out> <file>
-
-An output file.
-
-=item B<-append>
-
-The output file is not created.
-
-=back
-
-=head1 AUTHOR
-
-Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
-
-=head1 BUGS
-
-If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make analyze-run-clonalorigin2-simulation2-analyze.pl better.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011 Sang Chul Choi
-
-=head1 LICENSE
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-
-=cut
-
 require "pl/sub-error.pl";
 
 ################################################################################
@@ -267,4 +156,116 @@ sub parse_file_gene_colon_value ($)
   return @genes;
 }
 
+__END__
 
+=head1 NAME
+
+analyze-run-clonalorigin2-simulation2-analyze.pl - Generate a table for menu
+analyze-run-clonalorigin2-simulation2-analyze
+
+=head1 VERSION
+
+analyze-run-clonalorigin2-simulation2-analyze.pl 1.0
+
+=head1 SYNOPSIS
+
+perl analyze-run-clonalorigin2-simulation2-analyze.pl 
+  [-h] [-help] [-version] 
+  [-true file] 
+  [-estimate file base name] 
+  [-numberreplicate number] 
+  [-block number] 
+  [-out file] 
+  [-append] 
+
+=head1 DESCRIPTION
+
+Menus analyze-run-clonalorigin2-simulation2-prepare,
+analyze-run-clonalorigin2-simulation2-receive,
+analyze-run-clonalorigin2-simulation2-analyze are used to validate the first
+surrogate measure of recombination intensity. 
+True values of this measure can be found at
+output/s14/1/run-analysis/ri-true/2
+for REPETITION=1, BLOCK=2. A number of replicates are found at
+output/s14/1/run-clonalorigin/output2/ri-3/2
+for REPETITION=1, BLOCK=2, REPLICATE=3. Each file is tab-delimited with gene
+name and its value. I make a table for each replicate with columns: gene, true,
+estimate. This table would be used to plot.
+I also used s16 with this perl script.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-help> | B<-h>
+
+Print the help message; ignore other arguments.
+
+=item B<-man>
+
+Print the full documentation; ignore other arguments.
+
+=item B<-version>
+
+Print program version; ignore other arguments.
+
+=item B<-verbose>
+
+Prints status and info messages during processing.
+
+=item B<***** INPUT OPTIONS *****>
+
+=item B<-true> <file>
+
+A file that contains genes and their values.
+
+=item B<-estimate> <file base name>
+
+A base name of files that contains genes and their values.
+
+=item B<-numberreplicate> <number>
+
+Number of replicates.
+
+=item B<-block> <number>
+
+The block ID.
+
+=item B<-out> <file>
+
+An output file.
+
+=item B<-append>
+
+The output file is not created.
+
+=back
+
+=head1 AUTHOR
+
+Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
+
+=head1 BUGS
+
+If you find a bug please post a message mauve-analysis project at codaset dot
+com repository so that I can make analyze-run-clonalorigin2-simulation2-analyze.pl better.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011 Sang Chul Choi
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut

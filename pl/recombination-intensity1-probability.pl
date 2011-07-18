@@ -42,6 +42,9 @@ GetOptions( \%params,
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
             'xml=s',
+            'xmfa=s',
+            'refgenome=i',
+            'block=i',
             'ri1map=s',
             'ingene=s',
             'clonaloriginsamplesize=i',
@@ -56,11 +59,11 @@ sub getLengthMap ($);
 require "pl/sub-ingene.pl";
 require "pl/sub-error.pl";
 require "pl/sub-array.pl";
-
-# Delete these if not needed.
 require "pl/sub-simple-parser.pl";
 require "pl/sub-newick-parser.pl";
 require "pl/sub-xmfa.pl";
+require "pl/sub-ri.pl";
+require "pl/sub-ps.pl";
 
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
@@ -72,6 +75,34 @@ my $out;
 my $clonaloriginsamplesize;
 my $pairs;
 my $verbose = 0;
+my $xml;
+my $xmfa;
+my $refgenome; 
+my $block = -1;
+
+if (exists $params{block})
+{
+  $block = $params{block};
+}
+
+if (exists $params{xml})
+{
+  $xml = $params{xml};
+}
+else
+{
+  &printError("you did not specify an xml directory that contains Clonal Origin 2nd run results");
+}
+
+if (exists $params{xmfa})
+{
+  $xmfa = $params{xmfa};
+}
+else
+{
+  &printError("you did not specify a core genome alignment");
+}
+
 
 if (exists $params{ri1map})
 {
@@ -114,6 +145,15 @@ if (exists $params{verbose})
   $verbose = 1;
 }
 
+if (exists $params{refgenome})
+{
+  $refgenome = $params{refgenome};
+}
+else
+{
+  &printError("you did not specify an clonaloriginsamplesize");
+}
+
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
@@ -128,15 +168,30 @@ my $numberLineage = 2 * $numberTaxa - 1;
 # Find coordinates of the reference genome.
 ################################################################################
 
-
 sub drawRI1BlockGenes ($$);
 sub getRI1Gene ($$$$$);
 sub getPairs ($);
 
 # my @genes = parse_in_gene ($ingene); 
+my $numberBlock = xmfaNumberBlock ($xmfa);
 my @genes = maIngeneParseBlock ($ingene); 
-my $lengthGenome = getLengthMap ($ri1map);
-drawRI1BlockGenes (\@genes, $ri1map);
+my $lengthTotalBlock = maRiGetLength ($ri1map);
+my @blockStart = maXmfaGetBlockStart ($xmfa);
+
+if ($block == -1)
+{
+  for (my $b = 1; $b <= $numberBlock; $b++)
+  {
+    maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $b, $clonaloriginsamplesize);
+  }
+}
+else
+{
+  maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $block, $clonaloriginsamplesize);
+}
+
+# maPsDrawRi (\@genes, $ri1map, $lengthTotalBlock);
+#drawRI1BlockGenes (\@genes, $ri1map);
 
 exit;
 ################################################################################
@@ -206,6 +261,7 @@ sub drawRI1BlockGenes ($$)
 sub drawRI1Block ($$$)
 {
   my ($map, $ingene, $out) = @_;
+  my $lengthGenome = 11111111; # FIXME
 
   ###############
   # Postscript.

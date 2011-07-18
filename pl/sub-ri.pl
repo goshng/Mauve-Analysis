@@ -102,6 +102,18 @@ sub maRiGetGenes ($$$$$)
   }
 }
 
+sub maRiGetLength ($)
+{
+  my ($f) = @_;
+  my $i = 0;
+  open MAPLENGTH, $f or die "cannot open < $f $!";
+  while (<MAPLENGTH>)
+  {
+    $i++;
+  }
+  close MAPLENGTH;
+  return $i;
+}
 1;
 __END__
 
@@ -129,6 +141,11 @@ Recombination intensity map file parser.
 
   Argument 1: Recombination intesnity map file
   Return: Three dimensional matrix with values
+
+=item sub maRiGetLength ($)
+
+  Argument 1: Recombination intesnity map file
+  Return: Length of the map
 
 =back
 

@@ -10,10 +10,7 @@ function sim3-prepare  {
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s10" ] \
-         || [ "$SPECIES" == "s11" ] \
-         || [ "$SPECIES" == "s13" ] \
-         || [ "$SPECIES" == "s14" ] \
+    elif [ "$SPECIES" == "s14" ] \
          || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species

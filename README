@@ -40,11 +40,17 @@ To Do
 .Genes with high values of recombination and each of them.
 . Colocalization of genes?
 
+Sun Jul 17 18:41:46 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sim3-prepare is the one that I need to check for ri simulation (s16).
+sim3-analyze.
+analyze-run-clonalorigin2-simulation2-prepare.pl and
+analyze-run-clonalorigin2-simulation2-analyze.pl are used for recombination
+intensity simulation.
 
 Fri Jul 15 22:57:38 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 See +pl/recombination-intensity1-map.pl+ for out and outfile.
-
 
 Tue Jun 28 15:26:38 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

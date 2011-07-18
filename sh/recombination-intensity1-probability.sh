@@ -46,7 +46,27 @@ function recombination-intensity1-probability {
       REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
       echo " $REFGENOME"
 
-      echo -n "Do you wish to draw a graph of recombination probability (y/n)? "
+      echo -n "Do you wish to draw a graph of recombination probability using blocks (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo -n "Which block you wish to draw a graph of recombination probability (e.g., 254) ? "
+        read BLOCKID
+        perl pl/$FUNCNAME.pl \
+          -block $BLOCKID \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RUNANALYSIS/rimap-$REFGENOME
+        echo "Check file $RUNANALYSIS/rimap-$REFGENOME-*.eps"
+      else
+        echo -e "  Skipping drawing recombination probability ..." 
+      fi
+      break
+
+      echo -n "(Old version: may not work)Do you wish to draw a graph of recombination probability (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo perl pl/$FUNCNAME.pl \
@@ -62,4 +82,3 @@ function recombination-intensity1-probability {
     fi
   done
 }
-
