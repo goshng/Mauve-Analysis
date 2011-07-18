@@ -25,16 +25,14 @@ function sim3-analyze {
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
-    elif [ "$SPECIES" == "s10" ] \
-         || [ "$SPECIES" == "s11" ] \
-         || [ "$SPECIES" == "s13" ] \
-         || [ "$SPECIES" == "s14" ] \
+    elif [ "$SPECIES" == "s14" ] \
          || [ "$SPECIES" == "s16" ] \
          || [ "$SPECIES" == "sxx" ]; then
       read-species
 
       BASEDIR=$OUTPUTDIR/$SPECIES
       BASERUNANALYSIS=$BASEDIR/run-analysis
+      PAIRM=topology 
 
       echo -n "Do you wish to generate the true XML? (e.g., y/n) "
       read WANT
@@ -48,7 +46,8 @@ function sim3-analyze {
           RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
           mkdir -p $RITRUE
           for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-            perl pl/analyze-run-clonalorigin2-simulation2-prepare.pl \
+            perl pl/sim3-prepare.pl \
+              -pairm $PAIRM \
               -xml $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID \
               -ingene $BASERUNANALYSIS/in.gene \
               -blockid $BLOCKID \

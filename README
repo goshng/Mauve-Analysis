@@ -47,6 +47,10 @@ sim3-analyze.
 analyze-run-clonalorigin2-simulation2-prepare.pl and
 analyze-run-clonalorigin2-simulation2-analyze.pl are used for recombination
 intensity simulation.
+analyze-run-clonalorigin2-simulation2-prepare.pl is used to find ri.
+analyze-run-clonalorigin2-simulation2-analyze.pl is used to combine results.
+analyze-run-clonalorigin2-simulation2-analyze.pl is a simple perl script without
+XML parsing.
 
 Fri Jul 15 22:57:38 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

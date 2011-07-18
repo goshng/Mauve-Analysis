@@ -18,6 +18,7 @@ function sim3-prepare  {
       BASEDIR=$OUTPUTDIR/$SPECIES
       BASERUNANALYSIS=$BASEDIR/run-analysis
       CAC_BASEDIR=$CAC_OUTPUTDIR/$SPECIES
+      PAIRM=topology 
 
       # Copy data sets if necessary.
       # Create a main batch script: run.sh
@@ -25,17 +26,17 @@ function sim3-prepare  {
       # Create a task batch script: batch_simulation3_task.sh
       # Create a jobidfile: jobidfile
       # Copy perl scripts including
-      # 1. analyze-run-clonalorigin2-simulation2-prepare.pl
-      analyze-run-clonalorigin2-simulation2-prepare-copy-run-sh
+      # 1. sim3-prepare.pl
+      sim3-prepare-copy-run-sh
       ssh -x $CAC_USERHOST mkdir -p $CAC_BASEDIR/pl
       ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
-      scp -q pl/analyze-run-clonalorigin2-simulation2-prepare.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
+      scp -q pl/sim3-prepare.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
       scp -q data/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/in.block
 
       echo "  Creating job files..."
-      analyze-run-clonalorigin2-simulation2-prepare-jobidfile \
+      sim3-prepare-jobidfile \
       make-run-list-repeat $g \
         $OUTPUTDIR/$SPECIES \
         $REPLICATE \
@@ -167,7 +168,7 @@ function extract_ri {
   done
 }
 
-function analyze-run-clonalorigin2-simulation2-prepare-copy-run-sh {
+function sim3-prepare-copy-run-sh {
   RUN_SH=$OUTPUTDIR/$SPECIES/run.sh
   BATCH_SH=$OUTPUTDIR/$SPECIES/batch.sh
   cat>$RUN_SH<<EOF
@@ -254,10 +255,10 @@ EOF
  
   scp -q $RUN_SH $CAC_MAUVEANALYSISDIR/output/$SPECIES
   scp -q $BATCH_SH $CAC_MAUVEANALYSISDIR/output/$SPECIES
-  analyze-run-clonalorigin2-simulation2-prepare-batch-task-sh
+  sim3-prepare-batch-task-sh
 }
 
-function analyze-run-clonalorigin2-simulation2-prepare-batch-task-sh {
+function sim3-prepare-batch-task-sh {
   TASK_SH=$OUTPUTDIR/$SPECIES/batch_task.sh
   cat>$TASK_SH<<EOF
 #!/bin/bash
@@ -330,11 +331,12 @@ EOF
   scp -q $TASK_SH $CAC_MAUVEANALYSISDIR/output/$SPECIES
 }
 
-function analyze-run-clonalorigin2-simulation2-prepare-jobidfile {
+function sim3-prepare-jobidfile {
   for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
     for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
       for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-        LINE="perl pl/analyze-run-clonalorigin2-simulation2-prepare.pl \
+        LINE="perl pl/sim3-prepare.pl \
+              -pairm $PAIRM \
               -xml $REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$BLOCKID \
               -ingene run-analysis/in.gene \
               -blockid $BLOCKID \

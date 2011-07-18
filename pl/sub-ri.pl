@@ -65,6 +65,43 @@ sub maRiPrint ($)
   
 }
 
+sub maRiGetForGenesBlock ($$$$$)
+{
+  my ($genes, $riM, $blockid, $pairM, $numberLineage) = @_;
+
+  for (my $i = 0; $i <= $#$genes; $i++)
+  {
+    my $g = $genes->[$i];
+    my $blockidGene = $g->{blockidGene};
+
+# gene start end strand blockidGene blockStart blockEnd 
+# geneStartInBlock geneEndInBlock lenSeq gap
+
+    # From blockStart to blockEnd inclusively.
+    # Total length of the gene is blockEnd - blockStart + 1.
+    my $ri1PerGene = 0;
+    for (my $j = $g->{blockStart}; $j <= $g->{blockEnd}; $j++)
+    {
+      my $valuePerSite = 0; 
+      for (my $k = 0; $k < $pairMSize; $k++)
+      {
+        for (my $l = 0; $l < $pairMSize; $l++)
+        {
+          if ($pairM->[$k][$l] == 1)
+          {
+            $valuePerSite += $riM->[$k][$l][$j]; # Note that the position at 3rd.
+          }
+        }
+      }
+      $ri1PerGene += $valuePerSite;
+    }
+    # my $geneLengthInBlock =  $g->{blockEnd} - $g->{blockStart} + 1;
+    # $ri1PerGene /= $geneLengthInBlock;
+    # $ri1PerGene /= $numberItartion;
+    $g->{ri} = $ri1PerGene;
+  }
+}
+
 sub maRiGetGenes ($$$$$)
 {
   my ($genes, $rimap, $blockStart, $pairM, $pairMSize) = @_;
@@ -83,7 +120,9 @@ sub maRiGetGenes ($$$$$)
 
     my $ri1PerGene = 0;
     my $blockStartInAllBlock = $blockStart->[$blockidGene-1];
-    for (my $j = $g->{blockStart}; $j < $g->{blockEnd}; $j++)
+    # Note that a gene starts from blockStart to blockEnd inclusively.
+    # The length of a gene is blockEnd - blockStart + 1.
+    for (my $j = $g->{blockStart}; $j <= $g->{blockEnd}; $j++)
     {
       my $valuePerSite = 0; 
       for (my $k = 0; $k < $pairMSize; $k++)
@@ -146,6 +185,15 @@ Recombination intensity map file parser.
 
   Argument 1: Recombination intesnity map file
   Return: Length of the map
+
+=item sub maRiGetForGenesBlock ($$$$$)
+
+  Argument 1: Array reference of ingene
+  Argument 2: Recombinant rec edges
+  Argument 3: Block ID
+  Argument 4: Array reference of pairs of tree branch
+  Argument 5: Number of lineage or size of the matrix in argument 3
+  Return: The ingene array with ri field with recombination intensity 
 
 =back
 

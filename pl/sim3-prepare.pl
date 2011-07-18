@@ -1,8 +1,26 @@
 #!/opt/local/bin/perl -w
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: analyze-run-clonalorigin2-simulation2-prepare.pl
+#   File: sim3-prepare.pl
 #   Date: Wed May  4 14:38:21 EDT 2011
 #   Version: 1.0
 #===============================================================================
@@ -12,9 +30,19 @@ use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
 
+require "pl/sub-simple-parser.pl";
+require "pl/sub-newick-parser.pl";
+require "pl/sub-array.pl";
+require "pl/sub-ingene.pl";
+require "pl/sub-error.pl";
+
+sub get_genome_file ($$);
+sub locate_block_in_genome ($$);
+sub locate_nucleotide_in_block ($$);
+
 $| = 1; # Do not buffer output
 
-my $VERSION = 'analyze-run-clonalorigin2-simulation2-prepare.pl 1.0';
+my $VERSION = 'sim3-prepare.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -29,150 +57,36 @@ GetOptions( \%params,
             'xmfa=s',
             'ingene=s',
             'out=s',
+            'pairm=s',
             'realdataanalysis'
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
-=head1 NAME
-
-analyze-run-clonalorigin2-simulation2-prepare.pl - Compute recombination intensity along the genome.
-
-=head1 VERSION
-
-analyze-run-clonalorigin2-simulation2-prepare.pl 1.0
-
-=head1 SYNOPSIS
-
-perl analyze-run-clonalorigin2-simulation2-prepare.pl 
-  [-h] [-help] [-version] 
-  [-d xml data directory] 
-  [-xmlbasename xml file base name] 
-  [-endblockid]
-  [-xmfa genome alignment] 
-  [-genelength integer] 
-  [-n integer] 
-
-=head1 DESCRIPTION
-
-I wish to check if the recombination intensity can be recovered. Options -d,
--xmlbasename, and -endblockid stay put. Option -xmfa is also kept. Option gene
-length is used to segment the alignment. I compute the recombination intensity
-of each segment. 
-
-I use the following two menus to find locations of genes in blocks:
-convert-gff-ingene and locate-gene-in-block. I do not need -xmfa. All that I
-need is ingene file. I do not need inblock either.
-
-I may not need this -realdataanalysis option.
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<-help> | B<-h>
-
-Print the help message; ignore other arguments.
-
-=item B<-man>
-
-Print the full documentation; ignore other arguments.
-
-=item B<-version>
-
-Print program version; ignore other arguments.
-
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
-=item B<***** INPUT OPTIONS *****>
-
-=item B<-d> <xml directory>
-
-A directory that contains the 2nd phase run result from Clonal Origin.
-
-=item B<-xmfa> <alignment directory>
-
-A directory that contains the input alignment.
-
-=item B<-numberblock> <integer>
-
-Number of blocks.
-
-=item B<-genelength> <integer>
-
-Length of genes.
-
-=item B<-endblockid>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-The block id can follow xml or precede it. Default is to precede it: i.e.,
-core_co.phase3.1.xml is the default.
-
-=item B<-xmlbasename> <name>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-Default base name is core_co.phase3.
-
-=back
-
-=head1 AUTHOR
-
-Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
-
-=head1 BUGS
-
-If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make analyze-run-clonalorigin2-simulation2-prepare.pl better.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011 Sang Chul Choi
-
-=head1 LICENSE
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-
-=cut
-
-require "pl/sub-simple-parser.pl";
-require "pl/sub-newick-parser.pl";
-require "pl/sub-array.pl";
-require "pl/sub-ingene.pl";
-sub get_genome_file ($$);
-sub locate_block_in_genome ($$);
-sub locate_nucleotide_in_block ($$);
-
-#
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
 ################################################################################
-#
 
-my $blockID;
-my $xmlFile;
+my $blockid;
+my $xml;
 my $xmfaFile;
 my $verbose = 0;
 my $ingene;
 my $realDataAnalysis = 0; 
 my $outFile;
+my $pairm = "all";
+
+if (exists $params{pairm})
+{
+  $pairm = $params{pairm};
+  unless ($pairm eq 'all' or 
+          $pairm eq 'topology' or 
+          $pairm eq 'notopology')
+  {
+    die "-pairm options must be one of all, topology, notopology, and pair";
+  }
+}
+
 if (exists $params{out})
 {
   $outFile = $params{out};
@@ -185,7 +99,7 @@ else
 
 if (exists $params{xml})
 {
-  $xmlFile = $params{xml};
+  $xml = $params{xml};
 }
 else
 {
@@ -194,7 +108,7 @@ else
 
 if (exists $params{blockid})
 {
-  $blockID = $params{blockid};
+  $blockid = $params{blockid};
 }
 else
 {
@@ -242,16 +156,11 @@ my $tag;
 my $content;
 my %recedge;
 my $itercount = 0;
-my $blockLength;
-my $speciesTree = get_species_tree ($xmlFile);
-my $numberItartion = get_sample_size ($xmlFile);
+my $blockLength = get_block_length ($xml);
+my $speciesTree = get_species_tree ($xml);
+my $numberIteration = get_sample_size ($xml);
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
-
-# FIXME:
-# convert-gff-ingene and locate-gene-in-block must be used to generate in.gene
-# file for simulation s10 and s11.
-# Do I need these?
 
 # !!! NOTE !!!
 # mapImport index is 1-based, and blockImmport index is 0-based.
@@ -262,7 +171,6 @@ if ($verbose == 1)
 {
   print STDERR "A new mapImport is being created...";
 }
-$blockLength = get_block_length ($xmlFile);
 my @mapImport = create3DMatrix ($numberLineage, 
                                 $numberLineage, 
                                 $blockLength + 1, 0);
@@ -276,7 +184,6 @@ my $offsetPosition = 0;
 my $prevBlockLength = 1;
 
 {
-  $blockLength = get_block_length ($xmlFile);
   $offsetPosition += $prevBlockLength;
   $prevBlockLength = $blockLength;
 
@@ -291,9 +198,8 @@ my $prevBlockLength = 1;
 
   $itercount = 0;
   my $doc;
-  eval{ $doc = $parser->parsefile($xmlFile)};
-  print "Unable to parse XML of $xmlFile, error $@\n" if $@;
-  next if $@;
+  eval{ $doc = $parser->parsefile($xml)};
+  die "Unable to parse XML of $xml, error $@" if $@;
   
   for (my $pos = 0; $pos < $blockLength; $pos++)
   {
@@ -312,11 +218,39 @@ my $prevBlockLength = 1;
 ################################################################################
 sub map_recombination_intensity ($$$);
 
-my @genes = parse_in_gene ($ingene);
-map_recombination_intensity (\@genes, \@mapImport, $blockID);
-# print_in_gene ($ingene, \@genes);
+################################################################################
+# Parse genes and tree.
+################################################################################
 
-open OUT, ">$outFile" or die "$outFile could not be opened";
+my @genes = maIngeneParseBlock ($ingene); 
+
+my $pairM; 
+if ($pairm eq 'all')
+{
+  $pairM = maNewicktFindRedEdge ($tree);
+}
+elsif ($pairm eq 'topology')
+{
+  $pairM = maNewicktFindRedEdgeChangeTopology ($tree);
+}
+elsif ($pairm eq 'notopology')
+{
+  $pairM = maNewicktFindRedEdgeNotChangeTopology ($tree);
+}
+else
+{
+  die "-pairm options must be one of all, topology, and notopology";
+}
+# maRiGetGenes (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage);
+maRiGetForGenesBlock (\@genes, \@mapImport, $blockid, $pairM, $numberLineage);
+
+# my @genes = parse_in_gene ($ingene);
+# map_recombination_intensity (\@genes, \@mapImport, $blockid);
+
+################################################################################
+# Print out recombination intensity in the gene.
+################################################################################
+open OUT, ">", $outFile or die "cannot open $outFile $!";
 
 # Gene's RI's are printed out.
 my $isFirst = 1;
@@ -324,7 +258,7 @@ for (my $i = 0; $i <= $#genes; $i++)
 {
   my $h = $genes[$i];
   my $block = $h->{block};
-  if ($blockID == $block)
+  if ($blockid == $block)
   {
     if ($isFirst == 1)
     {
@@ -344,14 +278,19 @@ close OUT;
 
 exit;
 
+################################################################################
+# END OF MAIN
+################################################################################
+
+# FIXME: This should be changed for different rec edge types.
 sub map_recombination_intensity ($$$)
 {
-  my ($genes, $mi, $blockID) = @_;
+  my ($genes, $mi, $blockid) = @_;
   for (my $i = 0; $i < scalar @{ $genes }; $i++)
   {
     my $h = $genes->[$i];
     my $block = $h->{block};
-    if ($blockID == $block)
+    if ($blockid == $block)
     {
       # Only genes in the current block are used.
       my $b = $h->{blockstart};
@@ -368,24 +307,20 @@ sub map_recombination_intensity ($$$)
         }
       }
       $v /= ($e - $b + 1);
-      $v /= $numberItartion;
+      $v /= $numberIteration;
       $h->{ri} = $v;
     }
 
   }
 }
 
-#
 ################################################################################
 ## END OF DATA PROCESSING
 ################################################################################
-#
 
-#
 ################################################################################
 ## FUNCTION DEFINITION
 ################################################################################
-#
 
 sub startElement {
   my( $parseinst, $element, %attrs ) = @_;
@@ -501,12 +436,6 @@ sub get_genome_file ($$)
 #################################################################################
 ##
 
-sub printError {
-    my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'analyze-run-clonalorigin2-simulation2-prepare.pl -h\' for more information.\nExit program.\n";
-    exit(0);
-}
-
 sub locate_block_in_genome ($$)
 {
   my ($f, $r) = @_;
@@ -617,3 +546,127 @@ sub find_genes_within_block ($$$)
   close INGENE; 
   return @genes;
 }
+__END__
+=head1 NAME
+
+sim3-prepare.pl - Compute recombination intensity along the genome.
+
+=head1 VERSION
+
+sim3-prepare.pl 1.0
+
+=head1 SYNOPSIS
+
+perl sim3-prepare.pl 
+  [-h] [-help] [-version] 
+  [-d xml data directory] 
+  [-xmlbasename xml file base name] 
+  [-endblockid]
+  [-xmfa genome alignment] 
+  [-genelength integer] 
+  [-n integer] 
+
+=head1 DESCRIPTION
+
+I wish to check if the recombination intensity can be recovered. Options -d,
+-xmlbasename, and -endblockid stay put. Option -xmfa is also kept. Option gene
+length is used to segment the alignment. I compute the recombination intensity
+of each segment. 
+
+I use the following two menus to find locations of genes in blocks:
+convert-gff-ingene and locate-gene-in-block. I do not need -xmfa. All that I
+need is ingene file. I do not need inblock either.
+
+I may not need this -realdataanalysis option.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-help> | B<-h>
+
+Print the help message; ignore other arguments.
+
+=item B<-man>
+
+Print the full documentation; ignore other arguments.
+
+=item B<-version>
+
+Print program version; ignore other arguments.
+
+=item B<-verbose>
+
+Prints status and info messages during processing.
+
+=item B<***** INPUT OPTIONS *****>
+
+=item B<-d> <xml directory>
+
+A directory that contains the 2nd phase run result from Clonal Origin.
+
+=item B<-xmfa> <alignment directory>
+
+A directory that contains the input alignment.
+
+=item B<-numberblock> <integer>
+
+Number of blocks.
+
+=item B<-genelength> <integer>
+
+Length of genes.
+
+=item B<-endblockid>
+
+The clonal origin XML file names can be
+s8_1_core_alignment.xml.1 or
+core_co.phase3.1.xml.
+The base names are s8_1_core_alignment or core_co.phase3. 
+The block id can follow xml or precede it. Default is to precede it: i.e.,
+core_co.phase3.1.xml is the default.
+
+=item B<-xmlbasename> <name>
+
+The clonal origin XML file names can be
+s8_1_core_alignment.xml.1 or
+core_co.phase3.1.xml.
+The base names are s8_1_core_alignment or core_co.phase3. 
+Default base name is core_co.phase3.
+
+=item B<-pairm> <string>
+
+The string can be all, topology, notopology
+
+=back
+
+=head1 AUTHOR
+
+Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
+
+=head1 BUGS
+
+If you find a bug please post a message mauve-analysis project at codaset dot
+com repository so that I can make sim3-prepare.pl better.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011 Sang Chul Choi
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
+
+
