@@ -476,10 +476,10 @@ EOF
   echo "Created $OUTEPS1, $OUTEPS2, and $OUTEPS3 to $MANUSCRIPTOUTPUT"
 
   # The third figure.
-  OUTEPS1=manuscript/output/ri-R.eps
+  OUTEPS1=manuscript/output/ri-topology.eps
   RTEMP=$RANDOM.R
 cat>$RTEMP<<EOF
-x <- read.table ("$SIMULATIONDIR/ri.txt")
+x <- read.table ("$SIMULATIONDIR/ri-topology.txt")
 postscript("$OUTEPS1", width=6, height=6, horizontal = FALSE, onefile = FALSE, paper = "special")
 oldpar <- par (mar=c(5, 4, 0.5, 0.5))
 plot (x\$V2, x\$V3, xlim=c(0,9), ylim=c(0,9),cex=0.2, xlab="True", ylab="Estimate",main="")

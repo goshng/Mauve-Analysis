@@ -35,10 +35,8 @@ require "pl/sub-newick-parser.pl";
 require "pl/sub-array.pl";
 require "pl/sub-ingene.pl";
 require "pl/sub-error.pl";
+require "pl/sub-ri.pl";
 
-sub get_genome_file ($$);
-sub locate_block_in_genome ($$);
-sub locate_nucleotide_in_block ($$);
 
 $| = 1; # Do not buffer output
 
@@ -158,6 +156,7 @@ my %recedge;
 my $itercount = 0;
 my $blockLength = get_block_length ($xml);
 my $speciesTree = get_species_tree ($xml);
+my $tree = maNewickParseTree ($speciesTree);
 my $numberIteration = get_sample_size ($xml);
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
@@ -256,21 +255,21 @@ open OUT, ">", $outFile or die "cannot open $outFile $!";
 my $isFirst = 1;
 for (my $i = 0; $i <= $#genes; $i++)
 {
-  my $h = $genes[$i];
-  my $block = $h->{block};
+  my $g = $genes[$i];
+  my $block = $g->{blockidGene};
   if ($blockid == $block)
   {
     if ($isFirst == 1)
     {
       $isFirst = 0;
-      print OUT "$h->{gene}:";
+      print OUT "$g->{gene}:";
     }
     else
     {
       print OUT "\t";
-      print OUT "$h->{gene}:";
+      print OUT "$g->{gene}:";
     }
-    print OUT $h->{ri};
+    print OUT $g->{ri};
   }
 }
 print OUT "\n";
@@ -407,145 +406,6 @@ sub characterData {
 sub default {
 }
 
-sub get_genome_file ($$)
-{
-  my ($speciesfile, $refGenome) = @_;
-  my $r;
-  my $l;
-  my $c = 0;
-  open SPECIES, "$speciesfile" or die "$speciesfile could not be opened";
-  while ($l = <SPECIES>)
-  {
-    chomp $l;
-    unless ($l =~ /^#/)
-    {
-      $c++;
-      if ($c == $refGenome)
-      {
-        $r = $l;
-        last;
-      }
-    }
-  }
-  close SPECIES;
-  return $r;
-}
-##
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-##
-
-sub locate_block_in_genome ($$)
-{
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
-    {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
-    }
-  }
-  close XMFA;
-  return ($startGenome, $endGenome, $strand);
-}
-
-sub locate_nucleotide_in_block ($$)
-{
-  my ($f, $r) = @_;
-  my @v;
-  my $startGenome;
-  my $endGenome;
-  my $line;
-  my $sequence = "";
-  my $geneSequence = "";
-  my $strand;
-  open XMFA, $f or die "Could not open $f";
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>\s+$r:(\d+)-(\d+)\s+([+-])/)
-    {
-      $startGenome = $1;
-      $endGenome = $2;
-      $strand = $3;
-      last;
-    }
-  }
-  while ($line = <XMFA>)
-  {
-    chomp $line;
-    if ($line =~ /^>/)
-    {
-      last;
-    }
-    $sequence .= $line;
-  }
-  close XMFA;
-
-#print STDERR "\n$s-$e-$startGenome-$endGenome-$f\n";
-  #my $j = 0;
-  my @nucleotides = split //, $sequence;
-  return @nucleotides;
-
-  #for (my $i = 0; $i <= $#nucleotides; $i++)
-  #{
-    #if ($nucleotides[$i] eq 'a' 
-        #or $nucleotides[$i] eq 'c' 
-        #or $nucleotides[$i] eq 'g' 
-        #or $nucleotides[$i] eq 't') 
-    #{
-      #my $pos = $startGenome + $j;   
-      #if ($s <= $pos and $pos <= $e)
-      #{
-        #push @v, $i;
-        #$geneSequence .= $nucleotides[$i];
-      #}
-      #$j++;
-    #}
-  #}
-  #print "\n$geneSequence\n";
-
-  #return @v;
-}
-
-sub find_genes_within_block ($$$)
-{
-  my ($f, $s, $e) = @_; #($ingene, $href->{start}, $href->{end});
-  my @genes;
-  open INGENE, $f or die "Could not open $f";
-  while (<INGENE>)
-  {
-    chomp;
-    my @elements = split /\t/;
-    my $geneName = $elements[0];
-    my $geneStart = $elements[1];
-    my $geneEnd = $elements[2];
-    my $geneStrand = $elements[3];
-    if ($s <= $geneStart && $geneEnd <= $e)
-    {
-      my $rec = {};
-      $rec->{name} = $geneName;
-      $rec->{start} = $geneStart;
-      $rec->{end} = $geneEnd;
-      push @genes, $rec;
-    }
-  }
-  close INGENE; 
-  return @genes;
-}
 __END__
 =head1 NAME
 

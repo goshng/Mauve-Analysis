@@ -73,6 +73,10 @@ function read-species {
   BURNIN=$(grep Burnin $SPECIESFILE | cut -d":" -f2)
   echo " $BURNIN"
 
+  echo -n "  Reading SAMPLESIZE from $SPECIESFILE..."
+  SAMPLESIZE=$(grep SAMPLESIZE $SPECIESFILE | cut -d":" -f2)
+  echo " $CHAINLENGTH"
+
   echo -n "  Reading CHAINLENGTH from $SPECIESFILE..."
   CHAINLENGTH=$(grep ChainLength $SPECIESFILE | cut -d":" -f2)
   echo " $CHAINLENGTH"

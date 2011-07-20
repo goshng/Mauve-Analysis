@@ -17,7 +17,7 @@ EOF
 }
 
 function copyright {
-  cat COPYING
+  less COPYING
 }
 
 

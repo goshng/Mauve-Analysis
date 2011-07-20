@@ -67,7 +67,7 @@ sub maRiPrint ($)
 
 sub maRiGetForGenesBlock ($$$$$)
 {
-  my ($genes, $riM, $blockid, $pairM, $numberLineage) = @_;
+  my ($genes, $riM, $blockid, $pairM, $pairMSize) = @_;
 
   for (my $i = 0; $i <= $#$genes; $i++)
   {
@@ -79,32 +79,35 @@ sub maRiGetForGenesBlock ($$$$$)
 
     # From blockStart to blockEnd inclusively.
     # Total length of the gene is blockEnd - blockStart + 1.
-    my $ri1PerGene = 0;
-    for (my $j = $g->{blockStart}; $j <= $g->{blockEnd}; $j++)
+    if ($blockidGene == $blockid)
     {
-      my $valuePerSite = 0; 
-      for (my $k = 0; $k < $pairMSize; $k++)
+      my $ri1PerGene = 0;
+      for (my $j = $g->{blockStart}; $j <= $g->{blockEnd}; $j++)
       {
-        for (my $l = 0; $l < $pairMSize; $l++)
+        my $valuePerSite = 0; 
+        for (my $k = 0; $k < $pairMSize; $k++)
         {
-          if ($pairM->[$k][$l] == 1)
+          for (my $l = 0; $l < $pairMSize; $l++)
           {
-            $valuePerSite += $riM->[$k][$l][$j]; # Note that the position at 3rd.
+            if ($pairM->[$k][$l] == 1)
+            {
+              $valuePerSite += $riM->[$k][$l][$j]; # Note that the position at 3rd.
+            }
           }
         }
+        $ri1PerGene += $valuePerSite;
       }
-      $ri1PerGene += $valuePerSite;
+      # my $geneLengthInBlock =  $g->{blockEnd} - $g->{blockStart} + 1;
+      # $ri1PerGene /= $geneLengthInBlock;
+      # $ri1PerGene /= $numberItartion;
+      $g->{ri} = $ri1PerGene;
     }
-    # my $geneLengthInBlock =  $g->{blockEnd} - $g->{blockStart} + 1;
-    # $ri1PerGene /= $geneLengthInBlock;
-    # $ri1PerGene /= $numberItartion;
-    $g->{ri} = $ri1PerGene;
   }
 }
 
 sub maRiGetGenes ($$$$$)
 {
-  my ($genes, $rimap, $blockStart, $pairM, $pairMSize) = @_;
+  my ($genes, $rimap, $blockStart, $pairM, $pairMSize, $sampleSize) = @_;
   my $verbose = 1;
   # print STDERR "Parsing $rimap..." if $verbose == 1;
   my $riM = maRiParse ($rimap);
@@ -137,7 +140,7 @@ sub maRiGetGenes ($$$$$)
       }
       $ri1PerGene += $valuePerSite; 
     }
-    $g->{ri} = $ri1PerGene;
+    $g->{ri} = $ri1PerGene / (($g->{blockEnd} - $g->{blockStart} + 1) * $sampleSize);
   }
 }
 

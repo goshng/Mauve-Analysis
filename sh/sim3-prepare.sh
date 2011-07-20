@@ -32,7 +32,9 @@ function sim3-prepare  {
       ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR/run-analysis
       scp -q pl/sim3-prepare.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
       scp -q pl/sub*.pl $CAC_MAUVEANALYSISDIR/output/$SPECIES/pl/
-      scp -q $BASERUNANALYSIS/in.gene $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/
+      echo "Copy the correct in.gene file"
+      # break
+      scp -q $BASERUNANALYSIS/in.gene.4.block $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/in.gene
       scp -q data/$INBLOCK $CAC_MAUVEANALYSISDIR/output/$SPECIES/run-analysis/in.block
 
       echo "  Creating job files..."

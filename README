@@ -12,33 +12,22 @@ Jobs that were done are described for later reference.
 To Do
 ~~~~~
 
+.cornellf/3/run-clonalorigin/output2/2 was not finished yet.
+The second replicate of the 2nd stage of ClonalOrigin needs to be compared with
+the first replicate.
+
 .Finish works in the directory +manuscript+.
 
-.Heatmap's ``p-value'' between simulation and real data runs
-.Plot the three main parameter estimates along SDE genomes
-
-.Map of RI1
-. RI1(number of recombinant edges per site) and RI2(number of unquie topologies) for genes of SPY1
-. RI1(or RI1perRecEdge) for recombinant edges between SPY and SDE 
-. Simulation to show RI1perRecEdge.
-
-.Map of RI2
-. RI2(number of unquie topologies) for genes of SPY1
-
-.s16
-. Do next analysis? - all things that were done with s14?
-
-.s15
+.s15 (Note that simulation of 1st stage of ClonalOrigin was done with partial
+runs. Say this in the manuscript.)
 . Not perfect runs, I use a partial run.
 
-.cornellf/3/run-clonalorigin/output/2
-. is running (87 and 225 were not finished)
+Tue Jul 19 21:56:52 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cornellf/3/run-clonalorigin/output2/2 was not finished yet.
+The second replicate of the 2nd stage of ClonalOrigin needs to be compared with
+the first replicate.
 
-.cornellf/3/run-clonalorigin/output2/2
-. is running
-
-.Genes with high values of recombination and each of them.
-. Colocalization of genes?
 
 Sun Jul 17 18:41:46 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -17,7 +17,8 @@ function choose-simulation {
       HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
       
       echo -e "  Creating directories of $HOW_MANY_REPETITION repetitions..."
-      for REPETITION in `$SEQ $HOW_MANY_REPETITION`; do
+
+      for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
         mkdir-simulation-repeat $SPECIES $REPETITION
       done
 

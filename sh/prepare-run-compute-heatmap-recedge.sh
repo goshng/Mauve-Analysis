@@ -116,8 +116,8 @@ function make-run-list {
   REPLICATE=$3
   SPECIESTREE=$4
   CLONAL2ndPHASE=$5
-
-  for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+  
+  for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
     make-run-list-repeat $g $BASEDIR $REPLICATE $SPECIESTREE $CLONAL2ndPHASE
   done
    
@@ -320,12 +320,6 @@ function task {
       \$i \$JOBIDFILE \$LOCKFILE \$PBS_O_WORKDIR \$TMPDIR&
   done
 }
-
-if [[ "\$OSTYPE" =~ "linux" ]]; then
-  SEQ=seq
-elif [[ "\$OSTYPE" =~ "darwin" ]]; then
-  SEQ=jot
-fi
 
 echo -e "The job started ..."
 echo -n "Start at "

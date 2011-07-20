@@ -252,7 +252,7 @@ if ($cmd eq 'rimap')
     die "-pairm options must be one of all, topology, notopology, and pair";
   }
   my @blockStart = maXmfaGetBlockStart ($xmfa);
-  maRiGetGenes (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage);
+  maRiGetGenes (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage, $clonaloriginsamplesize);
   maIngenePrintBlockRi ($outfile, \@genes);
 }
 else

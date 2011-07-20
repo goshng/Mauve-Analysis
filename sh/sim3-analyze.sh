@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-# Author: Sang Chul Choi
 # Date  : Thu May  5 13:45:53 EDT 2011
 
 function sim3-analyze {
@@ -32,7 +31,7 @@ function sim3-analyze {
 
       BASEDIR=$OUTPUTDIR/$SPECIES
       BASERUNANALYSIS=$BASEDIR/run-analysis
-      PAIRM=topology 
+      PAIRM=topology
 
       echo -n "Do you wish to generate the true XML? (e.g., y/n) "
       read WANT
@@ -43,13 +42,14 @@ function sim3-analyze {
         TOTALITEM=$(( $HOW_MANY_REPETITION * $NUMBER_BLOCK ));
         ITEM=0
         for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
+          RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes-$PAIRM
           mkdir -p $RITRUE
           for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+            STARTTIME=$(date +%s)
             perl pl/sim3-prepare.pl \
               -pairm $PAIRM \
               -xml $BASEDIR/$REPETITION/data/core_alignment.xml.$BLOCKID \
-              -ingene $BASERUNANALYSIS/in.gene \
+              -ingene $BASERUNANALYSIS/in.gene.4.block \
               -blockid $BLOCKID \
               -out $RITRUE/$BLOCKID
             ENDTIME=$(date +%s)
@@ -61,21 +61,23 @@ function sim3-analyze {
             echo -ne "$REPETITION/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK - more $REMAINEDTIME min to go\r"
           done
         done
-        echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes"
+        echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes-$PAIRM"
       else
         echo "Skipping generating true XML..."
       fi
 
       echo "Generating a table for plotting..."
-      OUTFILE=$BASERUNANALYSIS/ri.txt
+      OUTFILE=$BASERUNANALYSIS/ri-$PAIRM.txt
       for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
-        RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes
+        RITRUE=$BASEDIR/$REPETITION/run-analysis/ri-yes-$PAIRM
         for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-          PERLCOMMAND="perl pl/analyze-run-clonalorigin2-simulation2-analyze.pl \
+          PERLCOMMAND="perl pl/$FUNCNAME.pl \
             -true $RITRUE/$BLOCKID \
-            -estimate $BASEDIR/$REPETITION/run-clonalorigin/output2/ri \
+            -estimate $BASEDIR/$REPETITION/run-clonalorigin/output2/$PAIRM/ri \
             -numberreplicate $HOW_MANY_REPLICATE \
+            -samplesize $SAMPLESIZE \
             -block $BLOCKID \
+            -ingene $BASERUNANALYSIS/in.gene.4.block \
             -out $OUTFILE"
           if [ "$REPETITION" != 1 ] || [ "$BLOCKID" != 1 ]; then
             PERLCOMMAND="$PERLCOMMAND -append"
@@ -85,6 +87,25 @@ function sim3-analyze {
         done
       done
       echo "Check $OUTFILE"
+
+      RTEMP=$RANDOM.R
+      EPSFILE=$BASERUNANALYSIS/ri.eps
+      ROUT=$BASERUNANALYSIS/ri.out
+      RTEMP=$RANDOM.R
+cat>$RTEMP<<EOF
+x <- read.table ("$OUTFILE")
+postscript("$EPSFILE", width=6, height=6, horizontal = FALSE, onefile = FALSE, paper = "special")
+oldpar <- par (mar=c(5, 4, 0.5, 0.5))
+plot (x\$V2, x\$V3, xlim=c(0,9), ylim=c(0,9),cex=0.2, xlab="True value of recombination intensity", ylab="Estimates",main="")
+abline(a=0,b=1,lty=2)
+par(oldpar)
+dev.off()
+cor(x\$V2,x\$V3)
+EOF
+      Rscript $RTEMP >> $ROUT
+      rm $RTEMP
+      echo "Check $ROUT"
+
     fi
     break
   done

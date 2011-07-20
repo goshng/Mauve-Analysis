@@ -6,19 +6,21 @@ Introduction
 ------------
 This manual introduces a how-to of *Mauve Analysis* of closely related bacterial
 genomes using ClonalOrigin. The analysis can be performed with help of other
-software packages. See the section <<Installation>> for details. 
+software packages. See the section <<Installation>> for details the installation 
+of the software packages.
 *Mauve Analysis* is a package of scripts including BASH shell scripts, PERL
-scripts, and sometimes in C. Users are not supposed to directly run those
+scripts, and sometimes in language C. Users do not need directly run those
 scripts. Instead, they should execute the script +run+ at the base directory.
 Note that directories are referred with respect to the base directory of 
-*Mauve Analysis* package. 
+*Mauve Analysis* package.
 
 .Executing the main menu
 ----
 $ ./run
 ----
-It shows a list of menus, among which users can select by typing in the number
-of a menu. Follow the instruction in each menu to execute the menu. When you
+shows a list of menus, among which users can select by typing in a number
+of the menu that users wish to execute.
+Follow the instruction in the menu that you choose. When you
 unziped *Mauve Analysis* package, you need to <<Configuration,configure>> 
 the analysis and <<Installation,install>> other necessary software packages. 
 After the installation of helper software packages and the configuration of the
@@ -27,7 +29,7 @@ genomes. Impatient users can see the section <<Kickstart>> to start to analyze
 their selected bacterial genomes.
 
 Execute the menu *init-file-system* after the configuration of the analysis and
-the installation of the analysis were done. This will create +output+ directory
+the installation of the analysis. This will create +output+ directory
 in the base directory, and base directories in the cluster and X11-enabled linux
 machine. The first step of ClonalOrigin analysis is to align bacterial genomes.
 Use menu *prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The
@@ -40,10 +42,10 @@ remove blocks that are not large so that a core alignment is prepared.  Users
 have to specify the limit of block size for this. The menu calls a program
 +stripSubsetLCBs+, which is a part of ClonalOrigin package. At the end of the
 menu *filter-blocks* users might want to skim the core alignment to remove
-blocks with many gaps.  Users are recommended to remove blocks manually because
+blocks with many gaps.  Remove blocks manually because
 all of the downstream analyses depend on this alignment. There are no
-recommendation for the choice of block size limit to filter the full alignment
-to have a core alignment. A simulation approach can be helpful in deciding the
+recommendation for the choice of block size limit. 
+A simulation approach can be helpful in deciding the
 block size limit. I will come back to this issue in a separate section.
 
 Congratulations! You are now ready to analyze the core alignment using
@@ -60,13 +62,14 @@ a procedure of a Bayesian stistical inference depends on its previous one.
 ClonalFrame is one of the precedures, and ClonalOrigin is used twice. Users have
 to make sure convergence of each step. Menu *prepare-run-clonalframe* runs
 multiple executions of ClonalFrame. Users should check the convergence of those
-chains by inspecting the result files of ClonalFrame runs. If the convergence is
+chains by inspecting the result files of ClonalFrame runs. Use the GUI of
+ClonalFrame to open the MCMC results for this.  If the convergence is
 not obtained, users might increase the block size limit or change the run
 options of ClonalFrame.
 
 The second MCMC procedure is done using menu *prepare-run-clonalorigin*, which
 prepares a shell script to submit a job of the first stage of ClonalOrigin.
-Users use menu *receive-run-clonalorigin* to receive all of the result files of
+Use menu *receive-run-clonalorigin* to receive all of the result files of
 the first ClonalOrigin. Users can use menu *summarize-clonalorigin1* and
 *scatter-plot-parameter* to summarize the first stage of ClonalOrigin MCMC.
 Menu *summarize-clonalorigin1* creates two files: +unfinished+ and +median.txt+. 
@@ -80,8 +83,6 @@ created using three menus of *count-observed-recedge*,
 *compute-prior-count-recedge*, and *compute-heatmap-recedge*. 
 Menu *prepare-run-compute-heatmap-recedge* might be useful if 
 menu *compute-heatmap-recedge* is slow.  
-
-Menu *probability-recombination* may not be used. I could delete this menu.
 
 Users can use menu *recombination-intensity1-map* to summarize recombinant edges
 along the alignment blocks. This information can be combined with gene
@@ -122,6 +123,8 @@ These two should be used to list genes and locate them in blocks.
 *locate-gene-in-block*
 
 _Do we need a menu for checking convergence of the ClonalOrigin's 1st stage?_
+
+Menu *probability-recombination* may not be used. I could delete this menu.
 
 .Some post-processing procedures follow clonal origin runs.
 . recombination-intensity: A recombinant edge is classifed by its departure and

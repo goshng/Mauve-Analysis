@@ -116,7 +116,8 @@ function simulate-data-clonalorigin1-analyze {
       echo "Extracting the 3 parameters from ${HOW_MANY_REPETITION} XML files"
       echo "  of replicate ${REPLICATE}..."
       BASEDIR=$OUTPUTDIR/$SPECIES
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+
+      for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
         NUMBERDIR=$BASEDIR/$g
         DATADIR=$NUMBERDIR/data
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
@@ -197,7 +198,7 @@ function simulate-data-clonalorigin1-analyze {
         #fi 
       #done
 
-      for g in `$SEQ ${HOW_MANY_REPETITION}`; do 
+      for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
         NUMBERDIR=$BASEDIR/$g
         DATADIR=$NUMBERDIR/data
         RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
@@ -207,7 +208,7 @@ function simulate-data-clonalorigin1-analyze {
 
         # Files that we need to compare.
         #for b in ${BLOCK_ALLREPETITION[@]}; do
-        for b in `$SEQ $NUMBER_BLOCK`; do
+        for b in $(eval echo {1..$NUMBER_BLOCK}); do
           ECOP="pl/extractClonalOriginParameter5.pl \
             -xml $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.$b.xml \
             -out $BASEDIR/run-analysis/out"

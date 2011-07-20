@@ -1,8 +1,26 @@
 #!/opt/local/bin/perl -w
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: analyze-run-clonalorigin2-simulation2-analyze.pl
+#   File: sim3-analyze.pl
 #   Date: Tue May 10 09:58:36 EDT 2011
 #   Version: 1.0
 #===============================================================================
@@ -10,10 +28,13 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
+require "pl/sub-error.pl";
+require "pl/sub-ingene.pl";
+sub parse_file_gene_colon_value ($);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'analyze-run-clonalorigin2-simulation2-analyze.pl 1.0';
+my $VERSION = 'sim3-analyze.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -25,7 +46,9 @@ GetOptions( \%params,
             'version' => sub { print $VERSION."\n"; exit; },
             'true=s',
             'estimate=s',
+            'ingene=s',
             'numberreplicate=i',
+            'samplesize=i',
             'block=i',
             'out=s',
             'append'
@@ -33,10 +56,8 @@ GetOptions( \%params,
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
-require "pl/sub-error.pl";
-
 ################################################################################
-## COMMANDLINE OPTION PROCESSING
+## COMMAND LINE OPTION PROCESSING
 ################################################################################
 
 my $verbose = 0;
@@ -46,6 +67,8 @@ my $numberreplicate;
 my $block;
 my $out;
 my $append = 0;
+my $samplesize;
+my $ingene;
 
 if (exists $params{true})
 {
@@ -65,6 +88,15 @@ else
   &printError("you did not specify a base name for estimates");
 }
 
+if (exists $params{samplesize})
+{
+  $samplesize = $params{samplesize};
+}
+else
+{
+  &printError("you did not specify a number of samples");
+}
+
 if (exists $params{numberreplicate})
 {
   $numberreplicate = $params{numberreplicate};
@@ -72,6 +104,15 @@ if (exists $params{numberreplicate})
 else
 {
   &printError("you did not specify a number of replicates");
+}
+
+if (exists $params{ingene})
+{
+  $ingene = $params{ingene};
+}
+else
+{
+  &printError("you did not specify an ingene file");
 }
 
 if (exists $params{block})
@@ -105,9 +146,22 @@ if (exists $params{verbose})
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
-sub parse_file_gene_colon_value ($);
-
+my @ingenes = maIngeneParseBlock ($ingene); 
 my @genes = parse_file_gene_colon_value ($true);
+for (my $i = 0; $i <= $#genes; $i++)
+{
+  my $g = $genes[$i];
+  for (my $j = 0; $j <= $#ingenes; $j++)
+  {
+    my $h = $ingenes[$j];
+    if ($g->{gene} eq $h->{gene})
+    {
+      $g->{len} = $h->{blockEnd} - $h->{blockStart} + 1;
+      last;
+    }
+  }
+}
+
 
 if ($append == 0)
 {
@@ -128,7 +182,9 @@ for (my $replicate = 1; $replicate <= $numberreplicate; $replicate++)
     my $hj = $estimate[$i];
     die "$hi->{gene} $hj->{gene} are different" 
       unless $hi->{gene} eq $hj->{gene};
-    print OUT "$hi->{gene}\t$hi->{value}\t$hj->{value}\n"; 
+    my $v1 = $hi->{value} / $hi->{len}; 
+    my $v2 = $hj->{value} / ($hi->{len} * $samplesize); 
+    print OUT "$hi->{gene}\t$v1\t$v2\n"; 
   }
 }
 
@@ -160,16 +216,16 @@ __END__
 
 =head1 NAME
 
-analyze-run-clonalorigin2-simulation2-analyze.pl - Generate a table for menu
-analyze-run-clonalorigin2-simulation2-analyze
+sim3-analyze.pl - Generate a table for menu
+sim3-analyze
 
 =head1 VERSION
 
-analyze-run-clonalorigin2-simulation2-analyze.pl 1.0
+sim3-analyze.pl 1.0
 
 =head1 SYNOPSIS
 
-perl analyze-run-clonalorigin2-simulation2-analyze.pl 
+perl sim3-analyze.pl 
   [-h] [-help] [-version] 
   [-true file] 
   [-estimate file base name] 
@@ -182,7 +238,7 @@ perl analyze-run-clonalorigin2-simulation2-analyze.pl
 
 Menus analyze-run-clonalorigin2-simulation2-prepare,
 analyze-run-clonalorigin2-simulation2-receive,
-analyze-run-clonalorigin2-simulation2-analyze are used to validate the first
+sim3-analyze are used to validate the first
 surrogate measure of recombination intensity. 
 True values of this measure can be found at
 output/s14/1/run-analysis/ri-true/2
@@ -248,7 +304,7 @@ Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
 =head1 BUGS
 
 If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make analyze-run-clonalorigin2-simulation2-analyze.pl better.
+com repository so that I can make sim3-analyze.pl better.
 
 =head1 COPYRIGHT
 
