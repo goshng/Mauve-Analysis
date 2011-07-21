@@ -62,8 +62,8 @@ source sh/prepare-mauve-alignment.sh
 
 source sh/scatter-plot-parameter.sh
 source sh/plot-number-recombination-within-blocks.sh
-source sh/heatmap-compute.sh
-source sh/heatmap-get-observed.sh
+source sh/compute-prior-count-recedge.sh
+source sh/count-observed-recedge.sh
 source sh/compute-global-median.sh
 source sh/simulate-data-clonalorigin2-prepare.sh 
 source sh/sim2-analyze.sh 
@@ -213,12 +213,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "simulate-data-clonalorigin2-from-xml" ]; then $CHOICE; break
   elif [ "$CHOICE" == "scatter-plot-parameter" ]; then $CHOICE; break
   elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "compute-prior-count-recedge" ]; then
-    heatmap-compute
-    break
-  elif [ "$CHOICE" == "count-observed-recedge" ]; then
-    heatmap-get-observed
-    break
+  elif [ "$CHOICE" == "compute-prior-count-recedge" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "count-observed-recedge" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-global-median" ]; then $CHOICE; break
   elif [ "$CHOICE" == "divide-simulated-xml-data" ]; then $CHOICE; break
   elif [ "$CHOICE" == "divide-simulated-xmfa-data" ]; then $CHOICE; break

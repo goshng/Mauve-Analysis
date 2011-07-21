@@ -1,8 +1,26 @@
 #!/opt/local/bin/perl -w
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 #===============================================================================
 #   Author: Sang Chul Choi, BSCB @ Cornell University, NY
 #
-#   File: compute-heatmap-recedge.pl
+#   File: count-observed-recedge.pl
 #   Date: Fri Apr 29 14:54:00 EDT 2011
 #   Version: 1.0
 #===============================================================================
@@ -14,10 +32,17 @@ use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
 use File::Temp qw(tempfile);
+require "pl/sub-error.pl";
+require "pl/sub-simple-parser.pl";
+require "pl/sub-array.pl";
+require "pl/sub-heatmap.pl";
+sub makeXMLFilename($$$$);
+sub get_exp_map($$);
+sub get_obs_map_iteration($$);
 
 $| = 1; # Do not buffer output
 
-my $VERSION = 'compute-heatmap-recedge.pl 1.0';
+my $VERSION = 'count-observed-recedge.pl 1.0';
 
 my $man = 0;
 my $help = 0;
@@ -41,179 +66,6 @@ GetOptions( \%params,
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
-
-=head1 NAME
-
-compute-heatmap-recedge.pl - Build a heat map of recombinant edges
-
-=head1 VERSION
-
-compute-heatmap-recedge.pl 1.0
-
-=head1 SYNOPSIS
-
-perl compute-heatmap-recedge.pl [-h] [-help] [-version] 
-  [-d xml data directory] 
-  [-e per-block heat map directory] 
-  [-n number of blocks] 
-  [-s number of species] 
-  [-xmlbasename filename]
-  [-endblockid]
-  [-obsonly]
-  [-meanonly]
-  [-append]
-  [-meanfile an output file from meanonly option]
-
-=head1 DESCRIPTION
-
-This is almost the same as extractClonalOriginParameter8.pl except that this
-actually uses the prior expected number of recombinant edges. It may be possible
-to have a single script by combining this and extractClonalOriginParameter8.pl.
-I do not know exactly how I can deal with the prior.
-
-The expected number of recedges a priori is given by ClonalOrigin's
-gui program that makes a matrix. The matrix dimension depends on
-the number of taxa in the clonal frame. Another matrix should be
-built and its element is an average observed recedes. I divide the
-latter matrix by the former one element-by-element. For each block
-I follow the computation above to obtain an odd-ratio matrix. 
-For each element over all the blocks I weight it by the length of
-the block to have an average odd-ratio.
-
-Input XML files: <xml directory>/<xml basename>.[blockid] are read. 
-
-Situation 1: I wish to compute the average number of recombinant edges just
-by counting and averaging it by the number of sample size or iterations in the
-ClonalOrigin MCMC XML output.
-
--meanonly -obsonly
-
-Situation 2: I wish to compute the ratio of average number of recombinant edges
-relative to the prior expected number of recombinant edges.
-
--meanonly
-
-Situation 3: I wish to compute the average number of recombination and its
-standard deviation across MCMC sample.
-
--obsonly
-
-Situation 4: I wish to compute the average number of recombination and its
-standard deviation across MCMC sample by considering prior expected number of
-recombinant edges.
-
-Default options (or neither meanonly nor obsonly).
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<-help> | B<-h>
-
-Print the help message; ignore other arguments.
-
-=item B<-man>
-
-Print the full documentation; ignore other arguments.
-
-=item B<-version>
-
-Print program version; ignore other arguments.
-
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
-=item B<***** INPUT OPTIONS *****>
-
-=item B<-d> <xml directory>
-
-A directory that contains the 2nd phase run result from Clonal Origin.
-
-=item B<-e> <directory>
-
-A directory that contains files with prior expected number of recombinations.
-
-=item B<-n> <number>
-
-The number of blocks. Both directories must have pairs of files for each block.
-
-=item B<-s> <number>
-
-The number of species.
-
-=item B<-append>
-
-Among all of the repetition the first one is created, and the rest of them are
-appended. Default is not using append option, and the output file will be
-generated.
-
-=item B<-obsonly>
-
-Prior expected numbers of recombinant edges are ignored.
-
-=item B<-meanonly>
-
-Average numbers of recombinant edges are computed.
-
-=item B<-meanfile> <file>
-
-An output file from meanonly option.
-
-=item B<-endblockid>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-The block id can follow xml or precede it. Default is to precede it: i.e.,
-core_co.phase3.1.xml is the default.
-
-=item B<-xmlbasename> <name>
-
-The clonal origin XML file names can be
-s8_1_core_alignment.xml.1 or
-core_co.phase3.1.xml.
-The base names are s8_1_core_alignment or core_co.phase3. 
-Default base name is core_co.phase3.
-
-=back
-
-=head1 AUTHOR
-
-Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
-
-=head1 BUGS
-
-If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make compute-heatmap-recedge.pl better.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011  Sang Chul Choi
-
-=head1 LICENSE
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version. 
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-
-=cut
-
-require "pl/sub-simple-parser.pl";
-require "pl/sub-array.pl";
-require "pl/sub-heatmap.pl";
-sub makeXMLFilename($$$$);
-sub get_exp_map($$);
-sub get_obs_map_iteration($$);
 
 my $xmlDir;
 my $heatDir = "";
@@ -298,11 +150,9 @@ if (exists $params{endblockid})
   $endblockid = 1;
 }
 
-#
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
-#
 
 ##############################################################
 # Global variables
@@ -742,14 +592,170 @@ sub characterData {
 sub default {
 }
 
-##
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-##
+__END__
+=head1 NAME
 
-sub printError {
-    my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'compute-heatmap-recedge.pl -h\' for more information.\nExit program.\n";
-    exit(0);
-}
+count-observed-recedge.pl - Build a heat map of recombinant edges
+
+=head1 VERSION
+
+count-observed-recedge.pl 1.0
+
+=head1 SYNOPSIS
+
+perl count-observed-recedge.pl [-h] [-help] [-version] 
+  [-d xml data directory] 
+  [-e per-block heat map directory] 
+  [-n number of blocks] 
+  [-s number of species] 
+  [-xmlbasename filename]
+  [-endblockid]
+  [-obsonly]
+  [-meanonly]
+  [-append]
+  [-meanfile an output file from meanonly option]
+
+=head1 DESCRIPTION
+
+This is almost the same as extractClonalOriginParameter8.pl except that this
+actually uses the prior expected number of recombinant edges. It may be possible
+to have a single script by combining this and extractClonalOriginParameter8.pl.
+I do not know exactly how I can deal with the prior.
+
+The expected number of recedges a priori is given by ClonalOrigin's
+gui program that makes a matrix. The matrix dimension depends on
+the number of taxa in the clonal frame. Another matrix should be
+built and its element is an average observed recedes. I divide the
+latter matrix by the former one element-by-element. For each block
+I follow the computation above to obtain an odd-ratio matrix. 
+For each element over all the blocks I weight it by the length of
+the block to have an average odd-ratio.
+
+Input XML files: <xml directory>/<xml basename>.[blockid] are read. 
+
+Situation 1: I wish to compute the average number of recombinant edges just
+by counting and averaging it by the number of sample size or iterations in the
+ClonalOrigin MCMC XML output.
+
+-meanonly -obsonly
+
+Situation 2: I wish to compute the ratio of average number of recombinant edges
+relative to the prior expected number of recombinant edges.
+
+-meanonly
+
+Situation 3: I wish to compute the average number of recombination and its
+standard deviation across MCMC sample.
+
+-obsonly
+
+Situation 4: I wish to compute the average number of recombination and its
+standard deviation across MCMC sample by considering prior expected number of
+recombinant edges.
+
+Default options (or neither meanonly nor obsonly).
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-help> | B<-h>
+
+Print the help message; ignore other arguments.
+
+=item B<-man>
+
+Print the full documentation; ignore other arguments.
+
+=item B<-version>
+
+Print program version; ignore other arguments.
+
+=item B<-verbose>
+
+Prints status and info messages during processing.
+
+=item B<***** INPUT OPTIONS *****>
+
+=item B<-d> <xml directory>
+
+A directory that contains the 2nd phase run result from Clonal Origin.
+
+=item B<-e> <directory>
+
+A directory that contains files with prior expected number of recombinations.
+
+=item B<-n> <number>
+
+The number of blocks. Both directories must have pairs of files for each block.
+
+=item B<-s> <number>
+
+The number of species.
+
+=item B<-append>
+
+Among all of the repetition the first one is created, and the rest of them are
+appended. Default is not using append option, and the output file will be
+generated.
+
+=item B<-obsonly>
+
+Prior expected numbers of recombinant edges are ignored.
+
+=item B<-meanonly>
+
+Average numbers of recombinant edges are computed.
+
+=item B<-meanfile> <file>
+
+An output file from meanonly option.
+
+=item B<-endblockid>
+
+The clonal origin XML file names can be
+s8_1_core_alignment.xml.1 or
+core_co.phase3.1.xml.
+The base names are s8_1_core_alignment or core_co.phase3. 
+The block id can follow xml or precede it. Default is to precede it: i.e.,
+core_co.phase3.1.xml is the default.
+
+=item B<-xmlbasename> <name>
+
+The clonal origin XML file names can be
+s8_1_core_alignment.xml.1 or
+core_co.phase3.1.xml.
+The base names are s8_1_core_alignment or core_co.phase3. 
+Default base name is core_co.phase3.
+
+=back
+
+=head1 AUTHOR
+
+Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
+
+=head1 BUGS
+
+If you find a bug please post a message rnaseq_analysis project at codaset dot
+com repository so that I can make count-observed-recedge.pl better.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011  Sang Chul Choi
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. 
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
+
