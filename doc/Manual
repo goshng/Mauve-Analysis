@@ -6,32 +6,36 @@ Introduction
 ------------
 This manual introduces a how-to of *Mauve Analysis* of closely related bacterial
 genomes using ClonalOrigin. The analysis can be performed with help of other
-software packages. See the section <<Installation>> for details the installation 
+software packages. See the section <<Installation>> for detailed installation 
 of the software packages.
 *Mauve Analysis* is a package of scripts including BASH shell scripts, PERL
-scripts, and sometimes in language C. Users do not need directly run those
+scripts, and source codes in language C. Users do not need directly run those
 scripts. Instead, they should execute the script +run+ at the base directory.
 Note that directories are referred with respect to the base directory of 
 *Mauve Analysis* package.
 
-.Executing the main menu
+.To execute the main menu of *Mauve Analysis*
 ----
 $ ./run
 ----
-shows a list of menus, among which users can select by typing in a number
-of the menu that users wish to execute.
+shows a list of menus, among which users can select by typing in one of 
+menus that users wish to execute.
 Follow the instruction in the menu that you choose. When you
 unziped *Mauve Analysis* package, you need to <<Configuration,configure>> 
 the analysis and <<Installation,install>> other necessary software packages. 
 After the installation of helper software packages and the configuration of the
-analysis, a <<species,species file>> is needed to start to analyze bacterial
+analysis, a <<species,species file>> is needed before analyzing bacterial
 genomes. Impatient users can see the section <<Kickstart>> to start to analyze
 their selected bacterial genomes.
 
 Execute the menu *init-file-system* after the configuration of the analysis and
 the installation of the analysis. This will create +output+ directory
 in the base directory, and base directories in the cluster and X11-enabled linux
-machine. The first step of ClonalOrigin analysis is to align bacterial genomes.
+machine. You might need a cluster of unix-like machines for running
+ClonalOrigin, and might also need a linux machine to run a program with
+graphical interface.
+
+The first step of ClonalOrigin analysis is to align bacterial genomes.
 Use menu *prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The
 first menu creates a shell script and moves it to the cluster with the bacterial
 genomes specified in the species file. When the job of bacterial genome
@@ -92,7 +96,7 @@ created by menu *recombination-intensity1-map* and the gene annotations can be
 used to find gene-wise recombination intensity using menu 
 *recombination-intensity1-genes*. This gene-wise intensity can be used to do
 functional category analysis. _I need to find the functional category analysis
-that Mellisa developed._ Menu *recombination-intensity1-probability* can be use
+that Melissa developed._ Menu *recombination-intensity1-probability* can be use
 to create figures that are similar to Figures 2 and 7 of Didelot2010. 
 Functional category analysis with the result from
 *recombination-intensity1-genes* and figures from 
@@ -352,7 +356,6 @@ Species File
 .A sample of species file for simulation 
 ----
 This is a directory for a simulation study.
--------------------------------------------
 Thu May 12 15:58:50 EDT 2011
 #
 The 3 main parameters are checked with the parameter estimates from cornellf/3
@@ -377,16 +380,32 @@ Walltime:168
 $ bash sh/run.sh
 ----
 
+Menus are displayed.
+
 
 Menus
 -----
 Users can perform jobs by selecting menus by running a bash script called
 sh/run.sh. 
+
 .Executing the main bash script
 ----
 $ bash sh/run.sh
 $ ./run
 ----
+
+Directory shell variables
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Menus are implemented with a shell scripts in the directory +sh+. Variables for
+directory names can useful to find input and output files for each of the menus.
++$SPECIES+ represents a particular project. Output files for a project are
+stored in +output/$SPECIES+. The species output directory has directories with
+numbered names. The number represents +$REPETITION+. Each repetition directory
+contains subdirectories: +data+, +run-mauve+, +run-clonalorigin+,
++run-clonalframe+, and +run-analysis+. These subdirectories can be accessed
+using +$DATADIR+, +$RUNMAUVE+, +$RUNCLONALORIGIN+, +$RUNCLONALFRAME+, and
++$RUNANALYSIS+, respectively. The repetition directory can be referred to using
++$NUMBERDIR+.
 
 init-file-system
 ~~~~~~~~~~~~~~~~
@@ -480,6 +499,26 @@ choose-simulation \
           warranty \
           copyright )
 
+summarize-clonalorigin1
+~~~~~~~~~~~~~~~~~~~~~~~
+The first stage of _ClonalOrigin_ results in population mutation rate,
+recombination rate, and average tract length. The menu uses output files from
+the first stage or files with prefix of 
++$RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml+  
+to compute the three parameters. They are saved in file
++$RUNCLONALORIGIN/summary/$REPLICATE/median.txt+. Additionally, unfinished
+blocks are saved in 
++$RUNCLONALORIGIN/summary/$REPLICATE/unfinished+. 
+
+compute-block-length
+~~~~~~~~~~~~~~~~~~~~
+There are two +core_alignment.xmfa+ files: one in +data+ directory and another in
++run-mauve+. The one in data directory is produced using the other in run-mauve
+directory. The alignment program mauve produces +core_alignment.xmfa+, which is
+filtered by deleting blocks of many gaps. The menu uses the
++core_alignment.xmfa+
+in data directory to creates block lengths in a file +$RUNANALYSIS/in.block+. The
+same file is copied to +data/$SPECIES-$REPETITION-in.block+.
 
 simulate-data-clonalorigin2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

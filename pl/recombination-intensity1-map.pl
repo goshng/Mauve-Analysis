@@ -17,48 +17,25 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-
-#===============================================================================
-#   Author: Sang Chul Choi, BSCB @ Cornell University, NY
-#
-#   File: recombination-intensity1-map.pl
-#   Date: Tue May  3 09:22:29 EDT 2011
-#   Version: 1.0
-#
-#   Purpose: recombination-intensity1-map.pl help you compute recombinant edge counts
-#            along a genome. I order all the alignment blocks with respect to
-#            one of genomes. I would use the first genome in the alignment. I
-#            need to use the species tree that is in the clonal origin output
-#            files. Note that the numbering of internal nodes in the input
-#            species tree and that of the clonal output files were different. I
-#            have to use the species tree in the clonal origin to locate
-#            internal nodes. Using the species tree I should be able to find the
-#            species and their ancestors. Find which ordered pairs are possible
-#            and which others are not. I need to parse the species tree in a
-#            clonal origin outputfile. 
-#            Consider a species tree with recombinant edges: e.g., Didelot's
-#            2010 ClonalOrigin paper. For each site of an alignment block I can
-#            have a matrix where element is a binary character. A site is
-#            affected by multiple recombinant edges. It is possible that
-#            recombinant edges with the same arrival and departure affect a
-#            single site. It happened in the ClonalOrigin output file. If you simply
-#            count recombinant edges, you could count some recombinant edge type
-#            two or more times. To avoid the multiple count we use a matrix with
-#            binary values. Then, we sum the binary matrices across all the
-#            iteratons.
-#            Note that the source and destination edges could be reversed. Be
-#            careful not to reverse it. I used to use to -> from not from -> to.
-#            Now, I use from -> to for each position.
-#===============================================================================
 use strict;
 use warnings;
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
+require "pl/sub-simple-parser.pl";
+require "pl/sub-newick-parser.pl";
+require "pl/sub-error.pl";
+require "pl/sub-array.pl";
+require "pl/sub-xmfa.pl";
 
 $| = 1; # Do not buffer output
-
 my $VERSION = 'recombination-intensity1-map.pl 1.0';
+
+my $cmd = ""; 
+sub process {
+  my ($a) = @_; 
+  $cmd = $a; 
+}
 
 my $man = 0;
 my $help = 0;
@@ -73,137 +50,11 @@ GetOptions( \%params,
             'refgenome=i',
             'refgenomelength=i',
             'numberblock=i',
-            'out=s'
+            'out=s',
+            '<>' => \&process
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
-
-=head1 NAME
-
-recombination-intensity1-map.pl - Compute recombination intensity1 along a genome
-
-=head1 VERSION
-
-v1.0, Sun May 15 16:25:25 EDT 2011
-
-=head1 SYNOPSIS
-
-perl recombination-intensity1-map.pl [-h] [-help] [-version] [-verbose]
-  [-xml file base name] 
-  [-xmfa file base name] 
-  [-refgenome number] 
-  [-refgenomelength number] 
-  [-numberblock number] 
-  [-out file] 
-
-=head1 DESCRIPTION
-
-The number of recombination edge types at a nucleotide site along all of the
-alignment blocks is computed.
-
-What we need includes:
-1. ClonalOrigin output2 (-xml)
-2. Genomes alignment (-xmfa)
-3. Reference genome ID (-refgenome)
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<-help> | B<-h>
-
-Print the help message; ignore other arguments.
-
-=item B<-man>
-
-Print the full documentation; ignore other arguments.
-
-=item B<-version>
-
-Print program version; ignore other arguments.
-
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
-=item B<-xml> <file base name>
-
-A base name for ClonalOrigin XML files
-that contains the 2nd phase run result from Clonal Origin. A number of XML files
-for blocks are produced by appending dot and a block ID.
-
-  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml
-
-The XML file for block ID of 1 is
-
-  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.1
-
-=item B<-xmfa> <file base name>
-
-A base name for xmfa formatted alignment blocks. Each block alignment is
-produced by appending a dot and block ID.
-
-  -xmfa $DATADIR/core_alignment.xmfa
-
-A XMFA block alignment for block ID of 1 is
-
-  -xmfa $DATADIR/core_alignment.xmfa.1
-
-=item B<-refgenome> <number>
-
-A reference genome ID. If no reference genome is given by users, I use only
-blocks to compute maps.
-
-=item B<-refgenomelength> <number>
-
-The length of the reference genome. If refgenome is given, its length must be
-given.
-
-=item B<-numberblock> <number>
-
-The number of blocks.
-
-=item B<-out> <file>
-
-If this is given, all of the output is written to the file. Otherwise, standard
-output is used.
-
-=back
-
-=head1 AUTHOR
-
-Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
-
-=head1 BUGS
-
-If you find a bug please post a message mauve-analysis project at codaset dot
-com repository so that I can make recombination-intensity1-map.pl better.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011 Sang Chul Choi
-
-=head1 LICENSE
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-
-=cut
-
-require "pl/sub-simple-parser.pl";
-require "pl/sub-newick-parser.pl";
-require "pl/sub-error.pl";
-require "pl/sub-array.pl";
-require "pl/sub-xmfa.pl";
 
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
@@ -534,5 +385,149 @@ sub characterData {
 
 sub default {
 }
+__END__
+=head1 NAME
 
+recombination-intensity1-map.pl - Compute recombination intensity1 along a genome
 
+=head1 VERSION
+
+v1.0, Sun May 15 16:25:25 EDT 2011
+
+=head1 SYNOPSIS
+
+perl recombination-intensity1-map.pl [-h] [-help] [-version] [-verbose]
+  [-xml file base name] 
+  [-xmfa file base name] 
+  [-refgenome number] 
+  [-refgenomelength number] 
+  [-numberblock number] 
+  [-out file] 
+
+=head1 DESCRIPTION
+
+The number of recombination edge types at a nucleotide site along all of the
+alignment blocks is computed.
+
+What we need includes:
+1. ClonalOrigin output2 (-xml)
+2. Genomes alignment (-xmfa)
+3. Reference genome ID (-refgenome)
+
+recombination-intensity1-map.pl help you compute recombinant edge counts
+along a genome. I order all the alignment blocks with respect to
+one of genomes. I would use the first genome in the alignment. I
+need to use the species tree that is in the clonal origin output
+files. Note that the numbering of internal nodes in the input
+species tree and that of the clonal output files were different. I
+have to use the species tree in the clonal origin to locate
+internal nodes. Using the species tree I should be able to find the
+species and their ancestors. Find which ordered pairs are possible
+and which others are not. I need to parse the species tree in a
+clonal origin outputfile. 
+Consider a species tree with recombinant edges: e.g., Didelot's
+2010 ClonalOrigin paper. For each site of an alignment block I can
+have a matrix where element is a binary character. A site is
+affected by multiple recombinant edges. It is possible that
+recombinant edges with the same arrival and departure affect a
+single site. It happened in the ClonalOrigin output file. If you simply
+count recombinant edges, you could count some recombinant edge type
+two or more times. To avoid the multiple count we use a matrix with
+binary values. Then, we sum the binary matrices across all the
+iteratons.
+Note that the source and destination edges could be reversed. Be
+careful not to reverse it. I used to use to -> from not from -> to.
+Now, I use from -> to for each position.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-help> | B<-h>
+
+Print the help message; ignore other arguments.
+
+=item B<-man>
+
+Print the full documentation; ignore other arguments.
+
+=item B<-version>
+
+Print program version; ignore other arguments.
+
+=item B<-verbose>
+
+Prints status and info messages during processing.
+
+=item B<-xml> <file base name>
+
+A base name for ClonalOrigin XML files
+that contains the 2nd phase run result from Clonal Origin. A number of XML files
+for blocks are produced by appending dot and a block ID.
+
+  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml
+
+The XML file for block ID of 1 is
+
+  -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.1
+
+=item B<-xmfa> <file base name>
+
+A base name for xmfa formatted alignment blocks. Each block alignment is
+produced by appending a dot and block ID.
+
+  -xmfa $DATADIR/core_alignment.xmfa
+
+A XMFA block alignment for block ID of 1 is
+
+  -xmfa $DATADIR/core_alignment.xmfa.1
+
+=item B<-refgenome> <number>
+
+A reference genome ID. If no reference genome is given by users, I use only
+blocks to compute maps.
+
+=item B<-refgenomelength> <number>
+
+The length of the reference genome. If refgenome is given, its length must be
+given.
+
+=item B<-numberblock> <number>
+
+The number of blocks.
+
+=item B<-out> <file>
+
+If this is given, all of the output is written to the file. Otherwise, standard
+output is used.
+
+=back
+
+=head1 AUTHOR
+
+Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
+
+=head1 BUGS
+
+If you find a bug please post a message mauve-analysis project at codaset dot
+com repository so that I can make recombination-intensity1-map.pl better.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011 Sang Chul Choi
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut

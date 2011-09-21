@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#############################################################################
+# Known issues
+# 1. strDeq2, strDdy1, and strPyg2 need to be added to the database.
+# 2. trackDb needs attentions to resolve issues such as
+#    e.g., Track maf missing required trackDb setting: speciesOrder, speciesGroups, or
+#    speciesUseFile
+
+XMFA=output/cornellf/3/data/core_alignment.xmfa
+MAF=output/cornellf/3/data/core_alignment.maf
+
+#############################################################################
+# Create directories specified in the XMFA file so that Mauve's mafa2maf can
+# find the length sequences of the 5 genomes. 
+# Input: $XMFA
+# Output: $MAF
+mkdir -p /tmp/1081728.scheduler.v4linux/input
+scp cac:/home/fs01/sc2265/Documents/Projects/m2/output/cornellf/3/data/*.gbk /tmp/1081728.scheduler.v4linux/input
+XMFA=output/cornellf/3/data/core_alignment.xmfa
+MAF=output/cornellf/3/data/core_alignment.maf
+xmfa2maf $XMFA $MAF
+rm -rf /tmp/1081728.scheduler.v4linux
+
+#############################################################################
+# Edit the MAF file so that it can be loaded to UCSC genome browser.
+MAF=`pwd`/output/cornellf/3/data/core_alignment.maf
+MAF2=/gbdb/strDeq1/maf/core_alignment.maf
+perl pl/xmfaToMaf.pl ucsc -xmfa2maf $MAF \
+  -rename strDeq1.chr1,strDeq2.chr1,strDdy1.chr1,strPyg1.chr1,strPyg2.chr1 \
+  -out $MAF2
+
+#############################################################################
+# Load the MAF file to the UCSC genome browser.
+MAF2=/gbdb/strDeq1/maf/core_alignment.maf
+hgLoadMaf strDeq1 maf -loadFile=$MAF2
+

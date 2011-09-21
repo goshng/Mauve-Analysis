@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-# Date: Wed Apr 27 16:45:56 EDT 2011
 
 function recombination-intensity1-map {
   PS3="Choose the species to do $FUNCNAME: "

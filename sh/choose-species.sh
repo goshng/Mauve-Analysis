@@ -27,7 +27,7 @@ function choose-species {
       read REPETITION
       set-more-global-variable $SPECIES $REPETITION
 
-      echo -n "Do you wish to create $NUMBERDIR and its subdirectories (y/n)? "
+      echo -n "Do you wish to create $NUMBERDIR and its subdirectories at the local machine (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         mkdir $BASEDIR \
@@ -42,7 +42,7 @@ function choose-species {
         echo -e "  Skipped creating $NUMDIR and its subdirectories" 
       fi
 
-      echo -n "Do you wish to create $CAC_NUMBERDIR and its subdirectories (y/n)? "
+      echo -n "Do you wish to create $CAC_NUMBERDIR and its subdirectories at the cluster (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
@@ -57,7 +57,7 @@ function choose-species {
       fi
 
 
-      echo -n "Do you wish to create $X11_NUMBERDIR and its subdirectories (y/n)? "
+      echo -n "Do you wish to create $X11_NUMBERDIR and its subdirectories at X11 (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
       ssh -x $X11_USERHOST mkdir $X11_BASEDIR \

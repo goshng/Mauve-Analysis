@@ -17,25 +17,32 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-# Computes lengths of blocks.
-# ---------------------------
-# The run-lcb contains a list of core_alignment.xmfa.[NUMBER] files.
-function compute-block-length {
-  PS3="Choose the species to compute block lengths: "
-  select SPECIES in ${SPECIESS[@]}; do 
-    if [ "$SPECIES" == "" ];  then
-      echo -e "You need to enter something\n"
-      continue
-    else  
-      echo -n "What repetition do you wish to run? (e.g., 1) "
-      read REPETITION
-      set-more-global-variable $SPECIES $REPETITION
-      perl pl/compute-block-length.pl \
-        -base=$DATADIR/core_alignment.xmfa \
-        > data/$SPECIES-$REPETITION-in.block
-      cp data/$SPECIES-$REPETITION-in.block $RUNANALYSIS/in.block
-      echo "Check data/$SPECIES-$REPETITION-in.block"
-      break
-    fi
-  done
+# Count the number of lines for each block of a MAF-format file.
+# The first element is the number of lines before the first sequence alignment.
+# The rest of elements are numbers of lines for all of the alignments. Each
+# block is assumed to contain lines from `a' to the blank line.
+sub peachMafCountFromMauveXmfa2Maf ($)
+{
+  my ($f) = @_;
+  my @v;
+  my $c = 1;
+  open MAF, $f or die "cannot open < $f $!";
+  my $line = <MAF>;
+  push @v, $c;
+  while ($line = <MAF>)
+  {
+    $c++;
+    if ($line =~ /^a/)
+    {
+      $c = 1;
+    }
+    elsif ($line =~ /^$/)
+    {
+      push @v, $c;
+    }
+  }
+  close MAF;
+  return @v;
 }
+
+1;

@@ -22,6 +22,73 @@ the first replicate.
 runs. Say this in the manuscript.)
 . Not perfect runs, I use a partial run.
 
+
+Wed Sep 21 11:48:18 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The recombination intensity per site should be corrected using prior. For this
+one we need the length of blocks, recombination rate per site, and delta per
+site. We should be able to find these values.
+
+.Block lengths can be found at
+----
+output/cornellf/3/run-analysis/in.block
+----
+
+.Three parameter estimates should be found at
+----
+output/cornellf/3/run-clonalorigin/summary/1/median.txt
+----
+
+I need to use these to compute the prior distribution of recombination intensity
+per site. This would be used to compute the ratio of posterior recombination
+intensity against the prior recombination intensity. Then, we might find some
+sensible genomic regions with high or low recombination intensity.
+Let's have a test directory +test/riprior+ to test this.
+
+We also want to find the alignments. The +data+ directory contains
++core_alignment.xmfa+ that needs to be converted to _wigMaf_ format so that
+alignments can be loaded to UCSC genome browser.
+Let's make a test directory +test/wigmaf+ to test this.
+
+Tue Sep 20 17:28:02 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I need three tracks for each of 5 species: recombination intensity (WIG format), 
+blocks of alignment (MAF format), and virulence genes (bed format). I wonder if
+I can click a bed bar to show information such as sequence alignments or
+information about virulence genes. 
+
+
+Sat Sep 17 12:23:26 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I make a table where rows represent species and columns orthologous genes.
+
+.Table of genes and the virulence
+----
+test/virulence/run
+----
+
+
+Fri Sep 16 16:21:27 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Where is the file that I sent to Melissa for functional category analyses?
+
+.File with genes and their recombination intensity
+----
+emails/to/melissa/072011/rimap.gene.txt
+----
+
+Where can I find recombination intensity along SDE genome? 
+
+.File with recombination intensity with respect to S. pyogenes MGAS315
+----
+output/cornellf/3/run-analysis/ri1-refgenome4-map.wig
+----
+
+Genome tracks as a resource might be worth trying. ClonalOrigin's analysis
+used 5 genomes, and Mawgli's used 6 genomes. I think that still I can use the
+current strep-genome tracks. First, blocks of core alignments are displayed
+using BED files. 
+
 Tue Jul 19 21:56:52 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cornellf/3/run-clonalorigin/output2/2 was not finished yet.
