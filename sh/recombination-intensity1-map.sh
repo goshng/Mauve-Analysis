@@ -36,7 +36,7 @@ function recombination-intensity1-map {
       echo -n "Do you wish to generate rimap-$REPLICATE.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
-        echo perl pl/$FUNCNAME.pl \
+        perl pl/$FUNCNAME.pl \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -numberblock $NUMBER_BLOCK \
@@ -45,29 +45,27 @@ function recombination-intensity1-map {
       else
         echo "  Skipping generating $RIMAP"
       fi
-      break
  
       # echo -e "  The number of blocks is $NUMBER_BLOCK."
       # echo "-------------------------------------"
       # cat data/$SPECIES
       # echo "-------------------------------------"
-      # echo -n "What is the reference genome? (e.g., 1) " 
-      # read REFGENOME
-      # echo -n "What is the length of the reference genome? " 
-      # read REFGENOMELENGTH
 
-     
       echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/$FUNCNAME.pl \
+        echo -n "What is the reference genome? (e.g., 1) " 
+        read REFGENOME
+        echo -n "What is the length of the reference genome? " 
+        read REFGENOMELENGTH
+        echo perl pl/$FUNCNAME.pl \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
           -refgenomelength $REFGENOMELENGTH \
           -numberblock $NUMBER_BLOCK \
           -verbose \
-          > $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt
+          -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map-$REPLICATE.txt
       else
         echo "  Skipping generating $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt"
       fi
@@ -75,7 +73,11 @@ function recombination-intensity1-map {
       echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.wig? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/$FUNCNAME-wiggle.pl \
+        echo -n "What is the reference genome? (e.g., 1) " 
+        read REFGENOME
+        echo perl pl/$FUNCNAME-wiggle.pl intensity \
+          -prior 3.746 \
+          -posteriorsize 1001 \
           -map $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt \
           -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map.wig
         echo "  Generating $RUNANALYSIS/ri1-refgenome$REFGENOME.wig"

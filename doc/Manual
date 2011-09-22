@@ -499,6 +499,15 @@ choose-simulation \
           warranty \
           copyright )
 
+extract-species-tree
+~~~~~~~~~~~~~~~~~~~~
+The input species file is given from the *ClonalFrame* analysis. *ClonalOrigin*
+uses the species file, but indices of branches in the tree are modified by
+*ClonalOrigin*. I need to use the modified species tree to interpret the output
+of *ClonalOrigin*. This menu extracts the species tree from an XML file
++$RUNCLONALORIGIN/output2/$REPLICATE/core_co.phase3.xml.1+ and produces a file 
++$RUNANALYSIS/species-tree-$REPLICATE.tree+.
+
 summarize-clonalorigin1
 ~~~~~~~~~~~~~~~~~~~~~~~
 The first stage of _ClonalOrigin_ results in population mutation rate,
@@ -789,11 +798,26 @@ this happens. In this case I have redo the simulation for those blocks. I need
 SPECIES, REPETITION, REPLICATE, BLOCK, and BLOCKSIZE. After this correction, I
 can proceed with clonalorigin2-simulation3-analyze.
 
+recombination-intensity1-map
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For simplicity, I create a file called +$RUNANALYSIS/rimap-$REPLICATE.txt+ where
+the number of lines is equal to the total length of all of the block alignments.
+This file could be huge in size. The file of block sizes and the XMFA alignment
+file should be used to find a corresponding block of recombination events counts
+for a reference genome. The species tree 
++$RUNANALYSIS/species-tree-$REPLICATE.tree+ should be used to find which
+branches correspond to which element in the +rimap+ file. 
+
+Given this +rimap+ file I could create recombination intensity or average number
+of recombinant edges along a reference genome. However, 
+it appears that menu *recombination-intensity1-map* features recombination event
+counts along a reference genome.
+
 recombination-intensity1-genes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The number of recombinant edges per site is computed for all of the genes of a
-reference genome.
-recombination-intensity1-map must be called before the call of this menu.
+reference genome. recombination-intensity1-map must be called before the call of
+this menu.
 
 list-gene-go
 ~~~~~~~~~~~~
@@ -968,8 +992,6 @@ probability-recedge-gene.pl
 probability-recombination.pl
 recombination-intensity.pl
 recombination-intensity1-genes.pl
-recombination-intensity1-map-wiggle.pl
-recombination-intensity1-map.pl
 recombination-intensity1-probability.pl
 recombination-intensity2.pl
 recombination-intensity4.pl
@@ -1036,7 +1058,6 @@ receive-run-2nd-clonalorigin.sh
 receive-run-clonalframe.sh
 receive-run-clonalorigin.sh
 recombination-intensity1-genes.sh
-recombination-intensity1-map.sh
 recombination-intensity1-probability.sh
 reverse-blockid-xml.sh
 run.sh
