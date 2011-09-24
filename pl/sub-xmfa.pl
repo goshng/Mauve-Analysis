@@ -420,13 +420,27 @@ sub getBlockConfiguration ($$$)
     open XMFA, $xmfaFile or die "Could not open $xmfaFile";
     while (<XMFA>) 
     {
-      if (/^>\s+$refgenome:(\d+)-(\d+)/)
+      if (/^>\s+$refgenome:(\d+)-(\d+)\s+(.)\s+/)
       {
-        my $startGenome = $1;
-        my $endGenome = $2;
         my $rec = {};
-        $rec->{start} = $startGenome;
-        $rec->{end} = $endGenome;
+        $rec->{start}  = $1;
+        $rec->{end}    = $2;
+        $rec->{strand} = $3;
+        $rec->{block}  = $i;
+        my $seq = "";
+        while (<XMFA>)
+        {
+          chomp;
+          if (/^>/ or /^=$/)
+          {
+            last;
+          }
+          else
+          {
+            $seq .= $_;
+          }
+        }
+        $rec->{seq} = $seq;
         push @blockLocationGenome, $rec;
         last;
       }

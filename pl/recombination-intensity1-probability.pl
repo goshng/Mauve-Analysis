@@ -55,6 +55,7 @@ GetOptions( \%params,
             'block=i',
             'ri1map=s',
             'outdir=s',
+            'rimapdir=s',
             'ingene=s',
             'clonaloriginsamplesize=i',
             'out=s',
@@ -153,6 +154,7 @@ elsif ($cmd eq "wiggle")
           and exists $params{xmfa}
           and exists $params{clonaloriginsamplesize}
           and exists $params{refgenome}
+          and exists $params{rimapdir}
           and exists $params{xml})
   {
     &printError("Command $cmd requires options -xmfa2maf, and -gbk");
@@ -220,98 +222,68 @@ elsif ($cmd eq "split")
 }
 elsif ($cmd eq "wiggle")
 {
+  my $line; 
   $speciesTree = get_species_tree ("$xml.1");
   $numberTaxa = get_number_leave ($speciesTree);
   $numberLineage = 2 * $numberTaxa - 1;
-
-
-
-  # I need to produce 9-by-9 (but only 60 possible) wiggle files. 
-  # I will create trackDb.ra file as well.
-  my @countLineAlignment = peachMafCountFromMauveXmfa2Maf ($params{xmfa2maf});
-  my @strand = peachMafStrandFromMauveXmfa2Maf ($params{xmfa2maf});
-  
-  # I need the genome length of each species.
   my $genomeLength = peachGbkLength ($params{gbk});
-  # Find start and end positions of all of the blocks.
-  # 
-  # For each cell of the 9-by-9 matrix, we create a wiggle file.
-  #
-  # Use XMFA file to find start, end, strand, and the sequence.
-  for (my $from = 0; $from < $numberLineage; $from++)
-  {
-    for (my $to = 0; $to < $numberLineage; $to++)
-    {
-      my $indexRimap = $from * $numberLineage + $to;
-      my @wiggleValue = (0) x ($genomeLength + 1);
-      
-      open RIMAP, $params{ri1map} or die "cannot open < $params{ri1map} $!";
-      my $lineRimap;
-      open XMFA, $params{xmfa} or die "cannot open < $params{xmfa} $!";
-      my $block = {};
-      $block->{GRAB} = 0;
-      while (<XMFA>)
-      {
-        chomp;
-        if (/^>\s+$params{refgenome}:(\d+)-(\d+)\s+(.)\s+/)
-        {
-          $block->{START}  = $1;
-          $block->{END}    = $2;
-          $block->{STRAND} = $3;
-          $block->{SEQ}    = "";
-          $block->{GRAB}   = 1;
-        }
-        elsif ($block->{GRAB} == 1)
-        {
-          if (/^>\s+\d+:(\d+)-(\d+)/)
-          {
-            $block->{GRAB} = 0;
-          }
-          else
-          {
-            $block->{SEQ} .= $_;
-          }
-        }
-        elsif (/^=$/)
-        {
-          # Get the RIMAP with the same length of the current block.
-          my $blockLength = length ($block->{SEQ});
-          my @nucleotide;
-          if ($block->{STRAND} eq '+')
-          {
-            @nucleotide = split (//, $block->{SEQ});
-          }
-          else
-          {
-            @nucleotide = split (//, reverse($block->{SEQ}));
-          }
-           
-          # Read RIMAP file.
-          my $pos = $block->{START};
-          for (my $rimapI = 0; $rimapI < $blockLength; $rimapI++)
-          {
-            $lineRimap = <RIMAP>;
-            my @e = split $lineRimap;
-            unless ($nucleotide[$rimapI] eq '-')
-            {
-              $wiggleValue[$pos] = $e[$indexRimap + 1];
-              $pos++;
-            }
-          }
-          die "Error: $block->{START} $pos != $block->{END}" unless $pos == $block->{END};
-        }
-      }
-      close XMFA;
-      close RIMAP;
 
-      open WIG, ">", "$params{out}/$from-$to.wig" or die "cannot open > $params{out}/$from-$to.wig\n"; 
-      foreach my $v (@wiggleValue)
-      {
-        print WIG "$v\n";
-      }
-      close WIG;
+  my $n = xmfaNumberBlock ($params{xmfa});
+  my @block = getBlockConfiguration ($params{refgenome}, $params{xmfa}, $n);
+  my @sortedBlock = sort {$$a{start} <=> $$b{start} } @block;
+
+  my $lineZero = "x";
+  foreach my $i (1..$numberLineage) 
+  {
+    foreach my $j (1..$numberLineage) 
+    {
+      $lineZero .= "\t0";
     }
   }
+  $lineZero .= "\n";
+
+  open OUT, ">", $params{out} or die "cannot open > $params{out} $!";
+  my $pos = 1;
+  foreach my $b (@sortedBlock)
+  {
+    for (; $pos < $b->{start}; $pos++)
+    {
+      print OUT "$pos\t$lineZero";
+    }
+
+    open RIMAP, "$params{rimapdir}/$b->{block}"
+      or die "cannot open < $params{rimapdir}/$b->{block} $!";
+    my @nucleotide = split (//, $b->{seq});
+    if ($b->{strand} eq '-')
+    {
+      @nucleotide = reverse (@nucleotide);
+    }
+    foreach my $c (@nucleotide)
+    {
+      $line = <RIMAP>;
+
+      unless ($c eq '-')
+      {
+        print OUT "$pos\t$line";
+        $pos++;
+      }
+    }
+    while ($line = <RIMAP>)
+    {
+      die "The nucleotide's counts and $params{rimapdir}/$b->{block} do not match";
+    }
+    unless ($pos == $b->{end} + 1)
+    {
+      die "Current pos and block end do not match: pos ($pos), block end ($b->{end})"; 
+    }
+    close RIMAP;
+  }
+  for (; $pos <= $genomeLength; $pos++)
+  {
+    print OUT "$pos\t$lineZero";
+  }
+
+  close OUT;
 }
 
 exit;
