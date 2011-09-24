@@ -1,5 +1,21 @@
-# Author: Sang Chul Choi
-# Date  : Tue Apr 19 14:45:36 EDT 2011
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 # Plots the three main scalar parameters of clonal origin model.
 # --------------------------------------------------------------
@@ -21,7 +37,7 @@ function scatter-plot-parameter {
       read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
 
-      perl pl/$FUNCNAME.pl \
+      perl pl/$FUNCNAME.pl three \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
         -xmfabase $DATADIR/core_alignment.xmfa \
         -out $RUNANALYSIS/$FUNCNAME-$REPLICATE-out

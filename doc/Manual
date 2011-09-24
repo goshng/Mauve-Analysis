@@ -499,6 +499,10 @@ choose-simulation \
           warranty \
           copyright )
 
+ucsc-load-genome
+~~~~~~~~~~~~~~~~
+I load the 6 species to a local UCSC genome browser.
+
 extract-species-tree
 ~~~~~~~~~~~~~~~~~~~~
 The input species file is given from the *ClonalFrame* analysis. *ClonalOrigin*

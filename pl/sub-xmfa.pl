@@ -458,6 +458,20 @@ sub getBlockSizeConfiguration ($$)
   return @blockLocationGenome;
 }
 
+sub peachXmfaBlockSize ($$)
+{
+  my ($xmfa, $numberblock) = @_;
+  my @v;
+  my $currentPosition = 1; # Points to the first base of the DNA sequence 
+  for my $i (1 .. $numberblock)
+  {
+    my $xmfaFile = "$xmfa.$i";
+    my $blockSize = xmfaBlockSize ($xmfaFile);
+    push @v, $blockSize;
+  }
+  return @v;
+}
+
 sub maXmfaGetBlockStart ($)
 {
   my ($xmfa) = @_;

@@ -20,6 +20,7 @@
 
 BASEDIR=output/virulence
 
+
 # Create a table.
 perl pl/virulence.pl table \
   -virulence $BASEDIR/virulent_genes.txt \
@@ -34,5 +35,16 @@ mkdir $BASEDIR
 scp -q swiftgen:/usr/projects/strep/gainloss/config/fam-frag2.part.txt $BASEDIR
 scp -q swiftgen:/usr/projects/strep/gainloss/config/strep.smap $BASEDIR
 scp -q swiftgen:/usr/projects/strep/virulent_genes.txt $BASEDIR
+
+#############################################################
+# Create virulence genes in BED format.
+PTTFILE=/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.ptt
+perl pl/virulence.pl bed \
+  -virulence $BASEDIR/virulent_genes.txt \
+  -ptt $PTTFILE \
+  -out $BASEDIR/spy1.bed
+echo "Check $BASEDIR/spy1.bed"
+hgLoadBed SpyMGAS315 virulence $BASEDIR/spy1.bed
+exit
 
 

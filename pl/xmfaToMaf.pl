@@ -26,19 +26,16 @@ require "pl/sub-simple-parser.pl";
 require "pl/sub-newick-parser.pl";
 require "pl/sub-array.pl";
 require "pl/sub-xmfa.pl";
-
 require "pl/sub-error.pl";
 require "pl/sub-maf.pl";
 
 $| = 1; # Do not buffer output
 my $VERSION = 'xmfaToMaf.pl 1.0';
-
 my $cmd = ""; 
 sub process {
   my ($a) = @_; 
   $cmd = $a; 
 }
-
 my $man = 0;
 my $help = 0;
 my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);        
@@ -47,6 +44,7 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
+            'ref=i',
             'xmfa=s',
             'xmfa2maf=s',
             'rename=s',
@@ -85,11 +83,32 @@ if ($cmd eq 'ucsc')
 if ($cmd eq 'ucsc')
 {
   my @countLineAlignment = peachMafCountFromMauveXmfa2Maf ($params{xmfa2maf});
+  my @strand = peachMafStrandFromMauveXmfa2Maf ($params{xmfa2maf});
+
+  #for (my $i = 0; $i <= $#strand; $i++)
+  #{
+    #print STDERR "$strand[$i][3]\n";
+  #}
+  #exit;
+
   # print STDERR join ("\n", @countLineAlignment);
   # print STDERR scalar (@countLineAlignment);
   
   my @rename = split /,/, $params{rename};
-
+  foreach my $i (0..$#rename)
+  {
+    $rename[$i] .= ".chr1";
+  }
+  my @reorder; 
+  if (exists $params{reorder})
+  {
+    @reorder = split /,/, $params{reorder};
+    unshift @reorder, 0;
+  }
+  else
+  {
+    @reorder = (0..scalar(@rename));
+  }
   ############################################
   # Read the output file from Mauve's xmfa2maf
   open MAF, $params{xmfa2maf} or die "cannot open < $params{xmfa2maf} $!";
@@ -98,6 +117,7 @@ if ($cmd eq 'ucsc')
   print $outfile "\n";  # One blank line before the first alignment.
   for (my $i = 1; $i <= $#countLineAlignment; $i++)
   {
+    my @alignment;
     for (my $j = 0; $j < $countLineAlignment[$i]; $j++)
     {
       $line = <MAF>;
@@ -105,17 +125,88 @@ if ($cmd eq 'ucsc')
       if ($j == 0)
       {
         die "The first character must be character a" unless $line =~ /^a/;
-        print $outfile "$line\n";
+        # print $outfile "$line\n";
+        push @alignment, $line;
       }
       elsif ($j == $countLineAlignment[$i] - 1)
       {
         die "The last line must be a blank" unless $line =~ /^$/;
+        # print $outfile "\n";
+        for (my $k = 0; $k <= $#reorder; $k++)
+        {
+          print $outfile "$alignment[$reorder[$k]]\n";
+        }
         print $outfile "\n";
       }
       else
       {
         my @e = split /\s+/, $line;
-        print $outfile "s\t$rename[$j-1]\t$e[2]\t$e[3]\t$e[4]\t$e[5]\t$e[6]\n";
+        if ($strand[$i-1][$reorder[1]-1] eq '-')
+        {
+          $e[2] = $e[5] - $e[2];
+          if ($e[4] eq '+')
+          {
+            $e[4] = '-';
+          }
+          else
+          {
+            $e[4] = '+';
+          }
+          $e[6] = reverse ($e[6]);
+          $e[6] =~ tr/ACGTacgt/TGCAtgca/;
+        }
+        $e[6] = uc $e[6];
+        push @alignment, "s\t$rename[$j-1]\t$e[2]\t$e[3]\t$e[4]\t$e[5]\t$e[6]";
+      }
+    }
+  }
+  close MAF;
+}
+elsif ($cmd eq 'block')
+{
+  my $referenceSequenceNumber = 1;
+  if (exists $params{ref})
+  {
+    $referenceSequenceNumber = $params{ref};
+  }
+  my @countLineAlignment = peachMafCountFromMauveXmfa2Maf ($params{xmfa2maf});
+  my @strand = peachMafStrandFromMauveXmfa2Maf ($params{xmfa2maf});
+
+  ############################################
+  # Read the output file from Mauve's xmfa2maf
+  open MAF, $params{xmfa2maf} or die "cannot open < $params{xmfa2maf} $!";
+  my $line = <MAF>;
+  for (my $i = 1; $i <= $#countLineAlignment; $i++)
+  {
+    my @alignment;
+    for (my $j = 0; $j < $countLineAlignment[$i]; $j++)
+    {
+      $line = <MAF>;
+      chomp $line;
+      if ($j == 0)
+      {
+        die "The first character must be character a" unless $line =~ /^a/;
+      }
+      elsif ($j == $referenceSequenceNumber)
+      {
+        my @e = split /\s+/, $line;
+        my $start;
+        my $end;
+        if ($e[4] eq '+')
+        {
+          $start = $e[2];
+          $end = $e[2] + $e[3];
+        }
+        else
+        {
+          $end = $e[5] - $e[2];
+          $start = $end - $e[3];
+        }
+        print $outfile "chr1\t$start\t$end\t$i\t$i\t$i\n";
+      }
+      elsif ($j == $countLineAlignment[$i] - 1)
+      {
+        die "The last line must be a blank" unless $line =~ /^$/;
       }
     }
   }
@@ -139,6 +230,8 @@ v1.0, Wed Sep 21 13:21:04 EDT 2011
 
 perl xmfaToMaf.pl ucsc -xmfa2maf file -rename s1,s2,s3 -reorder 3,1,2 -out file.out
 
+perl xmfaToMaf.pl block -xmfa2maf file -ref 1
+
 =head1 DESCRIPTION
 
 There may be other programs that can do the same thing: e.g., xmfa2maf in Mauve.
@@ -154,6 +247,9 @@ Species names in the MAF file can be replaced using -rename option.
 Sequences can be reordered using -reorder option.
 
 See http://genome.ucsc.edu/FAQ/FAQformat.html#format5 for the MAF-format.
+
+command block: Use the xmfa2maf file that is created from an XMFA file to create
+a BED file for the blocks. Use one of the species as a reference.
 
 =head1 OPTIONS
 

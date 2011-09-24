@@ -1,6 +1,28 @@
 #!/bin/bash
 
 #############################################################################
+# Create recombination probability in a wiggle file.
+
+
+
+
+
+#############################################################################
+# Create recombination probability in BED format.
+KENT=/Users/goshng/Documents/Projects/ucsc/kent
+MAF=output/cornellf/3/data/core_alignment.maf
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+REORDERCHOICES=(1 2 3 4 5)
+for i in {0..4}; do
+  DBNAME=${DBNAMECHOICES[$i]}
+  perl pl/xmfaToMaf.pl block -xmfa2maf $MAF \
+    -ref ${REORDERCHOICES[$i]} \
+    -out $DBNAME.bed
+  hgLoadBed -trimSqlTable -renameSqlTable -bedDetail -tab -sqlTable=$KENT/src/hg/lib/bedDetail.sql $DBNAME riprob $DBNAME.bed
+done
+exit
+
+#############################################################################
 # Known issues
 # 1. strDeq2, strDdy1, and strPyg2 need to be added to the database.
 # 2. trackDb needs attentions to resolve issues such as
@@ -21,6 +43,7 @@ XMFA=output/cornellf/3/data/core_alignment.xmfa
 MAF=output/cornellf/3/data/core_alignment.maf
 xmfa2maf $XMFA $MAF
 rm -rf /tmp/1081728.scheduler.v4linux
+exit
 
 #############################################################################
 # Edit the MAF file so that it can be loaded to UCSC genome browser.
@@ -34,4 +57,61 @@ perl pl/xmfaToMaf.pl ucsc -xmfa2maf $MAF \
 # Load the MAF file to the UCSC genome browser.
 MAF2=/gbdb/strDeq1/maf/core_alignment.maf
 hgLoadMaf strDeq1 maf -loadFile=$MAF2
+
+#############################################################################
+# Edit the MAF file
+# -----------------
+# Change DBNAME and -reorder the output file is created in gbdb.
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+REORDERCHOICES=("1,2,3,4,5" "2,1,3,4,5" "3,2,1,4,5" "4,2,3,1,5" "5,2,3,4,1")
+for i in {0..4}; do
+  DBNAME=${DBNAMECHOICES[$i]}
+  DBMAF=/gbdb/$DBNAME/maf
+  mkdir -p $DBMAF
+  MAF=output/cornellf/3/data/core_alignment.maf
+  MAF2=$DBMAF/core_alignment.maf
+  perl pl/xmfaToMaf.pl ucsc -xmfa2maf $MAF \
+    -rename SdeqATCC12394,SdeqGGS124,SddyATCC27957,SpyMGAS315,SpyMGAS10750 \
+    -reorder ${REORDERCHOICES[$i]} \
+    -out $MAF2
+  hgLoadMaf $DBNAME maf -loadFile=$MAF2
+done
+exit
+
+#############################################################################
+# Create recombination probability in BED format.
+MAF=output/cornellf/3/data/core_alignment.maf
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+REORDERCHOICES=(1 2 3 4 5)
+for i in {0..4}; do
+  DBNAME=${DBNAMECHOICES[$i]}
+  perl pl/xmfaToMaf.pl block -xmfa2maf $MAF \
+    -ref ${REORDERCHOICES[$i]} \
+    -out $DBNAME.bed
+  hgLoadBed $DBNAME riprob $DBNAME.bed
+done
+exit
+
+#############################################################################
+# Create virulence genes in BED format
+# See file test/virulence/run
+
+#############################################################################
+# Create recombination rates for blocks in BED format
+# The rate of recombination is in output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho
+# The first value of the file is the position and the second is recombination
+# rate. I need block numbers and its average values. I might need to use the
+# menu scatter-plot-parameter.
+#
+RHOFILE=output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho
+OUTFILE=output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho.bed
+
+perl pl/scatter-plot-parameter.pl bed -in $RHOFILE -out $OUTFILE
+echo $OUTFILE
+DBNAME=SpyMGAS315
+hgLoadBed $DBNAME recombrate $OUTFILE
+exit
+
+
+
 

@@ -17,45 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-#===============================================================================
-#   Author: Sang Chul Choi, BSCB @ Cornell University, NY
-#
-#   File: recombination-intensity1-probability.pl
-#   Date: Tue May 17 14:34:30 EDT 2011
-#   Version: 1.0
-#===============================================================================
 use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
-
-$| = 1; # Do not buffer output
-
-my $VERSION = 'recombination-intensity1-probability.pl 1.0';
-
-my $man = 0;
-my $help = 0;
-my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);        
-GetOptions( \%params,
-            'help|h',
-            'man',
-            'verbose',
-            'version' => sub { print $VERSION."\n"; exit; },
-            'xml=s',
-            'xmfa=s',
-            'refgenome=i',
-            'block=i',
-            'ri1map=s',
-            'ingene=s',
-            'clonaloriginsamplesize=i',
-            'out=s'
-            ) or pod2usage(2);
-pod2usage(1) if $help;
-pod2usage(-exitstatus => 0, -verbose => 2) if $man;
-
-
-sub getLengthMap ($);
-
 require "pl/sub-ingene.pl";
 require "pl/sub-error.pl";
 require "pl/sub-array.pl";
@@ -64,11 +29,48 @@ require "pl/sub-newick-parser.pl";
 require "pl/sub-xmfa.pl";
 require "pl/sub-ri.pl";
 require "pl/sub-ps.pl";
+require "pl/sub-maf.pl";
+require "pl/sub-gbk.pl";
+
+$| = 1; # Do not buffer output
+my $VERSION = 'recombination-intensity1-probability.pl 1.0';
+my $cmd = ""; 
+sub process {
+  my ($a) = @_; 
+  $cmd = $a; 
+}
+my $man = 0;
+my $help = 0;
+my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);        
+GetOptions( \%params,
+            'help|h',
+            'man',
+            'verbose',
+            'version' => sub { print $VERSION."\n"; exit; },
+            'gbk=s',
+            'xml=s',
+            'xmfa2maf=s',
+            'xmfa=s',
+            'refgenome=i',
+            'block=i',
+            'ri1map=s',
+            'outdir=s',
+            'ingene=s',
+            'clonaloriginsamplesize=i',
+            'out=s',
+            '<>' => \&process
+            ) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage(-exitstatus => 0, -verbose => 2) if $man;
+
+sub getLengthMap ($);
+sub drawRI1BlockGenes ($$);
+sub getRI1Gene ($$$$$);
+sub getPairs ($);
 
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
 ################################################################################
-
 my $ri1map;
 my $ingene;
 my $out; 
@@ -89,18 +91,10 @@ if (exists $params{xml})
 {
   $xml = $params{xml};
 }
-else
-{
-  &printError("you did not specify an xml directory that contains Clonal Origin 2nd run results");
-}
 
 if (exists $params{xmfa})
 {
   $xmfa = $params{xmfa};
-}
-else
-{
-  &printError("you did not specify a core genome alignment");
 }
 
 
@@ -108,36 +102,20 @@ if (exists $params{ri1map})
 {
   $ri1map = $params{ri1map};
 }
-else
-{
-  &printError("you did not specify an ri1map file that contains recombination intensity 1 measure");
-}
 
 if (exists $params{out})
 {
   $out = $params{out};
-}
-else
-{
-  &printError("you did not specify an output file");
 }
 
 if (exists $params{ingene})
 {
   $ingene = $params{ingene};
 }
-else
-{
-  &printError("you did not specify an ingene file");
-}
 
 if (exists $params{clonaloriginsamplesize})
 {
   $clonaloriginsamplesize = $params{clonaloriginsamplesize};
-}
-else
-{
-  &printError("you did not specify an clonaloriginsamplesize");
 }
 
 if (exists $params{verbose})
@@ -149,9 +127,36 @@ if (exists $params{refgenome})
 {
   $refgenome = $params{refgenome};
 }
-else
+
+if ($cmd eq "ps")
 {
-  &printError("you did not specify an clonaloriginsamplesize");
+  unless (exists $params{ingene}
+          and exists $params{xmfa}
+          and exists $params{clonaloriginsamplesize}
+          and exists $params{refgenome}
+          and exists $params{xml})
+  {
+    &printError("Command $cmd requires options -ingene");
+  }
+}
+elsif ($cmd eq "split")
+{
+  unless (exists $params{xmfa} and exists $params{ri1map}
+          and exists $params{outdir})
+  {
+    &printError("Command $cmd requires options -xmfa, -outdir and -ri1map");
+  }
+}
+elsif ($cmd eq "wiggle")
+{
+  unless (exists $params{xmfa2maf} and exists $params{gbk}
+          and exists $params{xmfa}
+          and exists $params{clonaloriginsamplesize}
+          and exists $params{refgenome}
+          and exists $params{xml})
+  {
+    &printError("Command $cmd requires options -xmfa2maf, and -gbk");
+  }
 }
 
 ################################################################################
@@ -160,38 +165,154 @@ else
 my $itercount = 0;
 my $blockLength;
 my $blockidForProgress;
-my $speciesTree = get_species_tree ("$xml.1");
-my $numberTaxa = get_number_leave ($speciesTree);
-my $numberLineage = 2 * $numberTaxa - 1;
-
-################################################################################
-# Find coordinates of the reference genome.
-################################################################################
-
-sub drawRI1BlockGenes ($$);
-sub getRI1Gene ($$$$$);
-sub getPairs ($);
-
-# my @genes = parse_in_gene ($ingene); 
-my $numberBlock = xmfaNumberBlock ($xmfa);
-my @genes = maIngeneParseBlock ($ingene); 
-my $lengthTotalBlock = maRiGetLength ($ri1map);
-my @blockStart = maXmfaGetBlockStart ($xmfa);
-
-if ($block == -1)
+my $speciesTree;
+my $numberTaxa;
+my $numberLineage; 
+my @genes;
+if ($cmd eq "ps")
 {
-  for (my $b = 1; $b <= $numberBlock; $b++)
+  $speciesTree = get_species_tree ("$xml.1");
+  $numberTaxa = get_number_leave ($speciesTree);
+  $numberLineage = 2 * $numberTaxa - 1;
+
+  ################################################################################
+  # Find coordinates of the reference genome.
+  ################################################################################
+
+  my $numberBlock = xmfaNumberBlock ($xmfa);
+  @genes = maIngeneParseBlock ($ingene); 
+  my $lengthTotalBlock = maRiGetLength ($ri1map);
+  my @blockStart = maXmfaGetBlockStart ($xmfa);
+
+  if ($block == -1)
   {
-    maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $b, $clonaloriginsamplesize);
+    for (my $b = 1; $b <= $numberBlock; $b++)
+    {
+      maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $b, $clonaloriginsamplesize);
+    }
   }
-}
-else
-{
-  maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $block, $clonaloriginsamplesize);
-}
+  else
+  {
+    maPsDrawRiBlock ($out, $ri1map, \@blockStart, \@genes, $block, $clonaloriginsamplesize);
+  }
 
 # maPsDrawRi (\@genes, $ri1map, $lengthTotalBlock);
 #drawRI1BlockGenes (\@genes, $ri1map);
+}
+elsif ($cmd eq "split")
+{
+  my $n = xmfaNumberBlock ($params{xmfa});
+  my @blockSize = peachXmfaBlockSize ($params{xmfa}, $n);
+  open RIMAP, $params{ri1map} or die "cannot open < $params{ri1map} $!";
+  for (my $i = 0; $i <= $#blockSize; $i++)
+  {
+    my $l = $blockSize[$i];
+    my $blockID = $i + 1;
+    open RIMAPOUT, ">$params{outdir}/$blockID" or die "cannot open > $params{outdir}/$blockID $!";
+    foreach my $j (1..$l)
+    {
+      my $line = <RIMAP>;
+      print RIMAPOUT $line;
+    }
+    close RIMAPOUT;
+  }
+  close RIMAP;
+}
+elsif ($cmd eq "wiggle")
+{
+  $speciesTree = get_species_tree ("$xml.1");
+  $numberTaxa = get_number_leave ($speciesTree);
+  $numberLineage = 2 * $numberTaxa - 1;
+
+
+
+  # I need to produce 9-by-9 (but only 60 possible) wiggle files. 
+  # I will create trackDb.ra file as well.
+  my @countLineAlignment = peachMafCountFromMauveXmfa2Maf ($params{xmfa2maf});
+  my @strand = peachMafStrandFromMauveXmfa2Maf ($params{xmfa2maf});
+  
+  # I need the genome length of each species.
+  my $genomeLength = peachGbkLength ($params{gbk});
+  # Find start and end positions of all of the blocks.
+  # 
+  # For each cell of the 9-by-9 matrix, we create a wiggle file.
+  #
+  # Use XMFA file to find start, end, strand, and the sequence.
+  for (my $from = 0; $from < $numberLineage; $from++)
+  {
+    for (my $to = 0; $to < $numberLineage; $to++)
+    {
+      my $indexRimap = $from * $numberLineage + $to;
+      my @wiggleValue = (0) x ($genomeLength + 1);
+      
+      open RIMAP, $params{ri1map} or die "cannot open < $params{ri1map} $!";
+      my $lineRimap;
+      open XMFA, $params{xmfa} or die "cannot open < $params{xmfa} $!";
+      my $block = {};
+      $block->{GRAB} = 0;
+      while (<XMFA>)
+      {
+        chomp;
+        if (/^>\s+$params{refgenome}:(\d+)-(\d+)\s+(.)\s+/)
+        {
+          $block->{START}  = $1;
+          $block->{END}    = $2;
+          $block->{STRAND} = $3;
+          $block->{SEQ}    = "";
+          $block->{GRAB}   = 1;
+        }
+        elsif ($block->{GRAB} == 1)
+        {
+          if (/^>\s+\d+:(\d+)-(\d+)/)
+          {
+            $block->{GRAB} = 0;
+          }
+          else
+          {
+            $block->{SEQ} .= $_;
+          }
+        }
+        elsif (/^=$/)
+        {
+          # Get the RIMAP with the same length of the current block.
+          my $blockLength = length ($block->{SEQ});
+          my @nucleotide;
+          if ($block->{STRAND} eq '+')
+          {
+            @nucleotide = split (//, $block->{SEQ});
+          }
+          else
+          {
+            @nucleotide = split (//, reverse($block->{SEQ}));
+          }
+           
+          # Read RIMAP file.
+          my $pos = $block->{START};
+          for (my $rimapI = 0; $rimapI < $blockLength; $rimapI++)
+          {
+            $lineRimap = <RIMAP>;
+            my @e = split $lineRimap;
+            unless ($nucleotide[$rimapI] eq '-')
+            {
+              $wiggleValue[$pos] = $e[$indexRimap + 1];
+              $pos++;
+            }
+          }
+          die "Error: $block->{START} $pos != $block->{END}" unless $pos == $block->{END};
+        }
+      }
+      close XMFA;
+      close RIMAP;
+
+      open WIG, ">", "$params{out}/$from-$to.wig" or die "cannot open > $params{out}/$from-$to.wig\n"; 
+      foreach my $v (@wiggleValue)
+      {
+        print WIG "$v\n";
+      }
+      close WIG;
+    }
+  }
+}
 
 exit;
 ################################################################################
@@ -572,7 +693,15 @@ perl recombination-intensity1-probability.pl [-h] [-help] [-version] [-verbose]
   [-ingene file] 
   [-out file] 
 
+perl pl/recombination-intensity1-probability.pl ps 
+
+perl pl/recombination-intensity1-probability.pl split -xmfa file.xmfa -ri1map rimap.txt
+
+perl pl/recombination-intensity1-probability.pl wiggle
+
 =head1 DESCRIPTION
+
+command ps:
 
 The number of recombination edge types at a nucleotide site along all of the
 alignment blocks is computed for genes from an ingene file. 
@@ -582,6 +711,16 @@ What we need includes:
 1. recombination-intensity1-map file (-ri1map)
 2. ingene file (-ingene)
 3. out file (-out)
+
+command split:
+
+I split the rimap file to multiple files, each of which corresponds to a block
+alignment. 
+
+command wiggle:
+
+UCSC genome browser container tracks can be used to display recombination
+intensity.
 
 =head1 OPTIONS
 

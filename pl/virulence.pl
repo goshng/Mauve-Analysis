@@ -22,6 +22,7 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 require 'pl/sub-error.pl';
+require 'pl/sub-ptt.pl';
 $| = 1; # Do not buffer output
 my $VERSION = 'virulence.pl 1.0';
 
@@ -38,6 +39,7 @@ GetOptions( \%params,
             'help|h',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
+            'ptt=s',
             'virulence=s',
             'ortholog=s',
             'in=s',
@@ -81,6 +83,13 @@ if ($cmd eq "table")
   unless (exists $params{virulence} and exists $params{ortholog})
   {
     &printError("command table needs options -virulence, and -ortholog");
+  }
+}
+elsif ($cmd eq "bed")
+{
+  unless (exists $params{virulence} and exists $params{ptt})
+  {
+    &printError("command bed needs options -virulence, and -ptt");
   }
 }
 
@@ -202,6 +211,36 @@ if ($cmd eq "table")
   }
   print STDERR "Number of families with all of the genes being virulent: $count\n";
 }
+elsif ($cmd eq "bed")
+{
+  my $line;
+  # Parse virulence file.
+  my %virulence;
+  open VIR, $params{virulence} or die "cannot open < $params{virulence} $!";
+  $line = <VIR>;
+  while ($line = <VIR>)
+  {
+    chomp $line;
+    my @e = split /\t/, $line;
+    $virulence{$e[0]} = $e[1];
+  }
+  close VIR;
+
+  my @genesPtt = rnaseqPttParse ($params{ptt});
+  foreach my $g (@genesPtt)
+  {
+    if (exists $virulence{$g->{Synonym}})
+    {
+      if ($virulence{$g->{Synonym}} eq "TRUE")
+      {
+        $g->{Location} =~ /(\d+)\.\.(\d+)/;
+        my $start = $1;
+        my $end = $2;
+        print $outfile "chr1\t$start\t$end\n";
+      }
+    }
+  }
+}
 
 if (exists $params{in})
 {
@@ -225,6 +264,8 @@ virulence.pl 1.0
 
 perl virulence.pl table -virulence virulent_genes.txt -ortholog fam-frag2.part.txt 
 
+perl virulence.pl bed -virulence virulent_genes.txt -ptt genome.ptt
+
 =head1 DESCRIPTION
 
 virulence.pl deals with virulence factors.
@@ -234,6 +275,8 @@ virulence.pl deals with virulence factors.
   command: 
 
   table - creates a table of virulence genes among the 6 species.
+
+  bed - create a BED-format file for the virulence genes. 
 
 =over 8
 

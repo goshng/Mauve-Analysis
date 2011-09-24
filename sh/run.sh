@@ -105,6 +105,7 @@ source sh/filter-blocks.sh
 source sh/prepare-run-clonalorigin.sh 
 source sh/manuscript.sh
 source sh/summary-core-alignment.sh
+source sh/ucsc-load-genome.sh
 
 #####################################################################
 # Main part of the script.
@@ -185,6 +186,8 @@ CHOICES=( init-file-system \
           compute-block-length \
           compute-global-median \
           extract-species-tree \
+          ---UCSC-GENOME-BROWSER---\
+          ucsc-load-genome \
           ---MANUSCRIPT---\
           manuscript \
           warranty \
@@ -253,6 +256,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "probability-recedge-gene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
   elif [ "$CHOICE" == "manuscript" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "ucsc-load-genome" ]; then $CHOICE; break
   elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break

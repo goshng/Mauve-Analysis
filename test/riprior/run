@@ -1,0 +1,20 @@
+#!/bin/bash
+
+INBLOCK=output/cornellf/3/run-analysis/in.block
+MEDIAN=output/cornellf/3/run-clonalorigin/summary/1/median.txt
+PRIOR=output/cornellf/3/run-clonalorigin/summary/1/prior.txt
+
+# 5358
+# 2247
+# 2966
+# Median theta:0.080814517322956
+# Median delta:743.702415841584
+# Median rho:0.0118491287894766
+
+# peach is the place of my own code.
+# peach is the main command that I am going to use.
+# priorRecombIntensity is a subcommand.
+# use SimpleOpt
+# peach priorRecombIntensity --inblock $INBLOCK --median $MEDIAN --out $PRIOR
+# 
+

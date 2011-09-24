@@ -45,12 +45,33 @@ function recombination-intensity1-probability {
       REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
       echo " $REFGENOME"
 
+      echo -n "  Reading of GBKFILE of REPETITION$REPETITION from $SPECIESFILE..."
+      GBKFILE=$(grep GBK$REFGENOME $SPECIESFILE | cut -d":" -f2)
+      echo " $GBKFILE"
+
+      echo -n "Do you wish to create wiggle files of recombination probability using blocks (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        mkdir $RUNANALYSIS/recombprob-$REPLICATE
+        echo perl pl/$FUNCNAME.pl wiggle \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -xmfa2maf $DATADIR/core_alignment.maf \
+          -xmfa $DATADIR/core_alignment.xmfa \
+          -refgenome $REFGENOME \
+          -gbk $GBKFILE \
+          -ri1map $RUNANALYSIS/rimap.txt \
+          -clonaloriginsamplesize $NUMBER_SAMPLE \
+          -out $RUNANALYSIS/recombprob-$REPLICATE > batch.sh
+      else
+        echo -e "  Skipping drawing recombination probability ..." 
+      fi
+
       echo -n "Do you wish to draw a graph of recombination probability using blocks (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -n "Which block you wish to draw a graph of recombination probability (e.g., 254) ? "
         read BLOCKID
-        perl pl/$FUNCNAME.pl \
+        perl pl/$FUNCNAME.pl ps \
           -block $BLOCKID \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \

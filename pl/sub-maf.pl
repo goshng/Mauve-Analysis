@@ -45,4 +45,35 @@ sub peachMafCountFromMauveXmfa2Maf ($)
   return @v;
 }
 
+# Strand of 
+sub peachMafStrandFromMauveXmfa2Maf ($)
+{
+  my ($f) = @_;
+  my @v;
+  my @v1;
+  open MAF, $f or die "cannot open < $f $!";
+  my $line = <MAF>;
+  while ($line = <MAF>)
+  {
+    chomp $line;
+    $c++;
+    if ($line =~ /^a/)
+    {
+      $c = 1;
+      @v1 = ();
+    }
+    elsif ($line =~ /^s/)
+    {
+      my @e = split /\s+/, $line;
+      push @v1, $e[4];
+    }
+    elsif ($line =~ /^$/)
+    {
+      my @v2 = @v1;
+      push @v, [ @v2 ];
+    }
+  }
+  close MAF;
+  return @v;
+}
 1;
