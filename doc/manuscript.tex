@@ -1,5 +1,5 @@
-%% LyX 1.6.7 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
+% We approach the project of streptococcus recombination and gene transfer from
+% the angle of a resource paper. 
 \documentclass[english]{article}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
@@ -12,7 +12,6 @@
 \usepackage{setspace}
 \usepackage[authoryear]{natbib}
 \usepackage{longtable}
-\usepackage{epstopdf}
 \doublespacing
 
 
@@ -52,8 +51,9 @@
 
 \subsubsection*{Title: }
 
-Inferring two types of gene transfer using whole genomes of \emph{Streptococcus
-pyogenes} and\emph{ S.\ dysgalactiae} subspecies \emph{equisimilis} 
+Inferring homologous recombination and horizontal gene transfer 
+using whole genomes of \emph{Streptococcus pyogenes} 
+and\emph{ S.\ dysgalactiae} subspecies \emph{equisimilis} 
 
 
 \subsubsection*{Authors:}
@@ -98,66 +98,52 @@ bacterial recombination, gene duplication and transfer, ClonalOrigin,
 ClonalFrame, Mowgli
 
 
-\subsubsection*{Version: 0.65 (July 8, 2011) \clearpage{}}
+\subsubsection*{Version: 0.66 (Sep 30, 2011) \clearpage{}}
 
 
 \section*{Abstract}
-
-Using two closely related species of \emph{Streptococcus pyogenes}
-(SPY) that is a pervasive human-specific pathogen, and \emph{S.\ dysgalactiae}
-ssp.\emph{\ equisimilis} (SDE) that is its closely related species
-and an opportunistic human pathogen we investigated two types of gene
-transfer: recombining and non-recombining
-gene transfer. The former lateral process was studied
-with the core genomes of \emph{Streptococcus} genomes, and the latter
-process with the pan genomes as well as the core genomes. Two
-complementary methods were employed to examine genes and their
-fragments that could have been exchanged between SPY and SDE as efforts
-of finding their roles in the formation of pathogenicity of the bacteria.
-We revisited the problem of directionality of gene transfer between
-SPY and SDE, and found evidence supporting that homologous
-recombining gene transfer was polarized to be relatively from SPY to SDE based
-on the core genomes.  Although we did not find evidence for directional
-non-recombining gene transfer, virulence genes appeared to undergo
-non-recombining gene transfer more than did non-virulence genes.
-Recombining gene transfer was not found to be associated with
-virulence genes.  This might indicate that additional genes obtained via
-non-recombining gene transfer were more effective than gene fragments
-transfer via bacterial recombination for SDE in the acquisition of virulence
-genes.  While horizontal gene transfer studies traditionally 
-focused on genes as a whole,
-we rediscovered smaller gene fragments and their transfer
-due to recombination between SPY and SDE in aminoacyl tRNA
-synthetase (aaRS), and phosphotransferase systems (PTS).
+Homologous recombination and horizontal gene transfer are investigated
+with complete genomes of closely related bacterial species of 
+\emph{Streptococcus pyogenes} (SPY) 
+and \emph{S.\ dysgalactiae} subspecies \emph{equisimilis} (SDE).
+The former is a pervasive human-specific pathogen, and the latter
+an opportunistic human pathogen.  Parts of the genomic configuration, including
+human pathogenicity, of SDE could have originated in those of SPY.  
+Our genome-wide survey of gene transfer indicated that gene transfer via homologous
+recombination occurred relatively from SPY to SDE.
+Although we did not find enrichment of virulence genes in the homologous recombining gene
+transfer, we found evidence that they transferred more often via
+non-recombining fashion than non-virulence genes. 
+A genome-wide resource of recombining and non-recombining gene transfer for the study of the
+genomes is provided so that research community in pathogenic bacteria can take
+advantage of it.
 
 \clearpage{}
 
 
 \section{Introduction}
 
-\textbf{Two lateral processes of gene transfer:} 
-Foreign bacterial genes can be laterally
-brought into a bacterial genome by two different processes 
-\citep{Ochman2001,Lawrence2009}:
-homologous recombining transfer and non-recombining transfer.
-In the former process donor genes that are homologous to those in
-a recipient species replace the indigenous genes. In the latter process
-donor genes are integrated into a recipient species without replacement
-of genes in the species. 
-Although the discrimination between the two
-lateral processes was noted a decade ago, methods of detecting horizontal
-gene transfer did not appear to properly take the differences into
-account. 
-Proper discrimination of the two processes of gene transfer
-could lead to better understanding of biological nature
-of transferred genes. For example, 
-bacterial lateral transfers of small fragments of ribosomal RNA genes 
-were known to be 
-due to homologous recombination \citep{Sneath1993,Yap1999} not non-recombining
-gene transfer. 
-Because traditionally non-recombining gene transfer in bacteria has been
-referred to as horizontal gene transfer, association of ribosomal RNA genes with
-just lateral transfer might be misleading.
+Bacteria evolves new biological features through horizontally transferred genes
+from other lineages as well as vertically transmitted mutations on genes within
+the same lineage.  Mutations on a gene modifiy relatively small portions of the
+gene, including substitutions, insertions, and deletions of deoxyribonucleic
+acids. Horizontal gene transfers can reshape the organization of a bacterial
+genome, which could revamp the biological function of the bacterial species.
+Recipient bacteria can substitute transferred genes for homologous parts of
+their genomes. They can also integrate transferred genes in their genomes
+without replacement. These two processes are discriminated by calling the former
+\textit{recombining gene transfer}, and the latter 
+\textit{horizontal gene transfer} \citep{Ochman2001,Lawrence2009}.  
+Despite the two distinct evolutionary processes in bacteria, reseraches on
+statistical analyses of complete genome sequences in efforts of understanding
+bacterial evolution have paid little attention to a combined approach to
+illuminating disparity of the two gene transfer processes. 
+
+
+
+
+
+HERE
 
 \textbf{Gene transfer between SPY and SDE:} Through virulence genes
 bacteria can infect humans
@@ -215,6 +201,7 @@ appeared to be premature. Because their researches on direction of
 gene flow were limited to only small portion of regions in the genomes,
 it remains to be elusive to determine the genome-wide degrees to which
 genomic segments flow between the two species and directions of thereof.
+Cite this: \citep{Ahmad2009}.
 
 \textbf{Methods of studying gene transfer in bacteria:} 
 Studies on horizontal gene transfer in prokaryotes have focused on genes in very
@@ -656,7 +643,7 @@ recombination events along genes.
 The species tree of the five genomes is shown in Figure S\ref{fig:tree5}, which
 was estimated using 274 blocks of the core genome alignments with ClonalFrame. 
 Figure S\ref{fig:blocksize} shows the distribution of block lengths. The average
-length was 4215 bp, and total length of the blocks is 1155016 bp.  There was good 
+length was 4188 bp.  There was good 
 agreement on the topology among independent chains, and reasonable agreement on 
 branch lengths. The tree was also in good agreement with the one used by 
 \citet{Suzuki2011}. ClonalFrame estimated the relative strength of recombination
@@ -1189,8 +1176,7 @@ P-value & Count & GO-term & Description \\
 
 % Figure 1. A Recombinant Tree of ClonalOrigin Model
 \begin{figure}
-% \includegraphics[scale=0.42]{figures/mauve-analysis-002}
-\includegraphics[scale=0.42]{figures/figure1}
+\includegraphics[scale=0.42]{figures/mauve-analysis-002}
 \caption{\label{fig:clonalorigin}Recombinant tree in the ClonalOrigin model.
 (A) A recombinant tree relating the five genomes with three recombinant edges.
 (B) A genomic region of size 100 base pairs with subregions affected by the
@@ -1205,7 +1191,7 @@ and 70 base pairs.}
 
 % Figure 2. Heat maps.
 \begin{figure}
-\includegraphics[scale=0.45]{figures/figure2}
+\includegraphics[scale=0.45]{figures/heatmap-recedge}
 \caption{\label{fig:Heatmap-of-recombination}Heatmap of recombination events.
 Heat map representing the logarithm base 2 of the number of recombination
 events inferred relative to its expectation under the prior, for each
@@ -1219,11 +1205,11 @@ donor species branch.}
 
 % Figure 3. The three main parameters.
 \begin{figure}
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1-out-theta}}
+\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot theta}}
 
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1-out-rho}}
+\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot rho}}
 
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1-out-delta}}
+\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot delta}}
 \caption{\label{fig:scatter3}Scatter plots of mutation rate, recombination
 rate, and average tract length for the 270 blocks. The red dashed
 line is the global median of all the blocks.}
@@ -1249,7 +1235,7 @@ line is the global median of all the blocks.}
 % FIGURE - Transfer heatmap
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{figures/trans-hgt-heatmap}
+\includegraphics[width=5in]{figures/trans-hgt-heatmap.pdf}
 \end{center}
 \vspace{-1.2in}
 \caption{Distribution of horizontal gene transfers.}
@@ -1483,7 +1469,7 @@ is the 95\% quantile. }
 
 % Figure S4
 \begin{figure}
-\includegraphics{figures/ri-R}
+\includegraphics{figures/ri1}
 \caption{\label{fig:ri1}The surrogate measure of recombination intensity
 of genes. Each point represents a pair of a true value of average number of
 recombinant edges and its estimated value for a gene. The dashed line is with
@@ -1495,7 +1481,7 @@ slope of 1 and intercept of 0.}
 
 % Figure S5: The species tree
 \begin{figure}
-\includegraphics[scale=0.7]{figures/species}
+\includegraphics[scale=0.7]{figures/cornellf-3-tree}
 \caption{\label{fig:tree5}Species tree of five taxa for ClonalOrigin analysis.
 SPY is the branch of a clade\emph{ of Streptococcus pyogenes}, SDE
 is that for \emph{S.\ dysgalactiae} ssp.\emph{\ equisimilis}, and SD is the
@@ -1509,7 +1495,7 @@ rate $\theta$ and the tree.}
 % Figure S6: Histogram of block sizes
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{figures/blocksize}
+\includegraphics[width=5in]{figures/blocksize.pdf}
 \end{center}
 \vspace{-.3in}
 \caption{Distribution of core alignment block sizes.}
@@ -1522,7 +1508,7 @@ rate $\theta$ and the tree.}
 % FIGURE - gene family sizes
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{figures/famsizes}
+\includegraphics[width=5in]{figures/famsizes.pdf}
 \end{center}
 \vspace{-.3in}
 \caption{Distribution of gene family sizes.}
@@ -1538,7 +1524,7 @@ rate $\theta$ and the tree.}
 % FIGURE - Transfer heatmap
 \begin{figure}
 \begin{center}
-\includegraphics[width=5in]{figures/trans-recomb-heatmap}
+\includegraphics[width=5in]{figures/trans-recomb-heatmap.pdf}
 \end{center}
 \vspace{-1.2in}
 \caption{Distribution of recombining horizontal gene transfers.}
