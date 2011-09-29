@@ -2,9 +2,30 @@
 
 #############################################################################
 # Create recombination probability in a wiggle file.
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+REORDERCHOICES=(1 2 3 4 5)
+REPLICATE=1
+for ii in {0..4}; do
+  # RECOMBPROB=output/cornellf/3/run-analysis/recombprob-ref$i-rep$REPLICATE
+  DBNAME=${DBNAMECHOICES[$ii]}
+  i=${REORDERCHOICES[$ii]}
+  RECOMBPROBWIG=output/cornellf/3/run-analysis/recombprobwig-ref$i-rep$REPLICATE
+  for j in {0..8}; do
+    for k in {0..8}; do
+    WIGIN=$RECOMBPROBWIG/${j}-${k}
+    WIG=$RECOMBPROBWIG/${j}-${k}.wig
+    WIB=$RECOMBPROBWIG/${j}-${k}.wib
 
-
-
+    wigEncode $WIGIN $WIG $WIB
+    hgLoadWiggle $DBNAME ri_${j}_${k} $WIG
+    rm $WIG
+    mkdir -p /gbdb/$DBNAME/wib
+    mv $WIB /gbdb/$DBNAME/wib
+    hgsql $DBNAME -e "update ri_${j}_${k} set file='/gbdb/$DBNAME/wib/${j}-${k}.wib'"
+    done
+  done
+done
+exit
 
 
 #############################################################################
@@ -33,7 +54,7 @@ XMFA=output/cornellf/3/data/core_alignment.xmfa
 MAF=output/cornellf/3/data/core_alignment.maf
 
 #############################################################################
-# Create directories specified in the XMFA file so that Mauve's mafa2maf can
+# Create directories specified in the XMFA file so that Mauve's xmfa2maf can
 # find the length sequences of the 5 genomes. 
 # Input: $XMFA
 # Output: $MAF
@@ -57,6 +78,12 @@ perl pl/xmfaToMaf.pl ucsc -xmfa2maf $MAF \
 # Load the MAF file to the UCSC genome browser.
 MAF2=/gbdb/strDeq1/maf/core_alignment.maf
 hgLoadMaf strDeq1 maf -loadFile=$MAF2
+
+#############################################################################
+# Print the number at the front of each alignment.
+MAF=output/cornellf/3/data/core_alignment.maf
+MAF2=output/cornellf/3/data/core_alignment.maf.number
+perl pl/xmfaToMaf.pl number -xmfa2maf $MAF -out $MAF2
 
 #############################################################################
 # Edit the MAF file
@@ -103,15 +130,20 @@ exit
 # rate. I need block numbers and its average values. I might need to use the
 # menu scatter-plot-parameter.
 #
+# Max of rho is 0.230057503629474
+MAF=output/cornellf/3/data/core_alignment.maf
 RHOFILE=output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho
-OUTFILE=output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho.bed
-
-perl pl/scatter-plot-parameter.pl bed -in $RHOFILE -out $OUTFILE
-echo $OUTFILE
-DBNAME=SpyMGAS315
-hgLoadBed $DBNAME recombrate $OUTFILE
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+REORDERCHOICES=(1 2 3 4 5)
+for i in {0..4}; do
+  DBNAME=${DBNAMECHOICES[$i]}
+  perl pl/xmfaToMaf.pl block -xmfa2maf $MAF \
+    -ref ${REORDERCHOICES[$i]} \
+    -scorefile $RHOFILE \
+    -out $DBNAME.bed 
+  cut -f1,2,3,5 $DBNAME.bed > $DBNAME.bedgraph
+  hgLoadBed -tab $DBNAME recombrate $DBNAME.bed
+  hgLoadBed -tab -bedGraph=5 $DBNAME recombrategraph $DBNAME.bed
+done
 exit
-
-
-
 

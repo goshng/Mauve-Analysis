@@ -47,4 +47,17 @@ echo "Check $BASEDIR/spy1.bed"
 hgLoadBed SpyMGAS315 virulence $BASEDIR/spy1.bed
 exit
 
+#############################################################
+# Load virulence genes in BED format.
+BASEDIR=output/virulence
+DBNAMECHOICES=(SdeqATCC12394 SdeqGGS124 SddyATCC27957 SpyMGAS315 SpyMGAS10750)
+for i in {0..4}; do
+  DBNAME=${DBNAMECHOICES[$i]}
+  perl pl/virulence.pl bed \
+    -virulence $BASEDIR/virulent_genes.txt \
+    -bed output/cornellf/3/run-analysis/$DBNAME.knowngenes.bed \
+    -out $BASEDIR/$DBNAME.virulencegenes.bed
+  echo "Check $BASEDIR/$DBNAME.virulencegenes.bed"
+  hgLoadBed $DBNAME virulence $BASEDIR/$DBNAME.virulencegenes.bed
+done
 

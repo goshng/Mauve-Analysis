@@ -23,6 +23,7 @@ use Getopt::Long;
 use Pod::Usage;
 require 'pl/sub-error.pl';
 require 'pl/sub-ptt.pl';
+require 'pl/sub-bed.pl';
 $| = 1; # Do not buffer output
 my $VERSION = 'virulence.pl 1.0';
 
@@ -40,6 +41,7 @@ GetOptions( \%params,
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
             'ptt=s',
+            'bed=s',
             'virulence=s',
             'ortholog=s',
             'in=s',
@@ -87,7 +89,8 @@ if ($cmd eq "table")
 }
 elsif ($cmd eq "bed")
 {
-  unless (exists $params{virulence} and exists $params{ptt})
+  unless (exists $params{virulence} 
+          and (exists $params{ptt} or exists $params{bed}))
   {
     &printError("command bed needs options -virulence, and -ptt");
   }
@@ -226,19 +229,44 @@ elsif ($cmd eq "bed")
   }
   close VIR;
 
-  my @genesPtt = rnaseqPttParse ($params{ptt});
-  foreach my $g (@genesPtt)
+  if (exists $params{ptt})
   {
-    if (exists $virulence{$g->{Synonym}})
+    my @genesPtt = rnaseqPttParse ($params{ptt});
+    foreach my $g (@genesPtt)
     {
-      if ($virulence{$g->{Synonym}} eq "TRUE")
+      if (exists $virulence{$g->{Synonym}})
       {
-        $g->{Location} =~ /(\d+)\.\.(\d+)/;
-        my $start = $1;
-        my $end = $2;
-        print $outfile "chr1\t$start\t$end\n";
+        if ($virulence{$g->{Synonym}} eq "TRUE")
+        {
+          $g->{Location} =~ /(\d+)\.\.(\d+)/;
+          my $start = $1;
+          my $end = $2;
+          my $name = $g->{Synonym};
+          print $outfile "chr1\t$start\t$end\t$name\n";
+        }
       }
     }
+  }
+  elsif (exists $params{bed})
+  {
+    my @genesBed = rnaseqBedParse ($params{bed});
+    foreach my $g (@genesBed)
+    {
+      if (exists $virulence{$g->{name}})
+      {
+        if ($virulence{$g->{name}} eq "TRUE")
+        {
+          my $start = $g->{start};
+          my $end = $g->{end};
+          my $name = $g->{name};
+          print $outfile "chr1\t$start\t$end\t$name\n";
+        }
+      }
+    }
+  }
+  else
+  {
+    die "The gene annotations must be given as ptt or bed format.";
   }
 }
 

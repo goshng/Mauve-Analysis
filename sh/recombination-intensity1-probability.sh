@@ -52,7 +52,8 @@ function recombination-intensity1-probability {
       echo -n "Do you wish to create wiggle files of recombination probability using blocks (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        mkdir $RUNANALYSIS/recombprob-$REPLICATE
+        OUTDIR=$RUNANALYSIS/recombprob-ref$REFGENOME-rep$REPLICATE
+        echo mkdir $OUTDIR > batch.sh
         echo perl pl/$FUNCNAME.pl wiggle \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa2maf $DATADIR/core_alignment.maf \
@@ -61,7 +62,7 @@ function recombination-intensity1-probability {
           -gbk $GBKFILE \
           -ri1map $RUNANALYSIS/rimap.txt \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
-          -out $RUNANALYSIS/recombprob-$REPLICATE > batch.sh
+          -out $OUTDIR >> batch.sh
       else
         echo -e "  Skipping drawing recombination probability ..." 
       fi

@@ -218,15 +218,15 @@ sub endElement {
   if($tag eq "theta"){
     my $thetaPerSite = $content / $blockLength;
     # print OUTTHETA "$blockID\t$thetaPerSite\n";
-    print OUTTHETA "$position\t$thetaPerSite\n";
+    print OUTTHETA "$position\t$thetaPerSite\t$blockID\n";
   }
   if($tag eq "rho"){
     $rhoPerBlock = $content;
   }
   if($tag eq "delta"){
-    print OUTDELTA "$position\t$content\n";
+    print OUTDELTA "$position\t$content\t$blockID\n";
     my $rhoPerSite = $rhoPerBlock / ($blockLength + $content - 1);
-    print OUTRHO "$position\t$rhoPerSite\n";
+    print OUTRHO "$position\t$rhoPerSite\t$blockID\n";
   }
   $tag = "";
   $content = "";
@@ -273,7 +273,7 @@ sub printError {
 __END__
 =head1 NAME
 
-scatter-plot-parameter.pl - Build a heat map of recombination.
+scatter-plot-parameter.pl - File for plotting three population parameter estimates
 
 =head1 VERSION
 
@@ -281,8 +281,7 @@ scatter-plot-parameter.pl 1.0
 
 =head1 SYNOPSIS
 
-perl scatter-plot-parameter.pl [-h] [-help] [-version] 
-  [-xmlbase filename] [-out file]
+perl pl/scatter-plot-parameter.pl three -xmlbase path/to/co1output -xmfabase filepath/to/corexmfa
 
 perl pl/scatter-plot-parameter.pl bed -in scatter-plot-parameter-1-out-rho
 

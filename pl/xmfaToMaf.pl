@@ -46,6 +46,8 @@ GetOptions( \%params,
             'version' => sub { print $VERSION."\n"; exit; },
             'ref=i',
             'xmfa=s',
+            'scorefile=s',
+            'numberblock',
             'xmfa2maf=s',
             'rename=s',
             'reorder=s',
@@ -76,11 +78,38 @@ if ($cmd eq 'ucsc')
     &printError("Command $cmd requires option -xmfa2maf");
   }
 }
+elsif ($cmd eq 'block')
+{
+  unless (exists $params{xmfa2maf})
+  {
+    &printError("Command $cmd requires option -xmfa2maf");
+  }
+}
 
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
-if ($cmd eq 'ucsc')
+if ($cmd eq 'number')
+{
+  my $count = 0;
+  my $l;
+  open MAF, $params{xmfa2maf} or die "cannot open < $params{xmfa2maf} $!";
+  while ($l = <MAF>)
+  {
+    chomp $l;
+    if ($l =~ /^a/)
+    {
+      $count++;
+      print $outfile "a $count\n";
+    }
+    else
+    {
+      print $outfile "$l\n";
+    }
+  }
+  close MAF; 
+}
+elsif ($cmd eq 'ucsc')
 {
   my @countLineAlignment = peachMafCountFromMauveXmfa2Maf ($params{xmfa2maf});
   my @strand = peachMafStrandFromMauveXmfa2Maf ($params{xmfa2maf});
@@ -126,7 +155,14 @@ if ($cmd eq 'ucsc')
       {
         die "The first character must be character a" unless $line =~ /^a/;
         # print $outfile "$line\n";
-        push @alignment, $line;
+        if (exists $params{numberblock})
+        {
+          push @alignment, "a $i";
+        }
+        else
+        {
+          push @alignment, $line;
+        }
       }
       elsif ($j == $countLineAlignment[$i] - 1)
       {
@@ -143,7 +179,7 @@ if ($cmd eq 'ucsc')
         my @e = split /\s+/, $line;
         if ($strand[$i-1][$reorder[1]-1] eq '-')
         {
-          $e[2] = $e[5] - $e[2];
+          # $e[2] = $e[5] - $e[2];
           if ($e[4] eq '+')
           {
             $e[4] = '-';
@@ -164,6 +200,53 @@ if ($cmd eq 'ucsc')
 }
 elsif ($cmd eq 'block')
 {
+  # Parse the 2nd and 3rd columns out.
+  my %scoreBlock;
+  if (exists $params{scorefile})
+  {
+    open SCORE, $params{scorefile} or die "cannot open < $params{scorefile} $!";
+    while (<SCORE>)
+    {
+      chomp;
+      my @e = split /\t/;
+      die "Values must be non-negative" if $e[1] < 0;
+      if (exists $scoreBlock{$e[2]})
+      {
+        my $h = $scoreBlock{$e[2]};
+        $h->{value} += $e[1];
+        $h->{count}++;
+      }
+      else
+      {
+        my $h = {};
+        $scoreBlock{$e[2]} = $h;
+        $h->{value} = $e[1];
+        $h->{count} = 1;
+      }
+    }
+    close SCORE;
+    foreach my $k (keys %scoreBlock)
+    {
+      my $h = $scoreBlock{$k}; 
+      $h->{value} /= $h->{count};
+    }
+    my $max = 0;
+    foreach my $k (keys %scoreBlock)
+    {
+      my $h = $scoreBlock{$k}; 
+      if ($h->{value} > $max)
+      {
+        $max = $h->{value};
+      }
+    }
+    foreach my $k (keys %scoreBlock)
+    {
+      my $h = $scoreBlock{$k}; 
+      $h->{value} = ($h->{value} / $max * 1000)
+    }
+    print STDERR "The max value is $max\n";
+  }
+   
   my $referenceSequenceNumber = 1;
   if (exists $params{ref})
   {
@@ -192,17 +275,18 @@ elsif ($cmd eq 'block')
         my @e = split /\s+/, $line;
         my $start;
         my $end;
-        if ($e[4] eq '+')
+        $start = $e[2];
+        $end = $e[2] + $e[3];
+        my $score;
+        if (exists $scoreBlock{$i})
         {
-          $start = $e[2];
-          $end = $e[2] + $e[3];
+          $score = $scoreBlock{$i}{value};
         }
         else
         {
-          $end = $e[5] - $e[2];
-          $start = $end - $e[3];
+          $score = 0;
         }
-        print $outfile "chr1\t$start\t$end\t$i\t$i\t$i\n";
+        print $outfile "chr1\t$start\t$end\t$i\t$score\t.\n";
       }
       elsif ($j == $countLineAlignment[$i] - 1)
       {
@@ -232,6 +316,10 @@ perl xmfaToMaf.pl ucsc -xmfa2maf file -rename s1,s2,s3 -reorder 3,1,2 -out file.
 
 perl xmfaToMaf.pl block -xmfa2maf file -ref 1
 
+perl xmfaToMaf.pl block -xmfa2maf file -ref 1 -scorefile out-rho
+
+perl xmfaToMaf.pl number -xmfa2maf file
+
 =head1 DESCRIPTION
 
 There may be other programs that can do the same thing: e.g., xmfa2maf in Mauve.
@@ -245,11 +333,23 @@ Line starts with `a' must be preceded by a single blank line. The xmfa2maf
 output MAF file has the first sequence alignment does not have a blank line.
 Species names in the MAF file can be replaced using -rename option. 
 Sequences can be reordered using -reorder option.
+For debuging purposes, I print the index of the alignment prefixing the
+character `a'.
 
 See http://genome.ucsc.edu/FAQ/FAQformat.html#format5 for the MAF-format.
 
+The positions of nucleotide sequences for XMFA are 1-based, and those for MAF
+are 0-based. Start position of MAF format is the same as that of BED format. The
+end position is just the sum of the start position and the number of characters
+in the sequence, which is provided in MAF file.
+
 command block: Use the xmfa2maf file that is created from an XMFA file to create
-a BED file for the blocks. Use one of the species as a reference.
+a BED file for the blocks. Use one of the species as a reference. Use the
+option -scorefile to parse the score values from a file such as 
+scatter-plot-parameter-1-out-rho.
+
+command number: For debugging purposes, I print the index of the alignment
+prefixing the character `a'. 
 
 =head1 OPTIONS
 
@@ -304,9 +404,14 @@ blocks to compute maps.
 The length of the reference genome. If refgenome is given, its length must be
 given.
 
-=item B<-numberblock> <number>
+=item B<-numberblock>
 
-The number of blocks.
+The number of blocks is appended to the character `a'.
+
+=item B<-scorefile> <file>
+
+The file contains three columns: position, value, and block ID. I parse the
+value and block ID and take the mean of the values for each block.
 
 =item B<-out> <file>
 
