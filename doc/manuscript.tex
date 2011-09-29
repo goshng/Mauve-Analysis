@@ -310,6 +310,13 @@ from SPY1 and SPY2 to SDE branch was larger than any type of gene transfer: 1.88
 and 1.94, respectively. This clearly showed that the recombining gene transfer
 was biased toward the net direction from SPY to SDE.
 
+Furthermore, we found a total of 58 genes 
+for which a recombinant edge 
+of certain types were sampled with probability at least 0.9
+by focusing on specific types of recombinant edges.
+(Table S\ref{tab:genes-transfer}).  Many of the genes in the list were
+transferred from SPY to SDE rather than the reverse direction overall.
+
 % \texttt{IG: ADD FIGURE WITH NON-NORMALIZED VALUES? SC: Why?} 
 
 % No evidence for unbalanced non-recombining gene transfer between SPY and SDE
@@ -331,15 +338,37 @@ transfer}
 \texttt{Find cases of any virulence genes that were transferred via recombining and
 horizontally.} 
 \texttt{I need to see how the virulence genes list was created.}
-\texttt{I want to know the virulence gene categories. Which kind of virulence
+\texttt{I want to know the virulence gene categories. What kind of virulence
 genes are more under gene transfer?}
 \texttt{Make a list of virulence genes and their categories with more
 interpretations.}
 
+A list of virulence genes that might be transferred via recombining gene
+transfer.
+block 76: SDEG\_0641
+block 97: SDEG\_0673
+block 101: SDEG\_0739
+block 151: SDEG\_1447
+block 244: SDEG\_2040
+block 242: SDD27957\_00955
+block 240: SDD27957\_00985
+block 67: SDD27957\_03085
+block 133: SDD27957\_04505
+block 167: SDD27957\_06790
+block 170: SDD27957\_07725
+block 186: MGAS10750\_Spy1444
+block 255: MGAS10750\_Spy1922
+
+Blocks with virulence genes.
+
+Check virulence genes (they were combined) at 
+SDD27957\_02890, SDD27957\_02895
+MGAS10750\_Spy0455, MGAS10750\_Spy0456 (block 75)
+
 \subsection{Horizontal gene transfer is associated with virulence genes}
 
 \subsection{Comparison between model-based and parsimony-based approaches}
-\texttt{I might want to analyze using only core genomes and pan genomes
+\texttt{I might want to analyze only core genomes and pan genomes
 separately. By separating data set of 6-gene families from the other families,
 we could have more complete comparison.}
 
@@ -373,101 +402,75 @@ SDE were the most expanded, both in terms of duplications and in-bound
 transfers.
 
 
-\subsection{Functional categories associated with gene transfer}
-
-% \textbf{Functional categories associated with homologous recombination gene transfer:} 
-% Having established relative correlation of the surrogate measure of recombination
-% intensity in the simulation (Figure S\ref{fig:ri1}) we attempted to find
-% functional categories that were associated with recombination.
-% The nucleotide substitutions
-% due to recombination events might not be selectively neutral because
-% of large population of the bacteria, and accordingly natural selection
-% could be more stronger than random genetic drift. Reflecting on the
-% report of \citet{Lefebure2007} that genes that were likely to be
-% under positive selection tended to be under higher recombination,
-% we would expect that functional categories would be associated with higher
-% recombination, and consequently homologous recombining gene transfer
-% between species. 
-
-Table \ref{tab:functional} lists the functional categories that showed
-significantly associated with recombination intensity. 
-Several functional categories are related with ribosomes.
-There was a functional category related with phosphotransferase systems
-and ATP-binding cassette (ABC) transporters, i.e., carbohydrate transport
-(GO:0008643). Translation (GO:0006412) included aminoacyl tRNA synthetase.
-There were fatty acid biosynthetic process (GO:0006633) and lipid
-biosynthetic process (GO:0008610). We did not find any significant association 
-between recombination intensity and virulence genes. When measuring 
-recombination only between the SDE and SPY clades, a smaller number of 
-functional categories appeared to be significantly enriched, leaving the two 
-biosynthetic processes out. For the direction from SPY to SDE only transport 
-related
-functional categories appeared to be significant, leaving out ribosome related 
-functional categories and translation.
-
-
-%\textbf{Functional categories associated with non-recombining gene transfer:} 
-
-Table \ref{tab:go-events} lists the functional gene categories that
-showed significantly associated with gene duplications, losses,
-non-recombining and recombining gene transfer using the pan genome of the six
-\textit{Streptococcus} individuals.
-
-For the recombining transfers, Mowgli shows enrichment in
-many of the same categories as \texttt{ClonalOrigin}, such as translation,
-ribosome, and rRNA binding.  This agreement between the two different
-methods, applied on somewhat different parts of the data, serves as
-validation for the signal picked up by these separate association
+\subsection{Transporter and aminoacyl tRNA synthetases}
+Lateral transfer of transporter related genes are well known.  Functional
+categories associated with higher recombining gene transfer were found to
+include phosphotransferase systems and ATP-binding cassette (ABC) transporters,
+i.e., carbohydrate transport (GO:0008643) (Table \ref{tab:functional}).  We also
+found several aminoacyl tRNA synthetases in gene ontology of translation
+(GO:0006412) to be significantly associated with higher recombining gene
+transfer.  Note that functional categories concerning ribosomes were also
+associated with higher recombining gene transfer. These categories were not
+found significantly associated with higher recombining gene transfer when we
+considered only gene transfer between SPY and SDE genomes, which implied that
+many recombining gene transfer events should be attributed to those of internal
+species branches as donors.  Interestingly, transports functional categories
+were found to be associated with recombining gene transfer for the direction
+from SPY to SDE.  The parsimony-based approach also  shows enrichment of the
+recombining transfers in many of the same categories such as translation,
+ribosome, and rRNA binding (Table \ref{tab:go-events}).  This agreement between
+the two different methods, applied on somewhat different parts of the data,
+serves as validation for the signal picked up by these separate association
 studies.  
-
-However, for duplication, losses, and non-recombining
-transfers, we find enrichment in very different categories related to
-transposition, integration, and recombination.  Interestingly, gene
-duplication and non-recombining transfers show enrichment in the same
-categories, perhaps because both mechanisms increase gene copy number.
-Gene losses also showed enrichment for transposition and integration,
-but less significantly ($P<10^{-6}$) and also showed enrichment for
-several additional categories such as transporter activity and
-transcription initiation.  Unlike the associations with recombination
-intensity, families with high numbers of duplications and
-non-recombining gene transfer were significantly enriched for
-virulence ($P<7.13 \times 10^{-3}$ and $P<1.33 \times 10^{-11}$,
-respectively), whereas families with high losses and recombination
-showed no enrichment ($P>0.54$ and $P>0.90$).  This might indicate
+\texttt{Comparison of Mawgli and CO?}
+Recombining gene transfers were not enriched for virulence genes (P-value of $>0.90$)
+while horizontal gene transfers were found to be significantly associated with
+virulence genes (P-value of $<1.33 \times 10^{-11}$). This was also consistent
+with the fact that we could not find the association of recombining gene
+transfer with virulence genes in the model-based approach.
+This supported more evidence
 that non-recombining gene transfer served as a more effective means by
 which SDE or SPY acquired virulence genes, compared to recombining
 gene transfer.
+For horizontal gene transfer we found enrichment in very different 
+categories related to
+transposition, integration, and recombination.  
+\texttt{More interpretations about Mawgli analsis of function categories?}
 
-\texttt{NEXT PARAGRAPH CONTAINS RESULTS ON INFERENCE OF SPECIFIC TRANSFER 
-EVENTS. WE SHOULD DECIDE HOW TO RELATE THIS TO OUR OTHER RESULTS.}
+Gene duplication and loss events were enriched for categories similar to those
+of horizontal gene transfer's enrichment.  Interestingly, gene duplication and
+horizontal transfers showed enrichment in the same categories, perhaps because
+both mechanisms increase gene copy number.  Gene losses showed enrichment
+for transposition and integration, but less significantly (P-value of
+$<10^{-6}$), and showed enrichment for several additional categories such as
+transporter activity and transcription initiation.  Families with high numbers
+of duplications were significantly enriched for virulence genes (P-value of
+$<7.13 \times 10^{-3}$), whereas families with high losses showed no enrichment
+(P-value of $>0.54$). 
 
-%\textbf{Some detailed gene-level analyses:}
-Having found these functional categories, we elected to search for specific 
-genes that showed a clear and specific local signal of recombination.  We scanned 
-all 274 alignment blocks to locate parts of genes for which a recombinant edge 
-of a certain type was sampled with probability at least 0.9. 
-% We focused on specific types of recombinant edges 
-% \texttt{IG: ADD A BIT HERE. SC: I DO NOT SEE WHAT IG MEANT.}
-We found a total of 58 genes showing high-confidence local 
-recombination signal (Table S\ref{tab:genes-transfer}). The process of gene 
+
+% \texttt{IG: NEXT PARAGRAPH CONTAINS SOME DISCUSSION ON THESE RESULTS. WE SHOULD 
+% GET BACK TO THIS ONCE WE DECIDE WHAT TO DO WITH THE RESULTS}
+
+\subsection{Units of recombining gene transfer}
+The process of gene 
 transfer does not necessarily move whole genes from one species to another 
 \citep[e.g.,][]{Chan2009}, and we observed that units of 
 recombining gene transfer do 
-not correspond to single genes in their entirety. In some cases, only parts of 
+not correspond to single genes in their entirety
+(Table S\ref{tab:genes-transfer}). In some cases, only parts of 
 a gene were inferred to have been transferred, for instance, transfer from SPY1 
 to SDE1 was inferred for 29\% of the aspartyl-tRNA synthetase gene (see also 
 Figure S\ref{fig:muts}). In other cases, the inferred transfer units cover sets 
 of as much as eight adjacent genes.
+Not only parts of genes could be transferred via recombination, but a group of 
+genes could also be moved together. Of the genes listed in Table 
+S\ref{tab:genes-transfer} there were 12 groups of genes that were consecutive. 
+While transfer fragments of genes often covered two genes, there were transfer 
+fragments that covered eight genes together. Loci from SpyM3\_1512 to 
+SpyM3\_1525 were inferred to be transferred from SDE2 to SDD.
 
-%Not only parts of genes could be transferred via recombination, but a group of 
-%genes could also be moved together. Of the genes listed in Table 
-%S\ref{tab:genes-transfer} there were 12 groups of genes that were consecutive. 
-%While transfer fragments of genes often covered two genes, there were transfer 
-%fragments that covered eight genes together. Loci from SpyM3\_1512 to 
-%SpyM3\_1525 were inferred to be transferred from SDE2 to SDD.
 
-% \texttt{IG: NEXT PARAGRAPH CONTAINS SOME DISCUSSION ON THESE RESULTS. WE SHOULD 
-% GET BACK TO THIS ONCE WE DECIDE WHAT TO DO WITH THE RESULTS}
 
 
 
@@ -1766,3 +1769,18 @@ one of important evolutionary processes in horizontal gene transfer.
 % was displayed in a heat map of Figure \ref{fig:Heatmap-of-recombination}, which
 % indicated branch pairs that might experience an excess or depletion of
 % recombination events across all blocks.
+
+
+% \textbf{Functional categories associated with homologous recombination gene transfer:} 
+% Having established relative correlation of the surrogate measure of recombination
+% intensity in the simulation (Figure S\ref{fig:ri1}) we attempted to find
+% functional categories that were associated with recombination.
+% The nucleotide substitutions
+% due to recombination events might not be selectively neutral because
+% of large population of the bacteria, and accordingly natural selection
+% could be more stronger than random genetic drift. Reflecting on the
+% report of \citet{Lefebure2007} that genes that were likely to be
+% under positive selection tended to be under higher recombination,
+% we would expect that functional categories would be associated with higher
+% recombination, and consequently homologous recombining gene transfer
+% between species. 
