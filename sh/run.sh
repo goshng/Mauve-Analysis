@@ -81,6 +81,7 @@ source sh/analyze-run-clonalorigin2-simulation2.sh
 source sh/sim3-prepare.sh 
 source sh/sim3-receive.sh 
 source sh/sim3-analyze.sh 
+source sh/sim5-prepare.sh 
 source sh/create-ingene.sh
 source sh/convert-gff-ingene.sh 
 source sh/locate-gene-in-block.sh
@@ -131,6 +132,8 @@ CHOICES=( init-file-system \
           sim3-prepare \
           sim3-receive \
           sim3-analyze \
+          ---SIMULATION5---\
+          sim5-prepare \
           # ---SIMULATION4---\
           # clonalorigin2-simulation3 \
           # sim4-prepare \
@@ -229,6 +232,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "sim3-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim3-receive" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim3-analyze" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim5-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "convert-gff-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "locate-gene-in-block" ]; then $CHOICE; break

@@ -2,6 +2,27 @@
  * The main source file for simulating under ClonalOrigin model.
  * This is the main source file for the project of simulating data under
  * ClonalOrigin model.
+ *
+ * 1. Simulate data for a given set of species tree, rho, delta, and theta:
+      --cmd-sim-given-tree
+      --tree-file Newick_Tree_File
+      --block-file Block_Length_File
+      --out-file OUTFILE_PREFIX
+      --number-data NUMBER_REPLICATES
+      -T s$THETA_PER_SITE -D $DELTA -R s$RHO_PER_SITE
+ *
+ * 2. Extract gene tree topologies:
+      --cmd-extract-tree (or --gene-tree : this may be obsolete)
+      --xml-file ri/core_co.phase3.xml.blockID.replicateID
+      --out-file ri-out/core_co.phase3.xml.blockID.replicateID
+      --block-length BLOCK_LENGTH
+ *
+ * 3. Simulate data for a given recombinant tree and theta:
+      --cmd-sim-given-rectree
+      --xml-file ri/core_co.phase3.xml.blockID.replicateID
+      -T s$THETA_PER_SITE
+      --number-data NUMBER_REPLICATES
+      --out-file core_alignment
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -98,6 +119,10 @@ static const char * help=
     --gene-tree\n\
                   Gene trees for all of iteration and site are exported.\n\
                   Not random!\n\
+    --cmd-sim-given-rectree\n\
+                  Simulate data given a recombinant tree and mutation rate.\n\
+    --cmd-sim-given-tree\n\
+                  Simulate data given a species tree, recombination, delta, mutation rate.\n\
     --block-length\n\
                   Length of a block (used with --gene-tree)\n\
     -o FILE       Export the data to the given file in XMFA format\n\
@@ -143,6 +168,8 @@ enum { OPT_HELP,
        OPT_XML_FILE,
        OPT_BLOCK_LENGTH,
        OPT_GENE_TREE,
+       OPT_CMD_SIM_GIVEN_TREE,
+       OPT_CMD_SIM_GIVEN_RECTREE,
        OPT_NUMBER_DATA,
        OPT_OUTPUT_FILE,
        OPT_CLONALTREE_FILE,
@@ -205,8 +232,12 @@ CSimpleOpt::SOption g_rgOptions[] = {
     {   OPT_GENE_TREE,
         "--gene-tree", SO_NONE
     },    // "-a"
-    //{ OPT_DOT_FILE,
-    //"-d", SO_REQ_SEP }, // "-d ARG"
+    {   OPT_CMD_SIM_GIVEN_TREE,
+        "--cmd-sim-given-tree", SO_NONE
+    },    // "-a"
+    {   OPT_CMD_SIM_GIVEN_RECTREE,
+        "--cmd-sim-given-rectree", SO_NONE
+    },    // "-a"
     {   OPT_INCLUDE_ANCESTRAL_MATERIAL,
         "-a", SO_NONE
     },    // "-a"
@@ -262,6 +293,8 @@ int main(int argc, char *argv[])
     opt().outfile = "out";
     char * optarg;
     bool exportGenetree = false;
+    bool simGivenRectree = false;
+    bool simGivenTree = false;
     int blockLength; 
 
     //int n = 5;
@@ -339,6 +372,12 @@ int main(int argc, char *argv[])
             case OPT_GENE_TREE:
                 exportGenetree = true;
                 break;
+            case OPT_CMD_SIM_GIVEN_RECTREE:
+                simGivenRectree = true;
+                break;
+            case OPT_CMD_SIM_GIVEN_TREE:
+                simGivenTree = true;
+                break;
             case OPT_NUMBER_DATA:
                 numberData = strtoul (args.OptionArg(), NULL, 10);
                 break;
@@ -354,107 +393,123 @@ int main(int argc, char *argv[])
         }
     }
 
-//std::cerr << "before seed: " << seed << std::endl;
-    if (exportGenetree == false) {
-      seed=seedrng(seed);// <0 means use /dev/random or clock.
-    }
-    comment.append("\nSeed: ");
-    ss<<seed;
-    comment.append(ss.str());
-
-    Param p;
-    RecTree* rectree=NULL;
-    Data* data=NULL;
-
-    dlog(1)<<"Simulating rectree..."<<endl;
-    vector<int> blocks;
-
-    /**
-     * A list of lengths of blocks is given.
-     */
-    int totalLengthBlock;
-    if (exportGenetree == false)
-    {
-        blocks = readBlock (blockFilename);
-        totalLengthBlock = blocks.back();
-        if (opt().rhoPerSite == true)
-        {
-            simparrho *= totalLengthBlock;
-        }
-        if (opt().thetaPerSite == true)
-        {
-            simpartheta *= totalLengthBlock;
-        }
-    }
-    else
-    {
-      totalLengthBlock = blockLength;
-    }
-
-
-    if (xmlFilename.length() == 0)
-    {
-        /**
-         * A newick formatted string for a species is given.
-         */
-        string treeNewick = readLine (treeFilename);
-     
-        /**
-         * A newick formatted string for a species is given.
-         */
-        treeNewick = readLine (treeFilename);
-        rectree=new RecTree(treeNewick, simparrho, simpardelta, blocks);
-    }
-    else
-    {
-        WargXml infile(xmlFilename);
-        rectree = new RecTree(totalLengthBlock, &infile);
-    }
-
+  // The following codes are tedious. I need them to be that way because each
+  // command is a special case for which I have to customize the source code
+  // whenever I need. Only one command must be on. 
+  Param p;
+  RecTree* rectree=NULL;
+  Data* data=NULL;
+  dlog(1)<<"Simulating rectree..."<<endl;
+  vector<int> blocks;
+  int totalLengthBlock;
+  // Command is --cmd-extract-tree (or --gene-tree : this may be obsolete)
+  if (exportGenetree == true
+      && simGivenTree == false
+      && simGivenRectree == false)
+  {
+    // The default of seed is 0, which means use /dev/random or clock.
+    seed=seedrng(seed);
+    comment.append("\nSeed: "); ss<<seed; comment.append(ss.str());
+    totalLengthBlock = blockLength;
+    WargXml infile(xmlFilename);
+    rectree = new RecTree(totalLengthBlock, &infile);
     dlog(1)<<"Initiating parameter"<<endl;
     p=Param(rectree,NULL);
-
-    if (exportGenetree == false)
+    dlog(1)<<"Exporting gene trees..."<<endl;
+    string dataFilename = opt().outfile;
+    ofstream dat;
+    dat.open(dataFilename.data());
+    rectree->rankLocalTree(&dat);
+    dat.close();
+  }
+  // Command is --cmd-sim-given-tree
+  else if (exportGenetree == false 
+           && simGivenTree == true
+           && simGivenRectree == false)
+  {
+    comment.append("\nSeed: "); ss<<seed; comment.append(ss.str());
+    blocks = readBlock (blockFilename);
+    totalLengthBlock = blocks.back();
+    if (opt().rhoPerSite == true)
     {
-      dlog(1)<<"Simulating data..."<<endl;
-      p.setTheta(simpartheta);
-      for (unsigned long i = 1; i <= numberData; i++) 
-      {
-        p.simulateData(blocks);
-        //p.setTheta(-1.0);
-        data=p.getData();
-        std::stringstream ss;
-        ss << "." << i << ".xmfa";
-
-        string dataFilename = opt().outfile + ss.str();
-
-        ofstream dat;
-        dat.open(dataFilename.data());
-        data->output(&dat);
-        dat.close();
-      }
-      string trueFilename = opt().outfile + ".xml";
-      ofstream tru;
-      tru.open(trueFilename.data());
-      p.setRho(simparrho);
-      p.setTheta(simpartheta);
-      p.setDelta(simpardelta);
-      p.exportXMLbegin(tru,comment);
-      p.exportXMLiter(tru);
-      p.exportXMLend(tru);
-      tru.close();
-
+      simparrho *= totalLengthBlock;
     }
-    else
+    if (opt().thetaPerSite == true)
     {
-      // Export gene trees.
-      string dataFilename = opt().outfile;
+      simpartheta *= totalLengthBlock;
+    }
+    string treeNewick = readLine (treeFilename);
+    treeNewick = readLine (treeFilename);
+    rectree=new RecTree(treeNewick, simparrho, simpardelta, blocks);
+    dlog(1)<<"Initiating parameter"<<endl;
+    p=Param(rectree,NULL);
+    dlog(1)<<"Simulating data..."<<endl;
+    p.setTheta(simpartheta);
+    for (unsigned long i = 1; i <= numberData; i++) 
+    {
+      p.simulateData(blocks);
+      //p.setTheta(-1.0);
+      data=p.getData();
+      std::stringstream ss;
+      ss << "." << i << ".xmfa";
+
+      string dataFilename = opt().outfile + ss.str();
+
       ofstream dat;
       dat.open(dataFilename.data());
-      rectree->rankLocalTree(&dat);
+      data->output(&dat);
       dat.close();
     }
+    string trueFilename = opt().outfile + ".xml";
+    ofstream tru;
+    tru.open(trueFilename.data());
+    p.setRho(simparrho);
+    p.setTheta(simpartheta);
+    p.setDelta(simpardelta);
+    p.exportXMLbegin(tru,comment);
+    p.exportXMLiter(tru);
+    p.exportXMLend(tru);
+    tru.close();
+  }
+  // Command is --cmd-sim-given-rectree
+  else if (exportGenetree == false
+           && simGivenTree == false
+           && simGivenRectree == true)
+  {
+    comment.append("\nSeed: "); ss<<seed; comment.append(ss.str());
+    dlog(1)<<"Initializing a single block length..."<<endl;
+    totalLengthBlock = blockLength;
+    blocks.push_back(0);
+    blocks.push_back(totalLengthBlock);
+    dlog(1)<<"Reading an XML file..."<<endl;
+    WargXml infile(xmlFilename);
+    rectree = new RecTree(totalLengthBlock, &infile);
+    dlog(1)<<"Initiating parameter..."<<endl;
+    if (opt().thetaPerSite == true)
+    {
+      simpartheta *= totalLengthBlock;
+    }
+    p=Param(rectree,NULL);
+    dlog(1)<<"Simulating data..."<<endl;
+    p.setTheta(simpartheta);
+    for (unsigned long i = 1; i <= numberData; i++) 
+    {
+      p.simulateData(blocks); // A single block!
+      //p.setTheta(-1.0);
+      data=p.getData();
+      std::stringstream ss;
+      ss << "." << i << ".xmfa";
 
+      string dataFilename = opt().outfile + ss.str();
+
+      ofstream dat;
+      dat.open(dataFilename.data());
+      data->output(&dat);
+      dat.close();
+    }
+  }
+
+  // Cleaning all of the objects and ending the MPI.
     dlog(1)<<"Cleaning up..."<<endl;
     if(p.getRecTree()) delete(p.getRecTree());
     if(data) delete(data);

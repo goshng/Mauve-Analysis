@@ -22,6 +22,48 @@ the first replicate.
 runs. Say this in the manuscript.)
 . Not perfect runs, I use a partial run.
 
+
+Mon Oct  3 09:19:09 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.A simulation for posterior predictive checking is being done. 
+. A set of 100 recombinant trees is chosen from the posterior sample. 
+. Use each recombinant tree for the simulation.
+. Construct the distribution for the posterior predictive checking.
+. This would allow to check if the model is adequate for the data.
+. Simulation number is s17 for this.
+
+.Files that might be useful for the posterior predictive checking
+----
+sh/map-tree-topology.sh
+pl/splitCOXMLPerIteration.pl
+output/cornellf/3/run-clonalorigin/output2/ri-1
+sh/simulate-data-clonalorigin2.sh
+----
+
+The directory +ri-1+ contains all of the sampled recombinant trees. The
+directory contains 274,274 files: 1,001 for each block. Let's simulate data
+using core_co.phase3.xml.1.11, core_co.phase3.xml.1.21, ...,
+core_co.phase3.xml.1.1001. How to compile the clonalorigin of my trunk?
+Search this file for cmake. Now, you know how to compile the simulation version
+of clonalorigin! Use sim5-prepare to execute the wargsim. There are two possible
+ways of simulating data given a recombinant tree to deal with multiple blocks:
+one is to simulate the model to create data for each block, and another is to
+simulate the model to create data for all of the combined blocks. When
+simulating the model given a species tree I use the second approach because the
+recombinant tree is created from a speices tree somewhat automatically. I am not
+sure if I can the second approach for this s17 because I have to combine
+multiple recombinant trees. I do not even know if clonalorigin code works that
+way.
+
+.Two ways of simulating the ClonalOrigin model to generate data
+. Use a recombinant tree for each block to create a single multiple alignment.
+. Use a combined recombinant tree to create multiple-multiple alignments.
+
+I use the first approach because this can be done without combining recombinant
+trees of all of the 274 blocks. Now, let's submit jobs of these to the cluster.
+
+
 Thu Sep 29 01:44:20 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1044,8 +1086,10 @@ cornell5
 
 CMake
 -----
-cmake -DCMAKE_CXX_FLAGS="-g3 -ggdb -O0" b
+cd /Users/goshng/Documents/Projects/Mauve/src/clonalorigin
+mkdir b
 cd b
+cmake -DCMAKE_CXX_FLAGS="-g3 -ggdb -O0" ..
 make
 
 GDB with C++

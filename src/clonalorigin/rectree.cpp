@@ -34,6 +34,9 @@ RecTree::RecTree(unsigned int numsites,string newick,bool isFilename,bool forcea
     edge=vector<RecEdge*>(0);
 }
 
+/**
+ * Note that this constructor already exists.
+ */
 RecTree::RecTree(unsigned int numsites,WargXml *infile,bool addedges,bool forceages,bool isfinal,std::streampos itstart):Tree(infile->getTree(itstart,isfinal),false,forceages)
 {
     tabNode=vector<int>(n*2-1);

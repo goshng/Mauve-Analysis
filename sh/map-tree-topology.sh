@@ -36,6 +36,7 @@ function map-tree-topology {
           -numberblock $NUMBER_BLOCK \
           -endblockid
         echo " done."
+
       else
         echo "  Skipping splitting ClonalOrigin xml output files..."
       fi

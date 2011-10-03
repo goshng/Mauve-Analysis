@@ -1,6 +1,22 @@
+###############################################################################
+# Copyright (C) 2011 Sang Chul Choi
+#
+# This file is part of Mauve Analysis.
+# 
+# Mauve Analysis is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Mauve Analysis is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
-# 0. For simulation I make directories in CAC and copy genomes files to the data
-# directory. 
 function choose-simulation {
   PS3="Choose the simulation for clonalorigin: "
   select SPECIES in ${SIMULATIONS[@]}; do 
@@ -37,6 +53,8 @@ function mkdir-simulation {
   echo -e " done"
   mkdir $OUTPUTDIR/$1
   mkdir $OUTPUTDIR/$1/run-analysis
+  return 0
+
   echo -n "  Creating a simulation $1 at $CAC_OUTPUTDIR in $CAC_USERHOST ..."
   ssh -x $CAC_USERHOST mkdir $CAC_OUTPUTDIR/$1
   echo -e " done"
@@ -65,6 +83,8 @@ function mkdir-simulation-repeat {
         $RUNCLONALORIGIN \
         $RUNANALYSIS
   echo -e " done"
+  return 0
+
   CAC_BASEDIR=$CAC_OUTPUTDIR/$1/$2
   CAC_DATADIR=$CAC_BASEDIR/data
   CAC_RUNMAUVE=$CAC_BASEDIR/run-mauve
