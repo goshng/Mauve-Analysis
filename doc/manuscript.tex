@@ -96,7 +96,7 @@ bacterial recombination, gene duplication and transfer, ClonalOrigin,
 ClonalFrame, Mowgli
 
 
-\subsubsection*{Version: 0.66 (Sep 30, 2011) \clearpage{}}
+\subsubsection*{Version: 0.67 (Oct 7, 2011) \clearpage{}}
 
 
 \section*{Abstract}
@@ -981,118 +981,37 @@ Wrote the paper: SCC MDR MJH IG.
 %
 \begin{table}
 \caption{\label{tab:functional}Functional categories asscoiated with higher
-recombination.}
-\begin{tabular}{|c|c|c|}
+recombination - Total number of recombinant edge types.}
+\begin{tabular}{ccc}
 \hline 
 p-value & count & description\tabularnewline
-\hline
-\hline 
-\multicolumn{3}{|c|}{\# Total number of recombinant edge types}\tabularnewline
 \hline 
 2.994e-07 &  28 & rRNA binding\tabularnewline
-\hline 
 1.447e-06 &  42 & structural constituent of ribosome\tabularnewline
-\hline 
 1.694e-05 &  39 & ribonucleoprotein complex\tabularnewline
-\hline 
 2.048e-05 &  23 & fatty acid biosynthetic process\tabularnewline
-\hline 
 3.664e-05 &  72 & ribosome\tabularnewline
-\hline 
 1.018e-04 &  86 & translation\tabularnewline
-\hline 
 1.733e-04 &  22 & lipid biosynthetic process\tabularnewline
-\hline 
 2.792e-04 & 108 & RNA binding\tabularnewline
-\hline 
 4.164e-04 &  47 & carbohydrate transport\tabularnewline
-\hline 
-1.303e-03 &  38 & phosphoenolpyruvate-dependent sugar phosphotransferase 
-system\tabularnewline
-\hline 
+1.303e-03 &  38 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
 1.345e-03 &  10 & pentose-phosphate shunt\tabularnewline
+1.819e-03 &  35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
 \hline 
-1.819e-03 &  35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase 
-activity\tabularnewline
-\hline 
-\multicolumn{3}{|c|}{\# SDE->SPY recombinant edge types}\tabularnewline
-\hline 
-0.0001236 & 28 & rRNA binding\tabularnewline
-\hline 
-0.0001284 & 86 & translation\tabularnewline
-\hline 
-0.0001711 & 39 & ribonucleoprotein complex\tabularnewline
-\hline 
-0.0002230 & 10 & pentose-phosphate shunt\tabularnewline
-\hline 
-0.0003412 & 38 & phosphoenolpyruvate-dependent sugar phosphotransferase 
-system\tabularnewline
-\hline 
-0.0004498 & 42 & structural constituent of ribosome\tabularnewline
-\hline 
-0.0007789 & 47 & carbohydrate transport\tabularnewline
-\hline 
-0.0008152 & 35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase 
-activity\tabularnewline
-\hline 
-\multicolumn{3}{|c|}{\# SPY->SDE recombinant edge types}\tabularnewline
-\hline 
-2.025e-06 & 47 & carbohydrate transport\tabularnewline
-\hline 
-1.875e-04 & 38 & phosphoenolpyruvate-dependent sugar phosphotransferase 
-system\tabularnewline
-\hline 
-2.843e-04 & 18 & sodium ion transport\tabularnewline
-\hline 
-3.248e-04 & 35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase 
-activity\tabularnewline
-\hline
 \end{tabular}
-
-
 \end{table}
+\clearpage{}
 
 
-\clearpage{}%
-
-% Table 2. 
+%
 \begin{table}
-\caption{\label{tab:go-events}
-GO-term enrichment for different evolutionary events. }
-
-\begin{tabular}{rrll}
+\caption{\label{tab:go-events}GO-term enrichment for different
+evolutionary events - Non-recombining transfers.}
+\begin{tabular}{cccc}
+\hline 
 P-value & Count & GO-term & Description \\
-\hline
-\multicolumn{4}{c}{Duplications} \\
-\hline
-4e-81 &  67 & GO:0006313 & transposition, DNA-mediated\\
-5e-80 &  59 & GO:0004803 & transposase activity\\
-6e-70 &  23 & GO:0032196 & transposition\\
-2e-58 &  52 & GO:0015074 & DNA integration\\
-8e-25 &  86 & GO:0006310 & DNA recombination\\
-1e-20 &  36 & GO:0016987 & sigma factor activity\\
-1e-20 &  36 & GO:0006352 & transcription initiation\\
-2e-19 & 197 & GO:0003676 & nucleic acid binding\\
-2e-10 & 527 & GO:0003677 & DNA binding\\
-4e-06 & 142 & GO:0043565 & sequence-specific DNA binding\\
-\hline
-\hline
-\multicolumn{4}{c}{Losses} \\
-\hline
-1e-06 &  67 & GO:0006313 & transposition, DNA-mediated\\
-2e-05 &  59 & GO:0004803 & transposase activity\\
-5e-05 &  52 & GO:0015074 & DNA integration\\
-5e-04 &  23 & GO:0032196 & transposition\\
-5e-04 &  10 & GO:0046873 & metal ion transmembrane transporter activity\\
-7e-04 &  36 & GO:0016987 & sigma factor activity\\
-7e-04 &  36 & GO:0006352 & transcription initiation\\
-1e-03 &  31 & GO:0006814 & sodium ion transport\\
-3e-03 &  86 & GO:0006310 & DNA recombination\\
-6e-03 & 197 & GO:0003676 & nucleic acid binding\\
-\hline
-\hline
-\multicolumn{4}{c}{Non-recombining transfers} \\
-\hline
+\hline 
 7e-61 &  67 & GO:0006313 & transposition, DNA-mediated\\
 3e-58 &  59 & GO:0004803 & transposase activity\\
 1e-30 &  52 & GO:0015074 & DNA integration\\
@@ -1103,27 +1022,11 @@ P-value & Count & GO-term & Description \\
 3e-09 &  36 & GO:0016987 & sigma factor activity\\
 3e-09 &  36 & GO:0006352 & transcription initiation\\
 3e-08 & 142 & GO:0043565 & sequence-specific DNA binding\\
-\hline
-\hline
-\multicolumn{4}{c}{Recombining transfers} \\
-\hline
-7e-09 & 153 & GO:0006412 & translation\\
-1e-08 &  67 & GO:0030529 & ribonucleoprotein complex\\
-1e-07 &  45 & GO:0019843 & rRNA binding\\
-2e-06 &  73 & GO:0003735 & structural constituent of ribosome\\
-3e-05 & 157 & GO:0005840 & ribosome\\
-7e-05 & 221 & GO:0003723 & RNA binding\\
-2e-04 &  11 & GO:0004826 & phenylalanine-tRNA ligase activity\\
-3e-04 &  14 & GO:0015413 & nickel-transporting ATPase activity\\
-4e-04 &  93 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\\
-5e-04 & 104 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\\
+\hline 
 \end{tabular}
-
 \end{table}
-
-
-
 \clearpage{}
+
 
 
 \section*{Figures\clearpage{}}
@@ -1145,16 +1048,16 @@ donor species branch.}
 %=============================================================================
 
 %=============================================================================
-% FIGURE 2. - Transfer heatmap
+% FIGURE 2. - HGT Transfer heatmap
 \begin{figure}
 \begin{center}
 % \includegraphics[width=5in]{figures/trans-hgt-heatmap}
-\includegraphics[width=5in]{figures/heatmap-hgtedge}
+\includegraphics[scale=0.45]{figures/heatmap-hgtedge}
 \end{center}
-\vspace{-1.2in}
 \caption{Distribution of horizontal gene transfers.}
 \label{fig:hgt-heatmap}
 \end{figure}
+\clearpage{}%
 %=============================================================================
 
 % Figure 4. Gene duplication, loss, and transfer
@@ -1258,9 +1161,9 @@ $^d$ The median value for the recombinant tract length weighted over the lengths
 % Table S4. The values of the heat map.
 \begin{table}
 \caption{\label{tab:heatmap}}
-\noindent \centering{}\begin{tabular}{ccccccccc}
+\noindent \centering{}\begin{tabular}{cccccccccc}
 \hline
-& SDE1 & SDE & SDE2 & SD & SDD & ROOT & SPY1 & SPY & SPY2\tabularnewline
+& SDE1 & SDE & SDE2 & SD & SDD & ROOT & SPY1 & SPY & SPY2 \tabularnewline
 \hline
 SDE1& 0.176  &   NA  &1.170  &    NA & 0.7564  & NA & 0.67 &    NA & 0.663\tabularnewline
 SDE & -0.118 & 0.081 &-0.202 &     NA&  0.3395 &  NA& -0.15&  0.045& -0.323\tabularnewline
@@ -1281,9 +1184,9 @@ SPY2& 1.174  &1.938  &1.287  &    NA &-1.9740  & NA & 1.07 &    NA & 0.063\tabul
 % Table S5. The values of the heat map of actual counts.
 \begin{table}
 \caption{\label{tab:obsheatmap}}
-\noindent \centering{}\begin{tabular}{ccccccccc}
+\noindent \centering{}\begin{tabular}{cccccccccc}
 \hline
-& SDE1 & SDE & SDE2 & SD & SDD & ROOT & SPY1 & SPY & SPY2\tabularnewline
+& SDE1 & SDE & SDE2 & SD & SDD & ROOT & SPY1 & SPY & SPY2 \tabularnewline
 \hline
 SDE1&8.896 &  0.00 &17.712  & 0.00 & 12.872   & 0 &12.59  &  0.00  &12.53\tabularnewline
 SDE &44.626& 136.49& 42.088 &  0.00& 227.061  &  0& 73.39 &  99.95 & 65.25\tabularnewline
@@ -1312,6 +1215,7 @@ Simulation study of the three population parameters.}
 Mutation rate per site & 0.081 & 0.081 (0.0011)\tabularnewline
 Recombination rate per site & 0.012 & 0.011 (0.0003)\tabularnewline
 Recombinant tract length & 744 bp & 919 bp (28)\tabularnewline
+\hline
 \end{tabular}
 \par\end{centering}
 \end{table}
@@ -1322,28 +1226,22 @@ Recombinant tract length & 744 bp & 919 bp (28)\tabularnewline
 \begin{table}
 \caption{\label{tab:Gene-tree-topologies}Posterior probability of gene tree
 topologies.}
-\begin{tabular}{|c|c|}
+\noindent \begin{centering}
+\begin{tabular}{cc}
 \hline 
 Gene tree topologies & Posterior probability\tabularnewline
 \hline
-\hline 
 (((SDE1,SDE2),SDD),(SPY1,SPY2)) & 66.7\%\tabularnewline
-\hline 
 (((SDE1,SDE2),(SPY1,SPY2)),SDD) & 9.3\%\tabularnewline
-\hline 
 ((SDE1,SDE2),(SDD,(SPY1,SPY2))) & 3.5\%\tabularnewline
-\hline 
 (((SDE1,(SDE2,SDD)),(SPY1,SPY2)) & 1.5\%\tabularnewline
-\hline 
 (((SDE1,SDD),SDE2),(SPY1,SPY2)) & 1.3\%\tabularnewline
-\hline 
 ((SDE1,SDD),(SDE2,(SPY1,SPY2))) & 1.2\%\tabularnewline
-\hline 
 ((((SDE1,SDE2),SPY1),SPY2),SDD) & 1.0\%\tabularnewline
-\hline 
 ((SDE2,SDD),(SDE1,(SPY1,SPY2))) & 1.0\%\tabularnewline
 \hline
 \end{tabular}
+\par\end{centering}
 \end{table}
 \clearpage{}
 
@@ -1353,7 +1251,7 @@ Gene tree topologies & Posterior probability\tabularnewline
 homologous
 recombining gene transfer. }
 {\footnotesize
-\begin{tabular}{|lllllll|}
+\begin{tabular}{lllllll}
 \hline 
 Locus  & N$^a$  & S$^b$  & D$^c$ & F$^d$(\%)  & C$^e$(\%)  & gene 
 product\tabularnewline
@@ -1479,6 +1377,112 @@ the locus.
 \end{table}
 \clearpage{}
 
+%
+\begin{table}
+\caption{\label{tab:functional-sde-spy}Functional categories asscoiated with higher
+recombination - \# SDE->SPY recombinant edge types.}
+\begin{tabular}{ccc}
+\hline 
+p-value & count & description\tabularnewline
+\hline 
+0.0001236 & 28 & rRNA binding\tabularnewline
+0.0001284 & 86 & translation\tabularnewline
+0.0001711 & 39 & ribonucleoprotein complex\tabularnewline
+0.0002230 & 10 & pentose-phosphate shunt\tabularnewline
+0.0003412 & 38 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
+0.0004498 & 42 & structural constituent of ribosome\tabularnewline
+0.0007789 & 47 & carbohydrate transport\tabularnewline
+0.0008152 & 35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+\clearpage{}
+
+%
+\begin{table}
+\caption{\label{tab:functional-spy-sde}Functional categories asscoiated with higher
+recombination - \# SPY->SDE recombinant edge types.}
+\begin{tabular}{ccc}
+\hline 
+p-value & count & description\tabularnewline
+\hline 
+2.025e-06 & 47 & carbohydrate transport\tabularnewline
+1.875e-04 & 38 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
+2.843e-04 & 18 & sodium ion transport\tabularnewline
+3.248e-04 & 35 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+\clearpage{}
+
+%
+\begin{table}
+\caption{\label{tab:go-events}GO-term enrichment for different
+evolutionary events - Duplication.}
+\begin{tabular}{cccc}
+\hline 
+P-value & Count & GO-term & Description \\
+\hline 
+4e-81 &  67 & GO:0006313 & transposition, DNA-mediated\\
+5e-80 &  59 & GO:0004803 & transposase activity\\
+6e-70 &  23 & GO:0032196 & transposition\\
+2e-58 &  52 & GO:0015074 & DNA integration\\
+8e-25 &  86 & GO:0006310 & DNA recombination\\
+1e-20 &  36 & GO:0016987 & sigma factor activity\\
+1e-20 &  36 & GO:0006352 & transcription initiation\\
+2e-19 & 197 & GO:0003676 & nucleic acid binding\\
+2e-10 & 527 & GO:0003677 & DNA binding\\
+4e-06 & 142 & GO:0043565 & sequence-specific DNA binding\\
+\hline 
+\end{tabular}
+\end{table}
+\clearpage{}
+
+%
+\begin{table}
+\caption{\label{tab:go-events}GO-term enrichment for different
+evolutionary events - Loss.}
+\begin{tabular}{cccc}
+\hline 
+P-value & Count & GO-term & Description \\
+\hline 
+1e-06 &  67 & GO:0006313 & transposition, DNA-mediated\\
+2e-05 &  59 & GO:0004803 & transposase activity\\
+5e-05 &  52 & GO:0015074 & DNA integration\\
+5e-04 &  23 & GO:0032196 & transposition\\
+5e-04 &  10 & GO:0046873 & metal ion transmembrane transporter activity\\
+7e-04 &  36 & GO:0016987 & sigma factor activity\\
+7e-04 &  36 & GO:0006352 & transcription initiation\\
+1e-03 &  31 & GO:0006814 & sodium ion transport\\
+3e-03 &  86 & GO:0006310 & DNA recombination\\
+6e-03 & 197 & GO:0003676 & nucleic acid binding\\
+\hline 
+\end{tabular}
+\end{table}
+\clearpage{}
+
+%
+\begin{table}
+\caption{\label{tab:go-events}GO-term enrichment for different
+evolutionary events - Recombining transfers.}
+\begin{tabular}{cccc}
+\hline 
+P-value & Count & GO-term & Description \\
+\hline 
+7e-09 & 153 & GO:0006412 & translation\\
+1e-08 &  67 & GO:0030529 & ribonucleoprotein complex\\
+1e-07 &  45 & GO:0019843 & rRNA binding\\
+2e-06 &  73 & GO:0003735 & structural constituent of ribosome\\
+3e-05 & 157 & GO:0005840 & ribosome\\
+7e-05 & 221 & GO:0003723 & RNA binding\\
+2e-04 &  11 & GO:0004826 & phenylalanine-tRNA ligase activity\\
+3e-04 &  14 & GO:0015413 & nickel-transporting ATPase activity\\
+4e-04 &  93 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\\
+5e-04 & 104 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\\
+\hline 
+\end{tabular}
+\end{table}
+\clearpage{}
 
 \section*{Supplementary Figures}
 
@@ -1488,9 +1492,8 @@ the locus.
 % Figure S1: Mauve alignment
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{figures/mauve.pdf}
+\includegraphics[scale=0.2]{figures/mauve}
 \end{center}
-\vspace{-1.2in}
 \caption{Alignment of the five genomes.}
 \label{fig:mauve}
 \end{figure}
@@ -1566,7 +1569,6 @@ illustrated for each region covered by some combinations of recombinant edges
 along the genomic region (C-G). For example, the local gene tree (E) is created
 by all of the three recombinant edges in the subregion between 51 base pairs
 and 70 base pairs.
-
 We first describe procedures of summarizing recombinant trees from the first
 viewpoint.  To summarize the posterior samples of \texttt{ClonalOrigin} we
 examined the distribution of topologies of local genealogies induced by the
@@ -1579,7 +1581,6 @@ that of the species tree. However, other frequently sampled topologies were
 expected to be potentially informative about common recombination events. There
 are 105 possible rooted topologies relating five taxa, which allowed us to count
 topologies induced by a posterior sample of recombinant trees.  
-
 For the second viewpoint of recombinant trees \citet{Didelot2010} suggested an
 approach used to trace recombination intensity along the genome.  For each edge
 type and each site, we recorded the sampling frequency of a recombinant edge of
@@ -1588,16 +1589,15 @@ the type at that site (e.g., Figure S\ref{fig:muts}).  Figure
 experiences influx from a donor branch using a single recombinant tree.  Summing
 these posteriors over a certain set of edge types, we could obtain a measure of
 recombination intensity along the genome (Figure \ref{fig:clonalorigin}B).  
-
-
 }
 \end{figure}
+\clearpage{}%
 %=============================================================================
 
 %=============================================================================
 % Figure S6: View of UCSC genome browser for bacterial gene transfer.
 \begin{figure}
-\includegraphics[scale=0.6]{figures/ucsc}
+\includegraphics[scale=0.8]{figures/ucsc}
 \caption{\label{fig:muts}Posterior probability of recombinant edges on 
 aspartyl-tRNA
 synthetase.  The
@@ -1645,6 +1645,7 @@ slope of 1 and intercept of 0.}
 \begin{figure}
 \subfloat[]{\includegraphics[scale=0.5]{figures/h2-R}}
 \subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset}}
+
 \subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset2}}
 
 \caption{\label{fig:h2}Comparison of number of recombinations between real
@@ -1685,9 +1686,8 @@ is the 95\% quantile. }
 \begin{figure}
 \begin{center}
 % \includegraphics[width=5in]{figures/trans-recomb-heatmap}
-\includegraphics[width=5in]{figures/heatmap-recedge-mowgli}
+\includegraphics[scale=0.45]{figures/heatmap-recedge-mowgli}
 \end{center}
-\vspace{-1.2in}
 \caption{Distribution of recombining horizontal gene transfers.}
 \label{fig:mowgli-recomb-heatmap}
 \end{figure}
