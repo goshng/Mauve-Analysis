@@ -23,6 +23,43 @@ runs. Say this in the manuscript.)
 . Not perfect runs, I use a partial run.
 
 
+Tue Oct  4 10:58:43 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Species tree from Mowgli analysis (branch lengths mean nothing but branch order)
+----
+swiftgen:/usr/projects/strep/gainloss/config/strep.div.stree
+((((sde1:1,sde2:1):2,sdd:3):1,(spy1:2,spy2:2):2):1,see:5);
+----
+
+.Families and events
+----
+swiftgen:/usr/projects/strep/gainloss/data/fam-frag2/famid-events.txt
+----
+
+.Family sizes
+----
+swiftgen:/usr/projects/strep/gainloss/data/fam-frag2/famid-gene.txt
+uniq -c
+swiftgen:/usr/projects/strep/gainloss/config/fam-frag2.part.txt
+awk '{print $1, NF-1}'
+----
+
+.Melissa's functional category test
+----
+RNASeq-Analysis/test/RNAz/mannwhitney.R
+----
+
+.Matt's analysis of events
+----
+swiftgen:/usr/projects/strep/gainloss/recombination/fam-frag2
+----
+
+.List of virulence factors associate with HGT
+----
+swiftgen:/usr/projects/strep/gainloss/recombination/fam-frag2/top_virulence_by_hgt_event.txt
+----
+
 Mon Oct  3 09:19:09 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1124,6 +1161,26 @@ Given a species tree, and the true values of the 3 main parameters.
 
 Manuscript
 ----------
+
+.Heat map of horizontal gene transfer (hgt)
+----
+output/cornellf/3/run-analysis/heatmap-hgtedge.R
+output/cornellf/3/run-analysis/heatmap-hgtedge.R.ps
+output/cornellf/3/run-analysis/heatmap-hgtedge.txt
+output/cornellf/3/run-analysis/heatmap-recedge-mowgli.txt
+output/cornellf/3/run-analysis/heatmap-recedge-mowgli.R.ps
+
+Export mauve-analysis.key to tiff or image.
+tiff2ps mauve-analysis.001.tiff > mauve-analysis-001.ps
+open mauve-analysis-001.ps (with Preview and save it as a PDF)
+----
+
+.Scatter plot of rho and log(delta)
+----
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out2.R
+output/cornellf/3/run-analysis/rho-vs-delta.pdf
+output/cornellf/3/run-analysis/rho-vs-delta.ps
+----
 
 .Multiple alignment using Mauve
 ----
