@@ -22,6 +22,19 @@ the first replicate.
 runs. Say this in the manuscript.)
 . Not perfect runs, I use a partial run.
 
+.s17 needs post-analysis
+. I need to check what the simulated alignments have N's
+. Use sh/sim5-prepare.sh
+
+
+Wed Oct  5 11:19:38 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Comparison of Mowgli and ClonalOrigin
+----
+mkdir mowgli
+scp -r swiftgen:/usr/projects/strep/gainloss/recombination/fam-frag2 mowgli
+----
 
 Tue Oct  4 10:58:43 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,6 +112,21 @@ way.
 
 I use the first approach because this can be done without combining recombinant
 trees of all of the 274 blocks. Now, let's submit jobs of these to the cluster.
+
+
+.A weird XMFA alignment
+----
+output/s17/55/data/core_alignment.253.551.1.xmfa
+output/s17/55/run-clonalorigin/output2/1/core_co.phase3.xml.253
+----
+
+NOTE: I need to check the simulated alignments have any N's. Why does the simulated
+alignment have N's? See the the weird XMFA file above.
+
+s17: 10 hours with 87 computing nodes.
+----
+cac:run/mauve/100311
+----
 
 
 Thu Sep 29 01:44:20 EDT 2011
@@ -188,6 +216,36 @@ Genome tracks as a resource might be worth trying. ClonalOrigin's analysis
 used 5 genomes, and Mawgli's used 6 genomes. I think that still I can use the
 current strep-genome tracks. First, blocks of core alignments are displayed
 using BED files. 
+
+Wed Sep  7 13:02:47 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+xmfa2maf can convert XMFA to MAF that can be read in by RNAz.
+
+Fri Jul 22 17:10:53 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Comparison seems okay, and the number of genes has changed. There are more genes
+in the more recent version or 072011.
+/Users/goshng/Documents/Projects/mauve-analysis/to/mellisa/072011/rimap.gene.txt
+/Users/goshng/Documents/Projects/mauve-analysis/to/mellisa/051811/ri1-refgenome4-map.gene
+----
+x <- read.table("mw-results.txt", header=TRUE, sep="\t")
+
+names(x)
+o.sde2spy <- order(x$p.value.sde2spy)
+x[o.sde2spy,][1:10,]
+x[o.sde2spy,c("gocat", "p.value.sde2spy")][1:10,]
+x[o.sde2spy,c("go.description", "p.value.sde2spy")][1:10,]
+
+o.sde2spy <- order(x$p.value.sde2spy)
+pval.corr.sde2spy <- p.adjust(x$p.value.sde2spy, method="BH")
+sum(pval.corr.sde2spy < 0.05)
+x[o.sde2spy,c("go.description", "p.value.sde2spy")][1:11,]
+
+o.spy2sde <- order(x$p.value.spy2sde)
+pval.corr.spy2sde <- p.adjust(x$p.value.spy2sde, method="BH")
+sum(pval.corr.spy2sde < 0.05)
+x[o.spy2sde,c("go.description", "p.value.spy2sde")][1:9,]
+----
 
 Tue Jul 19 21:56:52 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -66,7 +66,7 @@ function sim5-prepare {
         echo -e "  Skipping generating local trees..." 
       fi
 
-      echo -n "Do you wish to creat jobidfile for submission (y/n)? "
+      echo -n "Do you wish to create jobidfile for submission (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -e "  Simulating data using recombinant trees..."
@@ -93,6 +93,27 @@ function sim5-prepare {
       else
         echo -e "  Skipping creating jobidfile ..." 
       fi
+
+      echo -n "Do you wish to get the output result files (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        for b in $(eval echo {1..$NUMBER_BLOCK}); do
+          for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+            DATADIR=output/s17/$REPETITION/data
+            g=$(($REPETITION * 10 + 1))
+            for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+              mkdir -p output/s17/$REPETITION/run-clonalorigin/output2/$REPLICATE
+              XML=output/s17/$REPETITION/run-clonalorigin/output2/$REPLICATE/core_co.phase3.xml.$b
+              scp -q cac:run/mauve/100311/$XML $XML
+            done
+            echo -ne "block $b - $g\r"
+          done
+          echo -ne "                                           \r"
+        done
+      else
+        echo -e "  Skipping creating jobidfile ..." 
+      fi
+
       break
     fi
   done
