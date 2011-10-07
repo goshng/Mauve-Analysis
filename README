@@ -26,6 +26,7 @@ runs. Say this in the manuscript.)
 . I need to check what the simulated alignments have N's
 . Use sh/sim5-prepare.sh
 
+.The procedure should be rerun
 
 Wed Oct  5 11:19:38 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

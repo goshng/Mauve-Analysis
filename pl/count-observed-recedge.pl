@@ -27,7 +27,6 @@
 
 use strict;
 use warnings;
-use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
@@ -36,14 +35,18 @@ require "pl/sub-error.pl";
 require "pl/sub-simple-parser.pl";
 require "pl/sub-array.pl";
 require "pl/sub-heatmap.pl";
+require "pl/sub-newick-parser.pl";
 sub makeXMLFilename($$$$);
 sub get_exp_map($$);
 sub get_obs_map_iteration($$);
 
+my $cmd = ""; 
+sub process {
+  my ($a) = @_; 
+  $cmd = $a; 
+}
 $| = 1; # Do not buffer output
-
 my $VERSION = 'count-observed-recedge.pl 1.0';
-
 my $man = 0;
 my $help = 0;
 my %params = ('help' => \$help, 'h' => \$help, 'man' => \$man);        
@@ -56,13 +59,15 @@ GetOptions( \%params,
             'e=s',
             'n=i',
             's=i',
+            'out=s',
             'meanonly',
             'meanfile=s',
             'xmlbasename=s',
             'endblockid',
             'append',
             'obsonly',
-            'check'
+            'check',
+            '<>' => \&process
             ) or pod2usage(2);
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
@@ -71,7 +76,6 @@ my $xmlDir;
 my $heatDir = "";
 my $numBlocks;
 my $numSpecies;
-
 my $obsonly = 0;
 my $meanonly = 0;
 my $meanfile = "";
@@ -79,6 +83,8 @@ my $append = 0;
 my $check = 0;
 my $xmlBasename = "core_co.phase3";
 my $endblockid = 0;
+my $outfile;
+
 if (exists $params{d})
 {
   $xmlDir = $params{d};
@@ -93,31 +99,15 @@ if (exists $params{e})
   $heatDir = $params{e};
 }
 
-if (exists $params{obsonly})
-{
-  $obsonly = 1;
-  unless ($heatDir eq "")
-  {
-    &printError("obsonly is used without -e option");
-  }
-}
-
 if (exists $params{n})
 {
   $numBlocks = $params{n};
 }
-else
-{
-  &printError("you did not specify a number of blocks");
-}
+
 
 if (exists $params{s})
 {
   $numSpecies = $params{s};
-}
-else
-{
-  &printError("you did not specify a number of species");
 }
 
 if (exists $params{append})
@@ -150,6 +140,28 @@ if (exists $params{endblockid})
   $endblockid = 1;
 }
 
+if (exists $params{out})
+{
+  open ($outfile, ">", $params{out}) or die "cannot open > $params{out}: $!";
+}
+else
+{
+  $outfile = *STDOUT;   
+}
+
+if ($cmd eq "obsonly")
+{
+  $obsonly = 1;
+  unless ($heatDir eq "")
+  {
+    &printError("obsonly is used without -e option");
+  }
+  unless (exists $params{n})
+  {
+    &printError("you did not specify a number of blocks");
+  }
+}
+
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
@@ -166,6 +178,24 @@ my $xmlIteration;
 ##############################################################
 # An initial heat map is created.
 ##############################################################
+
+# Find the first XML file to get the species tree.
+my $blockid = 1;
+my $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
+my $treeString = get_species_tree ($xmlfilename);
+$numSpecies = get_number_leave ($treeString);
+# Find the number of XML files.
+while (-e $xmlfilename)
+{
+  $blockid++;
+  $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
+}
+unless ($numBlocks == $blockid - 1)
+{
+  die "-n $numBlocks and $blockid - 1 are not equal";
+}
+
+# Create matrices.
 my $numberOfTaxa = $numSpecies;
 my $numberOfLineage = 2 * $numberOfTaxa - 1;
 my $sizeOfMatrix = $numberOfLineage * $numberOfLineage; 
@@ -188,7 +218,7 @@ if ($check == 1)
 # Find the sample size of an Clonal Origin XML. All of the XML files are check
 # if they have the same posterior sample size.
 ##############################################################
-my $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, 1, $endblockid);
+$xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, 1, $endblockid);
 my $sampleSizeFirst = get_sample_size ($xmlfilename);
 for (my $blockid = 2; $blockid <= $numBlocks; $blockid++)
 {
@@ -440,36 +470,36 @@ if ($obsonly == 0)
   for my $i ( 0 .. $#heatMap ) {
     for my $j ( 0 .. $#{ $heatMap[$i] } ) {
       unless ($i == 0 and $j == 0) {
-        print "\t";
+        print $outfile "\t";
       }
       print $heatMap[$i][$j];
     }
   }
   for my $i ( 0 .. $#heatVarMap ) {
     for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-      print "\t";
-      print $heatVarMap[$i][$j];
+      print $outfile "\t";
+      print $outfile $heatVarMap[$i][$j];
     }
   }
-  print "\n";
+  print $outfile "\n";
 }
 else
 {
   for my $i ( 0 .. $#obsMap ) {
     for my $j ( 0 .. $#{ $obsMap[$i] } ) {
       unless ($i == 0 and $j == 0) {
-        print "\t";
+        print $outfile "\t";
       }
-      print $obsMap[$i][$j];
+      print $outfile $obsMap[$i][$j];
     }
   }
   for my $i ( 0 .. $#obsVarMap ) {
     for my $j ( 0 .. $#{ $obsVarMap[$i] } ) {
-      print "\t";
-      print $obsVarMap[$i][$j];
+      print $outfile "\t";
+      print $outfile $obsVarMap[$i][$j];
     }
   }
-  print "\n";
+  print $outfile "\n";
 }
 
 exit;
@@ -595,7 +625,7 @@ sub default {
 __END__
 =head1 NAME
 
-count-observed-recedge.pl - Build a heat map of recombinant edges
+count-observed-recedge.pl - Count the number of recombinant edges
 
 =head1 VERSION
 
@@ -614,6 +644,8 @@ perl count-observed-recedge.pl [-h] [-help] [-version]
   [-meanonly]
   [-append]
   [-meanfile an output file from meanonly option]
+
+perl pl/count-observed-recedge.pl obsonly -d output -endblockid -obsonly -n 274 -s 5
 
 =head1 DESCRIPTION
 

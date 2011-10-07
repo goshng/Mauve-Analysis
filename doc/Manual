@@ -18,16 +18,18 @@ Note that directories are referred with respect to the base directory of
 ----
 $ ./run
 ----
-shows a list of menus, among which users can select by typing in one of 
+would list menus, among which users can select by typing in a number for one of 
 menus that users wish to execute.
 Follow the instruction in the menu that you choose. When you
 unziped *Mauve Analysis* package, you need to <<Configuration,configure>> 
-the analysis and <<Installation,install>> other necessary software packages. 
+an analysis and <<Installation,install>> necessary software packages. 
 After the installation of helper software packages and the configuration of the
 analysis, a <<species,species file>> is needed before analyzing bacterial
 genomes. Impatient users can see the section <<Kickstart>> to start to analyze
 their selected bacterial genomes.
 
+Initialize the file system
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute the menu *init-file-system* after the configuration of the analysis and
 the installation of the analysis. This will create +output+ directory
 in the base directory, and base directories in the cluster and X11-enabled linux
@@ -35,6 +37,8 @@ machine. You might need a cluster of unix-like machines for running
 ClonalOrigin, and might also need a linux machine to run a program with
 graphical interface.
 
+Align your genomes
+~~~~~~~~~~~~~~~~~~
 The first step of ClonalOrigin analysis is to align bacterial genomes.
 Use menu *prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The
 first menu creates a shell script and moves it to the cluster with the bacterial
@@ -52,6 +56,8 @@ recommendation for the choice of block size limit.
 A simulation approach can be helpful in deciding the
 block size limit. I will come back to this issue in a separate section.
 
+Infer the species tree
+~~~~~~~~~~~~~~~~~~~~~~
 Congratulations! You are now ready to analyze the core alignment using
 ClonalOrigin and ClonalFrame developed by Xavier Didelot. Although there are other
 coauthors of the package, I want to thank him for his help in my initial
@@ -71,6 +77,8 @@ ClonalFrame to open the MCMC results for this.  If the convergence is
 not obtained, users might increase the block size limit or change the run
 options of ClonalFrame.
 
+Infer mutation and recombination rates and recombinant tract lengths
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The second MCMC procedure is done using menu *prepare-run-clonalorigin*, which
 prepares a shell script to submit a job of the first stage of ClonalOrigin.
 Use menu *receive-run-clonalorigin* to receive all of the result files of
@@ -81,6 +89,10 @@ Menu *scatter-plot-parameter* creates a figure like Figure 4 of Didelot2010.
 Menu *plot-number-recombination-within-blocks* can be also used to create a
 figure like Figure 6 of Didelot2010.
 
+_Do we need a menu for checking convergence of the ClonalOrigin's 1st stage?_
+
+Infer recombinant tree
+~~~~~~~~~~~~~~~~~~~~~~
 The third MCMC procedure is performed using menu *prepare-run-2nd-clonalorigin*
 and *receive-run-2nd-clonalorigin*. A figure like Figure 5 of Didelot2010 can be
 created using three menus of *count-observed-recedge*,
@@ -88,6 +100,8 @@ created using three menus of *count-observed-recedge*,
 Menu *prepare-run-compute-heatmap-recedge* might be useful if 
 menu *compute-heatmap-recedge* is slow.  
 
+Heat map of the recombinant tree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Users can use menu *recombination-intensity1-map* to summarize recombinant edges
 along the alignment blocks. This information can be combined with gene
 annotations to measure how much genes are under recombination. A list of genes
@@ -105,6 +119,8 @@ with high recombination. It is not obvious which genes are interesting enough to
 be under high recombination. Menu *probability-recedge-gene* searches for genes
 with high recombination probability with edge types.
 
+Functional category association with recombination edges
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Menu *create-ingene* creates a file with genes. I need to find columns in the
 alignment blocks that corresponds to those genes. There are two ways of mapping
 genes in the alignment blocks. One is that we first find a recombination
@@ -125,8 +141,6 @@ with *create-ingene* I can do something in menus
 These two should be used to list genes and locate them in blocks.
 *convert-gff-ingene*
 *locate-gene-in-block*
-
-_Do we need a menu for checking convergence of the ClonalOrigin's 1st stage?_
 
 Menu *probability-recombination* may not be used. I could delete this menu.
 
@@ -177,33 +191,11 @@ combine-import-ratio-jcvi-role:
 [[Configuration]]
 Configuration
 -------------
-A directory at the root of mauve-analysis is called +conf+. Users must configure
-mauve-analysis by editting +README.template+ and rename it as +README+. 
-Users are strongly encouraged to obtain a user ID at a cluster of computers
+There is a directory called +conf+ at the root of *Mauve Analysis*. Users must configure
+*Mauve Analysis* by editting +README.template+ and rename it as +README+. 
+Users are encouraged to obtain a user ID at a cluster of computers
 because multiple jobs could be run in parallel to reduce the total amount of
 time. 
-
-.A sample configuration file
-----
-PROJECTNAME:projectName
-CAC_USERNAME:clusterUserID
-CAC_LOGIN:clusterAddress
-CAC_ROOT:clusterAnalysisDirectory
-X11_USERNAME:linuxUserID
-X11_LOGIN:linuxAddress
-X11_ROOT:linuxAnalysisDirectory
-BATCHEMAIL:yourEmailAddress
-BATCHACCESS:batchAccessID
-QUEUENAME:batchQueue
-BATCHPROGRESSIVEMAUVE:usr/bin/progressiveMauve
-BATCHCLONALFRAME:usr/bin/ClonalFrame
-COREALIGNMENT:core_alignment.xmfa
-GENOMEDATADIR:/Volumes/Elements/Documents/Projects/mauve/bacteria
-LCB:/Users/localUserID/usr/bin/stripSubsetLCBs
-AUI:/Users/localUserID/usr/bin/addUnalignedIntervals
-GUI:/Users/localUserID/clonalorigin/gui/gui.app/Contents/MacOS/gui
-WARGSIM:src/clonalorigin/b/wargsim
-----
 
 GENOMEDATADIR
 ~~~~~~~~~~~~~
@@ -348,6 +340,9 @@ ClonalOrigin.
 . Execute menu *probability-recedge-gene*
 . Execute menu *recombination-intensity1-probability*
 . Execute menu *manuscript*
+
+.To do the posterior predictive checking
+. Execute menu *sim5-prepare*
 
 [[species]]
 Species File

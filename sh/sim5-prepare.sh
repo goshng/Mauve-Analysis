@@ -66,6 +66,27 @@ function sim5-prepare {
         echo -e "  Skipping generating local trees..." 
       fi
 
+      echo -n "Do you wish to check the simulate data for gap characters (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo -e "  Checking data using recombinant trees..."
+
+        for b in $(eval echo {1..$NUMBER_BLOCK}); do
+          for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+            DATADIR=$BASEDIR/$REPETITION/data
+            g=$(($REPETITION * 10 + 1))
+            BLOCKSIZE=$(echo `perl pl/get-block-length.pl $XMLBASEDIR/core_co.phase3.xml.$b.$g`) 
+            for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+              XMFA=$DATADIR/core_alignment.$b.$g.$REPLICATE.xmfa
+              perl pl/checkxmfa.pl $XMFA
+            done
+          done
+        done
+      else
+        echo -e "  Skipping generating local trees..." 
+      fi
+
+
       echo -n "Do you wish to create jobidfile for submission (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
@@ -110,6 +131,48 @@ function sim5-prepare {
           done
           echo -ne "                                           \r"
         done
+      else
+        echo -e "  Skipping creating jobidfile ..." 
+      fi
+
+      echo -n "Do you wish to analyze the output result files (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+        # for REPETITION in $(eval echo {1..1}); do
+          RUNCLONALORIGIN=$BASEDIR/$REPETITION/run-clonalorigin
+          RUNANALYSIS=$BASEDIR/$REPETITION/run-analysis
+          mkdir $RUNANALYSIS
+          for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            perl pl/count-observed-recedge.pl obsonly \
+              -d $RUNCLONALORIGIN/output2/${REPLICATE} \
+              -n $NUMBER_BLOCK \
+              -endblockid \
+              -obsonly \
+              -out $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
+          done
+          echo -ne "block $b - $g\r"
+        done
+      else
+        echo -e "  Skipping creating jobidfile ..." 
+      fi
+
+      echo -n "Do you wish to combine all of the obsonly-recedge (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        BASERUNANALYSIS=$BASEDIR/run-analysis
+        rm -f $BASERUNANALYSIS/obsonly-recedge.txt
+        touch $BASERUNANALYSIS/obsonly-recedge.txt
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          RUNANALYSIS=$BASEDIR/$REPETITION/run-analysis
+          for REPLICATE in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            cat $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt \
+              >> $BASERUNANALYSIS/obsonly-recedge.txt
+          done
+        done
+        echo -e "Check $BASERUNANALYSIS/obsonly-recedge.txt"
+        echo -e "Compare it with the real data analysis"
+        echo -e "e.g., output/cornellf/3/run-analysis/obsonly-recedge-1.txt"
       else
         echo -e "  Skipping creating jobidfile ..." 
       fi

@@ -324,6 +324,4 @@ sub maNewicktFindRedEdgePair ($$)
   return $m;
 }
 
-
-
 1;

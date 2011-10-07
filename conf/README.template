@@ -20,14 +20,14 @@ X11_ROOT:x11Base
 BATCHEMAIL:email
 BATCHACCESS:access
 QUEUENAME:queue
+BATCHPROGRESSIVEMAUVE:usr/bin/progressiveMauve
+BATCHCLONALFRAME:usr/bin/ClonalFrame
 #
 # Global setup
 # ------------
 COREALIGNMENT:core_alignment.xmfa
 GENOMEDATADIR:genome
-LCB:/Users/goshng/usr/bin/stripSubsetLCBs
-AUI:/Users/goshng/usr/bin/addUnalignedIntervals
-GUI:/Users/goshng/Documents/Projects/mauve/clonalorigin/gui/gui.app/Contents/MacOS/gui
+LCB:/path/to/stripSubsetLCBs
+AUI:/path/to/addUnalignedIntervals
+GUI:/path/to/clonalorigin/gui/gui.app/Contents/MacOS/gui
 WARGSIM:src/clonalorigin/b/wargsim
-
-
