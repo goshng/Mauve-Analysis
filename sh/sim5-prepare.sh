@@ -37,13 +37,10 @@ function sim5-prepare {
       HOW_MANY_REPLICATE=$(grep Replicate $SPECIESFILE | cut -d":" -f2)
       TREE=$(grep SpeicesTree $SPECIESFILE | cut -d":" -f2)
 
-
       echo -n "Do you wish to simulate data using recombinant trees (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -e "  Simulating data using recombinant trees..."
-
-        # mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE-out
 
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
           for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
@@ -173,8 +170,20 @@ function sim5-prepare {
         echo -e "Check $BASERUNANALYSIS/obsonly-recedge.txt"
         echo -e "Compare it with the real data analysis"
         echo -e "e.g., output/cornellf/3/run-analysis/obsonly-recedge-1.txt"
-      else
-        echo -e "  Skipping creating jobidfile ..." 
+      fi
+
+      echo -n "Do you wish to copy the recombinant trees to (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          RUNCLONALORIGINOUTPUT=$BASEDIR/$REPETITION/run-clonalorigin/prior
+          mkdir $RUNCLONALORIGINOUTPUT
+          for b in $(eval echo {1..$NUMBER_BLOCK}); do
+            DATADIR=$BASEDIR/$REPETITION/data
+            g=$(($REPETITION * 10 + 1))
+            cp $XMLBASEDIR/core_co.phase3.xml.$b.$g $RUNCLONALORIGINOUTPUT/core_co.phase3.xml.$b
+          done
+        done
       fi
 
       break

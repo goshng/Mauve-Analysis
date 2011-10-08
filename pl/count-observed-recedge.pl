@@ -17,20 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-#===============================================================================
-#   Author: Sang Chul Choi, BSCB @ Cornell University, NY
-#
-#   File: count-observed-recedge.pl
-#   Date: Fri Apr 29 14:54:00 EDT 2011
-#   Version: 1.0
-#===============================================================================
-
 use strict;
 use warnings;
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
-use File::Temp qw(tempfile);
 require "pl/sub-error.pl";
 require "pl/sub-simple-parser.pl";
 require "pl/sub-array.pl";
@@ -472,7 +463,7 @@ if ($obsonly == 0)
       unless ($i == 0 and $j == 0) {
         print $outfile "\t";
       }
-      print $heatMap[$i][$j];
+      print $outfile $heatMap[$i][$j];
     }
   }
   for my $i ( 0 .. $#heatVarMap ) {
