@@ -25,6 +25,7 @@ runs. Say this in the manuscript.)
 .s17 needs post-analysis
 . I need to check what the simulated alignments have N's
 . Use sh/sim5-prepare.sh
+. Check /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check.R.out
 
 .The procedure should be rerun
 
