@@ -12,6 +12,8 @@ Jobs that were done are described for later reference.
 To Do
 ~~~~~
 
+.The procedure should be rerun
+
 .cornellf/3/run-clonalorigin/output2/2 was not finished yet.
 The second replicate of the 2nd stage of ClonalOrigin needs to be compared with
 the first replicate.
@@ -27,7 +29,27 @@ runs. Say this in the manuscript.)
 . Use sh/sim5-prepare.sh
 . Check /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check.R.out
 
-.The procedure should be rerun
+.pl/count-observed-recedge.pl should be tested for heatmap.
+
+Mon Oct 10 09:52:32 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Rotate x axis.
+----
+http://128.97.141.26/stat/R/faq/angled_labels.htm
+----
+
+.Manuscript figures
+----
+/Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check2.R
+/Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/h3-R-ratio-not-topology-changing.ps
+/Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/h3-R-ratio-topology-changing.ps
+----
+
+.Time contrained count
+----
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/obsonly-recedge-time-1.txt
+----
 
 Wed Oct  5 11:19:38 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

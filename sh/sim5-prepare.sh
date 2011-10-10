@@ -172,7 +172,7 @@ function sim5-prepare {
         echo -e "e.g., output/cornellf/3/run-analysis/obsonly-recedge-1.txt"
       fi
 
-      echo -n "Do you wish to copy the recombinant trees to (y/n)? "
+      echo -n "Do you wish to copy the recombinant trees to prior (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
@@ -183,6 +183,30 @@ function sim5-prepare {
             g=$(($REPETITION * 10 + 1))
             cp $XMLBASEDIR/core_co.phase3.xml.$b.$g $RUNCLONALORIGINOUTPUT/core_co.phase3.xml.$b
           done
+        done
+        echo -e "See run-clonalorigin/prior"
+      fi
+
+      echo -n "Do you wish to count the prior recombinant trees (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        BASERUNANALYSIS=$BASEDIR/run-analysis
+        rm -f $BASERUNANALYSIS/obsonly-recedge-prior.txt
+        touch $BASERUNANALYSIS/obsonly-recedge-prior.txt
+        for REPETITION in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          RUNCLONALORIGIN=$BASEDIR/$REPETITION/run-clonalorigin
+          RUNANALYSIS=$BASEDIR/$REPETITION/run-analysis
+
+          perl pl/count-observed-recedge.pl obsonly \
+            -d $RUNCLONALORIGIN/prior \
+            -n $NUMBER_BLOCK \
+            -endblockid \
+            -obsonly \
+            -out $RUNANALYSIS/obsonly-recedge-prior.txt
+
+          cat $RUNANALYSIS/obsonly-recedge-prior.txt \
+            >> $BASERUNANALYSIS/obsonly-recedge-prior.txt
+          echo -ne "$REPETITION\r"
         done
       fi
 

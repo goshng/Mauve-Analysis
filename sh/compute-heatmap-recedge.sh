@@ -44,7 +44,7 @@ function compute-heatmap-recedge {
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
 
-      perl pl/compute-heatmap-recedge.pl \
+      perl pl/count-observed-recedge.pl \
         -d $RUNCLONALORIGIN/output2/${REPLICATE} \
         -e $RUNCLONALORIGIN/output2/priorcount-${REPLICATE} \
         -endblockid \

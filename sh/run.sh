@@ -63,7 +63,7 @@ source sh/prepare-mauve-alignment.sh
 source sh/scatter-plot-parameter.sh
 source sh/plot-number-recombination-within-blocks.sh
 source sh/compute-prior-count-recedge.sh
-source sh/count-observed-recedge.sh
+source sh/recombination-count.sh
 source sh/compute-global-median.sh
 source sh/simulate-data-clonalorigin2-prepare.sh 
 source sh/sim2-analyze.sh 
@@ -165,10 +165,11 @@ CHOICES=( init-file-system \
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
           ---RECOMBINATION-COUNT---\
-          count-observed-recedge \
-          compute-prior-count-recedge \
-          compute-heatmap-recedge \
-          prepare-run-compute-heatmap-recedge \
+          recombination-count \
+          # count-observed-recedge \
+          # compute-prior-count-recedge \
+          # compute-heatmap-recedge \
+          # prepare-run-compute-heatmap-recedge \
           ---RECOMBINATION-INTENSITY---\
           recombination-intensity1-map \
           convert-gff-ingene \
@@ -220,7 +221,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "scatter-plot-parameter" ]; then $CHOICE; break
   elif [ "$CHOICE" == "plot-number-recombination-within-blocks" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-prior-count-recedge" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "count-observed-recedge" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "recombination-count" ]; then $CHOICE; break
   elif [ "$CHOICE" == "compute-global-median" ]; then $CHOICE; break
   elif [ "$CHOICE" == "divide-simulated-xml-data" ]; then $CHOICE; break
   elif [ "$CHOICE" == "divide-simulated-xmfa-data" ]; then $CHOICE; break

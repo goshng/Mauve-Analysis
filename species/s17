@@ -6,7 +6,6 @@
 #
 Repetition:100
 Replicate:1
-# The second replicate is copied from XMLBASEDIR.
 ThetaPerSite:0.080814517322956
 RhoPerSite:0.0118491287894766
 Delta:743.702415841584

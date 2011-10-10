@@ -54,6 +54,7 @@ function compute-prior-count-recedge {
         echo -ne "  Block: $i\r";
       done 
       echo -ne "$i Block - Finished!\n";
+
       break
     fi
   done

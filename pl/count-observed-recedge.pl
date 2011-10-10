@@ -51,6 +51,7 @@ GetOptions( \%params,
             'n=i',
             's=i',
             'out=s',
+            'lowertime=f',
             'meanonly',
             'meanfile=s',
             'xmlbasename=s',
@@ -75,6 +76,12 @@ my $check = 0;
 my $xmlBasename = "core_co.phase3";
 my $endblockid = 0;
 my $outfile;
+my $isLowertime = 0; # Special case
+
+if (exists $params{lowertime})
+{
+  $isLowertime = 1;
+}
 
 if (exists $params{d})
 {
@@ -146,6 +153,18 @@ if ($cmd eq "obsonly")
   unless ($heatDir eq "")
   {
     &printError("obsonly is used without -e option");
+  }
+  unless (exists $params{n})
+  {
+    &printError("you did not specify a number of blocks");
+  }
+}
+elsif ($cmd eq "heatmap")
+{
+  $obsonly = 0;
+  if ($heatDir eq "")
+  {
+    &printError("$cmd requires -e option");
   }
   unless (exists $params{n})
   {
@@ -581,13 +600,33 @@ sub endElement {
   if ($elt eq "eto") {
     $recedge{eto} = $content;
   }
+  if ($elt eq "afrom") {
+    $recedge{afrom} = $content;
+  }
+  if ($elt eq "ato") {
+    $recedge{ato} = $content;
+  }
 
   if ($elt eq "recedge")
   {
-    if ($xmlIteration == -1 or $xmlIteration == $itercount) {
-      $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
+    if ($isLowertime == 0)
+    {
+      if ($xmlIteration == -1 or $xmlIteration == $itercount) {
+        $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
+      }
+      $matrixXMLPerBlockPerIteration[$recedge{efrom}][$recedge{eto}]++;
     }
-    $matrixXMLPerBlockPerIteration[$recedge{efrom}][$recedge{eto}]++;
+    else
+    {
+      if ($recedge{afrom} < $params{lowertime}
+          and $recedge{efrom} < $numSpecies)
+      {
+        if ($xmlIteration == -1 or $xmlIteration == $itercount) {
+          $blockObsMap[$recedge{efrom}][$recedge{eto}]++;
+        }
+        $matrixXMLPerBlockPerIteration[$recedge{efrom}][$recedge{eto}]++;
+      }
+    }
   }
 
   if ($elt eq "Iteration")
@@ -603,7 +642,8 @@ sub characterData {
   my( $parseinst, $data ) = @_;
   $data =~ s/\n|\t//g;
 
-  if ($tag eq "efrom" or $tag eq "eto")
+  if ($tag eq "efrom" or $tag eq "eto"
+      or $tag eq "afrom" or $tag eq "ato")
   {
     $content .= $data;
   }
@@ -616,7 +656,7 @@ sub default {
 __END__
 =head1 NAME
 
-count-observed-recedge.pl - Count the number of recombinant edges
+count-observed-recedge.pl - Count recombinant edges
 
 =head1 VERSION
 
@@ -636,14 +676,11 @@ perl count-observed-recedge.pl [-h] [-help] [-version]
   [-append]
   [-meanfile an output file from meanonly option]
 
-perl pl/count-observed-recedge.pl obsonly -d output -endblockid -obsonly -n 274 -s 5
+perl pl/count-observed-recedge.pl obsonly -d output2/1 -endblockid -obsonly -n 274
+
+perl pl/count-observed-recedge.pl obsonly -d output2/1 -n 274 -endblockid -lowertime 0.045557
 
 =head1 DESCRIPTION
-
-This is almost the same as extractClonalOriginParameter8.pl except that this
-actually uses the prior expected number of recombinant edges. It may be possible
-to have a single script by combining this and extractClonalOriginParameter8.pl.
-I do not know exactly how I can deal with the prior.
 
 The expected number of recedges a priori is given by ClonalOrigin's
 gui program that makes a matrix. The matrix dimension depends on
@@ -677,6 +714,11 @@ standard deviation across MCMC sample by considering prior expected number of
 recombinant edges.
 
 Default options (or neither meanonly nor obsonly).
+
+Command obsonly: 
+
+  The directory of clonalorigin's 2nd MCMC results must be specified by option
+  -d. The number of block must be set using option -n.
 
 =head1 OPTIONS
 

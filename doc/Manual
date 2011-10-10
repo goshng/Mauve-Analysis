@@ -415,85 +415,6 @@ choose-species
 ~~~~~~~~~~~~~~
 Users should call this menu before any analysis.
 
-choose-simulation \
-          ---SIMULATION1---\
-          simulate-data-clonalorigin1 \
-          simulate-data-clonalorigin1-prepare \
-          simulate-data-clonalorigin1-receive \
-          simulate-data-clonalorigin1-analyze \
-          ---SIMULATION2---\
-          simulate-data-clonalorigin2 \
-          simulate-data-clonalorigin2-prepare \
-          sim2-receive \
-          sim2-analyze \
-          simulate-data-clonalorigin2-analyze \
-          analyze-run-clonalorigin2-simulation \
-          ---SIMULATION3---\
-          analyze-run-clonalorigin2-simulation2 \
-          sim3-prepare \
-          sim3-receive \
-          sim3-analyze \
-          ---SIMULATION4---\
-          clonalorigin2-simulation3 \
-          sim4-prepare \
-          sim4-receive \
-          sim4-analyze \
-          sim4-each-block \
-          ---SIMULATION5---\
-          clonalorigin2-simulation4 \
-          ---SIMULATION5---\
-          simulate-data-clonalorigin2-from-xml \
-          ---REAL-DATA-ALIGNMENT---\
-          choose-species \
-          prepare-mauve-alignment \
-          copy-mauve-alignment \
-          receive-mauve-alignment \
-          ---REAL-DATA-CLONALFRAME---\
-          filter-blocks \
-          summary-core-alignment \
-          prepare-run-clonalframe \
-          receive-run-clonalframe \
-          ---CLONALORIGIN1---\
-          prepare-run-clonalorigin \
-          receive-run-clonalorigin \
-          ---THREE-PARAMETERS---\
-          summarize-clonalorigin1 \
-          scatter-plot-parameter \
-          plot-number-recombination-within-blocks \
-          ---CLONALORIGIN2---\
-          prepare-run-2nd-clonalorigin \
-          receive-run-2nd-clonalorigin \
-          ---RECOMBINATION-COUNT---\
-          count-observed-recedge \
-          compute-prior-count-recedge \
-          compute-heatmap-recedge \
-          prepare-run-compute-heatmap-recedge \
-          ---RECOMBINATION-INTENSITY---\
-          recombination-intensity1-map \
-          convert-gff-ingene \
-          locate-gene-in-block \
-          recombination-intensity1-genes \
-          recombination-intensity1-probability \
-          probability-recedge-gene \
-          ---TREE-TOPOLOGY---\
-          recombination-intensity2-map \
-          map-tree-topology \
-          ---GENE-ANNOTATION---\
-          list-gene-go \
-          ---DELETE-THESE-MENU---\
-          create-ingene \
-          probability-recombination \
-          ---UTILITIES---\
-          analysis-clonalorigin \
-          compute-watterson-estimate-for-clonalframe \
-          compute-block-length \
-          compute-global-median \
-          extract-species-tree \
-          ---MANUSCRIPT---\
-          manuscript \
-          warranty \
-          copyright )
-
 ucsc-load-genome
 ~~~~~~~~~~~~~~~~
 I load the 6 species to a local UCSC genome browser.
@@ -658,7 +579,13 @@ output/cornellf/8/run-clonalorigin/output2/priorcount-2/1.txt
 
 count-observed-recedge
 ~~~~~~~~~~~~~~~~~~~~~~
-Only observed recombinant edges are considered.
+Only observed recombinant edges are considered. Count recombinant
+edges. I need to count recombinant edges by considering times. 
+
+.Output Files
+----
+output/cornellf/3/run-analysis/obsonly-recedge-1.txt
+----
 
 compute-heatmap-recedge
 ~~~~~~~~~~~~~~~~~~~~~~~
