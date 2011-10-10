@@ -1,0 +1,19 @@
+# The 5 genomes of streptococcus genus.
+#
+REPETITION3-GFF:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+REPETITION3-FNA:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.fna
+REPETITION3-GENBANK:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+
+REPETITION3-REFGENOME:4
+REPETITION3-TREETOPOLOGY:89
+REPETITION3-Burnin:1000000
+REPETITION3-ChainLength:10000000
+REPETITION3-Thin:100000
+REPETITION3-NumberSpecies:5
+REPETITION3-Walltime:168
+#
+GBK1:/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sde1/CP002215.gbk
+GBK2:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+GBK3:/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sdd/sdd.gbk
+GBK4:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+GBK5:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
