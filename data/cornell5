@@ -3,8 +3,13 @@
 # SDD
 # SPY1
 # SPY2
-/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sde1/CP002215.gbk
-/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
-/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sdd/sdd.gbk
-/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
-/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+#/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sde1/CP002215.gbk
+#/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+#/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sdd/sdd.gbk
+#/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+#/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+data/CP002215.gbk
+data/NC_012891.gbk
+data/sdd.gbk
+data/NC_004070.gbk
+data/NC_008024.gbk

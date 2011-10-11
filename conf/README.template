@@ -22,6 +22,7 @@ BATCHACCESS:access
 QUEUENAME:queue
 BATCHPROGRESSIVEMAUVE:usr/bin/progressiveMauve
 BATCHCLONALFRAME:usr/bin/ClonalFrame
+BATCLCB:usr/bin/stripSubsetLCBs
 #
 # Global setup
 # ------------

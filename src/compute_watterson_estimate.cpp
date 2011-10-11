@@ -56,9 +56,10 @@ int main(int argc, const char * argv[]) {
   }
   double w = log (double(lengthAlignment)/double(lengthAlignment - numberPolymorphicSites));
   w /= d;
+  w *= lengthAlignment;
 
   //cout << "Watterson's estimate is " << w << endl;
-  cout << w << endl;
+  cout << w << "\t" << numberPolymorphicSites << "\t" << lengthAlignment << endl;
   //cout << endl;
 
   delete seqcont1;

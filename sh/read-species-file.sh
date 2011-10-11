@@ -27,6 +27,23 @@ function copy-batch-sh-run-mauve-called {
   fi
 }
 
+function batch-mauve-called {
+  line=$1 # get all args
+  isLast=$2
+  filename_gbk=`basename $line`
+  if [ "$isLast" == "last" ]; then
+    echo "  \$DATADIR/$filename_gbk" >> $BASEDIR/run-mauve.sh
+  else
+    echo "  \$DATADIR/$filename_gbk \\" >> $BASEDIR/run-mauve.sh
+  fi
+}
+
+function batch-copy-genome-called {
+  line="$@" # get all args
+  cp $line output/$SPECIES/data
+}
+
+
 function copy-genomes-to-cac-called {
   line="$@" # get all args
   scp -q $GENOMEDATADIR/$line $CAC_USERHOST:$CAC_DATADIR
@@ -98,6 +115,10 @@ function read-species-genbank-files {
       copy-batch-sh-run-mauve-called $line $isLast
     elif [ $wfunction_called == "mkdir-tmp" ]; then
       mkdir-tmp-called $line
+    elif [ $wfunction_called == "batch-mauve" ]; then
+      batch-mauve-called $line $isLast
+    elif [ $wfunction_called == "batch-copy-genome" ]; then
+      batch-copy-genome-called $line
     fi
   done
   exec 0<&3

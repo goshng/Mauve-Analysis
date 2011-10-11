@@ -18,10 +18,6 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-# File  : run.sh
-# Author: Sang Chul Choi
-# Date  : Wed Mar 16 16:59:42 EDT 2011
-
 ###############################################################################
 # Global variables.
 ###############################################################################
@@ -46,10 +42,8 @@ source sh/hms.sh
 source sh/set-more-global-variable.sh
 source sh/mkdir-species.sh
 source sh/read-species-file.sh 
- 
 source sh/clonalorigin-common.sh
 source sh/trash.sh
-
 source sh/progressbar.sh
 source sh/init-file-system.sh
 source sh/choose-simulation.sh 
@@ -59,7 +53,6 @@ source sh/simulate-data-clonalorigin1-receive.sh
 source sh/simulate-data-clonalorigin1-analyze.sh
 source sh/receive-run-2nd-clonalorigin.sh
 source sh/prepare-mauve-alignment.sh
-
 source sh/scatter-plot-parameter.sh
 source sh/plot-number-recombination-within-blocks.sh
 source sh/compute-prior-count-recedge.sh
@@ -107,6 +100,7 @@ source sh/prepare-run-clonalorigin.sh
 source sh/manuscript.sh
 source sh/summary-core-alignment.sh
 source sh/ucsc-load-genome.sh
+source sh/batch.sh
 
 #####################################################################
 # Main part of the script.
@@ -193,6 +187,7 @@ CHOICES=( init-file-system \
           ---UCSC-GENOME-BROWSER---\
           ucsc-load-genome \
           ---MANUSCRIPT---\
+          batch \
           manuscript \
           warranty \
           copyright \
@@ -260,6 +255,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "recombination-intensity1-probability" ]; then $CHOICE; break
   elif [ "$CHOICE" == "probability-recedge-gene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "batch" ]; then $CHOICE; break
   elif [ "$CHOICE" == "manuscript" ]; then $CHOICE; break
   elif [ "$CHOICE" == "ucsc-load-genome" ]; then $CHOICE; break
   elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
