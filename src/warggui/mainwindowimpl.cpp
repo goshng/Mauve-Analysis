@@ -58,6 +58,9 @@ void MainWindowImpl::on_actionHeat_map_activated(int correctforprior)
     hi->compute();
   ostream* f_out;
   f_out = &cout;
+  f_out << "Line 1" << endl;
+  f_out << "Line 2" << endl;
+  f_out << "Line 3" << endl;
   hi->print(f_out);
 }
 

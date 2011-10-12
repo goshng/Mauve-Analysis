@@ -538,6 +538,7 @@ sub get_exp_map($$)
   # Count multiple hits of a short read.
   open FILE, "$infilename" or die "$! - $infilename";
   my $line;
+
   # Three lines of head of the heat map file.
   for (my $i = 0; $i < 3; $i++)
   {
