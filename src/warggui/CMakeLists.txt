@@ -4,10 +4,9 @@ PROJECT (gui)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
 find_package(GSL REQUIRED)
-include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS} /Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
 
-INCLUDE_DIRECTORIES(/Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
+set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 
 # target_link_libraries(${LIBS})
 link_libraries(${LIBS})
