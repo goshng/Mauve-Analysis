@@ -68,6 +68,8 @@ bool OutputFile::getIt(ParamQt * p)
   TiXmlElement* t;
   // <Tree>
   t = hIter.FirstChild("Tree").ToElement();
+  if (t == NULL) // Can I use hIter to return false?
+    return false;
   string s(t->GetText());
   while (s.at(0)==10 || s.at(0)==13) s=s.substr(1,s.length()-1);
   while (s.at(s.size()-1)==10 || s.at(s.size()-1)==13) s=s.substr(0,s.length()-1);
