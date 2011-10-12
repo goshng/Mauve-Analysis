@@ -13,11 +13,11 @@ public:
   OutputFile(string &qstrs, bool makeVectors=true);
   inline int getL()
   {
-    return blocks.split(",").last().toInt();
+    return blocksInt.at(blocksInt.size()-1);
   }
   inline int getB()
   {
-    return blocks.split(",").size()-1;
+    return blocksInt.size()-1;
   }
   inline string getBlocks()
   {
@@ -66,9 +66,6 @@ public:
     vector<double> *v=new vector<double>(genorec);
     return v;
   }
-  vector<double>*getRelGenoRec(ParamQt*param);
-  vector<double>*getGenoRec(int id,bool getto);
-  vector<double>*getRelGenoRec(ParamQt*param,int id);
   inline vector<double>*getGenoBeg()
   {
     vector<double> *v=new vector<double>(genobeg);
@@ -112,7 +109,6 @@ public:
   {
     return(names);
   };
-  void makeCF(ParamQt*param);
   inline void addRegions(string str)
   {
     vector<string> regionsString = Daniweb::Split (str, ",");
@@ -123,23 +119,12 @@ public:
   {
     return(regions);
   }
-  inline void addBlocks(QString tmpBlocks,int i)
-  {
-    previousL.push_back(getL());
-    if (i==0) blocks=tmpBlocks;
-    else
-      {
-        int L=getL();
-        QStringList qstrl=tmpBlocks.split(",");
-        for (int j=1; j<qstrl.size(); j++) blocks.append(",").append(QString::number(L+qstrl[j].toInt()));
-        blocks.append("\n");
-      };
-  }
 
 protected:
   TiXmlDocument mDoc;
   string comment;
   string blocks;
+  vector<int> blocksInt;
   string names;
   string regionsString;
 
@@ -160,6 +145,5 @@ protected:
   vector<double>tmrcas;
   vector<double>ttotals;
   vector<int> regions;
-
 };
 #endif

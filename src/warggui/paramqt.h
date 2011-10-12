@@ -31,46 +31,7 @@ namespace Daniweb
     vector<string> Split(const string& s,
                          const string& match,
                          bool removeEmpty=false,
-                         bool fullMatch=false)
-    {
-        vector<string> result;                 // return container for tokens
-        string::size_type start = 0,           // starting position for searches
-                          skip = 1;            // positions to skip after a match
-        find_t pfind = &string::find_first_of; // search algorithm for matches
-
-        if (fullMatch)
-        {
-            // use the whole match string as a key
-            // instead of individual characters
-            // skip might be 0. see search loop comments
-            skip = match.length();
-            pfind = &string::find;
-        }
-
-        while (start != string::npos)
-        {
-            // get a complete range [start..end)
-            string::size_type end = (s.*pfind)(match, start);
-
-            // null strings always match in string::find, but
-            // a skip of 0 causes infinite loops. pretend that
-            // no tokens were found and extract the whole string
-            if (skip == 0) end = string::npos;
-
-            string token = s.substr(start, end - start);
-
-            if (!(removeEmpty && token.empty()))
-            {
-                // extract the token and add it to the result list
-                result.push_back(token);
-            }
-
-            // start the next range
-            if ((start = end) != string::npos) start += skip;
-        }
-
-        return result;
-    }
+                         bool fullMatch=false);
 }
 
 class ParamQt : public Param
@@ -195,52 +156,17 @@ public:
   int nametype;
   vector<double> convdata;// convergence diagnostics
   vector<string> convnames;// convergence diagnostics
-  QStringList labels;
-  QStringList names;
-  inline QString isolateName(int i)
-  {
-    if(i>=names.size() || i<0 || nametype<0)
-      {
-        return(QString::number(i));
-      }
-    else
-      {
-        if(nametype==1)
-          {
-            QStringList tmp=names[i].split("+");
-            tmp.erase(tmp.begin());
-            return(tmp.join(" "));
-          }
-        else if(nametype==2)
-          {
-            QStringList tmp=names[i].split("+");
-            tmp.erase(tmp.begin());
-            tmp=tmp.join(" ").split(".");
-            tmp.erase(tmp.begin()+tmp.size()-1);
-            return(tmp.join(" "));
-          }
-
-        return(names[i]);
-      }
-  }
-  inline QString nodeLabel(int i)
-  {
-    if(i>=labels.size() || i<0)
-      {
-        return(QString(""));
-      }
-    else return(labels[i]);
-  }
-  void setNames(QStringList qn)
+  string labels;
+  string names;
+  void setNames(string qn)
   {
     names=qn;
   }
-  void setLabels(QStringList qn)
+  void setLabels(string qn)
   {
     labels=qn;
   }
   void makeCF(vector <vector<double> > *v);///<Accounts for clonal frame proportions in v
-  void setCF(vector <vector<double> > *v,int count);///< Sets the ClonalFrame proportions as labels
   int lastCommonAncestor(int s1, int s2);///< Returns the last common ancestor between two individuals
   vector<int>  consistentAgeList(vector<double> *res);///< Returns a list of node ordersthat is consistent if -f option is used, and puts their ages in res
   double pairwiseDistance(int s1, int s2);///<Returns the pairwise distance between sequence s1 and s2

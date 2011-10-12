@@ -16,6 +16,7 @@ namespace weakarg
 static const char * help=
     "\n\
     Usage: gui [OPTIONS] <filename>\n\
+	gui file.xml > file.out \n\
 	gui -o file.xml -H 3 > file.out \n\
 	gui -o file.xml -b -H 3 > file.out \n\
 	For graphical use, no options are necessary.  \n\
@@ -110,7 +111,9 @@ int main(int argc, char *argv[])
   int c;
   char *xmlfilename = NULL;
 
+/*
   while ((c = getopt (argc, argv, "c:o:s:d:C:S:T:t:g:be:E:H:hn")) != -1)
+  {
     switch (c)
     {
       case('o'): xmlfilename = strdup(optarg);break;
@@ -120,13 +123,21 @@ int main(int argc, char *argv[])
         cout<<"Wrong arguments: did not recognise "<<c<<" "<<optarg<<endl<<help<<endl;return 1;
         abort ();
     }
-
-  if (xmlfilename != NULL)
+  }  
+*/
+  if (argc == 2)
   {
-    mainwindowimpl.openXMLFile(xmlfilename);
-    mainwindowimpl.on_actionHeat_map_activated(priorcorrectHM);
-    free (xmlfilename);
+    xmlfilename = strdup(argv[1]);
+    if (xmlfilename != NULL)
+    {
+      mainwindowimpl.openXMLFile(xmlfilename);
+      mainwindowimpl.on_actionHeat_map_activated(priorcorrectHM);
+      free (xmlfilename);
+    }
   }
-
+  else
+  {
+    cerr << "Error in the command line: ./gui file.xml";
+  }
 	return(0);
 }

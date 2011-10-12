@@ -23,9 +23,9 @@ void MainWindowImpl::openXMLFile(char * qstrs)
 
   if(outputFile) delete(outputFile);
   outputFile=new OutputFile(outputfilename,false);//set this to true to recover the previous behaviour of initialising on loading.
-  param->setBlocks(outputFile->getBlocks());
+  //param->setBlocks(outputFile->getBlocks());
   param->setNames(outputFile->getNames());
-  param->setLabels(QStringList());
+  //param->setLabels(QStringList());
   param->clearTreeData();
   data=NULL;
   //if(data!=NULL) delete(data);
@@ -35,15 +35,6 @@ void MainWindowImpl::openXMLFile(char * qstrs)
 void MainWindowImpl::loadIteration(bool startOver)
 {
   if (outputFile==NULL) return;
-  if (param->isCons)
-    {
-      ParamQt * param2=new ParamQt();
-      param2->setTree(param->getTree());
-      param2->setBlocks(outputFile->getBlocks());
-      param2->setNames(outputFile->getNames());
-      if(param) delete(param);
-      param=param2;
-    }
   if (startOver)
     {
       outputFile->startOver();

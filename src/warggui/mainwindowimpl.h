@@ -10,6 +10,7 @@
 //#include "pdimpl.h"
 //#include "pheatimpl.h"
 
+#include "paramqt.h"
 #include "outputfile.h"
 #include "heatimpl.h"
 #include "../warg/src/param.h"
@@ -24,8 +25,7 @@ public:
 
 protected:
   std::string outputfilename;
-  Param * param;
-  Param * ioparam;
+  ParamQt * param;
   int explorerSite;
   int explorerCutoff;
   OutputFile * outputFile;
