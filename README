@@ -31,6 +31,21 @@ runs. Say this in the manuscript.)
 
 .pl/count-observed-recedge.pl should be tested for heatmap.
 
+
+Tue Oct 11 16:52:53 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Download xmfa2maf at the following site
+----
+http://gel.ahabs.wisc.edu/mauve/snapshots/
+----
+
+.Download clonalorigin
+----
+svn checkout http://clonalorigin.googlecode.com/svn/trunk/ clonalorigin
+/Volumes/Elements/Backups/Documents/Projects/mauve/clonalorigin/gui
+----
+
 Mon Oct 10 09:52:32 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

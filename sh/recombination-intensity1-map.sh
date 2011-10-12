@@ -45,6 +45,7 @@ function recombination-intensity1-map {
       else
         echo "  Skipping generating $RIMAP"
       fi
+      break
  
       # echo -e "  The number of blocks is $NUMBER_BLOCK."
       # echo "-------------------------------------"

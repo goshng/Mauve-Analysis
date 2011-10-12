@@ -21,7 +21,6 @@
 use strict;
 use warnings;
 use File::Basename;
-use IO::Uncompress::Bunzip2 qw(bunzip2 $Bunzip2Error);
 use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;

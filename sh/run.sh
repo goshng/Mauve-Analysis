@@ -99,7 +99,7 @@ source sh/filter-blocks.sh
 source sh/prepare-run-clonalorigin.sh 
 source sh/manuscript.sh
 source sh/summary-core-alignment.sh
-source sh/ucsc-load-genome.sh
+# source sh/ucsc-load-genome.sh
 source sh/batch.sh
 
 #####################################################################
@@ -172,7 +172,7 @@ CHOICES=( init-file-system \
           recombination-intensity1-probability \
           probability-recedge-gene \
           ---TREE-TOPOLOGY---\
-          recombination-intensity2-map \
+          # recombination-intensity2-map \
           map-tree-topology \
           ---GENE-ANNOTATION---\
           list-gene-go \
@@ -185,7 +185,7 @@ CHOICES=( init-file-system \
           compute-global-median \
           extract-species-tree \
           ---UCSC-GENOME-BROWSER---\
-          ucsc-load-genome \
+          ucsc-load-genome-not-yet-implemented \
           ---MANUSCRIPT---\
           batch \
           manuscript \
