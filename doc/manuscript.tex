@@ -100,6 +100,7 @@ ClonalFrame, Mowgli
 
 
 \section*{Abstract}
+
 Homologous recombination and horizontal gene transfer are investigated with
 complete genomes of closely related bacterial species of \textit{Streptococcus
 pyogenes} (SPY) and \textit{S.\ dysgalactiae} subspecies \textit{equisimilis}
@@ -107,14 +108,13 @@ pyogenes} (SPY) and \textit{S.\ dysgalactiae} subspecies \textit{equisimilis}
 opportunistic human pathogen.  We aims at which parts of the genomic
 organization and human pathogenic virulence factors of SDE could have originated
 in those of SPY, or vice versa.  Our genome-wide survey of gene transfer
-indicated that gene transfer via homologous recombination occurred more for the
-net direction from SPY to SDE.  Although we did not find enrichment of virulence
-genes in homologous recombining gene transfer, we found evidence that
-virulence genes transferred more often via non-recombining fashion without
-replacing parts of destination genomes than did non-virulence genes.  A
-genome-wide resource of recombining and non-recombining gene transfer for the
-study of the SPY and SDE genomes is provided so that research community in
-pathogenic bacteria could take advantage of it.
+indicated that gene transfer via homologous recombination occurred more often
+for the net direction from SPY to SDE.  We found evidence that virulence genes
+transferred more often via non-recombining fashion without replacing parts of
+destination genomes than did non-virulence genes.  A genome-wide resource of
+recombining and non-recombining gene transfer for the study of the SPY and SDE
+genomes is provided so that research community in the pathogenic SPY and SDE
+bacteria could take advantage of it.
 
 \clearpage{}
 
@@ -179,9 +179,9 @@ SDE that afflicted human beings around the globe.
 
 Bacteria evolves new biological features through horizontally transferred genes
 from other lineages and vertically transmitted mutations on genes within the
-same lineage.  Mutations on a gene modifiy relatively small portions of the gene
-through substitutions, insertions, and deletions of deoxyribonucleic acids.
-Gene transfers can reshape the organization of a bacterial genome,
+same lineage.  While mutations on a gene modifiy relatively small portions of the 
+gene through substitutions, insertions, and deletions of deoxyribonucleic acids,
+gene transfers can reshape the organization of a bacterial genome,
 which could revamp biological functions of the species.  Recipient bacteria of
 transferred genes can substitute transferred genes for homologous parts of their
 genomes, or integrate transferred genes into their genomes without replacement.
@@ -193,7 +193,7 @@ efforts of better understanding bacterial evolution have paid less attention to
 a combined approach to illuminating disparity of the two gene transfer
 processes. We attempted here to use and compare two approaches for
 distinguishing recombining gene transfer process from horizontal, or
-non-recombining, gene transfer, and tackled their roles in association with
+non-recombining, gene transfer, and tackled the two processes in association with
 virulence genes.
 
 Homologous recombining gene transfer could be studied more readily using the
@@ -221,13 +221,11 @@ transfer events to show that the parimony-based method inferred recombining gene
 transfer events in biological functional categories similar to those inferred
 with the model-based approach. This was the first attempt as far as we know to
 analyze SPY and SDE in genome-wide scale for detecting gene transfer events not
-only in the core genome but also in the pan genome, which makes the analysis
+only in the core genome but also in the pan genome, which made the analysis
 complete in terms of the amount of used genome data. Our analysis of core
 genomes also showed for the first time that the net directionality of
 recombining gene transfer from SPY to SDE was stronger than the reverse
 direction.
-
-\clearpage{}
 
 \section{Results}
 
@@ -603,6 +601,14 @@ studying the mode of gene transfer would be desirable to study more complicated
 evolutionary processes including recombining gene transfer, gene duplication,
 loss, and horizontal gene transfer.
 
+\texttt{Limitation of ClonalOrigin: inability of inferring recombinant edges}
+
+\texttt{Need of a new model with asymmetry of gene transfer}
+
+\texttt{Need of more SDE genomes}
+
+
+
 \section{Materials and Methods}
 
 \subsection{Complete bacterial genomes}
@@ -625,7 +631,7 @@ recombination. A detailed account was found in the two papers and in the user
 guide available at \url{http://code.google.com/p/clonalorigin}.  We used
 \texttt{progressiveMauve} v2.3.1 \citep{Darling2004,Darling2010} with default
 options to attempt to align the six genomes, which led to too small proportion
-of a core genome. We had to remove the SEE sample from the genome alignment
+of core genomes. We had to remove the SEE sample from the genome alignment
 although we kept it in the parsimony-based approach.  We then used
 \texttt{stripSubsetLCBs}, a program of the \texttt{ClonalOrigin} package, and
 identified 276 blocks of sequence alignments with length threshold of 1500 base
@@ -633,8 +639,7 @@ pairs.  We excluded two of these blocks in a subsequent analysis because they
 contained long consecutive gaps.  We applied \texttt{ClonalFrame} v1.1 available
 at \url{http://www.xavierdidelot.xtreemhost.com} to the remaining 274 blocks,
 and estimated the species tree relating the five genomes. \texttt{ClonalFrame}
-estimates the average recombinant tract length and the ratio between
-recombination and mutation rates, which were not used in the following analysis.
+also estimates the ratio between recombination and mutation rates.
 We used a single Markov chain Monte Carlo (MCMC) with 10000 burn-in generations
 and 10000 sampling generations to obtain the tree estimate with branch lengths,
 and additionally seven independent MCMC runs to validate adequate convergence of
@@ -663,47 +668,6 @@ were also executed with a total generation being $1.1\times10^8$. The first
 $10^7$ generations of each chain were discarded as burn-in. The remaining $10^8$
 generations were sub-sampled every $10^5$-th generation.  
 
-\subsection{Local gene trees and recombination intensity}
-Because the procedure of summarizing posterior sample of \textit{recombinant
-tree} was not detailed in the user guide at the time when we used
-\texttt{ClonalOrigin}, we elected to use Figure S\ref{fig:clonalorigin} to
-illustrate a recombinant tree in order to clarify summarization of
-\textit{recombinant history} posterior samples.  A recombination history is
-represented by a \textit{recombinant tree}, which is a species tree augmented
-with \textit{recombinant edges}.  Each recombinant edge is defined by the time
-and branch of origin and destination, and the genomic interval that it affects.
-The branch of origin is referred to as the \textit{donor} and the destination
-branch is referred to as the \textit{recipient}. The type of a recombinant edge
-is determined by the donor and recipient species tree branches.  A recombinant
-tree can be viewed as a restricted version of an ancestral recombination graph
-(ARG), and as such it induces a local genealogy for each site in the genomic
-block it describes.  \citet{Didelot2010} presented two procedures of summarizing
-recombinant trees by viewing trees from two different angles: by counting types
-of recombinant edges regardless of genomic positions affected by the edges, and
-by measuring recombinant edge changes to the species tree in site-wise manner.
-By similarly following their approaches we quantified additional aspects of
-recombinant trees; we counted gene tree topologies for each site, and also
-quantified recombination intensity along the genome.
-
-The recombination intensity allowed us to find genomic regions enriched for
-recombination events in general, or regions enriched for recombination events of
-certain types (e.g., between SPY and SDE).  We note that the recombination
-intensity is not normalized to the interval $[0,1]$. Rather than giving
-probabilistic meanings to the recombination intensity we interpreted it as an
-average number of recombinant edge types per site.  The measure appeared to act
-as an effective indicator of recombination intensity (see subsection of
-\textbf{Simulation Study}).  Our simulation study indicated that edges of
-certain types were better indicators of true recombination events than others.
-For instance, recombinant edges which resulted in a recombinant tree with the
-same topology as the species tree appeared to be more prone to spurious
-sampling.  Such edges were ones where the donor was the same branch, sister
-branch, or parent branch of the recipient branch.  Therefore, in some cases we
-elected to remove such edges from consideration when measuring recombination
-intensity.  The tree topologies changes would be correlated with recombination
-intensity.  The tree topologies would show more effectively regions where
-recombination occurs along the genome (see subsection of \textbf{UCSC Genome
-Browser}).
-
 \subsection{Parsimony-based method for horizontal gene transfer}
 
 While \texttt{ClonalOrigin} could be used to understand recombining gene
@@ -716,53 +680,50 @@ gene families by reconciling gene trees with a species tree
 study of recombination by using \texttt{Mowgli} \citep{Doyon2011} to
 characterize events that can change the copy number of a gene, such as
 duplications, losses, and non-recombining horizontal gene transfers.  In
-contrast to \texttt{ClonalOrigin}, \texttt{Mowgli} assumes a parsimony model for
+contrast to \texttt{ClonalOrigin}, \texttt{Mowgli} is parsimony-based for
 inferring events and uses pre-determined gene clusters where genes are treated
 as atomic units.  The advantage of using \texttt{Mowgli} was that it did not
 assume the sequence data contains a single copy of each homologous segment, and
 it attempted to explain different copy numbers by a series of gain and loss
-events.  We here were interested in the approach of \texttt{Mowgli} to study
-non-recombining horizontal gene transfers.  We obtained gene family clusters
-defined in \citet{Suzuki2011} using the OrthoMCL method \citep{Li2003} over the
-full set of six genomes including \textit{S.\ equi} subsp.\textit{\ equi} strain
-4047 (SEE).  For each family cluster, the corresponding protein sequences were
-aligned using the MUSCLE program \citep{Edgar2004a} and nucleotide alignments
-were constructed by mapping nucleotide sequences onto each protein sequence
+events.  We obtained gene family clusters defined in \citet{Suzuki2011} using
+the \texttt{OrthoMCL} method \citep{Li2003} over the full set of the six genomes
+including \textit{S.\ equi} subsp.\textit{\ equi} strain 4047 (SEE).  For each
+family cluster, the corresponding protein sequences were aligned using the
+\texttt{MUSCLE} program \citep{Edgar2004a} and nucleotide alignments were
+constructed by mapping nucleotide sequences onto each protein sequence
 alignment. We then identified recombination within gene alignments using the
-Single Breakpoint Recombination (SBP) method from the HyPhy package
-\citep{KosakovskyPond2006}.  Using the Akaike Information Criterion (AIC), SBP
-inferred that 47.5\% (1,094) of gene families contained at least one
-topology-changing recombination. Each of these families was then split into two
-gene fragments.  Gene trees were constructed from nucleotide alignments for each
-gene fragment using the RAxML program \citep{Stamatakis2006}, and were rooted by
-minimizing inferred duplications and losses.  Each rooted gene tree was then
-reconciled using the \texttt{Mowgli} program \citep{Doyon2011}, which inferred
-the most parsimonious gene duplication, loss, and transfer events for each
-family.  In the case of multiple maximum parsimonious reconciliations, one was
-chosen uniformly at random.  Unless specified otherwise, default setings were
-used for all programs.  Since the method of \texttt{Mowgli} did not directly
-model recombination events, recombination-based transfers were inferred in a
-post-processing step, by checking whether the transfer was coupled with a loss
-of a homologous gene in the recipient branch (indicating gene replacement rather
-than gain).  A transfer event was classified as non-recombining if the
-destination species of that transfer had an extant descendant that contained
-copies of that genes which were descendants of the transferred gene as well as
-copies which were non-descendants.  We noted that this parsimonious approach was
-imperfect and would tend to undercount events, especially recombining gene
-transfer events, which were modeled using two events: a transfer and a loss.
-Nevertheless, this analysis allowed us to study non-recombining gene transfers,
-which were not modeled by \texttt{ClonalOrigin}, and to validate some of the
+Single Breakpoint Recombination (\texttt{SBP}) method from the \texttt{HyPhy}
+package \citep{KosakovskyPond2006}.  Using the Akaike Information Criterion
+(AIC), \texttt{SBP} inferred that 47.5\% (1,094) of gene families contained at
+least one topology-changing recombination. Each of these families was then split
+into two gene fragments.  Gene trees were constructed from nucleotide alignments
+for each gene fragment using the \texttt{RAxML} program \citep{Stamatakis2006},
+and were rooted by minimizing inferred duplications and losses.  Each rooted
+gene tree was then reconciled using the \texttt{Mowgli} program
+\citep{Doyon2011}, which inferred the most parsimonious gene duplication, loss,
+and transfer events for each family.  In the case of multiple maximum
+parsimonious reconciliations, one was chosen uniformly at random.  Unless
+specified otherwise, default setings were used for all the programs.  Since the
+method of \texttt{Mowgli} did not directly model recombination events,
+recombination-based transfers were inferred in a post-processing step, by
+checking whether the transfer was coupled with a loss of a homologous gene in
+the recipient branch (indicating gene replacement rather than gain).  A transfer
+event was classified as non-recombining if the destination species of that
+transfer had an extant descendant that contained copies of that genes which were
+descendants of the transferred gene as well as copies which were
+non-descendants.  We noted that this parsimonious approach was imperfect and
+would tend to undercount events, especially recombining gene transfer events,
+which were modeled using two events: a transfer and a loss.  Nevertheless, this
+analysis allowed us to study non-recombining gene transfers, which were not
+modeled by \texttt{ClonalOrigin}, and to validate some of the
 \texttt{ClonalOrigin} results on recombining gene transfer.  
 
 \subsection{Functional categories association}
 
-% FIXME
-% \texttt{The recombination intensity scores were taken to be average site-wise
-% intensity scores. SC: THIS NEEDS TO BE REANALYZED WITH RECOMBINATION INTENSITY
-% WITH ONLY TREE-TOPOLOGY CHANGING RECOMBINANT EDGES.} 
 We performed a series of analyses to check for functional gene categories
 enriched for certain types of gene transfer events. Functional categories were
-assigned in the same manner as \citet{Suzuki2011}. In short, blastP was used to
+assigned in the same manner as \citet{Suzuki2011}. In short, \texttt{blastP} 
+was used to
 compare Streptococcus genes to bacterial proteins from the Uniref90 database.
 Matches with E-values less than $1.0\times10^{-5}$ were assumed to have the same
 Gene Ontology (GO) classification as the target gene, as determined from the
@@ -781,18 +742,16 @@ threshold for our p-values.
 \subsection{Simulation Study}
 
 We conducted experiments on simulation data to check the accuracy of estimates
-obtained by \texttt{ClonalOrigin} in a scenario similar to ours. We used a
+obtained by \texttt{ClonalOrigin} in a scenario similar to one from the real 
+data set.  We used a
 simulation feature of \texttt{ClonalOrigin} to simulate the process of mutation
-and recombination across the five species.  While populaiton mutation and
+and recombination across the five species 
+(see section \textbf{Supplementary Information} for detail).
+While populaiton mutation and
 recombination parameters were accurately estimated, the recombinant tract length
 was over-estimated  (Table S\ref{tab:sim-three-population-parameters}).  This
 was not surprising as recombinant tract lengths were known to be difficult to
 estimate from relatively short alignment blocks \citep{Didelot2010}. 
-% When we
-% performed simulations which much longer blocks (10000 bp), \texttt{ClonalOrigin}
-% was able to estimate the average recombinant tract length accurately (data not
-% shown).  
-% FIXME: Show this result of 10,000 blocks.
 We also evaluated the accuracy of the statistics estimated in the second stage
 of \texttt{ClonalOrigin}. The number of recombinant edges for each pair of
 recombinant tree branches was correlated with the true value in general while
@@ -809,30 +768,71 @@ correlation indicated that the measure of recombination intensity used in our
 functional gene category served as an adequate indicator of actual intensity of
 recombination events along genes.
 
-\clearpage{}
-
 \section{Supplementary Information}
+
+\subsection{Local gene trees and recombination intensity}
+
+Because the procedure of summarizing posterior samples of \textit{recombinant
+tree}, which will be defined in a moment, 
+was not detailed in the user guide at the time when we used
+\texttt{ClonalOrigin}, we elected to use Figure S\ref{fig:clonalorigin} to
+illustrate a recombinant tree in order to clarify summarization of
+\textit{recombinant history} posterior samples.  A recombination history is
+represented by a \textit{recombinant tree}, which is a species tree augmented
+with \textit{recombinant edges}.  A recombinant edge connect two species tree
+branches.  Each recombinant edge is defined by the time
+and branch of origin and destination, and the genomic interval that it affects.
+The branch of origin is referred to as the \textit{donor} and the destination
+branch is referred to as the \textit{recipient}. The type of a recombinant edge
+is determined by the donor and recipient species tree branches.  A recombinant
+tree can be viewed as a restricted version of an ancestral recombination graph
+(ARG), and as such it induces a local genealogy for each site in the genomic
+block it describes.  \citet{Didelot2010} presented two procedures of summarizing
+recombinant trees by viewing trees from two different angles: by counting types
+of recombinant edges regardless of genomic positions affected by the edges, and
+by measuring recombinant edge changes to the species tree in site-wise manner.
+By similarly following their approaches we quantified additional aspects of
+recombinant trees; we counted gene tree topologies for each site, and also
+quantified recombination intensity along the genome.
+
+The recombination intensity allowed us to find genomic regions enriched for
+recombination events in general, or regions enriched for recombination events of
+certain types (e.g., between SPY and SDE).  We noted that the recombination
+intensity was not normalized to the interval of $[0,1]$. Rather than giving
+probabilistic meanings to the recombination intensity we interpreted it as an
+average number of recombinant edge types per site.  The measure appeared to act
+as an effective indicator of recombination intensity (see subsection of
+\textbf{Simulation Study}).  Our simulation study indicated that edges of
+certain types were better indicators of recombination events than others.
+For instance, recombinant edges which resulted in a recombinant tree with the
+same topology as the species tree appeared to be more prone to spurious
+sampling.  Such edges were ones where the donor was the same branch, sister
+branch, or parent branch of the recipient branch.  Therefore, in some cases we
+elected to remove such edges from consideration when measuring recombination
+intensity.  
+% The tree topologies changes would be correlated with recombination
+% intensity.  The tree topologies would show more effectively regions where
+% recombination occurs along the genome (see subsection of \textbf{UCSC Genome
+% Browser}).
 
 \subsection{Population mutation and recombination rates were accurately
 estimated}
 
 % FIXME: Newick tree in text in a file.
+% FIXME: Publish the result and the data set with the code.
 We describe the detailed procedure of simulations for checking if the three
 population parameters were accurately recovered from the first stage of
 \texttt{ClonalOrigin} MCMC.  Ten recombinant trees were sampled given the three
 parameters and the species tree  set to the values inferred from the five
-bacterial genomes (see section \textbf{Results}).  Each of the recombinant trees
-was used to simulate the Jukes-Cantor model for DNA sequence evolution to create
-274 blocks of alignments.  The block lengths configuration was the same as that
-of the blocks used in the analysis of the five genomes.  The mean of the ten
-estimates of the recombinant tract length was significantly higher than the true
-value of (919 bp versus 744 bp) whereas the values of the mutation and
-recombination rates were accurately estimated (Table
-S\ref{tab:sim-three-population-parameters}).  Recombinant tract lengths were
-known to be difficult to estimate from relatively short alignment blocks
-\citep{Didelot2010}. Performing similar simulations with much longer blocks
-(i.e., 10000 bp) we estimated the average recombinant tract length accurately
-\texttt{(Table S data not shown)}.
+bacterial genomes.  Each of the recombinant trees was used to simulate the
+Jukes-Cantor model for DNA sequence evolution to create 274 blocks of
+alignments.  The block lengths configuration was the same as that of the blocks
+used in the analysis of the five genomes.  The mean of the ten estimates of the
+recombinant tract length was significantly higher than the true value of (919 bp
+versus 744 bp) whereas the values of the mutation and recombination rates were
+accurately estimated (Table S\ref{tab:sim-three-population-parameters}).
+Recombinant tract lengths were known to be difficult to estimate from relatively
+short alignment blocks \citep{Didelot2010}. 
 
 \subsection{Estimating numbers of recombinant edges were accurate}
 
@@ -847,15 +847,13 @@ known to be difficult to estimate from relatively short alignment blocks
 % FIXME 4: WE SHOULD PROBABLY CONSIDER ALTERNATIVE WAYS OF USING THESE RESULTS TO 
 % ARGUE THAT OUR DIRECTIONAL SIGNAL IS REAL. SC: I MIGHT CONSIDER SIMULATIONS AND
 % ARTIFICIALLY DOUBLE OR TRIPLE THE RECOMBINATION EVENTS OF ONE OF TYPES.
-We checked if numbers of recombinant edge types were inferred correctly. Because
-of the two-stage Bayesian method we first sampled ten recombinant trees given
-the mutation rate, recombination rate, and tract length (see section
-\textbf{Results}), and then created ten independent simulated data sets with the
-Jukes-Cantor model for DNA sequence evolution using each of the recombinant
-trees. This consisted of 100 replicates of data sets.  Figure S\ref{fig:h1}
-shows the observed count of each recombinant edge type against the expected
-count; the estimated numbers appeared to be slightly over-estimated, but in
-correlation with the true numbers.
+Because of the two-stage Bayesian method we first sampled ten recombinant trees
+given the mutation rate, recombination rate, and tract length, and then created
+ten independent simulated data sets with the Jukes-Cantor model for DNA sequence
+evolution using each of the recombinant trees. This consisted of 100 replicates
+of data sets.  Figure S\ref{fig:h1} shows the observed count of each recombinant
+edge type against the expected count; the estimated numbers appeared to be
+slightly over-estimated, but in correlation with the true numbers.
 
 \subsection{Unbalanced gene flow model was adequate}
 
@@ -870,47 +868,16 @@ edges. If the model with unbalanced gene flow was adequate, the log base 2
 ratio from the real data set should center around the distribution. 
 \texttt{What is the result of this simulation?}
 
-\subsection{}
-
-With the slight over-estimation of recombination events we were concerned with
-any potential biases hidden in \texttt{ClonalOrigin} implementation. Because the
-simulated data were generated with no directionality between SPY and SDE,  if we
-estimate recombination events from the simulated data sets using
-\texttt{ClonalOrigin} and compare those estimates from those from the real data
-set, this could remove biases in \texttt{ClonalOrigin} implementation. We could
-use inferred estimates of recombination from the simulated data under the prior
-model of \texttt{ClonalOrigin} as the prior expected number of recombination.
-Figure S\ref{fig:h2} shows a plot of numbers of recombination events from the
-real data against those from the simulated data sets. Note that the numbers of
-recombination events from simulated data sets appear to deviate from the line of
-slope being 1 and intercept being 0.  The numbers of recombination events for
-the recombinant edges from SPY to SDE increase by more than 2.5 fold whereas
-those for the recombinant edges from SDE to SPY increase by about 1.7 fold.
-This was not surprising because inference of number of recombinant edges was
-quite accurate. We considered that subtraction of effects of number of
-recombinant edges inferred from simulated data and subtraction of effects of the
-prior expected number of recombinant edges were effectively equivalent.
-However, this comparison between inferrence from simulated data and that of real
-data set suggested that the directional difference between SPY and SDE was due
-to neither lack of power of \texttt{ClonalOrigin} nor hidden bias thereof.
-
 \subsection{Simulation for recombination intensity}
 
 We tested if our measure of recombination intensity provided a reliable estimate
-of the true intensity. For this purpose, we artificially annotaded our synthetic
+of the true intensity. For this purpose, we artificially annotated our synthetic
 blocks to genes according to the real annotations along the real bacterial
 alignments. For each gene in each of the simulated 100 data sets, we plotted the
 average estimated recombination intensity along that gene against the true
 average intensity, i.e., the average number of different recombinant edge types
-implied by the recombinant tree used in simulation (Figure S\ref{fig:ri1}).
-Although the scatter plot did not strictly follow along the $X=Y$ line, there
-was correlation of the estimated and true values (Pearson's correlation
-coefficient of 0.63). Estimated values appeared to be driven somewhat by the
-prior implied by the population parameter setting, explaining why lower values
-were over-estimated and higher values were under-estimated. Nonetheless, the
-correlation indicated that the measure of recombination intensity used in our
-functional gene category served as an adequate indicator of actual intensity of
-recombination events along genes.
+implied by the recombinant tree used in simulation 
+(Pearson's correlation coefficient of 0.63 and Figure S\ref{fig:ri1}). 
 
 \section*{Acknowledgments}
 
@@ -1678,7 +1645,24 @@ SPY and SDE.}
 %=============================================================================
 
 %=============================================================================
-% Figure S: 
+% Figure S12: 
+\begin{figure}
+\subfloat[]{\includegraphics[scale=0.5]{figures/h3-R-ratio-topology-changing}}
+\subfloat[]{\includegraphics[scale=0.5]{figures/h3-R-ratio-not-topology-changing}}
+\caption{\label{fig:h3}Numer of recombination events. The diagonal dashed
+lines are with slope of 1 and intercept of 0. For each order
+pairs of branches of a reference species tree the true number of recombination
+events is computed as the mean of the 10 replicates of recombinant
+trees from the simulation. With ten estimates of each replicate total
+number of 100 estimats are shown as intervals of 90\% of quantile
+range, or the lower value of the interval is the 5\% quantile, and
+the upper one is the 95\% quantile. }
+\end{figure}
+\clearpage{}%
+%=============================================================================
+
+%=============================================================================
+% Figure S12: 
 \begin{figure}
 \subfloat[]{\includegraphics[scale=0.5]{figures/h1-R}}
 \subfloat[]{\includegraphics[scale=0.5]{figures/h1-R-inset}}
@@ -1695,7 +1679,7 @@ the upper one is the 95\% quantile. }
 %=============================================================================
 
 %=============================================================================
-% Figure S:
+% Figure S13:
 \begin{figure}
 \includegraphics{figures/ri1}
 \caption{\label{fig:ri1}The surrogate measure of recombination intensity
@@ -1708,26 +1692,23 @@ slope of 1 and intercept of 0.}
 
 %=============================================================================
 % Figure S:
-\begin{figure}
-\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R}}
-\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset}}
+%\begin{figure}
+%\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R}}
+%\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset}}
 
-\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset2}}
+%\subfloat[]{\includegraphics[scale=0.5]{figures/h2-R-inset2}}
 
-\caption{\label{fig:h2}Comparison of number of recombinations between real
-and simulated data sets. The diagonal dashed lines are with
-slope of 1 and intercept of 0. For each order pairs of branches of
-a reference species tree the number of recombination events is estimated
-from the real data set. Total number of 100 estimats from a simulated
-data set are shown as intervals of 90\% of quantile range, or the
-lower value of the interval is the 5\% quantile, and the upper one
-is the 95\% quantile. }
-\end{figure}
-\clearpage{}%
+%\caption{\label{fig:h2}Comparison of number of recombinations between real
+%and simulated data sets. The diagonal dashed lines are with
+%slope of 1 and intercept of 0. For each order pairs of branches of
+%a reference species tree the number of recombination events is estimated
+%from the real data set. Total number of 100 estimats from a simulated
+%data set are shown as intervals of 90\% of quantile range, or the
+%lower value of the interval is the 5\% quantile, and the upper one
+%is the 95\% quantile. }
+%\end{figure}
+%\clearpage{}%
 %=============================================================================
-
-\clearpage
-
 
 \end{document}
 
@@ -2229,8 +2210,30 @@ by recombinant edges, only 3\% of the latter gene appeared to be affected.
 
 % These topology-not-changing recombinant edges tend change only branch lengths.  
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Should we keep this section?}
 
-
+With the slight over-estimation of recombination events we were concerned with
+any potential biases hidden in \texttt{ClonalOrigin} implementation. Because the
+simulated data were generated with no directionality between SPY and SDE,  if we
+estimate recombination events from the simulated data sets using
+\texttt{ClonalOrigin} and compare those estimates from those from the real data
+set, this could remove biases in \texttt{ClonalOrigin} implementation. We could
+use inferred estimates of recombination from the simulated data under the prior
+model of \texttt{ClonalOrigin} as the prior expected number of recombination.
+Figure S\ref{fig:h2} shows a plot of numbers of recombination events from the
+real data against those from the simulated data sets. Note that the numbers of
+recombination events from simulated data sets appear to deviate from the line of
+slope being 1 and intercept being 0.  The numbers of recombination events for
+the recombinant edges from SPY to SDE increase by more than 2.5 fold whereas
+those for the recombinant edges from SDE to SPY increase by about 1.7 fold.
+This was not surprising because inference of number of recombinant edges was
+quite accurate. We considered that subtraction of effects of number of
+recombinant edges inferred from simulated data and subtraction of effects of the
+prior expected number of recombinant edges were effectively equivalent.
+However, this comparison between inferrence from simulated data and that of real
+data set suggested that the directional difference between SPY and SDE was due
+to neither lack of power of \texttt{ClonalOrigin} nor hidden bias thereof.
 
 
 
