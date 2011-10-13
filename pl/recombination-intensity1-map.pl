@@ -27,6 +27,7 @@ require "pl/sub-newick-parser.pl";
 require "pl/sub-error.pl";
 require "pl/sub-array.pl";
 require "pl/sub-xmfa.pl";
+require "pl/sub-gbk.pl";
 
 $| = 1; # Do not buffer output
 my $VERSION = 'recombination-intensity1-map.pl 1.0';
@@ -147,6 +148,7 @@ my $blockidForProgress;
 my $speciesTree = get_species_tree ("$xml.1");
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
+# my $refgenomelength = peachGbkLength ($params{gbk});
 
 ################################################################################
 # Find coordinates of the reference genome.

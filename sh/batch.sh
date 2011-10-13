@@ -113,6 +113,7 @@ function batch-speciesfile {
   FNA=$(grep ^FNA\: $SPECIESFILE | cut -d":" -f2)
   GBK=$(grep ^GBK\: $SPECIESFILE | cut -d":" -f2)
   TREETOPOLOGY=$(grep ^TREETOPOLOGY\: $SPECIESFILE | cut -d":" -f2)
+  REFGENOMELENGTH=$(grep ^REFGENOMELENGTH\: $SPECIESFILE | cut -d":" -f2)
 }
 
 function batch-output {
@@ -1068,9 +1069,7 @@ EOF
     -clonaloriginsamplesize \$NUMBER_SAMPLE \\
     -out \$RIMAPGENE.spy2sde&
   wait
-COMMENT1
 
-cat>>$BASEDIR/run-summary-coii.sh<<EOF
   #####################################################
   # Make sure which rimap is used.
   # III. List of genes with high probability of recombination
@@ -1082,7 +1081,9 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
     -numberblock \$NUMBER_BLOCK \\
     -verbose \\
     -out \$ANALYSISDIR/ri1-refgenome$REFGENOME-map-\$g.txt
+COMMENT1
 
+cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # This uses ri1-refgenome$REFGENOME-map.txt
   GBKFILENAME=\`basename $GBK\`
   perl pl/probability-recedge-gene.pl \\
@@ -1104,22 +1105,22 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # 2. Generate local gene trees
   mkdir -p \$CLONALORIGINDIR/output2/ri-\$g-out
   for b in \$(eval echo {1..\$NUMBER_BLOCK}); do
-    for g in \$(eval echo {1..\$NUMBER_SAMPLE}); do
-      BLOCKSIZE=\$(echo \`perl pl/get-block-length.pl \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$g\`) 
+    for s in \$(eval echo {1..\$NUMBER_SAMPLE}); do
+      BLOCKSIZE=\$(echo \`perl pl/get-block-length.pl \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$s\`) 
       ./wargsim --xml-file \\
-        \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$g \\
+        \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$s \\
         --gene-tree \\
-        --out-file \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$g \\
+        --out-file \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$s \\
         --block-length \$BLOCKSIZE
     done
   done
   # 3. Check local gene trees
   for b in \$(eval echo {1..\$NUMBER_BLOCK}); do
-    for g in \$(eval echo {1..\$NUMBER_SAMPLE}); do
-      BLOCKSIZE=\$(echo \`perl pl/get-block-length.pl \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$g\`) 
-      NUM=\$(wc \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$g|awk {'print \$2'})
+    for s in \$(eval echo {1..\$NUMBER_SAMPLE}); do
+      BLOCKSIZE=\$(echo \`perl pl/get-block-length.pl \$CLONALORIGINDIR/output2/ri-\$g/core_co.phase3.xml.\$b.\$s\`) 
+      NUM=\$(wc \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$s|awk {'print \$2'})
       if [ "\$NUM" != "\$BLOCKSIZE" ]; then
-        echo "Error in local gene tree: \$b \$g not okay"
+        echo "Error in local gene tree: \$b \$s not okay"
       fi
     done
   done

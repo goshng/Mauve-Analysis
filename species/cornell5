@@ -7,6 +7,7 @@ REPETITION3-Thin:100000
 REPETITION3-NumberSpecies:5
 REPETITION3-Walltime:168
 
+REFGENOMELENGTH:1900521
 TREETOPOLOGY:89
 GBK:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
 GFF:data/NC_004070.gff
