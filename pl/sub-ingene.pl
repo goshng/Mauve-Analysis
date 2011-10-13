@@ -147,7 +147,7 @@ sub parse_in_gene ($) {
   return @genes;
 }
 
-sub print_in_gene ($$)
+sub print_in_geneCHECKIFTHISISUSED ($$)
 {
   my ($ingene, $genes) = @_;
   
