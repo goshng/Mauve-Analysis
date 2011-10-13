@@ -171,7 +171,8 @@ sub map_tree_topology ($$$);
 sub parse_in_gene ($); 
 sub print_in_gene ($$);
 
-my @genes = parse_in_gene ($ingene);
+# my @genes = parse_in_gene ($ingene);
+my @genes = maIngeneParseBlock ($ingene);
 map_tree_topology (\@genes, $ricombined, $treetopology);
 print_in_gene ($ingene, \@genes);
 

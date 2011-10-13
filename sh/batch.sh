@@ -43,6 +43,7 @@ function batch {
   batch-summary-coii-r
   batch-rmessage
   scp -q output/cornell5/* cac:run/mauve/101011
+  scp species/cornell5 cac:run/mauve/101011
 }
 
 function batch-variable {
@@ -957,6 +958,7 @@ cp \$PBS_O_WORKDIR/summary-coii.R .
 cp \$XMFA2MAF .
 cp \$WARGSIM .
 cp \$WARGGUI .
+cp \$PBS_O_WORKDIR/$SPECIES .
 cp -r \$PBS_O_WORKDIR/bpp/Mauve-Analysis/pl .
 mkdir -p \$NUMBERDIR
 cp -r $RCLONALORIGINDIR \$NUMBERDIR
@@ -981,10 +983,17 @@ EOF
     -numberblock \$NUMBER_BLOCK \\
     -verbose \\
     -out \$RIMAP
+COMMENT1
 
+cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # I. Posterior probability of recombination
   # Create wiggle files from the recombination intensity map.
   # (All of the) Five reference genomes.
+  mkdir -p \$ANALYSISDIR/rimap-\$g
+  perl pl/recombination-intensity1-probability.pl split \\
+    -xmfa \$DATADIR/core_alignment.xmfa \\
+    -ri1map \$ANALYSISDIR/rimap-\$g.txt \\
+    -outdir \$ANALYSISDIR/rimap-\$g
   for h in \$(eval echo {1..$NUMBERSPECIES}); do
     GBKFILE=\$(grep ^GBK\$h\\: $SPECIES | cut -d":" -f2)
     GBKFILENAME=\`basename \$GBKFILE\`
@@ -995,10 +1004,13 @@ EOF
       -refgenome \$h \\
       -gbk \$DATADIR/\$GBKFILENAME \\
       -ri1map \$ANALYSISDIR/rimap-\$g.txt \\
+      -rimapdir \$ANALYSISDIR/rimap-\$g \\
       -clonaloriginsamplesize \$NUMBER_SAMPLE \\
       -out \$ANALYSISDIR/recombprob-ref\$h-rep\$g
   done
+EOF
 
+<<COMMENT2
   GFFFILENAME=\`basename $GFF\`
   perl pl/convert-gff-ingene.pl \\
     -gff \$DATADIR/\$GFFFILENAME \\
@@ -1081,7 +1093,7 @@ EOF
     -numberblock \$NUMBER_BLOCK \\
     -verbose \\
     -out \$ANALYSISDIR/ri1-refgenome$REFGENOME-map-\$g.txt
-COMMENT1
+COMMENT2
 
 cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # This uses ri1-refgenome$REFGENOME-map.txt
@@ -1091,7 +1103,9 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
     -clonaloriginsamplesize \$NUMBER_SAMPLE \\
     -genbank \$DATADIR/\$GBKFILENAME \\
     -out \$ANALYSISDIR/probability-recedge-gene-\$g.txt
+EOF
 
+<<COMMENT2
   ##########################################################
   # IV. Count gene tree topologies.
   # Tree topology
@@ -1114,6 +1128,9 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
         --block-length \$BLOCKSIZE
     done
   done
+COMMENT2
+
+cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # 3. Check local gene trees
   for b in \$(eval echo {1..\$NUMBER_BLOCK}); do
     for s in \$(eval echo {1..\$NUMBER_SAMPLE}); do
@@ -1131,8 +1148,8 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
   for b in \$(eval echo {1..\$NUMBER_BLOCK}); do
     RIFILES=""
     RIBLOCKFILE="\$CLONALORIGINDIR/output2/ri-\$g-combined/\$b"
-    for g in \$(eval echo {1..\$NUMBER_SAMPLE}); do
-      RIFILES="\$RIFILES \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$g"
+    for s in \$(eval echo {1..\$NUMBER_SAMPLE}); do
+      RIFILES="\$RIFILES \$CLONALORIGINDIR/output2/ri-\$g-out/core_co.phase3.xml.\$b.\$s"
     done
     RIBLOCKFILES="\$RIBLOCKFILES \$RIBLOCKFILE"
     cat \$RIFILES > \$RIBLOCKFILE
@@ -1140,7 +1157,7 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # 5. Count local gene trees.
   perl pl/map-tree-topology.pl \\
     -ricombined \$CLONALORIGINDIR/output2/ri-\$g-combined \\
-    -ingene \$ANALYSISDIR/in.gene \\
+    -ingene \$ANALYSISDIR/in.gene.$REFGENOME.block \\
     -treetopology $TREETOPOLOGY \\
     -verbose
   # 6. Summarize those counts.
@@ -1159,6 +1176,7 @@ cp \$ANALYSISDIR/ri1-refgenome* $RANALYSISDIR
 cp \$ANALYSISDIR/probability-recedge-gene.txt $RANALYSISDIR
 cp \$ANALYSISDIR/summary-coii*  $RANALYSISDIR
 for g in \$(eval echo {1..$COIIREPLICATE}); do
+  cp -r \$ANALYSISDIR/rimap-\$g $RANALYSISDIR
   cp -r \$CLONALORIGINDIR/output2/ri-\$g $RCLONALORIGINDIR/output2
   cp -r \$CLONALORIGINDIR/output2/ri-\$g-out $RCLONALORIGINDIR/output2
   cp -r \$CLONALORIGINDIR/output2/ri-\$g-combined $RCLONALORIGINDIR/output2

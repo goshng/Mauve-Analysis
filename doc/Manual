@@ -595,6 +595,8 @@ Menu compute-prior-count-recedge must be called before the call of this menu.
  
 map-tree-topology
 ~~~~~~~~~~~~~~~~~
+in.gene must be created using menu *locate-gene-in-block*.
+
 A ClonalOrigin XML output file contains a list of recombinant trees. The number
 of recombinant trees is equal to the the number of Iteration tags. A modified
 program wargsim can parse a ClonalOrigin XML file with a single recombinant
