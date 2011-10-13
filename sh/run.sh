@@ -105,6 +105,8 @@ source sh/batch.sh
 #####################################################################
 # Main part of the script.
 #####################################################################
+batch
+exit
 short-notice
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
