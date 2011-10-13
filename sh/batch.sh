@@ -1159,21 +1159,24 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
     -ricombined \$CLONALORIGINDIR/output2/ri-\$g-combined \\
     -ingene \$ANALYSISDIR/in.gene.$REFGENOME.block \\
     -treetopology $TREETOPOLOGY \\
-    -verbose
+    -verbose \\
+    -out \$ANALYSISDIR/in.gene.$REFGENOME.block.map-tree-topology
   # 6. Summarize those counts.
   rm -f \$ANALYSISDIR/ri-\$g-combined.all
   for ricombined in \`ls \$CLONALORIGINDIR/output2/ri-\$g-combined/*\`; do 
-    awk '0 == NR % 100' \$ricombined >> \$ANALYSISDIR/ri-\$g-combined.all
+    # awk '0 == NR % 100' \$ricombined >> \$ANALYSISDIR/ri-\$g-combined.all
+    awk '0 == NR % 1' \$ricombined >> \$ANALYSISDIR/ri-\$g-combined.all
   done
   cp \$ANALYSISDIR/ri-\$g-combined.all S2OUT
   # 7. An R script
   Rscript summary-coii.R > \$ANALYSISDIR/summary-coii-\$g.R.out
 done
+cp \$ANALYSISDIR/in.gene* $RANALYSISDIR
 cp \$ANALYSISDIR/rimap* $RANALYSISDIR
 cp \$ANALYSISDIR/recombprob-ref* $RANALYSISDIR
 cp \$ANALYSISDIR/in.gene* $RANALYSISDIR
 cp \$ANALYSISDIR/ri1-refgenome* $RANALYSISDIR
-cp \$ANALYSISDIR/probability-recedge-gene.txt $RANALYSISDIR
+cp \$ANALYSISDIR/probability-recedge-gene*.txt $RANALYSISDIR
 cp \$ANALYSISDIR/summary-coii*  $RANALYSISDIR
 for g in \$(eval echo {1..$COIIREPLICATE}); do
   cp -r \$ANALYSISDIR/rimap-\$g $RANALYSISDIR
