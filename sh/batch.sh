@@ -983,9 +983,7 @@ EOF
     -numberblock \$NUMBER_BLOCK \\
     -verbose \\
     -out \$RIMAP
-COMMENT1
 
-cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # I. Posterior probability of recombination
   # Create wiggle files from the recombination intensity map.
   # (All of the) Five reference genomes.
@@ -994,6 +992,9 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
     -xmfa \$DATADIR/core_alignment.xmfa \\
     -ri1map \$ANALYSISDIR/rimap-\$g.txt \\
     -outdir \$ANALYSISDIR/rimap-\$g
+COMMENT1
+
+cat>>$BASEDIR/run-summary-coii.sh<<EOF
   for h in \$(eval echo {1..$NUMBERSPECIES}); do
     GBKFILE=\$(grep ^GBK\$h\\: $SPECIES | cut -d":" -f2)
     GBKFILENAME=\`basename \$GBKFILE\`

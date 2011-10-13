@@ -35,6 +35,7 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 require "pl/sub-simple-parser.pl";
 require "pl/sub-newick-parser.pl";
+require "pl/sub-ingene.pl";
 require "pl/sub-array.pl";
 sub get_genome_file ($$);
 sub locate_block_in_genome ($$);
