@@ -100,7 +100,6 @@ else
 
 sub get_number_topology_change ($$$$);
 sub map_tree_topology ($$$);
-sub parse_in_gene ($); 
 sub print_in_gene ($$$);
 
 # my @genes = parse_in_gene ($ingene);
@@ -198,30 +197,6 @@ sub get_number_topology_change ($$$$)
   $vCountTopology /= (($end - $start + 1) * $sampleSize);
   $vTopologyChange /= $sampleSize;
   return ($v, $vTopology, $vCountTopology, $vTopologyChange);
-}
-
-sub parse_in_gene ($) {
-  my ($ingene) = @_;
-  my @genes;
-  open INGENE, "$ingene" or die "$ingene could be not opened";
-  while (<INGENE>)
-  {
-    chomp;
-    my @e = split /\t/;
-    my $rec = {};
-    $rec->{gene} = $e[0]; 
-    $rec->{start} = $e[1]; 
-    $rec->{end} = $e[2]; 
-    $rec->{strand} = $e[3]; 
-    $rec->{block} = $e[4]; 
-    $rec->{blockstart} = $e[5]; 
-    $rec->{blockend} = $e[6]; 
-    $rec->{genelength} = $e[7]; 
-    $rec->{proportiongap} = $e[8]; 
-    push @genes, $rec;
-  }
-  close INGENE;
-  return @genes;
 }
 
 sub print_in_gene ($$$)

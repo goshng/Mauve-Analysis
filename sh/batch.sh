@@ -17,7 +17,6 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-
 SPECIES=cornell5
 REPETITION=1
 REPLICATE=1
@@ -973,8 +972,6 @@ NUMBER_BLOCK=\$(trim \$(echo \`ls \$DATADIR/core_alignment.xmfa.*|wc -l\`))
 NUMBER_SAMPLE=\$(trim \$(echo \`grep number \$CLONALORIGINDIR/output2/1/core_co.phase3.xml.1|wc -l\`))
 NUMBER_BLOCK=3 # FIXME: debug
 for g in \$(eval echo {1..$COIIREPLICATE}); do
-EOF
-<<COMMENT1
   # Create a recombination intensity map.
   RIMAP=\$ANALYSISDIR/rimap-\$g.txt
   perl pl/recombination-intensity1-map.pl \\
@@ -992,9 +989,7 @@ EOF
     -xmfa \$DATADIR/core_alignment.xmfa \\
     -ri1map \$ANALYSISDIR/rimap-\$g.txt \\
     -outdir \$ANALYSISDIR/rimap-\$g
-COMMENT1
 
-cat>>$BASEDIR/run-summary-coii.sh<<EOF
   for h in \$(eval echo {1..$NUMBERSPECIES}); do
     GBKFILE=\$(grep ^GBK\$h\\: $SPECIES | cut -d":" -f2)
     GBKFILENAME=\`basename \$GBKFILE\`
@@ -1009,9 +1004,7 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
       -clonaloriginsamplesize \$NUMBER_SAMPLE \\
       -out \$ANALYSISDIR/recombprob-ref\$h-rep\$g
   done
-EOF
 
-<<COMMENT2
   GFFFILENAME=\`basename $GFF\`
   perl pl/convert-gff-ingene.pl \\
     -gff \$DATADIR/\$GFFFILENAME \\
@@ -1094,9 +1087,7 @@ EOF
     -numberblock \$NUMBER_BLOCK \\
     -verbose \\
     -out \$ANALYSISDIR/ri1-refgenome$REFGENOME-map-\$g.txt
-COMMENT2
 
-cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # This uses ri1-refgenome$REFGENOME-map.txt
   GBKFILENAME=\`basename $GBK\`
   perl pl/probability-recedge-gene.pl \\
@@ -1104,9 +1095,7 @@ cat>>$BASEDIR/run-summary-coii.sh<<EOF
     -clonaloriginsamplesize \$NUMBER_SAMPLE \\
     -genbank \$DATADIR/\$GBKFILENAME \\
     -out \$ANALYSISDIR/probability-recedge-gene-\$g.txt
-EOF
 
-<<COMMENT2
   ##########################################################
   # IV. Count gene tree topologies.
   # Tree topology
@@ -1129,9 +1118,7 @@ EOF
         --block-length \$BLOCKSIZE
     done
   done
-COMMENT2
 
-cat>>$BASEDIR/run-summary-coii.sh<<EOF
   # 3. Check local gene trees
   for b in \$(eval echo {1..\$NUMBER_BLOCK}); do
     for s in \$(eval echo {1..\$NUMBER_SAMPLE}); do
