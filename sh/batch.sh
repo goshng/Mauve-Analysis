@@ -41,8 +41,13 @@ function batch {
   batch-summary-coii
   batch-summary-coii-r
   batch-rmessage
+  batch-sim-three
+  batch-sim-prior
+  batch-sim-posterior
   scp -q output/cornell5/* cac:run/mauve/101011
-  scp species/cornell5 cac:run/mauve/101011
+  scp -q species/cornell5 cac:run/mauve/101011
+  scp -q data/$SIM1INBLOCK cac:run/mauve/101011
+  scp -q data/$SIM1TREE cac:run/mauve/101011
 }
 
 function batch-variable {
@@ -92,6 +97,10 @@ function batch-speciesfile {
   COIIWALLTIME=$(grep ^COIIWALLTIME\: $SPECIESFILE | cut -d":" -f2)
   AOIWALLTIME=$(grep ^AOIWALLTIME\: $SPECIESFILE | cut -d":" -f2)
   AOIIWALLTIME=$(grep ^AOIIWALLTIME\: $SPECIESFILE | cut -d":" -f2)
+  SCO1WALLTIME=$(grep ^SCO1WALLTIME\: $SPECIESFILE | cut -d":" -f2)
+  SIM1WALLTIME=$(grep ^SIM1WALLTIME\: $SPECIESFILE | cut -d":" -f2)
+  SIM2WALLTIME=$(grep ^SIM2WALLTIME\: $SPECIESFILE | cut -d":" -f2)
+  SIM3WALLTIME=$(grep ^SIM3WALLTIME\: $SPECIESFILE | cut -d":" -f2)
   LCBMINLEN=$(grep ^LCBMINLEN\: $SPECIESFILE | cut -d":" -f2)
   NUMBERSPECIES=$(grep ^NUMBERSPECIES\: $SPECIESFILE | cut -d":" -f2)
   COIHOWMANYNODE=$(grep ^COIHOWMANYNODE\: $SPECIESFILE | cut -d":" -f2)
@@ -114,6 +123,18 @@ function batch-speciesfile {
   GBK=$(grep ^GBK\: $SPECIESFILE | cut -d":" -f2)
   TREETOPOLOGY=$(grep ^TREETOPOLOGY\: $SPECIESFILE | cut -d":" -f2)
   REFGENOMELENGTH=$(grep ^REFGENOMELENGTH\: $SPECIESFILE | cut -d":" -f2)
+
+  # For simulation 1
+  SIM1REPETITION=$(grep ^SIM1REPETITION\: $SPECIESFILE | cut -d":" -f2)
+  SIM1REPLICATE=$(grep ^SIM1REPLICATE\: $SPECIESFILE | cut -d":" -f2)
+  SIM1THETA=$(grep ^SIM1THETA\: $SPECIESFILE | cut -d":" -f2)
+  SIM1RHO=$(grep ^SIM1RHO\: $SPECIESFILE | cut -d":" -f2)
+  SIM1DELTA=$(grep ^SIM1DELTA\: $SPECIESFILE | cut -d":" -f2)
+  SIM1INBLOCK=$(grep ^SIM1INBLOCK\: $SPECIESFILE | cut -d":" -f2)
+  SIM1TREE=$(grep ^SIM1TREE\: $SPECIESFILE | cut -d":" -f2)
+  SIM1BURNIN=$(grep ^SIM1BURNIN\: $SPECIESFILE | cut -d":" -f2)
+  SIM1CHAINLENGTH=$(grep ^SIM1CHAINLENGTH\: $SPECIESFILE | cut -d":" -f2)
+  SIM1THIN=$(grep ^SIM1THIN\: $SPECIESFILE | cut -d":" -f2)
 }
 
 function batch-output {
@@ -214,12 +235,32 @@ do
   fi  
 
   if [ "\$STATUS" == "summary-coii" ]; then
-    NJOBS=\$(qstat | grep $PROJECTNAME-AOII | wc -l) 
+    NJOBS=\$(qstat | grep $PROJECTNAME-SCO1 | wc -l) 
     if [ \$NJOBS -eq 0 ]; then
       STATUS=exit
       # nsub run-\$STATUS.sh
-    else
-      echo "Wait for the job to be finished"
+    fi  
+  fi  
+
+  if [ "\$STATUS" == "sim-three" ]; then
+    NJOBS=\$(qstat | grep $PROJECTNAME-SIM1 | wc -l) 
+    if [ \$NJOBS -eq 0 ]; then
+      STATUS=sim-prior
+      nsub run-\$STATUS.sh
+    fi  
+  fi  
+  if [ "\$STATUS" == "sim-prior" ]; then
+    NJOBS=\$(qstat | grep $PROJECTNAME-SIM2 | wc -l) 
+    if [ \$NJOBS -eq 0 ]; then
+      STATUS=sim-posterior
+      nsub run-\$STATUS.sh
+    fi  
+  fi  
+  if [ "\$STATUS" == "sim-posterior" ]; then
+    NJOBS=\$(qstat | grep $PROJECTNAME-SIM3 | wc -l) 
+    if [ \$NJOBS -eq 0 ]; then
+      STATUS=exit
+      #nsub run-\$STATUS.sh
     fi  
   fi  
 
@@ -932,7 +973,7 @@ EOF
 function batch-summary-coii {
 cat>$BASEDIR/run-summary-coii.sh<<EOF
 #!/bin/bash
-#PBS -l walltime=${AOIIWALLTIME}:00:00,nodes=1
+#PBS -l walltime=${SCO1WALLTIME}:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
 #PBS -N $PROJECTNAME-SCO1
@@ -1190,4 +1231,82 @@ y.sorted[1]/y.sum*100
 y.sorted[2]/y.sum*100
 y.sorted[3]/y.sum*100
 EOF
+}
+
+function batch-sim-three {
+SPECIES=s1
+cat>$BASEDIR/run-sim-three.sh<<EOF
+#!/bin/bash
+#PBS -l walltime=${SIM1WALLTIME}:00:00,nodes=1
+#PBS -A ${BATCHACCESS}
+#PBS -j oe
+#PBS -N $PROJECTNAME-SIM1
+#PBS -q ${QUEUENAME}
+#PBS -m e
+#PBS -M ${BATCHEMAIL}
+
+WARGGUI=\$HOME/${BATCHWARGGUI}
+WARG=\$HOME/${BATCHWARG}
+WARGSIM=\$HOME/${BATCHWARGSIM}
+XMFA2MAF=\$HOME/${BATCHXMFA2MAF}
+BASEDIR=output/$SPECIES
+
+NUMBERDIR=\$BASEDIR/$REPETITION
+MAUVEDIR=\$NUMBERDIR/run-mauve
+CLONALFRAMEDIR=\$NUMBERDIR/run-clonalframe
+CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
+DATADIR=\$NUMBERDIR/data
+ANALYSISDIR=\$NUMBERDIR/run-analysis
+
+cd \$TMPDIR
+cp \$PBS_O_WORKDIR/summary-coii.R .
+cp \$WARGGUI .
+cp \$WARG .
+cp \$WARGSIM .
+cp \$XMFA2MAF .
+cp -r \$PBS_O_WORKDIR/bpp/Mauve-Analysis/pl .
+
+# Need to copy tree and block files.
+cp \$PBS_O_WORKDIR/$SIM1INBLOCK .
+cp \$PBS_O_WORKDIR/$SIM1TREE .
+
+mkdir -p \$BASEDIR
+
+for g in \$(eval echo {1..$SIM1REPETITION}); do 
+  NUMBERDIR=\$BASEDIR/\$g
+  DATADIR=\$NUMBERDIR/data
+  CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
+  mkdir -p \$DATADIR
+  mkdir -p \$CLONALORIGINDIR
+
+  # FIND: wargsim must produce a single xmfa at default?
+  # wargsim also create an xml file as well?
+  # DATADIR/core_alignment.1.xmfa is created.
+  # We create one recombinant tree for each repetition.
+  # Each recombinant tree we create one data set.
+  ./wargsim --tree-file $SIM1TREE \
+    --block-file $SIM1INBLOCK \
+    --out-file \$DATADIR/core_alignment \
+    -T s$SIM1THETA -D $SIM1DELTA -R s$SIM1RHO
+  # FIND: extractClonalOriginParameter9 do some count of the generated
+  # recombinant tree from wargsim?
+  perl pl/extractClonalOriginParameter9.pl \
+    -xml \$DATADIR/core_alignment.xml
+
+  for h in \$(eval echo {1..$SIM1REPLICATE}); do
+    perl pl/blocksplit.pl \$DATADIR/core_alignment.$h.xmfa
+  done
+
+  echo -ne " done - repetition $g/$HOW_MANY_REPETITION\r"
+done
+
+EOF
+}
+
+function batch-sim-prior {
+  echo $FUNCNAME
+}
+
+function batch-sim-posterior {
+  echo $FUNCNAME
 }

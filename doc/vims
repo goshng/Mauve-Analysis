@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -r ~/.vim/session/$1.session ]; then
+  vim "+source ~/.vim/session/$1.session" "+rviminfo ~/.vim/session/$1.session.viminfo" "+let g:cmd = \"vims\" " "+command Noprj let g:cmd = \"\" "
+else
+  vim "+let g:myfilename = \"$1\" " "+let g:cmd = \"vims\" " "+command Noprj let g:cmd = \"\" "
+fi

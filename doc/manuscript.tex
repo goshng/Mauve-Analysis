@@ -581,117 +581,152 @@ tree topology (Tables S\ref{tab:functional-notopology} and
 S\ref{tab:functional-all}).  In Table \ref{tab:functional} ribosome related
 functional categories were not top ranked.  Therefore, high recombination
 intensity in ribosome related genes were likely to be attributed to
-topology-not-changing recombinant edges. We should be cautious of recombining
+topology-not-changing recombinant edges. We would be cautious of recombining
 transfer of genes related with ribosome related functions.
 
+\subsection{Simulations}
+
+
+1. Topology-not-changing recombinant edge was unreliably estimated compared with
+topology-changing recombinant edge.
+2. Balanced case
+3. Unbalanced case
+
+We conducted experiments on simulation data to check the accuracy of estimates
+obtained by the model-based approach in a scenario similar to one from the real 
+data set.  
+
+While populaiton mutation and
+recombination parameters were accurately estimated, the recombinant tract length
+was over-estimated  (Table S\ref{tab:sim-three-population-parameters}).  
+Recombinant tract lengths were reported to be difficult to estimate from relatively
+short alignment blocks \citep{Didelot2010}. 
+
+Figure S\ref{fig:h1} shows the observed count of each recombinant
+edge type against the expected count; the estimated numbers appeared to be
+slightly over-estimated, but in correlation with the true numbers.
+
+We also evaluated the accuracy of the statistics estimated in the second stage
+of \texttt{ClonalOrigin}. 
+
+The number of recombinant edges for each pair of
+recombinant tree branches was correlated with the true value in general while
+there were slight over-estimation (Figure \ref{fig:h3}).  
+
+However, this
+comparison between inferrence from simulated data and that of real data set
+suggested that the directional difference between SPY and SDE was due to neither
+lack of power of \texttt{ClonalOrigin} nor hidden bias thereof.  
+
+Recombination
+intensities that were measured on genes also showed rough correlation (Pearson's
+correlation coefficient of 0.63) of the estimated and true values (Figure
+S\ref{fig:ri1}).  
+
+Estimated values appeared to be driven somewhat by the prior
+implied by the population parameter setting, explaining why lower values were
+over-estimated and higher values were under-estimated.  
+
+Nonetheless, the
+correlation indicated that the measure of recombination intensity used in our
+functional gene category served as an adequate indicator of actual intensity of
+recombination events along genes.
 
 
 
-
-The parsimony-based approach also showed
-enrichment of the recombining transfers in many of the same categories such as
-translation, ribosome, and rRNA binding when using all types of recombinant
-edges in computing recombination intensity (see Tables
-S\ref{tab:functional-all} and S\ref{tab:go-events-recombining}).  
-Because the
-parsimony-based method did not take species tree branch lengths into account, 
-the agreement between the two different methods might be likely.
-
-For horizontal gene transfer we found enrichment in very different categories
-related to transposition, integration, and recombination (Table
-\ref{tab:go-events}).  Gene duplication and loss events were enriched for
-categories similar to those of horizontal gene transfer's enrichment (Tables
-S\ref{tab:go-events-duplication} and S\ref{tab:go-events-loss}).
-Gene duplication and horizontal transfers showed enrichment in the same
-categories perhaps because both mechanisms increase gene copy number.  
-Gene losses showed enrichment for transposition and integration, but less
-significantly (P-value of $<10^{-6}$), and showed enrichment for several
-additional categories such as transporter activity and transcription initiation.
-
-Comparing two types of recombinant edges, one from SDE to SPY and another from
-SPY to SDE transport related categories were more associated for the direction
-from SPY to SDE
-(Table S\ref{tab:functional-sde-spy} and S\ref{tab:functional-spy-sde}).
-
-\texttt{More interpretations about Mawgli analysis of function categories?
-Why transposases?}
-
-% \texttt{IG: NEXT PARAGRAPH CONTAINS SOME DISCUSSION ON THESE RESULTS. WE SHOULD 
-% GET BACK TO THIS ONCE WE DECIDE WHAT TO DO WITH THE RESULTS}
 
 \section{Discussions}
 
-We investigated closely related bacterial species to better understand gene
-transfer processes between SPY and SDE. Two complementary methods were employed
-to study recombining and horizontal gene transfers. By discriminating the two
-processes in analyzing the genomes, we showed that the pathogenicity of SDE and
-SPY was more attributed to horizontal gene transfer process than recombining
-gene transfer.  Because recombination in bacteria seemed to occur at somewhat
-random positions along the genome, the homologous parts transferred might be
-unlikely to be enriched with virulence factors to human hosts.  Recombining gene
-transfer might have rarely contributed to influx of virulence genes from SPY to
-the opportunistic human pathogen of SDE as we showed a few cases of virulence
-gene that might have been transferred via recombining gene transfer.
+Molecular evolution of bacterial genomes is multifaceted. Studies of bacterial
+evolution often focused on one side of many evolutionary processes.  While
+understanding one aspect of bacterial evolutionary processes we could be
+ignorant of the other features.  Horizontal gene transfer process was often
+considered in macro-evolutionary scale using a great deal of bacterial species.
+As closely related species or groups of bacterial individuals are becoming a
+focus of evolutionary study, recombining gene transfer process would surface as
+another facet of evolutionary forces.  Because the two gene transfer processes
+would act on bacterial genomes simultaneously, ignoring one of the two processes
+in studying evolution of bacteria would lead to a narrowed point of view to the
+underlying evolutionary forces. Our study of SPY and SDE genomes undertook the
+work of discriminating recombining and non-recombining horizontal gene transfer
+processes because the two species were very closely related.  We showed that the
+two gene transfer processes acted on different biological functions. Recombining
+gene transfer process in the analysis of SPY and SDE genomes was related with
+genes encoding membrane-bound molecules and aminoacyl tRNA synthetases. On the
+contrary, horizontal gene transfer process was found to be associated with
+transposases, which would allow horizontal gene transfer of their neighboring
+genes.  Because SPY was a human-specific pathogen, and SDE was an opportunistic
+human pathogen, we were interested in association of pathogenicity with the two
+gene transfer processes. We showed that virulence genes were more attributed to
+horizontal gene transfer process than to recombining gene transfer process.
+With the current data of only SPY and SDE genomes we could not conclude that the
+association of virulence genes with horizontal gene transfer not recombining
+gene transfer was applicable to other species.  However, without the
+discrimination of the two processes it would have been difficult to find the
+disparate association of biological functions or virulence genes with the
+different gene transfer processes. 
 
-We also showed that the net amount of recombining gene flows from SPY to SDE was
-relatively greater than that of the reverse direction in the core genome
-sequences.  If there were unbalanced recombining gene transfer between the two
-species, what were the barriers \citep{Thomas2005} to the gene transfer in the
-bacteria? Although barriers to bacterial recombination would include geographic
-isolation, genetic isolation could prevent recombination between coinhabiting
-bacteria.  \citet{Kalia2001} discussed restriction-modification system (RMS) as
-a possible mechanism of the unbalanced gene flow.  Restriction-modification
+Another contribution of our study to bacterial gene transfer research is to
+elucidate the net directionality of gene flow from SPY to SDE in the core
+genomes. Although the issue of net directionality has been tackled, our study
+was the first attempt of resolving the issue in genome-wide scale. Yet, it still
+remains to be seen whether this net directionality of gene flow from SPY to SDE
+happened in the pan genome. A model-based method with more refined models would
+be necessary for the reserach direction because the parsimony-based method we
+employed simply could not show any net directionality between SPY and SDE in the
+pan genome. Although we are unsure whether much larger number of genomes could
+be useful in finding net directionality, we consider that more SDE genomes would
+be beneficial to future studies. 
+
+Were there unbalanced recombining gene transfer between the two species, what
+were the barriers \citep{Thomas2005} to cause the unbalanced gene transfer in
+the species?  \citet{Kalia2001} discussed restriction-modification system (RMS)
+as a possible mechanism of the unbalanced gene flow.  Restriction-modification
 system is a biological self-defense mechanism of bacteria, which is diverse in
 prokaryote world.  Biological roles of RMS might be to maintain and control
 species identity \citep{Jeltsch2003}.  Recently, \citet{Budroni2011a} studied
 that \textit{Neisseria meningitidis} phylogenetic clades were associated with
 RMS, claiming that RMS modulated homologous recombination in the bacteria of
-\textit{N.\ meningitidis}.  Most of \textit{S.\ pyogenes} genomes contain
+\textit{N.\ meningitidis}.  Most of \textit{S.\ pyogenes} genomes contained
 restriction-modification type I system as well as type II system. The two
 genomes of SDE contained only type II system. More tight self-defense system of
 SPY may have made the species less capable of aquiring foreign genetic material
 from SDE, and accordingly relatively unbalanced gene flow between SPY and SDE
 may have been associated with different restriction-modification systems in the
-two species \citep{Kalia2001}.  
+two species \citep{Kalia2001}.
 
-We used relatively small number of genomes to detect recombining gene transfer
-that had only been possible using many samples for a few genes. We revisited the
-problem of gene transfer in other previous studies.  We reexamined the seven
-genes that \citet{Kalia2001} had studied for net directionality of gene transfer
-between SPY and SDE.  Internal fragments of the six housekeeping genes, encoding
-putative glucose kinase (\textit{gki}), glutamine transport protein
-(\textit{gtr}), glutamate racemase (\textit{murI}), mismatch repair enzyme
-(\textit{mutS}), transketolase (\textit{recP}), and xanthine
-phosphoribosyltransferase (\textit{xpt}) were located in the core genome that we
-investigated in this study.  Genes \textit{mutS}, \textit{recP}, and
-\textit{xpt} had fragments of gene transfer with moderate posterior probability
-of recombination. The other genes did not have noticeable recombination. Except
-for \textit{mutS} where \citet{Kalia2001} did not find recombination, the result
-was consistent with that of \citet{Kalia2001}.  We also revisited recombination
-in gene \textit{parC} in SPY1 genome studied by \citet{Pinho2010}, where they
-studied fluoroquinolone resistance in SDE and reported recombination in the
-gene. We observed moderate recombination in the gene. 
+We reexamined the seven genes that \citet{Kalia2001} had studied for net
+directionality of gene transfer between SPY and SDE.  The internal fragments of
+the six housekeeping genes (\textit{gki}, \textit{gtr}, \textit{murI},
+\textit{mutS}, \textit{recP}, \textit{xpt}) were located in the core genome that
+we investigated in this study.  Except for \textit{mutS} where \citet{Kalia2001}
+did not find recombination, our results were consistent with that of
+\citet{Kalia2001}.  \citet{Pinho2010} reported recombination in the gene
+\textit{parC}, in which we also observed moderate recombination.
 
-We used two heterogeneous methods: one model-based and another parsimony-based
-for studying recombining and horizontal gene transfer.  The core genomes
-consisted of sequence alignments with rare gaps. With this inherent filtering of
-the input data preparation the model-based method did not accommodate gene
-dupliation and loss in its core genome analysis. On the contrary, the
-parsimony-based method used all of the genomes not just the core genomes.
-Considering nucleotides as the level of gene duplication, loss, and transfer
-towards a complete model for recombining and horizontal gene transfer could be
-difficult because genome-scale application of those models based on DNA or
-protein sequences might not be feasible.  Combining the two approaches for
-studying the mode of gene transfer would be desirable to study more complicated
-evolutionary processes including recombining gene transfer, gene duplication,
-loss, and horizontal gene transfer.
-
-\texttt{Limitation of ClonalOrigin: inability of inferring recombinant edges}
-
-\texttt{Need of a new model with asymmetry of gene transfer}
-
-\texttt{Need of more SDE genomes}
-
+It remains to be seen whether the inability of detecting net directionality
+between SPY and SDE in the pan genomes was because of lack of power of the
+parsimony-based approach that we employed. Considering gene duplication, loss,
+and horizontal gene transfer in a model-based approach would be desirable in the
+coming ages of abundant bacterial genomes. The model might consider genome
+alignments where each taxon does not necessarily have a unique gene; some taxa
+might have no gene due to gene loss, and other taxa multiple genes due to gene
+gain, duplication, or horizontal gene transfer. With these types of models will
+we be able to address more interesting evolutionary questions in bacteria. This
+need of more refined models would be also true even for the study of net
+directionality between species in the core genome.  In other words, one could
+envision a model where a population two-taxa (i.e., SPY and SD groups) tree is
+superimposed on the species tree shown in Figure S\ref{fig:clonalorigin}A. A
+splitting event of the population tree could happen somewhere between the root
+of the species tree and the internal node of SPY. Recombinant edges that connect
+branches within SPY or SD clades would be more frequent than those that connect
+branches between SPY and SDE clades.  With the reference to the recombination
+within a clade one parameter can dictate the degree of gene from from SPY to
+SDE, and another for the reverse direction.  If the two parameters could be
+incorporated in the model, then they might be used to compare the degrees of
+gene flow between the two species in a more statistically sound way.  We hope
+that we will see thie refinement of the model to better illustrate bacterial
+evolution in forthcoming bacterial genomic era.
 
 
 \section{Materials and Methods}
@@ -825,47 +860,28 @@ elevated values in each score.  A 5\% False Discovery Rate (FDR) correction
 threshold for our p-values.
 
 \subsection{Simulation Study}
-
-We conducted experiments on simulation data to check the accuracy of estimates
-obtained by \texttt{ClonalOrigin} in a scenario similar to one from the real 
-data set.  We used a
-simulation feature of \texttt{ClonalOrigin} to simulate the process of mutation
-and recombination across the five species 
+We performed three sets of simulations.  In the first simulation, we wished to
+show that \texttt{ClonalOrigin} could infer population mutation rate, tract
+length, and recombination rate with reasonable accuracy. In the second
+simulation, we wished to check whether recombinant edges were recovered from
+simulated data with recombinant trees generated from the prior. The third
+simulation was conducted using simulated data with recombinant trees sampled the
+posterior distribution.  We used a simulation feature of \texttt{ClonalOrigin}
+to simulate the process of mutation and recombination across the five species
 (see section \textbf{Supplementary Information} for detail).
-While populaiton mutation and
-recombination parameters were accurately estimated, the recombinant tract length
-was over-estimated  (Table S\ref{tab:sim-three-population-parameters}).  This
-was not surprising as recombinant tract lengths were known to be difficult to
-estimate from relatively short alignment blocks \citep{Didelot2010}. 
-We also evaluated the accuracy of the statistics estimated in the second stage
-of \texttt{ClonalOrigin}. The number of recombinant edges for each pair of
-recombinant tree branches was correlated with the true value in general while
-there were slight over-estimation (Figure S\ref{fig:h1}).  However, this
-comparison between inferrence from simulated data and that of real data set
-suggested that the directional difference between SPY and SDE was due to neither
-lack of power of \texttt{ClonalOrigin} nor hidden bias thereof.  Recombination
-intensities that were measured on genes also showed rough correlation (Pearson's
-correlation coefficient of 0.63) of the estimated and true values (Figure
-S\ref{fig:ri1}).  Estimated values appeared to be driven somewhat by the prior
-implied by the population parameter setting, explaining why lower values were
-over-estimated and higher values were under-estimated.  Nonetheless, the
-correlation indicated that the measure of recombination intensity used in our
-functional gene category served as an adequate indicator of actual intensity of
-recombination events along genes.
 
 \section{Supplementary Information}
 
-\subsection{Local gene trees and recombination intensity}
+\subsection{Summarization of posterior samples for local gene trees and recombination intensity}
 
 Because the procedure of summarizing posterior samples of \textit{recombinant
-tree}, which will be defined in a moment, 
-was not detailed in the user guide at the time when we used
-\texttt{ClonalOrigin}, we elected to use Figure S\ref{fig:clonalorigin} to
-illustrate a recombinant tree in order to clarify summarization of
-\textit{recombinant history} posterior samples.  A recombination history is
-represented by a \textit{recombinant tree}, which is a species tree augmented
-with \textit{recombinant edges}.  A recombinant edge connect two species tree
-branches.  Each recombinant edge is defined by the time
+tree}, which will be defined in a moment, was not detailed in the user guide at
+the time when we used \texttt{ClonalOrigin}, we elected to use Figure
+S\ref{fig:clonalorigin} to illustrate a recombinant tree in order to clarify
+summarization of \textit{recombinant history} posterior samples.  A
+recombination history is represented by a \textit{recombinant tree}, which is a
+species tree augmented with \textit{recombinant edges}.  A recombinant edge
+connect two species tree branches.  Each recombinant edge is defined by the time
 and branch of origin and destination, and the genomic interval that it affects.
 The branch of origin is referred to as the \textit{donor} and the destination
 branch is referred to as the \textit{recipient}. The type of a recombinant edge
@@ -888,39 +904,62 @@ probabilistic meanings to the recombination intensity we interpreted it as an
 average number of recombinant edge types per site.  The measure appeared to act
 as an effective indicator of recombination intensity (see subsection of
 \textbf{Simulation Study}).  Our simulation study indicated that edges of
-certain types were better indicators of recombination events than others.
-For instance, recombinant edges which resulted in a recombinant tree with the
-same topology as the species tree appeared to be more prone to spurious
-sampling.  Such edges were ones where the donor was the same branch, sister
-branch, or parent branch of the recipient branch.  Therefore, in some cases we
-elected to remove such edges from consideration when measuring recombination
-intensity.  
-% The tree topologies changes would be correlated with recombination
-% intensity.  The tree topologies would show more effectively regions where
+certain types were better indicators of recombination events than others.  For
+instance, recombinant edges which resulted in a recombinant tree with the same
+topology as the species tree appeared to be more prone to spurious sampling.
+Such edges were ones where the donor was the same branch, sister branch, or
+parent branch of the recipient branch.  Therefore, in some cases we elected to
+remove such edges from consideration when measuring recombination intensity.  
+% The tree topologies would show more effectively regions where
 % recombination occurs along the genome (see subsection of \textbf{UCSC Genome
 % Browser}).
 
-\subsection{Population mutation and recombination rates were accurately
-estimated}
+\subsection{Simulation 1 - three population parameters}
 
+We describe a procedure of simulations for checking if the three
+population parameters were accurately recovered using the model-based approach.
+Ten recombinant trees were sampled given the three parameters (Table
+S\ref{tab:three}) and the species tree (Figure S\ref{fig:tree5}) set to the
+values inferred from the five bacterial genomes.  Each of the recombinant trees
+was used to simulate the Jukes-Cantor model for DNA sequence evolution to create
+274 blocks of alignments.  The block lengths configuration was the same as that
+of the blocks used in the analysis of the five genomes.  
+
+% s15
 % FIXME: Newick tree in text in a file.
 % FIXME: Publish the result and the data set with the code.
-We describe the detailed procedure of simulations for checking if the three
-population parameters were accurately recovered from the first stage of
-\texttt{ClonalOrigin} MCMC.  Ten recombinant trees were sampled given the three
-parameters and the species tree  set to the values inferred from the five
-bacterial genomes.  Each of the recombinant trees was used to simulate the
-Jukes-Cantor model for DNA sequence evolution to create 274 blocks of
-alignments.  The block lengths configuration was the same as that of the blocks
-used in the analysis of the five genomes.  The mean of the ten estimates of the
-recombinant tract length was significantly higher than the true value of (919 bp
-versus 744 bp) whereas the values of the mutation and recombination rates were
-accurately estimated (Table S\ref{tab:sim-three-population-parameters}).
-Recombinant tract lengths were known to be difficult to estimate from relatively
-short alignment blocks \citep{Didelot2010}. 
 
-\subsection{Estimating numbers of recombinant edges were accurate}
+\subsection{Simulation 2 - numbers of recombinant edges from prior}
 
+We first sampled ten recombinant trees given the mutation rate, recombination
+rate, and tract length (Table S\ref{tab:three}) and the species tree (Figure
+S\ref{fig:tree5}), and then created ten independent simulated data sets with
+the Jukes-Cantor model for DNA sequence evolution using each of the recombinant
+trees. This consisted of 100 replicates of data sets.  The recombinant trees
+were created from the prior distribution and recombinant edges were added to the
+species tree with no particular directions of recombining gene transfers between
+species tree branches.  We computed the ratio of the mean number of recombinant
+edges for a pair of donor and recipient species tree branches over the simulated
+10 recombinant trees against the median of recombinant edges estimated from the
+10 simulated data sets, and then took the logarithm of the ratio to base 2. We
+also computed 5\% and 95\% quantiles to find the 90\% quantile range for the log
+base 2 ratio.  We expect that the log base 2 ratio would near zero. We also
+wished to see if how the recombinant edge count estimates from the real data set
+deviate from the prior. Instead of using the number of recombinant edges from
+the ten recombinant trees, we used the numbers of recombinant edges that were
+estimated from the real data. 
+
+We tested if our measure of recombination intensity provided a reliable estimate
+of the true intensity. We artificially annotated our synthetic blocks to genes
+according to the real annotations from SPY1 genome.  For each gene in each of
+the simulated 100 data sets, we plotted the average estimated recombination
+intensity along that gene against the average number of different recombinant
+edge types from the ten simulated recombinant tree. 
+
+% s16 
+
+
+% s16
 % FIXME 1: IG: RESULTS FROM THIS POINT ON REQUIRE SOME REFINEMENT. SC: Let's see.
 % FIXME 2: ``TRUE" TO BE EXPECTED VALUE
 % RATHER THAN AVERAGE OVER THE 10 REC.  TREES. SC: OKAY. LET'S FIND THE PRIOR
@@ -932,37 +971,20 @@ short alignment blocks \citep{Didelot2010}.
 % FIXME 4: WE SHOULD PROBABLY CONSIDER ALTERNATIVE WAYS OF USING THESE RESULTS TO 
 % ARGUE THAT OUR DIRECTIONAL SIGNAL IS REAL. SC: I MIGHT CONSIDER SIMULATIONS AND
 % ARTIFICIALLY DOUBLE OR TRIPLE THE RECOMBINATION EVENTS OF ONE OF TYPES.
-Because of the two-stage Bayesian method we first sampled ten recombinant trees
-given the mutation rate, recombination rate, and tract length, and then created
-ten independent simulated data sets with the Jukes-Cantor model for DNA sequence
-evolution using each of the recombinant trees. This consisted of 100 replicates
-of data sets.  Figure S\ref{fig:h1} shows the observed count of each recombinant
-edge type against the expected count; the estimated numbers appeared to be
-slightly over-estimated, but in correlation with the true numbers.
 
-\subsection{Unbalanced gene flow model was adequate}
+\subsection{Simulation 3 - number of recombinant edges from posterior}
 
-We checked if the model with unbalanced gene flow was adequate using posterior
-predictive check. We used 100 recombinant trees from the posterior distribution
-of the recombiant tree given the real data of the 274 alignment blocks in order
-to simulate the ClonalOrigin model to create a new data set of 100 274-block
-alignments.  Using the simulated data sets of 100 274-block alignments we
-infer recombinant trees to draw the distribution of logarithm base 2 ratio of
-observed recombinant edge counts to the prior expected number of recombinant
-edges. If the model with unbalanced gene flow was adequate, the logarithm base 2
-ratio from the real data set should center around the distribution. 
-\texttt{What is the result of this simulation?}
+We used 100 recombinant trees sampled from the posterior distribution
+of the recombiant tree instead of using simulated recombinant trees.
+We created one simulated data set for each of the 100 recombinant trees with
+the Jukes-Cantor model for DNA sequence evolution 
+using the mutation rate estimate (Table S\ref{tab:three}).
+This consisted of 100 replicates of data sets.  
+We follow the same computation of the ratio as in the simulation 2 with 
+the numbers of recombinant edges estimated from the real data
+as numerators. 
 
-\subsection{Simulation for recombination intensity}
-
-We tested if our measure of recombination intensity provided a reliable estimate
-of the true intensity. For this purpose, we artificially annotated our synthetic
-blocks to genes according to the real annotations along the real bacterial
-alignments. For each gene in each of the simulated 100 data sets, we plotted the
-average estimated recombination intensity along that gene against the true
-average intensity, i.e., the average number of different recombinant edge types
-implied by the recombinant tree used in simulation 
-(Pearson's correlation coefficient of 0.63 and Figure S\ref{fig:ri1}). 
+% s17
 
 \section*{Acknowledgments}
 
@@ -1089,6 +1111,26 @@ each branch we denote the number of gains G*, duplications D*, losses L*,
 non-recombining transfers T*, and recombinations R*.  The non-recombining
 transfer and recombination counts are indicated on the recipient branch (donors
 are not indicated).}
+\end{figure}
+\clearpage{}%
+%=============================================================================
+
+%=============================================================================
+% Figure S12: 
+\begin{figure}
+
+\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-topology-changing}}
+
+\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-not-topology-changing}}
+
+\caption{\label{fig:h3}Numer of recombination events. The diagonal dashed
+lines are with slope of 1 and intercept of 0. For each order
+pairs of branches of a reference species tree the true number of recombination
+events is computed as the mean of the 10 replicates of recombinant
+trees from the simulation. With ten estimates of each replicate total
+number of 100 estimats are shown as intervals of 90\% of quantile
+range, or the lower value of the interval is the 5\% quantile, and
+the upper one is the 95\% quantile. }
 \end{figure}
 \clearpage{}%
 %=============================================================================
@@ -1480,110 +1522,110 @@ P-Value & Count & GO term & Description\tabularnewline
 
 %=============================================================================
 % Table S. ClonalOrigin - SDE-to-SPY
-\begin{table}
-\caption{\label{tab:functional-sde-spy}Functional categories asscoiated with 
-recombination intensity based on SDE-to-SPY recombinant edge types.}
-\noindent \begin{centering}
-\begin{tabular}{cccl}
-\hline 
-P-Value & Count & GO term & Description\tabularnewline
-\hline 
-1.854e-05 & 38 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
-2.703e-05 & 81 & GO:0006412 & translation\tabularnewline
-6.482e-05 & 33 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
-9.777e-05 & 105 & GO:0003723 & RNA binding\tabularnewline
-0.00012793 & 40 & GO:0030529 & ribonucleoprotein complex\tabularnewline
-0.00025176 & 26 & GO:0019843 & rRNA binding\tabularnewline
-0.00031236 & 72 & GO:0005975 & carbohydrate metabolic process\tabularnewline
-0.00044756 & 317 & GO:0005737 & cytoplasm\tabularnewline
-0.00059675 & 45 & GO:0008643 & carbohydrate transport\tabularnewline
-0.00066874 & 39 & GO:0003735 & structural constituent of ribosome\tabularnewline
-0.00135304 & 10 & GO:0006098 & pentose-phosphate shunt\tabularnewline
-\hline 
-\end{tabular}
-\par\end{centering}
-\end{table}
-\clearpage{}
+%\begin{table}
+%\caption{\label{tab:functional-sde-spy}Functional categories asscoiated with 
+%recombination intensity based on SDE-to-SPY recombinant edge types.}
+%\noindent \begin{centering}
+%\begin{tabular}{cccl}
+%\hline 
+%P-Value & Count & GO term & Description\tabularnewline
+%\hline 
+%1.854e-05 & 38 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
+%2.703e-05 & 81 & GO:0006412 & translation\tabularnewline
+%6.482e-05 & 33 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
+%9.777e-05 & 105 & GO:0003723 & RNA binding\tabularnewline
+%0.00012793 & 40 & GO:0030529 & ribonucleoprotein complex\tabularnewline
+%0.00025176 & 26 & GO:0019843 & rRNA binding\tabularnewline
+%0.00031236 & 72 & GO:0005975 & carbohydrate metabolic process\tabularnewline
+%0.00044756 & 317 & GO:0005737 & cytoplasm\tabularnewline
+%0.00059675 & 45 & GO:0008643 & carbohydrate transport\tabularnewline
+%0.00066874 & 39 & GO:0003735 & structural constituent of ribosome\tabularnewline
+%0.00135304 & 10 & GO:0006098 & pentose-phosphate shunt\tabularnewline
+%\hline 
+%\end{tabular}
+%\par\end{centering}
+%\end{table}
+%\clearpage{}
 %=============================================================================
 
 %=============================================================================
 % Table S. ClonalOrigin - SPY-to-SDE
-\begin{table}
-\caption{\label{tab:functional-spy-sde}Functional categories asscoiated with 
-recombination intensity based on SPY-to-SDE recombinant edge types.}
-\noindent \begin{centering}
-\begin{tabular}{cccl}
-\hline 
-P-Value & Count & GO term & Description\tabularnewline
-\hline 
-1.106e-06 & 45 & GO:0008643 & carbohydrate transport\tabularnewline
-1.511e-06 & 33 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
-1.595e-06 & 38 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
-1.443e-05 & 187 & GO:0006810 & transport\tabularnewline
-0.0001106 & 371 & GO:0016740 & transferase activity\tabularnewline
-0.0003596 & 72 & GO:0005975 & carbohydrate metabolic process\tabularnewline
-0.0004023 & 13 & GO:0006814 & sodium ion transport\tabularnewline
-0.000823 & 317 & GO:0005737 & cytoplasm\tabularnewline
-0.001142 & 12 & GO:0031402 & sodium ion binding\tabularnewline
-\hline 
-\end{tabular}
-\par\end{centering}
-\end{table}
-\clearpage{}
+%\begin{table}
+%\caption{\label{tab:functional-spy-sde}Functional categories asscoiated with 
+%recombination intensity based on SPY-to-SDE recombinant edge types.}
+%\noindent \begin{centering}
+%\begin{tabular}{cccl}
+%\hline 
+%P-Value & Count & GO term & Description\tabularnewline
+%\hline 
+%1.106e-06 & 45 & GO:0008643 & carbohydrate transport\tabularnewline
+%1.511e-06 & 33 & GO:0008982 & protein-N(PI)-phosphohistidine-sugar phosphotransferase activity\tabularnewline
+%1.595e-06 & 38 & GO:0009401 & phosphoenolpyruvate-dependent sugar phosphotransferase system\tabularnewline
+%1.443e-05 & 187 & GO:0006810 & transport\tabularnewline
+%0.0001106 & 371 & GO:0016740 & transferase activity\tabularnewline
+%0.0003596 & 72 & GO:0005975 & carbohydrate metabolic process\tabularnewline
+%0.0004023 & 13 & GO:0006814 & sodium ion transport\tabularnewline
+%0.000823 & 317 & GO:0005737 & cytoplasm\tabularnewline
+%0.001142 & 12 & GO:0031402 & sodium ion binding\tabularnewline
+%\hline 
+%\end{tabular}
+%\par\end{centering}
+%\end{table}
+%\clearpage{}
 %=============================================================================
 
 %=============================================================================
 % Table S. Mowgli - Duplication 
-\begin{table}
-\caption{\label{tab:go-events-duplication}Functional categories enriched in 
-gene duplication events that are inferred using the parsimony-based approach.}
-\noindent \begin{centering}
-\begin{tabular}{cccl}
-\hline 
-P-value & Count & GO-term & Description \\
-\hline 
-4e-81 &  67 & GO:0006313 & transposition, DNA-mediated\\
-5e-80 &  59 & GO:0004803 & transposase activity\\
-6e-70 &  23 & GO:0032196 & transposition\\
-2e-58 &  52 & GO:0015074 & DNA integration\\
-8e-25 &  86 & GO:0006310 & DNA recombination\\
-1e-20 &  36 & GO:0016987 & sigma factor activity\\
-1e-20 &  36 & GO:0006352 & transcription initiation\\
-2e-19 & 197 & GO:0003676 & nucleic acid binding\\
-2e-10 & 527 & GO:0003677 & DNA binding\\
-4e-06 & 142 & GO:0043565 & sequence-specific DNA binding\\
-\hline 
-\end{tabular}
-\par\end{centering}
-\end{table}
-\clearpage{}
+%\begin{table}
+%\caption{\label{tab:go-events-duplication}Functional categories enriched in 
+%gene duplication events that are inferred using the parsimony-based approach.}
+%\noindent \begin{centering}
+%\begin{tabular}{cccl}
+%\hline 
+%P-value & Count & GO-term & Description \\
+%\hline 
+%4e-81 &  67 & GO:0006313 & transposition, DNA-mediated\\
+%5e-80 &  59 & GO:0004803 & transposase activity\\
+%6e-70 &  23 & GO:0032196 & transposition\\
+%2e-58 &  52 & GO:0015074 & DNA integration\\
+%8e-25 &  86 & GO:0006310 & DNA recombination\\
+%1e-20 &  36 & GO:0016987 & sigma factor activity\\
+%1e-20 &  36 & GO:0006352 & transcription initiation\\
+%2e-19 & 197 & GO:0003676 & nucleic acid binding\\
+%2e-10 & 527 & GO:0003677 & DNA binding\\
+%4e-06 & 142 & GO:0043565 & sequence-specific DNA binding\\
+%\hline 
+%\end{tabular}
+%\par\end{centering}
+%\end{table}
+%\clearpage{}
 %=============================================================================
 
 %=============================================================================
 % Table S. Mowgli - Loss
-\begin{table}
-\caption{\label{tab:go-events-loss}Functional categories enriched in 
-gene loss events that are inferred using the parsimony-based approach.}
-\noindent \begin{centering}
-\begin{tabular}{cccl}
-\hline 
-P-value & Count & GO-term & Description \\
-\hline 
-1e-06 &  67 & GO:0006313 & transposition, DNA-mediated\\
-2e-05 &  59 & GO:0004803 & transposase activity\\
-5e-05 &  52 & GO:0015074 & DNA integration\\
-5e-04 &  23 & GO:0032196 & transposition\\
-5e-04 &  10 & GO:0046873 & metal ion transmembrane transporter activity\\
-7e-04 &  36 & GO:0016987 & sigma factor activity\\
-7e-04 &  36 & GO:0006352 & transcription initiation\\
-1e-03 &  31 & GO:0006814 & sodium ion transport\\
-3e-03 &  86 & GO:0006310 & DNA recombination\\
-6e-03 & 197 & GO:0003676 & nucleic acid binding\\
-\hline 
-\end{tabular}
-\par\end{centering}
-\end{table}
-\clearpage{}
+%\begin{table}
+%\caption{\label{tab:go-events-loss}Functional categories enriched in 
+%gene loss events that are inferred using the parsimony-based approach.}
+%\noindent \begin{centering}
+%\begin{tabular}{cccl}
+%\hline 
+%P-value & Count & GO-term & Description \\
+%\hline 
+%1e-06 &  67 & GO:0006313 & transposition, DNA-mediated\\
+%2e-05 &  59 & GO:0004803 & transposase activity\\
+%5e-05 &  52 & GO:0015074 & DNA integration\\
+%5e-04 &  23 & GO:0032196 & transposition\\
+%5e-04 &  10 & GO:0046873 & metal ion transmembrane transporter activity\\
+%7e-04 &  36 & GO:0016987 & sigma factor activity\\
+%7e-04 &  36 & GO:0006352 & transcription initiation\\
+%1e-03 &  31 & GO:0006814 & sodium ion transport\\
+%3e-03 &  86 & GO:0006310 & DNA recombination\\
+%6e-03 & 197 & GO:0003676 & nucleic acid binding\\
+%\hline 
+%\end{tabular}
+%\par\end{centering}
+%\end{table}
+%\clearpage{}
 %=============================================================================
 
 
@@ -1764,26 +1806,6 @@ of horizontal gene transfer.}
 \includegraphics[scale=0.8]{figures/ucsc}
 \caption{\label{fig:ucsc}UCSC genome browser tracks for gene transfer study of
 SPY and SDE.}
-\end{figure}
-\clearpage{}%
-%=============================================================================
-
-%=============================================================================
-% Figure S12: 
-\begin{figure}
-
-\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-topology-changing}}
-
-\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-not-topology-changing}}
-
-\caption{\label{fig:h3}Numer of recombination events. The diagonal dashed
-lines are with slope of 1 and intercept of 0. For each order
-pairs of branches of a reference species tree the true number of recombination
-events is computed as the mean of the 10 replicates of recombinant
-trees from the simulation. With ten estimates of each replicate total
-number of 100 estimats are shown as intervals of 90\% of quantile
-range, or the lower value of the interval is the 5\% quantile, and
-the upper one is the 95\% quantile. }
 \end{figure}
 \clearpage{}%
 %=============================================================================
@@ -2363,5 +2385,46 @@ However, this comparison between inferrence from simulated data and that of real
 data set suggested that the directional difference between SPY and SDE was due
 to neither lack of power of \texttt{ClonalOrigin} nor hidden bias thereof.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+%(Table S\ref{tab:functional-sde-spy})
+%(Table S\ref{tab:functional-spy-sde})
+%(Table S\ref{tab:go-events-duplication})
+%(Table S\ref{tab:go-events-loss})
+%
+%
+%For horizontal gene transfer we found enrichment in very different categories
+%related to transposition, integration, and recombination (Table
+%\ref{tab:go-events}).  
+%
+%Gene duplication and loss events were enriched for
+%categories similar to those of horizontal gene transfer's enrichment (Tables
+%S\ref{tab:go-events-duplication} and S\ref{tab:go-events-loss}).
+%
+%Gene duplication and horizontal transfers showed enrichment in the same
+%categories perhaps because both mechanisms increase gene copy number.  
+%
+%Gene losses showed enrichment for transposition and integration, but less
+%significantly (P-value of $<10^{-6}$), and showed enrichment for several
+%additional categories such as transporter activity and transcription initiation.
+%
+%Comparing two types of recombinant edges, one from SDE to SPY and another from
+%SPY to SDE transport related categories were more associated for the direction
+%from SPY to SDE
+%(Table S\ref{tab:functional-sde-spy} and S\ref{tab:functional-spy-sde}).
+%
+%\texttt{More interpretations about Mawgli analysis of function categories?
+%Why transposases?}
 
+% \texttt{IG: NEXT PARAGRAPH CONTAINS SOME DISCUSSION ON THESE RESULTS. WE SHOULD 
+% GET BACK TO THIS ONCE WE DECIDE WHAT TO DO WITH THE RESULTS}
+
+%The parsimony-based approach also showed
+%enrichment of the recombining transfers in many of the same categories such as
+%translation, ribosome, and rRNA binding when using all types of recombinant
+%edges in computing recombination intensity (see Tables
+%S\ref{tab:functional-all} and S\ref{tab:go-events-recombining}).  
+%Because the
+%parsimony-based method did not take species tree branch lengths into account, 
+%the agreement between the two different methods might be likely.
 

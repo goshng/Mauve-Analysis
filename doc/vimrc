@@ -1,0 +1,36 @@
+color desert
+syntax on
+set autoindent
+set textwidth=80
+set sw=2
+set number
+set expandtab
+set tabstop=8
+set autowriteall
+
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+if has("cscope")
+set csprg=/opt/local/bin/cscope
+set csto=0
+set cst
+set nocsverb
+" add any database in current directory
+if filereadable("cscope.out")
+cs add cscope.out
+" else add database pointed to by environment
+elseif $CSCOPE_DB != ""
+cs add $CSCOPE_DB
+endif
+endif
+
+set pastetoggle=<F5>
+
+let g:miniBufExplMapWindowNavVim = 1 
+let g:miniBufExplMapWindowNavArrows = 1 
+let g:miniBufExplMapCTabSwitchBufs = 1 
+let g:miniBufExplModSelTarget = 1 
+
+au VimLeave * exe 'if exists("g:cmd") && g:cmd == "vims" | if strlen(v:this_session) | exe "wviminfo! " . v:this_session . ".viminfo" | else | exe "wviminfo! " . "~/.vim/session/" . g:myfilename . ".session.viminfo" | endif | endif '
+au VimLeave * exe 'if exists("g:cmd") && g:cmd == "vims" | if strlen(v:this_session) | exe "mksession! " . v:this_session | else | exe "mksession! " . "~/.vim/session/" . g:myfilename . ".session" | endif | endif'

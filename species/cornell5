@@ -31,6 +31,9 @@ COIWALLTIME:3
 COIIWALLTIME:3
 AOIWALLTIME:3
 AOIIWALLTIME:3
+SIM1WALLTIME:72
+SIM2WALLTIME:72
+SIM3WALLTIME:72
 
 LCBMINLEN:1500
 NUMBERSPECIES:5
@@ -45,3 +48,21 @@ GBK2:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_dysgalact
 GBK3:/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sdd/sdd.gbk
 GBK4:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
 GBK5:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+
+
+# Simulation 1
+SIM1REPETITION:10
+SIM1REPLICATE:1
+SIM1THETA:0.080814517322956
+SIM1RHO:0.0118491287894766
+SIM1DELTA:743.702415841584
+SIM1INBLOCK:cornellf-3-in.block
+SIM1TREE:cornellf-3.tree
+SIM1BURNIN:1000000
+SIM1CHAINLENGTH:1000000
+SIM1THIN:10000
+
+# Simulation 2
+
+# Simulation 3
+
