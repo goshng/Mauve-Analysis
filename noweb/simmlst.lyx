@@ -668,6 +668,18 @@ I have realized that the simulation under full ancestral recombination graph
 \end_layout
 
 \begin_layout Standard
+These 
+\begin_inset Formula $\alpha_{1},$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+ are not coalescent rates.
+\end_layout
+
+\begin_layout Standard
 When considering a simulation under the full ancestral recombination graph,
  I thought that I would have three types of recombinations events, and according
 ly their rates: recombination within a population, and two different recombinati
@@ -1116,6 +1128,70 @@ src/clonalorigin/SimpleGlob.h: Parses command lines.
 
 \begin_layout Itemize
 src/clonalorigin/weakargsim.cpp: The main source file.
+\end_layout
+
+\begin_layout Section
+Simulation of different rates of gene transfer between bacterial clades
+\end_layout
+
+\begin_layout Standard
+Let's create a simulor first for a model where a population tree is superimposed
+ on a species tree that is inferred from bacterial genomes.
+ We assume a population tree with two groups, and a species tree that is
+ inferred from a set of bacterial genome using ClonalFrame.
+\end_layout
+
+\begin_layout Enumerate
+A population tree 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and a species tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ are given.
+\end_layout
+
+\begin_layout Enumerate
+Total number of recombination is sampled from Poisson distribution with
+ rate of 
+\begin_inset Formula $\rho T/2$
+\end_inset
+
+ where 
+\begin_inset Formula $T$
+\end_inset
+
+ is the total length of the species tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+The arrival point 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+ is sampled uniformly along the species tree 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ for recombination event 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+The departure point 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ can be in population 1, 2, or 3.
 \end_layout
 
 \begin_layout Section
