@@ -12,17 +12,17 @@ namespace weakarg
 class MoveAddEdge : public Move
 {
 public:
-    MoveAddEdge(Param * p,double a);
-    Move * clone()
-    {
-        return new MoveAddEdge(*this);
-    }
-    int move(vector<int> * samplespace=NULL);
-    inline int move()
-    {
-        return(move(NULL));
-    }
-    ~MoveAddEdge();
+  MoveAddEdge(Param * p,double a);
+  Move * clone()
+  {
+    return new MoveAddEdge(*this);
+  }
+  int move(vector<int> * samplespace=NULL);
+  inline int move()
+  {
+    return(move(NULL));
+  }
+  ~MoveAddEdge();
 
 };
 

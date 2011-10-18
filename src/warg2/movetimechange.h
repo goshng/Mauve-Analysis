@@ -12,17 +12,17 @@ namespace weakarg
 class MoveTimeChange : public Move
 {
 public:
-    MoveTimeChange(Param * p,double a);
-    Move * clone()
-    {
-        return new MoveTimeChange(*this);
-    }
-    int move(vector<int> * samplespace=NULL);
-    inline int move()
-    {
-        return(move(NULL));
-    }
-    ~MoveTimeChange();
+  MoveTimeChange(Param * p,double a);
+  Move * clone()
+  {
+    return new MoveTimeChange(*this);
+  }
+  int move(vector<int> * samplespace=NULL);
+  inline int move()
+  {
+    return(move(NULL));
+  }
+  ~MoveTimeChange();
 
 };
 

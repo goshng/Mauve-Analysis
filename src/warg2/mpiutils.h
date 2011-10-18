@@ -35,9 +35,9 @@ std::ostream& dlog(int verbosity);	///< return a logging output stream dependent
 
 /*** A class that sends output directly to the bitbucket */
 struct nullstream:
-    std::ostream
+  std::ostream
 {
-    nullstream(): std::ios(0), std::ostream(0) {}
+  nullstream(): std::ios(0), std::ostream(0) {}
 };
 
 /**
@@ -50,18 +50,18 @@ struct nullstream:
 class mpiofstream
 {
 public:
-    mpiofstream(const std::string& fname);///<Opens a file with the given name
-    ~mpiofstream();
-    void flush();///<Causes data to be written
-    std::ostream& operator()(bool master);///<returns an output stream.  if master is true, then only the master MPI process will be allowed to write.
+  mpiofstream(const std::string& fname);///<Opens a file with the given name
+  ~mpiofstream();
+  void flush();///<Causes data to be written
+  std::ostream& operator()(bool master);///<returns an output stream.  if master is true, then only the master MPI process will be allowed to write.
 
 protected:
-    std::string fname;
-    std::ostringstream ss;
+  std::string fname;
+  std::ostringstream ss;
 #ifdef WEAKARG_MPI
-    MPI_File fh;
+  MPI_File fh;
 #else
-    std::ofstream* file;
+  std::ofstream* file;
 #endif
 };
 

@@ -16,16 +16,16 @@ class Metropolis
 {
 
 public:
-    Metropolis(Param * p);
-    void move(int n, double temper=1.0, vector<int> * samplespace=NULL);
-    ~Metropolis();
-    inline std::string desc()
-    {
-        return "Performs n local, tempered moves";
-    }
+  Metropolis(Param * p);
+  void move(int n, double temper=1.0, vector<int> * samplespace=NULL);
+  ~Metropolis();
+  inline std::string desc()
+  {
+    return "Performs n local, tempered moves";
+  }
 protected:
-    int chooseMove(vector<Move*> *mall,double totweight);///<Chooses the next move
-    Param * param;
+  int chooseMove(vector<Move*> *mall,double totweight);///<Chooses the next move
+  Param * param;
 };
 
 } // end namespace weakarg

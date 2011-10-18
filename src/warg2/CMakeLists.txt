@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-PROJECT (wargsim)
+PROJECT (warg2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
@@ -61,8 +61,8 @@ SET (WARG_SRCS
   tree.h
   wargxml.cpp
   wargxml.h
-  weakargsim.cpp
+  weakarg2.cpp
   weakarg.h
 )
 
-ADD_EXECUTABLE (wargsim ${WARG_SRCS})
+ADD_EXECUTABLE (warg2 ${WARG_SRCS})

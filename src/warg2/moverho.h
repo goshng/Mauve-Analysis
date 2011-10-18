@@ -12,13 +12,13 @@ namespace weakarg
 class MoveRho : public Move
 {
 public:
-    MoveRho(Param * p,double a);
-    Move * clone()
-    {
-        return new MoveRho(*this);
-    };
-    int move();
-    ~MoveRho();
+  MoveRho(Param * p,double a);
+  Move * clone()
+  {
+    return new MoveRho(*this);
+  };
+  int move();
+  ~MoveRho();
 };
 
 } // end namespace weakarg

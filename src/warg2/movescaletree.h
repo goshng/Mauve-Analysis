@@ -14,15 +14,15 @@ class MoveScaleTree : public Move
 {
 
 public:
-    MoveScaleTree(Param * p,double a);
-    Move * clone()
-    {
-        return new MoveScaleTree(*this);
-    };
-    int move();
-    ~MoveScaleTree();
+  MoveScaleTree(Param * p,double a);
+  Move * clone()
+  {
+    return new MoveScaleTree(*this);
+  };
+  int move();
+  ~MoveScaleTree();
 
-    void scaleTree(double scale);///<Scales the tree by a factor scale
+  void scaleTree(double scale);///<Scales the tree by a factor scale
 };
 
 } // end namespace weakarg

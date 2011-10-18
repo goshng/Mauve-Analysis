@@ -6,10 +6,10 @@ namespace weakarg
 
 Move::Move(Param * p,double a)
 {
-    param=p;
-    alpha=a;
-    numcalls=0;
-    numaccept=0;
+  param=p;
+  alpha=a;
+  numcalls=0;
+  numaccept=0;
 }
 
 Move::~Move()

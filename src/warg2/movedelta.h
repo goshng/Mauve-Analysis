@@ -12,13 +12,13 @@ namespace weakarg
 class MoveDelta : public Move
 {
 public:
-    MoveDelta(Param * p,double a);
-    Move * clone()
-    {
-        return new MoveDelta(*this);
-    };
-    int move();
-    ~MoveDelta();
+  MoveDelta(Param * p,double a);
+  Move * clone()
+  {
+    return new MoveDelta(*this);
+  };
+  int move();
+  ~MoveDelta();
 };
 
 } // end namespace weakarg
