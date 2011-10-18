@@ -46,6 +46,16 @@
 
 \begin_body
 
+\begin_layout Section*
+Where should I restart to work on this project?
+\end_layout
+
+\begin_layout Standard
+I wish to use warg's source code to implement the model that I described
+ below.
+ 
+\end_layout
+
 \begin_layout Section
 Clonal Origin model
 \end_layout
@@ -82,10 +92,8 @@ spp.
  equisimilis
 \emph default
 .
- I have two individual genomes for one of the two species and, two more
- individual genomes for the other.
- The two species, or populations, share their common ancestor back in the
- past.
+ I have two individual genomes for each of the two species.
+ The two populations share their common ancestor back in the past.
  The ancestral species diverged at time 
 \begin_inset Formula $\tau$
 \end_inset
@@ -102,7 +110,54 @@ reference "tab:Tables-of-symbols"
 \end_layout
 
 \begin_layout Section
-Simulation study with SimMLST
+Simulation study with SimMLST under a full coalescent-recombination model
+ (Obsolete)
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+Because I am not sure if a full coalescent-recombination simulation can
+ be useful, this may need more consideration.
+ Two branches appear after a recombination events.
+ The two branches would be in the same population.
+ While coalescent events between two branches in the same populations would
+ be 1, coalescent events between two in different populations could happen
+ at relative rates of 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ or 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+.
+ We have relative rates of 
+\begin_inset Formula $\alpha_{1}+\alpha_{2}$
+\end_inset
+
+ that is smaller than 1 to merge two branches in different populations,
+ and then we decide whether the merged branch is in population 1 or 2 using
+ the relative rate, or 
+\begin_inset Formula $\alpha_{1}/(\alpha_{1}+\alpha_{2})$
+\end_inset
+
+.
+ We would have three more parameters, 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, and 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ I might not consider population sizes.
+ Therefore, the following paragraph may be wrong.
 \end_layout
 
 \begin_layout Standard
@@ -227,7 +282,16 @@ Equation (7) of Didelot
 et al.
 
 \emph default
- (2010)
+ (2010) (obsolete)
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+I still think that the difference would be relative coalescent rates not
+ more recombination rates.
+ Althoug the following argument was wrong, this was a nice try of consideration
+ of the probability of a recombinant tree.
 \end_layout
 
 \begin_layout Standard
@@ -640,8 +704,26 @@ I can simulate data under full ARG with
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Coalescent and migration events
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+This is the part where I have realized that I might need different relative
+ rates of coalescent not different recombination rates.
+ So, a recombinant edge starts at an arrival point.
+ The recombinant edge ends in a departure point with different rates depending
+ on whether population labels of the arrival and the departure are the same
+ or different.
+ Effectively, migrations happen at the same time as a coalescent event of
+ a recombinant edge.
+ Recombinant edges can coalesce with any species tree branch at the contemporary
+ time but with different rates.
+ I give smaller rates for coalescent events when coalescent events of recombinan
+t edges with species tree branches result in effective migration events.
+ The following paragraph is the idea that something should be reconsidered.
 \end_layout
 
 \begin_layout Standard
@@ -664,11 +746,7 @@ I have realized that the simulation under full ancestral recombination graph
 
  The two rates of coalescent between populations implicitly involve migration
  of individuals between the populations.
- 
-\end_layout
-
-\begin_layout Standard
-These 
+ These 
 \begin_inset Formula $\alpha_{1},$
 \end_inset
 
@@ -677,10 +755,7 @@ These
 \end_inset
 
  are not coalescent rates.
-\end_layout
-
-\begin_layout Standard
-When considering a simulation under the full ancestral recombination graph,
+ When considering a simulation under the full ancestral recombination graph,
  I thought that I would have three types of recombinations events, and according
 ly their rates: recombination within a population, and two different recombinati
 on rates between populations.
@@ -694,10 +769,7 @@ on rates between populations.
  I think that multiple types of coalescent events can be considered: Doing
  so I could have the two simulatoin approaches under different models could
  be matched.
-\end_layout
-
-\begin_layout Standard
-Or, I might consider migration events explicitly under the full ancestral
+ Or, I might consider migration events explicitly under the full ancestral
  recombination graph.
  Only individuals within a population can coalesce.
  This seems complicated on top of the complication incurred above.
@@ -709,8 +781,93 @@ Or, I might consider migration events explicitly under the full ancestral
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+
+\family typewriter
+After all this thought, I think that migration events are explicitly modeled
+ neither in the full coalescent-recombination simulation nor in the ClonalOrigin
+ model.
+ I just use relative coalescent rates of recombinant edges to mimic migration
+ events.
+ In the full coalescent-recombination model, recombination events produces
+ two branches from a branch.
+ The two branches would be in the same population as their original branch.
+ Coalescent rates between two branches in the same population would be larger
+ than those between two branches in different populations.
+ The population label for the resulting branch from a coalescent event of
+ two branches in the same population would be the same as one for the two
+ branches.
+ The population label from a coalescent event of two in different population
+ could be either of them.
+ I choose one of the two population labels differently or 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+.
+ The resulting population label is 1 with probability of 
+\begin_inset Formula $\alpha_{1}/(\alpha_{1}+\alpha_{2})$
+\end_inset
+
+, and vice versa.
+ In the ClonalOrigin model, an arrival point is sampled.
+ A departure point is chosen from the prior of coalescent process.
+ When the arrival point is in population 2, the departure point is in population
+ 1 with probability of 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+.
+ I have not described the prior of coalescent process.
+\end_layout
+
+\begin_layout Section
 MCMC moves
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+I might consider 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, and 
+\begin_inset Formula $\tau$
+\end_inset
+
+ as global parameters simimlar to population mutation, recombination rates,
+ and tract length.
+ I would be able to infer the three additional parameters from the first
+ stage of ClonalOrigin inference.
+ For each block of alignment I might infer 
+\begin_inset Formula $\alpha_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+, and 
+\begin_inset Formula $\tau.$
+\end_inset
+
+ I would have uniform priors on 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau.$
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -719,7 +876,7 @@ Didelot
 et al.
 
 \emph default
- (2010) describe details of the MCMC moves in its appendix.
+ (2010) describe details of the MCMC moves in their appendix.
  I would consider a naive dicretization of splitting event time: i.e., the
  splitting time would be fixed at one of intervals in which splitting time
  would be expected to exist.
@@ -776,11 +933,15 @@ move of
 \begin_inset Formula $\alpha_{1}$
 \end_inset
 
- and 
+, 
 \begin_inset Formula $\alpha_{2}$
 \end_inset
 
-, and
+, and 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and
 \end_layout
 
 \begin_layout Enumerate
@@ -804,6 +965,10 @@ Some of the moves would be similar to those given in the appendix of the
 
  When I consider these moves and their Metropolis-Hastings acceptance probabilit
 y, I hope that several key formulae are clearer to understand.
+\end_layout
+
+\begin_layout Subsection
+Probability of recombinant tree
 \end_layout
 
 \begin_layout Standard
@@ -843,6 +1008,21 @@ This equation assumes a coalescent prior for
  within a population.
  In the ancestral population lineages can coalescent with 1.
  
+\family typewriter
+The following equation does not seem to be right.
+ It seems like that we have three separate forms of the equations above.
+ I need to consider the series of exponential distributions.
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+I need to consider the probability that is constructed using a series of
+ exponential distributions.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula \[
 \mathbf{P}(\mathcal{T}|\tau,\alpha_{1},\alpha_{2})=\prod_{i=2}^{N}\left(I_{e_{i}\in E_{1}}+I_{e_{i}\in E_{2}}+I_{e_{i}\in E_{2\rightarrow1}}\alpha_{1}+I_{e_{i}\in E_{1\rightarrow2}}\alpha_{2}\right)\exp\left(-\left({k_{1,i} \choose 2}+{k_{2,i} \choose 2}+k_{1,i}k_{2,i}(\alpha_{1}+\alpha_{2})\right)t_{i}\right).\]
 
@@ -894,9 +1074,20 @@ This is also true for the population divergence model.
 
 \begin_layout Enumerate
 The arrival point of a recombinant edge is in population 1, and the departure
- point is in population 1 or 2.
+ point is in population 1.
 \begin_inset Formula \[
-\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)=\left(I_{e_{n_{b}}\in E_{1}}+I_{e_{n_{b}}\in E_{1\rightarrow2}}\alpha_{2}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\]
+\mathbf{P}(a_{r},A(a_{r})\in1|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)=\left(I_{e_{n_{b}}\in E_{1}}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 1, and the departure
+ point is in population 2.
+\begin_inset Formula \[
+\mathbf{P}(a_{r},A(a_{r})\in2|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)=\left(I_{e_{n_{b}}\in E_{1\rightarrow2}}\alpha_{2}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\]
 
 \end_inset
 
@@ -905,9 +1096,20 @@ The arrival point of a recombinant edge is in population 1, and the departure
 
 \begin_layout Enumerate
 The arrival point of a recombinant edge is in population 2, and the departure
- point is in population 1 or 2.
+ point is in population 1.
 \begin_inset Formula \[
-\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in2)=\left(I_{e_{n_{b}}\in E_{2}}+I_{e_{n_{b}}\in E_{2\rightarrow1}}\alpha_{1}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{2,i}+k_{1,i}\alpha_{1}\right)t_{i}\right)\]
+\mathbf{P}(a_{r},A(a_{r})\in1|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in2)=\left(I_{e_{n_{b}}\in E_{2\rightarrow1}}\alpha_{1}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 2, and the departure
+ point is in population 2.
+\begin_inset Formula \[
+\mathbf{P}(a_{r},A(a_{r})\in2|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in2)=\left(I_{e_{n_{b}}\in E_{2}}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\]
 
 \end_inset
 
@@ -918,7 +1120,18 @@ The arrival point of a recombinant edge is in population 2, and the departure
 The arrival point of a recombinant edge is in population 1, and the departure
  point is in population 3.
 \begin_inset Formula \[
-\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in1)=\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{2,i}+k_{1,i}\alpha_{1}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\]
+\mathbf{P}(a_{r},A(a_{r})\in3|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)=\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The arrival point of a recombinant edge is in population 2, and the departure
+ point is in population 3.
+\begin_inset Formula \[
+\mathbf{P}(a_{r},A(a_{r})\in3|b_{r},\mathcal{T},\tau,\alpha_{1},A(b_{r})\in2)=\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\]
 
 \end_inset
 
@@ -929,7 +1142,7 @@ The arrival point of a recombinant edge is in population 1, and the departure
 The arrival point of a recombinant edge is in population 3, and the departure
  point is in population 3.
 \begin_inset Formula \[
-\mathbf{P}(a_{r}|b_{r},\mathcal{T},\tau,A(b_{r})\in3)=\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)=\exp\left(-L(a_{r},b_{r})\right).\]
+\mathbf{P}(a_{r},A(a_{r})\in3|b_{r},\mathcal{T},\tau,A(b_{r})\in3)=\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)=\exp\left(-L(a_{r},b_{r})\right).\]
 
 \end_inset
 
@@ -994,8 +1207,9 @@ This is the product of three terms: the probability of number of recombination
  events, all possible orders of the events, and the product of probabilities
  of recombination events.
  I find
-\begin_inset Formula \[
-\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta)=\mathbf{P}(R|\mathcal{T},\rho)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,A(b_{i}))\]
+\begin_inset Formula \begin{eqnarray*}
+\mathbf{P}(\mathcal{R}|\mathcal{T},\tau,\alpha_{1},\alpha_{2},\rho,\delta) & = & \mathbf{P}(R|\mathcal{T},\rho)R!\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(b_{i}|\mathcal{T})\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,\alpha_{1},\alpha_{2},A(b_{i}))\\
+ & = & \exp(-\rho T/2)\left(\rho/2\right)^{R}\prod_{i=1}^{R}\mathbf{P}(x_{i}|\delta)\mathbf{P}(y_{i}|x_{i},\delta)\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,\alpha_{1},\alpha_{2},A(b_{i}))\end{eqnarray*}
 
 \end_inset
 
@@ -1111,6 +1325,7 @@ I am going through ClonalOrigin source code for simulating data under its
  model.
  SimMLST simulates data under the full ancestral recombination graph, which
  might not be the one that I wish to use.
+ ClonalOrigin has both simulation and inference in the same code base.
  
 \end_layout
 
@@ -1191,7 +1406,33 @@ The departure point
 \begin_inset Formula $a_{i}$
 \end_inset
 
- can be in population 1, 2, or 3.
+ can be in population 1, 2, or 3 with probability of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{P}(a_{r},A(a_{r})\in1|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{P}(a_{r},A(a_{r})\in2|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)$
+\end_inset
+
+, or 
+\begin_inset Formula $\mathbf{P}(a_{r},A(a_{r})\in3|b_{r},\mathcal{T},\tau,\alpha_{2},A(b_{r})\in1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+A recombinant tree is created using the procedure above.
+ Given the recombinant tree I can create a sequence data set.
 \end_layout
 
 \begin_layout Section
