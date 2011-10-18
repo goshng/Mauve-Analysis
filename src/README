@@ -1,0 +1,21 @@
+Some of source codes
+====================
+Sang Chul Choi <goshng@yahoo.co.kr>
+
+Simulation of ClonalOrigin Model
+--------------------------------
+clonalorigin
+
+Source codes of ClonalOrigin
+----------------------------
+warg
+
+Prior count
+-----------
+warg's gui is modified so that I can execute the gui in unix environment.
+warggui
+
+Simulation and inference of ClonalOrigin Model with two-population model
+------------------------------------------------------------------------
+warg2. I copied source codes from clonalorigin and warg directories. The origin
+al codes are in warg directory.
