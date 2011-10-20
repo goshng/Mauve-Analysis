@@ -105,9 +105,9 @@ source sh/batch.sh
 #####################################################################
 # Main part of the script.
 #####################################################################
-batch
-exit
-short-notice
+#batch
+#exit
+#short-notice
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
           choose-simulation \
@@ -163,8 +163,8 @@ CHOICES=( init-file-system \
           ---RECOMBINATION-COUNT---\
           recombination-count \
           # count-observed-recedge \
-          # compute-prior-count-recedge \
-          # compute-heatmap-recedge \
+          compute-prior-count-recedge \
+          compute-heatmap-recedge \
           # prepare-run-compute-heatmap-recedge \
           ---RECOMBINATION-INTENSITY---\
           recombination-intensity1-map \

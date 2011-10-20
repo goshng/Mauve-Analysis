@@ -74,7 +74,7 @@ my $meanfile = "";
 my $append = 0;
 my $check = 0;
 my $xmlBasename = "core_co.phase3";
-my $endblockid = 0;
+my $endblockid = 1;
 my $outfile;
 my $isLowertime = 0; # Special case
 
@@ -171,7 +171,17 @@ elsif ($cmd eq "heatmap")
     &printError("you did not specify a number of blocks");
   }
 }
-
+elsif ($cmd eq "exponly")
+{
+  if ($heatDir eq "")
+  {
+    &printError("$cmd requires -e option");
+  }
+  unless (exists $params{n})
+  {
+    &printError("you did not specify a number of blocks");
+  }
+}
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
@@ -274,16 +284,19 @@ if ($obsonly == 0)
     }
   }
 }
-if ($check == 1)
+if ($cmd eq "exponly")
 {
-  print "expMap:\n";
   for my $i ( 0 .. $#expMap ) {
-    print "  ";
     for my $j ( 0 .. $#{ $expMap[$i] } ) {
-      print "[$i][$j] $expMap[$i][$j] ";
+      print $outfile "$expMap[$i][$j]";
+      unless ($i == $#expMap and $j == $#{ $expMap[$i] })
+      {
+        print $outfile "\t";
+      }
     }
-    print "\n";
   }
+  print $outfile "\n";
+  exit;
 }
 
 ##############################################################

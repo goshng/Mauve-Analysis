@@ -886,19 +886,20 @@ Wrote the paper: SCC MDR MJH IG AS.
 % The bibtex filename
 \bibliographystyle{plos}
 \bibliography{siepel-strep}
+\clearpage{}
 
 \section*{Figure Legends}
 
 \begin{flushleft}
 
-Figure \ref{fig:tree5}.\ \bf{The species tree of the five genomes inferred using
-\texttt{ClonalFrame}.}  SPY is the branch of a clade of \textit{Streptococcus
+Figure \ref{fig:tree5}.\ {\bf The species tree of the five genomes.}
+SPY is the branch of a clade of \textit{Streptococcus
 pyogenes}, SDE is that for \textit{S.\ dysgalactiae} ssp.\textit{\ equisimilis},
 and SD is the branch for the three individual genomes of \textit{S.\
 dysgalactiae}. The scale is proportional to the expected number of mutations
 given the Watterson's estimate of mutation rate and the tree.
 
-Figure \ref{fig:Heatmap-of-recombination}.\ \bf{Heatmap of recombination events 
+Figure \ref{fig:Heatmap-of-recombination}.\ {\bf Heatmap of recombination events 
 using the five genomes.}
 Each cell of the heat map represents the logarithm base
 2 of the number of recombination events inferred relative to its expectation
@@ -907,7 +908,7 @@ the y-axis; the recipient on the x-axis.  The black colored cells are meaningles
 because the recipient species tree branch of the cells are older than the donor
 species branch.
 
-Figure \ref{fig:Gene-duplication-loss}.\ \bf{Distribution of inferred gene 
+Figure \ref{fig:Gene-duplication-loss}.\ {\bf Distribution of inferred gene 
 duplication, loss, and transfer events across
 the phylogeny.}  Gene counts for
 each extant and ancestral species are given at each node of the phylogeny.  For
@@ -916,7 +917,7 @@ non-recombining transfers T*, and recombinations R*.  The non-recombining
 transfer and recombination counts are indicated on the recipient branch (donors
 are not indicated).
 
-Figure \ref{fig:h3}.\ \bf{Simulations of the model-based approach for assessing 
+Figure \ref{fig:h3}.\ {\bf Simulations of the model-based approach for assessing 
 the power of recovering recombinant edges.} 
 Pairs of species tree branches are shown at x-axis labels.
 Three intervals are displayed for each pair. Intervals with solid line with open
@@ -961,8 +962,8 @@ The intervals range from 5\% quantile to 95\% of quantile.
 
 %=============================================================================
 % Table 1. 
-\begin{table}
-\caption{\label{tab:functional}
+\begin{table}[!ht]
+\caption{
 \bf{Functional categories asscoiated with 
 recombination intensity based on topology-altering recombinant edges.}}
 \noindent \begin{centering}
@@ -987,16 +988,17 @@ P-Value & Count & GO term & Description\tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
+\label{tab:functional}
 \end{table}
 %\clearpage{}
 %=============================================================================
 
-
 %=============================================================================
 % Table 2. 
-\begin{table}
-\caption{\label{tab:go-events}Functional categories asscoiated with 
-non-recombining horizontal gene transfer.}
+\begin{table}[!ht]
+\caption{
+\bf{Functional categories asscoiated with 
+non-recombining horizontal gene transfer.}}
 \noindent \begin{centering}
 \begin{tabular}{cccl}
 \hline 
@@ -1015,20 +1017,25 @@ P-Value & Count & GO term & Description \\
 \hline 
 \end{tabular}
 \par\end{centering}
+\label{tab:go-events}
 \end{table}
 \clearpage{}
 %=============================================================================
 
+\section*{Figures}
+
 %=============================================================================
 % Figure 1: Species tree
-\begin{figure}
+\begin{figure}[!ht]
 \includegraphics[scale=0.7]{figures/cornellf-3-tree}
-\caption{\label{fig:tree5}The species tree of the five genomes inferred using
-\texttt{ClonalFrame}.  SPY is the branch of a clade of \textit{Streptococcus
+\caption{
+{\bf The species tree of the five genomes.} 
+SPY is the branch of a clade of \textit{Streptococcus
 pyogenes}, SDE is that for \textit{S.\ dysgalactiae} ssp.\textit{\ equisimilis},
 and SD is the branch for the three individual genomes of \textit{S.\
 dysgalactiae}. The scale is proportional to the expected number of mutations
 given the Watterson's estimate of mutation rate and the tree.}
+\label{fig:tree5}
 \end{figure}
 \clearpage{}%
 %=============================================================================
@@ -1038,7 +1045,7 @@ given the Watterson's estimate of mutation rate and the tree.}
 \begin{figure}
 \includegraphics[scale=0.45]{figures/heatmap-recedge}
 \caption{\label{fig:Heatmap-of-recombination}
-\bf{Heatmap of recombination events using the five genomes.}
+{\bf Heatmap of recombination events using the five genomes.}
 Each cell of the heat map represents the logarithm base
 2 of the number of recombination events inferred relative to its expectation
 under the prior, for a donor and recipient pair of branches. The donor is given by
@@ -1054,7 +1061,7 @@ species branch.}
 \begin{figure}
 \includegraphics[width=6in]{figures/strep-events}
 \caption{\label{fig:Gene-duplication-loss} 
-\bf{Distribution of inferred gene duplication, loss, and transfer events across
+{\bf Distribution of inferred gene duplication, loss, and transfer events across
 the phylogeny.}  Gene counts for
 each extant and ancestral species are given at each node of the phylogeny.  For
 each branch we denote the number of gains G*, duplications D*, losses L*,
@@ -1073,8 +1080,8 @@ are not indicated).}
 
 \subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-not-topology-changing}}
 
-\caption{\label{fig:h3}
-\bf{Simulations of the model-based approach for assessing the power of recovering
+\caption{
+{\bf Simulations of the model-based approach for assessing the power of recovering
 recombinant edges.} Pairs of species tree branches are shown at x-axis labels.
 Three intervals are displayed for each pair. Intervals with solid line with open
 circle in the middle are for the logarithm of the fraction to base 2 of the average
@@ -1088,6 +1095,7 @@ of the fraction to base 2 of the number of recombinant edges estimated from the 
 to the numbers of recombinant edges estimated from Simulation 3. 
 The horizontal lines are at the zero.
 The intervals range from 5\% quantile to 95\% of quantile.}
+\label{fig:h3}
 \end{figure}
 \clearpage{}%
 %=============================================================================
@@ -1133,25 +1141,31 @@ $^a$ SDD genome was not yet available from NCBI.
 \begin{table}[!ht]
 \caption{
 \bf{Parameter estimates from \texttt{ClonalFrame}.}
-$\theta$ is population mutation rate,
-$\delta$ is the average recombinant tract length,
-$r/m$ is the relative strength of recombination compared to mutations,
-TMRCA is the time to most recent common ancestor, and
-$T$ is the total branch length of the inferred species tree.}
 \noindent \centering{}\begin{tabular}{cc}
 \hline
 Parameter & Estimates (95\% credibility interval) \tabularnewline
 \hline
-$\theta$ & 92871.84 (N/A)\tabularnewline
-$\nu$ & 0.134 (0.132, 0.135)\tabularnewline
-$R$ & 9370 (8950, 9780)\tabularnewline
-$\delta$ & 362 (347, 377)\tabularnewline
-$r/m$ & 4.66 (4.45, 4.87)\tabularnewline
-$\rho/\theta$ & 0.101 (0.096, 0.105)\tabularnewline
-TMRCA & 0.331 (0.324, 0.337)\tabularnewline
-$T$ & 1.02 (1.01, 1.04)\tabularnewline
+$\theta^a$ & 92871.84 (N/A)\tabularnewline
+$\nu^b$ & 0.134 (0.132, 0.135)\tabularnewline
+$R^c$ & 9370 (8950, 9780)\tabularnewline
+$\delta^d$ & 362 (347, 377)\tabularnewline
+$r/m^e$ & 4.66 (4.45, 4.87)\tabularnewline
+$\rho/\theta^f$ & 0.101 (0.096, 0.105)\tabularnewline
+TMRCA$^g$ & 0.331 (0.324, 0.337)\tabularnewline
+$T^h$ & 1.02 (1.01, 1.04)\tabularnewline
 \hline
 \end{tabular}
+\begin{flushleft}
+$^a$ $\theta$ is population mutation rate,
+
+$^d$ $\delta$ is the average recombinant tract length,
+
+$^e$ $r/m$ is the relative strength of recombination compared to mutations,
+
+$^g$ TMRCA is the time to most recent common ancestor, and
+
+$^h$ $T$ is the total branch length of the inferred species tree.}
+\end{flushleft}
 \label{tab:clonalframe}
 \end{table}
 %\clearpage{}
