@@ -49,7 +49,7 @@
 \usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
 
 % Use the PLoS provided bibtex style
-\bibliographystyle{plos}
+% \bibliographystyle{plos}
 
 % Remove brackets from numbering in List of References
 \makeatletter
@@ -517,56 +517,74 @@ for 29\% of the aspartyl-tRNA synthetase gene. Recombinant tracts often were
 shown to span two genes.  In other cases, the inferred transfer units spaned a
 set of as much as eight adjacent genes: loci from SpyM3\_1518 to SpyM3\_1525.
 
-\subsection*{Simulation study and additional support for biased directionality in recombining gene transfer between SPY and SDE}
+\subsection*{Simulation study and additional support for biased directionality
+in recombining gene transfer between SPY and SDE}
 
-We conducted a series of experiments on simulated data to check the reliability of estimates obtained by ClonalOrigin. We found that the population parameters obtained in the first phase of ClonalOrigin are rather reliable, with the exception of the average recombinant tract length, which appeared to be over-estimated (this was observed also in \citep{Didelot2010}). Our experiments also show that the recombination intensity used in our association tests and traced in the genome browser tracks are reliably recovered by ClonalOrigin (Figure S\ref{fig:ri1}). See Materials and Methods for a more detailed report of these results. One issue we 
+We conducted a series of experiments on simulated data to check the reliability
+of estimates obtained by the model-based approach. We found that the population
+parameters obtained in the first phase were reliable, with the exception that
+the average recombinant tract length was over-estimated (this was observed also
+in \citep{Didelot2010}). Our experiments also showed that the recombination
+intensity used in our functional category association tests had fairly good
+correlation between the true value and the simulated ones.  (Figure
+S\ref{fig:ri1}). See \textbf{Materials and Methods} for a more detailed report
+of these results. One thing we specifically wished to test in these experiments
+was whether the model-based approach reliably detected deviations of recombinant
+edge counts from their expectation, as observed in the heatmap of Figure
+\ref{fig:Heatmap-of-recombination}. Our major concern was that these deviations
+were not directly accounted for by the probabilistic model of ClonalOrigin, but
+rather indirectly observed by summary of the posterior sample of recombinant
+trees. 
 
+We simulated the model to generate a hundred simulated data sets using a
+collection of recombinant trees sampled from the prior distribution defined by
+the species tree and three population parameters, as estimated from our genomic
+data.  We then repeat the inference procedure of the second stage of
+\texttt{ClonalOrigin} on each data set and, as in the data analysis, and counted
+for each donor-recepient branch pair the average number of recombinant edges.
+By normalizing the counts by the prior expected count we obtained intervals of
+base 2 logarithms of the ratio of the observed number of recombinant edges to
+the prior expectionation (Figure \ref{fig:h3}). The comparison showed a good
+concordance of the estimated counts and the prior expected counts for all
+topology-altering edge types and a clear over-estimation for the counts of
+topology-preserving edges. Recall that we made sure to ignore these edges in our
+analysis. For each edge type, we also plotted in Figure \ref{fig:h3} the
+log-ratio of the count estimated for it in our data analysis and the expected
+count (the closed circles without interval bars); these are the values making up
+the heatmap of Figure \ref{fig:Heatmap-of-recombination}. Comparing the counts
+estimated in the data analysis and the counts estimated from the simulated data
+allowed to evaluate the significance of the divergence from expectation observed
+in the heatmap.  Recall the heatmap indicated an excess of recombinant edges
+between the SPY and SDE clades in both directions. Our simulations indicated
+that the excess observed in the direction SDE to SPY was much less significant,
+as the counts estimated from real data often falled very close to the
+corresponding counts estimated from simulated data. The excess observed in the
+direction SPY to SDE appeared not only to be larger, but also more significant.
+This further supported our claim for the net directionality in recombining gene
+transfer between these two species.
 
- with a special focus on its ability to detect asymmetric patterns of recombination such as the one we found between SPY and SDE. 
-
-Recombination intensities that were measured on genes also showed rough
-correlation (Pearson's correlation coefficient of 0.63) of the estimated and
-true values (Figure S\ref{fig:ri1}).  Estimated values appeared to be driven
-somewhat by the prior implied by the population parameter setting, explaining
-why lower values were over-estimated and higher values were under-estimated.
-Nonetheless, the correlation indicated that the measure of recombination
-intensity used in our functional gene category served as an adequate indicator
-of actual intensity of recombination events along genes.
-
-
-Numbers of 
-recombinant edges from the simulated recombinant trees of Simulation 2 (see
-\textbf{Supplementary Information} for the description of Simulation 2) were
-compared with the corresponding numbers of recombinant edges that were estimated
-from the simulated data set from Simulation 2 (see the solid-line intervals with
-open circles in Figure \ref{fig:h3}).  We noted that tree-topology-changing
-recombinant edges were more reliably recovered compared with
-tree-topology-not-changing ones (Figure \ref{fig:h3}). All of the
-tree-topology-not-changing recombinant edge types were over-estimated (Figure
-\ref{fig:h3}B). The heat map of Figure \ref{fig:Heatmap-of-recombination} did
-not show how confident of the values we could be. Comparison of numbers of
-recombinant edges estimated from the real data set and the corresponding numbers
-estimated from Simulation 2 showed the interval estimates for the heat map
-values.  Dotted-line intervals from the red and blue colored cells in the heat
-map were above and below the reference of the horizontal line at the zero on the
-Y-axis, respectively (Figure \ref{fig:h3}).  
-
-for each recombinant edge type to assess the effect of posterior recombinant
-trees samples with respect to that of prior recombinant tree samples. The ten
-\textit{a priori} recombinant trees from Simulation 2 would have balanced
-recombining gene transfer events between SPY and SDE with respect to the prior
-expected number of recombinant edges. The posterior recombinant trees used in
-Simulation 3 would have unbalanced recombining gene transfer between the two
-species branches as we observed in the real data analysis. For significantly
-strong gene flows such as ones from SPY to SDE a solid-line interval with a
-closed circle would be different from its count part of the dotted-line
-interval.  Figure \ref{fig:h3} showed that the recombining gene flow from SPY to
-SDE was stronger enough to be nearer to the horizontal line at the zero on the
-Y-axis. However, the recombining gene transfer from SDE to SPY appeared to be
-too weak.  This comparison supported the biased directionality of recombining
-gene transfer from SPY to SDE.
-
-
+We wished to use simulated data to test not only the ability of the ClonalOrigin
+sample to \textit{detect} deviations from expected counts of recombinant edges, but
+also its ability to reliably \textit{quantify} this deviation. For this purpose we
+generated a hundred simulated data sets using a collection of recombinant trees
+sampled from the posterior sample of ClonalOrigin on the genomic data. The
+difference between the two simulated batches was that in the first one, the
+recombinant trees used represent the prior distribution, and in the second one,
+they represented the posterior distribution, which we knew deviated from the
+prior. Again, we recorded the recombinant edge counts obtained by ClonalOrigin
+and normalized these counts by the prior expected counts (intervals with closed
+circles in in Figure \ref{fig:h3}). We expected these counts to be in better agreement with
+the counts observed in the data analysis. For recombinant edges that showed a
+defficiency in our data analysis (e.g., from the SPY clade to SDD), the counts
+appeared to fit well with the count estimated from genomic data. However, for
+recombinant edges that showed an excess in our data analysis (e.g., from the SPY
+clade to the SDE clade), the counts appeared to be significantly influenced by the
+prior. We noted that the influence of the prior appeared to be even stronger for
+topology-preserving recombinant edges. All things considered, we found that defficiency of
+a certain recombinant edge type was reliably estimated whereas excesses were 
+typically underestimated. Therefore, we concluded that the actual extent to which
+recombining transfers between SPY and SDE \textit{preferred} the direction from SPY to
+SDE was possibly somewhat underestimated in our analysis.
 
 \section*{Discussion}
 
@@ -964,7 +982,7 @@ The intervals range from 5\% quantile to 95\% of quantile.
 % Table 1. 
 \begin{table}[!ht]
 \caption{
-\bf{Functional categories asscoiated with 
+{\bf Functional categories associated with 
 recombination intensity based on topology-altering recombinant edges.}}
 \noindent \begin{centering}
 \begin{tabular}{cccl}
@@ -997,7 +1015,7 @@ P-Value & Count & GO term & Description\tabularnewline
 % Table 2. 
 \begin{table}[!ht]
 \caption{
-\bf{Functional categories asscoiated with 
+{\bf Functional categories associated with 
 non-recombining horizontal gene transfer.}}
 \noindent \begin{centering}
 \begin{tabular}{cccl}
@@ -1105,14 +1123,13 @@ The intervals range from 5\% quantile to 95\% of quantile.}
 \renewcommand{\figurename}{Supplementary Figure}
 \renewcommand{\tablename}{Supplementary Table}
 
-% \section*{Supplementary Tables}
-% \clearpage{}
+\section*{Supplementary Tables}
 
 %=============================================================================
 % Table S1. List of six genomes.
-\begin{table}
+\begin{table}[!ht]
 \caption{
-\bf{The six complete bacterial genomes.}
+{\bf The six complete bacterial genomes.}
 Each bacteria and its genome is referred to as the name at the first column.}
 \noindent \begin{centering}
 \begin{tabular}{cccc}
@@ -1140,7 +1157,7 @@ $^a$ SDD genome was not yet available from NCBI.
 % Table S2. ClonalFrame Result.
 \begin{table}[!ht]
 \caption{
-\bf{Parameter estimates from \texttt{ClonalFrame}.}
+{\bf Parameter estimates from \texttt{ClonalFrame}.}}
 \noindent \centering{}\begin{tabular}{cc}
 \hline
 Parameter & Estimates (95\% credibility interval) \tabularnewline
@@ -1164,7 +1181,7 @@ $^e$ $r/m$ is the relative strength of recombination compared to mutations,
 
 $^g$ TMRCA is the time to most recent common ancestor, and
 
-$^h$ $T$ is the total branch length of the inferred species tree.}
+$^h$ $T$ is the total branch length of the inferred species tree.
 \end{flushleft}
 \label{tab:clonalframe}
 \end{table}
@@ -1175,7 +1192,7 @@ $^h$ $T$ is the total branch length of the inferred species tree.}
 % Table S. ClonalOrigin's 1st stage result.
 \begin{table}[!ht]
 \caption{
-\bf{Three population parameter estimates from the model-based approach.}
+{\bf Three population parameter estimates from the model-based approach.}
 The estimates of the three parameters were based on one of two independent
 MCMC chains.  We considered the similar 
 results of the two independent chains as confirmation of 
@@ -1207,10 +1224,10 @@ $^d$ The median value for the recombinant tract length weighted over the lengths
 %=============================================================================
 
 %=============================================================================
-% Table S3. Gene Tree topologies
-\begin{table}
+% Table S4. Gene tree topologies
+\begin{table}[!ht]
 \caption{
-\bf{Posterior probability of gene tree topologies.}
+{\bf Posterior probability of gene tree topologies.}
 See Table S\ref{tab:genome} for the reference of the bacteria
 individual names.}
 \noindent \begin{centering}
@@ -1231,14 +1248,14 @@ Gene tree topologies & Posterior probability\tabularnewline
 \par\end{centering}
 \label{tab:Gene-tree-topologies}
 \end{table}
-\clearpage{}
+%\clearpage{}
 %=============================================================================
 
 %=============================================================================
 % Table S4. The values of the heat map.
 \begin{table}[!ht]
 \caption{
-\bf{Ratios of logarithm base 2 of the observed
+{\bf Ratios of logarithm base 2 of the observed
 recombinant edges to the expected number of recombinant edges.}  Figure
 \ref{fig:Heatmap-of-recombination} shows the values graphically using heat map.
 NA's are for the branch pairs that are impossible under the model-based
@@ -1267,7 +1284,7 @@ SPY2& 1.174  &1.938  &1.287  &    NA &-1.9740  & NA & 1.07 &    NA & 0.063\tabul
 % Table S5. The values of the heat map of actual counts.
 \begin{table}[!ht]
 \caption{
-\bf{The observed number of recombinant edges.}
+{\bf The observed number of recombinant edges.}
 The zeros are for the branch pairs that are impossible under the model-based
 approached. Rows are for donor, and columns for recipient.}
 \noindent \centering{}\begin{tabular}{cccccccccc}
@@ -1295,7 +1312,7 @@ SPY2&38.837&  11.90& 42.000 &  0.00&   5.111  &  0& 42.45 &   0.00 & 21.19\tabul
 % Table S7. Mowgli - Recombining Transfer
 \begin{table}[!ht]
 \caption{
-\bf{Functional categories enriched in 
+{\bf Functional categories enriched in 
 recombining transfer events that are inferred using the parsimony-based
 approach.}}
 \noindent \begin{centering}
@@ -1325,7 +1342,7 @@ P-value & Count & GO-term & Description \\
 % Table S. 
 \begin{table}[!ht]
 \caption{
-\bf{Virulence genes inferred to have experienced recombining gene transfer
+{\bf Virulence genes inferred to have experienced recombining gene transfer
 events.}}
 \noindent \begin{centering}
 \begin{tabular}{lll}
@@ -1351,7 +1368,7 @@ putative glucose kinase & SpyM3\_1180 & SPY to SDE\\
 % Table S. 
 \begin{table}[!ht]
 \caption{
-\bf{Virulence genes inferred to have experienced horizontal gene transfer
+{\bf Virulence genes inferred to have experienced horizontal gene transfer
 events.}}
 \noindent \begin{centering}
 \begin{tabular}{ll}
@@ -1380,7 +1397,7 @@ Protein F2 like fibronectin-binding protein (adhesin and invasin) & SpyM3\_0104\
 % Table S6. Genes with evident recombining gene transfer.
 \begin{table}[!ht]
 \caption{
-\bf{Genes and their parts transferred via homologous
+{\bf Genes and their parts transferred via homologous
 recombining gene transfer.}}
 {\footnotesize
 \begin{tabular}{lllllll}
@@ -1515,9 +1532,10 @@ the locus.
 
 %=============================================================================
 % Table S8. ClonalOrigin - All Topologies
-\begin{table}
-\caption{\label{tab:functional-all}Functional categories asscoiated with 
-recombination intensity based on all of the recombinant edge types.}
+\begin{table}[!ht]
+\caption{
+{\bf Functional categories associated with 
+recombination intensity based on all of the recombinant edge types.}}
 \noindent \begin{centering}
 \begin{tabular}{cccl}
 \hline 
@@ -1537,6 +1555,7 @@ P-Value & Count & GO term & Description\tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
+\label{tab:functional-all}
 \end{table}
 %\clearpage{}
 %=============================================================================
@@ -1544,9 +1563,11 @@ P-Value & Count & GO term & Description\tabularnewline
 
 %=============================================================================
 % Table S. Simulation study for the three population parameters.
-\begin{table}
-\caption{\label{tab:functional-notopology}Functional categories asscoiated with 
-recombination intensity based on the topology-not-changing recombinant edge types.}
+\begin{table}[!ht]
+\caption{
+{\bf Functional categories asscoiated with 
+recombination intensity based on the topology-not-changing recombinant edge
+types.}}
 \noindent \begin{centering}
 \begin{tabular}{cccl}
 \hline 
@@ -1559,6 +1580,7 @@ P-Value & Count & GO term & Description\tabularnewline
 \hline 
 \end{tabular}
 \par\end{centering}
+\label{tab:functional-notopology}
 \end{table}
 %\clearpage{}
 %=============================================================================
@@ -1677,9 +1699,9 @@ P-Value & Count & GO term & Description\tabularnewline
 
 %=============================================================================
 % Table S15. Simulation study for the three population parameters.
-\begin{table}
-\caption{\label{tab:sim-three}
-Simulation study of the three population parameters.}
+\begin{table}[!ht]
+\caption{
+{\bf Simulation study of the three population parameters.}}
 \noindent \begin{centering}
 \begin{tabular}{ccc}
 \hline
@@ -1691,23 +1713,22 @@ Recombinant tract length & 744 bp & 919 bp (28)\tabularnewline
 \hline
 \end{tabular}
 \par\end{centering}
+\label{tab:sim-three}
 \end{table}
-%\clearpage{}
 %=============================================================================
 
 
-%\section*{Supplementary Figures}
-
 \clearpage{}
+\section*{Supplementary Figures}
 
 %=============================================================================
 % Figure S1: Mauve alignment of the five genomes.
-\begin{figure}
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[scale=0.25]{figures/mauve}
 \end{center}
 \caption{\label{fig:mauve}
-\bf{The genome alignment of the five genomes.} The top
+{\bf The genome alignment of the five genomes.} The top
 first and second rows are SDE1 and SDE2 genomes, respectively. The third is SDD
 genome. The fourth and fifth rows are SPY1 and SPY2 genomes, respectively.}
 \end{figure}
@@ -1727,7 +1748,7 @@ genome. The fourth and fifth rows are SPY1 and SPY2 genomes, respectively.}
 
 %=============================================================================
 % Figure S2. Three population parameters.
-\begin{figure}
+\begin{figure}[!ht]
 \begin{center}
 \subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot theta}}
 
@@ -1735,12 +1756,14 @@ genome. The fourth and fifth rows are SPY1 and SPY2 genomes, respectively.}
 
 \subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot delta}}
 \end{center}
-\caption{\label{fig:scatter3}Three scatter plots of mutation rate, recombination
-rate, and average tract length for the blocks. The plus signs are mean values
+\caption{
+{\bf Three scatter plots of mutation rate, recombination
+rate, and average tract length for the blocks.} The plus signs are mean values
 for each block. The density of each value for each block is depicted by black
 clouds.  The red dashed lines are the global block-length weighted median of the
 three parameter estimates.}
 \end{figure}
+\label{fig:scatter3}
 \clearpage{}%
 %=============================================================================
 
@@ -1751,7 +1774,7 @@ three parameter estimates.}
 \begin{center}
 \includegraphics[width=5in]{figures/famsizes}
 \end{center}
-\caption{\bf{Distribution of gene family sizes.}}
+\caption{{\bf Distribution of gene family sizes.}}
 \label{fig:famsizes}
 \end{figure}
 \clearpage{}
@@ -1764,7 +1787,7 @@ three parameter estimates.}
 \includegraphics[scale=0.45]{figures/heatmap-hgtedge}
 \end{center}
 \caption{
-\bf{Heat map of horizontal gene transfers using the six genomes.}
+{\bf Heat map of horizontal gene transfers using the six genomes.}
 Each cell of the color matrix shows the number of inferred non-recombining
 horizontal gene transfer events between the different branches of the species
 tree. Black colored cells represent no inferred events.}
@@ -1780,7 +1803,7 @@ tree. Black colored cells represent no inferred events.}
 \includegraphics[scale=0.45]{figures/heatmap-recedge-mowgli}
 \end{center}
 \caption{
-\bf{Heat map of recombining gene transfers using the six genomes.}
+{\bf Heat map of recombining gene transfers using the six genomes.}
 Each cell of the color matrix shows the number of inferred recombining
 gene transfer events between the different branches of the species
 tree. Black colored cells represent no inferred events.}
@@ -1796,7 +1819,7 @@ tree. Black colored cells represent no inferred events.}
 \includegraphics[width=5in]{figures/compareMowgliCoRecombining}
 \end{center}
 \caption{
-\bf{Plot of recombination intensity against number
+{\bf Plot of recombination intensity against number
 of recombining gene transfer.}}
 \label{fig:cmpcomowgli}
 \end{figure}
@@ -1810,7 +1833,7 @@ of recombining gene transfer.}}
 \includegraphics[width=5in]{figures/compareMowgliCoHgt}
 \end{center}
 \caption{
-\bf{Plot of recombination intensity against number
+{\bf Plot of recombination intensity against number
 of horizontal gene transfer.}}
 \label{fig:cmpcomowglihgt}
 \end{figure}
@@ -1835,7 +1858,7 @@ of horizontal gene transfer.}}
 \begin{figure}[!ht]
 \includegraphics[scale=0.8]{figures/ucsc}
 \caption{
-\bf{UCSC genome browser tracks for gene transfer study of
+{\bf UCSC genome browser tracks for gene transfer study of
 SPY and SDE.}}
 \label{fig:ucsc}
 \end{figure}
@@ -1847,7 +1870,7 @@ SPY and SDE.}}
 \begin{figure}[!ht]
 \includegraphics[scale=0.42]{figures/clonalorigin}
 \caption{
-\bf{Recombinant tree in the \texttt{ClonalOrigin} model.}
+{\bf Recombinant tree in the \texttt{ClonalOrigin} model.}
 (A) A recombinant tree relating the five genomes with four recombinant edges.
 (B) A genomic region of size 100 base pairs with subregions affected by the
 four recombinant edges. Genomic positions are evenly marked by ticks every 10-th
@@ -1870,13 +1893,16 @@ labeled topologies relating five taxa, we could count topologies.}
 
 %=============================================================================
 % Figure S13:
-\begin{figure}
+\begin{figure}[!ht]
 \includegraphics{figures/ri1}
-\caption{\label{fig:ri1}The surrogate measure of recombination intensity
-of genes. Each point represents a pair of a true value of average number of
+\caption{
+{\bf The surrogate measure of recombination intensity
+of genes.} Each point represents a pair of a true value of average number of
 recombinant edges and its estimated value for a gene. The dashed line is with
 slope of 1 and intercept of 0.}
+\label{fig:ri1}
 \end{figure}
+
 \clearpage{}%
 %=============================================================================
 
