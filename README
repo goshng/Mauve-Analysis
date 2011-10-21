@@ -12,6 +12,10 @@ Jobs that were done are described for later reference.
 To Do
 ~~~~~
 
+.s18: the simulation with 100 data sets for Simulation 2
+
+.List of virulence genes
+
 .The procedure should be rerun
 
 .cornellf/3/run-clonalorigin/output2/2 was not finished yet.
@@ -31,6 +35,7 @@ runs. Say this in the manuscript.)
 
 .pl/count-observed-recedge.pl should be tested for heatmap.
 
+.alpha1, alpha2, and tau would be implemented.
 
 Tue Oct 11 16:52:53 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,6 +61,7 @@ http://128.97.141.26/stat/R/faq/angled_labels.htm
 
 .Manuscript figures
 ----
+This is this last version: /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check3.R
 /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check2.R
 /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/h3-R-ratio-not-topology-changing.ps
 /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/h3-R-ratio-topology-changing.ps
