@@ -45,30 +45,27 @@ function recombination-intensity1-map {
       else
         echo "  Skipping generating $RIMAP"
       fi
-      break
  
       # echo -e "  The number of blocks is $NUMBER_BLOCK."
       # echo "-------------------------------------"
       # cat data/$SPECIES
       # echo "-------------------------------------"
-
-      echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.txt? (e.g., y/n) "
+      echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map-$REPLICATE.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -n "What is the reference genome? (e.g., 1) " 
         read REFGENOME
-        echo -n "What is the length of the reference genome? " 
-        read REFGENOMELENGTH
+        GBKFILE=$(grep ^GBK$REFGENOME $SPECIESFILE | cut -d":" -f2)
         echo perl pl/$FUNCNAME.pl \
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -refgenomelength $REFGENOMELENGTH \
           -numberblock $NUMBER_BLOCK \
+          -gbk $GBKFILE \
           -verbose \
           -out $RUNANALYSIS/ri1-refgenome$REFGENOME-map-$REPLICATE.txt
       else
-        echo "  Skipping generating $RUNANALYSIS/ri1-refgenome$REFGENOME-map.txt"
+        echo "  Skipping generating $RUNANALYSIS/ri1-refgenome$REFGENOME-map-$REPLICATE.txt"
       fi
 
       echo -n "Do you wish to generate ri1-refgenome$REFGENOME-map.wig? (e.g., y/n) "

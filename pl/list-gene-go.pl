@@ -13,7 +13,6 @@ use warnings;
 
 use Getopt::Long;
 use Pod::Usage;
-use XML::Parser;
 
 $| = 1; # Do not buffer output
 

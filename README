@@ -37,6 +37,23 @@ runs. Say this in the manuscript.)
 
 .alpha1, alpha2, and tau would be implemented.
 
+Mon Oct 24 10:05:13 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The simulation s18 is implemented. The batch should include s18 as well as
+others such as s17, and s15. The simulation s16 is similar to s18; they are
+different only in the way that I replicate the genes. In simulation s16, I
+created 10 recombinant trees, each of which was used to generate 10 data sets.
+In simulation s18, I will create 100 recombinant trees, each of which was used
+to generate a single data set. sim5-prepare was used to do simulation of s16.
+sim6 is created for simulation s18. 
+
+A recombinant tree for 274 blocks is created. 
+simulate-data-clonalorigin2.sh contains some codes for creating the sequence
+alignments.
+simulate-data-clonalorigin2-prepare.sh contains a script that splits the single
+XMFA to multiple ones.
+
 Tue Oct 11 16:52:53 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

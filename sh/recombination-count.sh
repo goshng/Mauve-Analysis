@@ -40,6 +40,16 @@ function recombination-count {
       echo -n "Do you wish to count recombination events (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
+        perl pl/count-observed-recedge.pl obsiter \
+          -d $RUNCLONALORIGIN/output2/${REPLICATE} \
+          -n $NUMBER_BLOCK \
+          -out $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
+        echo "Check file $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt"
+      fi
+
+      echo -n "Do you wish to count recombination events (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
         perl pl/count-observed-recedge.pl obsonly \
           -d $RUNCLONALORIGIN/output2/${REPLICATE} \
           -n $NUMBER_BLOCK \
@@ -91,6 +101,8 @@ function recombination-count {
           -out $RUNANALYSIS/obsonly-recedge-time-$REPLICATE.txt
         echo "Check file $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt"
       fi
+
+
 
       break
     fi

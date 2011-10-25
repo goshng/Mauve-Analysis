@@ -48,6 +48,7 @@ GetOptions( \%params,
             'version' => sub { print $VERSION."\n"; exit; },
             'xml=s',
             'xmfa=s',
+            'gbk=s',
             'refgenome=i',
             'refgenomelength=i',
             'numberblock=i',
@@ -116,7 +117,14 @@ unless ($refgenome == -1)
   }
   else
   {
-    &printError("you did not specify the length of $refgenome-th reference genome");
+    if (exists $params{gbk})
+    {
+      $refgenomelength = peachGbkLength ($params{gbk});
+    }
+    else
+    {
+      &printError("you did not specify the length of $refgenome-th reference genome");
+    }
   }
 }
 
@@ -148,7 +156,6 @@ my $blockidForProgress;
 my $speciesTree = get_species_tree ("$xml.1");
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
-# my $refgenomelength = peachGbkLength ($params{gbk});
 
 ################################################################################
 # Find coordinates of the reference genome.
@@ -405,6 +412,26 @@ perl recombination-intensity1-map.pl [-h] [-help] [-version] [-verbose]
   [-refgenomelength number] 
   [-numberblock number] 
   [-out file] 
+
+perl pl/recombination-intensity1-map.pl -xml core_co.phase3.xml
+     -xmfa core_alignment.xmfa \
+     -numberblock 274 \
+     -out outfile
+
+perl pl/recombination-intensity1-map.pl -xml core_co.phase3.xml
+     -xml core_co.phase3.xml \
+     -xmfa core_alignment.xmfa \
+     -refgenome 4 \
+     -refgenomelength $REFGENOMELENGTH \
+     -numberblock 274 \
+     -out outfile
+
+perl pl/recombination-intensity1-map.pl -xml core_co.phase3.xml
+     -xml core_co.phase3.xml \
+     -xmfa core_alignment.xmfa \
+     -refgenome 4 \
+     -numberblock 274 \
+     -out outfile
 
 =head1 DESCRIPTION
 

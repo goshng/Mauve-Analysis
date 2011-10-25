@@ -37,7 +37,7 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-extractClonalOriginParameter5.pl - Build a heat map of recombination.
+extractClonalOriginParameter5.pl -
 
 =head1 VERSION
 

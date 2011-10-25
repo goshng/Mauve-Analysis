@@ -8,7 +8,6 @@
 #===============================================================================
 use strict;
 use warnings;
-use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
 

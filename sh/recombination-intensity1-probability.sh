@@ -38,15 +38,15 @@ function recombination-intensity1-probability {
       echo -e "  The posterior sample size is $NUMBER_SAMPLE."
 
       echo -n "  Reading TREETOPOLOGY of REPETITION$REPETITION from $SPECIESFILE..."
-      TREETOPOLOGY=$(grep REPETITION$REPETITION-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
+      TREETOPOLOGY=$(grep ^REPETITION$REPETITION-TREETOPOLOGY $SPECIESFILE | cut -d":" -f2)
       echo " $TREETOPOLOGY"
 
       echo -n "  Reading of REFGENOME of REPETITION$REPETITION from $SPECIESFILE..."
-      REFGENOME=$(grep REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
+      REFGENOME=$(grep ^REPETITION$REPETITION-REFGENOME $SPECIESFILE | cut -d":" -f2)
       echo " $REFGENOME"
 
       echo -n "  Reading of GBKFILE of REPETITION$REPETITION from $SPECIESFILE..."
-      GBKFILE=$(grep GBK$REFGENOME $SPECIESFILE | cut -d":" -f2)
+      GBKFILE=$(grep ^GBK$REFGENOME $SPECIESFILE | cut -d":" -f2)
       echo " $GBKFILE"
 
       echo -n "Do you wish to create wiggle files of recombination probability using blocks (y/n)? "

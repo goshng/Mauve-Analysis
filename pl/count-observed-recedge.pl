@@ -182,6 +182,13 @@ elsif ($cmd eq "exponly")
     &printError("you did not specify a number of blocks");
   }
 }
+elsif ($cmd eq "obsiter")
+{
+  unless (exists $params{n})
+  {
+    &printError("you did not specify a number of blocks");
+  }
+}
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
@@ -274,6 +281,7 @@ if ($obsonly == 0)
 {
   for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
   {
+    # heatDir is the prior expected counts.
     my $heatfilename = "$heatDir/$blockid.txt";
     my @expMapBlock = get_exp_map($heatfilename, $numberOfLineage);
 
@@ -411,24 +419,24 @@ if ($meanonly == 1)
     for my $i ( 0 .. $#heatMap ) {
       for my $j ( 0 .. $#{ $heatMap[$i] } ) {
         unless ($i == 0 and $j == 0) {
-          print "\t";
+          print $outfile "\t";
         }
-        print $heatMap[$i][$j];
+        print $outfile $heatMap[$i][$j];
       }
     }
-    print "\n";
+    print $outfile "\n";
   }
   else
   {
     for my $i ( 0 .. $#obsMap ) {
       for my $j ( 0 .. $#{ $obsMap[$i] } ) {
         unless ($i == 0 and $j == 0) {
-          print "\t";
+          print $outfile "\t";
         }
-        print $obsMap[$i][$j];
+        print $outfile $obsMap[$i][$j];
       }
     }
-    print "\n";
+    print $outfile "\n";
   }
   exit;
 }
@@ -694,7 +702,17 @@ perl pl/count-observed-recedge.pl obsonly -d output2/1 -endblockid -obsonly -n 2
 
 perl pl/count-observed-recedge.pl obsonly -d output2/1 -n 274 -endblockid -lowertime 0.045557
 
+perl pl/count-observed-recedge.pl obsiter -d output2/1 -n 274
+
 =head1 DESCRIPTION
+
+obsiter - first we create a matrix of size n-by-m; n is equal to the number of
+iterations, and m is equal to square of the number of species tree branches.  We
+count recombinant edges of i-th recombinant tree for the first block. Repeat the
+count for all of the n recombinant trees. We call this matrix A.  We then repeat
+this procedure for the next block to obtain a matrix B. We sum the two matrices
+element-by-element to replace A. Now, we move to the next block to repeat the
+summation of two matrices until we exhaust all of the blocks.
 
 The expected number of recedges a priori is given by ClonalOrigin's
 gui program that makes a matrix. The matrix dimension depends on
@@ -791,6 +809,9 @@ Average numbers of recombinant edges are computed.
 An output file from meanonly option.
 
 =item B<-endblockid>
+
+Note: we always put block IDs at the end of a file name. This option does not do
+anything except for voiding any option error.
 
 The clonal origin XML file names can be
 s8_1_core_alignment.xml.1 or

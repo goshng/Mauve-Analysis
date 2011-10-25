@@ -1,0 +1,57 @@
+How to submit jobs to CAC
+=========================
+Sang Chul Choi <goshng@yahoo.co.kr>
+
+A short procedure
+-----------------
+
+. Create a directory ($PBS_O_WORKDIR) at the cluster.
+. Copy the three shell script to the directory.
+. Create a file called +jobidfile+ at the directory.
+. Edit +batch.sh+ file and move input files to proper places.
+
+Three shell scripts
+-------------------
+.+run.sh+
+This is the start-up script that calls +batch.sh+. Simply, execute it using a
+SHELL.
+
+.batch.sh
+Edit this file. The file has three parts: copy files from a storage directory to
+a compute node, run any jobs in +jobidfile+, and copy resulting files back to
+the storage directory. See the shell script for detail.
+See also the section ``Prepare files for running them on compute nodes.''
+
+.batch_task.sh
+This contains a script that checks +jobidfile+ if there are any job command
+left. If there are any scripts, it executes the first one in the list.
+
+Prepare files for running them on compute nodes
+-----------------------------------------------
+To run jobs in compute nodes two things are necessary. Firstly, input files
+including executables must be placed some where a compute node can access.
+Secondly, a shell script that takes the input files to produce output files is
+needed. This is too general. It is not useful in our specific context. Let's see
+what I'd do for submitting jobs for the simulation.
+
+Function copy-data in batch.sh is called first before
+process-data and retrieve-data are called. All of input files and executables
+are copied to the base directory called $TMPDIR. In the example, I copy warg
+executable and a species tree file. The +batch_task.sh+ file is also copied.
+I'd also need to create directories for input and output files. These commands
+of input data preparation are executed in the function copy-data. Note that
+directories for output files are also considered input files.
+
+Function process-data does not need any edit except the number of processes.
+Variable $CORESPERNODE can be changed to the number of CPUs in the compute node
+to which a job is submitted.
+
+function retrieve-data needs to be modified.
+$PBS_O_WORKDIR is the directory where the three shell scripts are copied.
+I'd copy all of the output files to $PBS_O_WORKDIR directory. 
+
+Note that I also need to copy the input files to $DATABASE directory.
+
+
+
+
