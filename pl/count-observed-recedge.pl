@@ -49,14 +49,10 @@ GetOptions( \%params,
             'd=s',
             'e=s',
             'n=i',
-            's=i',
             'out=s',
             'lowertime=f',
-            'meanonly',
-            'meanfile=s',
             'xmlbasename=s',
             'endblockid',
-            'append',
             'obsonly',
             'check',
             '<>' => \&process
@@ -69,9 +65,6 @@ my $heatDir = "";
 my $numBlocks;
 my $numSpecies;
 my $obsonly = 0;
-my $meanonly = 0;
-my $meanfile = "";
-my $append = 0;
 my $check = 0;
 my $xmlBasename = "core_co.phase3";
 my $endblockid = 1;
@@ -87,10 +80,6 @@ if (exists $params{d})
 {
   $xmlDir = $params{d};
 }
-else
-{
-  &printError("you did not specify a directory that contains Clonal Origin 2nd run results");
-}
 
 if (exists $params{e})
 {
@@ -100,27 +89,6 @@ if (exists $params{e})
 if (exists $params{n})
 {
   $numBlocks = $params{n};
-}
-
-
-if (exists $params{s})
-{
-  $numSpecies = $params{s};
-}
-
-if (exists $params{append})
-{
-  $append = 1;
-}
-
-if (exists $params{meanonly})
-{
-  $meanonly = 1;
-}
-
-if (exists $params{meanfile})
-{
-  $meanfile = $params{meanfile};
 }
 
 if (exists $params{check})
@@ -150,7 +118,12 @@ else
 if ($cmd eq "obsonly")
 {
   $obsonly = 1;
-  unless ($heatDir eq "")
+
+  unless (exists $params{d})
+  {
+    &printError("$cmd requires option -d");
+  }
+  if (exists $params{e})
   {
     &printError("obsonly is used without -e option");
   }
@@ -162,7 +135,11 @@ if ($cmd eq "obsonly")
 elsif ($cmd eq "heatmap")
 {
   $obsonly = 0;
-  if ($heatDir eq "")
+  unless (exists $params{d})
+  {
+    &printError("$cmd requires option -d");
+  }
+  unless (exists $params{e})
   {
     &printError("$cmd requires -e option");
   }
@@ -173,7 +150,11 @@ elsif ($cmd eq "heatmap")
 }
 elsif ($cmd eq "exponly")
 {
-  if ($heatDir eq "")
+  if (exists $params{d})
+  {
+    &printError("$cmd does not need option -d");
+  }
+  unless (exists $params{e})
   {
     &printError("$cmd requires -e option");
   }
@@ -184,6 +165,15 @@ elsif ($cmd eq "exponly")
 }
 elsif ($cmd eq "obsiter")
 {
+  $obsonly = 1;
+  unless (exists $params{d})
+  {
+    &printError("$cmd requires option -d");
+  }
+  if (exists $params{e})
+  {
+    &printError("$cmd is used without -e option");
+  }
   unless (exists $params{n})
   {
     &printError("you did not specify a number of blocks");
@@ -325,59 +315,51 @@ if ($cmd eq "exponly")
 # @matrixXML contains these. The following code could have been done in the mean
 # computation above. I repeat it anyway.
 ##############################################################
-if ($meanfile eq "")
+for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
 {
-  for (my $blockid = 1; $blockid <= $numBlocks; $blockid++)
-  {
-    $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
-    $xmlIteration = -1; # Note $xmlIteration is a global.
-    @matrixXMLPerBlock = ();
-    my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
-    push @matrixXML, [ @matrixXMLPerBlock ];
+  $xmlfilename = makeXMLFilename($xmlDir, $xmlBasename, $blockid, $endblockid);
+  $xmlIteration = -1; # Note $xmlIteration is a global.
+  @matrixXMLPerBlock = ();
+  my @obsPerBlockPerIteration = get_obs_map_iteration($xmlfilename, $numberOfLineage);
+  push @matrixXML, [ @matrixXMLPerBlock ];
 
-    for my $i ( 0 .. $#obsMap ) {
-      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        $obsMap[$i][$j] += $obsPerBlockPerIteration[$i][$j];
-      }
+  for my $i ( 0 .. $#obsMap ) {
+    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+      $obsMap[$i][$j] += $obsPerBlockPerIteration[$i][$j];
     }
-
-    if ($check == 1)
-    {
-      for my $i ( 0 .. $#obsPerBlockPerIteration ) {
-        print "  ";
-        for my $j ( 0 .. $#{ $obsPerBlockPerIteration[$i] } ) {
-          print "[$i][$j] $obsPerBlockPerIteration[$i][$j] ";
-        }
-        print "\n";
-      }
-    }
-    print STDERR "Block: $blockid\r";
   }
-  print STDERR "Sample mean - Finished!\n";
 
   if ($check == 1)
   {
-    print "obsMap before division by sampleSize:\n";
-    for my $i ( 0 .. $#obsMap ) {
+    for my $i ( 0 .. $#obsPerBlockPerIteration ) {
       print "  ";
-      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        print "[$i][$j] $obsMap[$i][$j] ";
+      for my $j ( 0 .. $#{ $obsPerBlockPerIteration[$i] } ) {
+        print "[$i][$j] $obsPerBlockPerIteration[$i][$j] ";
       }
       print "\n";
     }
   }
-  for my $i ( 0 .. $#obsMap ) {
-    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-      $obsMap[$i][$j] /= $sampleSizeFirst;
-    }
-  }
+  print STDERR "Reading Block $blockid\r";
+}
+print STDERR "                                                  \r";
 
-}
-else
+if ($check == 1)
 {
-  # I have to read obsMap only. 
-  @obsMap = read_mean_obs_map($meanfile, $numberOfLineage);
+  print "obsMap before division by sampleSize:\n";
+  for my $i ( 0 .. $#obsMap ) {
+    print "  ";
+    for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+      print "[$i][$j] $obsMap[$i][$j] ";
+    }
+    print "\n";
+  }
 }
+for my $i ( 0 .. $#obsMap ) {
+  for my $j ( 0 .. $#{ $obsMap[$i] } ) {
+    $obsMap[$i][$j] /= $sampleSizeFirst;
+  }
+}
+
 
 if ($obsonly == 0)
 {
@@ -412,34 +394,6 @@ if ($check == 1)
   }
 }
 
-if ($meanonly == 1)
-{
-  if ($obsonly == 0)
-  {
-    for my $i ( 0 .. $#heatMap ) {
-      for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-        unless ($i == 0 and $j == 0) {
-          print $outfile "\t";
-        }
-        print $outfile $heatMap[$i][$j];
-      }
-    }
-    print $outfile "\n";
-  }
-  else
-  {
-    for my $i ( 0 .. $#obsMap ) {
-      for my $j ( 0 .. $#{ $obsMap[$i] } ) {
-        unless ($i == 0 and $j == 0) {
-          print $outfile "\t";
-        }
-        print $outfile $obsMap[$i][$j];
-      }
-    }
-    print $outfile "\n";
-  }
-  exit;
-}
 
 ############################################################
 # Compute the sample variance.
@@ -458,7 +412,6 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
         $obsMapIteration[$i][$j] += $matrixXML[$blockid - 1][$iterationid - 1][$i][$j];
       }
     }
-    print STDERR "$iterationid - $blockid\r"
   }
 
   for my $i ( 0 .. $#obsVarMap ) {
@@ -467,8 +420,9 @@ for (my $iterationid = 1; $iterationid <= $sampleSizeFirst; $iterationid++)
       $obsVarMap[$i][$j] += ($v * $v);
     }
   }
+  print STDERR "Computing variance reading iteration $iterationid\r";
 }
-print STDERR "Sample variance - Finished!\n";
+print STDERR "                                                  \r";
 
 for my $i ( 0 .. $#obsVarMap ) {
   for my $j ( 0 .. $#{ $obsVarMap[$i] } ) {
@@ -496,25 +450,12 @@ for my $i ( 0 .. $#heatVarMap ) {
 # Print the resulting heat map.
 ##############################################################
 
-if ($obsonly == 0)
-{
-  for my $i ( 0 .. $#heatMap ) {
-    for my $j ( 0 .. $#{ $heatMap[$i] } ) {
-      unless ($i == 0 and $j == 0) {
-        print $outfile "\t";
-      }
-      print $outfile $heatMap[$i][$j];
-    }
-  }
-  for my $i ( 0 .. $#heatVarMap ) {
-    for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
-      print $outfile "\t";
-      print $outfile $heatVarMap[$i][$j];
-    }
-  }
-  print $outfile "\n";
-}
-else
+##############################################################################
+# We do differently for different commands.
+# obsiter does not need exp values.
+# It seems like matrixXML 4-d array collected all of the necessary values that I
+# need for obsiter.
+if ($cmd eq "obsonly")
 {
   for my $i ( 0 .. $#obsMap ) {
     for my $j ( 0 .. $#{ $obsMap[$i] } ) {
@@ -532,6 +473,63 @@ else
   }
   print $outfile "\n";
 }
+elsif ($cmd eq "heatmap")
+{
+  for my $i ( 0 .. $#heatMap ) {
+    for my $j ( 0 .. $#{ $heatMap[$i] } ) {
+      unless ($i == 0 and $j == 0) {
+        print $outfile "\t";
+      }
+      print $outfile $heatMap[$i][$j];
+    }
+  }
+  for my $i ( 0 .. $#heatVarMap ) {
+    for my $j ( 0 .. $#{ $heatVarMap[$i] } ) {
+      print $outfile "\t";
+      print $outfile $heatVarMap[$i][$j];
+    }
+  }
+  print $outfile "\n";
+}
+elsif ($cmd eq "exponly")
+{
+  die "exponly must have been finished before";
+}
+elsif ($cmd eq "obsiter")
+{
+  print STDERR "Writing ...\r";
+  my @matrixXMLPerIteration = create3DMatrix ($sampleSizeFirst,
+                                              $numberOfLineage,
+                                              $numberOfLineage, 0); 
+  for my $blockid ( 1 .. $numBlocks ) 
+  {
+    for my $iterationid ( 1 .. $sampleSizeFirst )
+    {
+      for my $i ( 1 .. $numberOfLineage )
+      {
+        for my $j ( 1 .. $numberOfLineage )
+        {
+          $matrixXMLPerIteration[$iterationid-1][$i-1][$j-1] 
+            += $matrixXML[$blockid - 1][$iterationid-1][$i-1][$j-1];
+        }
+      }
+    }
+  }
+
+  for my $iterationid ( 1 .. $sampleSizeFirst )
+  {
+    for my $i ( 1 .. $numberOfLineage )
+    {
+      for my $j ( 1 .. $numberOfLineage )
+      {
+        print $outfile "\t" unless ($i == 1 and $j == 1); 
+        print $outfile $matrixXMLPerIteration[$iterationid-1][$i-1][$j-1];
+      }
+    }
+    print $outfile "\n";
+  }
+}
+print STDERR "                                                  \r";
 
 exit;
 ##############################################################
@@ -694,9 +692,6 @@ perl count-observed-recedge.pl [-h] [-help] [-version]
   [-xmlbasename filename]
   [-endblockid]
   [-obsonly]
-  [-meanonly]
-  [-append]
-  [-meanfile an output file from meanonly option]
 
 perl pl/count-observed-recedge.pl obsonly -d output2/1 -endblockid -obsonly -n 274
 
@@ -712,7 +707,16 @@ count recombinant edges of i-th recombinant tree for the first block. Repeat the
 count for all of the n recombinant trees. We call this matrix A.  We then repeat
 this procedure for the next block to obtain a matrix B. We sum the two matrices
 element-by-element to replace A. Now, we move to the next block to repeat the
-summation of two matrices until we exhaust all of the blocks.
+summation of two matrices until we exhaust all of the blocks. 
+
+obsonly - This does not require option -e. I sum the number of recombinant edges
+over all of the blocks, and divide it by the sample size.
+
+heatmap - This is almost the same as obsonly except for accounting the prior
+expected numbers of recombinant edges.
+
+exponly - I just sum the prior expected numbers over all of the blocks.
+
 
 The expected number of recedges a priori is given by ClonalOrigin's
 gui program that makes a matrix. The matrix dimension depends on
@@ -728,16 +732,6 @@ Input XML files: <xml directory>/<xml basename>.[blockid] are read.
 Situation 1: I wish to compute the average number of recombinant edges just
 by counting and averaging it by the number of sample size or iterations in the
 ClonalOrigin MCMC XML output.
-
--meanonly -obsonly
-
-Situation 2: I wish to compute the ratio of average number of recombinant edges
-relative to the prior expected number of recombinant edges.
-
--meanonly
-
-Situation 3: I wish to compute the average number of recombination and its
-standard deviation across MCMC sample.
 
 -obsonly
 
@@ -790,23 +784,9 @@ The number of blocks. Both directories must have pairs of files for each block.
 
 The number of species.
 
-=item B<-append>
-
-Among all of the repetition the first one is created, and the rest of them are
-appended. Default is not using append option, and the output file will be
-generated.
-
 =item B<-obsonly>
 
 Prior expected numbers of recombinant edges are ignored.
-
-=item B<-meanonly>
-
-Average numbers of recombinant edges are computed.
-
-=item B<-meanfile> <file>
-
-An output file from meanonly option.
 
 =item B<-endblockid>
 

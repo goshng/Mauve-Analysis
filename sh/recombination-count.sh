@@ -37,13 +37,13 @@ function recombination-count {
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
 
-      echo -n "Do you wish to count recombination events (y/n)? "
+      echo -n "Do you wish to count recombination events across blocks (or obsiter) (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         perl pl/count-observed-recedge.pl obsiter \
           -d $RUNCLONALORIGIN/output2/${REPLICATE} \
           -n $NUMBER_BLOCK \
-          -out $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
+          -out $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt
         echo "Check file $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt"
       fi
 

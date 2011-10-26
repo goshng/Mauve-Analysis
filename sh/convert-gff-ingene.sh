@@ -30,7 +30,6 @@ function convert-gff-ingene {
       read REPETITION
       set-more-global-variable $SPECIES $REPETITION
       GFF=$(grep REPETITION${REPETITION}-GFF $SPECIESFILE | cut -d":" -f2)
-      GFF=$GENOMEDATADIR/$GFF
       OUT=$RUNANALYSIS/in.gene
       echo "Coverting $GFF to $OUT ..."
       perl pl/$FUNCNAME.pl \

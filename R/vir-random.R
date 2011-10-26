@@ -1,0 +1,5 @@
+x.vir <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out")
+x.vir <- x.vir / sum(x.vir)
+x.non <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out.not")
+x.non <- x.non / sum(x.non)
+write(x.vir/x.non, file="x", ncolumns=81, sep="\t", append=TRUE)

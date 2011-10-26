@@ -383,6 +383,12 @@ ClonalOrigin.
 .To create +ri1-refgenome4-map-2.txt+
 . Execute menu 
 
+.To create the basic in.gene file
+. Execute menu *convert-gff-ingene*
+
+.To locate genes of in.gene file in the blocks
+. Execute menu *convert-gff-ingene*
+. Execute menu *locate-gene-in-block*
 
 [[species]]
 Species File
@@ -410,6 +416,25 @@ NumberSpecies:5
 Walltime:168
 ----
 
+To create an in.gene file you need a GFF file
+
+----
+REPETITION3-GFF:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+----
+
+To create an in.gene.4.block file you need an FNA file
+
+----
+REPETITION3-FNA:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.fna
+----
+
+----
+REPETITION3-GENBANK:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+----
+
+----
+REPETITION3-REFGENOME:4
+----
 
 
 Menus
@@ -830,7 +855,7 @@ convert-gff-ingene
 ~~~~~~~~~~~~~~~~~~
 I use a gene annotation file that accompanies the genbank bacterial genome file.
 NCBI's ftp directory called bacteria contains complete genomes of bacteria and
-archiea. A genbank file could be used to locate genes in the genome of the
+archaea. A genbank file could be used to locate genes in the genome of the
 genbank file. I instead use a companion file called gff file to extract gene
 locations. An example of 
 
@@ -845,8 +870,14 @@ An ingene file is created in run-analysis of a repetition directory.
 
 .An ingene file
 ----
-output/cornellf/8/run-analysis/in.gene
+output/cornellf/3/run-analysis/in.gene
 ----
+
+This needs to be placed in the species file
+----
+REPETITION3-GFF:Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+----
+
 
 locate-gene-in-block
 ~~~~~~~~~~~~~~~~~~~~
@@ -858,8 +889,17 @@ geneEndInBlock lenSeq gap. Genes with larger than 50 are considered.
 
 .An ingene block file is created.
 ----
-output/cornellf/8/run-analysis/in.gene.4.block
+output/cornellf/3/run-analysis/in.gene.4.block
 ----
+
+We need a script to take
+in.gene.4.block file and another file of the subset of genes to create an
+in.gene block file for the subset.
+---
+output/cornellf/3/run-analysis/in.virulence.gene.4.block
+output/cornellf/3/run-analysis/in.nonvirulence.gene.4.block
+----
+
 
 clonalorigin2-simulation3
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -909,6 +949,8 @@ The number of recombinant edges per site is computed for all of the genes of a
 reference genome. recombination-intensity1-map must be called before the call of
 this menu.
 
+A PERL script +ri-virulence.pl+ is called in this menu. 
+
 list-gene-go
 ~~~~~~~~~~~~
 Melissa provided a file of gene ontology terms and their descriptions,
@@ -950,6 +992,41 @@ Menus:
   origin analysis. 
   - receive-run-2nd-clonalorigin: receives the result of the second stage of
   clonal analysis.
+
+in.gene
+~~~~~~~
+Menu *convert-gff-ingene* creates a list of genes from a GFF file.
+REPETITION3-GFF variable must be specified in a species file.
+
+in.gene.4.block
+~~~~~~~~~~~~~~~
+Menu *locate-gene-in-block* creates this file using +in.gene+ file. 
+
+rimap-1.txt
+~~~~~~~~~~~
+File +$RUNANALYSIS/rimap-1.txt+ is created using menu *recombination-intensity1-map*.
+Directory +$RUNANALYSIS/rimap-1+ must have been created from the +rimap-1.txt+
+using block lengths.
+I do not know how this was done.
+
+Perl Scripts
+------------
+
+.How to find the sample size in a ClonalOrigin XML file?
+----
+my $clonaloriginsamplesize = get_sample_size ($xml);
+----
+
+probability-recedge-gene.pl
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thi is used to create the table of genes that experience high recombinant edges.
+The LaTeX table is crearted using this PERL script.
+
+virulence.pl
+~~~~~~~~~~~~
+Command subset: creates a list of genes from
++output/virulence/virulent_genes.txt+.
+See menu *locate-gene-in-block* for the PERL script usage.
 
 Prerequisites
 -------------

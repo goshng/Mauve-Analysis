@@ -462,6 +462,13 @@ perl probability-recedge-gene.pl [-h] [-help] [-version] [-verbose]
   [-out file] 
   [-latex] 
 
+perl pl/probability-recedge-gene.pl \
+     -ri1map ri1-refgenome4-map.txt \
+     -clonaloriginsamplesize 1001 \
+     -genbank file.gbk
+
+
+
 =head1 DESCRIPTION
 
 The number of recombination edge types at a nucleotide site along all of the

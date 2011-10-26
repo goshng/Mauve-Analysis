@@ -43,7 +43,10 @@ GetOptions( \%params,
             'ptt=s',
             'bed=s',
             'virulence=s',
+            'negate',
+            'random',
             'ortholog=s',
+            'gene=s',
             'in=s',
             'out=s',
             '<>' => \&process
@@ -95,11 +98,118 @@ elsif ($cmd eq "bed")
     &printError("command bed needs options -virulence, and -ptt");
   }
 }
+elsif ($cmd eq "subset")
+{
+  unless (exists $params{virulence})
+  {
+    &printError("command $cmd needs options -virulence");
+  }
+}
+elsif ($cmd eq "extract")
+{
+  unless (exists $params{gene}
+          and exists $params{in})
+  {
+    &printError("command $cmd needs options -gene and -in");
+  }
+}
 
 ################################################################################
 ## DATA PROCESSING
 ################################################################################
-if ($cmd eq "table")
+if ($cmd eq "extract")
+{
+  my $line;
+  if (exists $params{random})
+  {
+    die "Requires option -out" unless (exists $params{out});
+    my $range = 10;
+    my $random_number = rand($range);
+
+    $line = <$infile>;
+    my $outNegate = "$params{out}.not";
+    my $outfileNegate;
+    open ($outfileNegate, ">", $outNegate) or die "cannot open > $outNegate: $!";
+    print $outfileNegate $line;
+    print $outfile $line;
+    while ($line = <$infile>)
+    {
+      my @e = split /\t/, $line;
+      $random_number = rand($range);
+      if ($random_number % $range == 0)
+      {
+        print $outfile $line;
+      }
+      else
+      {
+        print $outfileNegate $line;
+      }
+    }
+    close $outfileNegate;
+  }
+  else
+  {
+    my %gene;
+    open GENE, $params{gene} or die "cannot open $params{gene} $!";
+    while ($line = <GENE>)
+    {
+      chomp $line;
+      $gene{$line} = "TRUE";
+    }
+    close GENE;
+
+    $line = <$infile>;
+    print $outfile $line;
+    while ($line = <$infile>)
+    {
+      my @e = split /\t/, $line;
+      if (exists $params{negate})
+      {
+        unless (exists $gene{$e[0]})
+        {
+          print $outfile $line;
+        }
+      }
+      else
+      {
+        if (exists $gene{$e[0]})
+        {
+          print $outfile $line;
+        }
+      }
+    }
+  }
+  close $infile;
+}
+elsif ($cmd eq "subset")
+{
+  my $line;
+  # Parse virulence file.
+  my %virulence;
+  open VIR, $params{virulence} or die "cannot open < $params{virulence} $!";
+  $line = <VIR>;
+  while ($line = <VIR>)
+  {
+    chomp $line;
+    my @e = split /\t/, $line;
+    $virulence{$e[0]} = $e[1];
+  }
+  close VIR;
+
+  my @sns = ('SDE1', 'SDEG', 'SDD', 'SpyM3_', 'MGAS10750_', 'SEQ_');
+  my @snsSynonym = ('sde1', 'sde2', 'sdd', 'spy1', 'spy2', 'see');
+  for my $g (keys %virulence)
+  {
+    if ($g =~ /^SpyM3/)
+    {
+      if ($virulence{$g} eq "TRUE")
+      {
+        print $outfile "$g\n";
+      }
+    }
+  }
+}
+elsif ($cmd eq "table")
 {
   my $line;
   # Parse virulence file.
@@ -133,7 +243,7 @@ if ($cmd eq "table")
 # MGAS10750_*	spy2
 # SEQ_*	see
   my @sns = ('SDE1', 'SDEG', 'SDD', 'SpyM3_', 'MGAS10750_', 'SEQ_');
-  my @snsSynonym = ('sd1', 'sde2', 'sdd', 'spy1', 'spy2', 'see');
+  my @snsSynonym = ('sde1', 'sde2', 'sdd', 'spy1', 'spy2', 'see');
 
   # Count virulence genes.
   my %virulenceTable;
@@ -294,6 +404,12 @@ perl virulence.pl table -virulence virulent_genes.txt -ortholog fam-frag2.part.t
 
 perl virulence.pl bed -virulence virulent_genes.txt -ptt genome.ptt
 
+perl virulence.pl subset -virulence virulent_genes.txt
+
+perl pl/virulence.pl extract -in in.gene.4.block -gene output/virulence/virulent_genes.txt.spy1
+
+perl pl/virulence.pl extract -negate -in in.gene.4.block -gene output/virulence/virulent_genes.txt.spy1
+
 =head1 DESCRIPTION
 
 virulence.pl deals with virulence factors.
@@ -305,6 +421,9 @@ virulence.pl deals with virulence factors.
   table - creates a table of virulence genes among the 6 species.
 
   bed - create a BED-format file for the virulence genes. 
+
+  subset - create a list of subset of virulence genes for SPY1. Genes of SPY1
+  are listed.
 
 =over 8
 

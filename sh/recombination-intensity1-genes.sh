@@ -100,17 +100,50 @@ function recombination-intensity1-genes {
         echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
 
-      echo gene > 0;        cut -f1 $RIMAPGENE.all >> 0
-      echo all > 1;        cut -f12 $RIMAPGENE.all >> 1
-      echo topology > 2;     cut -f12 $RIMAPGENE.topology >> 2
-      echo notopology > 3; cut -f12 $RIMAPGENE.notopology >> 3
-      echo sde2spy > 4;    cut -f12 $RIMAPGENE.sde2spy >> 4
-      echo spy2sde > 5;    cut -f12 $RIMAPGENE.spy2sde >> 5 
-      paste 0 1 2 3 4 5 > $RIMAPGENE.txt
-      rm 0 1 2 3 4 5
-      echo "Check $RIMAPGENE.txt"
-      break
+      echo -n "Do you wish to combine rimap files to create $RIMAPGENE.txt (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo gene > 0;        cut -f1 $RIMAPGENE.all >> 0
+        echo all > 1;        cut -f12 $RIMAPGENE.all >> 1
+        echo topology > 2;     cut -f12 $RIMAPGENE.topology >> 2
+        echo notopology > 3; cut -f12 $RIMAPGENE.notopology >> 3
+        echo sde2spy > 4;    cut -f12 $RIMAPGENE.sde2spy >> 4
+        echo spy2sde > 5;    cut -f12 $RIMAPGENE.spy2sde >> 5 
+        paste 0 1 2 3 4 5 > $RIMAPGENE.txt
+        rm 0 1 2 3 4 5
+        echo "Check $RIMAPGENE.txt"
+      fi
 
+      echo -n "Do you wish to compute recombination intensity on virulence genes (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+
+        echo perl pl/ri-virulence.pl list \
+          -ri $RUNANALYSIS/rimap-$REPLICATE \
+          -ingene $RUNANALYSIS/in.gene.4.block \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -out $RUNANALYSIS/ri-virulence-list.out
+
+        echo perl pl/ri-virulence.pl heatmap \
+          -ri $RUNANALYSIS/rimap-$REPLICATE \
+          -ingene $RUNANALYSIS/in.virulence.gene.4.block \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -out $RUNANALYSIS/ri-virulence-heatmap.out.virulence
+        echo perl pl/ri-virulence.pl heatmap \
+          -ri $RUNANALYSIS/rimap-$REPLICATE \
+          -ingene $RUNANALYSIS/in.nonvirulence.gene.4.block \
+          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
+          -out $RUNANALYSIS/ri-virulence-heatmap.out.nonvirulence
+        echo "Find the ratio of"
+        echo "$RUNANALYSIS/ri-virulence-heatmap.out.virulence"
+        echo "--------------------------------------------------"
+        echo "$RUNANALYSIS/ri-nonvirulence-heatmap.out.virulence"
+        echo ""
+        echo "Check file $RUNANALYSIS/ri-virulence.out"
+      else
+        echo -e "  Skipping computing recombination intensity on virulence genes..." 
+      fi
+      break
 
       echo -n "Do you wish to compute recombination intensity on genes (y/n)? "
       read WISH
@@ -125,7 +158,7 @@ function recombination-intensity1-genes {
       else
         echo -e "  Skipping counting number of gene tree topology changes..." 
       fi
-      break
+
     fi
   done
 }

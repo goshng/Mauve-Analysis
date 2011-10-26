@@ -39,4 +39,15 @@ sub create3DMatrix ($$$$) {
   return @m;
 }
 
+sub peachArrayCreate2DMatrix ($$$) {
+  my ($d1, $d2, $initialValue) = @_;
+
+  my @m;
+  for (my $i = 0; $i < $d1; $i++)
+  {
+    my @mapPerLineage = ($initialValue) x ($d2);
+    push @m, [ @mapPerLineage ];
+  }
+  return @m;
+}
 1;

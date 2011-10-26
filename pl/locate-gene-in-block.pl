@@ -265,6 +265,9 @@ exit;
 
   FIXME: what to do with gene with multiple blocks?
 
+  The gene length in the block is $g->{blockEnd} - $g->{blockStart} + 1.
+  Therefore, the gene start at blockStart and end in blockEnd.
+
 =cut
 sub locate_sites_gene_in_block($$$$) {
   my ($ingene, $xmfa, $r, $fna) = @_;

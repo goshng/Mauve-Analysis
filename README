@@ -37,6 +37,125 @@ runs. Say this in the manuscript.)
 
 .alpha1, alpha2, and tau would be implemented.
 
+
+Wed Oct 26 12:40:45 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ri-virulence.pl heatmap command is implemented. Two things are needed for this
+command. First, we need rimap directory
+----
+output/cornellf/3/run-analysis/rimap-2
+----
+we also need an in.gene block file
+----
+output/cornellf/3/run-analysis/in.gene.4.block
+----
+The set of genes in the in.gene block file is used. We should create a subset of
+genes, or virulence and non-virulence genes. We need a script to take
+in.gene.4.block file and another file of the subset of genes to create an
+in.gene block file for the subset.
+---
+output/cornellf/3/run-analysis/in.virulence.gene.4.block
+output/cornellf/3/run-analysis/in.nonvirulence.gene.4.block
+----
+
+I found the virulence gene file at
+----
+output/virulence/virulent_genes.txt
+output/virulence/virulent_genes.txt.spy1
+output/cornellf/3/run-analysis/in.virulence.gene.4.block
+output/cornellf/3/run-analysis/in.nonvirulence.gene.4.block
+----
+I find virulence gene names in +output/virulence/virulent_genes.txt+ to create
+file +output/virulence/virulent_genes.txt.spy1+. Then, I create file
++output/cornellf/3/run-analysis/in.virulence.gene.4.block+
+from file +output/cornellf/3/run-analysis/in.gene.4.block+.
+
+Let's go back to +ri-virulence.pl+ script. Menu *recombination-intensity1-genes*
+is used to create the following two files.
+----
+output/cornellf/3/run-analysis/ri-virulence-heatmap.out.nonvirulence
+output/cornellf/3/run-analysis/ri-virulence-heatmap.out.virulence
+----
+
+----
+> x.vir <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-virulence-heatmap.out.virulence")
+> x.vir <- x.vir / sum(x.vir)
+> x.non <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-virulence-heatmap.out.nonvirulence")
+> x.non <- x.non / sum(x.non)
+> write(round(x.vir/x.non, digits=3), file="a", sep="\t", ncolumns=9)
+----
+
+.To create a random virulence gene
+----
+perl pl/virulence.pl extract -random -in
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block
+-gene output/virulence/virulent_genes.txt.spy1 -out
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.random.gene.4.block
+----
+
+.To create heatmap
+----
+perl pl/ri-virulence.pl heatmap -ri
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/rimap-2
+-ingene
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.random.gene.4.block
+-xml
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-clonalorigin/output2/2/core_co.phase3.xml
+-out
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out
+----
+
+.To create heatmap for not case
+----
+perl pl/ri-virulence.pl heatmap -ri
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/rimap-2
+-ingene
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.random.gene.4.block.not
+-xml
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-clonalorigin/output2/2/core_co.phase3.xml
+-out
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out.not
+----
+
+----
+> x.vir <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out")
+> x.non <- scan("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-random-heatmap.out.not")
+> write(round(x.vir/x.non, digits=3), file="a", sep="\t", ncolumns=81, append=TRUE)
+----
+
+----
+$ cat x.* > x
+> x <- read.table("x")
+> y <- colMeans(x)
+> write(round(y, digits=3), file="y", ncolumns=9, sep="\t")
+----
+
+Tue Oct 25 22:55:32 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Variance in posterior samples and s18 simulation
+----
+output/cornellf/3/run-analysis/obsiter-recedge-1.txt (1001)
+output/cornellf/3/run-analysis/obsiter-recedge-2.txt (1001)
+output/s18/run-analysis/obsonly-recedge.txt (100)
+----
+
+Let's use rimap-1.txt and rimap-2.txt to create a matrix for virulence genes and
+non-virulence genes.  recombination-intensity1-genes is used.  I compute average
+posterior probability per site for each pair of species tree branches. 
+There is a directory rimap-1 and rimap-2. Why do we need rimap-1.txt, which
+would be a combined version of rimap? 
+Did I split rimap-2.txt to multiple files in rimap-2?
+See menu probability-recedge-gene for getting genes with particular recedges.
+Do I have create another script? ri-virulence.pl.
+ri-virulence.pl is created based on recombination-intensity1-genes.pl.
+
+FIXME: output/cornellf/3/run-analysis/rimap-1 had one missing file.
+rimap-1 direcotry is not ready. How did I split rimap-1.txt file to multiple
+files? 
+
+
 Mon Oct 24 10:05:13 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
