@@ -183,6 +183,21 @@ function sim6 {
         echo -e "e.g., output/cornellf/3/run-analysis/obsonly-recedge-1.txt"
       fi
 
+      echo -n "Do you wish to count recombination events across blocks (or obsiter) (y/n)? "
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
+          RUNCLONALORIGIN=$BASEDIR/$g/run-clonalorigin
+          RUNANALYSIS=$BASEDIR/$g/run-analysis
+          for h in $(eval echo {1..$HOW_MANY_REPLICATE}); do
+            perl pl/count-observed-recedge.pl obsiter \
+              -d $RUNCLONALORIGIN/output2/${h} \
+              -n $NUMBER_BLOCK \
+              -out $RUNANALYSIS/obsiter-recedge-$h.txt
+          done
+        done
+        echo "Check file $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt"
+      fi
       break
 
       #######################################################

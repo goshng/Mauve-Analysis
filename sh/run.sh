@@ -145,7 +145,6 @@ CHOICES=( init-file-system \
           ---REAL-DATA-ALIGNMENT---\
           choose-species \
           prepare-mauve-alignment \
-          copy-mauve-alignment \
           receive-mauve-alignment \
           ---REAL-DATA-CLONALFRAME---\
           filter-blocks \
@@ -188,6 +187,7 @@ CHOICES=( init-file-system \
           compute-block-length \
           compute-global-median \
           extract-species-tree \
+          copy-mauve-alignment \
           ---UCSC-GENOME-BROWSER---\
           ucsc-load-genome-not-yet-implemented \
           ---MANUSCRIPT---\

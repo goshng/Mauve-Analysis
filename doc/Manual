@@ -28,8 +28,8 @@ navigate the user guide
 
 Introduction
 ------------
-This manual introduces a how-to of *Mauve Analysis* of closely related bacterial
-genomes using ClonalOrigin. The analysis can be performed with help of other
+This manual introduces *Mauve Analysis* for analyzing closely related bacterial
+genomes using ClonalOrigin. The analysis is performed with other
 software packages. See the section <<Installation>> for detail for
 the required software packages.
 *Mauve Analysis* is a package of scripts including BASH shell scripts, PERL
@@ -55,11 +55,11 @@ their selected bacterial genomes.
 Initialize the file system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute the menu *init-file-system* after the configuration of the analysis and
-the installation of the analysis. This will create +output+ directory
+the installation of the analysis. This will create +input+ and +output+ directories
 in the base directory, and base directories in the cluster and X11-enabled linux
-machine. You might need a cluster of unix-like machines for running
-ClonalOrigin, and might also need a linux machine to run a program with
-graphical interface.
+computer.  You might need a cluster of unix-like machines for running
+ClonalOrigin, and might also need a linux computer to run a program with
+X11 graphical interface.
 
 Align your genomes
 ~~~~~~~~~~~~~~~~~~
@@ -463,16 +463,165 @@ using +$DATADIR+, +$RUNMAUVE+, +$RUNCLONALORIGIN+, +$RUNCLONALFRAME+, and
 
 init-file-system
 ~~~~~~~~~~~~~~~~
-Call this menu first. 
+Call this menu first. This creates input and output directories.
+After checking out the source code from the repository output directories need
+to be created in the local, remote cluster, remote X11 machines.
+
+choose-species
+~~~~~~~~~~~~~~
+Users should call this menu before any analysis.
+
+prepare-mauve-alignment
+~~~~~~~~~~~~~~~~~~~~~~~
+Go to NCBI FTP site to download bacterial genomes.  Each genome is stored in a
+directory. For example, you could download one genome using the following
+commands.
+
+.How to download bacterial genomes
+----
+$ cd input
+$ ncftp ftp://ftp.ncbi.nih.gov/genomes/Bacteria
+ncftp /genomes/Bacteria > get -r Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103
+ncftp /genomes/Bacteria > quit
+----
+
+Afte downloading bacterial genomes to directory +input+, you create a data species file
+and a species file. The data species file specifies genome files in Genbank
+format. Relative file paths should be written down in the data species file. 
+Place the data species file in +data+ directory.
+
+.An example of data species file
+----
+# SDE1
+# SDE2
+# SDD
+# SPY1
+# SPY2
+# SEE
+input/cornell_sde1/CP002215.gbk
+input/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+input/cornell_sdd/sdd.gbk
+input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+input/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+input/Streptococcus_equi_4047_uid59259/NC_012471.gbk
+----
+
+You also need to prepare a species file with the same name as the data species
+file but in +species+ directory. Put the following.
+
+.Species file needs the following lines
+----
+REPETITION1-MAUVE-WALLTIME:168
+GBK1:input/cornell_sde1/CP002215.gbk
+GBK2:input/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+GBK3:input/cornell_sdd/sdd.gbk
+GBK4:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+GBK5:input/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+GBK6:input/Streptococcus_equi_4047_uid59259/NC_012471.gbk
+----
+
+A job needs a wall time, which is a maximum time for running your job. The
+number after REPETITION in REPETITION1-MAUVE-WALLTIME:168 is the repetition
+number you want. Use the number that you entered in the question of this menu.
+You can see your jobs running in the CAC cluster by using the following
+commands.
+
+.Commands to show jobs in the CAC cluster
+----
+$ qstat
+$ showq
+----
+
+The value 168 right after REPETITION1-MAUVE-WALLTIME is the maximum hours to use
+a compute node. When the job is finished, you would be notified by the email you
+specified in +conf/README+ file. You can find the output in output directory:
+e.g., +output/cornell6/1/run-mauve/output+.
+Use menu *receive-mauve-alignment* to copy the +output+ directory to your
+computer.
+
+receive-mauve-alignment
+~~~~~~~~~~~~~~~~~~~~~~~
+Use this menu to get the output file that is produced by menu 
+*prepare-mauve-alignment*. You need to answer two questions: species name, and
+repetition number.
+
+filter-blocks
+~~~~~~~~~~~~~
+
+
+As two bacterial genomes are more distantly related, they might not be alignable
+globally. Parts of one of the genome could be aligned to parts of the other.
+These parts may not be ordered. The first genome might have A-B-C-D-E, and the
+second might have A-C-B-E-D, where A, B, C, D, and E are parts that could be
+similar. These five parts are called blocks.  The genome alignment inferred by
+Mauve consists of multiple blocks.  We might not use all of the alignment blocks
+in the subsequent ClonalFrame and ClonalOrigin analyses because some of blocks
+might have too many gaps. We remove some blocks with many gaps to have core
+alignment blocks. This is somewhat iterative procedure. I often was faced with
+two difficulties.  The program, stripSubsetLCBs, is a part of progressiveMauve.
+Often some allignments were a little bizarre: two many gaps are still in some
+alignment. Another difficulty happens in ClonalOrigin analysis.  ClonalOrigin's
+runs with some alignment blocks did not finish within bearable time, say a
+month. ClonalOrigin's run with some other alignment blocks were finished
+relatively fast. It depends on the option of chain lengths. I consider that runs
+are finished when multiple independent MCMC more or less converged. Those blocks
+had to be excluded from the analysis. At the first run of this whole procedure,
+I simply execute the stripSubsetLCBs to find core alignment blocks. 
+
+I manually check the core alignment blocks to remove any weird alignments. I
+then proceed to ClonalFrame and the first stage of ClonalOrigin. I find
+problematic alignment blocks with which ClonalOrigin runs take too much
+computing time. Then, I come back to filter-blocks to remove them. I had to be
+careful in ordering of alignment blocks because when I remove any blocks that
+are not the last all the preceding block numbers have to change.  Note that
+run-lcb alwasys use the output of Mauve alignment. In the 2nd stage of filtering
+you need to consider proper numbering. Say, in the first filtering of alignment
+with many gaps you removed the 3rd among 10 alignment blocks. In the 2nd stage,
+you found 6th alignment needed too long computing time. Then, you should remove
+3rd and 7th, not 3rd and 6th because the 6th is actually the 7th among the first
+10 alignment blocks. The 6th alignment is 6th among 9 alignment blocks that were
+from the 1st stage of filtering.
+
+summary-core-alignment
+~~~~~~~~~~~~~~~~~~~~~~
+The core alignment, e.g., +output/cornell6/1/data/core_alignment.xmfa+ is
+summarized in a file
++output/cornellf/3/run-analysis/summary-core-alignment.txt+.
+
+prepare-run-clonalframe
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Prepare clonalframe analysis.
+
+Read the code and document it.
+
+The full_alignment.xmfa has input genome files full paths.
+These are the paths that were used in CAC not local machine.
+I have to replace those paths to the genome files paths of this local machine.
+
+We could edit the xmfa file, but instead
+%s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
+Also, change the backbone file name.
+I make the same file system structure as the run-mauve.
+
+NOTE: One thing that I am not sure about is the mutation rate.
+       Xavier said that I could fix the mutation rate to Watterson's estimate.
+       I do not know how to do it with finite-sites data.
+       McVean (2002) in Genetics.
+       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
+       Just remove gaps and use the alignment without gaps.
+       I may have to find this value from the core genome
+       alignment: core_alignment.xmfa.
+ NOTE: I run clonalframe for a very short time to find a NJ tree.
+       I had to run clonalframe twice.
+NOTE: some of the alignments are removed from the analysis.
 
 choose-simulation
 ~~~~~~~~~~~~~~~~~
 Users have to setup simulation configuration including mostly creating
 directories.
 
-choose-species
-~~~~~~~~~~~~~~
-Users should call this menu before any analysis.
+
 
 ucsc-load-genome
 ~~~~~~~~~~~~~~~~
@@ -1197,7 +1346,6 @@ create-ingene.sh
 divide-simulated-xmfa-data.sh
 divide-simulated-xml-data.sh
 extract-species-tree.sh
-filter-blocks.sh
 heatmap-compute.sh
 heatmap-get-observed.sh
 hms.sh
@@ -1209,9 +1357,7 @@ map-tree-topology.sh
 mkdir-species.sh
 noweb.sh
 plot-number-recombination-within-blocks.sh
-prepare-mauve-alignment.sh
 prepare-run-2nd-clonalorigin.sh
-prepare-run-clonalframe.sh
 prepare-run-clonalorigin.sh
 prepare-run-compute-heatmap-recedge.sh
 probability-recedge-gene.sh
@@ -1219,7 +1365,6 @@ probability-recombination.sh
 progressbar.sh
 read-species-file.sh
 read-species.sh
-receive-mauve-alignment.sh
 receive-run-2nd-clonalorigin.sh
 receive-run-clonalframe.sh
 receive-run-clonalorigin.sh

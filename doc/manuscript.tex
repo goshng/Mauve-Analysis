@@ -1237,6 +1237,33 @@ SPY2& 1.174  &1.938  &1.287  &    NA &-1.9740  & NA & 1.07 &    NA & 0.063\tabul
 %\clearpage{}
 %=============================================================================
 
+
+%=============================================================================
+% Table S4-1. The significance values of the heat map.
+\begin{table}[!ht]
+\caption{
+{\bf P-values for the significance of the ratios of logarithm base 2 of the observed
+recombinant edges to the expected number of recombinant edges.} 
+NnN's are for the branch pairs that are impossible under the model-based
+approached. Rows are for donor, and columns for recipient.}
+\noindent \centering{}\begin{tabular}{cccccccccc}
+\hline
+&         SDE1&     SDE&    SDE2&      SD&     SDD &ROOT&    SPY1&     SPY&    SPY2\\
+\hline
+SDE1 &3.1e-03 &    NaN &1.1e-29 &    NaN &8.8e-21  &NaN &4.4e-19 &    NaN &2.2e-23\\
+SDE  &4.9e-02 &2.3e-06 &7.5e-04 &    NaN &3.5e-32  &NaN &9.3e-01 &3.0e-08 &1.2e-25\\
+SDE2 &8.2e-32 &    NaN &6.0e-01 &    NaN &1.2e-23  &NaN &1.6e-17 &    NaN &3.3e-06\\
+SD   &6.4e-11 &8.0e-01 &1.4e-19 &3.2e-02 &7.3e-01  &NaN &2.2e-27 &1.5e-22 &1.1e-30\\
+SDD  &7.3e-33 &6.7e-32 &4.1e-04 &    NaN &9.1e-07  &NaN &8.7e-34 &1.8e-32 &8.7e-34\\
+ROOT &8.7e-34 &8.7e-34 &8.7e-34 &8.7e-34 &8.7e-34  &NaN &8.7e-34 &8.7e-34 &8.7e-34\\
+SPY1 &8.7e-34 &2.9e-32 &8.7e-34 &    NaN &8.7e-34  &NaN &9.3e-01 &    NaN &8.7e-34\\
+SPY  &2.6e-13 &2.2e-27 &5.8e-32 &7.5e-01 &8.7e-34  &NaN &1.3e-03 &3.9e-05 &6.5e-02\\
+SPY2 &8.7e-34 &2.1e-33 &8.7e-34 &    NaN &8.7e-34  &NaN &9.4e-34 &    NaN &9.3e-01\\
+\hline
+\end{tabular}
+\label{tab:heatmappvalue}
+\end{table}
+
 %=============================================================================
 % Table S5. The values of the heat map of actual counts.
 \begin{table}[!ht]
@@ -1302,17 +1329,46 @@ P-value & Count & GO-term & Description \\
 {\bf Virulence genes inferred to have experienced recombining gene transfer
 events.}}
 \noindent \begin{centering}
-\begin{tabular}{lll}
+\begin{tabular}{lrll}
 \hline 
-Genes & Gene Accessions\tabularnewline
+Direction & Fraction & Genes & Description\\ 
 \hline 
-putative calcium transporter (MgtA) & SpyM3\_0440 & SPY1 to SDE1\\
-putative dipeptidase & SpyM3\_0465 & SPY to SDE\\
-superoxide dismutase & SpyM3\_1071 & SPY to SDE\\
-putative internalin A precursor & SpyM3\_1035 & SPY to SDE\\
-putative heat shock protein (chaperonin GroEL) & SpyM3\_1765 & SPY to SDE1\\
-pyruvate formate lyase & SpyM3\_1749 & No specific directions\\
-putative glucose kinase & SpyM3\_1180 & SPY to SDE\\
+SDE1-to-SDD & 0.97 & SpyM3\_1369 & putative serine threonine kinase\\
+ & 0.25 & SpyM3\_1370 & putative phosphoprotein phosphatase\\
+SDE2-to-SDD & 1 & SpyM3\_1522 & 3-oxoacyl-acyl carrier protein synthase II\\
+ & 1 & SpyM3\_1523 & 3-ketoacyl-acyl-carrier-protein reductase\\
+ & 1 & SpyM3\_1524 & acyl-carrier-protein S-malonyltransferase\\
+SDD-to-SDE1 & 0.16 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+SDD-to-SDE2 & 0.01 & SpyM3\_1767 & putative endopeptidase Clp ATP-binding chain C\\
+SDD-to-SDE & 0.49 & SpyM3\_1180 & putative glucose kinase\\
+SPY1-to-SDE1 & 0.13 & SpyM3\_0440 & putative calcium transporter\\
+SPY1-to-SDE2 & 0.28 & SpyM3\_1755 & putative pyruvate formate-lyase activating enzyme\\
+SPY2-to-SDE2 & 0.21 & SpyM3\_0420 & lysyl-tRNA synthetase\\
+SPY2-to-SDE & 0.57 & SpyM3\_1806 & DNA mismatch repair protein MutS\\
+SDE-to-SDD & 1 & SpyM3\_1188 & phosphopantetheine adenylyltransferase\\
+ & 0.31 & SpyM3\_0036 & bifunctional acetaldehyde-CoA alcohol dehydrogenase\\
+ & 0.26 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+ & 0.05 & SpyM3\_0497 & F0F1 ATP synthase subunit alpha\\
+SDE-to-SPY1 & 0.02 & SpyM3\_0440 & putative calcium transporter\\
+SDE-to-SPY2 & 0.47 & SpyM3\_1366 & putative two-component response regulator\\
+ & 0.19 & SpyM3\_1475 & N-acetylglucosamine-6-phosphate deacetylase\\
+ & 0.09 & SpyM3\_1201 & putative two-component sensor histidine kinase\\
+ & 0.02 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+SDE-to-SPY & 0.58 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+ & 0.22 & SpyM3\_0497 & F0F1 ATP synthase subunit alpha\\
+ & 0.08 & SpyM3\_1370 & putative phosphoprotein phosphatase\\
+SPY-to-SDE1 & 0.86 & SpyM3\_0511 & ABC transporter ATP-binding protein\\
+ & 0.18 & SpyM3\_1765 & chaperonin GroEL\\
+SPY-to-SPY2 & 0.03 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+SPY-to-SDE & 0.98 & SpyM3\_0465 & putative dipeptidase\\
+ & 0.84 & SpyM3\_1755 & putative pyruvate formate-lyase activating enzyme\\
+ & 0.54 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+ & 0.3 & SpyM3\_0764 & putative spermidineputrescine ABC transporter ATP-binding protein\\
+ & 0.28 & SpyM3\_0420 & lysyl-tRNA synthetase\\
+ & 0.23 & SpyM3\_1182 & putative peroxide resistance protein\\
+ & 0.22 & SpyM3\_0440 & putative calcium transporter\\
+ & 0.07 & SpyM3\_1366 & putative two-component response regulator\\
+ & 0.06 & SpyM3\_1180 & putative glucose kinase\\
 \hline 
 \end{tabular}
 \par\end{centering}

@@ -38,6 +38,58 @@ runs. Say this in the manuscript.)
 .alpha1, alpha2, and tau would be implemented.
 
 
+Thu Oct 27 12:27:10 EDT 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GFF file is used to find product tags for gene descriptions.
+
+How can I find a p-value for the heatmap? 
+
+[1] "Greater"
+        SDE1     SDE    SDE2      SD     SDD ROOT    SPY1     SPY    SPY2
+SDE1 2.9e-03     NaN 1.1e-29     NaN 8.4e-21  NaN 4.2e-19     NaN 2.0e-23
+SDE  1.0e+00 2.0e-06 1.0e+00     NaN 3.8e-32  NaN 8.1e-01 2.7e-08 1.0e+00
+SDE2 7.9e-32     NaN 5.6e-01     NaN 1.2e-23  NaN 1.5e-17     NaN 2.9e-06
+SD   1.0e+00 7.2e-01 1.0e+00 2.9e-02 6.7e-01  NaN 1.0e+00 1.0e+00 1.0e+00
+SDD  1.0e+00 6.7e-32 1.0e+00     NaN 8.1e-07  NaN 1.0e+00 1.0e+00 1.0e+00
+ROOT 1.0e+00 1.0e+00 1.0e+00 1.1e-33 1.0e+00  NaN 1.0e+00 1.1e-33 1.0e+00
+SPY1 1.1e-33 3.4e-32 1.1e-33     NaN 1.0e+00  NaN 9.2e-01     NaN 1.1e-33
+SPY  2.4e-13 2.1e-27 6.0e-32 6.8e-01 1.0e+00  NaN 1.0e+00 1.0e+00 1.0e+00
+SPY2 1.1e-33 2.4e-33 1.1e-33     NaN 1.0e+00  NaN 1.1e-33     NaN 8.1e-01
+[1] "Two Sided"
+        SDE1     SDE    SDE2      SD     SDD ROOT    SPY1     SPY    SPY2
+SDE1 3.1e-03     NaN 1.1e-29     NaN 8.8e-21  NaN 4.4e-19     NaN 2.2e-23
+SDE  4.9e-02 2.3e-06 7.5e-04     NaN 3.5e-32  NaN 9.3e-01 3.0e-08 1.2e-25
+SDE2 8.2e-32     NaN 6.0e-01     NaN 1.2e-23  NaN 1.6e-17     NaN 3.3e-06
+SD   6.4e-11 8.0e-01 1.4e-19 3.2e-02 7.3e-01  NaN 2.2e-27 1.5e-22 1.1e-30
+SDD  7.3e-33 6.7e-32 4.1e-04     NaN 9.1e-07  NaN 8.7e-34 1.8e-32 8.7e-34
+ROOT 8.7e-34 8.7e-34 8.7e-34 8.7e-34 8.7e-34  NaN 8.7e-34 8.7e-34 8.7e-34
+SPY1 8.7e-34 2.9e-32 8.7e-34     NaN 8.7e-34  NaN 9.3e-01     NaN 8.7e-34
+SPY  2.6e-13 2.2e-27 5.8e-32 7.5e-01 8.7e-34  NaN 1.3e-03 3.9e-05 6.5e-02
+SPY2 8.7e-34 2.1e-33 8.7e-34     NaN 8.7e-34  NaN 9.4e-34     NaN 9.3e-01
+[1] "Less"
+        SDE1     SDE    SDE2  SD     SDD ROOT    SPY1     SPY    SPY2
+SDE1 1.0e+00     NaN 1.0e+00 NaN 1.0e+00  NaN 1.0e+00     NaN 1.0e+00
+SDE  5.3e-02 1.0e+00 8.2e-04 NaN 1.0e+00  NaN 1.0e+00 1.0e+00 1.2e-25
+SDE2 1.0e+00     NaN 1.0e+00 NaN 1.0e+00  NaN 1.0e+00     NaN 1.0e+00
+SD   6.9e-11 1.0e+00 1.5e-19   1 1.0e+00  NaN 2.2e-27 1.5e-22 1.1e-30
+SDD  6.4e-33 1.0e+00 4.5e-04 NaN 1.0e+00  NaN 7.1e-34 1.5e-32 7.1e-34
+ROOT 7.1e-34 7.1e-34 7.1e-34   1 7.1e-34  NaN 7.1e-34 1.0e+00 7.1e-34
+SPY1 1.0e+00 1.0e+00 1.0e+00 NaN 7.1e-34  NaN 1.0e+00     NaN 1.0e+00
+SPY  1.0e+00 1.0e+00 1.0e+00   1 7.1e-34  NaN 1.4e-03 4.5e-05 6.9e-02
+SPY2 1.0e+00 1.0e+00 1.0e+00 NaN 7.1e-34  NaN 1.0e+00     NaN 1.0e+00
+
+.The observed value
+----
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/obsonly-recedge-1.txt
+/Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/obsonly-recedge.txt
+/Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/obsonly-recedge.R
+----
+
+List of virulence genes experiencing recombination with posterior probability above 0.5. 
+
+Rscript R/vir-list.R > R/vir-list.R.out
+
 Wed Oct 26 12:40:45 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

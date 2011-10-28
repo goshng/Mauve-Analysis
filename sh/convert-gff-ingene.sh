@@ -35,6 +35,10 @@ function convert-gff-ingene {
       perl pl/$FUNCNAME.pl \
         -gff $GFF \
         -out $OUT
+      perl pl/$FUNCNAME.pl \
+        -gff $GFF \
+        -withdescription \
+        -out $OUT.description
       echo "File $OUT is created!"
       break
     fi

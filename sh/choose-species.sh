@@ -33,6 +33,7 @@ function choose-species {
         mkdir $BASEDIR \
               $BASERUNANALYSIS \
               $NUMBERDIR \
+              $BASEDATADIR \
               $DATADIR \
               $RUNMAUVE \
               $RUNCLONALFRAME \
@@ -47,6 +48,7 @@ function choose-species {
       if [ "$WISH" == "y" ]; then
         ssh -x $CAC_USERHOST mkdir $CAC_BASEDIR \
                                    $CAC_NUMBERDIR \
+                                   $CAC_BASEDATADIR \
                                    $CAC_DATADIR \
                                    $CAC_RUNMAUVE \
                                    $CAC_RUNCLONALFRAME \

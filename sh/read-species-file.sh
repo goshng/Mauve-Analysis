@@ -21,9 +21,9 @@ function copy-batch-sh-run-mauve-called {
   isLast=$2
   filename_gbk=`basename $line`
   if [ "$isLast" == "last" ]; then
-    echo "  \$INPUTDIR/$filename_gbk" >> $BATCH_SH_RUN_MAUVE 
+    echo "  \$DATADIR/$filename_gbk" >> $BATCH_SH_RUN_MAUVE 
   else
-    echo "  \$INPUTDIR/$filename_gbk \\" >> $BATCH_SH_RUN_MAUVE 
+    echo "  \$DATADIR/$filename_gbk \\" >> $BATCH_SH_RUN_MAUVE 
   fi
 }
 
@@ -43,10 +43,9 @@ function batch-copy-genome-called {
   cp $line output/$SPECIES/data
 }
 
-
 function copy-genomes-to-cac-called {
   line="$@" # get all args
-  scp -q $GENOMEDATADIR/$line $CAC_USERHOST:$CAC_DATADIR
+  scp -q $line $CAC_USERHOST:$CAC_BASEDATADIR
 }
 
 function processLine {

@@ -37,6 +37,7 @@ function set-more-global-variable {
   OUTPUTDIR=$MAUVEANALYSISDIR/output
   BASEDIR=$OUTPUTDIR/$SPECIES
   BASERUNANALYSIS=$BASEDIR/run-analysis
+  BASEDATADIR=$BASEDIR/data
   NUMBERDIR=$BASEDIR/$REPETITION_DIR
   DATADIR=$NUMBERDIR/data
   RUNMAUVE=$NUMBERDIR/run-mauve
@@ -54,6 +55,7 @@ function set-more-global-variable {
   # Note that the cluster base directory does not contain run-analysis. The
   # basic analysis is done in the local machine.
   CAC_BASEDIR=$CAC_OUTPUTDIR/$SPECIES
+  CAC_BASEDATADIR=$CAC_BASEDIR/data
   CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$REPETITION_DIR
   CAC_DATADIR=$CAC_NUMBERDIR/data
   CAC_RUNMAUVE=$CAC_NUMBERDIR/run-mauve

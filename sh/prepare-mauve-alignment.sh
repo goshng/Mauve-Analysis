@@ -17,19 +17,6 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-# 1. I make directories in CAC and copy genomes files to the data directory.
-# --------------------------------------------------------------------------
-# Users need to download genome files to a local directory named $GENOMEDATADIR.
-# They also need to prepare a species file that contains the actual Genbank
-# files. 
-# The first job that a user would want to do is to align the genomes. This would
-# be done in the cluster CAC. The procedure is as follows:
-# 1. Almost all bash variables are set in set-more-global-variable. See the bash function
-# for detail. 
-# 2. mkdir-species creates main file systems.
-# 3. copy-genomes-to-cac copies Genkbank genomes files to CAC.
-# 4. copy-batch-sh-run-mauve creates the batch file for mauve alignment, and
-# copies it to CAC cluster.
 function prepare-mauve-alignment {
   PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
@@ -39,21 +26,23 @@ function prepare-mauve-alignment {
     else  
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
-      echo -e "Wait for muave-analysis file system preparation...\n"
+      echo "Wait for muave-analysis file system preparation..."
       set-more-global-variable $SPECIES $REPETITION
 
-      WALLTIME=$(grep REPETITION${REPETITION}-MAUVE-Walltime species/$SPECIES | cut -d":" -f2)
-      mkdir-species
+      WALLTIME=$(grep REPETITION${REPETITION}-MAUVE-WALLTIME species/$SPECIES | cut -d":" -f2)
+      # mkdir-species
       read-species-genbank-files data/$SPECIES copy-genomes-to-cac
+      read-species-genbank-files data/$SPECIES batch-copy-genome
       copy-batch-sh-run-mauve \
         $RUNMAUVE/batch.sh \
         $CAC_USERHOST:$CAC_RUNMAUVE
-      echo -e "Go to CAC's $SPECIES run-mauve, and execute nsub batch.sh\n"
+      echo "Go to cac:$CAC_ROOT/output/$SPECIES/$REPETITION/run-mauve"
+      echo "Execute the following command to submit a job."
+      echo "$ nsub batch.sh"
       break
     fi
   done
 }
-
 
 # A batch file for Mauve alignment.
 # ---------------------------------
@@ -74,16 +63,17 @@ cat>$BATCH_SH_RUN_MAUVE<<EOF
 #PBS -m e
 #PBS -M ${BATCHEMAIL}
 
-DATADIR=\$PBS_O_WORKDIR/../data
 MAUVE=\$HOME/${BATCHPROGRESSIVEMAUVE}
+BASEDIR=output/$SPECIES
+NUMBERDIR=output/$SPECIES/$REPETITION
+MAUVEDIR=\$NUMBERDIR/run-mauve
+DATADIR=\$BASEDIR/data
 
-OUTPUTDIR=\$TMPDIR/output
-INPUTDIR=\$TMPDIR/input
-mkdir \$INPUTDIR
-mkdir \$OUTPUTDIR
-cp \$MAUVE \$TMPDIR/
-cp \$DATADIR/* \$INPUTDIR/
+OUTPUTDIR=output/$SPECIES/$REPETITION/run-mauve/output
 cd \$TMPDIR
+mkdir -p \$OUTPUTDIR
+cp \$MAUVE .
+cp -r \$PBS_O_WORKDIR/../../data \$BASEDIR
 ./progressiveMauve --output=\$OUTPUTDIR/full_alignment.xmfa \\
   --output-guide-tree=\$OUTPUTDIR/guide.tree \\
 EOF
@@ -91,7 +81,7 @@ EOF
   read-species-genbank-files data/$SPECIES copy-batch-sh-run-mauve
 
 cat>>$BATCH_SH_RUN_MAUVE<<EOF
-cp -r \$OUTPUTDIR \$PBS_O_WORKDIR/
+cp -r \$OUTPUTDIR \$PBS_O_WORKDIR
 cd
 rm -rf \$TMPDIR
 EOF

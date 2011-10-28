@@ -17,30 +17,6 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-# 4. Prepare clonalframe analysis.
-# --------------------------------
-# FIXME: Read the code and document it.
-#
-# NOTE: full_alignment.xmfa has input genome files full paths.
-#       These are the paths that were used in CAC not local machine.
-#       I have to replace those paths to the genome files paths
-#       of this local machine.
-# We could edit the xmfa file, but instead
-# %s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
-# Also, change the backbone file name.
-# I make the same file system structure as the run-mauve.
-#
-# NOTE: One thing that I am not sure about is the mutation rate.
-#       Xavier said that I could fix the mutation rate to Watterson's estimate.
-#       I do not know how to do it with finite-sites data.
-#       McVean (2002) in Genetics.
-#       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
-#       Just remove gaps and use the alignment without gaps.
-#       I may have to find this value from the core genome
-#       alignment: core_alignment.xmfa.
-# NOTE: I run clonalframe for a very short time to find a NJ tree.
-#       I had to run clonalframe twice.
-# NOTE: some of the alignments are removed from the analysis.
 function prepare-run-clonalframe {
   PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
@@ -52,6 +28,7 @@ function prepare-run-clonalframe {
       read REPETITION
       echo -e "  Preparing clonalframe analysis..."
       set-more-global-variable $SPECIES $REPETITION
+      WALLTIME=$(grep REPETITION${REPETITION}-CF-WALLTIME species/$SPECIES | cut -d":" -f2)
       echo -e "  Computing Wattersons's estimates..."
       echo -e "  Removing previous blocks..."
       rm -f $DATADIR/core_alignment.xmfa.*
@@ -61,11 +38,10 @@ function prepare-run-clonalframe {
       # Use R to sum the values in w.txt.
       sum-w
       rm w.txt
-      echo -e "You may use the Watterson's estimate in clonalframe analysis.\n"
-      echo -e "Or, you may ignore.\n"
+      echo "Use the Watterson's estimate in clonalframe analysis."
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
-      echo -e "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh\n"
+      echo "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh"
       break
     fi
   done
@@ -133,10 +109,10 @@ function send-clonalframe-input-to-cac {
 function copy-batch-sh-run-clonalframe {
   cat>$BATCH_SH_RUN_CLONALFRAME<<EOF
 #!/bin/bash
-#PBS -l walltime=168:00:00,nodes=1
+#PBS -l walltime=${WALLTIME}:00:00,nodes=1
 #PBS -A ${BATCHACCESS}
 #PBS -j oe
-#PBS -N Strep-${SPECIES}-ClonalFrame
+#PBS -N ${PROJECTNAME}-${SPECIES}-CF
 #PBS -q v4
 #PBS -m e
 #PBS -M ${BATCHEMAIL}
@@ -155,9 +131,6 @@ cd \$TMPDIR
 x=( 10000 10000 10000 10000 10000 10000 10000 10000 )
 y=( 10000 10000 10000 10000 10000 10000 10000 10000 )
 z=(    10    10    10    10    10    10    10    10 )
-
-#-t 2 \\
-#-m 1506.71 -M \\
 
 for index in 0 1 2 3 4 5 6 7
 do

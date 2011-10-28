@@ -25,6 +25,7 @@ GetOptions( \%params,
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
             'gff=s',
+            'withdescription',
             'out=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -145,9 +146,20 @@ sub convert_gff_ingene($$) {
   open GFF, "$gffFilename" or die $!;
   while ($gffLine = <GFF>)
   {
-    if ($gffLine =~ /RefSeq\s+gene\s+(\d+)\s+(\d+).+([+-]).+locus_tag=(\w+);/)
+    if (exists $params{withdescription})
     {
-      print OUT "$4\t$1\t$2\t$3\n";
+      if ($gffLine =~ /RefSeq\s+CDS\s+(\d+)\s+(\d+).+([+-]).+locus_tag=(\w+);.+;product=(.+);/)
+      {
+        my @e = split (/;/, $5);
+        print OUT "$4\t$e[0]\n";
+      }
+    }
+    else
+    {
+      if ($gffLine =~ /RefSeq\s+gene\s+(\d+)\s+(\d+).+([+-]).+locus_tag=(\w+);/)
+      {
+        print OUT "$4\t$1\t$2\t$3\n";
+      }
     }
   }
   close GFF;
