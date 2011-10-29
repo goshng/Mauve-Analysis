@@ -591,37 +591,63 @@ summarized in a file
 prepare-run-clonalframe
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.To build compute_watterson_estimate
+----
+$ cd src/utils
+$ mkdir b
+$ cd b
+$ cmake ..
+$ make
+----
+
 Prepare clonalframe analysis.
 
-Read the code and document it.
+receive-run-clonalframe
+~~~~~~~~~~~~~~~~~~~~~~~
+Provide the clonal frame replicate ID with species name.
 
-The full_alignment.xmfa has input genome files full paths.
-These are the paths that were used in CAC not local machine.
-I have to replace those paths to the genome files paths of this local machine.
+prepare-run-clonalorigin
+~~~~~~~~~~~~~~~~~~~~~~~~
+Prepare the first stage of clonalorigin.
 
-We could edit the xmfa file, but instead
-%s/\/tmp\/1073978.scheduler.v4linux\/input/\/Users\/goshng\/Documents\/Projects\/mauve\/$SPECIES\/data/g
-Also, change the backbone file name.
-I make the same file system structure as the run-mauve.
+A few variables need explanation before describing the first stage of
+ClonalOrigin.
+CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.
+RUNID: multiple runs in each replicate of clonal frame run are available.
+Choose clonal frame replicate first, and then run identifier later. This
+combination represents a species tree using the core alignment blocks.
+REPLICATE: multiple replicates of clonal origin are avaiable. I also need to
+check the convergence before proceeding with the second stage of clonal
+origin. 
+I used split core alignments into blocks. I did it for estimating Watterson's
+estimate. Each block was in FASTA format. I modified the perl script,
+blocksplit.pl, to generate FASTA formatted files. I just use blocksplit.pl to
+split the core alignments into blocks that ClonalOrigin can read in. I delete
+all the core alignment blocks that were generated before, and recreate them so
+that I let ClonalOrigin read its expected formatted blocks.
 
-NOTE: One thing that I am not sure about is the mutation rate.
-       Xavier said that I could fix the mutation rate to Watterson's estimate.
-       I do not know how to do it with finite-sites data.
-       McVean (2002) in Genetics.
-       ln(L/(L-S))/\sum_{k=1}^{n-1}1/k.
-       Just remove gaps and use the alignment without gaps.
-       I may have to find this value from the core genome
-       alignment: core_alignment.xmfa.
- NOTE: I run clonalframe for a very short time to find a NJ tree.
-       I had to run clonalframe twice.
-NOTE: some of the alignments are removed from the analysis.
+.A species tree is extracted from a clonal frame output file
+----
+output/cornell6/1/run-clonalorigin/clonaltree.nwk
+----
 
+prepare-run-2nd-clonalorigin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# 8. Check the convergence
+# ------------------------
+# A multiple runs of the first stage of ClonalOrigin are checked for their
+# convergence.
+# FIXME: we need a bash function.
+
+# 9. Prepare 2nd clonalorigin-analysis.
+# -------------------------------------
+# I use one of replicates of the first stage of ClonalOrigin. I do not combine
+# the replicates.
 choose-simulation
 ~~~~~~~~~~~~~~~~~
 Users have to setup simulation configuration including mostly creating
 directories.
-
-
 
 ucsc-load-genome
 ~~~~~~~~~~~~~~~~
@@ -1358,7 +1384,6 @@ mkdir-species.sh
 noweb.sh
 plot-number-recombination-within-blocks.sh
 prepare-run-2nd-clonalorigin.sh
-prepare-run-clonalorigin.sh
 prepare-run-compute-heatmap-recedge.sh
 probability-recedge-gene.sh
 probability-recombination.sh
@@ -1366,7 +1391,6 @@ progressbar.sh
 read-species-file.sh
 read-species.sh
 receive-run-2nd-clonalorigin.sh
-receive-run-clonalframe.sh
 receive-run-clonalorigin.sh
 recombination-intensity1-genes.sh
 recombination-intensity1-probability.sh

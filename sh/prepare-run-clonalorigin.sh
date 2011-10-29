@@ -16,120 +16,145 @@
 # You should have received a copy of the GNU General Public License
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-# 6. Prepare the first stage of clonalorigin.
-# -------------------------------------------
-# A few variables need explanation before describing the first stage of
-# ClonalOrigin.
-# CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.
-# RUNID: multiple runs in each replicate of clonal frame run are available.
-# Choose clonal frame replicate first, and then run identifier later. This
-# combination represents a species tree using the core alignment blocks.
-# REPLICATE: multiple replicates of clonal origin are avaiable. I also need to
-# check the convergence before proceeding with the second stage of clonal
-# origin. 
-# I used split core alignments into blocks. I did it for estimating Watterson's
-# estimate. Each block was in FASTA format. I modified the perl script,
-# blocksplit.pl, to generate FASTA formatted files. I just use blocksplit.pl to
-# split the core alignments into blocks that ClonalOrigin can read in. I delete
-# all the core alignment blocks that were generated before, and recreate them so
-# that I let ClonalOrigin read its expected formatted blocks.
-#
+
 function prepare-run-clonalorigin {
-  PS3="Choose the species to analyze with clonalorigin: "
-  select SPECIES in `ls species`; do 
+  PS3="Choose the species for $FUNCNAME: "
+  select SPECIES in ${SPECIESS[@]}; do 
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"
       continue
     else  
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
-      g=$REPETITION
-      echo -e "Which replicate set of ClonalFrame output files?"
+      echo -e "Which replicate set of ClonalFrame output files? (e.g., 1)"
       echo -n "ClonalFrame REPLICATE ID: " 
       read CLONALFRAMEREPLICATE
-      echo -e "Which replicate set of ClonalOrigin output files?"
-      echo -n "ClonalOrigin REPLICATE ID: " 
-      read REPLICATE
       echo -e "Preparing clonal origin analysis..."
       set-more-global-variable $SPECIES $REPETITION
 
-      REFGENOME=$(grep REPETITION${REPETITION}-REFGENOME $SPECIESFILE | cut -d":" -f2)
+      COIREPLICATE=$(grep ^REPETITION${REPETITION}-CO1-COIREPLICATE species/$SPECIES | cut -d":" -f2)
+      WALLTIME=$(grep ^REPETITION${REPETITION}-CO1-WALLTIME species/$SPECIES | cut -d":" -f2)
+      COIBURNIN=$(grep ^REPETITION${REPETITION}-CO1-BURNIN $SPECIESFILE | cut -d":" -f2)
+      COICHAINLENGTH=$(grep REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
+      COITHIN=$(grep REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
 
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      WALLTIME=$(grep REPETITION${REPETITION}-Walltime $SPECIESFILE | cut -d":" -f2)
-      echo " $WALLTIME"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      BURNIN=$(grep REPETITION${REPETITION}-Burnin $SPECIESFILE | cut -d":" -f2)
-      echo " $BURNIN"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      CHAINLENGTH=$(grep REPETITION${REPETITION}-ChainLength $SPECIESFILE | cut -d":" -f2)
-      echo " $CHAINLENGTH"
-
-      echo -n "  Reading WALLTIME from $SPECIESFILE..."
-      THIN=$(grep REPETITION${REPETITION}-Thin $SPECIESFILE | cut -d":" -f2)
-      echo " $THIN"
-
-      echo -n "  Reading REPETITION from $SPECIESFILE..."
-      HOW_MANY_REPETITION=$(grep Repetition $SPECIESFILE | cut -d":" -f2)
-      echo " $HOW_MANY_REPETITION"
-
-      echo -e "  Creating an input directory for a species tree..."
+      echo "  Creating an input directory for a species tree..."
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
-      echo -e "  Creating an output directory for the 1st stage of ClonalOrigin..." 
+      echo "  Creating an output directory for the 1st stage of ClonalOrigin..." 
       mkdir $RUNCLONALORIGIN/output
-      echo -e "  Creating an output directory for the 2nd stage of ClonalOrigin..." 
+      echo "  Creating an output directory for the 2nd stage of ClonalOrigin..." 
       mkdir $RUNCLONALORIGIN/output2
-      echo -e "  Creating an input directory in the cluster..."
+      echo "  Creating an input directory in the cluster..."
       CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
-      ssh -x $CAC_USERHOST \
-        mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
+      # ssh -x $CAC_USERHOST \
+        # mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
+      CFID=$(grep REPETITION${REPETITION}-CO1-CFID $SPECIESFILE | cut -d":" -f2)
+      echo "  Using $CFID-th clonal frame output"
 
-      echo -n "Which clonal frame is used for a phylogeny? (e.g., 1) "
-      read RUNID
-      SPECIESTREE=clonaltree.nwk
-      perl pl/getClonalTree.pl \
-        $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/core_clonalframe.out.${RUNID} \
-        $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE
       echo -e "  Splitting alignment into one file per block..."
       CORE_ALIGNMENT=core_alignment.xmfa
-      rm $DATADIR/core_alignment.xmfa.*
+      rm $DATADIR/$CORE_ALIGNMENT.*
       perl pl/blocksplit.pl $DATADIR/$CORE_ALIGNMENT
 
       echo "  Copying the split alignments..."
       scp -q $DATADIR/$CORE_ALIGNMENT.* \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/data
+        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/data
 
-      echo "  Copying the input species tree..."
-      scp -q $RUNCLONALORIGIN/input/${REPLICATE}/$SPECIESTREE \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES/$g/run-clonalorigin/input/${REPLICATE}
+      echo "  Extracting species tree..."
+      SPECIESTREE=clonaltree.nwk
+      perl pl/getClonalTree.pl \
+        $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/core_clonalframe.out.${CFID} \
+        $RUNCLONALORIGIN/$SPECIESTREE
+      scp -q $RUNCLONALORIGIN/$SPECIESTREE \
+            $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
-      # Some script.
-      echo "  Creating job files..."
-      make-run-list-repeat $g \
-        $OUTPUTDIR/$SPECIES \
-        $REPLICATE \
-        $SPECIESTREE \
-        > $RUNCLONALORIGIN/jobidfile
-      scp -q $OUTPUTDIR/$SPECIES/$g/run-clonalorigin/jobidfile \
-        $CAC_USERHOST:$CAC_OUTPUTDIR/$SPECIES/$g/run-clonalorigin
+      # g is REPETITION
+      echo "  Creating jobidfile..."
+      NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/$CORE_ALIGNMENT.*|wc -l`))
+      JOBIDFILE=$RUNCLONALORIGIN/coi.jobidfile
+      rm -f $JOBIDFILE
+      for h in $(eval echo {1..$COIREPLICATE}); do
+        for b in $(eval echo {1..$NUMBER_BLOCK}); do
+          TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
+          XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
+          XML=output/$SPECIES/$REPETITION/run-clonalorigin/output/$h/core_co.phase2.xml.$b
+          echo ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
+            -x $COIBURNIN -y $COICHAINLENGTH -z $COITHIN \
+            $TREE $XMFA $XML >> $JOBIDFILE
+        done
+      done
+      scp -q $JOBIDFILE \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
+      scp -q cac/sim/batch_task.sh \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
+      scp -q cac/sim/run.sh \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
-      copy-batch-sh-run-clonalorigin $g \
-        $OUTPUTDIR/$SPECIES \
-        $CAC_MAUVEANALYSISDIR/output/$SPECIES \
-        $SPECIES \
-        $SPECIESTREE \
-        $REPLICATE
-      echo -e "Go to CAC's output/$SPECIES run-clonalorigin"
+cat>$RUNCLONALORIGIN/batch.sh<<EOF
+#!/bin/bash
+#PBS -l walltime=${WALLTIME}:00:00,nodes=1
+#PBS -A ${BATCHACCESS}
+#PBS -j oe
+#PBS -N $PROJECTNAME-CO1
+#PBS -q ${QUEUENAME}
+#PBS -m e
+#PBS -M ${BATCHEMAIL}
+#PBS -t 1-PBSARRAYSIZE
+
+# The full path of the clonal origin executable.
+WARG=\$HOME/usr/bin/warg
+BASEDIR=output/$SPECIES
+NUMBERDIR=\$BASEDIR/$REPETITION
+MAUVEDIR=\$NUMBERDIR/run-mauve
+CLONALFRAMEDIR=\$NUMBERDIR/run-clonalframe
+CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
+DATADIR=\$NUMBERDIR/data
+ANALYSISDIR=\$NUMBERDIR/run-analysis
+
+for g in \$(eval echo {1..$COIREPLICATE}); do
+  mkdir -p output/\$g
+done
+
+function copy-data {
+  cd \$TMPDIR
+  cp \$WARG .
+  cp \$PBS_O_WORKDIR/batchjob.sh .
+  mkdir -p \$NUMBERDIR
+  cp -r \$PBS_O_WORKDIR/../data \$NUMBERDIR
+  cp -r \$PBS_O_WORKDIR/../run-analysis \$NUMBERDIR
+  cp -r \$PBS_O_WORKDIR/$SPECIESTREE \$NUMBERDIR
+  for h in \$(eval echo {1..$COIREPLICATE}); do
+    mkdir -p \$CLONALORIGINDIR/output/\$h
+  done
+}
+
+function retrieve-data {
+  for h in \$(eval echo {1..$COIREPLICATE}); do
+    cp \$CLONALORIGINDIR/output/\$h/* \$PBS_O_WORKDIR/output/\$h
+  done
+}
+
+function process-data {
+  cd \$TMPDIR
+  CORESPERNODE=8
+  for (( i=1; i<=CORESPERNODE; i++))
+  do
+    bash batchjob.sh \\
+      \$i \\
+      \$PBS_O_WORKDIR/coi.jobidfile \\
+      \$PBS_O_WORKDIR/coi.lockfile&
+  done
+}
+
+copy-data
+process-data; wait
+retrieve-data
+EOF
+      scp -q $RUNCLONALORIGIN/batch.sh \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
+      echo -e "Go to $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin"
       echo -e "Submit a job using a different command."
-      echo -e "$ bash batch.sh 3 to use three computing nodes"
-      echo -e "Check the output if there are jobs that take longer"
-      echo -e "tail -n 1 output/*> 1"
-      echo -e "Create a file named remain.txt with block IDs, and then run"
-      echo -e "$ bash batch_remain.sh 3"
-      echo -e "The number of computing nodes is larger than the number of"
-      echo -e "remaining jobs divided by 8"
+      echo -e "$ bash run.sh"
       break
     fi
   done

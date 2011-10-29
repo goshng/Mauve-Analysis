@@ -54,7 +54,7 @@ function compute-watterson-estimate {
   do
     # take action on each file. $f store current file name
     DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HOME/usr/lib \
-    /Users/goshng/Documents/Projects/biopp/bpp-test/compute_watterson_estimate \
+    src/utils/b/compute_watterson_estimate \
     $f
   done
 }
