@@ -634,16 +634,82 @@ output/cornell6/1/run-clonalorigin/clonaltree.nwk
 prepare-run-2nd-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# 8. Check the convergence
-# ------------------------
-# A multiple runs of the first stage of ClonalOrigin are checked for their
-# convergence.
-# FIXME: we need a bash function.
+The species file need definitions.
+. REPETITION1-CO2-WALLTIME: maximum hours of computing time.
+. REPETITION1-CO2-CO1ID: three global parameters from ClonalOrigin's 1st stage
+MCMC are used. This specifies which replicate of ClonalOrigin's 1st stage runs
+is used to set the three parameters.
+. REPETITION1-CO2-NREPLICATE: number of replicates in ClonalOrigin's 2nd stage
+of MCMC.
 
-# 9. Prepare 2nd clonalorigin-analysis.
-# -------------------------------------
-# I use one of replicates of the first stage of ClonalOrigin. I do not combine
-# the replicates.
+.An example of lines needed for ClonalOrigin 2nd MCMC
+----
+REPETITION1-CO2-WALLTIME:336
+REPETITION1-CO2-CO1ID:1
+REPETITION1-CO2-BURNIN:10000000
+REPETITION1-CO2-CHAINLENGTH:100000000
+REPETITION1-CO2-THIN:100000
+REPETITION1-CO2-NREPLICATE:2
+----
+
+The three parameter estimates must be in +median.txt+.
+The tree file +clonaltree.nwk+ must exist. 
+The 
+
+.Input files
+----
+output/cornell6/1/run-clonalorigin/summary/1/median.txt
+output/cornell6/1/run-clonalorigin/clonaltree.nwk
+output/cornell6/1/data/core_alignment.xmfa.1
+...
+output/cornell6/1/data/core_alignment.xmfa.N
+----
+
+.Output files
+----
+output/cornell6/1/run-clonalorigin/run.sh
+output/cornell6/1/run-clonalorigin/batch.sh
+output/cornell6/1/run-clonalorigin/batchjob.sh
+output/cornell6/1/run-clonalorigin/coii.jobidfile
+----
+
+receive-run-2nd-clonalorigin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once jobs in the computing cluster are finished, select this command to receive
+the results from the cluster. Choose SPECIES, REPETITION, and REPLICATE to
+receive your runs from the cluster. 
+
+recombination-count
+~~~~~~~~~~~~~~~~~~~
+I describe +pl/count-observed-recedge.pl+ here. 
+Let's see what I want. Some of these can be deleted. I want to write something
+down as my thought flows. A ClonalOrigin XML file contains _Iterations_ tags,
+each of which includes more tags. Some of the tags are global parameters such as
+mutation rate _theta_, recombination rate _rho_, and tract length _delta_.
+Others are multiple instances of tags _recedge_. These recombinant edges are
+attached to the species tree, which is described by tag _Tree_. Each
+_Iterations_ tag contains a tag called _number_.  One XML file
+contains recombinant trees for one block. Multiple recombinant trees from all of
+the blocks could be combined into one. Because blocks are considered independent
+of one another, I take n-th recombinant trees from all of the blocks to combine
+them to create a new recombinant tree. In the simulation, a recombinant tree is
+created for all of the blocks. We could count recombinant edges for each pair of
+branches for each block to create a file of a matrix where rows are of length of the
+number of iterations, and columns are of length of the square of the number of
+branches in the species tree. We then sum all of the matrices over the blocks to
+obtain a matrix of recombinant edge counts for the recombinant trees.
+Let's have a command _obsiter_.
+
+.Count recombinant edges across all of the blocks
+----
+perl pl/count-observed-recedge.pl obsiter \
+  -d $RUNCLONALORIGIN/output2/${REPLICATE} \
+  -n $NUMBER_BLOCK \
+  $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
+----
+
+
+
 choose-simulation
 ~~~~~~~~~~~~~~~~~
 Users have to setup simulation configuration including mostly creating
@@ -767,27 +833,6 @@ I wish to check how well the 100 simulations can recover the true numbers of
 recombinant edges. 
 
 
-receive-run-2nd-clonalorigin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Once jobs in the computing cluster are finished, select this command to receive
-the results from the cluster. Choose SPECIES, REPETITION, and REPLICATE to
-receive your runs from the cluster. It also ask a job ID, which is the job ID of
-run-mauve directory. You can find it in the 2nd line of the mauve alignment
-file:
-
-.A sample mauve alignment file
-----
-output/cornellf/8/run-mauve/output/full_alignment.xmfa
-----
-
-.The 2nd line of the mauve alignment file
-----
-#Sequence1File  /tmp/1081728.scheduler.v4linux/input/CP002215.gbk
-----
-
-WARNING: receive-run-2nd-clonalorigin may be split into two parts. The first
-part is to download the result, and the second part is to do something about it. 
-
 scatter-plot-parameter
 ~~~~~~~~~~~~~~~~~~~~~~
 The three plots of global parameters estimates across all of the blocks.
@@ -906,36 +951,6 @@ output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
 .File of prior expected number of recombinant edges
 ----
 output/cornellf/8/run-clonalorigin/output2/priorcount-2/1.txt
-----
-
-recombination-count
-~~~~~~~~~~~~~~~~~~~
-
-I describe +pl/count-observed-recedge.pl+ here. 
-Let's see what I want. Some of these can be deleted. I want to write something
-down as my thought flows. A ClonalOrigin XML file contains _Iterations_ tags,
-each of which includes more tags. Some of the tags are global parameters such as
-mutation rate _theta_, recombination rate _rho_, and tract length _delta_.
-Others are multiple instances of tags _recedge_. These recombinant edges are
-attached to the species tree, which is described by tag _Tree_. Each
-_Iterations_ tag contains a tag called _number_.  One XML file
-contains recombinant trees for one block. Multiple recombinant trees from all of
-the blocks could be combined into one. Because blocks are considered independent
-of one another, I take n-th recombinant trees from all of the blocks to combine
-them to create a new recombinant tree. In the simulation, a recombinant tree is
-created for all of the blocks. We could count recombinant edges for each pair of
-branches for each block to create a file of a matrix where rows are of length of the
-number of iterations, and columns are of length of the square of the number of
-branches in the species tree. We then sum all of the matrices over the blocks to
-obtain a matrix of recombinant edge counts for the recombinant trees.
-Let's have a command _obsiter_.
-
-.Count recombinant edges across all of the blocks
-----
-perl pl/count-observed-recedge.pl obsiter \
-  -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-  -n $NUMBER_BLOCK \
-  $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
 ----
 
 

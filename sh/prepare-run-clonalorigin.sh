@@ -89,6 +89,8 @@ function prepare-run-clonalorigin {
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
       scp -q cac/sim/run.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
+      scp -q $RUNCLONALORIGIN//$SPECIESTREE \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
 cat>$RUNCLONALORIGIN/batch.sh<<EOF
 #!/bin/bash
@@ -112,7 +114,7 @@ DATADIR=\$NUMBERDIR/data
 ANALYSISDIR=\$NUMBERDIR/run-analysis
 
 for g in \$(eval echo {1..$COIREPLICATE}); do
-  mkdir -p output/\$g
+  mkdir -p \$PBS_O_WORKDIR/output2/\$g
 done
 
 function copy-data {
@@ -122,7 +124,8 @@ function copy-data {
   mkdir -p \$NUMBERDIR
   cp -r \$PBS_O_WORKDIR/../data \$NUMBERDIR
   cp -r \$PBS_O_WORKDIR/../run-analysis \$NUMBERDIR
-  cp -r \$PBS_O_WORKDIR/$SPECIESTREE \$NUMBERDIR
+  mkdir \$CLONALORIGINDIR
+  cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
   for h in \$(eval echo {1..$COIREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output/\$h
   done

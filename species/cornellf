@@ -1,5 +1,23 @@
 # The 5 genomes of streptococcus genus.
 #
+REPETITION3-MAUVE-WALLTIME:168
+REPETITION3-LCB-MINLEN:1500
+REPETITION3-BLOCK-GAP-THRESHOULD:0.99
+REPETITION3-CF-WALLTIME:168
+REPETITION3-CF-ID:0
+REPETITION3-CO1-WALLTIME:336
+REPETITION3-CO1-BURNIN:1000000
+REPETITION3-CO1-CHAINLENGTH:10000000
+REPETITION3-CO1-THIN:100000
+REPETITION3-CO1-CFID:0
+REPETITION3-CO1-COIREPLICATE:2
+REPETITION3-CO2-WALLTIME:240
+REPETITION3-CO2-CO1ID:1
+REPETITION3-CO2-BURNIN:10000000
+REPETITION3-CO2-CHAINLENGTH:100000000
+REPETITION3-CO2-THIN:100000
+REPETITION3-CO2-NREPLICATE:4
+
 REPETITION8-GFF:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
 REPETITION8-REFGENOME:4
 REPETITION8-TREETOPOLOGY:89
@@ -16,8 +34,8 @@ REPETITION3-Thin:100000
 REPETITION3-NumberSpecies:5
 REPETITION3-Walltime:168
 #
-GBK1:/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sde1/CP002215.gbk
-GBK2:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
-GBK3:/Volumes/Elements/Documents/Projects/mauve/bacteria/cornell_sdd/sdd.gbk
-GBK4:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
-GBK5:/Volumes/Elements/Documents/Projects/mauve/bacteria/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+GBK1:input/cornell_sde1/CP002215.gbk
+GBK2:input/Streptococcus_dysgalactiae_equisimilis_GGS_124_uid59103/NC_012891.gbk
+GBK3:input/cornell_sdd/sdd.gbk
+GBK4:input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+GBK5:input/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk

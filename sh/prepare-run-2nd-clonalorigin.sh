@@ -33,6 +33,7 @@ function prepare-run-2nd-clonalorigin {
       CO2CHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO2-CHAINLENGTH species/$SPECIES | cut -d":" -f2)
       CO2THIN=$(grep ^REPETITION${REPETITION}-CO2-THIN $SPECIESFILE | cut -d":" -f2)
       REPLICATECLONALORIGIN1=$(grep ^REPETITION${REPETITION}-CO2-CO1ID $SPECIESFILE | cut -d":" -f2)
+      CORE_ALIGNMENT=core_alignment.xmfa
       if [ ! -f "$RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt" ]; then
         echo "No summary file called $RUNCLONALORIGIN/summary/${REPLICATECLONALORIGIN1}/median.txt" 1>&2
         exit
@@ -67,6 +68,8 @@ function prepare-run-2nd-clonalorigin {
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
       scp -q cac/sim/run.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
+      scp -q $RUNCLONALORIGIN//$SPECIESTREE \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
 cat>$RUNCLONALORIGIN/batch.sh<<EOF
 #!/bin/bash
@@ -90,7 +93,7 @@ DATADIR=\$NUMBERDIR/data
 ANALYSISDIR=\$NUMBERDIR/run-analysis
 
 for g in \$(eval echo {1..$NREPLICATE}); do
-  mkdir -p output2/\$g
+  mkdir -p \$PBS_O_WORKDIR/output2/\$g
 done
 
 function copy-data {
@@ -100,7 +103,8 @@ function copy-data {
   mkdir -p \$NUMBERDIR
   cp -r \$PBS_O_WORKDIR/../data \$NUMBERDIR
   cp -r \$PBS_O_WORKDIR/../run-analysis \$NUMBERDIR
-  cp -r \$PBS_O_WORKDIR/$SPECIESTREE \$NUMBERDIR
+  mkdir \$CLONALORIGINDIR
+  cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
   for h in \$(eval echo {1..$NREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output2/\$h
   done
