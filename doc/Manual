@@ -610,6 +610,18 @@ prepare-run-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Prepare the first stage of clonalorigin.
 
+I made a script for running jobs in the cluster CAC. It may be specific to the
+CAC cluster. Scripts +cac/sim/run.sh+ and
++cac/sim/batch_task.sh+ used to be used to run jobs in the cluster. One problem
+was that computing nodes may not be efficiently used. Some of the jobs may be
+finished very shortly, and others might take more time to finish. When I used,
+say 50 nodes, many nodes later time might have only one job. 
+Scripts +cac/sim/run2.sh+ and +cac/sim/batch_task2.sh+ were created to remedy
+the situation so that when a node with the largest node ID has 4 or less, then
+it kills the jobs and let other nodes rerun them. In this way, I can use more
+efficiently nodes because any nodes with small number of jobs would be returned
+to the CAC cluster so that others could use them.
+
 A few variables need explanation before describing the first stage of
 ClonalOrigin.
 CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.

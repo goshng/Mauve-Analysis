@@ -28,15 +28,15 @@ function prepare-run-clonalorigin {
       read REPETITION
       echo -e "Which replicate set of ClonalFrame output files? (e.g., 1)"
       echo -n "ClonalFrame REPLICATE ID: " 
-      read CLONALFRAMEREPLICATE
-      echo -e "Preparing clonal origin analysis..."
       set-more-global-variable $SPECIES $REPETITION
 
+      CFREPLICATE=$(grep ^REPETITION${REPETITION}-CF-REPLICATE species/$SPECIES | cut -d":" -f2)
+      CFID=$(grep ^REPETITION${REPETITION}-CO1-CFID $SPECIESFILE | cut -d":" -f2)
       COIREPLICATE=$(grep ^REPETITION${REPETITION}-CO1-COIREPLICATE species/$SPECIES | cut -d":" -f2)
       WALLTIME=$(grep ^REPETITION${REPETITION}-CO1-WALLTIME species/$SPECIES | cut -d":" -f2)
       COIBURNIN=$(grep ^REPETITION${REPETITION}-CO1-BURNIN $SPECIESFILE | cut -d":" -f2)
-      COICHAINLENGTH=$(grep REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
-      COITHIN=$(grep REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
+      COICHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
+      COITHIN=$(grep ^REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
 
       echo "  Creating an input directory for a species tree..."
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
@@ -48,7 +48,6 @@ function prepare-run-clonalorigin {
       CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
       # ssh -x $CAC_USERHOST \
         # mkdir -p $CAC_RUNCLONALORIGIN/input/${REPLICATE}
-      CFID=$(grep REPETITION${REPETITION}-CO1-CFID $SPECIESFILE | cut -d":" -f2)
       echo "  Using $CFID-th clonal frame output"
 
       echo -e "  Splitting alignment into one file per block..."
@@ -63,7 +62,7 @@ function prepare-run-clonalorigin {
       echo "  Extracting species tree..."
       SPECIESTREE=clonaltree.nwk
       perl pl/getClonalTree.pl \
-        $RUNCLONALFRAME/output/${CLONALFRAMEREPLICATE}/core_clonalframe.out.${CFID} \
+        $RUNCLONALFRAME/output/${CFREPLICATE}/core_clonalframe.out.${CFID} \
         $RUNCLONALORIGIN/$SPECIESTREE
       scp -q $RUNCLONALORIGIN/$SPECIESTREE \
             $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
@@ -85,11 +84,11 @@ function prepare-run-clonalorigin {
       done
       scp -q $JOBIDFILE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
-      scp -q cac/sim/batch_task.sh \
+      scp -q cac/sim/batch_task2.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
-      scp -q cac/sim/run.sh \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
-      scp -q $RUNCLONALORIGIN//$SPECIESTREE \
+      scp -q cac/sim/run2.sh \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/run.sh
+      scp -q $RUNCLONALORIGIN/$SPECIESTREE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
 cat>$RUNCLONALORIGIN/batch.sh<<EOF
@@ -114,7 +113,7 @@ DATADIR=\$NUMBERDIR/data
 ANALYSISDIR=\$NUMBERDIR/run-analysis
 
 for g in \$(eval echo {1..$COIREPLICATE}); do
-  mkdir -p \$PBS_O_WORKDIR/output2/\$g
+  mkdir -p \$PBS_O_WORKDIR/output/\$g
 done
 
 function copy-data {
@@ -125,6 +124,8 @@ function copy-data {
   cp -r \$PBS_O_WORKDIR/../data \$NUMBERDIR
   cp -r \$PBS_O_WORKDIR/../run-analysis \$NUMBERDIR
   mkdir \$CLONALORIGINDIR
+  # Create the status directory.
+  mkdir -p \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
   cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
   for h in \$(eval echo {1..$COIREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output/\$h
@@ -135,6 +136,8 @@ function retrieve-data {
   for h in \$(eval echo {1..$COIREPLICATE}); do
     cp \$CLONALORIGINDIR/output/\$h/* \$PBS_O_WORKDIR/output/\$h
   done
+  # Remove the status directory.
+  rm -rf \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
 }
 
 function process-data {
@@ -145,7 +148,9 @@ function process-data {
     bash batchjob.sh \\
       \$i \\
       \$PBS_O_WORKDIR/coi.jobidfile \\
-      \$PBS_O_WORKDIR/coi.lockfile&
+      \$PBS_O_WORKDIR/coi.lockfile \\
+      \$PBS_O_WORKDIR/status \\
+      PBSARRAYSIZE&
   done
 }
 

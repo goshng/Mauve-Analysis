@@ -26,6 +26,9 @@ See also the section ``Prepare files for running them on compute nodes.''
 This contains a script that checks +jobidfile+ if there are any job command
 left. If there are any scripts, it executes the first one in the list.
 
+.batch_task2.sh
+
+
 Prepare files for running them on compute nodes
 -----------------------------------------------
 To run jobs in compute nodes two things are necessary. Firstly, input files

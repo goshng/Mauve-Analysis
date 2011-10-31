@@ -64,11 +64,11 @@ function prepare-run-2nd-clonalorigin {
 
       scp -q $JOBIDFILE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
-      scp -q cac/sim/batch_task.sh \
+      scp -q cac/sim/batch_task2.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
-      scp -q cac/sim/run.sh \
-          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
-      scp -q $RUNCLONALORIGIN//$SPECIESTREE \
+      scp -q cac/sim/run2.sh \
+          $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/run.sh
+      scp -q $RUNCLONALORIGIN/SPECIESTREE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
 cat>$RUNCLONALORIGIN/batch.sh<<EOF
@@ -79,7 +79,7 @@ cat>$RUNCLONALORIGIN/batch.sh<<EOF
 #PBS -N $PROJECTNAME-CO2
 #PBS -q ${QUEUENAME}
 #PBS -m e
-#PBS -M ${BATCHEMAIL}
+# #PBS -M ${BATCHEMAIL}
 #PBS -t 1-PBSARRAYSIZE
 
 # The full path of the clonal origin executable.
@@ -105,6 +105,8 @@ function copy-data {
   cp -r \$PBS_O_WORKDIR/../run-analysis \$NUMBERDIR
   mkdir \$CLONALORIGINDIR
   cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
+  # Create the status directory.
+  mkdir -p \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
   for h in \$(eval echo {1..$NREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output2/\$h
   done
@@ -114,6 +116,8 @@ function retrieve-data {
   for h in \$(eval echo {1..$NREPLICATE}); do
     cp \$CLONALORIGINDIR/output2/\$h/* \$PBS_O_WORKDIR/output2/\$h
   done
+  # Remove the status directory.
+  rm -rf \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
 }
 
 function process-data {
@@ -124,7 +128,9 @@ function process-data {
     bash batchjob.sh \\
       \$i \\
       \$PBS_O_WORKDIR/coii.jobidfile \\
-      \$PBS_O_WORKDIR/coii.lockfile&
+      \$PBS_O_WORKDIR/coii.lockfile \\
+      \$PBS_O_WORKDIR/status \\
+      PBSARRAYSIZE&
   done
 }
 

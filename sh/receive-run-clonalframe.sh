@@ -26,22 +26,20 @@ function receive-run-clonalframe {
     else  
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
-      echo -e "  Receiving clonalframe-output...\n"
+      echo -e "  Receiving clonalframe-output..."
       set-more-global-variable $SPECIES $REPETITION
-      echo -e "Which replicate set of ClonalFrame output files?"
-      echo -n "ClonalFrame REPLICATE ID: " 
-      read CLONALFRAMEREPLICATE
-      CFOUTDIR=$RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
+      CFREPLICATE=$(grep ^REPETITION${REPETITION}-CF-REPLICATE species/$SPECIES | cut -d":" -f2)
+      CFOUTDIR=$RUNCLONALFRAME/output/$CFREPLICATE
       if [ -d $CFOUTDIR ]; then
         echo "$CFOUTDIR exists!"
         echo "Delete $CFOUTDIR or specify other clonal frame replicate ID!"
       else
-        mkdir -p $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-        scp $CAC_USERHOST:$CAC_RUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/
-        echo -e "  Sending clonalframe-output to swiftgen...\n"
+        mkdir -p $RUNCLONALFRAME/output/$CFREPLICATE
+        scp -q $CAC_USERHOST:$CAC_RUNCLONALFRAME/output/* $RUNCLONALFRAME/output/$CFREPLICATE/
+        echo -e "  Sending clonalframe-output to swiftgen..."
         ssh -x $X11_USERHOST \
-          mkdir -p $CAC_RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE
-        scp $RUNCLONALFRAME/output/$CLONALFRAMEREPLICATE/* \
+          mkdir -p $CAC_RUNCLONALFRAME/output/$CFREPLICATE
+        scp $RUNCLONALFRAME/output/$CFREPLICATE/* \
           $X11_USERHOST:$X11_RUNCLONALFRAME
         echo -e "Now, prepare clonalorigin.\n"
       fi
