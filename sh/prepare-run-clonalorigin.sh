@@ -32,7 +32,7 @@ function prepare-run-clonalorigin {
 
       CFREPLICATE=$(grep ^REPETITION${REPETITION}-CF-REPLICATE species/$SPECIES | cut -d":" -f2)
       CFID=$(grep ^REPETITION${REPETITION}-CO1-CFID $SPECIESFILE | cut -d":" -f2)
-      COIREPLICATE=$(grep ^REPETITION${REPETITION}-CO1-COIREPLICATE species/$SPECIES | cut -d":" -f2)
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO1-NREPLICATE species/$SPECIES | cut -d":" -f2)
       WALLTIME=$(grep ^REPETITION${REPETITION}-CO1-WALLTIME species/$SPECIES | cut -d":" -f2)
       COIBURNIN=$(grep ^REPETITION${REPETITION}-CO1-BURNIN $SPECIESFILE | cut -d":" -f2)
       COICHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
@@ -72,7 +72,7 @@ function prepare-run-clonalorigin {
       NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/$CORE_ALIGNMENT.*|wc -l`))
       JOBIDFILE=$RUNCLONALORIGIN/coi.jobidfile
       rm -f $JOBIDFILE
-      for h in $(eval echo {1..$COIREPLICATE}); do
+      for h in $(eval echo {1..$NREPLICATE}); do
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
           TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
           XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
@@ -102,7 +102,7 @@ cat>$RUNCLONALORIGIN/batch.sh<<EOF
 #PBS -M ${BATCHEMAIL}
 #PBS -t 1-PBSARRAYSIZE
 
-# The full path of the clonal origin executable.
+# The full path of the ClonalOrigin executable.
 WARG=\$HOME/usr/bin/warg
 BASEDIR=output/$SPECIES
 NUMBERDIR=\$BASEDIR/$REPETITION
@@ -112,7 +112,7 @@ CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
 DATADIR=\$NUMBERDIR/data
 ANALYSISDIR=\$NUMBERDIR/run-analysis
 
-for g in \$(eval echo {1..$COIREPLICATE}); do
+for g in \$(eval echo {1..$NREPLICATE}); do
   mkdir -p \$PBS_O_WORKDIR/output/\$g
 done
 
@@ -127,13 +127,13 @@ function copy-data {
   # Create the status directory.
   mkdir -p \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
   cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
-  for h in \$(eval echo {1..$COIREPLICATE}); do
+  for h in \$(eval echo {1..$NREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output/\$h
   done
 }
 
 function retrieve-data {
-  for h in \$(eval echo {1..$COIREPLICATE}); do
+  for h in \$(eval echo {1..$NREPLICATE}); do
     cp \$CLONALORIGINDIR/output/\$h/* \$PBS_O_WORKDIR/output/\$h
   done
   # Remove the status directory.

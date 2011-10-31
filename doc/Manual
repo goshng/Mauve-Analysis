@@ -622,21 +622,48 @@ it kills the jobs and let other nodes rerun them. In this way, I can use more
 efficiently nodes because any nodes with small number of jobs would be returned
 to the CAC cluster so that others could use them.
 
-A few variables need explanation before describing the first stage of
-ClonalOrigin.
-CLONALFRAMEREPLICATE: multiple replicates of clonal frame are possible.
-RUNID: multiple runs in each replicate of clonal frame run are available.
-Choose clonal frame replicate first, and then run identifier later. This
-combination represents a species tree using the core alignment blocks.
-REPLICATE: multiple replicates of clonal origin are avaiable. I also need to
-check the convergence before proceeding with the second stage of clonal
-origin. 
-I used split core alignments into blocks. I did it for estimating Watterson's
-estimate. Each block was in FASTA format. I modified the perl script,
-blocksplit.pl, to generate FASTA formatted files. I just use blocksplit.pl to
-split the core alignments into blocks that ClonalOrigin can read in. I delete
-all the core alignment blocks that were generated before, and recreate them so
-that I let ClonalOrigin read its expected formatted blocks.
+The species file need definitions.
+. REPETITION1-CF-REPLICATE: clonalframe replicate ID
+. REPETITION1-CO1-CFID: clonalframe run ID. One clonalframe replicate can have
+multiple runs. One of the multiple runs is used to get a species tree.
+. REPETITION1-CO1-WALLTIME: maximum hours of computing time.
+. REPETITION1-CO1-BURNIN: burnin generations for the ClonalOrigin's 1st stage
+MCMC
+. REPETITION1-CO1-CHAINLENGTH: generations for the ClonalOrigin's 1st stage
+MCMC
+. REPETITION1-CO1-THIN: subsample durations for the ClonalOrigin's 1st stage
+MCMC
+. REPETITION1-CO1-NREPLICATE: number of replicates in ClonalOrigin's 1st stage
+of MCMC.
+
+.An example of lines needed for ClonalOrigin 2nd MCMC
+----
+REPETITION1-CF-REPLICATE:1
+REPETITION1-CO1-CFID:0
+REPETITION1-CO1-WALLTIME:168
+REPETITION1-CO1-BURNIN:1000000
+REPETITION1-CO1-CHAINLENGTH:10000000
+REPETITION1-CO1-THIN:100000
+REPETITION1-CO1-NREPLICATE:2
+----
+
+The tree file +clonaltree.nwk+ must exist. 
+
+.Input files
+----
+output/cornell6/1/run-clonalorigin/clonaltree.nwk
+output/cornell6/1/data/core_alignment.xmfa.1
+...
+output/cornell6/1/data/core_alignment.xmfa.N
+----
+
+.Output files
+----
+output/cornell6/1/run-clonalorigin/run.sh
+output/cornell6/1/run-clonalorigin/batch.sh
+output/cornell6/1/run-clonalorigin/batchjob.sh
+output/cornell6/1/run-clonalorigin/coi.jobidfile
+----
 
 .A species tree is extracted from a clonal frame output file
 ----

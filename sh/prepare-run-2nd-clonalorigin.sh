@@ -68,7 +68,7 @@ function prepare-run-2nd-clonalorigin {
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/batchjob.sh
       scp -q cac/sim/run2.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/run.sh
-      scp -q $RUNCLONALORIGIN/SPECIESTREE \
+      scp -q $RUNCLONALORIGIN/$SPECIESTREE \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
 cat>$RUNCLONALORIGIN/batch.sh<<EOF
