@@ -4,8 +4,10 @@ PROJECT (warg2)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
 find_package(GSL REQUIRED)
-include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+# include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS})
+# set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+include_directories(/opt/local/include)
+set(LIBS ${LIBS} /opt/local/lib/libgsl.a /opt/local/lib/libgslcblas.a)
 
 # target_link_libraries(${LIBS})
 link_libraries(${LIBS})
