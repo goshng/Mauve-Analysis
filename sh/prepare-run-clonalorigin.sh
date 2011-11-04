@@ -149,7 +149,7 @@ function process-data {
       \$i \\
       \$PBS_O_WORKDIR/coi.jobidfile \\
       \$PBS_O_WORKDIR/coi.lockfile \\
-      \$PBS_O_WORKDIR/status \\
+      \$PBS_O_WORKDIR/status/\$PBS_ARRAYID \\
       PBSARRAYSIZE&
   done
 }
@@ -157,6 +157,8 @@ function process-data {
 copy-data
 process-data; wait
 retrieve-data
+cd \$PBS_O_WORKDIR
+rm -rf \$TMPDIR
 EOF
       scp -q $RUNCLONALORIGIN/batch.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin

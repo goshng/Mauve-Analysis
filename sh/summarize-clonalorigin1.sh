@@ -18,7 +18,7 @@
 ###############################################################################
 
 function summarize-clonalorigin1 {
-  PS3="Choose the species to analyze real data for $FUNCNAME: "
+  PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do
     if [ "$SPECIES" == "" ];  then
       echo -e "You need to enter something\n"

@@ -968,6 +968,32 @@ y, I hope that several key formulae are clearer to understand.
 \end_layout
 
 \begin_layout Subsection
+ClonalOrigin Model
+\end_layout
+
+\begin_layout Standard
+The posterior distribution is
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{D},\mathcal{T},\theta,\rho,\delta)\propto\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta)\mathbf{P}(\mathcal{D}|\mathcal{T},\mathcal{R},\theta)\]
+
+\end_inset
+
+where 
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{D}|\mathcal{T},\mathcal{R},\theta)=\prod_{s=1}^{L}\mathbf{P}(D_{s}|T_{s},\theta)\]
+
+\end_inset
+
+and
+\begin_inset Formula \[
+\mathbf{P}(\mathcal{R}|\mathcal{T},\rho,\delta)=\prod_{b=1}^{B}P(R_{b}|D_{b},\mathcal{T},\theta,\rho,\delta)\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Probability of recombinant tree
 \end_layout
 
@@ -1035,7 +1061,7 @@ The total number of recombination events is distributed as Poisson with
 
 
 \begin_inset Formula \[
-R|\mathcal{T},\rho\sim\mathrm{Poisson}\left(\frac{\rho\mathcal{T}}{2}\right)\]
+R|\mathcal{T},\rho\sim\mathrm{Poisson}\left(\frac{\rho T}{2}\right)\]
 
 \end_inset
 
@@ -1048,7 +1074,11 @@ which is independent of
 \end_inset
 
 .
- The recombination happens at a constant rate on the clonal frame.
+ 
+\end_layout
+
+\begin_layout Standard
+The recombination happens at a constant rate on the clonal frame.
  The arrival points are independent and identically distributed uniformly
  on the clonal frame; i.e., 
 \begin_inset Formula \[
@@ -1057,7 +1087,28 @@ which is independent of
 \end_inset
 
 This is also true for the population divergence model.
- Given an arrival point, the recombinant edge reconnects with the clonal
+ 
+\end_layout
+
+\begin_layout Standard
+Note: Given an arrival point, the recombinant edge reconnects with the clonal
+ genealogy at a rate equal to the number of ancestors in the clonal genealogy,
+ as expected under the coalescent model.
+ 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ is therefore distributed as
+\begin_inset Formula \[
+\mathbf{P}(a_{i}|b_{i},\mathcal{T})=\exp(-L(a_{i},b_{i}))\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given an arrival point, the recombinant edge reconnects with the clonal
  frame at two rates (1 and 
 \begin_inset Formula $\alpha_{j}$
 \end_inset
@@ -1177,20 +1228,53 @@ The arrival point of a recombinant edge is in population 3, and the departure
 \end_inset
 
  is nearer the present time than the bottom of the edge.
- The probability of start position of a recombinant tract is given by Equation
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\begin_inset Formula \[
+\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,\alpha_{1},\alpha_{2},A(b_{i}))=\begin{cases}
+\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right) & e_{n_{b}}\in E_{1}\\
+\alpha_{2}\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right) & e_{n_{b}}\in E_{1\rightarrow2}\\
+\alpha_{1}\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right) & e_{n_{b}}\in E_{2\rightarrow1}\\
+\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right) & e_{n_{b}}\in E_{2}\\
+\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right) & e_{n_{b}}\in E_{1\rightarrow3}\\
+\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right) & e_{n_{b}}\in E_{2\rightarrow3}\\
+\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right) & e_{n_{b}}\in E_{3}\end{cases}\]
+
+\end_inset
+
+ 
+\begin_inset Formula \begin{eqnarray*}
+\mathbf{P}(a_{i}|b_{i},\mathcal{T},\tau,\alpha_{1},\alpha_{2},A(b_{i})) & = & \left\{ \left(I_{e_{n_{b}}\in E_{1}}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{1\rightarrow2}}\alpha_{2}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{2\rightarrow1}}\alpha_{1}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{2}}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{1\rightarrow3}}\alpha_{2}\right)\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}+k_{2,i}\alpha_{2}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{2\rightarrow3}}\alpha_{1}\right)\prod_{i=n_{a^{'}}}^{n_{\tau}}\exp\left(-\left(k_{1,i}\alpha_{1}+k_{2,i}\right)t_{i}\right)\prod_{i=n_{\tau^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\right\} \\
+ & \times & \left\{ \left(I_{e_{n_{b}}\in E_{3}}\right)\prod_{i=n_{a^{'}}}^{n_{b}}\exp\left(-\left(k_{3,i}\right)t_{i}\right)\right\} \end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The probability of start position of a recombinant tract is given by Equation
  (5)
 \begin_inset Formula \[
 \mathbf{P}(x_{r}=s|\delta)=\begin{cases}
-\frac{\delta}{B\delta+L-B} & \mbox{if \ensuremath{s}is at the beginning of a block}\\
+\frac{\delta}{B\delta+L-B} & \mbox{if \ensuremath{s} is at the beginning of a block}\\
 \frac{1}{B\delta+L-B} & \mbox{otherwise}\end{cases}.\]
 
 \end_inset
 
 The probability of end position is given by Equation (6)
 \begin_inset Formula \[
-P(y_{r}=s|x_{r},\delta)=\begin{cases}
-\delta^{-1}(1-\delta^{-1})^{s-x_{r}} & \mbox{if \ensuremath{s}is before the end of the block}\\
-(1-\delta^{-1})^{s-x_{r}+1} & \mbox{if \ensuremath{s}is the end of the block}\end{cases}\]
+\mathbf{P}(y_{r}=s|x_{r},\delta)=\begin{cases}
+\delta^{-1}(1-\delta^{-1})^{s-x_{r}} & \mbox{if \ensuremath{s} is before the end of the block}\\
+(1-\delta^{-1})^{s-x_{r}+1} & \mbox{if \ensuremath{s} is the end of the block}\end{cases}\]
 
 \end_inset
 
@@ -1615,7 +1699,7 @@ Tables of symbols
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="36" columns="2">
+<lyxtabular version="3" rows="37" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
@@ -2048,6 +2132,33 @@ Length of
 
 \begin_layout Plain Layout
 Sum of branch lengths of the clonal frame
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T_{s}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Local tree at site 
+\begin_inset Formula $s$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2572,16 +2683,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename /Users/goshng/Documents/Projects/mauve/noweb/clonalorigin-two-populations.ps
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -2603,16 +2704,6 @@ Divergence model with ClonalOrigin
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename clonal-origin-departure-040611.ps
-	scale 40
-
-\end_inset
-
-
-\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption

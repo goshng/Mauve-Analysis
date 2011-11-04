@@ -27,20 +27,48 @@ function receive-run-2nd-clonalorigin {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
-      echo -e "  Receiving 2nd stage of clonalorigin-output..."
-      mkdir -p $RUNCLONALORIGIN/output2/${REPLICATE}
-      scp -q $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output2/${REPLICATE}/* \
-        $RUNCLONALORIGIN/output2/${REPLICATE}/
+      echo -n "Do you wish to receive the ClonalOrigin's 1st stage MCMC? (y/n) " 
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo -e "  Receiving 2nd stage of clonalorigin-output..."
+        for h in 3 4; do
+        #for h in $(eval echo {1..$NREPLICATE}); do
+          # mkdir -p $RUNCLONALORIGIN/output2/${h}
+          # Even if a numbered directory exists, the copy will be done.
+          scp -qr $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output2/${h} \
+            $RUNCLONALORIGIN/output2
+        done
+      else
+        echo "  Skipping copy of the output2 files because I've already copied them ..."
+      fi
+
+      SAMPLESIZE=$(grep ^REPETITION${REPETITION}-CO2-SAMPLESIZE species/$SPECIES | cut -d":" -f2)
+      echo -n "Do you wish to find unfinished blocks in the ClonalOrigin's 2nd stage MCMC? (y/n) " 
+      read WISH
+      if [ "$WISH" == "y" ]; then
+        echo -e "  Finding unfinished blocks ..."
+        for h in $(eval echo {1..$NREPLICATE}); do
+          mkdir $RUNCLONALORIGIN/summary/${h}
+          perl pl/report-clonalorigin-job.pl \
+            -xmlbase $RUNCLONALORIGIN/output2/$h/core_co.phase3.xml \
+            -database $DATADIR/core_alignment.xmfa \
+            -samplesize $SAMPLESIZE \
+            > $RUNCLONALORIGIN/summary/${h}/unfinished2
+        done
+      else
+        echo "  Skipping copy of the output files because I've already copied them ..."
+      fi
       echo -e "Now, do more analysis with mauve.\n"
+
       break
     fi
   done
 }
 
+# The following is very old version.
 # if all of my results are consistent between independent runs.
 function receive-run-2nd-clonalorigin-backup {
   PS3="Choose the species to analyze with mauve, clonalframe, and clonalorigin: "

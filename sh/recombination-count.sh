@@ -27,9 +27,8 @@ function recombination-count {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of ClonalOrigin output2 files? (e.g., 1) "
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
       NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
@@ -40,69 +39,78 @@ function recombination-count {
       echo -n "Do you wish to count recombination events across blocks (or obsiter) (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/count-observed-recedge.pl obsiter \
-          -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-          -n $NUMBER_BLOCK \
-          -out $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt
-        echo "Check file $RUNANALYSIS/obsiter-recedge-$REPLICATE.txt"
+        for h in $(eval echo {1..$NREPLICATE}); do
+          perl pl/count-observed-recedge.pl obsiter \
+            -d $RUNCLONALORIGIN/output2/${h} \
+            -n $NUMBER_BLOCK \
+            -out $RUNANALYSIS/obsiter-recedge-$h.txt
+          echo "Check file $RUNANALYSIS/obsiter-recedge-$h.txt"
+        done
       fi
 
       echo -n "Do you wish to count recombination events (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/count-observed-recedge.pl obsonly \
-          -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-          -n $NUMBER_BLOCK \
-          -endblockid \
-          -obsonly \
-          -out $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
-        echo "Check file $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt"
+        for h in $(eval echo {1..$NREPLICATE}); do
+          perl pl/count-observed-recedge.pl obsonly \
+            -d $RUNCLONALORIGIN/output2/${h} \
+            -n $NUMBER_BLOCK \
+            -endblockid \
+            -obsonly \
+            -out $RUNANALYSIS/obsonly-recedge-$h.txt
+          echo "Check file $RUNANALYSIS/obsonly-recedge-$h.txt"
+        done
       fi
 
-      PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${REPLICATE}
       echo -n "Do you wish to compute the prior expected number of recombination events (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        mkdir $PRIORCOUNTDIR
-        for i in $(eval echo {1..$NUMBER_BLOCK}); do
-          if [ -f "$RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.$i" ]; then
-            $GUI -b \
-              -o $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml.$i \
-              -H 3 \
-              > $PRIORCOUNTDIR/$i.txt
-          else
-            echo "Block: $i was not found" 1>&2
-          fi
-          echo -ne "  Block: $i\r";
-        done 
+        for h in $(eval echo {1..$NREPLICATE}); do
+          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${h}
+          mkdir $PRIORCOUNTDIR
+          for i in $(eval echo {1..$NUMBER_BLOCK}); do
+            if [ -f "$RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i" ]; then
+              $GUI -b \
+                -o $RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i \
+                -H 3 \
+                > $PRIORCOUNTDIR/$i.txt
+            else
+              echo "Block: $i was not found" 1>&2
+            fi
+            echo -ne "  Block: $i\r";
+          done 
+        done
         echo -ne "$i Block - Finished!\n";
       fi
 
       echo -n "Do you wish to compute heatmaps (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/count-observed-recedge.pl heatmap \
-          -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-          -e $PRIORCOUNTDIR \
-          -endblockid \
-          -n $NUMBER_BLOCK \
-          -s $NUMBER_SPECIES \
-          -out $RUNANALYSIS/heatmap-recedge-${REPLICATE}.txt
+        for h in $(eval echo {1..$NREPLICATE}); do
+          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${h}
+          perl pl/count-observed-recedge.pl heatmap \
+            -d $RUNCLONALORIGIN/output2/${h} \
+            -e $PRIORCOUNTDIR \
+            -endblockid \
+            -n $NUMBER_BLOCK \
+            -s $NUMBER_SPECIES \
+            -out $RUNANALYSIS/heatmap-recedge-${h}.txt
+        done
       fi
 
       echo -n "Do you wish to count recombination events only for the SPY and SDE (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/count-observed-recedge.pl obsonly \
-          -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-          -n $NUMBER_BLOCK \
-          -endblockid \
-          -lowertime 0.045556 \
-          -out $RUNANALYSIS/obsonly-recedge-time-$REPLICATE.txt
-        echo "Check file $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt"
+        for h in $(eval echo {1..$NREPLICATE}); do
+          perl pl/count-observed-recedge.pl obsonly \
+            -d $RUNCLONALORIGIN/output2/${h} \
+            -n $NUMBER_BLOCK \
+            -endblockid \
+            -lowertime 0.045556 \
+            -out $RUNANALYSIS/obsonly-recedge-time-$h.txt
+          echo "Check file $RUNANALYSIS/obsonly-recedge-time-$h.txt"
+        done
       fi
-
-
 
       break
     fi

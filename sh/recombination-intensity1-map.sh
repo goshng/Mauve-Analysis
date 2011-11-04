@@ -27,24 +27,26 @@ function recombination-intensity1-map {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) " 
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
-
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
       NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`))
-      RIMAP=$RUNANALYSIS/rimap-$REPLICATE.txt
-      echo -n "Do you wish to generate rimap-$REPLICATE.txt? (e.g., y/n) "
+
+      echo -n "Do you wish to generate rimap-#REPLICATE.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
-        perl pl/$FUNCNAME.pl \
-          -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
-          -xmfa $DATADIR/core_alignment.xmfa \
-          -numberblock $NUMBER_BLOCK \
-          -verbose \
-          -out $RIMAP
+        for h in $(eval echo {1..$); do
+          RIMAP=$RUNANALYSIS/rimap-$h.txt
+          perl pl/$FUNCNAME.pl \
+            -xml $RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml \
+            -xmfa $DATADIR/core_alignment.xmfa \
+            -numberblock $NUMBER_BLOCK \
+            -verbose \
+            -out $RIMAP
+        done
       else
-        echo "  Skipping generating $RIMAP"
+        echo "  Skipping generating rimap files"
       fi
+      break
  
       # echo -e "  The number of blocks is $NUMBER_BLOCK."
       # echo "-------------------------------------"

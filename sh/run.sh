@@ -48,7 +48,6 @@ source sh/progressbar.sh
 source sh/init-file-system.sh
 source sh/choose-simulation.sh 
 source sh/choose-species.sh 
-source sh/simulate-data-clonalorigin1-prepare.sh
 source sh/simulate-data-clonalorigin1-receive.sh 
 source sh/simulate-data-clonalorigin1-analyze.sh
 source sh/receive-run-2nd-clonalorigin.sh
@@ -69,13 +68,14 @@ source sh/simulate-data-clonalorigin2-from-xml.sh
 source sh/probability-recombination.sh
 source sh/map-tree-topology.sh
 source sh/compute-heatmap-recedge.sh
-source sh/prepare-run-compute-heatmap-recedge.sh
 source sh/analyze-run-clonalorigin2-simulation2.sh 
 source sh/sim3-prepare.sh 
 source sh/sim3-receive.sh 
 source sh/sim3-analyze.sh 
-source sh/sim5-prepare.sh 
-source sh/sim6.sh
+source sh/sim1.sh # s15
+source sh/sim2.sh # s18
+source sh/sim3.sh # s16
+source sh/sim5.sh # s17
 source sh/create-ingene.sh
 source sh/convert-gff-ingene.sh 
 source sh/locate-gene-in-block.sh
@@ -112,36 +112,18 @@ source sh/batch.sh
 PS3="Select what you want to do with mauve-analysis: "
 CHOICES=( init-file-system \
           choose-simulation \
-          ---SIMULATION1---\
-          simulate-data-clonalorigin1 \
-          simulate-data-clonalorigin1-prepare \
-          simulate-data-clonalorigin1-receive \
-          simulate-data-clonalorigin1-analyze \
-          ---SIMULATION2---\
-          simulate-data-clonalorigin2 \
-          simulate-data-clonalorigin2-prepare \
-          sim2-receive \
+          ---SIMULATION1-s15,s2---\
+          sim1 \
+          ---SIMULATION2-s18---\
+          sim2 \
           sim2-analyze \
-          simulate-data-clonalorigin2-analyze \
-          analyze-run-clonalorigin2-simulation \
-          ---SIMULATION3---\
-          analyze-run-clonalorigin2-simulation2 \
+          ---SIMULATION3-s16,s3---\
+          sim3 \
           sim3-prepare \
           sim3-receive \
           sim3-analyze \
-          ---SIMULATION5---\
-          sim5-prepare \
-          sim6 \
-          # ---SIMULATION4---\
-          # clonalorigin2-simulation3 \
-          # sim4-prepare \
-          # sim4-receive \
-          # sim4-analyze \
-          # sim4-each-block \
-          # ---SIMULATION5---\
-          # clonalorigin2-simulation4 \
-          # ---SIMULATION5---\
-          # simulate-data-clonalorigin2-from-xml \
+          ---SIMULATION5-s17---\
+          sim5 \
           ---REAL-DATA-ALIGNMENT---\
           choose-species \
           prepare-mauve-alignment \
@@ -155,18 +137,13 @@ CHOICES=( init-file-system \
           prepare-run-clonalorigin \
           receive-run-clonalorigin \
           ---THREE-PARAMETERS---\
-          summarize-clonalorigin1 \
           scatter-plot-parameter \
-          plot-number-recombination-within-blocks \
+          # plot-number-recombination-within-blocks \
           ---CLONALORIGIN2---\
           prepare-run-2nd-clonalorigin \
           receive-run-2nd-clonalorigin \
           ---RECOMBINATION-COUNT---\
           recombination-count \
-          # count-observed-recedge \
-          compute-prior-count-recedge \
-          compute-heatmap-recedge \
-          # prepare-run-compute-heatmap-recedge \
           ---RECOMBINATION-INTENSITY---\
           recombination-intensity1-map \
           convert-gff-ingene \
@@ -232,8 +209,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "sim3-prepare" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim3-receive" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim3-analyze" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "sim5-prepare" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "sim6" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim5" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim2" ]; then $CHOICE; break
   elif [ "$CHOICE" == "create-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "convert-gff-ingene" ]; then $CHOICE; break
   elif [ "$CHOICE" == "locate-gene-in-block" ]; then $CHOICE; break
@@ -267,6 +244,8 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break
   elif [ "$CHOICE" == "choose-species" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim1" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "sim3" ]; then $CHOICE; break
   elif [ "$CHOICE" == "quit" ]; then break
   else
     echo -e "You need to enter something\n"

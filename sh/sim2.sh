@@ -246,3 +246,4 @@ function sim6 {
     fi
   done
 }
+

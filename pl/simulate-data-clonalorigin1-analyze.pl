@@ -126,7 +126,7 @@ require "pl/sub-error.pl";
 ################################################################################
 
 my $in;
-my $out;
+my $outfile;
 my $numbersample;
 my $delta = 0;
 
@@ -136,10 +136,13 @@ if (exists $params{in}) {
   &printError("you did not specify an input file");
 }
 
-if (exists $params{out}) {
-  $out = $params{out};
-} else {
-  &printError("you did not specify an output file");
+if (exists $params{out})
+{
+  open ($outfile, ">", $params{out}) or die "cannot open > $params{out}: $!";
+}
+else
+{
+  $outfile = *STDOUT;   
 }
 
 if (exists $params{numbersample}) {
@@ -218,10 +221,16 @@ sub computeWeightedMedian ($)
                                                   \@meandelta,
                                                   \@lens,
                                                   \@blockIDs);
-    print "$wm[0]\t$wm[2]\t$wm[1]\n";
+    print $outfile "$wm[0]\t$wm[2]\t$wm[1]\n";
   }
   close IN;
 }
+
+if (exists $params{out})
+{
+  close $outfile;
+}
+exit;
 
 sub computeMedianWeighedOverBlockLength ($$$$$)
 {

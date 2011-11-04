@@ -61,9 +61,10 @@
 \let\citet\cite
 \providecommand{\tabularnewline}{\\}
 \newcommand{\lyxdot}{.}
-\@ifundefined{showcaptionsetup}{}{%
- \PassOptionsToPackage{caption=false}{subfig}}
-\usepackage{subfig}
+
+% \@ifundefined{showcaptionsetup}{}{%
+% \PassOptionsToPackage{caption=false}{subfig}}
+% \usepackage{subfig}
 
 \makeatother
 
@@ -1051,9 +1052,9 @@ are not indicated).}
 % Figure 4. 
 \begin{figure}
 
-\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-topology-changing}}
+\includegraphics[scale=0.4]{figures/h3-R-ratio-topology-changing}
 
-\subfloat[]{\includegraphics[scale=0.4]{figures/h3-R-ratio-not-topology-changing}}
+\includegraphics[scale=0.4]{figures/h3-R-ratio-not-topology-changing}
 
 \caption{
 {\bf Simulations of the model-based approach for assessing the power of recovering
@@ -1763,11 +1764,11 @@ genome. The fourth and fifth rows are SPY1 and SPY2 genomes, respectively.}
 % Figure S2. Three population parameters.
 \begin{figure}[!ht]
 \begin{center}
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot theta}}
+\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot theta}
 
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot rho}}
+\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot rho}
 
-\subfloat[]{\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot delta}}
+\includegraphics[scale=0.5]{figures/scatter-plot-parameter-1\lyxdot out\lyxdot delta}
 \end{center}
 \caption{
 {\bf Three scatter plots of mutation rate, recombination

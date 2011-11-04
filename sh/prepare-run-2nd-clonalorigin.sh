@@ -50,7 +50,7 @@ function prepare-run-2nd-clonalorigin {
       NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/$CORE_ALIGNMENT.*|wc -l`))
       JOBIDFILE=$RUNCLONALORIGIN/coii.jobidfile
       rm -f $JOBIDFILE
-      for h in $(eval echo {1..$NREPLICATE}); do
+      for h in $(eval echo {3..$NREPLICATE}); do
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
           TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
           XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
@@ -106,7 +106,7 @@ function copy-data {
   mkdir \$CLONALORIGINDIR
   cp \$PBS_O_WORKDIR/$SPECIESTREE \$CLONALORIGINDIR
   # Create the status directory.
-  mkdir -p \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
+  mkdir \$PBS_O_WORKDIR/status/\$PBS_ARRAYID
   for h in \$(eval echo {1..$NREPLICATE}); do
     mkdir -p \$CLONALORIGINDIR/output2/\$h
   done
@@ -129,7 +129,7 @@ function process-data {
       \$i \\
       \$PBS_O_WORKDIR/coii.jobidfile \\
       \$PBS_O_WORKDIR/coii.lockfile \\
-      \$PBS_O_WORKDIR/status \\
+      \$PBS_O_WORKDIR/status/\$PBS_ARRAYID \\
       PBSARRAYSIZE&
   done
 }
@@ -137,6 +137,8 @@ function process-data {
 copy-data
 process-data; wait
 retrieve-data
+cd \$PBS_O_WORKDIR
+rm -rf \$TMPDIR
 EOF
       scp -q $RUNCLONALORIGIN/batch.sh \
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin

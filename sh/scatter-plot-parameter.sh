@@ -17,12 +17,6 @@
 # along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-# Plots the three main scalar parameters of clonal origin model.
-# --------------------------------------------------------------
-# The first stage of clonal origin run sample the three main parameters
-# including mutation rate, recombination rate, and average recombinant tract
-# legnth. I parse XML output files of clonal origin to find values of the
-# parameters. The values are plotted for all blocks.
 function scatter-plot-parameter {
   PS3="Choose the species for $FUNCNAME: "
   select SPECIES in ${SPECIESS[@]}; do 
@@ -33,9 +27,8 @@ function scatter-plot-parameter {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      REPLICATE=$(grep ^REPETITION${REPETITION}-CO2-CO1ID $SPECIESFILE | cut -d":" -f2)
 
       perl pl/$FUNCNAME.pl three \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
@@ -44,7 +37,7 @@ function scatter-plot-parameter {
       echo "$RUNANALYSIS/$FUNCNAME-$REPLICATE.out"
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
-      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
       NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml.1|wc -l`)
       echo -e "  The number of blocks is $NUMBER_BLOCK."
       echo -e "  The sample size per block is $NUMBER_SAMPLE."
@@ -57,7 +50,7 @@ function scatter-plot-parameter {
       analyze-run-clonalorigin-scatter-plot-parameter-rscript \
         $RUNANALYSIS/$FUNCNAME-$REPLICATE-out 
  
-      #cat $RUNCLONALORIGIN/summary/${REPLICATE}/median.txt
+      echo "See $RUNANALYSIS/$FUNCNAME-$REPLICATE-out" 
       echo -e "Prepare 2nd run using prepare-run-2nd-clonalorigin menu!"
       break
     fi

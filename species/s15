@@ -11,15 +11,16 @@
 # The number of replicates are not used here.
 # theta_s 0.08088 / rho_s 0.01095 / delta 918.5
 #
-# Repetition:10
-# Replicate:1
-# ThetaPerSite:0.080814517322956
-# RhoPerSite:0.0118491287894766
-# Delta:743.702415841584
-# InBlock:cornellf-3-in.block
-# SpeicesTree:cornellf-3.tree
-# Burnin:1000000
-# ChainLength:1000000
-# Thin:10000
-# NumberSpecies:5
-# Walltime:168
+Repetition:10
+Replicate:1
+ThetaPerSite:0.080814517322956
+RhoPerSite:0.0118491287894766
+Delta:743.702415841584
+InBlock:cornellf-3-in.block
+SpeicesTree:cornellf-3.tree
+Burnin:1000000
+ChainLength:1000000
+Thin:10000
+NumberSpecies:5
+Walltime:168
+CACWORKDIR:run/mauve/110211

@@ -29,80 +29,78 @@ navigate the user guide
 Introduction
 ------------
 This manual introduces *Mauve Analysis* for analyzing closely related bacterial
-genomes using ClonalOrigin. The analysis is performed with other
-software packages. See the section <<Installation>> for detail for
-the required software packages.
-*Mauve Analysis* is a package of scripts including BASH shell scripts, PERL
-scripts, and source codes in language C. Users do not need directly run those
-scripts. Instead, they should execute the script +run+ at the base directory.
-Note that directories are referred with respect to the base directory of 
-*Mauve Analysis* package.
+genomes using ClonalOrigin. The analysis is performed with other more software
+packages. See section <<Installation>> for detail for the required software
+packages.  *Mauve Analysis* is a package of scripts including BASH shell
+scripts, PERL scripts, and source codes in language C. Users do not need
+directly run those scripts. Instead, they would execute the script +run+ at the
+base directory, which is the directory you created by unzipping *Mauve Analysis*
+package.  Note that directories are referred with respect to the base directory.
 
 .To execute the main menu of *Mauve Analysis*
 ----
 $ ./run
 ----
-would list menus, among which users can select by typing in a number for one of 
-the menus that users wish to execute.
-Follow the instruction in the menu that you choose. When you
-unziped *Mauve Analysis* package, you need to <<Configuration,configure>> 
-an analysis and <<Installation,install>> necessary software packages. 
-After the installation of helper software packages and the configuration of the
-analysis, a <<species,species file>> is needed before analyzing bacterial
-genomes. Impatient users can see the section <<Kickstart>> to start to analyze
-their selected bacterial genomes.
+
+Users can select a menu by typing in a number for one of the menus that users
+wish to execute.  Follow the instruction in the menu that you choose. When you
+unziped *Mauve Analysis* package, you need to <<Configuration,configure>> an
+analysis and <<Installation,install>> necessary software packages.  After the
+installation of helper software packages and the configuration of the analysis,
+a <<species,species file>> should be created before analyzing bacterial genomes.
+Impatient users can see section <<Kickstart>> to start to analyze their selected
+bacterial genomes. But, please read through this manual.
 
 Initialize the file system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute the menu *init-file-system* after the configuration of the analysis and
-the installation of the analysis. This will create +input+ and +output+ directories
-in the base directory, and base directories in the cluster and X11-enabled linux
-computer.  You might need a cluster of unix-like machines for running
-ClonalOrigin, and might also need a linux computer to run a program with
+the installation of the analysis. This will create +input+ and +output+
+directories in the base directory, and base directories in the cluster and
+X11-enabled linux computer.  You might need a cluster of unix-like machines for
+running ClonalOrigin, and might also need a linux computer to run a program with
 X11 graphical interface.
 
 Align your genomes
 ~~~~~~~~~~~~~~~~~~
-The first step of ClonalOrigin analysis is to align bacterial genomes.
-Use menu *prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The
-first menu creates a shell script and moves it to the cluster with the bacterial
+The first step of ClonalOrigin analysis is to align bacterial genomes.  Use menu
+*prepare-mauve-alignment*, and *receive-mauve-alignment* for this. The first
+menu creates a shell script and moves it to the cluster with the bacterial
 genomes specified in the species file. When the job of bacterial genome
-alignment is finished, users can use the second menu to receive the full alignment. 
-A bacterial genome alignment consists of blocks of multiple alignments. Users
-might want to use parts of the blocks.  Menu *filter-blocks* should be used to
-remove blocks that are not large so that a core alignment is prepared.  Users
-have to specify the limit of block size for this. The menu calls a program
-+stripSubsetLCBs+, which is a part of ClonalOrigin package. At the end of the
-menu *filter-blocks* users might want to skim the core alignment to remove
-blocks with many gaps.  Remove blocks manually because
-all of the downstream analyses depend on this alignment. There are no
-recommendation for the choice of block size limit. 
-A simulation approach can be helpful in deciding the
-block size limit. I will come back to this issue in a separate section.
+alignment is finished, users can use the second menu to receive the full
+alignment.  A bacterial genome alignment consists of blocks of multiple
+alignments. Users might want to use parts of the blocks.  Menu *filter-blocks*
+should be used to remove blocks that are not large so that a core alignment is
+prepared.  Users have to specify the limit of block size for this. The menu
+calls a program +stripSubsetLCBs+, which is a part of ClonalOrigin package. At
+the end of the menu *filter-blocks* users might want to skim the core alignment
+to remove blocks with many gaps.  Remove blocks manually because all of the
+downstream analyses depend on this alignment. There are no recommendation for
+the choice of block size limit.  A simulation approach can be helpful in
+deciding the block size limit. I will come back to this issue in a separate
+section.
 
 Infer the species tree
 ~~~~~~~~~~~~~~~~~~~~~~
 Congratulations! You are now ready to analyze the core alignment using
-ClonalOrigin and ClonalFrame developed by Xavier Didelot. Although there are other
-coauthors of the package, I want to thank him for his help in my initial
+ClonalOrigin and ClonalFrame developed by Xavier Didelot. Although there are
+other coauthors of the package, I want to thank him for his help in my initial
 analysis. Let's go back to work. Use menu *summary-core-alignment* to summarize
 the core alignment for basic statistics of the core alignment: total length of
 the core alignment, number of blocks, and block sizes. Use menu
-*prepare-run-clonalframe* to prepare a shell
-script to submit a job of ClonalFrame, and send it to the cluster along with the
-core alignment. Use menu *receive-run-clonalframe* to receive the result of the
-ClonalFrame job. ClonalOrigin's analysis is multi-staged MCMC, which means that
-a procedure of a Bayesian stistical inference depends on its previous one.
-ClonalFrame is one of the precedures, and ClonalOrigin is used twice. Users have
-to make sure convergence of each step. Menu *prepare-run-clonalframe* runs
-multiple executions of ClonalFrame. Users should check the convergence of those
-chains by inspecting the result files of ClonalFrame runs. Use the GUI of
-ClonalFrame to open the MCMC results for this.  If the convergence is
-not obtained, users might increase the block size limit or change the run
-options of ClonalFrame.
+*prepare-run-clonalframe* to prepare a shell script to submit a job of
+ClonalFrame, and send it to the cluster along with the core alignment. Use menu
+*receive-run-clonalframe* to receive the result of the ClonalFrame job.
+ClonalOrigin's analysis is multi-staged MCMC, which means that a procedure of a
+Bayesian stistical inference depends on its previous one.  ClonalFrame is one of
+the precedures, and ClonalOrigin is used twice. Users have to make sure
+convergence of each step. Menu *prepare-run-clonalframe* runs multiple
+executions of ClonalFrame. Users should check the convergence of those chains by
+inspecting the result files of ClonalFrame runs. Use the GUI of ClonalFrame to
+open the MCMC results for this.  If the convergence is not obtained, users might
+increase the block size limit or change the run options of ClonalFrame.
 
-Infer mutation and recombination rates and recombinant tract lengths
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Infer mutation, recombination rates, and recombinant tract lengths
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The second MCMC procedure is done using menu *prepare-run-clonalorigin*, which
 prepares a shell script to submit a job of the first stage of ClonalOrigin.
 Use menu *receive-run-clonalorigin* to receive all of the result files of
@@ -111,18 +109,17 @@ the first ClonalOrigin. Users can use menu *summarize-clonalorigin1* and
 Menu *summarize-clonalorigin1* creates two files: +unfinished+ and +median.txt+. 
 Menu *scatter-plot-parameter* creates a figure like Figure 4 of Didelot2010.
 Menu *plot-number-recombination-within-blocks* can be also used to create a
-figure like Figure 6 of Didelot2010.
-
-_Do we need a menu for checking convergence of the ClonalOrigin's 1st stage?_
+figure like Figure 6 of Didelot2010. Replicates can be used to check convergence
+of the ClonalOrigin's 1st stage.
 
 Infer recombinant tree
 ~~~~~~~~~~~~~~~~~~~~~~
 The third MCMC procedure is performed using menu *prepare-run-2nd-clonalorigin*
 and *receive-run-2nd-clonalorigin*. A figure like Figure 5 of Didelot2010 can be
 created using three menus of *count-observed-recedge*,
-*compute-prior-count-recedge*, and *compute-heatmap-recedge*. 
-Menu *prepare-run-compute-heatmap-recedge* might be useful if 
-menu *compute-heatmap-recedge* is slow.  
+*compute-prior-count-recedge*, and *compute-heatmap-recedge*.  Menu
+*prepare-run-compute-heatmap-recedge* might be useful if menu
+*compute-heatmap-recedge* is slow.  
 
 Heat map of the recombinant tree
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,7 +211,29 @@ combine-import-ratio-jcvi-role:
 
 Simulation studies 1
 ~~~~~~~~~~~~~~~~~~~~
-A simulation study for checking the first stage of ClonalOrigin MCMC.
+A simulation study for checking the first stage of ClonalOrigin MCMC. Simulation
++s15+ was performed for checking the accuracy of the three global parameter
+estimation of ClonalOrigin's first stage MCMC.
+
+Simulates data under ClonalOrigin model or ancestral recombination graph.
+After thinking over REPETITION and REPLICATE I decide to use a different
+output file structure. The main output directory still contains SPECIES
+directories. A SPECIES directory would contain directories named as numbers:
+i.e., 1, 2, 3 and so on. A numbered directory would contain directories such
+as run-mauve, run-clonalframe, run-clonalorigin, etc. This could change many
+parts of this main run.sh script. 
+
+Each sub-directory of a species directory contains shell scripts, one of which
+is called batch.sh. I used to execute it to submit jobs. Now, I wish to
+control jobs in multiple repetitions. Shell scripts are placed at the
+SPECIES directory. Doing so a batch script can let you submit jobs in REPETITON
+directories. The SPECIES directory would contain numbered directories, a shell
+script called run.sh, and a directory called sh that contains more scripts.
+The run.sh is the main shell script that would select one of commands
+available.
+ 
+Let's start with simulated data.
+
 
 Simulation studies 2
 ~~~~~~~~~~~~~~~~~~~~
@@ -670,6 +689,39 @@ output/cornell6/1/run-clonalorigin/coi.jobidfile
 output/cornell6/1/run-clonalorigin/clonaltree.nwk
 ----
 
+receive-run-clonalorigin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I receive a result of ClonalOrigin's 1st stage MCMC.
+
+Receive clonalorigin-analysis.
+
+Note that we can have multiple replicates of clonal origin. 
+I might want to just compute global median estimates of the first stage of
+ClonalOrigin.
+
+NOTE: Some of jobs were not finished within reasonable time. It would be
+better to have all jobs finished. Sometimes it is not possible partly because
+I would not wait for those to be finished. It is desirable to handle partial
+output of Clonal Origin. 
+
+Menu *summarize-clonalorigin1* is a part of *receive-run-clonalorigin*.
+
+scatter-plot-parameter
+~~~~~~~~~~~~~~~~~~~~~~
+You can create three plots of global parameters estimates across all of the
+blocks. This may take an hour.
+
+.Put this in the species file for the replicate to draw the scatter plot. 
+----
+REPETITION1-CO2-CO1ID:1
+----
+
+plot-number-recombination-within-blocks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is outdated. I do not use it, but I may use it. Check this out if you have
+time.
+
+
 prepare-run-2nd-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -715,29 +767,77 @@ output/cornell6/1/run-clonalorigin/coii.jobidfile
 receive-run-2nd-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once jobs in the computing cluster are finished, select this command to receive
-the results from the cluster. Choose SPECIES, REPETITION, and REPLICATE to
-receive your runs from the cluster. 
+the results from the cluster. Choose SPECIES, and REPETITION to
+receive your runs from the cluster. After downloading the 2nd stage of MCMC
+results, you can check if there are jobs unfinished. 
+
+.You need to specify the sample size in the species file
+----
+REPETITION3-CO2-NREPLICATE:4
+REPETITION3-CO2-SAMPLESIZE:1001
+----
 
 recombination-count
 ~~~~~~~~~~~~~~~~~~~
-I describe +pl/count-observed-recedge.pl+ here. 
-Let's see what I want. Some of these can be deleted. I want to write something
-down as my thought flows. A ClonalOrigin XML file contains _Iterations_ tags,
-each of which includes more tags. Some of the tags are global parameters such as
-mutation rate _theta_, recombination rate _rho_, and tract length _delta_.
-Others are multiple instances of tags _recedge_. These recombinant edges are
-attached to the species tree, which is described by tag _Tree_. Each
-_Iterations_ tag contains a tag called _number_.  One XML file
-contains recombinant trees for one block. Multiple recombinant trees from all of
-the blocks could be combined into one. Because blocks are considered independent
-of one another, I take n-th recombinant trees from all of the blocks to combine
-them to create a new recombinant tree. In the simulation, a recombinant tree is
-created for all of the blocks. We could count recombinant edges for each pair of
-branches for each block to create a file of a matrix where rows are of length of the
-number of iterations, and columns are of length of the square of the number of
-branches in the species tree. We then sum all of the matrices over the blocks to
-obtain a matrix of recombinant edge counts for the recombinant trees.
-Let's have a command _obsiter_.
+
+.Number of replicates in ClonalOrigin's 2nd MCMC 
+----
+REPETITION1-CO2-NREPLICATE:2 
+----
+
+I count recombinant edges of recombinant trees sampled from the posterior
+distribution.
+
+.Number of recombination edges across all of the blocks per iteration
+----
+$RUNANALYSIS/obsiter-recedge-$REPLICATE.txt
+----
+
+I count recombinant edges of recombinant trees. 
+
+.Number of recombinant edges 
+----
+$RUNANALYSIS/obsonly-recedge-$h.txt
+----
+
+ClonalOrigin's GUI program can compute prior expected number of recombinant
+edges. 
+
+.Number of recombinant edges expected a priori
+----
+$RUNCLONALORIGIN/output2/priorcount-${h}/1.txt
+...
+$RUNCLONALORIGIN/output2/priorcount-${h}/total_number_blocks.txt
+----
+
+.Ratio of recombinant edges count a posteriori to that a priori
+----
+$RUNANALYSIS/heatmap-recedge-${h}.txt
+----
+
+.Number of recombinant edge counts with restriction
+----
+$RUNANALYSIS/obsonly-recedge-time-$h.txt
+----
+
+I describe +pl/count-observed-recedge.pl+ here.  Let's see what I want. Some of
+these can be deleted. I want to write something down as my thought flows. A
+ClonalOrigin XML file contains _Iterations_ tags, each of which includes more
+tags. Some of the tags are global parameters such as mutation rate _theta_,
+recombination rate _rho_, and tract length _delta_.  Others are multiple
+instances of tags _recedge_. These recombinant edges are attached to the species
+tree, which is described by tag _Tree_. Each _Iterations_ tag contains a tag
+called _number_.  One XML file contains recombinant trees for one block.
+Multiple recombinant trees from all of the blocks could be combined into one.
+Because blocks are considered independent of one another, I take n-th
+recombinant trees from all of the blocks to combine them to create a new
+recombinant tree. In the simulation, a recombinant tree is created for all of
+the blocks. We could count recombinant edges for each pair of branches for each
+block to create a file of a matrix where rows are of length of the number of
+iterations, and columns are of length of the square of the number of branches in
+the species tree. We then sum all of the matrices over the blocks to obtain a
+matrix of recombinant edge counts for the recombinant trees.  Let's have a
+command _obsiter_.
 
 .Count recombinant edges across all of the blocks
 ----
@@ -747,7 +847,383 @@ perl pl/count-observed-recedge.pl obsiter \
   $RUNANALYSIS/obsonly-recedge-$REPLICATE.txt
 ----
 
+recombination-intensity1-map
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+File ri1-refgenome4-map-2 was used by menu *recombination-intensity1-genes*. I
+could use +rimap-2.txt+ file instead. I could extract information about
+recombinant edges for some genes. Once genomic positions of a gene were used
+then we do not need to consider it again in having recombination intensity or
+recombinant edge counts. I think that I should not use this ri1-refgenome file
+any more. It is just another way of extracting recombinant edges for a certain
+regions. 
+
+I think that I need to make sure how I extract recombinant edges from the second
+stage of output files of clonalorigin. What I do with the XML files includes
+summarizing the three global parameters, counting recombinant edges, extracting
+recombinant edges information for a certain region. 
+The Perl +count-observed-recedge.pl+ counts recombinant edges and computes the
+heatmap values. 
+There are simply too many PERL scripts that parse XML files, which means that
+there are redundant XML parsers. This is very confusing. It is hard to create a
+new one.
+
+----
+I found the following main parsers.
+
+0. pl/computeMedians.pl - This is the first file that I started to use for
+summarizing clonalorigin XML files. This is for the 1st stage of ClonalOrigin
+MCMC.
+
+1. pl/scatter-plot-parameter.pl could be one for the 1st stage of ClonalOrigin
+MCMC.
+pl/plot-number-recombination-within-blocks.pl should be merged to this
+computeMedians.pl. I do not want to change computeMedians.pl because it is a
+part of the original ClonalOrigin package. Then, we may have two scripts for the
+first stage of ClonalOrigin MCMC.
+pl/report-clonalorigin-job.pl is a simple parser if there are any XML errors in
+parsing. I'd have this in one of any main parser with a subcommand.
+
+2. pl/count-observed-recedge.pl - This is another main XML parser. This is for
+the 2nd stage of ClonalOrigin MCMC.
+
+3. pl/recombination-intensity1-map.pl - This creates a map file, which is a basis
+of recombinant edges along genomes. This is for the 2nd stage of ClonalOrigin
+MCMC. A companion PERL scripts for this could read the map file to do any
+down-stream analysis such as computing recombination intensity.
+
+4. pl/splitCOXMLPerIteration.pl could be another category of taking simulated
+XML files as input to create multiple XML files for blocks.
+extractClonalOriginParameter9.pl and
+extractClonalOriginParameter11.pl could do the same thing.
+
+Other parsers should be either another parser or be merged to one of the three.
+
+pl/analyze-run-clonalorigin2-simulation2.pl - This seems to be a combination of
+ri1map file and getting gene's recombination intensity. But, we needed one for
+simulation where it is not appropriate for having a ri1map for each simulation.
+
+pl/listgenegff.pl - This has something to do with recombination intensity of
+genes.
+
+pl/sim3-prepare.pl - This seems to have something to do with ri simulation. The
+simulation 3 needs to be considered.
+----
+
+Can I have a single XML parser file? 
+1. We might want to list raw values of theta, rho, and delta from an XML file.
+2. We might want to list raw values of ll, prior, theta, rho, and delta as a
+trace file.
+3. Two files (extractClonalOriginParameter5.pl and scatter-plot-parameter.pl)
+should be combined into one. Menu script
+sh/simulate-data-clonalorigin1-analyze.sh calls 
+extractClonalOriginParameter5.pl.
+4. The clonalorigin simulator creates a single recombinant tree for multiple
+blocks. I wished to split the single recombinant tree to multiple ones for
+blocks. The PERL extractClonalOriginParameter9.pl does this. This may be one
+that creates clonalorigin XML files from a single XML file.
+extractClonalOriginParameter11.pl and
+splitCOXMLPerIteration.pl
+also do this.
+5. I thought that I had a PERL script that combine multiple XML files to a
+single for combining multiple recombinant trees into one. I could not find it.
+
+
+File ri1-refgenome4-map-2
+
+Numbers of recombinant edges are counted for each site along a reference genome.
+I had two ways of summarizing a sample of recombinant trees: one is by block-wise,
+and another is by site-wise along a reference genome. I have used the former
+method for most of summarizing procedure. The latter is used from time to time.
+The file, ri1-refgenome4-map-2, is for the replicate 2 with the reference genome
+4. Menu *recombination-intensity1-map* has some scripts that create file
++ri1-refgenome4-map-2+. 
+
+The PERL script, pl/recombination-intensity1-map.pl, is used to create the two
+kinds of files.
+
+
+For simplicity, I create a file called +$RUNANALYSIS/rimap-$REPLICATE.txt+ where
+the number of lines is equal to the total length of all of the block alignments.
+This file could be huge in size. The file of block sizes and the XMFA alignment
+file should be used to find a corresponding block of recombination events counts
+for a reference genome. The species tree 
++$RUNANALYSIS/species-tree-$REPLICATE.tree+ should be used to find which
+branches correspond to which element in the +rimap+ file. 
+
+Given this +rimap+ file I could create recombination intensity or average number
+of recombinant edges along a reference genome. However, 
+it appears that menu *recombination-intensity1-map* features recombination event
+counts along a reference genome.
+
+convert-gff-ingene
+~~~~~~~~~~~~~~~~~~
+I use a gene annotation file that accompanies the genbank bacterial genome file.
+NCBI's ftp directory called bacteria contains complete genomes of bacteria and
+archaea. A genbank file could be used to locate genes in the genome of the
+genbank file. I instead use a companion file called gff file to extract gene
+locations. An example of 
+
+.A genome annotation gff file
+----
+Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+----
+
+Gene locations are stored an ingene file. The file has four columns that are
+delimited by a tab: gene name, start position, end position, and gene strand.
+An ingene file is created in run-analysis of a repetition directory.
+
+.An ingene file
+----
+output/cornellf/3/run-analysis/in.gene
+----
+
+This needs to be placed in the species file
+----
+REPETITION3-GFF:Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
+----
+
+
+locate-gene-in-block
+~~~~~~~~~~~~~~~~~~~~
+Genes in an +ingene+ file are mapped to block alignments that are used
+in ClonalOrigin inference. The following information is written to
++ingene.referenceGenomeID.block+ file:
+gene start end strand blockidGene blockStart blockEnd geneStartInBlock
+geneEndInBlock lenSeq gap. Genes with larger than 50 are considered. 
+
+.An ingene block file is created.
+----
+output/cornellf/3/run-analysis/in.gene.4.block
+----
+
+We need a script to take
+in.gene.4.block file and another file of the subset of genes to create an
+in.gene block file for the subset.
+---
+output/cornellf/3/run-analysis/in.virulence.gene.4.block
+output/cornellf/3/run-analysis/in.nonvirulence.gene.4.block
+----
+
+recombination-intensity1-genes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The number of recombinant edges per site is computed for all of the genes of a
+reference genome. recombination-intensity1-map must be called before the call of
+this menu.
+
+A PERL script +ri-virulence.pl+ is called in this menu. 
+
+recombination-intensity1-probability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find genes with high recombination intensity.
+
+probability-recedge-gene
+~~~~~~~~~~~~~~~~~~~~~~~~
+Posterior probability of recombination is computed for each gene and each
+recombinant edge type.
+A table of genes with high recombinantion is created. I could select only virulence
+genes. 
+
+map-tree-topology
+~~~~~~~~~~~~~~~~~
+in.gene must be created using menu *locate-gene-in-block*.
+
+A ClonalOrigin XML output file contains a list of recombinant trees. The number
+of recombinant trees is equal to the the number of Iteration tags. A modified
+program wargsim can parse a ClonalOrigin XML file with a single recombinant
+tree. The ClonalOrigin XML output file with multiple recombinant trees have to
+divided to multiple XML files, each of which contains a single recombinant tree.
+
+.A ClonalOrigin XML output file: REPETITION=8, REPLICATE=2, BLOCK=1
+----
+output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
+----
+
+Splitted ClonalOrigin XML files are stored in ri-directory where represents
+REPLICATE.
+
+.A ClonalOrigin XML output file with a single recombinant tree: REPETITION=8,
+REPLICATE=2, BLOCK=1, ITERATION=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2/core_co.phase3.xml.1.1
+----
+
+To each splitted ClonalOrigin XML file is wargsim applied. Each output file is
+saved in ri-#-out directory where represents REPLICATE.
+
+.A gene tree topology file from a single recombinant tree: REPETITION=8,
+REPLICATE=2, BLOCK=1, ITERATION=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2-out/core_co.phase3.xml.1.1
+----
+
+Some of recombinant trees may not be processible by wargsim, or wargsim can
+crash when parsing a ClonalOrigin XML file. I check if the number of tree
+topology indices and the size of a block are equal. If they are not equal, they
+should be removed in further analysis.
+
+Conceptually divided posterior samples should be recombined. 
+
+.A posterior sample of gene tree topology: REPETITION=8,
+REPLICATE=2, BLOCK=1
+----
+output/cornellf/8/run-clonalorigin/output2/ri-2-combined/1
+----
+
+Gene 
+
+.An ingene file is appended
+----
+output/cornellf/8/run-analysis/in.gene
+----
+
+list-gene-go
+~~~~~~~~~~~~
+Melissa provided a file of gene ontology terms and their descriptions,
+SpyMGAS315_go_category_names.txt,
+and a file of gene names and their association with multiple gene ontology
+terms,
+SpyMGAS315_go_bacteria.txt. Using these files we list genes and their product
+names for a given gene ontology term.
+
+create-ingene
+~~~~~~~~~~~~~
+x
+
+probability-recombination
+~~~~~~~~~~~~~~~~~~~~~~~~~
+x
+
+Stopped here.
+
+simulate-data-clonalorigin1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+First create a species file at +species+ directory.
+
+.Create a species file of a name starting with character s followed by a number
+(e.g., s1)
+----
+Repetition:10
+Replicate:1
+ThetaPerSite:0.080814517322956
+RhoPerSite:0.0118491287894766
+Delta:743.702415841584
+InBlock:cornellf-3-in.block
+SpeicesTree:cornellf-3.tree
+Burnin:1000000
+ChainLength:1000000
+Thin:10000
+NumberSpecies:5
+Walltime:168
+CACWORKDIR:run/mauve/110211
+----
+
+Each repetition creates a new recombinant tree. We only allow only one
+replicate. You could change the number of repetitions. Do not change replicates.
+The three global parameters are needed. You could have them from an exploratory
+runs of ClonalOrigin's 1st stage. I found that mutation and recombination rates
+were accruately estimated when a minimum block length is large. You might start
+with a minimum block length of 500, and then increase it to estimate the three
+parameters. A better way would be run once the 1st stage of ClonalOrigin's 1st
+stage, and use various minimum block lengths to compute the global estimates.
+Then, doing several simulations with different block configurations you could
+find a minimum block length that allows to have a block configuration that would
+produce accurate mutation and recombination rate estimates. I have not done
+this, yet. The tree and block files need to be placed in +data+ directory at the
+base.
+
+simulate-data-clonalorigin1-prepare
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is replaced by *sim1*.
+
+Create a directory at the cluster: e.g., cac:run/mauve/110211. 
+
+.CAC directory for running jobs
+----
+CACWORKDIR:run/mauve/110211
+----
+
+Prepare the first stage of clonalorigin for simulation.
+
+# mkdir-simulation: a run of a simulation study is stored in a directory,
+# BASEDIR=$MAUVEANALYSISDIR/noweb/output/$CHOICE/output/${REPLICATE}
+# The $CHOICE is c1, and $REPLICATE goes from 1 to as many replicates as you
+# want. The same directories are created at the output directory in the cluster.
+# 
+# At the directory of 
+# BASECHOICEDIR=$MAUVEANALYSISDIR/noweb/output/$CHOICE
+# there is an input directory. A file with extension of fa is the alignment
+# file: e.g., input/c1_1.fa 
+# A file with extension of tre is the clonal tree. I need these two files to run
+# ClonalOrigin. So, clonaltree.nwk is replaced by input/c1_1.tre 
+# and core_alignment.xmfa is replaced by input/c1_1.fa.
+# The core alignment needs to be split into blocks. Each block and the clonal
+# tree are the input of a ClonalOrigin run. I have an arbitrary number of
+# alignments. A batch script would read in the list to execute ClonalOrigin.
+#
+# I might have to simulate the setting of the real data set of the 5 genomes.
+# Not only mutation rate, recombination rate, and tract length but also the
+# number of blocks and their lengths. I might have to remove more blocks based
+# on the proportion of gaps in alignments. 
+#
+# How can I submit jobs in the repetitions?
+#
+# First copy data and script to the login node of the cluster.
+# Then, copy data and script to the computing node thereof.
+#
+# The cluster is not down now. I have to check the script.
+# Let's check the code from beginning to the end.
+#
+# s1 is the first simulation study. I simulate a single block of 10k base pairs
+# under ClonalOrigin model. I need multiple replicates to check convergence.
+# CHOICE and HOW_MANY_REPETITION could be determined using directories and file
+# in species, and output directories. 
+# Later I need a way to check convergence of replicates.
+# 
+# BASEDIR:
+# mauve/output/cornell
+# NUMBERDIR:
+# mauve/output/cornell/1/data
+# DATADIR:
+# mauve/output/cornell/1/data
+# RUNMAUVE:
+# mauve/output/cornell/1/run-mauve
+# 
+# For each repeat I do the following:
+# 1. Split the core alignment.
+# 2. Copy the split alignments to CAC cluster.
+# 3. Copy the species tree to CAC cluster.
+# 4. Make a list of jobs. A job is specified by command line
+#    options of warg.
+# 5. Create a batch file for each repeat.
+#
+# Finishing the above I make a list of jobs over all the repeats. I also create
+# the main batch script for the jobs of all the repeats.
+
+sim2
+~~~~
+Most of shell scripts of sim2 are outdated: +simulate-data-clonalorigin2.sh+,
+and +sh/simulate-data-clonalorigin2-prepare.sh+.
++sim2-analyze.sh+ was for checking recombinant edge counts or heatmap of
+recombinant edges. This would be outdated because I am using other sim5 or sim6.
+These may replace sim2. Check +sim2-analyze.sh+ when you consider simulation for
+recombinant edge count heatmap.
+
+Previously known as *sim6* is now *sim2*.
+
+sim3
+~~~~
+The recombination intensity is checked using +s16+ simulation. This may requires
+a cluster of computing because computing recombination intensity is slow for
+many simulation data sets. The *sim1* and *sim3* are similar in running
+ClonalOrigin jobs. They differ in treating analyzing the result.
+This needs more refinement. I also need to test it.
+Some menu *analyze-run-clonalorigin2-simulation2* are outdated.
+
+sim5
+~~~~
+Simulation with recombinant trees.
 
 choose-simulation
 ~~~~~~~~~~~~~~~~~
@@ -872,105 +1348,6 @@ I wish to check how well the 100 simulations can recover the true numbers of
 recombinant edges. 
 
 
-scatter-plot-parameter
-~~~~~~~~~~~~~~~~~~~~~~
-The three plots of global parameters estimates across all of the blocks.
-
-recombination-intensity1-map
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-File ri1-refgenome4-map-2 was used by menu *recombination-intensity1-genes*. I
-could use +rimap-2.txt+ file instead. I could extract information about
-recombinant edges for some genes. Once genomic positions of a gene were used
-then we do not need to consider it again in having recombination intensity or
-recombinant edge counts. I think that I should not use this ri1-refgenome file
-any more. It is just another way of extracting recombinant edges for a certain
-regions. 
-
-I think that I need to make sure how I extract recombinant edges from the second
-stage of output files of clonalorigin. What I do with the XML files includes
-summarizing the three global parameters, counting recombinant edges, extracting
-recombinant edges information for a certain region. 
-The Perl +count-observed-recedge.pl+ counts recombinant edges and computes the
-heatmap values. 
-There are simply too many PERL scripts that parse XML files, which means that
-there are redundant XML parsers. This is very confusing. It is hard to create a
-new one.
-
-----
-I found the following main parsers.
-
-0. pl/computeMedians.pl - This is the first file that I started to use for
-summarizing clonalorigin XML files. This is for the 1st stage of ClonalOrigin
-MCMC.
-
-1. pl/scatter-plot-parameter.pl could be one for the 1st stage of ClonalOrigin
-MCMC.
-pl/plot-number-recombination-within-blocks.pl should be merged to this
-computeMedians.pl. I do not want to change computeMedians.pl because it is a
-part of the original ClonalOrigin package. Then, we may have two scripts for the
-first stage of ClonalOrigin MCMC.
-pl/report-clonalorigin-job.pl is a simple parser if there are any XML errors in
-parsing. I'd have this in one of any main parser with a subcommand.
-
-2. pl/count-observed-recedge.pl - This is another main XML parser. This is for
-the 2nd stage of ClonalOrigin MCMC.
-
-3. pl/recombination-intensity1-map.pl - This creates a map file, which is a basis
-of recombinant edges along genomes. This is for the 2nd stage of ClonalOrigin
-MCMC. A companion PERL scripts for this could read the map file to do any
-down-stream analysis such as computing recombination intensity.
-
-4. pl/splitCOXMLPerIteration.pl could be another category of taking simulated
-XML files as input to create multiple XML files for blocks.
-extractClonalOriginParameter9.pl and
-extractClonalOriginParameter11.pl could do the same thing.
-
-Other parsers should be either another parser or be merged to one of the three.
-
-pl/analyze-run-clonalorigin2-simulation2.pl - This seems to be a combination of
-ri1map file and getting gene's recombination intensity. But, we needed one for
-simulation where it is not appropriate for having a ri1map for each simulation.
-
-pl/listgenegff.pl - This has something to do with recombination intensity of
-genes.
-
-pl/sim3-prepare.pl - This seems to have something to do with ri simulation. The
-simulation 3 needs to be considered.
-----
-
-Can I have a single XML parser file? 
-1. We might want to list raw values of theta, rho, and delta from an XML file.
-2. We might want to list raw values of ll, prior, theta, rho, and delta as a
-trace file.
-3. Two files (extractClonalOriginParameter5.pl and scatter-plot-parameter.pl)
-should be combined into one. Menu script
-sh/simulate-data-clonalorigin1-analyze.sh calls 
-extractClonalOriginParameter5.pl.
-4. The clonalorigin simulator creates a single recombinant tree for multiple
-blocks. I wished to split the single recombinant tree to multiple ones for
-blocks. The PERL extractClonalOriginParameter9.pl does this. This may be one
-that creates clonalorigin XML files from a single XML file.
-extractClonalOriginParameter11.pl and
-splitCOXMLPerIteration.pl
-also do this.
-5. I thought that I had a PERL script that combine multiple XML files to a
-single for combining multiple recombinant trees into one. I could not find it.
-
-
-File ri1-refgenome4-map-2
-
-Numbers of recombinant edges are counted for each site along a reference genome.
-I had two ways of summarizing a sample of recombinant trees: one is by block-wise,
-and another is by site-wise along a reference genome. I have used the former
-method for most of summarizing procedure. The latter is used from time to time.
-The file, ri1-refgenome4-map-2, is for the replicate 2 with the reference genome
-4. Menu *recombination-intensity1-map* has some scripts that create file
-+ri1-refgenome4-map-2+. 
-
-The PERL script, pl/recombination-intensity1-map.pl, is used to create the two
-kinds of files.
-
 
 compute-prior-count-recedge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1009,59 +1386,6 @@ Observed recombinant edges and the prior expected number of recombinant edges
 both are considered.
 Menu compute-prior-count-recedge must be called before the call of this menu.
  
-map-tree-topology
-~~~~~~~~~~~~~~~~~
-in.gene must be created using menu *locate-gene-in-block*.
-
-A ClonalOrigin XML output file contains a list of recombinant trees. The number
-of recombinant trees is equal to the the number of Iteration tags. A modified
-program wargsim can parse a ClonalOrigin XML file with a single recombinant
-tree. The ClonalOrigin XML output file with multiple recombinant trees have to
-divided to multiple XML files, each of which contains a single recombinant tree.
-
-.A ClonalOrigin XML output file: REPETITION=8, REPLICATE=2, BLOCK=1
-----
-output/cornellf/8/run-clonalorigin/output2/2/core_co.phase3.xml.1
-----
-
-Splitted ClonalOrigin XML files are stored in ri-directory where represents
-REPLICATE.
-
-.A ClonalOrigin XML output file with a single recombinant tree: REPETITION=8,
-REPLICATE=2, BLOCK=1, ITERATION=1
-----
-output/cornellf/8/run-clonalorigin/output2/ri-2/core_co.phase3.xml.1.1
-----
-
-To each splitted ClonalOrigin XML file is wargsim applied. Each output file is
-saved in ri-#-out directory where represents REPLICATE.
-
-.A gene tree topology file from a single recombinant tree: REPETITION=8,
-REPLICATE=2, BLOCK=1, ITERATION=1
-----
-output/cornellf/8/run-clonalorigin/output2/ri-2-out/core_co.phase3.xml.1.1
-----
-
-Some of recombinant trees may not be processible by wargsim, or wargsim can
-crash when parsing a ClonalOrigin XML file. I check if the number of tree
-topology indices and the size of a block are equal. If they are not equal, they
-should be removed in further analysis.
-
-Conceptually divided posterior samples should be recombined. 
-
-.A posterior sample of gene tree topology: REPETITION=8,
-REPLICATE=2, BLOCK=1
-----
-output/cornellf/8/run-clonalorigin/output2/ri-2-combined/1
-----
-
-Gene 
-
-.An ingene file is appended
-----
-output/cornellf/8/run-analysis/in.gene
-----
-
 
 
 
@@ -1079,55 +1403,6 @@ simulate-data-clonalorigin2.
 analyze-run-clonalorigin2-simulation2-prepare
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A number of simulation replicates are analyzed by using a cluster.
-
-convert-gff-ingene
-~~~~~~~~~~~~~~~~~~
-I use a gene annotation file that accompanies the genbank bacterial genome file.
-NCBI's ftp directory called bacteria contains complete genomes of bacteria and
-archaea. A genbank file could be used to locate genes in the genome of the
-genbank file. I instead use a companion file called gff file to extract gene
-locations. An example of 
-
-.A genome annotation gff file
-----
-Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
-----
-
-Gene locations are stored an ingene file. The file has four columns that are
-delimited by a tab: gene name, start position, end position, and gene strand.
-An ingene file is created in run-analysis of a repetition directory.
-
-.An ingene file
-----
-output/cornellf/3/run-analysis/in.gene
-----
-
-This needs to be placed in the species file
-----
-REPETITION3-GFF:Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gff
-----
-
-
-locate-gene-in-block
-~~~~~~~~~~~~~~~~~~~~
-Genes in an +ingene+ file are mapped to block alignments that are used
-in ClonalOrigin inference. The following information is written to
-+ingene.referenceGenomeID.block+ file:
-gene start end strand blockidGene blockStart blockEnd geneStartInBlock
-geneEndInBlock lenSeq gap. Genes with larger than 50 are considered. 
-
-.An ingene block file is created.
-----
-output/cornellf/3/run-analysis/in.gene.4.block
-----
-
-We need a script to take
-in.gene.4.block file and another file of the subset of genes to create an
-in.gene block file for the subset.
----
-output/cornellf/3/run-analysis/in.virulence.gene.4.block
-output/cornellf/3/run-analysis/in.nonvirulence.gene.4.block
-----
 
 
 clonalorigin2-simulation3
@@ -1157,44 +1432,6 @@ this happens. In this case I have redo the simulation for those blocks. I need
 SPECIES, REPETITION, REPLICATE, BLOCK, and BLOCKSIZE. After this correction, I
 can proceed with clonalorigin2-simulation3-analyze.
 
-recombination-intensity1-map
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For simplicity, I create a file called +$RUNANALYSIS/rimap-$REPLICATE.txt+ where
-the number of lines is equal to the total length of all of the block alignments.
-This file could be huge in size. The file of block sizes and the XMFA alignment
-file should be used to find a corresponding block of recombination events counts
-for a reference genome. The species tree 
-+$RUNANALYSIS/species-tree-$REPLICATE.tree+ should be used to find which
-branches correspond to which element in the +rimap+ file. 
-
-Given this +rimap+ file I could create recombination intensity or average number
-of recombinant edges along a reference genome. However, 
-it appears that menu *recombination-intensity1-map* features recombination event
-counts along a reference genome.
-
-recombination-intensity1-genes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The number of recombinant edges per site is computed for all of the genes of a
-reference genome. recombination-intensity1-map must be called before the call of
-this menu.
-
-A PERL script +ri-virulence.pl+ is called in this menu. 
-
-list-gene-go
-~~~~~~~~~~~~
-Melissa provided a file of gene ontology terms and their descriptions,
-SpyMGAS315_go_category_names.txt,
-and a file of gene names and their association with multiple gene ontology
-terms,
-SpyMGAS315_go_bacteria.txt. Using these files we list genes and their product
-names for a given gene ontology term.
-
-probability-recedge-gene
-~~~~~~~~~~~~~~~~~~~~~~~~
-Posterior probability of recombination is computed for each gene and each
-recombinant edge type.
-A table of genes with high recombinantion is created. I could select only virulence
-genes. 
 
 Files
 -----
@@ -1357,7 +1594,6 @@ compute-heatmap-recedge.pl
 computeMedians.pl
 convert-gff-ingene.pl
 core2smallercore.pl
-create-ingene.pl
 extract-species-tree.pl
 extractClonalOriginParameter.pl
 extractClonalOriginParameter10.pl
@@ -1387,13 +1623,11 @@ probability-recedge-gene.pl
 probability-recombination.pl
 recombination-intensity.pl
 recombination-intensity1-genes.pl
-recombination-intensity1-probability.pl
 recombination-intensity2.pl
 recombination-intensity4.pl
 recombinationmap.pl
 remove-blocks-from-core-alignment.pl
 report-clonalorigin-job.pl
-scatter-plot-parameter.pl
 sim4-analyze.pl
 sim4-prepare.pl
 simulate-data-clonalorigin1-analyze.pl
@@ -1444,13 +1678,11 @@ probability-recombination.sh
 progressbar.sh
 read-species-file.sh
 read-species.sh
-receive-run-2nd-clonalorigin.sh
 receive-run-clonalorigin.sh
 recombination-intensity1-genes.sh
 recombination-intensity1-probability.sh
 reverse-blockid-xml.sh
 run.sh
-scatter-plot-parameter.sh
 set-more-global-variable.sh
 sim2-analyze.sh
 sim3-analyze.sh

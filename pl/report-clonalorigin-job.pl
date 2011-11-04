@@ -25,6 +25,7 @@ use XML::Parser;
 use Getopt::Long;
 use Pod::Usage;
 use File::Temp qw(tempfile);
+require "pl/sub-error.pl";
 
 $| = 1; # Do not buffer output
 
@@ -38,6 +39,7 @@ GetOptions( \%params,
             'man',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
+            'samplesize=i',
             'xmlbase=s',
             'database=s'
             ) or pod2usage(2);
@@ -56,6 +58,10 @@ report-clonalorigin-job.pl 0.1.0
 
 perl report-clonalorigin-job.pl [-h] [-help] [-version] 
   [-xml xmlfile] 
+
+perl report-clonalorigin-job.pl -xmlbase dir/core_co.phase3.xml \
+  -database dir2/core_alignment.xmfa \
+  -samplesize 1001
 
 =head1 DESCRIPTION
 
@@ -186,16 +192,27 @@ for (my $blockid = 1; $blockid <= $number_xmfaFile; $blockid++)
     if ($@)
     {
       unlink $xmlFile; 
+      print STDERR "Error in $blockid block $xmlFilebasename:$itercount\n";
       print "$xmlFilebasename:NP\n";
     }
     else
     {
-      # print "$xmlFilebasename:$itercount\n";
+      if ($params{samplesize} == $itercount)
+      {
+        print STDERR "Checked $blockid block $xmlFilebasename:$itercount\r";
+      }
+      else
+      {
+        unlink $xmlFile; 
+        print STDERR "Error in $blockid block $xmlFilebasename:$itercount\n";
+        print "$xmlFilebasename:NP\n";
+      }
     }
   }
   else
   {
-    # print "$xmlFile:$xmlFilebasename:NE\n";
+    print STDERR "Error in $blockid block $xmlFilebasename:$itercount\n";
+    print "$xmlFilebasename:NE\n";
   }
 }
 
@@ -235,26 +252,4 @@ sub characterData {
 
 sub default {
 }
-
-##
-#################################################################################
-### MISC FUNCTIONS
-#################################################################################
-##
-
-sub printError {
-    my $msg = shift;
-    print STDERR "ERROR: ".$msg.".\n\nTry \'report-clonalorigin-job.pl -h\' for more information.\nExit program.\n";
-    exit(0);
-}
-
-sub getLineNumber {
-    my $file = shift;
-    my $lines = 0;
-    open(FILE,"perl -p -e 's/\r/\n/g' < $file |") or die "ERROR: Could not open file $file: $! \n";
-    $lines += tr/\n/\n/ while sysread(FILE, $_, 2 ** 16);
-    close(FILE);
-    return $lines;
-}
-
 

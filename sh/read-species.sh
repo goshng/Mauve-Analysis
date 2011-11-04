@@ -6,7 +6,7 @@ function read-species {
   echo " $HOW_MANY_REPETITION"
 
   echo -n "  Reading REPLICATE from $SPECIESFILE..."
-  HOW_MANY_REPLICATE=$(grep Replicate $SPECIESFILE | cut -d":" -f2)
+  HOW_MANY_REPLICATE=$(grep ^Replicate $SPECIESFILE | cut -d":" -f2)
   if [ "$HOW_MANY_REPLICATE" == "" ]; then
     HOW_MANY_REPLICATE=0
     echo " $HOW_MANY_REPLICATE"

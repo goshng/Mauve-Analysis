@@ -19,11 +19,10 @@ function plot-number-recombination-within-blocks {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      REPLICATE=$(grep ^REPETITION${REPETITION}-CO2-CO1ID $SPECIESFILE | cut -d":" -f2)
 
-      echo perl pl/$FUNCNAME.pl \
+      perl pl/$FUNCNAME.pl \
         -xmlbase $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2 \
         -xmfabase $DATADIR/core_alignment.xmfa \
         -thin 1 \
@@ -31,7 +30,7 @@ function plot-number-recombination-within-blocks {
       echo "$RUNANALYSIS/$FUNCNAME-$REPLICATE.out"
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
-      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
       NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.1.xml|wc -l`)
       echo -e "  The number of blocks is $NUMBER_BLOCK."
       echo -e "  The sample size per block is $NUMBER_SAMPLE."

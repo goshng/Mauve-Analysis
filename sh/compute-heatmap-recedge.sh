@@ -51,7 +51,7 @@ function compute-heatmap-recedge {
 
       break
 
-      perl pl/count-observed-recedge.pl \
+      perl pl/count-observed-recedge.pl heatmap \
         -d $RUNCLONALORIGIN/output2/${REPLICATE} \
         -e $RUNCLONALORIGIN/output2/priorcount-${REPLICATE} \
         -endblockid \

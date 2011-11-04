@@ -6,6 +6,16 @@ LOCKFILE=$3
 STATUSDIR=$4
 MAXNODE=$5
 
+# Create a rank to note that the current job is running
+touch $STATUSDIR/$PMI_RANK
+BASESTATUSDIR=$(dirname $STATUSDIR)
+if [ $PBS_ARRAYID -eq 1 ]; then
+  # This means only when all of the jobs were finished, it would be finished.
+  MINIMUMJOB=2 
+else
+  MINIMUMJOB=5
+fi
+
 WHICHLINE=1
 JOBID=0
 LASTNODE=N
@@ -24,8 +34,6 @@ function hms
 
 function checkIfTheJobSuccessfullyFinished 
 {
-  # Check the exit code of the JOBID.
-  # If the job is kill, then put JOBID back to jobidfile.
   OUTPUTFILE=${JOBID##* }
   
   FINISHEDOUTPUT=N
@@ -42,21 +50,13 @@ function checkIfTheJobSuccessfullyFinished
     # echo end-$JOBID
     hms $ELAPSED
   else
-    # The job is not successfully finished.
-    # Put the job command back to the jobidfile.
     while [ "$JOBID" != "" ]; do
       lockfile=$LOCKFILE
       if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
-        # BK: this will cause the lock file to be deleted 
-        # in case of other exit
         trap 'rm -f "$lockfile"; exit $?' INT TERM
-
-        # The critical section:
-        # Write a line, and delete it.
         cp $JOBIDFILE $JOBIDFILE.temp 
         echo $JOBID >> $JOBIDFILE.temp
         mv $JOBIDFILE.temp $JOBIDFILE
-
         rm -f "$lockfile"
         trap - INT TERM
         # Let the job be finished.
@@ -69,98 +69,48 @@ function checkIfTheJobSuccessfullyFinished
   fi
 }
 
-
 # Keep trying to read in jobidfile until the current node is the last one.
-while [ "$LASTNODE" == "N" ]; do
-  # Read the filelock
-  while [ "$JOBID" != "" ]; do
-    lockfile=$LOCKFILE
-    if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
-      # BK: this will cause the lock file to be deleted 
-      # in case of other exit
-      trap 'rm -f "$lockfile"; exit $?' INT TERM
-
-      # The critical section:
-      # Read a line, and delete it.
-      read -r JOBID < ${JOBIDFILE}
-      sed '1d' $JOBIDFILE > $JOBIDFILE.temp; 
-      mv $JOBIDFILE.temp $JOBIDFILE
-
-      rm -f "$lockfile"
-      trap - INT TERM
-
-      if [ "$JOBID" == "" ]; then
-        echo "No more jobs in waiting nodes"
-      else
-        START_TIME=`date +%s`
-        $JOBID
-        # Check if the job is finished successfully.
-        checkIfTheJobSuccessfullyFinished
-      fi
-    else
-      # echo "Failed to acquire lockfile: $lockfile." 
-      JOBID=0
-      sleep 5
-      # echo "Retry to access $lockfile"
-    fi
-  done
-
-  # Check if the current node is the last
-  LASTNODE=Y
-  for h in $(eval echo {$PBS_ARRAYID..$MAXNODE}); do
-    echo "Rank $PMI_RANK: Checking the last node of $PBS_ARRAYID"
-    if [ $PBS_ARRAYID -lt $h ]; then
-      echo "Rank $PMI_RANK: Checking the directory $STATUSDIR/$h"
-      if [ -d "$STATUSDIR/$h" ]; then
-        LASTNODE=N
-        echo "Rank $PMI_RANK: This is not last node"
-      fi
-    fi
-  done
-  echo "Rank $PMI_RANK: Last node=$LASTNODE"
-  JOBID=0
-done
-
-# Now, the current node is the last one.
-# Run jobs on this node until there are at least 4 jobs.
-JOBID=0
 while [ "$JOBID" != "" ]; do
   lockfile=$LOCKFILE
   if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
-    # BK: this will cause the lock file to be deleted 
-    # in case of other exit
     trap 'rm -f "$lockfile"; exit $?' INT TERM
-
-    # The critical section:
-    # Read a line, and delete it.
     read -r JOBID < ${JOBIDFILE}
     sed '1d' $JOBIDFILE > $JOBIDFILE.temp; 
     mv $JOBIDFILE.temp $JOBIDFILE
-
     rm -f "$lockfile"
     trap - INT TERM
 
     if [ "$JOBID" == "" ]; then
-      echo "No more jobs in the last node"
-      # Check how many warg jobs.
-      NUMJOBS=$(ps -ef|grep warg|wc -l)
-      if [ $NUMJOBS -lt 5 ]; then
-        # Kill those jobs and put JOBID back to jobidfile.
-        ps ax | grep warg | awk '{print $1}' | xargs -i kill {} 2&>/dev/null
+      NUMJOBS=$(ps ax|grep warg|wc -l)
+      if [ $NUMJOBS -lt $MINIMUMJOB ]; then
+        JOBID=""
       else
         JOBID=0
       fi
+
     else
-      # echo begin-$JOBID
       START_TIME=`date +%s`
       $JOBID
       checkIfTheJobSuccessfullyFinished
     fi
   else
-    # echo "Failed to acquire lockfile: $lockfile." 
+    JOBID=0
     sleep 5
-    # echo "Retry to access $lockfile"
   fi
 done
 
-
+# Wait for all of the jobs to be finished.
+rm -f $STATUSDIR/$PMI_RANK
+NUMSTATUS=$(ls -1 $STATUSDIR|wc -l)
+if [ $PBS_ARRAYID -gt 1 ]; then
+  while [ $NUMSTATUS -gt 0 ]; do
+    # Kill those jobs and put JOBID back to jobidfile.
+    NUMJOBS=$(ps ax|grep warg|wc -l)
+    if [ $NUMJOBS -lt $MINIMUMJOB ]; then
+      ps ax | grep warg | awk '{print $1}' | xargs -i kill {} 2&>/dev/null
+    fi
+    NUMSTATUS=$(ls -1 $STATUSDIR|wc -l)
+    # sleep 5
+    sleep 60
+  done
+fi
