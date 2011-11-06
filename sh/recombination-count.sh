@@ -43,9 +43,10 @@ function recombination-count {
           perl pl/count-observed-recedge.pl obsiter \
             -d $RUNCLONALORIGIN/output2/${h} \
             -n $NUMBER_BLOCK \
-            -out $RUNANALYSIS/obsiter-recedge-$h.txt
-          echo "Check file $RUNANALYSIS/obsiter-recedge-$h.txt"
+            -out $RUNANALYSIS/obsiter-recedge-$h.txt &
         done
+        wait
+        echo "Check $NREPLICATE files $RUNANALYSIS/obsiter-recedge-#.txt"
       fi
 
       echo -n "Do you wish to count recombination events (y/n)? "
@@ -57,45 +58,54 @@ function recombination-count {
             -n $NUMBER_BLOCK \
             -endblockid \
             -obsonly \
-            -out $RUNANALYSIS/obsonly-recedge-$h.txt
-          echo "Check file $RUNANALYSIS/obsonly-recedge-$h.txt"
+            -out $RUNANALYSIS/obsonly-recedge-$h.txt &
         done
+        wait
+        echo "Check $NREPLICATE files $RUNANALYSIS/obsonly-recedge-#.txt"
       fi
 
       echo -n "Do you wish to compute the prior expected number of recombination events (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        for h in $(eval echo {1..$NREPLICATE}); do
-          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${h}
-          mkdir $PRIORCOUNTDIR
-          for i in $(eval echo {1..$NUMBER_BLOCK}); do
-            if [ -f "$RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i" ]; then
-              $GUI -b \
-                -o $RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i \
-                -H 3 \
-                > $PRIORCOUNTDIR/$i.txt
-            else
-              echo "Block: $i was not found" 1>&2
-            fi
-            echo -ne "  Block: $i\r";
-          done 
-        done
-        echo -ne "$i Block - Finished!\n";
+        CO2REPLICATE=$(grep ^REPETITION${REPETITION}-CA1-CO2ID species/$SPECIES | cut -d":" -f2)
+        h=$CO2REPLICATE
+        PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount
+        mkdir $PRIORCOUNTDIR
+        rm 3
+        JOBIDFILE=$RUNCLONALORIGIN/rc.jobidfile
+        rm -f $JOBIDFILE
+        for i in $(eval echo {1..$NUMBER_BLOCK}); do
+          # echo "$RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i"
+          if [ -f "$RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i" ]; then
+            echo "src/warggui/b/gui \
+              $RUNCLONALORIGIN/output2/$h/core_co.phase3.xml.$i \
+              > $PRIORCOUNTDIR/$i.txt" >> 3 
+#           $GUI -b \
+#             -o $RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml.$i \
+#             -H 3 \
+#             > $PRIORCOUNTDIR/$i.txt
+          else
+            echo "Block: $i was not found" 1>&2
+          fi
+          echo -ne "  Block: $i\r";
+        done 
+
       fi
 
       echo -n "Do you wish to compute heatmaps (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
         for h in $(eval echo {1..$NREPLICATE}); do
-          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-${h}
+          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-2-original
           perl pl/count-observed-recedge.pl heatmap \
             -d $RUNCLONALORIGIN/output2/${h} \
             -e $PRIORCOUNTDIR \
             -endblockid \
             -n $NUMBER_BLOCK \
-            -s $NUMBER_SPECIES \
-            -out $RUNANALYSIS/heatmap-recedge-${h}.txt
+            -out $RUNANALYSIS/heatmap-recedge-${h}.txt &
+            # -s $NUMBER_SPECIES \
         done
+        wait
       fi
 
       echo -n "Do you wish to count recombination events only for the SPY and SDE (y/n)? "

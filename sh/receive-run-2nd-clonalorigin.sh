@@ -30,12 +30,11 @@ function receive-run-2nd-clonalorigin {
       set-more-global-variable $SPECIES $REPETITION
       NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
-      echo -n "Do you wish to receive the ClonalOrigin's 1st stage MCMC? (y/n) " 
+      echo -n "Do you wish to receive the ClonalOrigin's 2nd stage MCMC? (y/n) " 
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -e "  Receiving 2nd stage of clonalorigin-output..."
-        for h in 3 4; do
-        #for h in $(eval echo {1..$NREPLICATE}); do
+        for h in $(eval echo {1..$NREPLICATE}); do
           # mkdir -p $RUNCLONALORIGIN/output2/${h}
           # Even if a numbered directory exists, the copy will be done.
           scp -qr $CAC_USERHOST:$CAC_RUNCLONALORIGIN/output2/${h} \

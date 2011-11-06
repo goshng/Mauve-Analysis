@@ -4,14 +4,16 @@ PROJECT (gui)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
 # For Mac
-# find_package(GSL REQUIRED)
-# include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS} /Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
-# include_directories(/opt/local/include /Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
-# set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+# The following three lines.
+find_package(GSL REQUIRED)
+include_directories(/opt/local/include /Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
+set(LIBS ${LIBS} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+##include_directories(${GSL_INCLUDE_DIRS} ${GSLCBLAS_INCLUDE_DIRS} /Users/goshng/Documents/Projects/Mauve-Analysis/src/warg/src)
 
 # For CAC
-include_directories(/cac/contrib/gsl-1.12/include /home/fs01/sc2265/run/mauve/101011/bpp/Mauve-Analysis/src/warg/src)
-set(LIBS ${LIBS} /cac/contrib/gsl-1.12/lib/libgsl.a /cac/contrib/gsl-1.12/lib/libgslcblas.a)
+# The following two lines.
+#include_directories(/cac/contrib/gsl-1.12/include /home/fs01/sc2265/run/mauve/101011/bpp/Mauve-Analysis/src/warg/src)
+#set(LIBS ${LIBS} /cac/contrib/gsl-1.12/lib/libgsl.a /cac/contrib/gsl-1.12/lib/libgslcblas.a)
 
 # target_link_libraries(${LIBS})
 link_libraries(${LIBS})

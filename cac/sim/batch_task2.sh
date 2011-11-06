@@ -11,9 +11,9 @@ touch $STATUSDIR/$PMI_RANK
 BASESTATUSDIR=$(dirname $STATUSDIR)
 if [ $PBS_ARRAYID -eq 1 ]; then
   # This means only when all of the jobs were finished, it would be finished.
-  MINIMUMJOB=2 
+  MINIMUMJOB=1
 else
-  MINIMUMJOB=5
+  MINIMUMJOB=4
 fi
 
 WHICHLINE=1
@@ -81,7 +81,7 @@ while [ "$JOBID" != "" ]; do
     trap - INT TERM
 
     if [ "$JOBID" == "" ]; then
-      NUMJOBS=$(ps ax|grep warg|wc -l)
+      NUMJOBS=$(ps ax|grep warg|grep -v grep|wc -l)
       if [ $NUMJOBS -lt $MINIMUMJOB ]; then
         JOBID=""
       else
@@ -105,9 +105,9 @@ NUMSTATUS=$(ls -1 $STATUSDIR|wc -l)
 if [ $PBS_ARRAYID -gt 1 ]; then
   while [ $NUMSTATUS -gt 0 ]; do
     # Kill those jobs and put JOBID back to jobidfile.
-    NUMJOBS=$(ps ax|grep warg|wc -l)
+    NUMJOBS=$(ps ax|grep warg|grep -v grep|wc -l)
     if [ $NUMJOBS -lt $MINIMUMJOB ]; then
-      ps ax | grep warg | awk '{print $1}' | xargs -i kill {} 2&>/dev/null
+      ps ax | grep warg | grep -v grep | awk '{print $1}' | xargs -i kill {} 2&>/dev/null
     fi
     NUMSTATUS=$(ls -1 $STATUSDIR|wc -l)
     # sleep 5

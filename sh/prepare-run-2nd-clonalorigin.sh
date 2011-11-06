@@ -50,7 +50,7 @@ function prepare-run-2nd-clonalorigin {
       NUMBER_BLOCK=$(trim $(echo `ls $DATADIR/$CORE_ALIGNMENT.*|wc -l`))
       JOBIDFILE=$RUNCLONALORIGIN/coii.jobidfile
       rm -f $JOBIDFILE
-      for h in $(eval echo {3..$NREPLICATE}); do
+      for h in $(eval echo {1..$NREPLICATE}); do
         for b in $(eval echo {1..$NUMBER_BLOCK}); do
           TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
           XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
