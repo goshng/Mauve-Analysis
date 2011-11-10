@@ -29,9 +29,8 @@ function map-tree-topology {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of ClonalOrigin output files? (e.g., 1) " 
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)  
       echo -e "  The number of blocks is $NUMBER_BLOCK."
@@ -47,18 +46,19 @@ function map-tree-topology {
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -n "  Splitting clonalorigin xml output files..."
-        mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE
-        perl pl/splitCOXMLPerIteration.pl \
-          -d $RUNCLONALORIGIN/output2/$REPLICATE \
-          -outdir $RUNCLONALORIGIN/output2/ri-$REPLICATE \
-          -numberblock $NUMBER_BLOCK \
-          -endblockid
+        for h in $(eval echo {1..$NREPLICATE}); do
+          mkdir -p $RUNCLONALORIGIN/output2/ri-$h
+          perl pl/splitCOXMLPerIteration.pl \
+            -d $RUNCLONALORIGIN/output2/$h \
+            -outdir $RUNCLONALORIGIN/output2/ri-$h \
+            -numberblock $NUMBER_BLOCK \
+            -endblockid &
+        done
+        wait
         echo " done."
-
       else
         echo "  Skipping splitting ClonalOrigin xml output files..."
       fi
-
 
       # Find the local gene trees along each of block alignments.
       # WARGSIM=src/clonalorigin/b/wargsim
@@ -66,17 +66,21 @@ function map-tree-topology {
       read WISH
       if [ "$WISH" == "y" ]; then
         echo -e "  Generating local trees..." 
-        mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE-out
-        for b in $(eval echo {1..$NUMBER_BLOCK}); do
-          for g in $(eval echo {1..$NUMBER_SAMPLE}); do
-            BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g`) 
-            $WARGSIM --xml-file $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g \
-              --gene-tree \
-              --out-file $RUNCLONALORIGIN/output2/ri-$REPLICATE-out/core_co.phase3.xml.$b.$g \
-              --block-length $BLOCKSIZE
-            echo -ne "block $b - $g\r"
+        for h in $(eval echo {2..$NREPLICATE}); do
+          mkdir -p $RUNCLONALORIGIN/output2/ri-$h-out
+          for b in $(eval echo {1..$NUMBER_BLOCK}); do
+            for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+              BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$h/core_co.phase3.xml.$b.$g`) 
+              $WARGSIM \
+                --gene-tree \
+                --xml-file $RUNCLONALORIGIN/output2/ri-$h/core_co.phase3.xml.$b.$g \
+                --out-file $RUNCLONALORIGIN/output2/ri-$h-out/core_co.phase3.xml.$b.$g \
+                --block-length $BLOCKSIZE
+                #--cmd-extract-tree \
+              echo -ne "block $b - $g\r"
+            done
+            echo -ne "                                           \r"
           done
-          echo -ne "                                           \r"
         done
       else
         echo -e "  Skipping generating local trees..." 
@@ -87,15 +91,17 @@ function map-tree-topology {
       echo -n "Do you wish to check topology map files (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        for b in $(eval echo {1..$NUMBER_BLOCK}); do
-          for g in $(eval echo {1..$NUMBER_SAMPLE}); do
-            BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$REPLICATE/core_co.phase3.xml.$b.$g`) 
-            NUM=$(wc $RUNCLONALORIGIN/output2/ri-$REPLICATE-out/core_co.phase3.xml.$b.$g|awk {'print $2'})
-            if [ "$NUM" != "$BLOCKSIZE" ]; then
-              echo "$b $g not okay"
-            fi
+        for h in $(eval echo {2..$NREPLICATE}); do
+          for b in $(eval echo {1..$NUMBER_BLOCK}); do
+            for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+              BLOCKSIZE=$(echo `perl pl/get-block-length.pl $RUNCLONALORIGIN/output2/ri-$h/core_co.phase3.xml.$b.$g`) 
+              NUM=$(wc $RUNCLONALORIGIN/output2/ri-$h-out/core_co.phase3.xml.$b.$g|awk {'print $2'})
+              if [ "$NUM" != "$BLOCKSIZE" ]; then
+                echo "$b $g not okay"
+              fi
+            done
+            echo -en "Block $b\r"
           done
-          echo -en "Block $b\r"
         done
       else
         echo -e "  Skipping checking topology map files ..." 
@@ -104,52 +110,57 @@ function map-tree-topology {
       echo -n "Do you wish to combine topology map files (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        echo -e "  Combining ri-$REPLICATE-out ..." 
-        mkdir -p $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined
-        RIBLOCKFILES="" 
-        for b in $(eval echo {1..$NUMBER_BLOCK}); do
-          RIFILES=""
-          RIBLOCKFILE="$RUNCLONALORIGIN/output2/ri-$REPLICATE-combined/$b"
-          for g in $(eval echo {1..$NUMBER_SAMPLE}); do
-            #if [ "$g" != "211" ] && [ "$g" != "212" ] && [ "$g" != "719" ] && [ "$g" != "720" ]; then
-              RIFILES="$RIFILES $RUNCLONALORIGIN/output2/ri-$REPLICATE-out/core_co.phase3.xml.$b.$g"
-            #else
-              #echo -en "$b $g not used\r"
-            #fi
+        for h in $(eval echo {1..$NREPLICATE}); do
+          echo -e "  Combining ri-$h-out ..." 
+          mkdir -p $RUNCLONALORIGIN/output2/ri-$h-combined
+          RIBLOCKFILES="" 
+          for b in $(eval echo {1..$NUMBER_BLOCK}); do
+            RIFILES=""
+            RIBLOCKFILE="$RUNCLONALORIGIN/output2/ri-$h-combined/$b"
+            for g in $(eval echo {1..$NUMBER_SAMPLE}); do
+              RIFILES="$RIFILES $RUNCLONALORIGIN/output2/ri-$h-out/core_co.phase3.xml.$b.$g"
+            done
+            RIBLOCKFILES="$RIBLOCKFILES $RIBLOCKFILE"
+            cat $RIFILES > $RIBLOCKFILE
+            echo -en "Block $b\r"
           done
-          RIBLOCKFILES="$RIBLOCKFILES $RIBLOCKFILE"
-          cat $RIFILES > $RIBLOCKFILE
-          echo -en "Block $b\r"
+          #paste $RIBLOCKFILES > $RUNANALYSIS/$FUNCNAME-${h}.txt
+          echo "Check files in $RUNCLONALORIGIN/output2/ri-$h-combined"
         done
-        #paste $RIBLOCKFILES > $RUNANALYSIS/$FUNCNAME-${REPLICATE}.txt
-        echo "Check files in $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined"
       else
         echo -e "  Skipping combining topology map files ..." 
       fi
 
-      echo -n "Do you wish to count gene tree topology changes (y/n)? "
-      read WISH
-      if [ "$WISH" == "y" ]; then
-        perl pl/$FUNCNAME.pl \
-          -ricombined $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined \
-          -ingene $RUNANALYSIS/in.gene \
-          -treetopology $TREETOPOLOGY \
-          -verbose
-        echo "Check file $RUNANALYSIS/in.gene"
-      else
-        echo -e "  Skipping counting number of gene tree topology changes..." 
-      fi
+##################################################################################
+# This is for having another measure of recombination intensity using gene
+# tree topology. This turned out to be not interesting. I am not using it.
+#      echo -n "Do you wish to count gene tree topology changes (y/n)? "
+#      read WISH
+#      if [ "$WISH" == "y" ]; then
+#        for h in $(eval echo {1..$NREPLICATE}); do
+#          perl pl/$FUNCNAME.pl \
+#            -ricombined $RUNCLONALORIGIN/output2/ri-$-combined \
+#            -ingene $RUNANALYSIS/in.gene \
+#            -treetopology $TREETOPOLOGY \
+#            -verbose
+#        done
+#        echo "Check file $RUNANALYSIS/in.gene"
+#      else
+#        echo -e "  Skipping counting number of gene tree topology changes..." 
+#      fi
+##################################################################################
 
       echo -n "Do you wish to summarize gene tree topologies (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        rm -f $RUNANALYSIS/ri-$REPLICATE-combined.all
-        for ricombined in `ls $RUNCLONALORIGIN/output2/ri-$REPLICATE-combined/*`; do 
-          awk '0 == NR % 100' $ricombined >> $RUNANALYSIS/ri-$REPLICATE-combined.all
+        for h in $(eval echo {1..$NREPLICATE}); do
+          rm -f $RUNANALYSIS/ri-$h-combined.all
+          for ricombined in `ls $RUNCLONALORIGIN/output2/ri-$h-combined/*`; do 
+            awk '0 == NR % 100' $ricombined >> $RUNANALYSIS/ri-$h-combined.all
+          done
+          map-tree-topology-rscript $RUNANALYSIS/ri-$h-combined.all
+          echo "Check file $RUNANALYSIS/ri-$h-combined.all"
         done
-
-        map-tree-topology-rscript $RUNANALYSIS/ri-$REPLICATE-combined.all
-        echo "Check file $RUNANALYSIS/ri-$REPLICATE-combined.all"
       else
         echo -e "  Skipping counting number of gene tree topology changes..." 
       fi

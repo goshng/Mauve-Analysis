@@ -13,7 +13,7 @@ if [ $PBS_ARRAYID -eq 1 ]; then
   # This means only when all of the jobs were finished, it would be finished.
   MINIMUMJOB=1
 else
-  MINIMUMJOB=4
+  MINIMUMJOB=5
 fi
 
 WHICHLINE=1

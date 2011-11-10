@@ -253,6 +253,7 @@ if ($cmd eq 'rimap')
   }
   my @blockStart = maXmfaGetBlockStart ($xmfa);
   maRiGetGenes (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage, $clonaloriginsamplesize);
+  # maRiGetGenesUsingRimapDirectory (\@genes, $ri1map, \@blockStart, $pairM, $numberLineage, $clonaloriginsamplesize);
   maIngenePrintBlockRi ($outfile, \@genes);
 }
 else

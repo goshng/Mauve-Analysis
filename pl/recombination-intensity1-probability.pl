@@ -55,7 +55,7 @@ GetOptions( \%params,
             'block=i',
             'ri1map=s',
             'outdir=s',
-            'rimapdir=s',
+            'ri=s',
             'ingene=s',
             'clonaloriginsamplesize=i',
             'out=s',
@@ -154,7 +154,7 @@ elsif ($cmd eq "wiggle")
           and exists $params{xmfa}
           and exists $params{clonaloriginsamplesize}
           and exists $params{refgenome}
-          and exists $params{rimapdir}
+          and exists $params{ri}
           and exists $params{xml})
   {
     &printError("Command $cmd requires options -xmfa2maf, and -gbk");
@@ -251,8 +251,8 @@ elsif ($cmd eq "wiggle")
       print OUT "$pos\t$lineZero";
     }
 
-    open RIMAP, "$params{rimapdir}/$b->{block}"
-      or die "cannot open < $params{rimapdir}/$b->{block} $!";
+    open RIMAP, "$params{ri}/$b->{block}"
+      or die "cannot open < $params{ri}/$b->{block} $!";
     my @nucleotide = split (//, $b->{seq});
     if ($b->{strand} eq '-')
     {
@@ -270,7 +270,7 @@ elsif ($cmd eq "wiggle")
     }
     while ($line = <RIMAP>)
     {
-      die "The nucleotide's counts and $params{rimapdir}/$b->{block} do not match";
+      die "The nucleotide's counts and $params{ri}/$b->{block} do not match";
     }
     unless ($pos == $b->{end} + 1)
     {

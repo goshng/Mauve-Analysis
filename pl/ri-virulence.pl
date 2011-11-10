@@ -183,7 +183,7 @@ if ($cmd eq 'rimap')
     die "-pairm options must be one of all, topology, notopology, and pair";
   }
   my @blockStart = maXmfaGetBlockStart ($params{xmfa});
-  maRiGetGenes (\@genes, $params{ri}, \@blockStart, $pairM, $numberLineage, $clonaloriginsamplesize);
+  maRiGetGenesUsingRimapDirectory (\@genes, $params{ri}, \@blockStart, $pairM, $numberLineage, $clonaloriginsamplesize);
   maIngenePrintBlockRi ($outfile, \@genes);
 }
 elsif ($cmd eq 'list')
@@ -191,19 +191,66 @@ elsif ($cmd eq 'list')
   # I need to list virulence genes or genes with some noticeable recombinant
   # edges. What should I look at for the noticeable recombinant edges? 
   # We find fraction of a gene where posterior
-  # probability of recombinant edges is above a threshould value.
+  # probability of recombinant edges is above a threshold value.
   # I want to ask if I can find virulence genes more associated with a
   # particular recombinant edge type. 
-  # We also change the threshould values from 0.01 to 0.99.
+  # We also change the threshold values from 0.01 to 0.99.
   my @genes = maIngeneParseBlock ($params{ingene}); 
-  for (my $threshouldID = 1; $threshouldID < 100; $threshouldID++)
+  for (my $thresholdID = 50; $thresholdID < 100; $thresholdID += 10)
   {
-    my $threshould = $threshouldID / 100 * $clonaloriginsamplesize;
+    my $threshold = $thresholdID / 100 * $clonaloriginsamplesize;
     my $numGene = scalar(@genes);
+
+    ####################################################
+    # To deal with genes in multiple blocks
+    # The code is similar to that of sub-ri.pl.
+    my $indexOfSegment = 1;
+    my $baseGenename;
+    my $existNextSegment = 0;
+    my $lengthAllSegment = 0;
+    my $gBase;
+    my @B;
+    my @C;
     for (my $i = 0; $i < scalar @genes; $i++)
     {
       my $g = $genes[$i];
-      my @B = (0) x $sizeOfArray;
+
+      $existNextSegment = 0;
+      if ($g->{gene} =~ /(.+)\.(\d+)$/)
+      {
+        $baseGenename = $1;
+        $indexOfSegment = $2;
+        if ($i+1 <= $#genes)
+        {
+          my $g2 = $genes[$i+1];
+          my $nextIndexOfSegment = $indexOfSegment + 1;
+          if ($g2->{gene} eq "$baseGenename.$nextIndexOfSegment")
+          {
+            $existNextSegment = 1;
+          }
+        }
+      }
+      else
+      {
+        $baseGenename = $g->{gene};
+        $indexOfSegment = 1;
+      }
+      if ($indexOfSegment == 1)
+      {
+        $gBase = $g;
+        $gBase->{gene} = $baseGenename;
+        @B = (0) x $sizeOfArray;
+        @C = (0) x $sizeOfArray;
+        # $ri1PerGene = 0;
+        $lengthAllSegment = $g->{blockEnd} - $g->{blockStart} + 1;
+      }
+      else
+      {
+        $g->{segment} = 1; # Do not print segmental gene.
+        $lengthAllSegment += ($g->{blockEnd} - $g->{blockStart} + 1);
+      }
+      ####################################################
+
       my $rifile = "$params{ri}/$g->{blockidGene}";
       my $l;
       open RIMAP, $rifile or die "cannot open < $rifile $!";
@@ -221,16 +268,44 @@ elsif ($cmd eq 'list')
         {
           die "The $i-th line of $rifile does not have $sizeOfArray elements";
         }
-        # Increase elements whose values are above the threshould.
-        @B = map { if ($e[$_] > $threshould) {$B[$_] + 1} else {$B[$_]}} 0..$#e;
+        # Increase elements whose values are above the threshold.
+        @B = map { if ($e[$_] > $threshold) {$B[$_] + 1} else {$B[$_]}} 0..$#e;
+        @C = map { if ($e[$_] > $threshold) {$C[$_] + $e[$_]/$clonaloriginsamplesize} else {$C[$_]}} 0..$#e;
       }
-      # Compute the fraction by normalizing values by the length of the genes.
-      @B = map { $B[$_] / ($g->{blockEnd} - $g->{blockStart} + 1) } 0..$#B;
-      print $outfile "$g->{gene}";
-      print $outfile "\t$threshouldID\t";
-      print $outfile (join ("\t", @B));
-      print $outfile "\n";
-      print STDERR "Reading gene $i - $threshouldID\r";
+
+      if ($existNextSegment == 0)
+      {
+        # $gBase->{ri} = $ri1PerGene / ($lengthAllSegment * $sampleSize);
+
+        # Compute the fraction by normalizing values by the length of the genes.
+        my $totalLength = $g->{end} - $g->{start} + 1;
+        my $lengthAllSegmentPercent = $lengthAllSegment/$totalLength;
+        my @B1 = map { $B[$_] / $totalLength } 0..$#B;
+        my @B2 = map { $B[$_] / $lengthAllSegment } 0..$#B;
+        my @C = map { if ($B[$_] > 0) {$C[$_] / ($B[$_])} else {0} } 0..$#C;
+
+        print $outfile "$gBase->{gene}";
+        print $outfile "\t$totalLength";
+        print $outfile "\t$lengthAllSegment";
+        print $outfile "\t$lengthAllSegmentPercent";
+        print $outfile "\t$thresholdID\t";
+        # Total length: $totalLength = $g->{end} - $g->{start};
+        # Length in the core genome: $lengthAllSegment
+        # %-in-core-genome: $lengthAllSegment/$totalLength 
+        # Threshold: $thresholdID
+        # Length-segment-above-the-threshold: @B
+        # %-the-segment-wrt-total-length: @B1
+        # %-the-segment-wrt-length-in-core-genome: @B2
+        print $outfile (join ("\t", @B));
+        print $outfile "\t";
+        print $outfile (join ("\t", @B1));
+        print $outfile "\t";
+        print $outfile (join ("\t", @B2));
+        print $outfile "\t";
+        print $outfile (join ("\t", @C));
+        print $outfile "\n";
+        print STDERR "Reading gene $i - $thresholdID\r";
+      }
     }
     print STDERR "                                                 \r";
   }
@@ -421,7 +496,7 @@ Compute recombination intensity for the genes.
 
 perl ri-virulence.pl list -ri file.ri -ingene file.ingene
 
-List genes using some threshould.
+List genes using some threshold.
 
 =head1 DESCRIPTION
 

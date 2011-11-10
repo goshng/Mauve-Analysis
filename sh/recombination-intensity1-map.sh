@@ -34,14 +34,14 @@ function recombination-intensity1-map {
       echo -n "Do you wish to generate rimap-#REPLICATE.txt? (e.g., y/n) "
       read WISH
       if [ "$WISH" == "y" ]; then
-        for h in $(eval echo {1..$); do
+        for h in $(eval echo {1..$NREPLICATE}); do
           RIMAP=$RUNANALYSIS/rimap-$h.txt
           perl pl/$FUNCNAME.pl \
-            -xml $RUNCLONALORIGIN/output2/${h}/core_co.phase3.xml \
+            -xml $RUNCLONALORIGIN/output2/$h/core_co.phase3.xml \
             -xmfa $DATADIR/core_alignment.xmfa \
             -numberblock $NUMBER_BLOCK \
             -verbose \
-            -out $RIMAP
+            -out $RIMAP &
         done
       else
         echo "  Skipping generating rimap files"

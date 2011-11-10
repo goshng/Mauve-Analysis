@@ -9,7 +9,8 @@ for ii in {0..4}; do
   # RECOMBPROB=output/cornellf/3/run-analysis/recombprob-ref$i-rep$REPLICATE
   DBNAME=${DBNAMECHOICES[$ii]}
   i=${REORDERCHOICES[$ii]}
-  RECOMBPROBWIG=output/cornellf/3/run-analysis/recombprobwig-ref$i-rep$REPLICATE
+  # RECOMBPROBWIG=output/cornellf/3/run-analysis/recombprobwig-ref$i-rep$REPLICATE
+  RECOMBPROBWIG=output/cornellf/3/run-analysis/recombprobwig-$REPLICATE/$i
   for j in {0..8}; do
     for k in {0..8}; do
     WIGIN=$RECOMBPROBWIG/${j}-${k}

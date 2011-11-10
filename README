@@ -93,7 +93,7 @@ SPY2 1.0e+00 1.0e+00 1.0e+00 NaN 7.1e-34  NaN 1.0e+00     NaN 1.0e+00
 ----
 
 List of virulence genes experiencing recombination with posterior probability above 0.5. 
-
+ri-virulence.pl is used.
 Rscript R/vir-list.R > R/vir-list.R.out
 
 Wed Oct 26 12:40:45 EDT 2011

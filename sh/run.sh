@@ -100,7 +100,7 @@ source sh/filter-blocks.sh
 source sh/prepare-run-clonalorigin.sh 
 source sh/manuscript.sh
 source sh/summary-core-alignment.sh
-# source sh/ucsc-load-genome.sh
+source sh/ucsc-genome.sh
 source sh/batch.sh
 
 #####################################################################
@@ -144,21 +144,22 @@ CHOICES=( init-file-system \
           receive-run-2nd-clonalorigin \
           ---RECOMBINATION-COUNT---\
           recombination-count \
+          ---TREE-TOPOLOGY---\
+          # recombination-intensity2-map \
+          map-tree-topology \
           ---RECOMBINATION-INTENSITY---\
+          probability-recombination \
+          ---RECOMBINATION-INTENSITY-SUB---\
           recombination-intensity1-map \
           convert-gff-ingene \
           locate-gene-in-block \
           recombination-intensity1-genes \
           recombination-intensity1-probability \
           probability-recedge-gene \
-          ---TREE-TOPOLOGY---\
-          # recombination-intensity2-map \
-          map-tree-topology \
           ---GENE-ANNOTATION---\
           list-gene-go \
           ---DELETE-THESE-MENU---\
           create-ingene \
-          probability-recombination \
           ---UTILITIES---\
           compute-watterson-estimate-for-clonalframe \
           compute-block-length \
@@ -166,7 +167,7 @@ CHOICES=( init-file-system \
           extract-species-tree \
           copy-mauve-alignment \
           ---UCSC-GENOME-BROWSER---\
-          ucsc-load-genome-not-yet-implemented \
+          ucsc-genome \
           ---MANUSCRIPT---\
           batch \
           manuscript \
@@ -239,7 +240,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "recombination-intensity1-map" ]; then $CHOICE; break
   elif [ "$CHOICE" == "batch" ]; then $CHOICE; break
   elif [ "$CHOICE" == "manuscript" ]; then $CHOICE; break
-  elif [ "$CHOICE" == "ucsc-load-genome" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "ucsc-genome" ]; then $CHOICE; break
   elif [ "$CHOICE" == "summary-core-alignment" ]; then $CHOICE; break
   elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break

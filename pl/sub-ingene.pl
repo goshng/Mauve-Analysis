@@ -108,6 +108,7 @@ sub maIngenePrintBlockRi ($$)
   for (my $i = 0; $i < scalar @{ $genes }; $i++)
   {
     my $g = $genes->[$i];
+    next if exists $g->{segment};
     print $ingene "$g->{gene}\t";
     print $ingene "$g->{start}\t";
     print $ingene "$g->{end}\t";

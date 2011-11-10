@@ -45,7 +45,7 @@ function recombination-intensity1-genes {
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -ri1map $RUNANALYSIS/rimap.txt \
+          -ri1map $RUNANALYSIS/rimap-$REPLICATE.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
           -out $RIMAPGENE.all
@@ -56,7 +56,7 @@ function recombination-intensity1-genes {
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -ri1map $RUNANALYSIS/rimap.txt \
+          -ri1map $RUNANALYSIS/rimap-$REPLICATE.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
           -out $RIMAPGENE.topology
@@ -67,7 +67,7 @@ function recombination-intensity1-genes {
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -ri1map $RUNANALYSIS/rimap.txt \
+          -ri1map $RUNANALYSIS/rimap-$REPLICATE.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
           -out $RIMAPGENE.notopology
@@ -79,7 +79,7 @@ function recombination-intensity1-genes {
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -ri1map $RUNANALYSIS/rimap.txt \
+          -ri1map $RUNANALYSIS/rimap-$REPLICATE.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
           -out $RIMAPGENE.sde2spy
@@ -91,7 +91,7 @@ function recombination-intensity1-genes {
           -xml $RUNCLONALORIGIN/output2/${REPLICATE}/core_co.phase3.xml \
           -xmfa $DATADIR/core_alignment.xmfa \
           -refgenome $REFGENOME \
-          -ri1map $RUNANALYSIS/rimap.txt \
+          -ri1map $RUNANALYSIS/rimap-$REPLICATE.txt \
           -ingene $RUNANALYSIS/in.gene.$REFGENOME.block \
           -clonaloriginsamplesize $NUMBER_SAMPLE \
           -out $RIMAPGENE.spy2sde

@@ -50,6 +50,7 @@ GetOptions( \%params,
             'xmfa=s',
             'gbk=s',
             'refgenome=i',
+            'blockid=i',
             'refgenomelength=i',
             'numberblock=i',
             'out=s',
@@ -111,6 +112,11 @@ else
 
 unless ($refgenome == -1)
 {
+  if ($cmd eq "block")
+  {
+    die "Command block must not be used with option -refgenome"; 
+  }
+
   if (exists $params{refgenomelength})
   {
     $refgenomelength = $params{refgenomelength};
@@ -137,6 +143,14 @@ else
   &printError("you did not specify the number of blocks");
 }
 
+if ($cmd eq "block")
+{
+  unless (exists $params{blockid})
+  {
+    &printError("Command $cmd requires -blockid");
+  }
+}
+
 if (exists $params{verbose})
 {
   $verbose = 1;
@@ -156,16 +170,36 @@ my $blockidForProgress;
 my $speciesTree = get_species_tree ("$xml.1");
 my $numberTaxa = get_number_leave ($speciesTree);
 my $numberLineage = 2 * $numberTaxa - 1;
+my $startBlock;
+my $endBlock;
 
 ################################################################################
 # Find coordinates of the reference genome.
 ################################################################################
 
 my @blockLocationGenome;
+$startBlock = 1;
+$endBlock = $numberblock;
 if ($refgenome == -1)
 {
   @blockLocationGenome = getBlockSizeConfiguration ($xmfa, $numberblock);
-  $refgenomelength = $blockLocationGenome[$#blockLocationGenome]->{end};
+  if ($cmd eq "block")
+  {
+    # 1st Block size: 100
+    # start: 1
+    # end: 100
+    # 1st Block size: 200
+    # start: 101
+    # end: 300
+    $refgenomelength = $blockLocationGenome[$params{blockid}-1]->{end}
+                       - $blockLocationGenome[$params{blockid}-1]->{start} + 1;
+    $startBlock = $params{blockid};
+    $endBlock = $params{blockid};
+  }
+  else
+  {
+    $refgenomelength = $blockLocationGenome[$#blockLocationGenome]->{end};
+  }
 }
 else
 {
@@ -205,7 +239,8 @@ if ($verbose == 1)
 my $offsetPosition = 0;
 my $prevBlockLength = 1;
 my $processedTime = 0;
-for my $blockID (1 .. $numberblock)
+# for my $blockID (1 .. $numberblock)
+for my $blockID ($startBlock .. $endBlock)
 {
   # last if $blockID == 2;
   my $startTime = time; 
@@ -240,8 +275,16 @@ for my $blockID (1 .. $numberblock)
   if ($refgenome == -1)
   {
     @sites = ('a') x $blockSize;
-    $b = $href->{start};
-    $e = $href->{end};
+    if ($cmd eq "block")
+    {
+      $b = 1;
+      $e = $href->{end} - $href->{start} + 1;
+    }
+    else
+    {
+      $b = $href->{start};
+      $e = $href->{end};
+    }
     $strand = '+';
   }
   else
@@ -288,18 +331,28 @@ for my $blockID (1 .. $numberblock)
 # mapImport is printed out.
 for (my $i = 1; $i <= $refgenomelength; $i++)
 {
-  my $pos = $i;
+  my $pos;
+  if ($cmd eq "block")
+  {
+    $pos = $blockLocationGenome[$params{blockid}-1]->{start} + $i - 1;
+  }
+  else
+  {
+    $pos = $i;
+  }
   print $outfile "$pos";
   for (my $j = 0; $j < $numberLineage; $j++)
   {
     for (my $k = 0; $k < $numberLineage; $k++)
     {
-      print $outfile "\t", $mapImport[$j][$k][$pos];
+      print $outfile "\t", $mapImport[$j][$k][$i];
     }
   }
   print $outfile "\n";
 }
 close $outfile;
+
+
 exit;
 
 ################################################################################

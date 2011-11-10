@@ -23,6 +23,42 @@ require "pl/sub-array.pl";
 
 my $verbose = 1;
 
+sub maRiParseBlock ($)
+{
+  my ($f) = @_;
+  my $line;
+  my $n1 = 0;
+  open RI, $f or die "cannot open < $f: $!";
+  $line = <RI>;
+  $n1++;
+  my @e = split /\t/, $line;
+  my $n2 = sqrt($#e); # Matrix size
+  while (<RI>)
+  {
+    $n1++;
+  }
+  close RI;
+
+  # print STDERR "Creating rimap ..." if $verbose == 1;
+  my @rimap = create3DMatrix ($n1, $n2, $n2, -1); 
+  # print STDERR " done\n" if $verbose == 1;
+  my $i = 0;
+  open RI, $f or die "cannot open < $f: $!";
+  while ($line = <RI>)
+  {
+    my @e = split /\t/, $line;
+    for (my $j = 0; $j < $n2; $j++)
+    {
+      for (my $k = 0; $k < $n2; $k++)
+      {
+        $rimap[$i][$j][$k] = $e[1 + $j * $n2 + $k];
+      }
+    }
+    $i++;
+  }
+  close RI;
+  return \@rimap;
+}
 sub maRiParse ($)
 {
   my ($f) = @_;
@@ -65,6 +101,8 @@ sub maRiPrint ($)
   
 }
 
+# Where did I use this this function?
+# pl/sim3-prepare.pl for some simulation?
 sub maRiGetForGenesBlock ($$$$$)
 {
   my ($genes, $riM, $blockid, $pairM, $pairMSize) = @_;
@@ -141,6 +179,95 @@ sub maRiGetGenes ($$$$$)
       $ri1PerGene += $valuePerSite; 
     }
     $g->{ri} = $ri1PerGene / (($g->{blockEnd} - $g->{blockStart} + 1) * $sampleSize);
+  }
+}
+
+# Use rimap-1 directory not rimap-1.txt.
+sub maRiGetGenesUsingRimapDirectory ($$$$$)
+{
+  my ($genes, $rimap, $blockStart, $pairM, $pairMSize, $sampleSize) = @_;
+  my $verbose = 1;
+  # print STDERR "Parsing $rimap..." if $verbose == 1;
+  # my $riM = maRiParse ($rimap);
+  # print STDERR "done" if $verbose == 1;
+
+  my $ri1PerGene = 0;
+  my $indexOfSegment = 1;
+  my $baseGenename;
+  my $existNextSegment = 0;
+  my $lengthAllSegment = 0;
+  my $gBase;
+  for (my $i = 0; $i <= $#$genes; $i++)
+  {
+    # print STDERR "Gene $i/$#$genes\r" if $verbose == 1;
+    my $g = $genes->[$i];
+    my $blockidGene = $g->{blockidGene};
+
+# gene start end strand blockidGene blockStart blockEnd 
+# geneStartInBlock geneEndInBlock lenSeq gap
+    $existNextSegment = 0;
+    if ($g->{gene} =~ /(.+)\.(\d+)$/)
+    {
+      $baseGenename = $1;
+      $indexOfSegment = $2;
+      if ($i+1 <= $#$genes)
+      {
+        my $g2 = $genes->[$i+1];
+        my $nextIndexOfSegment = $indexOfSegment + 1;
+        if ($g2->{gene} eq "$baseGenename.$nextIndexOfSegment")
+        {
+          $existNextSegment = 1;
+        }
+      }
+    }
+    else
+    {
+      $baseGenename = $g->{gene};
+      $indexOfSegment = 1;
+    }
+    if ($indexOfSegment == 1)
+    {
+      $gBase = $g;
+      $gBase->{gene} = $baseGenename;
+      $ri1PerGene = 0;
+      $lengthAllSegment = $g->{blockEnd} - $g->{blockStart} + 1;
+    }
+    else
+    {
+      $g->{segment} = 1; # Do not print segmental gene.
+      $lengthAllSegment += ($g->{blockEnd} - $g->{blockStart} + 1);
+    }
+
+    my $blockStartInAllBlock = $blockStart->[$blockidGene-1];
+    # Note that a gene starts from blockStart to blockEnd inclusively.
+    # The length of a gene is blockEnd - blockStart + 1.
+    # gene    start   end     strand  blockidGene     blockStart      blockEnd geneStartInBlock        geneEndInBlock  lenSeq  gap
+    # $rimap/$g->{blockidGene}
+    # $g->{blockStart}
+    # $g->{blockEnd}
+    # $g->{geneStartInBlock}
+    # $g->{geneEndInBlock}
+    # Read 
+    my $riM = maRiParseBlock ("$rimap/$g->{blockidGene}");
+    for (my $j = $g->{blockStart}; $j <= $g->{blockEnd}; $j++)
+    {
+      my $valuePerSite = 0; 
+      for (my $k = 0; $k < $pairMSize; $k++)
+      {
+        for (my $l = 0; $l < $pairMSize; $l++)
+        {
+          if ($pairM->[$k][$l] == 1)
+          {
+            $valuePerSite += $riM->[$j][$k][$l];
+          }
+        }
+      }
+      $ri1PerGene += $valuePerSite; 
+    }
+    if ($existNextSegment == 0)
+    {
+      $gBase->{ri} = $ri1PerGene / ($lengthAllSegment * $sampleSize);
+    }
   }
 }
 

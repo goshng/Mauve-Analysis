@@ -4,4 +4,5 @@ tiff2ps mauve-analysis.001.tiff > clonalorigin.ps
 tiff2ps mauve-analysis.002.tiff > heatmap-recedge.ps
 tiff2ps mauve-analysis.003.tiff > heatmap-hgtedge.ps
 tiff2ps mauve-analysis.004.tiff > heatmap-recedge-mowgli.ps
+tiff2ps mauve-analysis.005.tiff > heatmap.ps
 # Open the ps files and save them as PDF files using Mac Preview.
