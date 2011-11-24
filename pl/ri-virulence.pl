@@ -208,7 +208,8 @@ elsif ($cmd eq 'list')
     my $baseGenename;
     my $existNextSegment = 0;
     my $lengthAllSegment = 0;
-    my $gBase;
+    # my $gBase;
+    my @A; # for average recombination probability
     my @B;
     my @C;
     for (my $i = 0; $i < scalar @genes; $i++)
@@ -237,8 +238,9 @@ elsif ($cmd eq 'list')
       }
       if ($indexOfSegment == 1)
       {
-        $gBase = $g;
-        $gBase->{gene} = $baseGenename;
+        # $gBase = $g;
+        # $gBase->{gene} = $baseGenename;
+        @A = (0) x $sizeOfArray;
         @B = (0) x $sizeOfArray;
         @C = (0) x $sizeOfArray;
         # $ri1PerGene = 0;
@@ -269,6 +271,7 @@ elsif ($cmd eq 'list')
           die "The $i-th line of $rifile does not have $sizeOfArray elements";
         }
         # Increase elements whose values are above the threshold.
+        @A = map {$A[$_] + $e[$_]/$clonaloriginsamplesize} 0..$#e;
         @B = map { if ($e[$_] > $threshold) {$B[$_] + 1} else {$B[$_]}} 0..$#e;
         @C = map { if ($e[$_] > $threshold) {$C[$_] + $e[$_]/$clonaloriginsamplesize} else {$C[$_]}} 0..$#e;
       }
@@ -282,9 +285,11 @@ elsif ($cmd eq 'list')
         my $lengthAllSegmentPercent = $lengthAllSegment/$totalLength;
         my @B1 = map { $B[$_] / $totalLength } 0..$#B;
         my @B2 = map { $B[$_] / $lengthAllSegment } 0..$#B;
-        my @C = map { if ($B[$_] > 0) {$C[$_] / ($B[$_])} else {0} } 0..$#C;
+        my @C1 = map { if ($B[$_] > 0) {$C[$_] / ($B[$_])} else {0} } 0..$#C;
+        my @A1 = map { $A[$_] / $lengthAllSegment } 0..$#A;
 
-        print $outfile "$gBase->{gene}";
+        # print $outfile "$gBase->{gene}";
+        print $outfile "$baseGenename";
         print $outfile "\t$totalLength";
         print $outfile "\t$lengthAllSegment";
         print $outfile "\t$lengthAllSegmentPercent";
@@ -296,13 +301,17 @@ elsif ($cmd eq 'list')
         # Length-segment-above-the-threshold: @B
         # %-the-segment-wrt-total-length: @B1
         # %-the-segment-wrt-length-in-core-genome: @B2
+        # Average posterior probability of the segment with prob. above the threshold: @C1
+        # Average posterior probability of the segment: @A1
         print $outfile (join ("\t", @B));
         print $outfile "\t";
         print $outfile (join ("\t", @B1));
         print $outfile "\t";
         print $outfile (join ("\t", @B2));
         print $outfile "\t";
-        print $outfile (join ("\t", @C));
+        print $outfile (join ("\t", @C1));
+        print $outfile "\t";
+        print $outfile (join ("\t", @A1));
         print $outfile "\n";
         print STDERR "Reading gene $i - $thresholdID\r";
       }
@@ -498,7 +507,15 @@ perl ri-virulence.pl list -ri file.ri -ingene file.ingene
 
 List genes using some threshold.
 
+perl ri-virulence.pl mean -ri file.ri -ingene file.ingene
+
+List genes with recombination probability.
+
 =head1 DESCRIPTION
+
+This PERL script is not only for virulent genes. This is just for genes. 
+
+We wish to find genes with average recombination probability.
 
 I compute average probability of experiencing recombinant edges per site for
 genes. A gene is located with respect to the alignment blocks. We know where

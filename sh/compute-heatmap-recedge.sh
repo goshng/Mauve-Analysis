@@ -34,21 +34,22 @@ function compute-heatmap-recedge {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       g=$REPETITION
-      echo -n "Which replicate set of output files? (e.g., 1) "
-      read REPLICATE
       set-more-global-variable $SPECIES $REPETITION
+      NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
-      NUMBER_SPECIES=$(echo `grep gbk $SPECIESFILE|wc -l`)
+      NUMBER_SPECIES=$(echo `grep ^GBK $SPECIESFILE|wc -l`)
       echo -e "The number of blocks is $NUMBER_BLOCK."
       echo -e "The number of species is $NUMBER_SPECIES."
       echo "NUMBER_BLOCK and NUMBER_SAMPLE must be checked"
-      echo perl pl/count-observed-recedge.pl exponly \
-        -d $RUNCLONALORIGIN/output2/${REPLICATE} \
-        -e $RUNCLONALORIGIN/output2/priorcount-${REPLICATE} \
-        -n $NUMBER_BLOCK \
-        -out $RUNANALYSIS/exponly-recedge-${REPLICATE}.txt
-
+      NREPLICATE=3 # 
+      for h in $(eval echo {1..$NREPLICATE}); do
+        perl pl/count-observed-recedge.pl exponly \
+          -d $RUNCLONALORIGIN/output2/${h} \
+          -e $RUNCLONALORIGIN/output2/priorcount-${h} \
+          -n $NUMBER_BLOCK \
+          -out $RUNANALYSIS/exponly-recedge-${h}.txt
+      done
       break
 
       perl pl/count-observed-recedge.pl heatmap \

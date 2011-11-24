@@ -64,99 +64,6 @@ GetOptions( \%params,
 pod2usage(1) if $help;
 pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
-=head1 NAME
-
-locate-gene-in-block.pl
-
-=head1 VERSION
-
-locate-gene-in-block.pl 1.0
-
-=head1 SYNOPSIS
-
-perl locate-gene-in-block.pl.pl [-h] [-help] [-man] [-version] [-verbose]
-  [locate]
-  [-ingene file] 
-  [-xmfa core_alignment.xmfa] 
-  [-refgenome number] 
-  [-fna file] 
-  [-out file] 
-
-=head1 DESCRIPTION
-
-locate-gene-in-block.pl locates genes in blocks. 
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<locate>
-
-locate is used when users want to find sites of genes in blocks site-by-site.
-
-=item B<-help> | B<-h>
-
-Print the help message; ignore other arguments.
-
-=item B<-version>
-
-Print program version; ignore other arguments.
-
-=item B<-verbose>
-
-Prints status and info messages during processing.
-
-=item B<-ingene> <file>
-
-An ingene file name.
-
-=item B<-xmfa> <core_alignment.xmfa>
-
-An input core alignment file.
-
-=item B<-fna> <file>
-
-A file in FASTA format with the reference genome sequence.
-
-=item B<-refgenome> <number>
-
-An reference genome.
-
-=item B<-out> <file>
-
-The out file.
-
-=back
-
-=head1 AUTHOR
-
-Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
-
-=head1 BUGS
-
-If you find a bug please post a message rnaseq_analysis project at codaset dot
-com repository so that I can make locate-gene-in-block.pl better.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011 Sang Chul Choi
-
-=head1 LICENSE
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-
-=cut
-
 ################################################################################
 ## COMMANDLINE OPTION PROCESSING
 ################################################################################
@@ -209,7 +116,8 @@ if (exists $params{out})
 }
 else
 {
-  $outfile = *STDOUT;   
+  &printError("you did not specify the output file name");
+  # $outfile = *STDOUT;   
 }
 
 ################################################################################
@@ -225,12 +133,58 @@ sub locate_sites_gene_in_block($$$$);
 if ($cmd eq "")
 {
   locate_gene_in_block($ingene, $xmfa, $refgenome); 
+  close $outfile;
 }
 elsif ($cmd eq "locate")
 {
   locate_sites_gene_in_block($ingene, $xmfa, $refgenome, $fna); 
+  close $outfile;
+
+  # Copy the output file.
+  open OUT, $params{out} or die "cannnot < $params{out} $!";
+  open OUT2, ">$params{out}.temp" or die "cannnot > $params{out}.temp $!";
+  while (<OUT>)
+  {
+    print OUT2;
+  }
+  close OUT2;
+
+  # Remove genes with short lengths.
+  open OUT, ">", $params{out} or die "cannnot < $params{out} $!";
+  open OUT2, "$params{out}.temp" or die "cannnot < $params{out}.temp $!";
+  my $l = <OUT2>;
+  my $l2;
+  print OUT $l;
+  while ($l = <OUT2>)
+  {
+    my @e = split /\t/, $l;
+    my $genename = $e[0];
+    my $seqLen = $e[9];
+    if ($genename =~ /\.(\d)$/) 
+    {
+      $l2 = <OUT2>;
+      my @e2 = split /\t/, $l2;
+      my $genename2 = $e2[0];
+      if ($genename2 =~ /\.(\d)$/) 
+      {
+        $seqLen += $e2[9];
+      }
+      else
+      {
+        die "The next gene is not the second.";
+      }
+    }
+    if ($seqLen > 50)
+    {
+      print OUT $l;
+      if ($genename =~ /\.(\d)$/) 
+      {
+        print OUT $l2;
+      }
+    }
+  }
+  close OUT2;
 }
-close $outfile;
 
 exit;
 
@@ -387,8 +341,8 @@ sub locate_sites_gene_in_block($$$$) {
       {
         # print $outfile "CHECK\t";
       }
-      if ($lenSeq >= 50)
-      {
+#      if ($lenSeq >= 0)
+#      {
         print $outfile "$g->{gene}\t$g->{start}\t$g->{end}\t$g->{strand}";
         print $outfile "\t$g->{blockidGene}\t$g->{blockStart}\t$g->{blockEnd}";
         print $outfile "\t$g->{geneStartInBlock}\t$g->{geneEndInBlock}"; 
@@ -437,11 +391,11 @@ sub locate_sites_gene_in_block($$$$) {
         #
         # Check is done.
         ##########################################################################
-      }
-      else
-      {
-        print STDERR "$g->{gene} was too short ($lenSeq or shorter than 50 base pairs long)\n";
-      }
+#      }
+#      else
+#      {
+#        print STDERR "$g->{gene} was too short ($lenSeq or shorter than 50 base pairs long)\n";
+#      }
     }
     unless (@blockidGenes) 
     {
@@ -625,5 +579,98 @@ sub locate_gene($$$$$)
   $geneSequence =~ s/-//g;
   return ($geneStartBlock, $geneEndBlock, $geneSequence, $percentageGap); 
 }
+__END__
+=head1 NAME
+
+locate-gene-in-block.pl
+
+=head1 VERSION
+
+locate-gene-in-block.pl 1.0
+
+=head1 SYNOPSIS
+
+perl locate-gene-in-block.pl.pl [-h] [-help] [-man] [-version] [-verbose]
+  [locate]
+  [-ingene file] 
+  [-xmfa core_alignment.xmfa] 
+  [-refgenome number] 
+  [-fna file] 
+  [-out file] 
+
+=head1 DESCRIPTION
+
+locate-gene-in-block.pl locates genes in blocks. 
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<locate>
+
+locate is used when users want to find sites of genes in blocks site-by-site.
+
+=item B<-help> | B<-h>
+
+Print the help message; ignore other arguments.
+
+=item B<-version>
+
+Print program version; ignore other arguments.
+
+=item B<-verbose>
+
+Prints status and info messages during processing.
+
+=item B<-ingene> <file>
+
+An ingene file name.
+
+=item B<-xmfa> <core_alignment.xmfa>
+
+An input core alignment file.
+
+=item B<-fna> <file>
+
+A file in FASTA format with the reference genome sequence.
+
+=item B<-refgenome> <number>
+
+An reference genome.
+
+=item B<-out> <file>
+
+The out file.
+
+=back
+
+=head1 AUTHOR
+
+Sang Chul Choi, C<< <goshng_at_yahoo_dot_co_dot_kr> >>
+
+=head1 BUGS
+
+If you find a bug please post a message rnaseq_analysis project at codaset dot
+com repository so that I can make locate-gene-in-block.pl better.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011 Sang Chul Choi
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
 
 

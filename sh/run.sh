@@ -149,6 +149,10 @@ CHOICES=( init-file-system \
           map-tree-topology \
           ---RECOMBINATION-INTENSITY---\
           probability-recombination \
+          ---GENE-ANNOTATION---\
+          list-gene-go \
+          ---UCSC-GENOME-BROWSER---\
+          ucsc-genome \
           ---RECOMBINATION-INTENSITY-SUB---\
           recombination-intensity1-map \
           convert-gff-ingene \
@@ -156,8 +160,6 @@ CHOICES=( init-file-system \
           recombination-intensity1-genes \
           recombination-intensity1-probability \
           probability-recedge-gene \
-          ---GENE-ANNOTATION---\
-          list-gene-go \
           ---DELETE-THESE-MENU---\
           create-ingene \
           ---UTILITIES---\
@@ -166,8 +168,7 @@ CHOICES=( init-file-system \
           compute-global-median \
           extract-species-tree \
           copy-mauve-alignment \
-          ---UCSC-GENOME-BROWSER---\
-          ucsc-genome \
+          compute-heatmap-recedge \
           ---MANUSCRIPT---\
           batch \
           manuscript \

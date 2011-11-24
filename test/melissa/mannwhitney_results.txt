@@ -1,0 +1,189 @@
+gocat	count	p.num.unique	p.all	p.sde.spy	p.spy.sde	go.description
+GO:0043565	 38	3.513e-01	5.705e-01	0.5279575	8.122e-01	sequence-specific DNA binding
+GO:0030435	 32	9.940e-01	7.637e-01	0.9567211	9.744e-01	sporulation resulting in formation of a cellular spore
+GO:0016787	332	9.963e-01	9.733e-01	0.8852675	7.170e-01	hydrolase activity
+GO:0016779	 71	4.324e-01	6.523e-01	0.1804143	1.084e-01	nucleotidyltransferase activity
+GO:0016740	401	6.310e-01	1.051e-01	0.0164379	1.251e-02	transferase activity
+GO:0008168	 71	6.941e-01	7.276e-01	0.9650814	8.188e-01	methyltransferase activity
+GO:0005515	 96	9.964e-01	6.727e-01	0.7031375	3.615e-01	protein binding
+GO:0004527	 18	7.760e-01	8.272e-01	0.2394849	2.027e-01	exonuclease activity
+GO:0003887	 23	4.662e-01	4.486e-01	0.2406795	2.491e-01	DNA-directed DNA polymerase activity
+GO:0003677	207	5.853e-01	8.712e-01	0.5708517	4.872e-01	DNA binding
+GO:0055114	151	2.501e-01	1.289e-01	0.1196561	6.445e-02	oxidation reduction
+GO:0016491	149	4.438e-01	2.699e-01	0.4351013	3.187e-01	oxidoreductase activity
+GO:0016021	286	1.000e+00	9.886e-01	0.9408045	7.225e-01	integral to membrane
+GO:0016020	341	1.000e+00	9.408e-01	0.8868628	4.488e-01	membrane
+GO:0008233	 55	9.995e-01	8.365e-01	0.8913632	9.910e-01	peptidase activity
+GO:0007165	 67	9.577e-01	4.924e-01	0.4156452	8.643e-01	signal transduction
+GO:0006950	 44	3.088e-01	2.477e-01	0.9169037	9.334e-01	response to stress
+GO:0006508	 68	9.961e-01	8.499e-01	0.9975972	9.894e-01	proteolysis
+GO:0006355	149	5.228e-01	4.297e-01	0.6670732	7.928e-01	regulation of transcription, DNA-dependent
+GO:0005886	265	1.000e+00	9.217e-01	0.8979261	6.250e-01	plasma membrane
+GO:0004252	 11	9.310e-01	3.563e-02	0.8659865	3.254e-01	serine-type endopeptidase activity
+GO:0003824	315	5.985e-01	3.485e-02	0.3063599	1.111e-01	catalytic activity
+GO:0006364	 23	9.804e-01	3.907e-01	0.4565449	6.017e-01	rRNA processing
+GO:0005737	321	3.199e-01	8.945e-02	0.0071374	6.427e-03	cytoplasm
+GO:0045449	105	3.385e-01	7.742e-01	0.8168722	9.015e-01	regulation of transcription
+GO:0016747	 11	9.538e-01	2.491e-01	0.3120329	7.181e-01	transferase activity, transferring acyl groups other than amino-acyl groups
+GO:0006310	 25	1.427e-01	3.992e-01	0.3290739	6.210e-01	DNA recombination
+GO:0005622	164	2.541e-02	9.445e-03	0.0363348	6.507e-01	intracellular
+GO:0003700	 87	6.506e-02	1.534e-01	0.6203093	6.485e-01	transcription factor activity
+GO:0003676	 77	5.086e-01	4.263e-01	0.3712881	5.117e-01	nucleic acid binding
+GO:0050660	 20	3.110e-01	3.926e-01	0.3411207	4.380e-01	FAD binding
+GO:0045454	 19	1.933e-01	4.826e-01	0.6075528	8.510e-01	cell redox homeostasis
+GO:0018106	 31	7.433e-01	9.603e-01	0.6049502	8.341e-01	peptidyl-histidine phosphorylation
+GO:0016757	 44	9.720e-01	5.738e-01	0.6436499	6.895e-01	transferase activity, transferring glycosyl groups
+GO:0016301	135	4.319e-01	7.637e-01	0.4182524	6.911e-01	kinase activity
+GO:0006810	219	9.799e-01	5.801e-01	0.1621524	1.514e-02	transport
+GO:0005524	333	1.000e+00	8.283e-01	0.8501642	3.825e-01	ATP binding
+GO:0005215	 98	6.036e-01	1.310e-01	0.1763998	8.464e-02	transporter activity
+GO:0004673	 32	7.061e-01	9.762e-01	0.6901134	8.756e-01	protein histidine kinase activity
+GO:0000155	 46	4.005e-01	6.882e-01	0.5863269	7.660e-01	two-component sensor activity
+GO:0017111	116	9.999e-01	6.427e-01	0.8525847	5.606e-01	nucleoside-triphosphatase activity
+GO:0016887	 65	9.999e-01	9.008e-01	0.8796948	4.744e-01	ATPase activity
+GO:0016874	 81	5.730e-01	4.389e-02	0.0273589	1.119e-01	ligase activity
+GO:0016853	 94	9.098e-01	6.240e-01	0.8721856	9.073e-01	isomerase activity
+GO:0015031	 17	9.764e-01	5.994e-01	0.6049894	6.783e-01	protein transport
+GO:0000166	285	1.000e+00	7.103e-01	0.3478124	1.890e-01	nucleotide binding
+GO:0006418	 23	8.798e-01	4.901e-01	0.2764365	5.956e-01	tRNA aminoacylation for protein translation
+GO:0006412	 86	3.083e-03	1.018e-04	0.0001284	7.445e-01	translation
+GO:0004812	 35	3.698e-01	2.063e-01	0.3136991	3.929e-01	aminoacyl-tRNA ligase activity
+GO:0046872	195	9.508e-01	8.905e-01	0.4283177	8.438e-01	metal ion binding
+GO:0030955	 13	4.149e-01	8.354e-01	0.1601486	1.819e-01	potassium ion binding
+GO:0008152	264	2.729e-01	9.392e-02	0.2980821	1.021e-02	metabolic process
+GO:0006164	 10	1.971e-01	5.968e-01	0.0481724	6.296e-01	purine nucleotide biosynthetic process
+GO:0004190	 10	6.237e-01	4.984e-01	0.7473465	3.288e-01	aspartic-type endopeptidase activity
+GO:0003723	108	4.587e-01	2.792e-04	0.0044051	3.645e-01	RNA binding
+GO:0055085	 45	9.981e-01	5.139e-01	0.7879570	7.456e-01	transmembrane transport
+GO:0008643	 47	5.727e-02	4.164e-04	0.0007789	2.025e-06	carbohydrate transport
+GO:0008324	 12	7.779e-01	5.179e-01	0.6952143	9.206e-01	cation transmembrane transporter activity
+GO:0006812	 18	5.127e-01	5.353e-01	0.4009850	5.344e-01	cation transport
+GO:0006974	 28	7.886e-01	6.696e-01	0.6908676	4.576e-01	response to DNA damage stimulus
+GO:0006281	 66	5.289e-01	8.073e-01	0.6711312	4.197e-01	DNA repair
+GO:0006260	 44	8.765e-01	9.923e-01	0.7519922	8.900e-01	DNA replication
+GO:0005694	 14	9.055e-01	3.459e-01	0.3644337	1.433e-01	chromosome
+GO:0009058	 68	8.597e-01	5.171e-01	0.9138843	9.517e-01	biosynthetic process
+GO:0005975	 82	1.775e-01	2.254e-01	0.0076404	3.897e-02	carbohydrate metabolic process
+GO:0051287	 10	4.306e-01	2.718e-01	0.9302811	5.220e-01	NAD or NADH binding
+GO:0050662	 12	1.215e-01	4.270e-02	0.0407756	2.932e-01	coenzyme binding
+GO:0005488	103	7.371e-01	3.812e-01	0.5662873	2.749e-01	binding
+GO:0043169	 14	6.123e-01	6.283e-01	0.6275460	4.478e-01	cation binding
+GO:0016810	 12	2.085e-01	5.311e-01	0.0450065	9.536e-01	hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds
+GO:0009405	 16	6.012e-01	6.086e-01	0.3893072	7.588e-01	pathogenesis
+GO:0004553	 20	2.732e-01	3.028e-01	0.3084335	3.126e-01	hydrolase activity, hydrolyzing O-glycosyl compounds
+GO:0030288	 22	6.571e-01	1.715e-01	0.7437303	6.172e-02	outer membrane-bounded periplasmic space
+GO:0017000	 10	9.953e-01	8.514e-01	0.9973150	9.879e-01	antibiotic biosynthetic process
+GO:0016829	124	2.858e-01	5.287e-02	0.5517215	1.833e-02	lyase activity
+GO:0016798	 28	6.460e-01	7.386e-01	0.4726816	4.739e-01	hydrolase activity, acting on glycosyl bonds
+GO:0008270	102	9.561e-01	8.189e-01	0.4062546	8.357e-01	zinc ion binding
+GO:0008237	 27	7.831e-01	7.944e-01	0.4650865	8.938e-01	metallopeptidase activity
+GO:0004222	 23	5.541e-01	9.242e-01	0.9393346	9.842e-01	metalloendopeptidase activity
+GO:0051536	 34	7.867e-01	9.267e-01	0.9770747	9.514e-01	iron-sulfur cluster binding
+GO:0005840	 72	5.206e-05	3.664e-05	0.0121683	8.536e-01	ribosome
+GO:0004872	 20	9.137e-01	8.729e-01	0.8834699	8.350e-01	receptor activity
+GO:0000160	 54	5.315e-01	5.137e-01	0.8867742	9.324e-01	two-component signal transduction system (phosphorelay)
+GO:0000156	 38	6.456e-01	6.776e-01	0.8979373	8.983e-01	two-component response regulator activity
+GO:0008654	 11	7.488e-01	4.940e-01	0.3777166	3.992e-01	phospholipid biosynthetic process
+GO:0015415	 17	9.988e-01	8.885e-01	0.7473414	7.915e-01	phosphate transmembrane-transporting ATPase activity
+GO:0006811	 46	9.617e-01	9.023e-01	0.7345554	1.115e-01	ion transport
+GO:0000036	 14	5.619e-01	4.073e-01	0.8053870	5.350e-01	acyl carrier activity
+GO:0008134	 21	9.991e-01	6.126e-01	0.9086953	7.166e-01	transcription factor binding
+GO:0042597	 15	5.844e-01	4.265e-01	0.7201173	7.373e-02	periplasmic space
+GO:0016998	 10	2.592e-01	6.626e-01	0.5193494	5.301e-01	cell wall macromolecule catabolic process
+GO:0007047	 32	9.976e-01	7.005e-01	0.6027665	6.219e-01	cellular cell wall organization
+GO:0005576	 20	9.465e-01	8.285e-01	0.7430765	8.781e-01	extracellular region
+GO:0051539	 23	6.675e-01	8.404e-01	0.9741492	7.878e-01	4 iron, 4 sulfur cluster binding
+GO:0016597	 10	4.543e-01	6.646e-01	0.7952729	7.618e-01	amino acid binding
+GO:0005506	 62	9.800e-01	9.959e-01	0.9987150	9.946e-01	iron ion binding
+GO:0048037	 13	1.701e-01	2.134e-01	0.8085321	4.465e-01	cofactor binding
+GO:0030170	 31	6.611e-01	5.060e-01	0.8655010	9.696e-01	pyridoxal phosphate binding
+GO:0008652	 42	1.877e-01	6.916e-01	0.3534861	4.705e-01	cellular amino acid biosynthetic process
+GO:0008483	 20	9.930e-01	7.340e-01	0.9961552	9.937e-01	transaminase activity
+GO:0008033	 32	5.119e-01	6.173e-01	0.2820115	3.550e-01	tRNA processing
+GO:0006400	 11	9.327e-01	9.249e-01	0.6338164	9.377e-01	tRNA modification
+GO:0000049	 13	3.269e-01	6.491e-02	0.2308322	4.956e-01	tRNA binding
+GO:0000287	 83	6.646e-01	8.107e-01	0.3164797	9.896e-02	magnesium ion binding
+GO:0051301	 53	1.000e+00	9.997e-01	0.9931947	9.689e-01	cell division
+GO:0030529	 39	1.724e-05	1.694e-05	0.0001711	7.804e-01	ribonucleoprotein complex
+GO:0030145	 37	7.591e-01	3.156e-01	0.0640121	1.529e-01	manganese ion binding
+GO:0019843	 28	7.174e-04	2.994e-07	0.0001236	4.330e-01	rRNA binding
+GO:0006396	 20	6.801e-01	9.435e-01	0.9413981	8.895e-01	RNA processing
+GO:0004871	 51	9.179e-01	6.809e-01	0.6607924	9.624e-01	signal transducer activity
+GO:0003735	 42	1.575e-05	1.447e-06	0.0004498	7.687e-01	structural constituent of ribosome
+GO:0004519	 35	7.344e-01	8.605e-01	0.6267996	4.203e-01	endonuclease activity
+GO:0004386	 35	9.435e-01	8.618e-01	0.7242306	2.394e-01	helicase activity
+GO:0003684	 11	8.684e-01	6.481e-01	0.7734907	9.799e-01	damaged DNA binding
+GO:0030528	 26	5.027e-01	5.208e-01	0.7627157	6.129e-01	transcription regulator activity
+GO:0007049	 44	9.998e-01	9.996e-01	0.9974871	9.734e-01	cell cycle
+GO:0006350	106	1.286e-01	7.665e-01	0.5470721	7.917e-01	transcription
+GO:0000917	 13	8.334e-01	9.763e-01	0.9595075	3.651e-01	barrier septum formation
+GO:0042626	 15	1.000e+00	9.678e-01	0.9027229	6.999e-01	ATPase activity, coupled to transmembrane movement of substances
+GO:0016772	 39	6.697e-01	8.799e-01	0.3157572	7.452e-01	transferase activity, transferring phosphorus-containing groups
+GO:0016310	 40	5.817e-01	7.694e-01	0.2911320	6.875e-01	phosphorylation
+GO:0006814	 18	1.386e-02	6.773e-03	0.0035727	2.843e-04	sodium ion transport
+GO:0003899	 19	7.337e-01	7.606e-01	0.3161512	4.168e-01	DNA-directed RNA polymerase activity
+GO:0046677	 38	7.938e-01	3.353e-01	0.6212551	3.734e-01	response to antibiotic
+GO:0015416	 12	8.267e-01	9.307e-01	0.9338291	5.423e-01	phosphonate transmembrane-transporting ATPase activity
+GO:0006865	 25	7.399e-01	6.981e-01	0.3777191	1.137e-01	amino acid transport
+GO:0015992	 11	5.918e-01	4.901e-01	0.4203729	3.146e-01	proton transport
+GO:0007242	 15	8.638e-01	9.691e-01	0.6881682	2.073e-01	intracellular signaling cascade
+GO:0008080	 31	3.640e-01	9.936e-01	0.9269584	9.588e-01	N-acetyltransferase activity
+GO:0006259	 14	9.556e-01	4.647e-01	0.6333847	7.959e-01	DNA metabolic process
+GO:0009055	 32	7.085e-01	8.818e-01	0.9653530	9.956e-01	electron carrier activity
+GO:0016788	 13	9.934e-01	9.015e-01	0.9817805	9.797e-01	hydrolase activity, acting on ester bonds
+GO:0006139	 15	3.813e-01	6.998e-01	0.6768428	4.528e-01	nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+GO:0004518	 37	7.580e-01	9.705e-01	0.8648393	4.699e-01	nuclease activity
+GO:0032259	 15	2.420e-01	4.012e-01	0.3319305	2.429e-01	methylation
+GO:0008415	 45	8.024e-01	5.842e-01	0.8622480	9.451e-01	acyltransferase activity
+GO:0016564	 15	8.723e-01	1.618e-01	0.3068905	5.473e-01	transcription repressor activity
+GO:0009401	 38	1.130e-03	1.303e-03	0.0003412	1.875e-04	phosphoenolpyruvate-dependent sugar phosphotransferase system
+GO:0008982	 35	3.662e-03	1.819e-03	0.0008152	3.248e-04	protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+GO:0005351	 24	5.455e-03	4.989e-02	0.0042435	6.689e-02	sugar:hydrogen symporter activity
+GO:0006629	 19	7.146e-01	2.773e-01	0.6582734	8.995e-02	lipid metabolic process
+GO:0003746	 14	6.854e-01	2.772e-01	0.3446475	4.228e-01	translation elongation factor activity
+GO:0006520	 11	7.341e-01	6.131e-01	0.5312512	8.109e-01	cellular amino acid metabolic process
+GO:0009396	 20	8.966e-02	2.892e-01	0.4768652	7.084e-02	folic acid and derivative biosynthetic process
+GO:0006730	 13	1.767e-01	4.438e-01	0.2504966	2.285e-01	one-carbon metabolic process
+GO:0022900	 10	1.455e-01	7.707e-01	0.9395437	9.966e-01	electron transport chain
+GO:0030420	 26	9.987e-01	9.906e-01	0.9987881	9.989e-01	establishment of competence for transformation
+GO:0019538	 10	4.903e-01	4.168e-01	0.1970364	7.632e-01	protein metabolic process
+GO:0006289	 12	3.001e-01	2.689e-01	0.4249072	4.043e-01	nucleotide-excision repair
+GO:0006457	 15	7.100e-01	8.521e-02	0.4273278	8.333e-01	protein folding
+GO:0020037	 11	7.573e-01	7.861e-01	0.8548626	7.582e-01	heme binding
+GO:0005618	 15	3.704e-01	1.616e-01	0.2871622	5.580e-01	cell wall
+GO:0004177	 12	9.584e-01	9.556e-01	0.4632178	8.145e-01	aminopeptidase activity
+GO:0009982	 10	9.715e-01	2.680e-01	0.6717242	4.609e-01	pseudouridine synthase activity
+GO:0009451	 11	9.780e-01	3.013e-01	0.7481595	5.319e-01	RNA modification
+GO:0001522	 10	9.715e-01	2.680e-01	0.6717242	4.609e-01	pseudouridine synthesis
+GO:0009273	 11	9.851e-01	4.065e-01	0.3764754	3.871e-01	peptidoglycan-based cell wall biogenesis
+GO:0009252	 26	9.999e-01	8.715e-01	0.8640026	9.267e-01	peptidoglycan biosynthetic process
+GO:0008360	 27	9.997e-01	8.911e-01	0.8352487	8.011e-01	regulation of cell shape
+GO:0004180	 10	9.617e-01	5.282e-01	0.8409543	7.358e-01	carboxypeptidase activity
+GO:0006071	 15	6.418e-01	2.165e-01	0.6557690	1.598e-01	glycerol metabolic process
+GO:0006098	 10	6.111e-03	1.345e-03	0.0002230	1.059e-02	pentose-phosphate shunt
+GO:0009073	 14	3.929e-01	6.254e-01	0.5673732	4.255e-01	aromatic amino acid family biosynthetic process
+GO:0030001	 10	5.728e-01	9.177e-01	0.6264710	5.660e-02	metal ion transport
+GO:0010181	 10	2.855e-01	9.681e-01	0.8412309	8.884e-01	FMN binding
+GO:0015419	 15	9.290e-01	5.421e-01	0.3619398	8.016e-02	sulfate transmembrane-transporting ATPase activity
+GO:0017153	 22	9.859e-01	8.430e-01	0.7717848	3.730e-01	sodium:dicarboxylate symporter activity
+GO:0006835	 22	9.859e-01	8.430e-01	0.7717848	3.730e-01	dicarboxylic acid transport
+GO:0006826	 12	9.989e-01	9.989e-01	0.9973411	8.505e-01	iron ion transport
+GO:0008649	 10	3.503e-01	2.763e-01	0.3962158	1.285e-01	rRNA methyltransferase activity
+GO:0005525	 34	8.598e-01	5.390e-01	0.2345628	7.845e-01	GTP binding
+GO:0016820	 16	6.272e-02	5.277e-01	0.0682540	7.370e-02	hydrolase activity, acting on acid anhydrides, catalyzing transmembrane movement of substances
+GO:0008026	 13	2.677e-01	1.932e-01	0.5004001	3.908e-01	ATP-dependent helicase activity
+GO:0016773	 18	5.083e-02	1.155e-01	0.3102338	6.047e-02	phosphotransferase activity, alcohol group as acceptor
+GO:0003924	 16	6.607e-01	2.939e-01	0.1154020	3.970e-01	GTPase activity
+GO:0009116	 16	6.456e-01	4.205e-01	0.1982462	7.212e-01	nucleoside metabolic process
+GO:0015662	 14	6.298e-01	9.327e-01	0.7819617	2.085e-01	ATPase activity, coupled to transmembrane movement of ions, phosphorylative mechanism
+GO:0006754	 23	3.203e-01	8.780e-01	0.4705456	1.281e-01	ATP biosynthetic process
+GO:0006096	 22	6.451e-01	7.279e-01	0.4264158	4.240e-01	glycolysis
+GO:0008610	 22	3.783e-02	1.733e-04	0.2518017	2.146e-01	lipid biosynthetic process
+GO:0006633	 23	2.655e-02	2.048e-05	0.1063750	1.355e-01	fatty acid biosynthetic process
+GO:0050661	 12	1.957e-02	4.369e-01	0.1658310	1.647e-01	NADP or NADPH binding
+GO:0004003	 10	8.558e-01	7.985e-01	0.2670901	2.912e-01	ATP-dependent DNA helicase activity
+GO:0009103	 13	6.982e-01	9.177e-01	0.8331704	5.810e-01	lipopolysaccharide biosynthetic process
+GO:0004664	 10	4.212e-01	3.728e-01	0.4090280	1.547e-01	prephenate dehydratase activity
+GO:0015986	 14	5.193e-01	5.094e-01	0.3188636	3.034e-01	ATP synthesis coupled proton transport
+GO:0031402	 12	1.539e-02	5.536e-02	0.0132770	2.458e-03	sodium ion binding
+GO:0016831	 10	4.751e-02	2.721e-01	0.1271526	1.604e-02	carboxy-lyase activity

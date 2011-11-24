@@ -150,9 +150,13 @@ elsif ($cmd eq "heatmap")
 }
 elsif ($cmd eq "exponly")
 {
-  if (exists $params{d})
+#  if (exists $params{d})
+#  {
+#    &printError("$cmd does not need option -d");
+#  }
+  unless (exists $params{d})
   {
-    &printError("$cmd does not need option -d");
+    &printError("$cmd requires -d option");
   }
   unless (exists $params{e})
   {

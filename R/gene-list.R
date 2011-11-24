@@ -1,5 +1,4 @@
-x <-
-read.table("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-virulence-list-REPLICATE.out")
+x <- read.table("output/cornellf/3/run-analysis/ri-virulence-list-REPLICATE.out")
 gene.desc <- read.table("output/cornellf/3/run-analysis/in.gene.description",sep="\t")
 # Use one of these two options.
 y <- read.table("output/virulence/virulent_genes.txt.spy1")

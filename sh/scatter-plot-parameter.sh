@@ -65,7 +65,7 @@ library("geneplotter")  ## from BioConductor
 require("RColorBrewer") ## from CRAN
 
 plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
-  x.filename <- paste (f, ".eps", sep="")
+  x.filename <- paste (f, ".ps", sep="")
   x <- read.table (f);
 
   pos.median <- c() 
@@ -76,15 +76,21 @@ plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
   }
 
   postscript (file=x.filename, width=10, height=5, horizontal = FALSE, onefile = FALSE, paper = "special")
+  oldpar <- par (mar=c(5, 5, 0.5, 0.5))
   if (logscale == TRUE) {
-    smoothScatter(x\$V1, log(x\$V2), nrpoints=0, colramp = colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab)
+    smoothScatter(x\$V1, log(x\$V2), nrpoints=0, colramp =
+    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.7,
+    cex.axis=1.7)
     points (pos, log(pos.median), pch=43)
     abline (h=log(m), col="red", lty="dashed")
   } else {
-    smoothScatter(x\$V1, x\$V2, nrpoints=0, colramp = colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab)
+    smoothScatter(x\$V1, x\$V2, nrpoints=0, colramp =
+    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.7,
+    cex.axis=1.7)
     points (pos, pos.median, pch=43)
     abline (h=m, col="red", lty="dashed")
   }
+  par(oldpar)
   dev.off()
 }
 plotThreeParameter ("$S2OUT-theta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)

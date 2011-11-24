@@ -1,0 +1,68 @@
+Author: Sang Chul Choi
+Date  : Wed May 18 13:40:39 EDT 2011
+
+There are two files, in.gene and ri1-refgenome4-map.gene. The first nine columns
+of both of the files are the same as described below. The in.gene file contains
+four more columns of numbers that are derived from gene tree topologies. As I
+remember correctly, the 12th column (the number of unique gene tree topologies)
+could be interesting because our simulation appeared to show good correlation
+between true and estimates. The other file ri1-refgenome4-map.gene contains 9
+more columns in addition to the first 9 columns. Eight columns (10 through 17)
+are posterior probability that a particular recombinant recedges affect a site
+of the corresponding gene. The last 18-th columns is the number of recombinant
+edges per site that we used before.
+
+Four kinds of association are of interest: 
+1st: 12-th column of in.gene, 
+2nd: sum of 10-th, 11-th, 12-th, 13-th of ri1-refgenome4-map.gene,
+3rd: sum of 14-th, 15-th, 16-th, 17-th of ri1-refgenome4-map.gene, 
+and 4th: 18-th of ri1-refgenome4-map.gene.
+
+The 1st and 4th should be positively correlated in their results. The 2nd and
+3rd associations might show different parts of functional categories that are
+different in the direction between SDE and SPY, if there are any differences. 
+
+in.gene
+-------
+1: gene name 
+2: gene start position in the reference genome
+3: gene end position in the reference genome
+4: gene strand
+5: block ID of the gene 
+6: gene start position in the block
+7: gene end position in the block 
+8: gene length
+9: proportion of gaps of the gene in the alignment
+10: number of changes of gene tree topology
+11: number of trees that are different from the species tree 
+12: number of unique gene tree topologies
+13: probability of experiencing gene tree topology change
+
+
+ri1-refgenome4-map.gene
+-----------------------
+1: gene name 
+2: gene start position in the reference genome
+3: gene end position in the reference genome
+4: gene strand
+5: block ID of the gene 
+6: gene start position in the block
+7: gene end position in the block 
+8: gene length
+9: proportion of gaps of the gene in the alignment
+10: SDE1->SPY1
+11: SDE1->SPY2
+12: SDE2->SPY1
+13: SDE2->SPY2
+14: SPY1->SDE1
+15: SPY1->SDE2
+16: SPY2->SDE1
+17: SPY2->SDE2
+18: All
+
+check.R
+-------
+To check the number of columns of the two files.
+
+
+

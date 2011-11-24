@@ -14,3 +14,7 @@ mauve.jpg
 Species Tree
 ------------
 species.tre
+
+Font 12 and Scale font 12.
+cp species.ps /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures/cornellf-3-tree.ps
+cp species.pdf /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures/cornellf-3-tree.pdf

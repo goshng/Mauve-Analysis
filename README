@@ -38,6 +38,83 @@ runs. Say this in the manuscript.)
 .alpha1, alpha2, and tau would be implemented.
 
 
+Wed Nov 23 12:33:18 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.To add Matt's tracks 
+----
+output/matt/ucsc-matt.sh
+compgen:public_html/strep-recomb/ucsc-matt.sh
+----
+
+.To test directly gene flow between SPY and SDE
+----
+bash R/obsiter.sh
+----
+
+.To test complexity hypothesis with recombination intensity measure.
+----
+test/go.R
+----
+
+Tue Nov 22 14:55:36 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.The p-values of testing if ratios of spy.sde to sde.spy from the posterior are greater than those
+from the prior.
+----
+$ cat R/obsiter.R.?
+The P value is 0.05594406 
+The P value is 0.05619381 
+The P value is 0.0521978 
+The P value is 0.04170829
+----
+
+.List of genes with average posterior probability.
+----
+scp /Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/ri-virulence-list-?.out swiftgen:/usr/projects/strep/gainloss/recombination/ilan/output/cornellf/3/run-analysis
+swiftgen:/usr/projects/strep/gainloss/recombination/ilan/R/gene-list.R
+----
+
+.RIMAP gene files to Matt.
+----
+scp rimap-?-gene.txt swiftgen:/usr/projects/strep/gainloss/recombination/matt/t
+----
+
+Mon Nov 21 17:45:38 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Number of recombinant edges between SPY and SDE, and that with time constraint.
+
+Wed Nov 16 17:44:01 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Select parts of any text using VI command `V'.
+2. Push `:!bash' to execute them.
+3. Push `u' to make the executed parts be reappear
+
+Tue Nov 15 01:50:00 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Need permission
+----
+compgen:/gbdb_cornell/SdeqGGS124/wib
+compgen:/gbdb_cornell/SpyMGAS10750/wib
+----
+
+.To update the genome browser.
+----
+make update DBS=SdeqATCC12394
+make update DBS=SddyATCC27957
+make update DBS=SdeqGGS124
+make update DBS=SpyMGAS10750
+make update DBS=SpyMGAS315
+http://choi.genome-mirror.bscb.cornell.edu
+----
+
+.To update cgi-bin of the genome browser
+----
+rsync -av --exclude "/.htaccess" --exclude="/hg.conf" /var/www/cgi-bin/ /var/www/cgi-bin-$USER/
+----
+
 Wed Nov  2 20:44:41 EDT 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cornell6 project's 2nd ClonalOrigin is submitted to the clustering. They are
@@ -90,6 +167,7 @@ SPY2 1.0e+00 1.0e+00 1.0e+00 NaN 7.1e-34  NaN 1.0e+00     NaN 1.0e+00
 /Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/obsonly-recedge-1.txt
 /Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/obsonly-recedge.txt
 /Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/obsonly-recedge.R
+/Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/a
 ----
 
 List of virulence genes experiencing recombination with posterior probability above 0.5. 
@@ -252,6 +330,12 @@ Mon Oct 10 09:52:32 EDT 2011
 ----
 http://128.97.141.26/stat/R/faq/angled_labels.htm
 ----
+
+.Significancy
+----
+/Users/goshng/Documents/Projects/Mauve/output/email/siepel/112111
+----
+
 
 .Manuscript figures
 ----
@@ -1458,6 +1542,15 @@ Given a species tree, and the true values of the 3 main parameters.
 
 Manuscript
 ----------
+
+.Statistics of 274 blocks, length of the blocks, total number of genes, and
+genes covered by blocks.
+----
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/run.log
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block
+----
+Average proportion of gaps in genes was found in.gene.4.block.
 
 .Heat map of horizontal gene transfer (hgt)
 ----

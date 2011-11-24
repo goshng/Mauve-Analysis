@@ -1,0 +1,38 @@
+p-value	count	description
+
+# Number of unique tree topologies 
+1.575e-05	42	structural constituent of ribosome
+1.724e-05	39	ribonucleoprotein complex
+5.206e-05	72	ribosome
+7.174e-04	28	rRNA binding
+1.130e-03	38	phosphoenolpyruvate-dependent sugar phosphotransferase system
+
+# total number of rec edges
+2.994e-07	 28	rRNA binding
+1.447e-06	 42	structural constituent of ribosome
+1.694e-05	 39	ribonucleoprotein complex
+2.048e-05	 23	fatty acid biosynthetic process
+3.664e-05	 72	ribosome
+1.018e-04	 86	translation
+1.733e-04	 22	lipid biosynthetic process
+2.792e-04	108	RNA binding
+4.164e-04	 47	carbohydrate transport
+1.303e-03	 38	phosphoenolpyruvate-dependent sugar phosphotransferase system
+1.345e-03	 10	pentose-phosphate shunt
+1.819e-03	 35	protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+
+# SDE->SPY rec edges
+0.0001236	28	rRNA binding
+0.0001284	86	translation
+0.0001711	39	ribonucleoprotein complex
+0.0002230	10	pentose-phosphate shunt
+0.0003412	38	phosphoenolpyruvate-dependent sugar phosphotransferase system
+0.0004498	42	structural constituent of ribosome
+0.0007789	47	carbohydrate transport
+0.0008152	35	protein-N(PI)-phosphohistidine-sugar phosphotransferase activity
+
+# SPY->SDE rec edges
+2.025e-06	47	carbohydrate transport
+1.875e-04	38	phosphoenolpyruvate-dependent sugar phosphotransferase system
+2.843e-04	18	sodium ion transport
+3.248e-04	35	protein-N(PI)-phosphohistidine-sugar phosphotransferase activity

@@ -24,7 +24,7 @@ along with Mauve Analysis.  If not, see <http://www.gnu.org/licenses/>.
 Preface
 -------
 A preface, containing details of related documents and information on how to
-navigate the user guide
+navigate the user guide.
 
 Introduction
 ------------
@@ -208,6 +208,19 @@ recmap:
 traceplot: 
 parse-jcvi-role: 
 combine-import-ratio-jcvi-role:
+
+List of genes with recombination probability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We list genes with recombination probability. 
+
+.Menu *ucsc-genome* is used for creating the following output files.
+----
+ri-virulence-list-1.out
+rimap-1-gene.txt
+----
+
++ri-virulence.pl+ is needed for finding genes with average recombination
+posterior probability above a threshold.
 
 Simulation studies 1
 ~~~~~~~~~~~~~~~~~~~~
@@ -906,6 +919,13 @@ Gene
 output/cornellf/8/run-analysis/in.gene
 ----
 
+.The result of this memu
+----
+output/cornellf/3/run-analysis/ri-?-combined.all.R.out
+----
+
+
+
 probability-recombination
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1102,12 +1122,29 @@ genes.
 
 list-gene-go
 ~~~~~~~~~~~~
+To find functional categories associated with recombination use this menu.
+
 Melissa provided a file of gene ontology terms and their descriptions,
 SpyMGAS315_go_category_names.txt,
 and a file of gene names and their association with multiple gene ontology
 terms,
 SpyMGAS315_go_bacteria.txt. Using these files we list genes and their product
 names for a given gene ontology term.
+
+.SPY1 gene and gene ontology identifiers
+----
+test/melissa/SpyMGAS315_go_bacteria.txt
+----
+
+.Gene ontology identifiers and terms
+----
+test/melissa/SpyMGAS315_go_category_names.txt
+----
+
+.list-gene-go
+----
+output/cornellf/3/run-analysis/significant-1.txt
+----
 
 create-ingene
 ~~~~~~~~~~~~~
@@ -1256,6 +1293,23 @@ directories.
 ucsc-load-genome
 ~~~~~~~~~~~~~~~~
 I load the 6 species to a local UCSC genome browser.
+
+.Wiggle files are created for replicate 1 and reference species 5 from branch 2
+to branch 3
+----
+output/cornellf/3/run-analysis/recombprobwig-1/5/2-3
+output/cornellf/3/run-analysis/recombprobwig-1/5/2-3.wib
+output/cornellf/3/run-analysis/recombprobwig-1/5/2-3.wig
+----
+
+Choose database names for species.
+----
+recSde1
+recSde2
+recSdd
+recSpy1
+recSpy2
+----
 
 extract-species-tree
 ~~~~~~~~~~~~~~~~~~~~
@@ -1727,6 +1781,11 @@ utility.sh
 weighted-median-rscript.sh
 
 
+Menu *compute-heatmap-recedge* creates +exponly-recedge-1.txt+.
+
+ucsc-genome
+~~~~~~~~~~~
++ucsc.sh+ and +ucsc-matt.sh+ are created.
 
 Terms
 -----

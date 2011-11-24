@@ -1,0 +1,11 @@
+x <- read.table("in.gene")
+y <- read.table("ri1-refgenome4-map.gene")
+length(colnames(x))
+length(colnames(y))
+
+postscript ("check.ps",  width=10, height=10, horizontal = FALSE, onefile = FALSE, paper = "special")
+plot(x$V10*x$V8,x$V12*x$V8,xlim=c(0,30),ylim=c(0,30),xlab="Number of changes",ylab="Number of unique topologies")
+abline (a=2,b=1,col="green")
+abline (a=1,b=1,col="blue")
+abline (a=0,b=1,col="red")
+dev.off()

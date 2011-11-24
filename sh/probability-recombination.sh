@@ -265,7 +265,7 @@ for i in $(eval echo {1..$NUMBERSPECIES}); do
   mkdir \$RECOMBPROBWIG
   for j in {0..$NUMBERBRANCHMINUSONE}; do
     for k in {0..$NUMBERBRANCHMINUSONE}; do
-      c=\$((j * NUMBERBRANCH + k + 3))
+      c=\$((j * $NUMBERBRANCH + k + 3))
       echo -e "track type=wiggle_0\\nfixedStep chrom=chr1 start=1 step=1 span=1" > \$RECOMBPROBWIG/\$j-\$k 
       cut -f \$c \$RECOMBPROB >> \$RECOMBPROBWIG/\$j-\$k &
     done
