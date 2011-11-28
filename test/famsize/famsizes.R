@@ -1,0 +1,7 @@
+x <- read.table("famsizes.txt")
+summary(x$V1)
+postscript("famsizes.ps", width=10, height=10, horizontal = FALSE, onefile = FALSE, paper = "special")
+oldpar <- par (mar=c(5, 5, 0.5, 0.5))
+hist(x$V1, breaks=seq(0,60, by=1), xlab="Family size (Number of genes per family)", main="", cex.lab=2, cex.axis=2)
+par(oldpar)
+dev.off()

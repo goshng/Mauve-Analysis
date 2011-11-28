@@ -1,0 +1,11 @@
+cp ../../data/virulence.txt .
+cp ../../data/fam-frag2/famid-events.txt .
+cp ../../config/fam-frag2.part.txt .
+cp /usr/projects/strep/gainloss/data/fam-frag2/famid-gene.txt .
+perl append_virulence.pl > append_virulence.txt
+sort -n -k4 append_virulence.txt | tac | grep TRUE | head -n 25 > top_virulence_by_hgt_event.txt
+
+cut -f1 /usr/projects/strep/gainloss/data/fam-frag2/famid-gene.txt | sort | uniq -c > famsizes.txt
+
+kimjaeok:/Volumes/Elements/Backups/Documents/Projects/mauve-analysis/emails/to/melissa/072011/rimap.gene.txt
+

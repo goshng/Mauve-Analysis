@@ -357,6 +357,7 @@ Wed Oct  5 11:19:38 EDT 2011
 ----
 mkdir mowgli
 scp -r swiftgen:/usr/projects/strep/gainloss/recombination/fam-frag2 mowgli
+see test/mowgli
 ----
 
 Tue Oct  4 10:58:43 EDT 2011
@@ -1542,6 +1543,11 @@ Given a species tree, and the true values of the 3 main parameters.
 
 Manuscript
 ----------
+
+.Family size figures
+----
+/test/famsizes/famsizes.R
+----
 
 .Statistics of 274 blocks, length of the blocks, total number of genes, and
 genes covered by blocks.

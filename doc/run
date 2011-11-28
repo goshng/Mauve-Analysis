@@ -5,11 +5,12 @@
 # tiff2ps mauve-analysis.003.tiff > heatmap-hgtedge.ps
 # tiff2ps mauve-analysis.004.tiff > heatmap-recedge-mowgli.ps
 # tiff2ps mauve-analysis.005.tiff > heatmap.ps
-# tiff2ps mauve-analysis.006.tiff > cornellf-3-tree.ps
-# exit
+#tiff2ps mauve-analysis.006.tiff > cornellf-3-tree.ps
+#exit
 # Open the ps files and save them as PDF files using Mac Preview.
 
-for i in heatmap cornellf-3-tree; do
+# for i in heatmap cornellf-3-tree; do
+for i in cornellf-3-tree; do
   mv $i.ps /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures
   mv $i.pdf /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures
 done

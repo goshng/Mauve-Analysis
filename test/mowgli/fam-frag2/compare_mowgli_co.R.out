@@ -1,0 +1,30 @@
+null device 
+          1 
+[1] 0.3906464
+
+	Pearson's product-moment correlation
+
+data:  x$V2 and x$V3 
+t = 17.0751, df = 1619, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0 
+95 percent confidence interval:
+ 0.3485891 0.4311337 
+sample estimates:
+      cor 
+0.3906464 
+
+null device 
+          1 
+[1] 0.03302833
+
+	Pearson's product-moment correlation
+
+data:  x$V2 and x$V4 
+t = 1.3297, df = 1619, p-value = 0.1838
+alternative hypothesis: true correlation is not equal to 0 
+95 percent confidence interval:
+ -0.01568415  0.08158440 
+sample estimates:
+       cor 
+0.03302833 
+
