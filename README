@@ -2,7 +2,12 @@ Mauve, Clonal Frame, Clonal Origin Analysis
 ===========================================
 Sang Chul Choi <goshng@yahoo.co.kr>
 
-See the doc/Manual for the instruction.
+See doc/Manual for the instruction.
+
+See manuscript/README for files that are used in the manuscript.
+
+See ChangeLog for the history of the source code update.
+
 
 
 History
@@ -1559,175 +1564,9 @@ Given a species tree, and the true values of the 3 main parameters.
 Manuscript
 ----------
 
-.Source codes and input data sets
-----
-http://code.google.com/p/mauve-analysis/
-----
-
-.Figure 1 Species tree
-----
-manuscript/species.tre
-output/cornellf/3/run-clonalorigin/input/1/clonaltree.nwk
-(((1:0.045557,2:0.045557)6:0.195330,3:0.240887)8:0.089874,(4:0.074544,5:0.074544)7:0.256218)9:0.000000
-----
-
-.Figure 2A
-----
-output/cornellf/3/run-analysis/heatmap-recedge-1.txt
-output/cornellf/3/run-analysis/heatmap-recedge.R
-output/cornellf/3/run-analysis/heatmap-recedge.R.out
-/Users/goshng/Documents/Projects/Mauve/output/s18/run-analysis/a
-----
-
-.Figure 2B
-----
-output/cornellf/3/run-analysis/heatmap-hgtedge-norm.R
-output/cornellf/3/run-analysis/heatmap-hgtedge-norm.R.ps
-output/cornellf/3/run-analysis/hgt-norm-sig.txt
-----
-
-.Figure 3
-----
-From Matt's.
-----
-
-.Table S1 The six complete bacterial genomes
-----
-input
-----
-
-.Table S2
-----
-output/cornellf/3/run-clonalorigin/summary/1/median.txt
-output/cornellf/3/run-clonalorigin/summary/2/median.txt
-----
 
 .Family size figures
 ----
 /test/famsizes/famsizes.R
-----
-
-.Statistics of 274 blocks, length of the blocks, total number of genes, and
-genes covered by blocks.
-----
-/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/run.log
-/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene
-/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block
-----
-Average proportion of gaps in genes was found in.gene.4.block.
-
-.Heat map of horizontal gene transfer (hgt)
-----
-output/cornellf/3/run-analysis/heatmap-hgtedge.R
-output/cornellf/3/run-analysis/heatmap-hgtedge.R.ps
-output/cornellf/3/run-analysis/heatmap-hgtedge.txt
-output/cornellf/3/run-analysis/heatmap-recedge-mowgli.txt
-output/cornellf/3/run-analysis/heatmap-recedge-mowgli.R.ps
-
-Export mauve-analysis.key to tiff or image.
-tiff2ps mauve-analysis.001.tiff > mauve-analysis-001.ps
-open mauve-analysis-001.ps (with Preview and save it as a PDF)
-----
-
-.Scatter plot of rho and log(delta)
-----
-output/cornellf/3/run-analysis/scatter-plot-parameter-1-out2.R
-output/cornellf/3/run-analysis/rho-vs-delta.pdf
-output/cornellf/3/run-analysis/rho-vs-delta.ps
-----
-
-.Multiple alignment using Mauve
-----
-output/cornellf/3/run-analysis/run.log
-----
-
-.ClonalFrame Analysis
-----
-output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
-swiftgen:/home/choi/Documents/Projects/m2/output/cornellf/3/run-clonalframe/core_clonalframe.out.1
-----
-
-
-.ClonalOrigin's 1st stage results
-----
-output/cornellf/3/run-clonalorigin/summary/1/median.txt
-----
-
-.Heatmap of number of recombination
-----
-output/cornellf/3/run-analysis/heatmap-recedge.R.out
-Note that the order is 
-"SDE1", "SDE", "SDE2", "SD", "SDD", "ROOT", "SPY1", "SPY", "SPY2"
-output/cornellf/3/run-analysis/heatmap-recedge.R
-output/cornellf/3/run-analysis/heatmap-recedge-1.txt
-output/cornellf/3/run-analysis/obsonly-recedge-1.txt
-output/cornellf/3/run-analysis/strep/051211/heatmap-recedge.ps
-----
-
-.Scatter plots of the three parameters
-----
-output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-theta
-output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho
-output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-delta
-----
-
-.SVN version of the initial check in of the manuscript
-r3988
-
-http://compgen.bscb.cornell.edu/wiki/index.php/Subversion_repository
-
-
-.Simulation
-----
-perl pl/simulate-data-clonalorigin1-analyze.pl -in output/s15/run-analysis/out -numbersample 101 -out 1
-output/s15/run-analysis/out.summary
-----
-
-
-.cornellf/3 summary of three parameters (in manuscript)
-----
-Median theta:0.080814517322956
-Median Q1 theta:0.0674683150905946
-Median Q3 theta:0.0944751655370584
-Median delta:743.702415841584
-Median Q1 delta:345.770247524752
-Median Q3 delta:2848.03306930693
-Median rho:0.0118491287894766
-Median Q1 rho:0.00571541439036853
-Median Q3 rho:0.0193800640707135
-----
-
-.RI1 for the reference genomes of SPY1
-----
-output/cornellf/3/run-analysis/ri1-refgenome4-map.gene
-----
-
-.RI2
-----
-/Users/goshng/Documents/Projects/mauve-analysis/output/cornellf/3/run-analysis/in.gene
-----
-
-.RI1 simulation result
-----
-output/s16/run-analysis/ri.R.ps
-----
-
-.Heatmap simulation between true and simulated
-----
-h1-R-inset.ps
-h1-R.ps
-----
-
-.Heatmap simulation between real and simulated
-----
-h2-R-inset.ps
-h2-R-inset2.ps
-h2-R.ps
-----
-
-ri-R.ps
-----
-http://strep-genome.bscb.cornell.edu/cgi-bin/hgTracks?db=SpyMGAS315&position=chr1&hgt.customText=http://compgen.bscb.cornell.edu/~choi/ri1-refgenome4-map.wig
-http://strep-genome.bscb.cornell.edu/cgi-bin/hgTracks?db=SmuUA159&position=chr1&hgt.customText=http://compgen.bscb.cornell.edu/~choi/SRR031130.pm.wig
 ----
 

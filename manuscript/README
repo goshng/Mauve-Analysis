@@ -6,15 +6,251 @@ Results mentioned in the manuscript should be found in +manuscript+ directory.
 Files that were too big should be reached at 
 http://code.google.com/p/mauve-analysis/. 
 
-Mauve Alignment
----------------
-mauve.eps
-mauve.jpg
+Tables and Figures
+------------------
 
-Species Tree
-------------
-species.tre
+.Manuscript repository
+----
+siepel-lab/writing/papers/strep-recomb/manuscript.tex
+siepel-lab/writing/papers/strep-recomb/figures
+----
 
+.Source codes and input data sets
+----
+http://code.google.com/p/mauve-analysis/
+----
+
+.Table 1. Functional category enrichments for additive gene transfers
+----
+Ask Matt for the main table.
+----
+
+.Table 2. Functional category enrichments for replacing gene transfers
+----
+# p.topology
+output/cornellf/3/run-analysis/significant-1.txt
+----
+
+.Figure 1 Species tree
+----
+manuscript/species.tre
+output/cornellf/3/run-clonalorigin/input/1/clonaltree.nwk
+(((1:0.045557,2:0.045557)6:0.195330,3:0.240887)8:0.089874,(4:0.074544,5:0.074544)7:0.256218)9:0.000000
 Font 12 and Scale font 12.
-cp species.ps /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures/cornellf-3-tree.ps
+cp species.ps 
 cp species.pdf /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures/cornellf-3-tree.pdf
+----
+
+.Figure 2A
+----
+output/cornellf/3/run-analysis/heatmap-recedge-1.txt
+output/cornellf/3/run-analysis/heatmap-recedge.R
+output/cornellf/3/run-analysis/heatmap-recedge.R.out
+output/s18/run-analysis/a
+----
+
+.Figure 2B
+----
+output/cornellf/3/run-analysis/heatmap-hgtedge-norm.R
+output/cornellf/3/run-analysis/heatmap-hgtedge-norm.R.ps
+output/cornellf/3/run-analysis/hgt-norm-sig.txt
+----
+
+.Figure 3
+----
+Ask Matt for the figure of Mowgli analysis.
+----
+
+.Table S1. The six complete bacterial genomes
+----
+Find the file, input.tar.gz, at http://code.google.com/p/mauve-analysis/
+----
+
+.Table S2. Three population parameter estimates from the model-based approach. 
+----
+output/cornellf/3/run-clonalorigin/summary/1/median.txt
+output/cornellf/3/run-clonalorigin/summary/2/median.txt
+Median theta:0.080814517322956
+Median Q1 theta:0.0674683150905946
+Median Q3 theta:0.0944751655370584
+Median delta:743.702415841584
+Median Q1 delta:345.770247524752
+Median Q3 delta:2848.03306930693
+Median rho:0.0118491287894766
+Median Q1 rho:0.00571541439036853
+Median Q3 rho:0.0193800640707135
+----
+
+.Table S3. Simulation study of the three population parameters.
+----
+perl pl/simulate-data-clonalorigin1-analyze.pl -in output/s15/run-analysis/out -numbersample 101 -out 1
+output/s15/run-analysis/out.summary
+----
+
+.Table S4. Posterior probability of gene tree topologies.
+----
+output/cornellf/3/run-analysis/ri-1-combined.all.R.out
+----
+
+.Table S5. Ratios of logarithm base 2 of the observed recombinant edges to the expected number of recombinant edges.
+----
+output/cornellf/3/run-analysis/heatmap-recedge-1.txt
+----
+
+.Table S6. The observed number of recombinant edges.
+----
+output/cornellf/3/run-analysis/obsonly-recedge-1.txt
+----
+
+.Table S7.
+----
+x
+----
+
+.Table S8.
+----
+x
+----
+
+.Table S9. Functional categories enriched in recombining transfer events that are inferred using the parsimony-based approach.
+----
+Ask Matt for the table.
+----
+
+.Table S10. Functional categories associated with recombination intensity based on all of the recombinant edge types.
+----
+# p.all
+output/cornellf/3/run-analysis/significant-1.txt
+----
+
+.Table S11. Functional categories asscoiated with recombination intensity based on the topology-perserving recombinant edge types.
+----
+# p.notopology 
+output/cornellf/3/run-analysis/significant-1.txt
+----
+
+.Figure S1. The genome alignment of the five genomes.
+----
+output/cornellf/3/run-mauve/figure.eps
+doc/figures/mauve.eps
+----
+
+.Figure S2. Distribution of gene family sizes.
+----
+test/famsize/famsizes.txt
+test/famsize/famsizes.R
+test/famsize/run.sh
+----
+
+.Figure S3. Three scatter plots of mutation rate, recombination rate, and recombinant tract length for the blocks. 
+----
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-delta
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-delta.ps
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-rho.ps
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-theta
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-theta.ps
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R.out
+----
+
+.Figure S4 and S5. Plot of recombination intensity against number of replacing gene transfer.
+----
+test/mowgli/fam-frag2/compare_mowgli_co.R
+test/mowgli/fam-frag2/compare_mowgli_co.R.out
+----
+
+.Figure S6. UCSC genome browser tracks for gene transfer study of SPY and SDE.
+----
+http://choi.genome-mirror.bscb.cornell.edu
+----
+
+.Figure S7. Recombinant tree in the ClonalOrigin model.
+----
+doc/mauve-analysis.key
+----
+
+.Figure S8. The surrogate measure of recombination intensity of genes. 
+----
+output/s16/run-analysis/ri.R
+output/s16/run-analysis/ri-topology.txt
+output/s16/run-analysis/ri-topology.ps
+output/s16/run-analysis/ri-topology.pdf
+output/s16/run-analysis/ri.txt
+output/s16/run-analysis/ri-notopology.ps
+output/s16/run-analysis/ri-notopology.pdf
+----
+
+.Figure S9. Simulations of the model-based approach for assessing the power of recovering recombinant edges. 
+----
+output/s17/run-analysis/posterior_predictive_check3.R
+output/s17/run-analysis/h3-R-ratio-not-topology-changing.ps
+output/s17/run-analysis/h3-R-ratio-topology-changing.ps
+----
+
+.Figure S10. The power of recovering additive transfers and duplications using simulations.
+----
+Ask Matt for the figures.
+----
+
+Statistics
+----------
+
+.Statistics of 274 blocks, length of the blocks, total number of genes, and genes covered by blocks.
+----
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/run.log
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene
+Average proportion of gaps in genes was found in.gene.4.block.
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block
+----
+
+.Heat map of horizontal gene transfer (hgt)
+----
+output/cornellf/3/run-analysis/heatmap-hgtedge.R
+output/cornellf/3/run-analysis/heatmap-hgtedge.R.ps
+output/cornellf/3/run-analysis/heatmap-hgtedge.txt
+output/cornellf/3/run-analysis/heatmap-recedge-mowgli.txt
+output/cornellf/3/run-analysis/heatmap-recedge-mowgli.R.ps
+
+Export mauve-analysis.key to tiff or image.
+tiff2ps mauve-analysis.001.tiff > mauve-analysis-001.ps
+open mauve-analysis-001.ps (with Preview and save it as a PDF)
+----
+
+.Scatter plot of rho and log(delta)
+----
+output/cornellf/3/run-analysis/scatter-plot-parameter-1-out2.R
+output/cornellf/3/run-analysis/rho-vs-delta.pdf
+output/cornellf/3/run-analysis/rho-vs-delta.ps
+----
+
+.Multiple alignment using Mauve
+----
+output/cornellf/3/run-analysis/run.log
+----
+
+.ClonalFrame Analysis
+----
+output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
+swiftgen:/home/choi/Documents/Projects/m2/output/cornellf/3/run-clonalframe/core_clonalframe.out.1
+----
+
+
+.ClonalOrigin's 1st stage results
+----
+output/cornellf/3/run-clonalorigin/summary/1/median.txt
+----
+
+.Heatmap of number of recombination
+----
+output/cornellf/3/run-analysis/heatmap-recedge.R.out
+Note that the order is 
+"SDE1", "SDE", "SDE2", "SD", "SDD", "ROOT", "SPY1", "SPY", "SPY2"
+output/cornellf/3/run-analysis/heatmap-recedge.R
+output/cornellf/3/run-analysis/heatmap-recedge-1.txt
+output/cornellf/3/run-analysis/obsonly-recedge-1.txt
+output/cornellf/3/run-analysis/strep/051211/heatmap-recedge.ps
+----
+
+http://compgen.bscb.cornell.edu/wiki/index.php/Subversion_repository
+
