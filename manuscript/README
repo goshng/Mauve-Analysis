@@ -183,6 +183,9 @@ output/s16/run-analysis/ri-notopology.pdf
 
 .Figure S9. Simulations of the model-based approach for assessing the power of recovering recombinant edges. 
 ----
+output/s17/run-analysis/sim.R
+output/s17/run-analysis/sim2-1.ps
+output/s17/run-analysis/sim2-2.ps
 output/s17/run-analysis/posterior_predictive_check3.R
 output/s17/run-analysis/h3-R-ratio-not-topology-changing.ps
 output/s17/run-analysis/h3-R-ratio-topology-changing.ps
@@ -195,6 +198,11 @@ Ask Matt for the figures.
 
 Statistics
 ----------
+
+.To test directly gene flow between SPY and SDE
+----
+bash R/obsiter.sh
+----
 
 .Statistics of 274 blocks, length of the blocks, total number of genes, and genes covered by blocks.
 ----

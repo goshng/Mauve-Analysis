@@ -27,6 +27,7 @@ function sim3 {
       read-species
 
       OUTPUTBASE=output/$SPECIES
+      CBASEDIR=output/$SPECIES
       BASEDIR=$OUTPUTDIR/$SPECIES
       BASERUNANALYSIS=$BASEDIR/run-analysis
       THETA_PER_SITE=$(grep ThetaPerSite $SPECIESFILE | cut -d":" -f2)
@@ -210,31 +211,139 @@ EOF
       ######################################################################
       # Analyze the result.
       BASERUNANALYSIS=$BASEDIR/run-analysis
-      PAIRM=topology
+      PAIRM=all # all notopology topology
       mkdir $BASERUNANALYSIS
       echo -n 'Do you wish to extract recombination intensity from the estimate? (y/n) '
       read WISH
       if [ "$WISH" == "y" ]; then
+
+        ######################################################################
+        # Receive the result.
+        echo -n "Do you wish to get the output result ri files (y/n)? "
+        read WISH
+        if [ "$WISH" == "y" ]; then
+          # for p in all topology notopology; do
+          for p in all notopology; do
+            for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
+              echo scp -qr cac:$CACWORKDIR/$g/run-clonalorigin/output2/$p \
+                $OUTPUTBASE/$g/run-clonalorigin/output2
+              scp -qr cac:$CACWORKDIR/$g/run-clonalorigin/output2/$p \
+                $OUTPUTBASE/$g/run-clonalorigin/output2
+            done
+          done
+          break
+        else
+          echo -e "  Skipping copying output result files ..." 
+        fi
+
+        JOBIDFILE=jobidfile2
+        rm -f $JOBIDFILE
+        echo -n 'Do you wish to run a batch in the cluster? (y/n) '
+        read WISH2
         for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          NUMBERDIR=$BASEDIR/$g
+          if [ "$WISH2" == "y" ]; then
+            NUMBERDIR=$CBASEDIR/$g
+          else
+            NUMBERDIR=$BASEDIR/$g
+          fi
           DATADIR=$NUMBERDIR/data
           RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
           RUNANALYSIS=$NUMBERDIR/run-analysis
-          CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-          CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
           for h in $(eval echo {1..$HOW_MANY_REPLICATE}); do
             mkdir -p $RUNCLONALORIGIN/output2/$PAIRM/ri-$h
             for b in $(eval echo {1..$NUMBER_BLOCK}); do
-              perl pl/sim3-prepare.pl \
-                -pairm $PAIRM \
-                -xml $RUNCLONALORIGIN/output2/$h/core_co.phase3.xml.$b \
-                -ingene data/in.gene.4.block \
-                -blockid $b \
-                -out $RUNCLONALORIGIN/output2/$PAIRM/ri-$h/$b
+              for p in all topology notopology; do
+                PAIRM=$p
+                PERLCOMMAND="perl pl/sim3-prepare.pl \
+                  -pairm $PAIRM \
+                  -xml $RUNCLONALORIGIN/output2/$h/core_co.phase3.xml.$b \
+                  -ingene data/in.gene.4.block \
+                  -blockid $b \
+                  -out $RUNCLONALORIGIN/output2/$PAIRM/ri-$h/$b"
+                if [ "$WISH2" == "y" ]; then
+                  echo $PERLCOMMAND >> $JOBIDFILE
+                else
+                  $PERLCOMMAND
+                fi
+              done
             done 
             echo -ne "Repeition $g - $h\r"
           done
         done
+
+cat>$BASEDIR/batch.sh<<EOF
+#!/bin/bash
+#PBS -l walltime=${WALLTIME}:00:00,nodes=1
+#PBS -A ${BATCHACCESS}
+#PBS -j oe
+#PBS -N $PROJECTNAME-$SPECIES
+#PBS -q ${QUEUENAME}
+#PBS -m e
+# #PBS -M ${BATCHEMAIL}
+#PBS -t 1-PBSARRAYSIZE
+
+# The full path of the clonal origin executable.
+BASEDIR=output/$SPECIES
+
+function copy-data {
+  cd \$TMPDIR
+  cp \$PBS_O_WORKDIR/batchjob.sh .
+  cp -r \$PBS_O_WORKDIR/pl .
+  cp -r \$PBS_O_WORKDIR/data .
+
+  for g in \$(eval echo {1..$HOW_MANY_REPETITION}); do
+    NUMBERDIR=\$BASEDIR/\$g
+    CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
+    mkdir -p \$CLONALORIGINDIR/output2
+    for h in \$(eval echo {1..$NREPLICATE}); do
+      cp -r \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/\$h \\
+        \$CLONALORIGINDIR/output2
+      for p in all topology notopology; do
+        mkdir -p \$CLONALORIGINDIR/output2/\$p/ri-\$h
+      done 
+    done
+  done
+}
+
+function retrieve-data {
+  for g in \$(eval echo {1..$HOW_MANY_REPETITION}); do
+    NUMBERDIR=\$BASEDIR/\$g
+    CLONALORIGINDIR=\$NUMBERDIR/run-clonalorigin
+    for h in \$(eval echo {1..$NREPLICATE}); do
+      for p in all topology notopology; do
+        cp -r \$CLONALORIGINDIR/output2/\$p/ri-\$h \\
+          \$PBS_O_WORKDIR/\$g/run-clonalorigin/output2/\$p
+      done
+    done
+  done
+}
+
+function process-data {
+  cd \$TMPDIR
+  CORESPERNODE=8
+  for (( i=1; i<=CORESPERNODE; i++))
+  do
+    bash batchjob.sh \\
+      \$i \\
+      \$PBS_O_WORKDIR/$JOBIDFILE \\
+      \$PBS_O_WORKDIR/lockfile& 
+  done
+}
+
+copy-data
+process-data; wait
+retrieve-data
+cd \$PBS_O_WORKDIR
+rm -rf \$TMPDIR
+EOF
+        ssh -x $CAC_USERHOST mkdir -p $CACWORKDIR/data
+        scp -q $JOBIDFILE cac:$CACWORKDIR
+        scp -q cac/sim/batch_task.sh cac:$CACWORKDIR/batchjob.sh
+        scp -q data/in.gene.4.block cac:$CACWORKDIR/data
+        scp -q cac/sim/run.sh cac:$CACWORKDIR/run.sh
+        scp -qr pl cac:$CACWORKDIR
+        scp -q $BASEDIR/batch.sh cac:$CACWORKDIR
+
       else
         echo "  Skipping extracting recombination intensity ..."
       fi
@@ -248,8 +357,6 @@ EOF
           DATADIR=$NUMBERDIR/data
           RUNCLONALORIGIN=$NUMBERDIR/run-clonalorigin
           RUNANALYSIS=$NUMBERDIR/run-analysis
-          CAC_NUMBERDIR=$CAC_OUTPUTDIR/$SPECIES/$g
-          CAC_RUNCLONALORIGIN=$CAC_NUMBERDIR/run-clonalorigin
           perl pl/extractClonalOriginParameter9.pl \
             -xml $DATADIR/core_alignment.xml
         done
@@ -264,56 +371,66 @@ EOF
         PROCESSEDTIME=0
         TOTALITEM=$(( $HOW_MANY_REPETITION * $NUMBER_BLOCK ));
         ITEM=0
-        for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          RITRUE=$BASEDIR/$g/run-analysis/ri-yes-$PAIRM
-          mkdir -p $RITRUE
-          for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-            STARTTIME=$(date +%s)
-            perl pl/sim3-prepare.pl \
-              -pairm $PAIRM \
-              -xml $BASEDIR/$g/data/core_alignment.xml.$BLOCKID \
-              -ingene data/in.gene.4.block \
-              -blockid $BLOCKID \
-              -out $RITRUE/$BLOCKID
-            ENDTIME=$(date +%s)
-            ITEM=$(( $ITEM + 1 ))
-            ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
-            PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
-            REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
-            REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
-            echo -ne "$g/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK - more $REMAINEDTIME min to go\r"
+        for p in all notopology; do
+          PAIRM=$p
+          for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
+            RITRUE=$BASEDIR/$g/run-analysis/ri-yes-$PAIRM
+            mkdir -p $RITRUE
+            for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+              STARTTIME=$(date +%s)
+              perl pl/sim3-prepare.pl \
+                -pairm $PAIRM \
+                -xml $BASEDIR/$g/data/core_alignment.xml.$BLOCKID \
+                -ingene data/in.gene.4.block \
+                -blockid $BLOCKID \
+                -out $RITRUE/$BLOCKID
+              ENDTIME=$(date +%s)
+              ITEM=$(( $ITEM + 1 ))
+              ELAPSEDTIME=$(( $ENDTIME - $STARTTIME ))
+              PROCESSEDTIME=$(( $PROCESSEDTIME + $ELAPSEDTIME ))
+              REMAINEDITEM=$(( $TOTALITEM - $ITEM ));
+              REMAINEDTIME=$(( $PROCESSEDTIME/$ITEM * $REMAINEDITEM / 60));
+              echo -ne "$g/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK - more $REMAINEDTIME min to go\r"
+            done
           done
+          echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes-$PAIRM"
         done
-        echo "Find files at $BASEDIR/REPETITION#/run-analysis/ri-yes-$PAIRM"
+      fi
 
+      echo -n 'Do you wish to plot recombination intensity from the true recombinant tree? (y/n) '
+      read WANT
+      if [ "$WANT" == "y" ]; then
         NUMBER_SAMPLE=$(echo `grep number $BASEDIR/1/run-clonalorigin/output2/1/core_co.phase3.xml.1|wc -l`)
-        echo "Generating a table for plotting..."
-        OUTFILE=$BASERUNANALYSIS/ri-$PAIRM.txt
-        for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
-          RITRUE=$BASEDIR/$g/run-analysis/ri-yes-$PAIRM
-          for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
-            PERLCOMMAND="perl pl/sim3-analyze.pl \
-              -true $RITRUE/$BLOCKID \
-              -estimate $BASEDIR/$g/run-clonalorigin/output2/$PAIRM/ri \
-              -numberreplicate $HOW_MANY_REPLICATE \
-              -samplesize $NUMBER_SAMPLE \
-              -block $BLOCKID \
-              -ingene data/in.gene.4.block \
-              -out $OUTFILE"
-            if [ "$g" != 1 ] || [ "$BLOCKID" != 1 ]; then
-              PERLCOMMAND="$PERLCOMMAND -append"
-            fi
-            $PERLCOMMAND
-            echo -ne "$g/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK\r"
+        # for p in all topology notopology; do
+        for p in all notopology; do
+          PAIRM=$p
+          echo "Generating a table for plotting..."
+          OUTFILE=$BASERUNANALYSIS/ri-$PAIRM.txt
+          for g in $(eval echo {1..$HOW_MANY_REPETITION}); do
+            RITRUE=$BASEDIR/$g/run-analysis/ri-yes-$PAIRM
+            for BLOCKID in $(eval echo {1..$NUMBER_BLOCK}); do
+              PERLCOMMAND="perl pl/sim3-analyze.pl \
+                -true $RITRUE/$BLOCKID \
+                -estimate $BASEDIR/$g/run-clonalorigin/output2/$PAIRM/ri \
+                -numberreplicate $HOW_MANY_REPLICATE \
+                -samplesize $NUMBER_SAMPLE \
+                -block $BLOCKID \
+                -ingene data/in.gene.4.block \
+                -out $OUTFILE"
+              if [ "$g" != 1 ] || [ "$BLOCKID" != 1 ]; then
+                PERLCOMMAND="$PERLCOMMAND -append"
+              fi
+              $PERLCOMMAND
+              echo -ne "$g/$HOW_MANY_REPETITION - $BLOCKID/$NUMBER_BLOCK\r"
+            done
           done
-        done
-        echo "Check $OUTFILE"
+          echo "Check $OUTFILE"
 
-        echo "  Plotting ..."
-        RTEMP=$RANDOM.R
-        EPSFILE=$BASERUNANALYSIS/ri.eps
-        ROUT=$BASERUNANALYSIS/ri.out
-        RTEMP=$RANDOM.R
+          echo "  Plotting ..."
+          RTEMP=$RANDOM.R
+          EPSFILE=$BASERUNANALYSIS/ri-$PAIRM.ps
+          ROUT=$BASERUNANALYSIS/ri-$PAIRM.out
+          RTEMP=$RANDOM.R
 cat>$RTEMP<<EOF
 x <- read.table ("$OUTFILE")
 postscript("$EPSFILE", width=6, height=6, horizontal = FALSE, onefile = FALSE, paper = "special")
@@ -324,10 +441,10 @@ par(oldpar)
 dev.off()
 cor(x\$V2,x\$V3)
 EOF
-      Rscript $RTEMP >> $ROUT
-      rm $RTEMP
-      echo "Check $ROUT"
-
+        Rscript $RTEMP >> $ROUT
+        rm $RTEMP
+        echo "Check $ROUT"
+        done
       else
         echo "Skipping analyzing true XML..."
       fi

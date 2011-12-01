@@ -54,10 +54,7 @@ do
     fi
 
   else
-    echo "Failed to acquire lockfile: $lockfile." 
-    echo "Held by $(cat )"
     sleep 5
-    echo "Retry to access $lockfile"
   fi
 
 done

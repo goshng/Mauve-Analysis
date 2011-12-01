@@ -24,12 +24,79 @@ To Do
 .pl/count-observed-recedge.pl should be tested for heatmap.
 
 
+Thu Dec  1 11:08:27 EST 2011
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Example of UCSC genome track
+----
+chr1:510,951-514,795
+----
+
+Where are these genes?
+\textit{gki}, \textit{gtr},
+\textit{murI}, \textit{mutS}, \textit{recP}, and \textit{xpt}
+Let's see the SPY1's genbank file.
+
+.From Kalia2001
+----
+The ML tree for xpt alleles (Fig. 2) and visual examination of the polymorphic
+sites (Fig. 3) do not show the clear distinction into GAS-like (cluster I) and
+GCS-GGS-like (cluster II) alleles that was observed for gki, gtr, murI, mutS,
+and yqiL.
+
+The similarity of the diverged recP alleles of GAS to the most typical alleles
+found among GCS and GGS suggests that they were introduced into GAS from GCS-GGS
+strains.
+----
+
+We should see higher recombination in xpt and recP but not the others. 
+
+gki -> not in the region but its neighboring
+1207587-1208084
+/gene="glcK"
+/locus_tag="SpyM3_1180"
+
+gtr -> no recombination 
+1186522-1186073
+/locus_tag="SpyM3_1160"
+
+murI -> no recombination
+303215-303652
+/gene="glr"
+/locus_tag="SpyM3_0262"
+
+mutS -> a little bit
+1836841-1837245
+/gene="mutS.2"
+/locus_tag="SpyM3_1806"
+
+recP -> somewhat strong (consistent with Kalia2001's conclusion)
+1454877-1455335
+/gene="tkt"
+/locus_tag="SpyM3_1462"
+
+xpt -> somewhat strong
+846784-847233
+/gene="xpt"
+/locus_tag="SpyM3_0794"
+
+yqil -> no data available
+131266-131699
+/locus_tag="SpyM3_0108"
+
 Wed Nov 30 11:37:23 EST 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .Backups
 ----
 /Volumes/Elements/Documents/Projects/mauve-analysis-051111/output
+----
+
+.Virulence gene tracks
+----
+test/virulence
+cd output/virulence
+scp ucsc-virulence.sh swiftgen:/home/choi/public_html/strep-recomb
 ----
 
 
