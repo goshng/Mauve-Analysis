@@ -1,0 +1,16 @@
+# A test for the simulation 1.
+# ----------------------------
+# Wed Nov  2 14:39:29 EDT 2011
+Repetition:2
+Replicate:1
+ThetaPerSite:0.080814517322956
+RhoPerSite:0.0118491287894766
+Delta:743.702415841584
+InBlock:test-in.block
+SpeicesTree:cornellf-3.tree
+Burnin:10
+ChainLength:10
+Thin:1
+NumberSpecies:5
+Walltime:68
+CACWORKDIR:run/mauve/110211

@@ -1,0 +1,21 @@
+# This is a directory for a simulation study.
+# -------------------------------------------
+# Mon Oct 24 10:23:38 EDT 2011
+#
+# s16 is copied
+#
+Repetition:100
+Replicate:1
+ThetaPerSite:0.080814517322956
+RhoPerSite:0.0118491287894766
+Delta:743.702415841584
+
+InBlock:cornellf-3-in.block
+SpeicesTree:cornellf-3.tree
+Burnin:1000000
+ChainLength:1000000
+Thin:10000
+NUMBER_BLOCK:274
+SAMPLESIZE:101
+# NumberSpecies:5
+# Walltime:168
