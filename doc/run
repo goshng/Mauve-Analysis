@@ -8,13 +8,12 @@
 # tiff2ps mauve-analysis-figure1.001.tiff > heatmap.ps
 # tiff2ps mauve-analysis-figure1.002.tiff > hgt.ps
 # tiff2ps ucsc.001.tiff > ucsc.ps
-# tiff2ps figure-tree.001.tiff > cornellf-3-tree.ps
+#tiff2ps figure-tree.001.tiff > cornellf-3-tree.ps
 # exit
 # Open the ps files and save them as PDF files using Mac Preview.
 
-# for i in heatmap cornellf-3-tree; do
-# for i in cornellf-3-tree; do
-for i in ucsc; do
+for i in heatmap; do
+# for i in ucsc; do
 # for i in cornellf-3-tree; do
 # for i in hgt; do
   mv $i.ps /Users/goshng/Documents/siepel-lab/writing/papers/strep-recomb/figures

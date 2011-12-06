@@ -16,14 +16,6 @@ To Do
 
 .Finish works in the directory +manuscript+.
 
-.s17 needs post-analysis
-. I need to check what the simulated alignments have N's
-. Use sh/sim5-prepare.sh
-. Check /Users/goshng/Documents/Projects/Mauve/output/s17/run-analysis/posterior_predictive_check.R.out
-
-.pl/count-observed-recedge.pl should be tested for heatmap.
-
-
 Thu Dec  1 11:08:27 EST 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -195,6 +187,13 @@ make update DBS=SdeqGGS124
 make update DBS=SpyMGAS10750
 make update DBS=SpyMGAS315
 http://choi.genome-mirror.bscb.cornell.edu
+
+make cornell DBS=SdeqATCC12394
+make cornell DBS=SddyATCC27957
+make cornell DBS=SdeqGGS124
+make cornell DBS=SpyMGAS10750
+make cornell DBS=SpyMGAS315
+http://strep-genome.bscb.cornell.edu
 ----
 
 .To update cgi-bin of the genome browser

@@ -49,7 +49,7 @@ get.significant <- function(results, p.val) {
   }
   # temp <- results[adjust < 0.05,c(p.val, "count", "go.description")]
   temp <- results[adjust < 0.05,c(p.val, "q.val", "count", "gocat", "go.description")]
-  format.data.frame(temp[order(temp[,p.val]),], digits=3, scientific=TRUE)
+  format.data.frame(temp[order(temp[,p.val]),], digits=1, scientific=TRUE)
   # v.return <- data.frame(temp[order(temp[,p.val]),])
   # v.return$p.val <- NULL
   # format.data.frame(v.return, digits=4)

@@ -154,18 +154,18 @@ output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R
 output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R.out
 ----
 
-.Figure S4 and S5. Plot of recombination intensity against number of replacing gene transfer.
+.Figure S4. Plot of recombination intensity against number of replacing gene transfer.
 ----
 test/mowgli/fam-frag2/compare_mowgli_co.R
 test/mowgli/fam-frag2/compare_mowgli_co.R.out
 ----
 
-.Figure S6. UCSC genome browser tracks for gene transfer study of SPY and SDE.
+.Figure S5. UCSC genome browser tracks for gene transfer study of SPY and SDE.
 ----
 http://choi.genome-mirror.bscb.cornell.edu
 ----
 
-.Figure S7. Recombinant tree in the ClonalOrigin model.
+.Figure S6. Recombinant tree in the ClonalOrigin model.
 ----
 doc/mauve-analysis.key
 ----

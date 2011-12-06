@@ -30,6 +30,7 @@ function ucsc-genome {
       set-more-global-variable $SPECIES $REPETITION
       NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
       NUMBERSPECIES=$(grep ^REPETITION$REPETITION-NumberSpecies $SPECIESFILE | cut -d":" -f2)
+      CO2SAMPLESIZE=$(grep ^REPETITION$REPETITION-CO2-SAMPLESIZE $SPECIESFILE | cut -d":" -f2)
       NUMBERSPECIESMINUSONE=$((NUMBERSPECIES - 1))
       NUMBERBRANCH=$((NUMBERSPECIES * 2 - 1))
       NUMBERBRANCHMINUSONE=$((NUMBERSPECIES * 2 - 2))
@@ -47,10 +48,13 @@ function ucsc-genome {
             for j in $(eval echo {0..$NUMBERBRANCHMINUSONE}); do
               for k in $(eval echo {0..$NUMBERBRANCHMINUSONE}); do
                 WIGIN=$RECOMBPROBWIG/${j}-${k}
+                WIGOUT=$RECOMBPROBWIG/${j}-${k}.n
                 WIG=$RECOMBPROBWIG/${j}-${k}.wig
                 WIB=$RECOMBPROBWIG/${j}-${k}.wib
-
-                wigEncode $WIGIN $WIG $WIB &
+                rm -f $WIG
+                rm -f $WIB
+                perl pl/snippet-wig-divide-sample-size.pl $CO2SAMPLESIZE $WIGIN $WIGOUT
+                wigEncode $WIGOUT $WIG $WIB &
                 # hgLoadWiggle $DBNAME ri_${j}_${k} $WIG
                 # rm $WIG
                 # mkdir -p /gbdb/$DBNAME/wib

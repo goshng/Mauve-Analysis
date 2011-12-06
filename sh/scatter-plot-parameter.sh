@@ -79,23 +79,23 @@ plotThreeParameter <- function (f, xlab, ylab, m, logscale) {
   oldpar <- par (mar=c(5, 5, 0.5, 0.5))
   if (logscale == TRUE) {
     smoothScatter(x\$V1, log(x\$V2), nrpoints=0, colramp =
-    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.7,
-    cex.axis=1.7)
+    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.8,
+    cex.axis=1.8)
     points (pos, log(pos.median), pch=43)
     abline (h=log(m), col="red", lty="dashed")
   } else {
     smoothScatter(x\$V1, x\$V2, nrpoints=0, colramp =
-    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.7,
-    cex.axis=1.7)
+    colorRampPalette(c("white", "black")), xlab=xlab, ylab=ylab, cex.lab=1.8,
+    cex.axis=1.8)
     points (pos, pos.median, pch=43)
     abline (h=m, col="red", lty="dashed")
   }
   par(oldpar)
   dev.off()
 }
-plotThreeParameter ("$S2OUT-theta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Mutation rate per site", $MEDIAN_THETA, FALSE)
-plotThreeParameter ("$S2OUT-rho", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Recombination rate per site", $MEDIAN_RHO, FALSE)
-plotThreeParameter ("$S2OUT-delta", "Genomic position on S. dysgalactiae ssp. equisimilis ATCC 12394", "Log average tract length", $MEDIAN_DELTA, TRUE)
+plotThreeParameter ("$S2OUT-theta", "Genomic position on SDE1", "Mutation rate per site", $MEDIAN_THETA, FALSE)
+plotThreeParameter ("$S2OUT-rho", "Genomic position on SDE1", "Recombination rate per site", $MEDIAN_RHO, FALSE)
+plotThreeParameter ("$S2OUT-delta", "Genomic position on SDE1", "Log of tract length", $MEDIAN_DELTA, TRUE)
 EOF
   Rscript $BATCH_R > $BATCH_R.out 
 }
