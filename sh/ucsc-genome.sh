@@ -49,12 +49,15 @@ function ucsc-genome {
               for k in $(eval echo {0..$NUMBERBRANCHMINUSONE}); do
                 WIGIN=$RECOMBPROBWIG/${j}-${k}
                 WIGOUT=$RECOMBPROBWIG/${j}-${k}.n
+
                 WIG=$RECOMBPROBWIG/${j}-${k}.wig
                 WIB=$RECOMBPROBWIG/${j}-${k}.wib
                 rm -f $WIG
                 rm -f $WIB
                 perl pl/snippet-wig-divide-sample-size.pl $CO2SAMPLESIZE $WIGIN $WIGOUT
                 wigEncode $WIGOUT $WIG $WIB &
+                rm -f $WIGOUT
+
                 # hgLoadWiggle $DBNAME ri_${j}_${k} $WIG
                 # rm $WIG
                 # mkdir -p /gbdb/$DBNAME/wib

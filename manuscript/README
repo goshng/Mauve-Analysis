@@ -163,6 +163,18 @@ test/mowgli/fam-frag2/compare_mowgli_co.R.out
 .Figure S5. UCSC genome browser tracks for gene transfer study of SPY and SDE.
 ----
 http://choi.genome-mirror.bscb.cornell.edu
+http://strep-genome.bscb.cornell.edu
+ucsc/trackDb.ra
+Track: MAF tracks
+ucsc/ucsc.sh
+output/cornellf/3/data/core_alignment.maf.*
+output/cornellf/3/run-analysis/recombprobwig-1
+Track: fam
+ucsc/ucsc-matt.sh
+output/matt
+Track: virulence
+ucsc/ucsc-virulence.sh
+output/virulence
 ----
 
 .Figure S6. Recombinant tree in the ClonalOrigin model.
