@@ -1,17 +1,18 @@
 #NEXUS
 begin taxa;
-	dimensions ntax=5;
+	dimensions ntax=6;
 	taxlabels
 	SDE1
 	SDE2
 	SDD
 	SPY1
 	SPY2
+	SEE
 ;
 end;
 
 begin trees;
-	tree tree_1 = [&R] (((SDE1:0.045557,SDE2:0.045557)[&!rotate=true,label="SDE"]:0.19533,SDD:0.240887)[&!rotate=true,label="SD"]:0.089874,(SPY1:0.074544,SPY2:0.074544)[&!rotate=true,label="SPY"]:0.256218)[&!rotate=true,label="ROOT"];
+	tree tree_1 = [&R] ((((SDE1:0.045557,SDE2:0.045557)[&label="SDE"]:0.19533,SDD:0.240887)[&label="SD"]:0.089874,(SPY1:0.074544,SPY2:0.074544)[&label="SPY"]:0.256218):0.169238,SEE:0.5)[&!rotate=true];
 end;
 
 begin figtree;
@@ -34,8 +35,8 @@ begin figtree;
 	set nodeBars.barWidth=4.0;
 	set nodeLabels.colorAttribute="User Selection";
 	set nodeLabels.displayAttribute="label";
-	set nodeLabels.fontName="Helvetica";
-	set nodeLabels.fontSize=24;
+	set nodeLabels.fontName="Arial";
+	set nodeLabels.fontSize=18;
 	set nodeLabels.fontStyle=0;
 	set nodeLabels.isShown=true;
 	set nodeLabels.significantDigits=4;
@@ -47,7 +48,7 @@ begin figtree;
 	set radialLayout.spread=0.0;
 	set rectilinearLayout.alignTipLabels=false;
 	set rectilinearLayout.curvature=0;
-	set rectilinearLayout.rootLength=0;
+	set rectilinearLayout.rootLength=988;
 	set scale.offsetAge=0.0;
 	set scale.rootAge=1.0;
 	set scale.scaleFactor=1.0;
@@ -61,16 +62,16 @@ begin figtree;
 	set scaleAxis.reverseAxis=false;
 	set scaleAxis.showGrid=true;
 	set scaleAxis.significantDigits=4;
-	set scaleBar.automaticScale=true;
-	set scaleBar.fontSize=10.0;
-	set scaleBar.isShown=false;
+	set scaleBar.automaticScale=false;
+	set scaleBar.fontSize=18.0;
+	set scaleBar.isShown=true;
 	set scaleBar.lineWidth=1.0;
-	set scaleBar.scaleRange=0.04;
+	set scaleBar.scaleRange=0.1;
 	set scaleBar.significantDigits=4;
 	set tipLabels.colorAttribute="User Selection";
 	set tipLabels.displayAttribute="Names";
-	set tipLabels.fontName="Helvetica";
-	set tipLabels.fontSize=24;
+	set tipLabels.fontName="Arial";
+	set tipLabels.fontSize=18;
 	set tipLabels.fontStyle=0;
 	set tipLabels.isShown=true;
 	set tipLabels.significantDigits=4;

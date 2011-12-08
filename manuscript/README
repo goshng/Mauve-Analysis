@@ -5,6 +5,7 @@ Sang Chul Choi <goshng@yahoo.co.kr>
 Results mentioned in the manuscript should be found in +manuscript+ directory.
 Files that were too big should be reached at 
 http://code.google.com/p/mauve-analysis/. 
+swiftgen:/usr/projects/strep/gainloss/recombination/
 
 Tables and Figures
 ------------------
@@ -31,7 +32,13 @@ Ask Matt for the main table.
 output/cornellf/3/run-analysis/significant-1.txt
 ----
 
-.Figure 1 Species tree
+.Figure 1
+----
+Ask Matt for the figure.
+----
+
+This may be moved to the supplementary material.
+.Figure 2 Species tree
 ----
 manuscript/species.tre
 output/cornellf/3/run-clonalorigin/input/1/clonaltree.nwk
@@ -47,6 +54,7 @@ output/cornellf/3/run-analysis/heatmap-recedge-1.txt
 output/cornellf/3/run-analysis/heatmap-recedge.R
 output/cornellf/3/run-analysis/heatmap-recedge.R.out
 output/s18/run-analysis/a
+manuscript/species.tre
 ----
 
 .Figure 2B
@@ -91,16 +99,34 @@ output/s15/run-analysis/out.summary
 ----
 output/cornellf/3/run-analysis/ri-1-combined.all.R.out
 ----
+This distribution indicated that most sites (66\%) were
+consistent with the topology of the clonal frame.
+% what does this mean?  most likely tree topology per site?  or expected value?
+Interestingly, the second most frequent tree topology (9.3\%) had
+SPY and SDE as sister clades and SDD as an outgroup (supplementary table
+S\ref{tab:Gene-tree-topologies}), providing an initial indication of gene
+transfer between SPY and SDE.  No other tree topology appeared with
+appreciable frequency.
+
 
 .Table S5. Ratios of logarithm base 2 of the observed recombinant edges to the expected number of recombinant edges.
 ----
 output/cornellf/3/run-analysis/heatmap-recedge-1.txt
 ----
+{\bf Ratios of logarithm base 2 of the observed
+recombinant edges to the expected number of recombinant edges.}  Figure
+\ref{fig:Heatmap-of-transfers}A shows the values graphically using heat map.
+NA's are for the branch pairs that are impossible under the model-based
+approached. Rows are for donor, and columns for recipient.}
 
 .Table S6. The observed number of recombinant edges.
 ----
 output/cornellf/3/run-analysis/obsonly-recedge-1.txt
 ----
+{\bf The observed number of recombinant edges.}
+The zeros are for the branch pairs that are impossible under the model-based
+approached. Rows are for donor, and columns for recipient.}
+
 
 .Table S7.
 ----
@@ -153,6 +179,11 @@ output/cornellf/3/run-analysis/scatter-plot-parameter-1-out-theta.ps
 output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R
 output/cornellf/3/run-analysis/scatter-plot-parameter-1-out.R.out
 ----
+{\bf Three scatter plots of mutation rate, recombination
+rate, and recombinant tract length for the blocks.} The plus signs are mean values
+for each block. The density of each value for each block is depicted by black
+clouds.  The red dashed lines are the global block-length weighted median of the
+three parameter estimates.}\label{fig:scatter3}
 
 .Figure S4. Plot of recombination intensity against number of replacing gene transfer.
 ----
@@ -211,10 +242,6 @@ Ask Matt for the figures.
 Statistics
 ----------
 
-.To test directly gene flow between SPY and SDE
-----
-bash R/obsiter.sh
-----
 
 .Statistics of 274 blocks, length of the blocks, total number of genes, and genes covered by blocks.
 ----
@@ -222,7 +249,43 @@ bash R/obsiter.sh
 /Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene
 Average proportion of gaps in genes was found in.gene.4.block.
 /Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block
+/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/in.gene.4.block.number.genes
+data/cornellf-3-in.block
 ----
+File +in.gene.4.block.number.genes+ contains all of the genes.
+File +data/cornellf-3-in.block+ contains block lengths, the total being 1155016.
+File +in.gene.4.block+ contains a column called gap; the average was 0.001705197.
+
+The final set of 274
+alignment blocks was 1155016 nucleotide long.
+Of 1951 genes of SPY1 genome 1106 genes were covered by the blocks.
+Note that this alignment
+procedure effectively focused on the ``core genome,'' by discarding regions
+that were not conserved among the five species in question.  The genes
+contained 0.17\% of gaps on average.
+
+.ClonalOrigin's 1st stage results
+----
+output/cornellf/3/run-clonalorigin/summary/1/median.txt
+----
+An initial analysis with ClonalOrigin (see \textbf{Methods}) produced an
+estimated
+per-site population-scaled mutation rate of $\theta = $ 0.081
+[interquartile range across blocks: (0.067, 0.094)], a per-site
+population-scaled recombination rate of $\rho = $ 0.012 (0.006, 0.019), and
+an average recombinant tract length of $\delta = $ 744 (346, 2848) bp.
+
+
+
+.To test directly gene flow between SPY and SDE
+----
+bash R/obsiter.sh
+R/obsiter.R.1
+----
+None of the ratio values was less than the corresponding ratio from the
+prior (95\% quantile range was $1.79 <$ posterior ratio $< 2.24$, and prior
+ratio was 1.41; P-value of $< 0.001$).  This provided genome-wide support
+
 
 .Heat map of horizontal gene transfer (hgt)
 ----
@@ -253,12 +316,6 @@ output/cornellf/3/run-analysis/run.log
 ----
 output/cornellf/3/run-clonalframe/output/1/core_clonalframe.out.1
 swiftgen:/home/choi/Documents/Projects/m2/output/cornellf/3/run-clonalframe/core_clonalframe.out.1
-----
-
-
-.ClonalOrigin's 1st stage results
-----
-output/cornellf/3/run-clonalorigin/summary/1/median.txt
 ----
 
 .Heatmap of number of recombination

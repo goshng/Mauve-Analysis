@@ -5,11 +5,11 @@
 # tiff2ps mauve-analysis.003.tiff > heatmap-hgtedge.ps
 # tiff2ps mauve-analysis.004.tiff > heatmap-recedge-mowgli.ps
 
-# tiff2ps mauve-analysis-figure1.001.tiff > heatmap.ps
+#tiff2ps mauve-analysis-figure1.001.tiff > heatmap.ps
 # tiff2ps mauve-analysis-figure1.002.tiff > hgt.ps
 # tiff2ps ucsc.001.tiff > ucsc.ps
 #tiff2ps figure-tree.001.tiff > cornellf-3-tree.ps
-# exit
+#exit
 # Open the ps files and save them as PDF files using Mac Preview.
 
 for i in heatmap; do

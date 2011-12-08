@@ -80,6 +80,7 @@ internal.branch.aswell <- function (spy.name, sde.name)
   cat("1001 values less than the ratio for the prior.\n")
   cat("The p-value is the fraction of them.\n")
   cat("Quantile (0.025, 0.5 or median, 0.975) is", quantile(x.v,  probs = c(0.025, 0.5, 0.975)), "\n")
+  cat("Mean is", mean(x.v), "\n")
   cat("The exp value is", x.exp.v, "\n")
   cat("The P value is", p.val, "\n\n")
   # x.v
