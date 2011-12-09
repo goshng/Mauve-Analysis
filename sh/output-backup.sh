@@ -1,9 +1,9 @@
 DIR1=output
 DIR2=output-backup
+# find output -type d -exec mkdir -p -- output-backup/{} \;
+# exit
 
 cp -pr $DIR1/go $DIR2
-exit
-
 cp -p $DIR1/cornellf/3/run-analysis/* $DIR2/cornellf/3/run-analysis
 
 for i in matt virulence; do

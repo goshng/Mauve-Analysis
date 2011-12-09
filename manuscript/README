@@ -222,17 +222,34 @@ output/s16/run-analysis/ri-topology.pdf
 output/s16/run-analysis/ri.txt
 output/s16/run-analysis/ri-notopology.ps
 output/s16/run-analysis/ri-notopology.pdf
+output/s16/run-analysis/ri-notopology.out
+output/s16/run-analysis/ri-topology.out
+output/s16/run-analysis/ri-all.out
 ----
 
-.Figure S9. Simulations of the model-based approach for assessing the power of recovering recombinant edges. 
+.Figure S6. Simulations of the model-based approach for assessing the power of recovering recombinant edges. 
 ----
 output/s17/run-analysis/sim.R
+output/s17/run-analysis/sim.R.out
 output/s17/run-analysis/sim2-1.ps
 output/s17/run-analysis/sim2-2.ps
-output/s17/run-analysis/posterior_predictive_check3.R
-output/s17/run-analysis/h3-R-ratio-not-topology-changing.ps
-output/s17/run-analysis/h3-R-ratio-topology-changing.ps
 ----
+File +sim.R.out+ contains the min and max of values from the prior.
+Summary of prior ranges in log 2 scale
+Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-0.641000 -0.123000 -0.047150 -0.062960  0.006237  0.697900 
+Summary of prior ranges in normal scale
+Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.6413  0.9183  0.9678  0.9615  1.0040  1.6220 
+
+.Figure S8. Simulations of the model-based approach for assessing the power of recovering recombinant edges. 
+----
+output/s17/run-analysis/sim.R
+output/s17/run-analysis/sim3-1.ps
+output/s17/run-analysis/sim3-2.ps
+----
+
+
 
 .Figure S10. The power of recovering additive transfers and duplications using simulations.
 ----
