@@ -3,9 +3,10 @@
 #tiff2ps clonalorigin.001.tiff > clonalorigin.ps
 #tiff2ps mauve-analysis-figure1.001.tiff > heatmap.ps
 #tiff2ps figure-tree.001.tiff > cornellf-3-tree.ps
-
 #exit
+
 # Open the ps files and save them as PDF files using Mac Preview.
+
 for i in clonalorigin; do
 # for i in heatmap; do
 # for i in ucsc; do

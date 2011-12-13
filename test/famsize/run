@@ -1,0 +1,2 @@
+# to create famsizes-only.txt
+perl famsizes.pl
