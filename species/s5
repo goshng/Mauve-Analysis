@@ -1,0 +1,11 @@
+# This is a directory for a simulation study.
+# Some of the options are specified. An option and its value are separated by
+# colon.
+# Repetition:50
+# ThetaPerSite:0.0542
+# RhoPerSite:0.00521
+# Delta:1425
+# InBlock:in10.block
+# SpeicesTree:cornell5.tree
+# Block:10
+# BlockLength:10000

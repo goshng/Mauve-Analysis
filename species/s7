@@ -1,0 +1,16 @@
+# This is a directory for a simulation study.
+# -------------------------------------------
+# Tue Apr 19 11:11:15 EDT 2011
+# The cornellf/8 is the analysis with lcb minimum of 5000. I have 71 blocks and
+# the following parameter estimates. I want to know if the simulation can
+# recover the true value.
+# 
+# I use the species of repetition 8 in cornellf.
+# cp output/cornellf/8/run-clonalorigin/input/1/clonaltree.nwk simulation/cornellf-8.tree
+#
+# Repetition:5
+# ThetaPerSite:0.0749323036174269
+# RhoPerSite:0.0137842770601471
+# Delta:614.149554455445
+# InBlock:cornellf-8-in.block
+# SpeicesTree:cornellf-8.tree

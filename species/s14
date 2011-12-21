@@ -1,0 +1,18 @@
+# This is a directory for a simulation study.
+# -------------------------------------------
+# Sat Apr 30 11:28:22 EDT 2011
+#
+# s13 is copied. The repetition is increased by 10.
+#
+# Repetition:10
+# Replicate:10
+# ThetaPerSite:0.0749323036174269
+# RhoPerSite:0.0137842770601471
+# Delta:614.149554455445
+# InBlock:cornellf-8-in.block
+# SpeicesTree:cornellf-8.tree
+# Burnin:1000000
+# ChainLength:1000000
+# Thin:10000
+# NumberSpecies:5
+# Walltime:168

@@ -1,0 +1,14 @@
+# This is a directory for a simulation study.
+# -------------------------------------------
+# Wed Apr 20 20:47:29 EDT 2011
+#
+# I use the species of repetition 8 in cornellf.
+# cp output/cornellf/8/run-clonalorigin/input/1/clonaltree.nwk simulation/cornellf-8.tree
+#
+# Repetition:100
+# ThetaPerSite:0.0749323036174269
+# RhoPerSite:0.0137842770601471
+# Delta:614.149554455445
+# InBlock:in1.block
+# SpeicesTree:cornellf-8.tree
+# NumberSpecies:5
