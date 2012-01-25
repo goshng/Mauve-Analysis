@@ -16,6 +16,19 @@ To Do
 
 .Finish works in the directory +manuscript+.
 
+Running jobs
+~~~~~~~~~~~~
+Aligning sequences using Mauve
+cac:Documents/Projects/m2/output/cornell4/3/run-mauve
+
+Wed Jan 25 17:31:59 EST 2012
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I have received a review from MBE. 
+Three data sets are prepared to see if other genomes would give similar trends.
+cornell1: MGAS10270, MGAS8232
+cornell2: MGAS9429, MGAS10394
+cornell3: MGAS6180, M1
+cornell4: 8 genomes (6 at the above and the original two SPYs)
 
 Wed Dec 14 12:54:25 EST 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
