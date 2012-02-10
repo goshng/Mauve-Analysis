@@ -18,8 +18,55 @@ To Do
 
 Running jobs
 ~~~~~~~~~~~~
-Aligning sequences using Mauve
-cac:Documents/Projects/m2/output/cornell4/3/run-mauve
+.cornellf8: clonalframe run
+.cornell1: COII
+.cornell2: COII
+.cornell3: COII
+
+Fri Feb  3 08:53:14 EST 2012
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note: repetition 3 is used not 1.
+cornell1, cornell2, cornell3: pairs of S. pyogenes replaced.
+cornell4: cornellf + 6 additional S. pyogenes
+pyogenes: 14 S. pyogenes
+pyogenes11: 11 S. pyogenes
+cornellf8: cornellf + 6 additional S. pyogenes, the 8 S. pyogenes are formed by
+removing 3 (same serotypes), and 3 (wandering taxa).
+Same types: MGAS5005, SSI_1, and MGAS9429
+Wandering taxa: MGAS10270, NZ131, and M1GAS
+
+Thu Jan 26 13:03:59 EST 2012
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I am trying to use all of the genomes of S. pyogenes to find a tree.
+pyogenes: 14 genomes.
+
+Serotypes of S. pyogenes
+M1:
+input/Streptococcus_pyogenes_M1_GAS_uid57845/NC_002737.gbk
+input/Streptococcus_pyogenes_MGAS5005_uid58337/NC_007297.gbk (1)
+M2:
+input/Streptococcus_pyogenes_MGAS10270_uid58571/NC_008022.gbk
+M3:
+input/Streptococcus_pyogenes_MGAS315_uid57911/NC_004070.gbk
+input/Streptococcus_pyogenes_SSI_1_uid57895/NC_004606.gbk (1)
+M4:
+input/Streptococcus_pyogenes_MGAS10750_uid58575/NC_008024.gbk
+M5:
+input/Streptococcus_pyogenes_Manfredo_uid57847/NC_009332.gbk
+M6:
+input/Streptococcus_pyogenes_MGAS10394_uid58105/NC_006086.gbk
+M12:
+input/Streptococcus_pyogenes_MGAS2096_uid58573/NC_008023.gbk
+input/Streptococcus_pyogenes_MGAS9429_uid58569/NC_008021.gbk (1)
+M18:
+input/Streptococcus_pyogenes_MGAS8232_uid57871/NC_003485.gbk
+M28:
+input/Streptococcus_pyogenes_MGAS6180_uid58335/NC_007296.gbk
+M49:
+input/Streptococcus_pyogenes_NZ131_uid59035/NC_011375.gbk
+M53:
+input/Streptococcus_pyogenes_Alab49/CP003068.gbk
 
 Wed Jan 25 17:31:59 EST 2012
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

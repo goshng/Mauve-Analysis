@@ -38,7 +38,11 @@ function scatter-plot-parameter {
 
       NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
       NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
-      NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml.1|wc -l`)
+      COICHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
+      COITHIN=$(grep ^REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
+      NUMBER_SAMPLE=$((COICHAINLENGTH/COITHIN + 1))
+      # NUMBER_SAMPLE=$(echo `grep number $RUNCLONALORIGIN/output/$REPLICATE/core_co.phase2.xml.1|wc -l`)
+
       echo -e "  The number of blocks is $NUMBER_BLOCK."
       echo -e "  The sample size per block is $NUMBER_SAMPLE."
       echo -e "  The number of species is $NUMBER_SPECIES."

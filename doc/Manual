@@ -505,6 +505,12 @@ Users should call this menu before any analysis.
 
 prepare-mauve-alignment
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+.Running time limit
+----
+REPETITION3-MAUVE-WALLTIME:200
+----
+
 Go to NCBI FTP site to download bacterial genomes.  Each genome is stored in a
 directory. For example, you could download one genome using the following
 commands.
@@ -636,7 +642,8 @@ Prepare clonalframe analysis.
 
 receive-run-clonalframe
 ~~~~~~~~~~~~~~~~~~~~~~~
-Provide the clonal frame replicate ID with species name.
+Provide the clonal frame replicate ID with species name. You might want to check
+which replicate ID is not complete.
 
 prepare-run-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -654,6 +661,9 @@ it kills the jobs and let other nodes rerun them. In this way, I can use more
 efficiently nodes because any nodes with small number of jobs would be returned
 to the CAC cluster so that others could use them.
 
+Because some of clonalframe runs might not have been complete, _CFID_ might need
+to be changed.
+
 The species file need definitions.
 . REPETITION1-CF-REPLICATE: clonalframe replicate ID
 . REPETITION1-CO1-CFID: clonalframe run ID. One clonalframe replicate can have
@@ -670,7 +680,6 @@ of MCMC.
 
 .An example of lines needed for ClonalOrigin 2nd MCMC
 ----
-REPETITION1-CF-REPLICATE:1
 REPETITION1-CO1-CFID:0
 REPETITION1-CO1-WALLTIME:168
 REPETITION1-CO1-BURNIN:1000000
@@ -701,6 +710,7 @@ output/cornell6/1/run-clonalorigin/coi.jobidfile
 ----
 output/cornell6/1/run-clonalorigin/clonaltree.nwk
 ----
+
 
 receive-run-clonalorigin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

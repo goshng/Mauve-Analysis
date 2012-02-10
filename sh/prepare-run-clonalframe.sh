@@ -41,7 +41,8 @@ function prepare-run-clonalframe {
       echo "Use the Watterson's estimate in clonalframe analysis."
       send-clonalframe-input-to-cac 
       copy-batch-sh-run-clonalframe
-      echo "Go to CAC's output/$SPECIES run-clonalframe, and execute nsub batch.sh"
+      echo -e "Go to $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalframe"
+      echo -e "$ nsub batch.sh"
       break
     fi
   done

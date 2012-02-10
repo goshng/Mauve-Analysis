@@ -112,7 +112,7 @@ function recombination-count {
       read WISH
       if [ "$WISH" == "y" ]; then
         for h in $(eval echo {1..$NREPLICATE}); do
-          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount-2-original
+          PRIORCOUNTDIR=$RUNCLONALORIGIN/output2/priorcount
           perl pl/count-observed-recedge.pl heatmap \
             -d $RUNCLONALORIGIN/output2/${h} \
             -e $PRIORCOUNTDIR \
@@ -127,9 +127,12 @@ function recombination-count {
       echo -n "Do you wish to plot a heatmap of numbers of recombination events (y/n)? "
       read WISH
       if [ "$WISH" == "y" ]; then
-        CO2REPLICATE=$(grep ^REPETITION${REPETITION}-CA1-CO2ID species/$SPECIES | cut -d":" -f2)
-        h=$CO2REPLICATE
-        recombination-count-plot-heatmap
+        # CO2REPLICATE=$(grep ^REPETITION${REPETITION}-CA1-CO2ID species/$SPECIES | cut -d":" -f2)
+        # h=$CO2REPLICATE
+        for h in $(eval echo {1..$NREPLICATE}); do
+          CO2REPLICATE=$h
+          recombination-count-plot-heatmap
+        done
       fi
 
       echo -n "Do you wish to count recombination events only for the SPY and SDE (y/n)? "

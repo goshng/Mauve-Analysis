@@ -27,10 +27,8 @@ function prepare-run-clonalorigin {
       echo -n "What repetition do you wish to run? (e.g., 1) "
       read REPETITION
       echo -e "Which replicate set of ClonalFrame output files? (e.g., 1)"
-      echo -n "ClonalFrame REPLICATE ID: " 
       set-more-global-variable $SPECIES $REPETITION
 
-      CFREPLICATE=$(grep ^REPETITION${REPETITION}-CF-REPLICATE species/$SPECIES | cut -d":" -f2)
       CFID=$(grep ^REPETITION${REPETITION}-CO1-CFID $SPECIESFILE | cut -d":" -f2)
       NREPLICATE=$(grep ^REPETITION${REPETITION}-CO1-NREPLICATE species/$SPECIES | cut -d":" -f2)
       WALLTIME=$(grep ^REPETITION${REPETITION}-CO1-WALLTIME species/$SPECIES | cut -d":" -f2)
@@ -38,6 +36,7 @@ function prepare-run-clonalorigin {
       COICHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
       COITHIN=$(grep ^REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
 
+      echo "  ClonalFrame REPLICATE ID: $CFREPLICATE"
       echo "  Creating an input directory for a species tree..."
       mkdir -p $RUNCLONALORIGIN/input/${REPLICATE}
       echo "  Creating an output directory for the 1st stage of ClonalOrigin..." 
@@ -62,7 +61,7 @@ function prepare-run-clonalorigin {
       echo "  Extracting species tree..."
       SPECIESTREE=clonaltree.nwk
       perl pl/getClonalTree.pl \
-        $RUNCLONALFRAME/output/${CFREPLICATE}/core_clonalframe.out.${CFID} \
+        $RUNCLONALFRAME/output/core_clonalframe.out.${CFID} \
         $RUNCLONALORIGIN/$SPECIESTREE
       scp -q $RUNCLONALORIGIN/$SPECIESTREE \
             $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin

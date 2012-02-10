@@ -37,6 +37,8 @@ function receive-run-clonalorigin {
       COIBURNIN=$(grep ^REPETITION${REPETITION}-CO1-BURNIN $SPECIESFILE | cut -d":" -f2)
       COICHAINLENGTH=$(grep ^REPETITION${REPETITION}-CO1-CHAINLENGTH $SPECIESFILE | cut -d":" -f2)
       COITHIN=$(grep ^REPETITION${REPETITION}-CO1-THIN $SPECIESFILE | cut -d":" -f2)
+      SAMPLESIZE=$((COICHAINLENGTH/COITHIN + 1))
+
 
       for h in $(eval echo {1..$NREPLICATE}); do
         mkdir -p $RUNCLONALORIGIN/summary/${h}
@@ -61,6 +63,7 @@ function receive-run-clonalorigin {
         echo -e "  Finding unfinished blocks ..."
         for h in $(eval echo {1..$NREPLICATE}); do
           perl pl/report-clonalorigin-job.pl \
+            -samplesize $SAMPLESIZE \
             -xmlbase $RUNCLONALORIGIN/output/$h/core_co.phase2.xml \
             -database $DATADIR/core_alignment.xmfa \
             > $RUNCLONALORIGIN/summary/${h}/unfinished
@@ -72,8 +75,8 @@ function receive-run-clonalorigin {
       echo -n "Do you wish to compute the three global parameter estimates? (y/n) " 
       read WISH
       if [ "$WISH" == "y" ]; then
-        echo -e "  Computing the global medians of theta, rho, and delta ..."
         for h in $(eval echo {1..$NREPLICATE}); do
+          echo -e "  Computing the global medians of theta, rho, and delta ... for replicate # $h"
           perl pl/computeMedians.pl \
             $RUNCLONALORIGIN/output/${h}/core_co.phase2.xml.* \
             | grep ^Median > $RUNCLONALORIGIN/summary/${h}/median.txt
