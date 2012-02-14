@@ -18,10 +18,27 @@ To Do
 
 Running jobs
 ~~~~~~~~~~~~
-.cornellf8: clonalframe run
-.cornell1: COII
-.cornell2: COII
-.cornell3: COII
+.cornellf8: COII
+.cornell4: ClonalFrame
+.cornellfx5-10: COI (in queue)
+
+Fri Feb 10 11:43:40 EST 2012
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cornell1: MGAS10270, MGAS8232
+cornell2: MGAS9429, MGAS10394
+cornell3: MGAS6180, M1
+cornell4: Alab49, NZ131
+cornellfx5: Manfredo, 10394
+cornellfx6: 2096, 6180
+cornellfx7: 315, Alab49
+cornellfx8: 10394, 8232
+cornellfx9: 6180, 8232
+cornellfx10: manfredo, 2096
+I might want to change cornell1,2,3, and 4 to cornellfx1,2,3, and 4.
+
+Data for pairs of genomes
+swiftgen:/usr/projects/strep/gainloss/recombination/matt/genomes
+
 
 Fri Feb  3 08:53:14 EST 2012
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,7 +92,8 @@ Three data sets are prepared to see if other genomes would give similar trends.
 cornell1: MGAS10270, MGAS8232
 cornell2: MGAS9429, MGAS10394
 cornell3: MGAS6180, M1
-cornell4: 8 genomes (6 at the above and the original two SPYs)
+cornell8x2: 8 genomes (6 at the above and the original two SPYs)
+
 
 Wed Dec 14 12:54:25 EST 2011
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
