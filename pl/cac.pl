@@ -1,6 +1,8 @@
+#!/usr/bin/perl -w
 use strict;
 use warnings;
 
+use File::Path qw(mkpath);
 use Getopt::Long;
 use Pod::Usage;
 
@@ -15,10 +17,13 @@ GetOptions( \%params,
             'help|h',
             'verbose',
             'version' => sub { print $VERSION."\n"; exit; },
+            'copywarg',
             'printjob',
+            'printtmp',
             'printwarg',
             'killwarg',
             'jobidfile=s',
+            'only=i',
             'command=s'
             ) or pod2usage(2);
 pod2usage(1) if $help;
@@ -26,25 +31,31 @@ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
 
 =head1 NAME
 
-compute-block-length.pl - Computes the lengths of blocks
+cac.pl - monitor or kill warg jobs in compute nodes
 
 =head1 VERSION
 
-compute-block-length.pl 1.0
+cac.pl 1.0
 
 =head1 SYNOPSIS
 
-perl compute-block-length.pl.pl [-h] [-help] [-version] [-verbose] [-base basename] 
+perl cac.pl [-h] [-help] [-version] [-verbose] 
 
 =head1 DESCRIPTION
 
-compute-block-length.pl counts the lengths of blocks.
-
 perl cac.pl -printjob -command "ps -ef | grep warg | wc"
+
 perl cac.pl -printjob
+
 perl cac.pl -printwarg
+
 perl cac.pl -killwarg
+
 perl cac.pl -jobidfile y
+
+perl cac.pl -printtmp
+
+perl cac.pl -copywarg
 
 =head1 OPTIONS
 
@@ -62,18 +73,16 @@ Print program version; ignore other arguments.
 
 Prints status and info messages during processing.
 
-=item B<***** INPUT OPTIONS *****>
+=item B<***** COMMAND OPTIONS *****>
 
-=item B<-base> <basename>
+=item B<-copywarg>
 
-The alignment files are in a directory called run-lcb. They are prefixed with
-core_alignment.xmfa, and suffixed with dot and numbers: i.e.,
-core_alignment.xmfa.1.  The base name includes the base directory as well so
-that the script can locate an alignment file with its full path.
+perl cac.pl -copywarg
 
-=item B<-block> <number>
-
-This allows to compute the length of a single block.
+This allows to copy all of the output files of warg command. CO1's output files
+are in directory output, and CO2's output files in directory output2. Because it
+copy files to a directory named output. You can run the command at an empty
+directory or the main output directory such as Documents/Projects/m2.
 
 =back
 
@@ -88,7 +97,7 @@ com repository so that I can make compute-block-length.pl better.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2011 Sang Chul Choi
+Copyright (C) 2011-2012 Sang Chul Choi
 
 =head1 LICENSE
 
@@ -104,8 +113,14 @@ You should have received a copy of the GNU General Public License along with thi
 my $printjob = 0;
 my $killwarg = 0;
 my $printwarg = 0;
+my $printtmp = 0;
 my $jobidfile; 
-my $command = "ps -ef | grep warg | wc";
+my $only;
+my $command = "ps -ef | grep warg | wc -l";
+
+if (exists $params{printtmp}) {
+  $printtmp = 1;
+} 
 
 if (exists $params{printwarg}) {
   $printwarg = 1;
@@ -123,6 +138,10 @@ if (exists $params{command}) {
   $command = $params{command};
 } 
 
+if (exists $params{only}) {
+  $only = $params{only};
+} 
+
 if (exists $params{jobidfile}) {
   $jobidfile = $params{jobidfile};
 } 
@@ -132,6 +151,8 @@ sub getComputeNode ();
 sub getComputeJobID ();
 sub printJob ($$);
 sub printWarg ($$);
+sub copyWarg ($$);
+sub printTmp ($$);
 sub killWarg ($);
 sub jobIDFile ($);
 sub jobIDFilexxx ();
@@ -157,6 +178,19 @@ elsif (defined ($jobidfile))
   my @n = getComputeNode ();
   jobIDFile (\@n);
 }
+elsif ($printtmp == 1)
+{
+  my @n = getComputeNode ();
+  my @jobid = getComputeJobID ();
+  printTmp (\@n, \@jobid);    
+}
+elsif (exists $params{copywarg}) 
+{
+  my @n = getComputeNode ();
+  my @jobid = getComputeJobID ();
+  copyWarg (\@n, \@jobid);    
+}
+
 
 sub jobIDFile ($)
 {
@@ -225,7 +259,60 @@ sub killWarg ($)
   }
 }
 
+sub printTmp ($$)
+{
+  my ($address, $jobid) = @_;
+  for (my $i = 0; $i <= $#{ $address }; $i++)
+  {
+
+    print "ssh -x $address->[$i] ls /tmp/$jobid->[$i]/\n";
+  }
+}
+
+
 sub printWarg ($$)
+{
+  my ($address, $jobid) = @_;
+  for (my $i = 0; $i <= $#{ $address }; $i++)
+  {
+    print "$address->[$i]\n";
+    open WARG, "ssh -x $address->[$i] ps -ef | grep warg |";
+    while (<WARG>)
+    {
+      # sc2265   12887 12218 99 May12 ?        23:39:19 ./warg -a 1 1 0.1 1 1 1 1 1 0 0 0 -x 1000000 -y 1000000 -z 10000 input/2/cornellf-3.tree input/2/core_alignment.1.xmfa.210 output/2/1/core_co.phase2.xml.210
+      #print $_, "\n";
+      if (/(\S+)\s+\.\/warg -a 1 1 0.1 1 1 1 1 1 0 0 0\s+-x\s+\d+\s+-y\s+\d+\s+-z\s+\d+\s+\S+\s+(\S+)\s+(\S+)/)
+      {
+        if ($3 eq "-D")
+        {
+# sc2265    4586  4585 95 21:17 ?        00:10:55 ./warg -a 1 1 0.1 1 1 1 1 1 0 0
+# 0 -x 10000000 -y 100000000 -z 100000 -T s0.080814517322956 -D 743.702415841584
+# -R s0.0118491287894766 input/3/clonaltree.nwk input/3/core_alignment.xmfa.274
+# output/3/core_co.phase3.xml.274
+          if (/(\S+)\s+\.\/warg -a 1 1 0.1 1 1 1 1 1 0 0 0\s+-x\s+\d+\s+-y\s+\d+\s+-z\s+\d+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)\s+(\S+)/)
+          {
+            print "$3 ($1): ";
+            system "ssh -x $address->[$i] grep number /tmp/$jobid->[$i]/$3 | wc -l";
+            #my $id = $3;
+            #$id =~ /\.xml\.(\d+)/;
+            #print "$1\t";
+          }
+        }
+        else
+        {
+          print "$3 ($1): ";
+          system "ssh -x $address->[$i] grep number /tmp/$jobid->[$i]/$3 | wc -l";
+          #my $id = $3;
+          #$id =~ /\.xml\.(\d+)/;
+          #print "$1\t";
+        }
+      }
+    }
+    close WARG;
+  }
+}
+
+sub copyWarg ($$)
 {
   my ($address, $jobid) = @_;
   for (my $i = 0; $i <= $#{ $address }; $i++)
@@ -234,10 +321,58 @@ sub printWarg ($$)
     while (<WARG>)
     {
       # sc2265   12887 12218 99 May12 ?        23:39:19 ./warg -a 1 1 0.1 1 1 1 1 1 0 0 0 -x 1000000 -y 1000000 -z 10000 input/2/cornellf-3.tree input/2/core_alignment.1.xmfa.210 output/2/1/core_co.phase2.xml.210
+      #print $_, "\n";
+      my $outputdir = "";
       if (/(\S+)\s+\.\/warg -a 1 1 0.1 1 1 1 1 1 0 0 0\s+-x\s+\d+\s+-y\s+\d+\s+-z\s+\d+\s+\S+\s+(\S+)\s+(\S+)/)
       {
-        print "$3 ($1): ";
-        system "ssh -x $address->[$i] grep number /tmp/$jobid->[$i]/$3 | wc";
+        if ($3 eq "-D")
+        {
+          # CO2
+# sc2265    4586  4585 95 21:17 ?        00:10:55 ./warg -a 1 1 0.1 1 1 1 1 1 0 0
+# 0 -x 10000000 -y 100000000 -z 100000 -T s0.080814517322956 -D 743.702415841584
+# -R s0.0118491287894766 input/3/clonaltree.nwk input/3/core_alignment.xmfa.274
+# output/3/core_co.phase3.xml.274
+          if (/(\S+)\s+\.\/warg -a 1 1 0.1 1 1 1 1 1 0 0 0\s+-x\s+\d+\s+-y\s+\d+\s+-z\s+\d+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)\s+(\S+)/)
+          {
+            #print "CO2 $3 ($1): ";
+            my $outputfile = $3;
+            $outputfile =~ /(.+)\//;
+            $outputdir = $1;
+            #unless (-d $outputdir) {
+              #mkpath $outputdir;
+            #} 
+            #system "scp -q $address->[$i]:/tmp/$jobid->[$i]/$outputfile $outputfile";
+          }
+        }
+        else
+        {
+          # CO1
+          #print "CO1 $3 ($1): ";
+          my $outputfile = $3;
+          $outputfile =~ /(.+)\//;
+          $outputdir = $1;
+          #unless (-d $outputdir) {
+            #mkpath $outputdir;
+          #} 
+          #system "scp -q $address->[$i]:/tmp/$jobid->[$i]/$outputfile $outputfile";
+        }
+      }
+
+      # 
+      my $outputbasedir;
+      my $codir;
+      if (length($outputdir) > 0)
+      {
+        $outputdir =~ /(.+)\//;
+        $outputbasedir = $1;
+        $outputbasedir =~ /(.+)\//;
+        $codir = $1;
+        unless (-d $outputbasedir) {
+          mkpath $outputbasedir;
+        } 
+        system "scp -qr $address->[$i]:/tmp/$jobid->[$i]/$outputbasedir $codir";
+        # print "\n";
+        last;
       }
     }
     close WARG;
@@ -249,6 +384,7 @@ sub printJob ($$)
   my ($address, $command) = @_;
   for (my $i = 0; $i <= $#{ $address }; $i++)
   {
+    print "$address->[$i]\t";
     system ("ssh -x $address->[$i] $command");
   }
 }
