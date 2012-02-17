@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (C) 2011 Sang Chul Choi
+# Copyright (C) 2011, 2012 Sang Chul Choi
 #
 # This file is part of Mauve Analysis.
 # 
@@ -76,9 +76,11 @@ function prepare-run-clonalorigin {
           TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
           XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
           XML=output/$SPECIES/$REPETITION/run-clonalorigin/output/$h/core_co.phase2.xml.$b
-          echo ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
-            -x $COIBURNIN -y $COICHAINLENGTH -z $COITHIN \
-            $TREE $XMFA $XML >> $JOBIDFILE
+          if [ ! -f $XML ]; then
+            echo ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
+              -x $COIBURNIN -y $COICHAINLENGTH -z $COITHIN \
+              $TREE $XMFA $XML >> $JOBIDFILE
+          fi
         done
       done
       scp -q $JOBIDFILE \
@@ -98,7 +100,7 @@ cat>$RUNCLONALORIGIN/batch.sh<<EOF
 #PBS -N $PROJECTNAME-CO1
 #PBS -q ${QUEUENAME}
 #PBS -m e
-#PBS -M ${BATCHEMAIL}
+# #PBS -M ${BATCHEMAIL}
 #PBS -t 1-PBSARRAYSIZE
 
 # The full path of the ClonalOrigin executable.

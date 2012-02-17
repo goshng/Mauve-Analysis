@@ -803,6 +803,12 @@ REPETITION3-CO2-SAMPLESIZE:1001
 recombination-count
 ~~~~~~~~~~~~~~~~~~~
 
+.Variables for the number of blocks and the number of species
+----
+NUMBER_BLOCK=$(echo `ls $DATADIR/core_alignment.xmfa.*|wc -l`)
+NUMBER_SPECIES=$(echo `grep gbk data/$SPECIES|wc -l`)
+----
+
 .Number of replicates in ClonalOrigin's 2nd MCMC 
 ----
 REPETITION1-CO2-NREPLICATE:2 

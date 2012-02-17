@@ -18,9 +18,18 @@ To Do
 
 Running jobs
 ~~~~~~~~~~~~
-.cornellf8: COII
-.cornell4: ClonalFrame
-.cornellfx5-10: COI (in queue)
+.cornellf8: CO2
+.cornellfx3,4,8: CO1
+.cornellfx1,2,5,6,7,9,10: in queue for CO1
+
+Tue Feb 14 13:36:01 EST 2012
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.Copy warg output files
+----
+cd an-empty-directory
+perl ~/cac.pl -copywarg
+----
 
 Fri Feb 10 11:43:40 EST 2012
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

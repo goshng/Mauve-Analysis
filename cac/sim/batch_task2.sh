@@ -13,7 +13,7 @@ if [ $PBS_ARRAYID -eq 1 ]; then
   # This means only when all of the jobs were finished, it would be finished.
   MINIMUMJOB=1
 else
-  MINIMUMJOB=5
+  MINIMUMJOB=4
 fi
 
 WHICHLINE=1
@@ -65,6 +65,7 @@ function checkIfTheJobSuccessfullyFinished
         sleep 5
       fi
     done
+    JOBID=0
     rm -f $OUTPUTFILE
   fi
 }
