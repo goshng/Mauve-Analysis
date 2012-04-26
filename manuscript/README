@@ -279,9 +279,11 @@ output/cornellf/3/run-analysis/heatmap-hgtedge.txt
 output/cornellf/3/run-analysis/heatmap-recedge-mowgli.txt
 output/cornellf/3/run-analysis/heatmap-recedge-mowgli.R.ps
 
-Export mauve-analysis.key to tiff or image.
+Export mauve-analysis-figure1.key to tiff or image.
 tiff2ps mauve-analysis.001.tiff > mauve-analysis-001.ps
 open mauve-analysis-001.ps (with Preview and save it as a PDF)
+mauve-analysis-figure1.key
+mauve-analysis-figure1-with-4.key 
 ----
 
 .Scatter plot of rho and log(delta)

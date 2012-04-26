@@ -1,6 +1,11 @@
-x <- read.table("output/cornellf/3/run-analysis/obsiter-recedge-REPLICATE.txt")
-#x <- read.table("output/cornellf/3/run-analysis/obsiter-recedge-1.txt")
-x.exp <- read.table("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/exponly-recedge-2.txt")
+# This is for revision.
+x <- read.table("output/SPECIESNAME/3/run-analysis/obsiter-recedge-1.txt")
+#x <- read.table("output/SPECIESNAME/3/run-analysis/obsiter-recedge-1.txt")
+x.exp <- read.table("/Users/goshng/Documents/Projects/Mauve/output/SPECIESNAME/3/run-analysis/exponly-recedge.txt")
+
+# Use this for the submitted version
+#x <- read.table("output/cornellf/3/run-analysis/obsiter-recedge-REPLICATE.txt")
+#x.exp <- read.table("/Users/goshng/Documents/Projects/Mauve/output/cornellf/3/run-analysis/exponly-recedge-2.txt")
 
 numberBranch <- 9
 numberElement <- numberBranch * numberBranch 

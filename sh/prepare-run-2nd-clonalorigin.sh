@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (C) 2011 Sang Chul Choi
+# Copyright (C) 2011-2012 Sang Chul Choi
 #
 # This file is part of Mauve Analysis.
 # 
@@ -55,10 +55,12 @@ function prepare-run-2nd-clonalorigin {
           TREE=output/$SPECIES/$REPETITION/run-clonalorigin/clonaltree.nwk
           XMFA=output/$SPECIES/$REPETITION/data/core_alignment.xmfa.$b
           XML=output/$SPECIES/$REPETITION/run-clonalorigin/output2/$h/core_co.phase3.xml.$b
-          echo ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
-            -x $CO2BURNIN -y $CO2CHAINLENGTH -z $CO2THIN \
-            -T s$THETA_PER_SITE -D $DELTA -R s$RHO_PER_SITE \
-            $TREE $XMFA $XML >> $JOBIDFILE
+          if [ ! -f $XML ]; then
+            echo ./warg -a 1,1,0.1,1,1,1,1,1,0,0,0 \
+              -x $CO2BURNIN -y $CO2CHAINLENGTH -z $CO2THIN \
+              -T s$THETA_PER_SITE -D $DELTA -R s$RHO_PER_SITE \
+              $TREE $XMFA $XML >> $JOBIDFILE
+          fi
         done
       done
 

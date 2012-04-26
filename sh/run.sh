@@ -101,6 +101,7 @@ source sh/prepare-run-clonalorigin.sh
 source sh/manuscript.sh
 source sh/summary-core-alignment.sh
 source sh/ucsc-genome.sh
+source sh/summarize-clonalframe-event.sh
 source sh/batch.sh
 
 #####################################################################
@@ -169,6 +170,7 @@ CHOICES=( init-file-system \
           extract-species-tree \
           copy-mauve-alignment \
           compute-heatmap-recedge \
+          summarize-clonalframe-event \
           ---MANUSCRIPT---\
           batch \
           manuscript \
@@ -246,6 +248,7 @@ select CHOICE in ${CHOICES[@]}; do
   elif [ "$CHOICE" == "warranty" ]; then $CHOICE; break
   elif [ "$CHOICE" == "copyright" ]; then $CHOICE; break
   elif [ "$CHOICE" == "choose-species" ]; then $CHOICE; break
+  elif [ "$CHOICE" == "summarize-clonalframe-event" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim1" ]; then $CHOICE; break
   elif [ "$CHOICE" == "sim3" ]; then $CHOICE; break
   elif [ "$CHOICE" == "quit" ]; then break

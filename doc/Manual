@@ -1479,7 +1479,10 @@ Observed recombinant edges and the prior expected number of recombinant edges
 both are considered.
 Menu compute-prior-count-recedge must be called before the call of this menu.
  
-
+summarize-clonalframe-event
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Compute the number of imports to a branch of a clonal frame using an output file
+from ClonalFrame.
 
 
 SIMULATION3

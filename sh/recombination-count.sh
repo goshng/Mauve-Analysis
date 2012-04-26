@@ -80,7 +80,7 @@ function recombination-count {
           echo -n "Do you wish to receive it for the cluster (y/n)? "
           read WISH3
           if [ "$WISH3" == "y" ]; then
-            echo scp -qr \
+            scp -qr \
               $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin/output2/priorcount \
               $RUNCLONALORIGIN/output2
           fi
@@ -132,6 +132,7 @@ function recombination-count {
         for h in $(eval echo {1..$NREPLICATE}); do
           CO2REPLICATE=$h
           recombination-count-plot-heatmap
+          echo Check $RUNANALYSIS/heatmap-recedge-$CO2REPLICATE.R.ps
         done
       fi
 
@@ -234,8 +235,8 @@ EOF
           $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin
 
       echo -e "Go to $CAC_MAUVEANALYSISDIR/output/$SPECIES/$REPETITION/run-clonalorigin"
-      echo -e "Submit a job using a different command."
       echo -e "$ bash run.sh"
+      echo -e "Choose the number of compute nodes!"
 }
 
 function recombination-count-plot-heatmap {

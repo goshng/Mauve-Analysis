@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (C) 2011, 2012 Sang Chul Choi
+# Copyright (C) 2011-2012 Sang Chul Choi
 #
 # This file is part of Mauve Analysis.
 # 
@@ -31,7 +31,8 @@ function receive-run-2nd-clonalorigin {
       NREPLICATE=$(grep ^REPETITION${REPETITION}-CO2-NREPLICATE species/$SPECIES | cut -d":" -f2)
 
       echo -n "Do you wish to receive the ClonalOrigin's 2nd stage MCMC? (y/n) " 
-      read WISH
+      # read WISH
+      WISH=y
       if [ "$WISH" == "y" ]; then
         echo -e "  Receiving 2nd stage of clonalorigin-output..."
         for h in $(eval echo {1..$NREPLICATE}); do
@@ -46,7 +47,8 @@ function receive-run-2nd-clonalorigin {
 
       SAMPLESIZE=$(grep ^REPETITION${REPETITION}-CO2-SAMPLESIZE species/$SPECIES | cut -d":" -f2)
       echo -n "Do you wish to find unfinished blocks in the ClonalOrigin's 2nd stage MCMC? (y/n) " 
-      read WISH
+      # read WISH
+      WISH=y
       if [ "$WISH" == "y" ]; then
         echo -e "  Finding unfinished blocks ..."
         for h in $(eval echo {1..$NREPLICATE}); do
