@@ -1,0 +1,78 @@
+SPY1 SPY2 SPY -> SDE1 SDE2 SDE 
+For each iteration of ClonalOrigin, or each recombinant tree,
+sum of recombinant edges from SPY branches to SDE branches,
+and sum of recombinant edges from SDE branches to SPY branches,
+Take the ratio of the first to the second. The following quantile is
+0.025, 0.5 or median, 0.0975 quantile values of the ratios of 1001 data points.
+We obtained the ratio for the prior to count how many data points of the
+1001 values less than the ratio for the prior.
+The p-value is the fraction of them.
+Quantile (0.025, 0.5 or median, 0.975) is 1.734982 1.973881 2.241667 
+Mean is 1.977367 
+The exp value is 1.458761 
+The P value is 0 
+
+SPY1 SPY2 -> SDE1 SDE2 
+For each iteration of ClonalOrigin, or each recombinant tree,
+sum of recombinant edges from SPY branches to SDE branches,
+and sum of recombinant edges from SDE branches to SPY branches,
+Take the ratio of the first to the second. The following quantile is
+0.025, 0.5 or median, 0.0975 quantile values of the ratios of 1001 data points.
+We obtained the ratio for the prior to count how many data points of the
+1001 values less than the ratio for the prior.
+The p-value is the fraction of them.
+Quantile (0.025, 0.5 or median, 0.975) is 1.576923 2.097561 2.888889 
+Mean is 2.130594 
+The exp value is 1.304427 
+The P value is 0 
+
+All of external branches:
+For each recombinant tree out of 1001, we take the ratio of number
+of recombinant edges from 2 SPY to 2 SDE to number of edges from
+2 SDE to 2 SPY. The 4004 data points have the following quantiles
+of 0.025, 0.5 or median, 0.975. We counted how many of the 4004
+are less than the ratio for the prior.
+Quantile (0.025, 0.5 or median, 0.975) is 1.067024 2.1 4.6 
+The exp value is 2.186484 
+The P value is 0.543956 
+
+SPY1 -> SDE1 external branches:
+For each recombinant tree out of 1001, we take the ratio of number
+of recombinant edges from, SPY1 to SDE1 to number of edges from
+SDE1 to SPY1 The 1001 data points have the following quantiles
+of 0.025, 0.5 or median, 0.975. We counted how many of the 1001
+are less than the ratio for the prior.
+Quantile (0.025, 0.5 or median, 0.975) is 1.166667 2.111111 4.5 
+The exp value is 2.186484 
+The P value is 0.5414585 
+
+SPY1 -> SDE2 external branches:
+For each recombinant tree out of 1001, we take the ratio of number
+of recombinant edges from, SPY1 to SDE2 to number of edges from
+SDE2 to SPY1 The 1001 data points have the following quantiles
+of 0.025, 0.5 or median, 0.975. We counted how many of the 1001
+are less than the ratio for the prior.
+Quantile (0.025, 0.5 or median, 0.975) is 0.9375 1.785714 3.625 
+The exp value is 2.186484 
+The P value is 0.7292707 
+
+SPY2 -> SDE1 external branches:
+For each recombinant tree out of 1001, we take the ratio of number
+of recombinant edges from, SPY2 to SDE1 to number of edges from
+SDE1 to SPY2 The 1001 data points have the following quantiles
+of 0.025, 0.5 or median, 0.975. We counted how many of the 1001
+are less than the ratio for the prior.
+Quantile (0.025, 0.5 or median, 0.975) is 1.105263 2 4 
+The exp value is 2.186484 
+The P value is 0.6133866 
+
+SPY2 -> SDE2 external branches:
+For each recombinant tree out of 1001, we take the ratio of number
+of recombinant edges from, SPY2 to SDE2 to number of edges from
+SDE2 to SPY2 The 1001 data points have the following quantiles
+of 0.025, 0.5 or median, 0.975. We counted how many of the 1001
+are less than the ratio for the prior.
+Quantile (0.025, 0.5 or median, 0.975) is 1.466667 2.6 5.833333 
+The exp value is 2.186484 
+The P value is 0.2917083 
+

@@ -1,0 +1,36 @@
+SDE1-to-SDD & 0.97 & SpyM3\_1369 & putative serine%2Fthreonine kinase\\
+ & 0.25 & SpyM3\_1370 & putative phosphoprotein phosphatase\\
+SDE2-to-SDD & 1 & SpyM3\_1522 & 3-oxoacyl-%28acyl carrier protein%29 synthase II\\
+ & 1 & SpyM3\_1523 & 3-ketoacyl-%28acyl-carrier-protein%29 reductase\\
+ & 1 & SpyM3\_1524 & acyl-carrier-protein S-malonyltransferase\\
+SDD-to-SDE1 & 0.16 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+SDD-to-SDE2 & 0.01 & SpyM3\_1767 & putative endopeptidase Clp ATP-binding chain C\\
+SDD-to-SDE & 0.49 & SpyM3\_1180 & putative glucose kinase\\
+SPY1-to-SDE1 & 0.13 & SpyM3\_0440 & putative calcium transporter\\
+SPY1-to-SDE2 & 0.28 & SpyM3\_1755 & putative pyruvate formate-lyase activating enzyme\\
+SPY2-to-SDE2 & 0.21 & SpyM3\_0420 & lysyl-tRNA synthetase\\
+SPY2-to-SDE & 0.57 & SpyM3\_1806 & DNA mismatch repair protein MutS\\
+SDE-to-SDD & 1 & SpyM3\_1188 & phosphopantetheine adenylyltransferase\\
+ & 0.31 & SpyM3\_0036 & bifunctional acetaldehyde-CoA%2Falcohol dehydrogenase\\
+ & 0.26 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+ & 0.05 & SpyM3\_0497 & F0F1 ATP synthase subunit alpha\\
+SDE-to-SPY1 & 0.02 & SpyM3\_0440 & putative calcium transporter\\
+SDE-to-SPY2 & 0.47 & SpyM3\_1366 & putative two-component response regulator\\
+ & 0.19 & SpyM3\_1475 & N-acetylglucosamine-6-phosphate deacetylase\\
+ & 0.09 & SpyM3\_1201 & putative two-component sensor histidine kinase\\
+ & 0.02 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+SDE-to-SPY & 0.58 & SpyM3\_0499 & F0F1 ATP synthase subunit beta\\
+ & 0.22 & SpyM3\_0497 & F0F1 ATP synthase subunit alpha\\
+ & 0.08 & SpyM3\_1370 & putative phosphoprotein phosphatase\\
+SPY-to-SDE1 & 0.86 & SpyM3\_0511 & ABC transporter ATP-binding protein\\
+ & 0.18 & SpyM3\_1765 & chaperonin GroEL\\
+SPY-to-SPY2 & 0.03 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+SPY-to-SDE & 0.98 & SpyM3\_0465 & putative dipeptidase\\
+ & 0.84 & SpyM3\_1755 & putative pyruvate formate-lyase activating enzyme\\
+ & 0.54 & SpyM3\_1749 & putative pyruvate formate-lyase\\
+ & 0.3 & SpyM3\_0764 & putative spermidine%2Fputrescine ABC transporter ATP-binding protein\\
+ & 0.28 & SpyM3\_0420 & lysyl-tRNA synthetase\\
+ & 0.23 & SpyM3\_1182 & putative peroxide resistance protein\\
+ & 0.22 & SpyM3\_0440 & putative calcium transporter\\
+ & 0.07 & SpyM3\_1366 & putative two-component response regulator\\
+ & 0.06 & SpyM3\_1180 & putative glucose kinase\\
