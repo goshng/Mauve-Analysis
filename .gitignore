@@ -1,4 +1,7 @@
 *.pdf
+*.eps
 downloads
 input
 output
+output-backup
+b
