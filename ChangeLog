@@ -26,7 +26,12 @@ Mon Apr 16 10:46:50 EDT 2012
 
 .To get 5003 version
 ----
+mkdir -p writing/latex
+mkdir -p writing/papers
+cd writing/papers
 svn co $SVNROOT/writing/trunk/papers/strep-recomb@5003
+make
+bash create-final-submission.sh
 ----
 
 ----

@@ -1,7 +1,7 @@
 gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
    -dFirstPage=1 -dLastPage=1 \
-   -sOutputFile=figure2A.pdf mauve-analysis-figure1.pdf
+   -sOutputFile=figure3A.pdf mauve-analysis-figure1.pdf
 gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
    -dFirstPage=2 -dLastPage=2 \
-   -sOutputFile=figure2B.pdf mauve-analysis-figure1.pdf
+   -sOutputFile=figure3B.pdf mauve-analysis-figure1.pdf
 
